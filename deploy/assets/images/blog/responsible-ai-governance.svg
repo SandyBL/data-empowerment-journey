@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract responsible AI governance</title>
+  <desc id="desc">A refined dark editorial graphic with concentric intelligence rings, data nodes, and mint and coral accents.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#071c2c"/><stop offset=".55" stop-color="#0b3540"/><stop offset="1" stop-color="#176b69"/></linearGradient>
+    <radialGradient id="core"><stop stop-color="#fffef9"/><stop offset=".25" stop-color="#62e6bd"/><stop offset="1" stop-color="#62e6bd" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <g transform="translate(800 500)" fill="none">
+    <circle r="370" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
+    <circle r="285" stroke="#62e6bd" stroke-opacity=".25" stroke-width="28" stroke-dasharray="90 42"/>
+    <circle r="205" stroke="#fff" stroke-opacity=".18" stroke-width="3" stroke-dasharray="10 20"/>
+    <circle r="120" fill="url(#core)"/>
+    <path d="M-520-260L-230-110M520-280L238-120M-550 220l310-80M540 250l-300-95" stroke="#62e6bd" stroke-width="5"/>
+  </g>
+  <g fill="#ec6d57"><circle cx="280" cy="240" r="35"/><circle cx="1335" cy="220" r="22"/><circle cx="1260" cy="750" r="42"/></g>
+  <g fill="#fffef9"><circle cx="250" cy="720" r="19"/><circle cx="410" cy="500" r="14"/><circle cx="1190" cy="430" r="18"/></g>
+  <path d="M0 0h410L250 1000H0z" fill="#071c2c" fill-opacity=".32"/>
+  <path d="M1600 0h-300l130 1000h170z" fill="#62e6bd" fill-opacity=".08"/>
+</svg>

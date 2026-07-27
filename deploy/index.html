@@ -398,6 +398,10 @@
 
             <!-- Language Switcher Vector Flags & Newsletter Link -->
             <div class="header-actions flex items-center gap-1 sm:gap-2 shrink-0">
+                <a href="/es/blog/" id="header-blog-link" class="header-blog-link" aria-label="Abrir el blog">
+                    <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+                    <span lang-content="es">Blog</span><span lang-content="en">Blog</span><span lang-content="pt">Blog</span>
+                </a>
                 <div class="language-switcher flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200">
                     <button type="button" onclick="setLanguage('en')" id="btn-en" aria-label="Switch language to English" aria-pressed="false" class="lang-btn flex h-8 w-10 items-center justify-center rounded-full p-1.5 transition-all">
                     <svg class="h-4 w-6 rounded-sm shadow-sm" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -1548,6 +1552,12 @@
             if (activeBtn) {
                 activeBtn.classList.add('active');
                 activeBtn.setAttribute('aria-pressed', 'true');
+            }
+
+            const blogLink = document.getElementById('header-blog-link');
+            if (blogLink) {
+                blogLink.href = `/${normalizedLanguage}/blog/`;
+                blogLink.setAttribute('aria-label', normalizedLanguage === 'es' ? 'Abrir el blog' : normalizedLanguage === 'pt' ? 'Abrir o blog' : 'Open the blog');
             }
 
             // Sync Placeholders

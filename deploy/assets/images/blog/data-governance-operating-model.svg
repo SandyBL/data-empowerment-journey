@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract data governance operating model</title>
+  <desc id="desc">A deep navy editorial composition with mint pathways, structured nodes, and a coral focal point.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071c2c"/><stop offset="1" stop-color="#123f48"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#62e6bd" stop-opacity=".44"/><stop offset="1" stop-color="#62e6bd" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#fff" stroke-opacity=".07"/></pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <circle cx="1180" cy="160" r="420" fill="url(#glow)"/>
+  <g fill="none" stroke="#62e6bd" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M160 750C330 750 330 560 500 560S670 350 840 350s190 170 360 170 130-230 280-230"/>
+    <path d="M260 190v260h300v270h360V510h300" opacity=".42"/>
+  </g>
+  <g fill="#f6f4ed" stroke="#071c2c" stroke-width="12">
+    <circle cx="160" cy="750" r="31"/><circle cx="500" cy="560" r="31"/><circle cx="840" cy="350" r="31"/><circle cx="1200" cy="520" r="31"/><circle cx="1480" cy="290" r="31"/>
+  </g>
+  <circle cx="920" cy="720" r="128" fill="#ec6d57"/>
+  <circle cx="920" cy="720" r="190" fill="none" stroke="#ec6d57" stroke-opacity=".25" stroke-width="38"/>
+  <path d="M0 860h650l90 140H0z" fill="#f6f4ed" fill-opacity=".96"/>
+  <g fill="#071c2c" opacity=".75"><rect x="90" y="910" width="300" height="14" rx="7"/><rect x="90" y="946" width="430" height="8" rx="4"/></g>
+</svg>
