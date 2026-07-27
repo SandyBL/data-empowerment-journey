@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Mensaje recibido | The Data Empowerment Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        .confirmation-shell { min-height: 100vh; }
+        [lang-content] { display: none; }
+        body.lang-es [lang-content="es"],
+        body.lang-en [lang-content="en"],
+        body.lang-pt [lang-content="pt"] { display: inline; }
+    </style>
+</head>
+<body class="lang-es bg-slate-50 text-slate-800 antialiased">
+    <main class="confirmation-shell flex items-center justify-center px-4 py-16">
+        <section class="w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-xl shadow-deepblue/10 p-8 sm:p-12 text-center">
+            <div class="w-20 h-20 mx-auto bg-emeraldgreen/10 border border-emeraldgreen/25 rounded-full flex items-center justify-center text-emeraldgreen text-3xl mb-6">
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+            </div>
+            <h1 class="text-3xl font-extrabold text-deepblue mb-4">
+                <span lang-content="es">¡Mensaje recibido!</span>
+                <span lang-content="en">Thank you!</span>
+                <span lang-content="pt">Mensagem recebida!</span>
+            </h1>
+            <p class="text-slate-500 leading-relaxed max-w-lg mx-auto mb-8">
+                <span lang-content="es">Recibimos tu solicitud de sesión de diagnóstico. Nos pondremos en contacto contigo para coordinar los próximos pasos.</span>
+                <span lang-content="en">We received your diagnostic session request. We will contact you to coordinate the next steps.</span>
+                <span lang-content="pt">Recebemos sua solicitação de sessão de diagnóstico. Entraremos em contato para coordenar os próximos passos.</span>
+            </p>
+            <a href="/#contacto" class="confirmation-return-link inline-flex items-center justify-center gap-3 px-7 py-3.5 bg-deepblue hover:bg-deepblue/95 text-white font-bold rounded-xl shadow-lg shadow-deepblue/10 hover:shadow-deepblue/25 hover:-translate-y-0.5 transition-all">
+                <i class="fa-solid fa-arrow-left text-sm text-emeraldgreen" aria-hidden="true"></i>
+                <span lang-content="es">Volver al sitio</span>
+                <span lang-content="en">Return to the site</span>
+                <span lang-content="pt">Voltar ao site</span>
+            </a>
+        </section>
+    </main>
+
+    <script>
+        const supportedLanguages = ['es', 'en', 'pt'];
+        let language = 'es';
+
+        try {
+            const savedLanguage = localStorage.getItem('preferredLanguage')?.toLowerCase();
+            const browserLanguage = (navigator.language || '').toLowerCase().split('-')[0];
+            language = supportedLanguages.includes(savedLanguage)
+                ? savedLanguage
+                : supportedLanguages.includes(browserLanguage) ? browserLanguage : 'es';
+        } catch (error) {
+            const browserLanguage = (navigator.language || '').toLowerCase().split('-')[0];
+            language = supportedLanguages.includes(browserLanguage) ? browserLanguage : 'es';
+        }
+
+        document.documentElement.lang = language;
+        document.body.classList.remove(...supportedLanguages.map(item => `lang-${item}`));
+        document.body.classList.add(`lang-${language}`);
+    </script>
+</body>
+</html>
