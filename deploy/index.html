@@ -1429,6 +1429,31 @@
         </div>
     </footer>
 
+    <section id="identity-modal" class="identity-modal" role="dialog" aria-modal="true" aria-labelledby="identity-modal-title" hidden>
+        <div class="identity-modal__backdrop"></div>
+        <div class="identity-modal__card">
+            <img class="identity-modal__logo" src="/assets/images/dejourney-logo.jpg" alt="The Data Empowerment Journey logo">
+            <p class="identity-modal__eyebrow">Netlify Identity</p>
+            <h2 id="identity-modal-title" class="identity-modal__title">Completing your secure link…</h2>
+            <p id="identity-modal-description" class="identity-modal__description" aria-live="polite">Please wait while the invitation or password-reset link is verified.</p>
+
+            <form id="identity-password-form" class="identity-modal__form" hidden>
+                <label for="identity-password">New password</label>
+                <input id="identity-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+
+                <label for="identity-password-confirmation">Confirm new password</label>
+                <input id="identity-password-confirmation" name="passwordConfirmation" type="password" autocomplete="new-password" minlength="8" required>
+
+                <p id="identity-modal-error" class="identity-modal__error" role="alert"></p>
+                <button id="identity-submit-button" class="identity-modal__submit" type="submit">Save password</button>
+            </form>
+
+            <div id="identity-modal-success" class="identity-modal__success" hidden>
+                <a class="identity-modal__submit" href="/admin/">Continue to Content Studio</a>
+            </div>
+        </div>
+    </section>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
         const inputPlaceholders = {
@@ -1637,6 +1662,6 @@
         setLanguage(detectInitialLanguage());
         initializeDesktopScrollSpy();
     </script>
+    <script type="module" src="/assets/js/identity.js"></script>
 </body>
 </html>
-
