@@ -434,6 +434,33 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
     transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
 
+.header-blog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 8px 18px rgba(15, 118, 110, 0.2);
+    transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.header-blog-link:hover {
+    background: #115e59;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(15, 118, 110, 0.28);
+}
+
+@media (max-width: 640px) {
+    .header-blog-link span { display: none !important; }
+    .header-blog-link { width: 2.5rem; justify-content: center; padding-inline: 0; }
+}
+
 .header-newsletter-link:hover {
     transform: translateY(-1px);
     background: #c94b1a;

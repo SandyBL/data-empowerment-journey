@@ -10,4 +10,29 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://dejourney.netlify.app/en/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/pt/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dejourney.netlify.app/en/blog/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dejourney.netlify.app/es/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/pt/blog/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://dejourney.netlify.app/pt/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/pt/blog/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

@@ -1,0 +1,62 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "assets/images/blog"
+public_folder: "/assets/images/blog"
+
+site_url: "https://dejourney.netlify.app"
+display_url: "https://dejourney.netlify.app"
+logo_url: "/assets/images/dejourney-logo.jpg"
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: "blog_en"
+    label: "Blog — English"
+    label_singular: "English article"
+    folder: "content/blog/en"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    preview_path: "en/blog/article.html?post={{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields: &blog_fields
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publication date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Category", name: "category", widget: "select", options: ["Data Governance", "Data Culture", "Data Literacy", "AI Governance", "Data Quality"] }
+      - { label: "Featured image", name: "featured_image", widget: "image", choose_url: false }
+      - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences for cards and search results." }
+      - { label: "Author", name: "author", widget: "string", default: "Sandy Bradbury" }
+      - { label: "Translation key", name: "translation_key", widget: "string", required: false, hint: "Use the same slug in all three language folders to connect hreflang links." }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "blog_es"
+    label: "Blog — Español"
+    label_singular: "Artículo en español"
+    folder: "content/blog/es"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    preview_path: "es/blog/article.html?post={{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields: *blog_fields
+
+  - name: "blog_pt"
+    label: "Blog — Português"
+    label_singular: "Artigo em português"
+    folder: "content/blog/pt"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    preview_path: "pt/blog/article.html?post={{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields: *blog_fields
