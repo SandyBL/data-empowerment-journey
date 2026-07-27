@@ -1,5 +1,6 @@
 backend:
   name: git-gateway
+  gateway_url: "/.netlify/git/github"
   branch: main
 
 local_backend: true
