@@ -78,4 +78,4 @@ Consider how both function in a **hospital setting**:
 ### Ready to Build a Robust Data Governance Framework?
 Stop guessing with your data architecture. Book a **1-on-1 Data Strategy Diagnostic Session (45 Mins)**. We’ll analyze your current data maturity, pinpoint bottlenecks, and give you a clear roadmap to make your data secure and scalable.
 
-[Book Your Diagnostic Session (R$ 197) →](https://pay.kiwify.com.br/YOUR_LINK)
+[Book Your Diagnostic Session →](https://dejourney.netlify.app/?lang=en#contacto)
