@@ -75,7 +75,9 @@ Consider how both function in a **hospital setting**:
 
 ---
 
-### Ready to Build a Robust Data Governance Framework?
-Stop guessing with your data architecture. Book a **1-on-1 Data Strategy Diagnostic Session (45 Mins)**. We’ll analyze your current data maturity, pinpoint bottlenecks, and give you a clear roadmap to make your data secure and scalable.
+---
 
-[Book Your Diagnostic Session →](https://dejourney.netlify.app/?lang=en#contacto)
+### Where Does Your Data Governance Stand?
+Stop guessing with your data architecture. Take our quick assessment form to evaluate your organization's data maturity level, pinpoint bottlenecks, and get actionable insights to make your data secure and scalable.
+
+[Assess Your Data Maturity Level →](https://dejourney.netlify.app/?lang=en#contacto)
