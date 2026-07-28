@@ -56,8 +56,18 @@ a { color: inherit; }
 .section-heading { margin: 100px 0 30px; display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .section-heading h2 { margin: 0 0 18px; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.3rem); font-weight: 400; }
 .section-heading span { color: var(--ink-soft); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+.archive-controls { position: relative; margin-bottom: 34px; padding: 22px; display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(150px, .65fr)); gap: 12px; background: rgba(255,254,249,.72); border: 1px solid var(--line); border-radius: 3px 28px 3px 3px; box-shadow: 0 16px 50px rgba(7,28,44,.06); }
+.archive-field { position: relative; display: grid; gap: 8px; }
+.archive-field label { color: var(--ink-soft); font-size: .65rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.archive-field input, .archive-field select { width: 100%; min-height: 48px; padding: 0 42px 0 14px; border: 1px solid rgba(7,28,44,.18); border-radius: 2px; background: var(--white); color: var(--ink); font: 600 .84rem var(--sans); outline: none; transition: border-color .2s ease, box-shadow .2s ease; }
+.archive-field input { padding-left: 44px; }
+.archive-field input:focus, .archive-field select:focus { border-color: var(--mint-dark); box-shadow: 0 0 0 3px rgba(98,230,189,.25); }
+.archive-field svg { position: absolute; left: 15px; bottom: 15px; width: 18px; height: 18px; color: var(--mint-dark); pointer-events: none; }
+.archive-status { min-height: 24px; margin: 0 0 18px; display: flex; align-items: center; gap: 12px; color: var(--ink-soft); font-size: .76rem; font-weight: 700; }
+.archive-status::before { width: 30px; height: 2px; content: ''; background: var(--coral); }
 .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); align-items: stretch; gap: 28px; margin-bottom: clamp(140px, 14vw, 190px); }
 .post-card { min-width: 0; display: flex; flex-direction: column; opacity: .45; transform: translateY(12px); transition: opacity .45s ease, transform .45s ease; }
+.post-card[hidden] { display: none; }
 .post-card.is-loaded { opacity: 1; transform: none; }
 .post-card-media { height: 260px; overflow: hidden; margin-bottom: 24px; background: #dce4df; border-radius: 2px 28px 2px 2px; }
 .post-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
@@ -65,6 +75,10 @@ a { color: inherit; }
 .post-card h2 { margin: 12px 0; font-family: var(--serif); font-size: 1.75rem; font-weight: 400; line-height: 1.1; }
 .post-card p { margin: 0; color: var(--ink-soft); font-size: .92rem; line-height: 1.7; }
 .post-card .post-meta { margin-top: auto; padding-top: 24px; color: #67808a; }
+.archive-empty { grid-column: 1 / -1; padding: 60px 30px; border: 1px dashed rgba(7,28,44,.24); background: rgba(255,254,249,.45); text-align: center; border-radius: 3px 28px 3px 3px; }
+.archive-empty[hidden] { display: none; }
+.archive-empty h3 { margin: 0 0 8px; font-family: var(--serif); font-size: 2rem; font-weight: 400; }
+.archive-empty p { max-width: 480px; margin: 0 auto; color: var(--ink-soft); line-height: 1.65; }
 .tools-cta { position: relative; overflow: hidden; margin: 0 auto 70px; padding: clamp(40px, 7vw, 82px); display: grid; grid-template-columns: 1.3fr auto; align-items: center; gap: 50px; background: var(--mint); border-radius: 38px 4px 38px 4px; }
 .tools-cta::after { position: absolute; right: -80px; bottom: -130px; width: 330px; height: 330px; content: ''; border: 55px solid rgba(7,28,44,.08); border-radius: 50%; }
 .tools-cta small { font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
@@ -115,6 +129,7 @@ a { color: inherit; }
   .listing-intro { gap: 30px; padding-top: 70px; }
   .hero-post-media { min-height: 360px; }
   .post-grid { grid-template-columns: repeat(2, 1fr); }
+  .archive-controls { grid-template-columns: repeat(2, 1fr); }
   .article-layout { grid-template-columns: minmax(0, 700px); }
   .toc { position: static; padding: 20px; background: rgba(255,255,255,.5); }
 }
@@ -129,6 +144,7 @@ a { color: inherit; }
   .hero-post-media { min-height: 280px; }
   .hero-post-content { padding: 30px 24px 38px; }
   .post-grid { grid-template-columns: 1fr; }
+  .archive-controls { padding: 16px; grid-template-columns: 1fr; border-radius: 2px 22px 2px 2px; }
   .post-card-media { height: 230px; }
   .post-grid { margin-bottom: 100px; }
   .tools-cta { padding: 38px 28px; border-radius: 24px 2px; }

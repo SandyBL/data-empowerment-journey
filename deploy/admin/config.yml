@@ -5,7 +5,7 @@ backend:
 
 local_backend: true
 
-media_folder: "assets/images/blog"
+media_folder: "deploy/assets/images/blog"
 public_folder: "/assets/images/blog"
 
 site_url: "https://dejourney.netlify.app"
@@ -21,7 +21,7 @@ collections:
   - name: "blog_en"
     label: "Blog — English"
     label_singular: "English article"
-    folder: "content/blog/en"
+    folder: "deploy/content/blog/en"
     create: true
     extension: "md"
     format: "frontmatter"
@@ -41,7 +41,7 @@ collections:
   - name: "blog_es"
     label: "Blog — Español"
     label_singular: "Artículo en español"
-    folder: "content/blog/es"
+    folder: "deploy/content/blog/es"
     create: true
     extension: "md"
     format: "frontmatter"
@@ -53,7 +53,7 @@ collections:
   - name: "blog_pt"
     label: "Blog — Português"
     label_singular: "Artigo em português"
-    folder: "content/blog/pt"
+    folder: "deploy/content/blog/pt"
     create: true
     extension: "md"
     format: "frontmatter"
