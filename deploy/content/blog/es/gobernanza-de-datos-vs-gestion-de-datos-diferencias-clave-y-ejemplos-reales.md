@@ -75,7 +75,8 @@ Considera cómo funcionan ambas en un **entorno hospitalario**:
 
 ---
 
-### ¿Listo para Construir un Marco Robusto de Gobernanza de Datos?
-Deja de adivinar con tu arquitectura de datos. Reserva una **Sesión Diagnóstica de Estrategia de Datos 1-a-1 (45 min)**. Analizaremos tu madurez actual de datos, identificaremos cuellos de botella y te daremos un roadmap claro para hacer que tus datos sean seguros y escalables.
 
-[Reserva tu Sesión Diagnóstica →](https://dejourney.netlify.app/?lang=es#contacto)
+### ¿En qué nivel se encuentra tu Gobernanza de Datos?
+Deja de adivinar con tu arquitectura de datos. Completa nuestro formulario rápido para evaluar el nivel de madurez de datos de tu organización, identificar cuellos de botella y descubrir cómo construir un marco seguro y escalable.
+
+[Evalúa tu Nivel de Madurez de Datos →](https://dejourney.netlify.app/?lang=es#contacto)
