@@ -75,7 +75,7 @@ Considere como ambas funcionam em um **ambiente hospitalar**:
 
 ---
 
-### Pronto para Construir uma Governança de Dados Sólida?
-Chega de adivinhar com a sua arquitetura de dados. Agende uma **Sessão Diagnóstica de Estratégia de Dados 1-on-1 (45 min)**. Vamos analisar a sua maturidade atual de dados, identificar gargalos e entregar um roadmap claro para tornar seus dados seguros e escaláveis.
+### Qual é o Nível de Maturidade dos Seus Dados?
+Chega de adivinhar com a sua arquitetura de dados. Preencha nosso formulário rápido para avaliar o nível de maturidade de dados da sua empresa, identificar gargalos e descobrir como construir uma governança sólida e escalável.
 
-[Agende sua Sessão Diagnóstica →] (https://dejourney.netlify.app/?lang=pt#contacto)
+[Avalie seu Nível de Maturidade de Dados →](https://dejourney.netlify.app/?lang=pt#contacto)
