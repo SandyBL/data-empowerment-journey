@@ -1,11 +1,12 @@
 ---
-title: "Building a Data Governance Operating Model That People Actually Use"
-date: "2026-07-21"
-category: "Data Governance"
-featured_image: "/assets/images/blog/data-governance-operating-model.svg"
-summary: "A practical guide to turning governance principles into clear decisions, useful routines, and measurable business outcomes."
-author: "Sandy Bradbury"
-translation_key: "building-a-data-governance-operating-model"
+title: Building a Data Governance Operating Model That People Actually Use
+date: 2026-07-21
+category: Data Governance
+featured_image: /assets/images/blog/data-governance.png
+summary: A practical guide to turning governance principles into clear
+  decisions, useful routines, and measurable business outcomes.
+author: Sandy Bradbury
+translation_key: building-a-data-governance-operating-model
 ---
 
 Data governance succeeds when it becomes part of how work gets done—not when it exists only as a policy library. A useful operating model connects strategic intent with the daily decisions made by data owners, stewards, producers, and consumers.
