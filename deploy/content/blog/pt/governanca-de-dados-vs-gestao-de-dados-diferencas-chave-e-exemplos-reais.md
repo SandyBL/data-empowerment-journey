@@ -2,7 +2,7 @@
 title: "Governança de Dados vs. Gestão de Dados: Diferenças Chave e Exemplos Reais"
 date: 2025-01-01
 category: Data Governance
-featured_image: /assets/images/blog/cybersecurity-data-protection-concepts.jpg
+featured_image: /assets/images/blog/data-governance.png
 summary: Com dúvidas sobre Governança de Dados vs. Gestão de Dados? Descubra as
   principais diferenças, exemplos reais e como ambas trabalham juntas para
   proteger seus dados.
