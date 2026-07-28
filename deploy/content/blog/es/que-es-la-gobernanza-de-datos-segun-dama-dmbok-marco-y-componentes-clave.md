@@ -2,7 +2,7 @@
 title: ¿Qué es la Gobernanza de Datos según DAMA DMBOK? Marco y Componentes Clave
 date: 2025-01-28
 category: Data Governance
-featured_image: /assets/images/blog/data-governance-operating-model.svg
+featured_image: /assets/images/blog/data-governance.png
 summary: Descubre cómo el marco DAMA DMBOK define la Gobernanza de Datos, sus
   pilares centrales, roles clave y cómo se integra con la gestión de datos para
   aportar valor real.
