@@ -1,11 +1,13 @@
 ---
-title: "Como criar um modelo operacional de governança de dados que as pessoas realmente usem"
-date: "2026-07-21"
-category: "Governança de Dados"
-featured_image: "/assets/images/blog/data-governance-operating-model.svg"
-summary: "Um guia prático para transformar princípios de governança em decisões claras, rotinas úteis e resultados de negócio mensuráveis."
-author: "Sandy Bradbury"
-translation_key: "building-a-data-governance-operating-model"
+title: Como criar um modelo operacional de governança de dados que as pessoas
+  realmente usem
+date: 2026-07-21
+category: Governança de Dados
+featured_image: /assets/images/blog/data-governance.png
+summary: Um guia prático para transformar princípios de governança em decisões
+  claras, rotinas úteis e resultados de negócio mensuráveis.
+author: Sandy Bradbury
+translation_key: building-a-data-governance-operating-model
 ---
 
 A governança de dados funciona quando faz parte da maneira como o trabalho acontece, e não quando existe apenas como uma biblioteca de políticas. Um bom modelo operacional conecta a intenção estratégica às decisões diárias de proprietários, curadores, produtores e consumidores de dados.
