@@ -1,11 +1,13 @@
 ---
-title: "Cómo construir un modelo operativo de gobierno de datos que la gente realmente use"
-date: "2026-07-21"
-category: "Gobierno de Datos"
-featured_image: "/assets/images/blog/data-governance-operating-model.svg"
-summary: "Una guía práctica para convertir los principios de gobierno en decisiones claras, rutinas útiles y resultados de negocio medibles."
-author: "Sandy Bradbury"
-translation_key: "building-a-data-governance-operating-model"
+title: Cómo construir un modelo operativo de gobierno de datos que la gente
+  realmente use
+date: 2026-07-21
+category: Gobierno de Datos
+featured_image: /assets/images/blog/data-governance.png
+summary: Una guía práctica para convertir los principios de gobierno en
+  decisiones claras, rutinas útiles y resultados de negocio medibles.
+author: Sandy Bradbury
+translation_key: building-a-data-governance-operating-model
 ---
 
 El gobierno de datos funciona cuando forma parte de la manera en que se trabaja, no cuando existe únicamente como una biblioteca de políticas. Un buen modelo operativo conecta la intención estratégica con las decisiones diarias de propietarios, custodios, productores y consumidores de datos.
