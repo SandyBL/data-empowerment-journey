@@ -2,7 +2,6 @@
 title: "What Data Governance Is and What It Is Not: 5 Common Misconceptions"
 date: 2025-02-11
 category: Data Governance
-featured_image: /assets/images/blog/data-governance.png
 summary: Confused about Data Governance? Discover what Data Governance actually
   is, what it is not, and how clarifying these myths protects your organization
   from costly errors.

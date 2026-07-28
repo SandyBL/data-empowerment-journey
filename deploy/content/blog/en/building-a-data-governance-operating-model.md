@@ -2,7 +2,6 @@
 title: Building a Data Governance Operating Model That People Actually Use
 date: 2026-07-21
 category: Data Governance
-featured_image: /assets/images/blog/data-governance.png
 summary: A practical guide to turning governance principles into clear
   decisions, useful routines, and measurable business outcomes.
 author: Sandy Bradbury

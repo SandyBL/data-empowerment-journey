@@ -3,7 +3,6 @@ title: La alfabetización de datos es una capacidad de negocio, no un evento de
   formación
 date: 2026-06-30
 category: Alfabetización de Datos
-featured_image: /assets/images/blog/data-literacy.png
 summary: Supera los cursos aislados y crea hábitos, lenguaje y sistemas de apoyo
   que hagan repetible el uso seguro de los datos.
 author: Sandy Bradbury

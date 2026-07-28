@@ -32,11 +32,14 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Publication date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Category", name: "category", widget: "select", options: ["Data Governance", "Data Culture", "Data Literacy", "AI Governance", "Data Quality"] }
-      - { label: "Featured image", name: "featured_image", widget: "image", choose_url: false }
       - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences for cards and search results." }
       - { label: "Author", name: "author", widget: "string", default: "Sandy Bradbury" }
       - { label: "Translation key", name: "translation_key", widget: "string", required: false, hint: "Use the same slug in all three language folders to connect hreflang links." }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        buttons: ["bold", "italic", "link", "heading-two", "heading-three", "quote", "bulleted-list", "numbered-list"]
+        editor_components: []
 
   - name: "blog_es"
     label: "Blog — Español"
