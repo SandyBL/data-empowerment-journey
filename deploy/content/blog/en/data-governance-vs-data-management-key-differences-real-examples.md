@@ -2,7 +2,7 @@
 title: "Data Governance vs. Data Management: Key Differences & Real Examples"
 date: 2025-01-01
 category: Data Governance
-featured_image: /assets/images/blog/cybersecurity-data-protection-concepts.jpg
+featured_image: /assets/images/blog/data-governance-operating-model.svg
 summary: Confused about Data Governance vs. Data Management? Discover their key
   differences, real-world examples, and how both work together to protect your
   data.
