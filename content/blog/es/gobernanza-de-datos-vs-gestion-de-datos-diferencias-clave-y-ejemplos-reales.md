@@ -78,4 +78,4 @@ Considera cómo funcionan ambas en un **entorno hospitalario**:
 ### ¿Listo para Construir un Marco Robusto de Gobernanza de Datos?
 Deja de adivinar con tu arquitectura de datos. Reserva una **Sesión Diagnóstica de Estrategia de Datos 1-a-1 (45 min)**. Analizaremos tu madurez actual de datos, identificaremos cuellos de botella y te daremos un roadmap claro para hacer que tus datos sean seguros y escalables.
 
-[Reserva tu Sesión Diagnóstica (R$ 197) →](https://pay.kiwify.com.br/YOUR_LINK)
+[Reserva tu Sesión Diagnóstica →](https://dejourney.netlify.app/?lang=es#contacto)
