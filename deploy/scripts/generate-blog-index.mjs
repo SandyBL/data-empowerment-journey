@@ -1,9 +1,11 @@
 import { readdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const languages = ['en', 'es', 'pt'];
-const contentDirectory = path.resolve('content/blog');
-const outputPath = path.resolve('assets/js/blog-index.js');
+const projectDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const contentDirectory = path.join(projectDirectory, 'content/blog');
+const outputPath = path.join(projectDirectory, 'assets/js/blog-index.js');
 const articleIndex = {};
 
 for (const language of languages) {
