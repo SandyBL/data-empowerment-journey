@@ -2,7 +2,7 @@
 title: O que é Governança de Dados no DAMA DMBOK? Framework e Componentes Chave
 date: 2025-01-28
 category: Data Governance
-featured_image: /assets/images/blog/business-people-working-laptop-meeting.jpg
+featured_image: /assets/images/blog/data-governance-operating-model.svg
 summary: Descubra como o framework DAMA DMBOK define a Governança de Dados, seus
   pilares fundamentais, papéis estratégicos e como ela se integra à gestão de
   dados.
