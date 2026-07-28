@@ -2,9 +2,9 @@
   const language = document.body.dataset.lang || document.documentElement.lang || 'en';
   const localeByLanguage = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
   const labels = {
-    en: { minRead: 'min read', error: 'This article could not be loaded.', toc: 'On this page', leadTitle: 'Put this into practice', leadText: 'Use our free data governance tools to turn the ideas in this article into action.', leadLink: 'Explore the tools →' },
-    es: { minRead: 'min de lectura', error: 'No se pudo cargar este artículo.', toc: 'En esta página', leadTitle: 'Lleva esto a la práctica', leadText: 'Usa nuestras herramientas gratuitas de gobierno de datos para convertir estas ideas en acción.', leadLink: 'Explorar las herramientas →' },
-    pt: { minRead: 'min de leitura', error: 'Não foi possível carregar este artigo.', toc: 'Nesta página', leadTitle: 'Coloque isso em prática', leadText: 'Use nossas ferramentas gratuitas de governança de dados para transformar estas ideias em ação.', leadLink: 'Explorar as ferramentas →' }
+    en: { minRead: 'min read', error: 'This article could not be loaded.', toc: 'On this page', leadTitle: 'Put this into practice', leadText: 'Use our free data governance tools to turn the ideas in this article into action.', leadLink: 'Explore the tools →', allCategories: 'All categories', result: 'article', results: 'articles' },
+    es: { minRead: 'min de lectura', error: 'No se pudo cargar este artículo.', toc: 'En esta página', leadTitle: 'Lleva esto a la práctica', leadText: 'Usa nuestras herramientas gratuitas de gobierno de datos para convertir estas ideas en acción.', leadLink: 'Explorar las herramientas →', allCategories: 'Todas las categorías', result: 'artículo', results: 'artículos' },
+    pt: { minRead: 'min de leitura', error: 'Não foi possível carregar este artigo.', toc: 'Nesta página', leadTitle: 'Coloque isso em prática', leadText: 'Use nossas ferramentas gratuitas de governança de dados para transformar estas ideias em ação.', leadLink: 'Explorar as ferramentas →', allCategories: 'Todas as categorias', result: 'artigo', results: 'artigos' }
   };
 
   const cleanValue = (value) => {
@@ -17,12 +17,25 @@
     const match = source.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
     if (!match) return { attributes: {}, body: source };
     const attributes = {};
+    let currentKey = '';
     match[1].split('\n').forEach((line) => {
       const separator = line.indexOf(':');
-      if (separator < 0) return;
-      attributes[line.slice(0, separator).trim()] = cleanValue(line.slice(separator + 1));
+      if (separator < 0) {
+        if (currentKey && /^\s+/.test(line)) attributes[currentKey] = `${attributes[currentKey]} ${line.trim()}`;
+        return;
+      }
+      currentKey = line.slice(0, separator).trim();
+      attributes[currentKey] = cleanValue(line.slice(separator + 1));
     });
     return { attributes, body: match[2] };
+  };
+
+  const createArchiveCard = (postPath) => {
+    const card = document.createElement('article');
+    card.className = 'post-card';
+    card.dataset.postPath = postPath;
+    card.innerHTML = '<a class="post-card-media" data-post-link href="#"><img data-post-image src="" alt=""></a><span class="post-category" data-post-category></span><h2><a data-post-link data-post-title href="#"></a></h2><p data-post-summary></p><div class="post-meta"><span data-post-date></span><span data-post-read></span></div>';
+    return card;
   };
 
   const fetchPost = async (path) => {
@@ -34,6 +47,7 @@
   const formatDate = (date) => new Intl.DateTimeFormat(localeByLanguage[language], { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(`${date}T12:00:00`));
   const readingTime = (body) => Math.max(1, Math.ceil(body.trim().split(/\s+/).length / 210));
   const articleUrl = (slug) => `/${language}/blog/article.html?post=${encodeURIComponent(slug)}`;
+  const normalizeText = (text) => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
   const populateCard = async (card) => {
     try {
@@ -49,10 +63,62 @@
       const image = card.querySelector('[data-post-image]');
       image.src = post.attributes.featured_image;
       image.alt = '';
+      card.dataset.title = post.attributes.title;
+      card.dataset.category = post.attributes.category;
+      card.dataset.date = post.attributes.date;
+      card.dataset.search = normalizeText(`${post.attributes.title} ${post.attributes.category} ${post.attributes.summary} ${post.body}`);
       card.classList.add('is-loaded');
     } catch {
       card.hidden = true;
     }
+  };
+
+  const initializeArchive = async (cards) => {
+    const archive = document.querySelector('[data-article-archive]');
+    if (!archive) return;
+    await Promise.all(cards.map(populateCard));
+
+    const grid = archive.querySelector('[data-archive-grid]');
+    const search = archive.querySelector('[data-archive-search]');
+    const category = archive.querySelector('[data-archive-category]');
+    const sortField = archive.querySelector('[data-archive-sort]');
+    const sortDirection = archive.querySelector('[data-archive-direction]');
+    const count = archive.querySelector('[data-archive-count]');
+    const emptyState = archive.querySelector('[data-archive-empty]');
+    const collator = new Intl.Collator(localeByLanguage[language], { sensitivity: 'base' });
+    const availableCards = cards.filter((card) => !card.hidden);
+
+    [...new Set(availableCards.map((card) => card.dataset.category))]
+      .sort(collator.compare)
+      .forEach((categoryName) => category.add(new Option(categoryName, categoryName)));
+
+    category.options[0].textContent = labels[language].allCategories;
+
+    const updateArchive = () => {
+      const query = normalizeText(search.value.trim());
+      const selectedCategory = category.value;
+      const direction = sortDirection.value === 'asc' ? 1 : -1;
+      const field = sortField.value;
+      const sortedCards = [...availableCards].sort((firstCard, secondCard) => {
+        if (field === 'date') return firstCard.dataset.date.localeCompare(secondCard.dataset.date) * direction;
+        return collator.compare(firstCard.dataset[field], secondCard.dataset[field]) * direction;
+      });
+
+      sortedCards.forEach((card) => {
+        const matchesSearch = !query || card.dataset.search.includes(query);
+        const matchesCategory = !selectedCategory || card.dataset.category === selectedCategory;
+        card.hidden = !(matchesSearch && matchesCategory);
+        grid.append(card);
+      });
+
+      const visibleCount = sortedCards.filter((card) => !card.hidden).length;
+      count.textContent = `${visibleCount} ${visibleCount === 1 ? labels[language].result : labels[language].results}`;
+      emptyState.hidden = visibleCount !== 0;
+    };
+
+    [search, category, sortField, sortDirection].forEach((control) => control.addEventListener(control === search ? 'input' : 'change', updateArchive));
+    updateArchive();
+    archive.classList.add('is-ready');
   };
 
   const slugify = (text) => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -135,6 +201,11 @@
     }
   };
 
-  document.querySelectorAll('[data-post-path]').forEach(populateCard);
+  const archiveGrid = document.querySelector('[data-archive-grid]');
+  const indexedPosts = window.blogArticleIndex?.[language] || [];
+  const archiveCards = indexedPosts.map(createArchiveCard);
+  archiveCards.forEach((card) => archiveGrid?.append(card));
+  document.querySelectorAll('.hero-post[data-post-path]').forEach(populateCard);
+  initializeArchive(archiveCards);
   renderArticle();
 })();
