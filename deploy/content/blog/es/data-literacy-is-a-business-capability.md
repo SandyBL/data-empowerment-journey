@@ -1,11 +1,13 @@
 ---
-title: "La alfabetización de datos es una capacidad de negocio, no un evento de formación"
-date: "2026-06-30"
-category: "Alfabetización de Datos"
-featured_image: "/assets/images/blog/data-literacy-capability.svg"
-summary: "Supera los cursos aislados y crea hábitos, lenguaje y sistemas de apoyo que hagan repetible el uso seguro de los datos."
-author: "Sandy Bradbury"
-translation_key: "data-literacy-is-a-business-capability"
+title: La alfabetización de datos es una capacidad de negocio, no un evento de
+  formación
+date: 2026-06-30
+category: Alfabetización de Datos
+featured_image: /assets/images/blog/data-literacy.png
+summary: Supera los cursos aislados y crea hábitos, lenguaje y sistemas de apoyo
+  que hagan repetible el uso seguro de los datos.
+author: Sandy Bradbury
+translation_key: data-literacy-is-a-business-capability
 ---
 
 La alfabetización de datos suele lanzarse como un curso y medirse por asistencia. Ese enfoque puede crear conciencia, pero rara vez cambia la forma en que se toman decisiones.
