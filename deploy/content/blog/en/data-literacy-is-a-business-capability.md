@@ -1,11 +1,12 @@
 ---
-title: "Data Literacy Is a Business Capability, Not a Training Event"
-date: "2026-06-30"
-category: "Data Literacy"
-featured_image: "/assets/images/blog/data-literacy-capability.svg"
-summary: "Move beyond one-off courses and build the habits, language, and support systems that make confident data use repeatable."
-author: "Sandy Bradbury"
-translation_key: "data-literacy-is-a-business-capability"
+title: Data Literacy Is a Business Capability, Not a Training Event
+date: 2026-06-30
+category: Data Literacy
+featured_image: /assets/images/blog/data-literacy.png
+summary: Move beyond one-off courses and build the habits, language, and support
+  systems that make confident data use repeatable.
+author: Sandy Bradbury
+translation_key: data-literacy-is-a-business-capability
 ---
 
 Data literacy is often launched as a course and measured by attendance. That approach can create awareness, but it rarely changes how decisions are made.
