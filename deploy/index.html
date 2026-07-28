@@ -396,12 +396,8 @@
                 </a>
             </nav>
 
-            <!-- Language Switcher Vector Flags & Newsletter Link -->
+            <!-- Language Switcher & Content Links -->
             <div class="header-actions flex items-center gap-1 sm:gap-2 shrink-0">
-                <a href="/es/blog/" id="header-blog-link" class="header-blog-link" aria-label="Abrir el blog">
-                    <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
-                    <span lang-content="es">Blog</span><span lang-content="en">Blog</span><span lang-content="pt">Blog</span>
-                </a>
                 <div class="language-switcher flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200">
                     <button type="button" onclick="setLanguage('en')" id="btn-en" aria-label="Switch language to English" aria-pressed="false" class="lang-btn flex h-8 w-10 items-center justify-center rounded-full p-1.5 transition-all">
                     <svg class="h-4 w-6 rounded-sm shadow-sm" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -432,17 +428,21 @@
                     </svg>
                     </button>
                 </div>
-                <a
-                    href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="header-newsletter-link"
-                    aria-label="Open The Data Empowerment Journey newsletter"
-                    title="Newsletter"
-                >
-                    <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
-                    <span class="hidden sm:inline">Newsletter</span>
-                </a>
+                <div class="header-content-links flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200" role="group" aria-label="Blog and newsletter">
+                    <a href="/es/blog/" id="header-blog-link" class="header-content-link header-blog-link" aria-label="Abrir el blog" title="Blog">
+                        <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="header-content-link header-newsletter-link"
+                        aria-label="Open The Data Empowerment Journey newsletter"
+                        title="Newsletter"
+                    >
+                        <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </header>
