@@ -2,7 +2,6 @@
 title: "Qué es y qué NO es la Gobernanza de Datos: 5 Mitos Comunes"
 date: 2025-02-25
 category: Data Governance
-featured_image: /assets/images/blog/data-governance.png
 summary: ¿Confuso sobre la Gobernanza de Datos? Descubre qué es realmente la
   gobernanza de datos, qué no es y cómo aclarar estos mitos protege a tu empresa
   de errores costosos.

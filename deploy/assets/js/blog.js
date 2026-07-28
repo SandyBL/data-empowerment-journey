@@ -2,9 +2,9 @@
   const language = document.body.dataset.lang || document.documentElement.lang || 'en';
   const localeByLanguage = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
   const labels = {
-    en: { minRead: 'min read', error: 'This article could not be loaded.', toc: 'On this page', leadTitle: 'Put this into practice', leadText: 'Use our free data governance tools to turn the ideas in this article into action.', leadLink: 'Explore the tools →', allCategories: 'All categories', result: 'article', results: 'articles' },
-    es: { minRead: 'min de lectura', error: 'No se pudo cargar este artículo.', toc: 'En esta página', leadTitle: 'Lleva esto a la práctica', leadText: 'Usa nuestras herramientas gratuitas de gobierno de datos para convertir estas ideas en acción.', leadLink: 'Explorar las herramientas →', allCategories: 'Todas las categorías', result: 'artículo', results: 'artículos' },
-    pt: { minRead: 'min de leitura', error: 'Não foi possível carregar este artigo.', toc: 'Nesta página', leadTitle: 'Coloque isso em prática', leadText: 'Use nossas ferramentas gratuitas de governança de dados para transformar estas ideias em ação.', leadLink: 'Explorar as ferramentas →', allCategories: 'Todas as categorias', result: 'artigo', results: 'artigos' }
+    en: { minRead: 'min read', error: 'This article could not be loaded.', toc: 'On this page', leadTitle: 'Put this into practice', leadText: 'Use our free data governance tools to turn the ideas in this article into action.', leadLink: 'Explore the tools →', allCategories: 'All categories', result: 'article', results: 'articles', previous: '← Previous', next: 'Next →', pagination: 'Article archive pages' },
+    es: { minRead: 'min de lectura', error: 'No se pudo cargar este artículo.', toc: 'En esta página', leadTitle: 'Lleva esto a la práctica', leadText: 'Usa nuestras herramientas gratuitas de gobierno de datos para convertir estas ideas en acción.', leadLink: 'Explorar las herramientas →', allCategories: 'Todas las categorías', result: 'artículo', results: 'artículos', previous: '← Anterior', next: 'Siguiente →', pagination: 'Páginas del archivo de artículos' },
+    pt: { minRead: 'min de leitura', error: 'Não foi possível carregar este artigo.', toc: 'Nesta página', leadTitle: 'Coloque isso em prática', leadText: 'Use nossas ferramentas gratuitas de governança de dados para transformar estas ideias em ação.', leadLink: 'Explorar as ferramentas →', allCategories: 'Todas as categorias', result: 'artigo', results: 'artigos', previous: '← Anterior', next: 'Próxima →', pagination: 'Páginas do arquivo de artigos' }
   };
 
   const cleanValue = (value) => {
@@ -34,7 +34,7 @@
     const card = document.createElement('article');
     card.className = 'post-card';
     card.dataset.postPath = postPath;
-    card.innerHTML = '<a class="post-card-media" data-post-link href="#"><img data-post-image src="" alt=""></a><span class="post-category" data-post-category></span><h2><a data-post-link data-post-title href="#"></a></h2><p data-post-summary></p><div class="post-meta"><span data-post-date></span><span data-post-read></span></div>';
+    card.innerHTML = '<span class="post-category" data-post-category></span><h2><a data-post-link data-post-title href="#"></a></h2><p data-post-summary></p><div class="post-meta"><span data-post-date></span><span data-post-read></span></div>';
     return card;
   };
 
@@ -60,9 +60,6 @@
       card.querySelector('[data-post-category]').textContent = post.attributes.category;
       card.querySelector('[data-post-date]').textContent = formatDate(post.attributes.date);
       card.querySelector('[data-post-read]').textContent = `${readingTime(post.body)} ${labels[language].minRead}`;
-      const image = card.querySelector('[data-post-image]');
-      image.src = post.attributes.featured_image;
-      image.alt = '';
       card.dataset.title = post.attributes.title;
       card.dataset.category = post.attributes.category;
       card.dataset.date = post.attributes.date;
@@ -85,8 +82,15 @@
     const sortDirection = archive.querySelector('[data-archive-direction]');
     const count = archive.querySelector('[data-archive-count]');
     const emptyState = archive.querySelector('[data-archive-empty]');
+    const pageSize = 12;
+    let currentPage = 1;
     const collator = new Intl.Collator(localeByLanguage[language], { sensitivity: 'base' });
     const availableCards = cards.filter((card) => !card.hidden);
+    const pagination = document.createElement('nav');
+    pagination.className = 'archive-pagination';
+    pagination.dataset.archivePagination = '';
+    pagination.setAttribute('aria-label', labels[language].pagination);
+    grid.after(pagination);
 
     [...new Set(availableCards.map((card) => card.dataset.category))]
       .sort(collator.compare)
@@ -94,7 +98,31 @@
 
     category.options[0].textContent = labels[language].allCategories;
 
-    const updateArchive = () => {
+    const renderPagination = (pageCount) => {
+      pagination.replaceChildren();
+      pagination.hidden = pageCount <= 1;
+      if (pageCount <= 1) return;
+
+      const createButton = (text, page, className = '') => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `pagination-button ${className}`.trim();
+        button.textContent = text;
+        button.dataset.page = page;
+        if (page === currentPage) {
+          button.classList.add('is-current');
+          button.setAttribute('aria-current', 'page');
+        }
+        return button;
+      };
+
+      if (currentPage > 1) pagination.append(createButton(labels[language].previous, currentPage - 1, 'pagination-direction'));
+      for (let page = 1; page <= pageCount; page += 1) pagination.append(createButton(String(page), page));
+      if (currentPage < pageCount) pagination.append(createButton(labels[language].next, currentPage + 1, 'pagination-direction'));
+    };
+
+    const updateArchive = (resetPage = false) => {
+      if (resetPage) currentPage = 1;
       const query = normalizeText(search.value.trim());
       const selectedCategory = category.value;
       const direction = sortDirection.value === 'asc' ? 1 : -1;
@@ -104,19 +132,35 @@
         return collator.compare(firstCard.dataset[field], secondCard.dataset[field]) * direction;
       });
 
-      sortedCards.forEach((card) => {
+      const matchingCards = sortedCards.filter((card) => {
         const matchesSearch = !query || card.dataset.search.includes(query);
         const matchesCategory = !selectedCategory || card.dataset.category === selectedCategory;
-        card.hidden = !(matchesSearch && matchesCategory);
+        return matchesSearch && matchesCategory;
+      });
+      const pageCount = Math.max(1, Math.ceil(matchingCards.length / pageSize));
+      currentPage = Math.min(currentPage, pageCount);
+      const firstCardIndex = (currentPage - 1) * pageSize;
+      const pagedCards = new Set(matchingCards.slice(firstCardIndex, firstCardIndex + pageSize));
+
+      sortedCards.forEach((card) => {
+        card.hidden = !pagedCards.has(card);
         grid.append(card);
       });
 
-      const visibleCount = sortedCards.filter((card) => !card.hidden).length;
-      count.textContent = `${visibleCount} ${visibleCount === 1 ? labels[language].result : labels[language].results}`;
-      emptyState.hidden = visibleCount !== 0;
+      const resultCount = matchingCards.length;
+      count.textContent = `${resultCount} ${resultCount === 1 ? labels[language].result : labels[language].results}`;
+      emptyState.hidden = resultCount !== 0;
+      renderPagination(pageCount);
     };
 
-    [search, category, sortField, sortDirection].forEach((control) => control.addEventListener(control === search ? 'input' : 'change', updateArchive));
+    [search, category, sortField, sortDirection].forEach((control) => control.addEventListener(control === search ? 'input' : 'change', () => updateArchive(true)));
+    pagination.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-page]');
+      if (!button) return;
+      currentPage = Number(button.dataset.page);
+      updateArchive();
+      archive.querySelector('.section-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
     updateArchive();
     archive.classList.add('is-ready');
   };
@@ -170,18 +214,18 @@
       document.querySelector('[data-article-date]').textContent = formatDate(post.attributes.date);
       document.querySelector('[data-article-read]').textContent = `${readingTime(post.body)} ${labels[language].minRead}`;
       document.querySelector('[data-article-author]').textContent = post.attributes.author;
-      const image = document.querySelector('[data-article-image]');
-      image.src = post.attributes.featured_image;
-      image.alt = post.attributes.title;
       const renderedMarkdown = window.marked.parse(post.body);
-      articleBody.innerHTML = window.DOMPurify ? window.DOMPurify.sanitize(renderedMarkdown) : renderedMarkdown;
+      const sanitizedMarkdown = window.DOMPurify ? window.DOMPurify.sanitize(renderedMarkdown) : renderedMarkdown;
+      const articleTemplate = document.createElement('template');
+      articleTemplate.innerHTML = sanitizedMarkdown;
+      articleTemplate.content.querySelectorAll('img, picture, figure').forEach((element) => element.remove());
+      articleBody.replaceChildren(articleTemplate.content.cloneNode(true));
       document.querySelector('[data-toc-title]').textContent = labels[language].toc;
       buildTableOfContents(articleBody);
       insertLeadMagnet(articleBody);
       setMeta('meta[name="description"]', 'content', post.attributes.summary);
       setMeta('meta[property="og:title"]', 'content', post.attributes.title);
       setMeta('meta[property="og:description"]', 'content', post.attributes.summary);
-      setMeta('meta[property="og:image"]', 'content', new URL(post.attributes.featured_image, window.location.origin).href);
       setMeta('meta[property="og:url"]', 'content', canonicalUrl);
       setMeta('link[rel="canonical"]', 'href', canonicalUrl);
       document.querySelectorAll('link[rel="alternate"]').forEach((link) => {
@@ -194,7 +238,7 @@
         if (['en', 'es', 'pt'].includes(targetLanguage)) link.href = `/${targetLanguage}/blog/article.html?post=${slug}`;
       });
       const schema = document.querySelector('#article-schema');
-      if (schema) schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Article', headline: post.attributes.title, description: post.attributes.summary, datePublished: post.attributes.date, author: { '@type': 'Person', name: post.attributes.author }, image: new URL(post.attributes.featured_image, window.location.origin).href, mainEntityOfPage: canonicalUrl });
+      if (schema) schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Article', headline: post.attributes.title, description: post.attributes.summary, datePublished: post.attributes.date, author: { '@type': 'Person', name: post.attributes.author }, mainEntityOfPage: canonicalUrl });
       document.body.classList.add('article-ready');
     } catch {
       articleBody.innerHTML = `<p class="article-error">${labels[language].error}</p>`;
