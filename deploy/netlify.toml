@@ -1,0 +1,5 @@
+[[redirects]]
+from = "https://dejourney.netlify.app/*"
+to = "https://datagovjourney.com"
+status = 301
+force = true
