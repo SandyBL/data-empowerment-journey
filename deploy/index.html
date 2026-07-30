@@ -903,6 +903,103 @@
                 </p>
             </div>
 
+            <article class="bad-data-calculator" aria-labelledby="bad-data-calculator-title">
+                <div class="bad-data-calculator__intro">
+                    <div>
+                        <p class="bad-data-calculator__eyebrow">
+                            <i class="fa-solid fa-calculator" aria-hidden="true"></i>
+                            <span lang-content="es">Calculadora ejecutiva</span>
+                            <span lang-content="en">Executive calculator</span>
+                            <span lang-content="pt">Calculadora executiva</span>
+                        </p>
+                        <h3 id="bad-data-calculator-title">
+                            <span lang-content="es">El Costo de la Ignorancia</span>
+                            <span lang-content="en">The Cost of Ignorance</span>
+                            <span lang-content="pt">O Custo da Ignorância</span>
+                        </h3>
+                    </div>
+                    <p>
+                        <span lang-content="es">Convierte las horas perdidas buscando, validando y limpiando datos en un costo anual que la dirección puede actuar.</span>
+                        <span lang-content="en">Turn hours lost searching, validating, and cleaning data into an annual cost leaders can act on.</span>
+                        <span lang-content="pt">Transforme as horas perdidas buscando, validando e limpando dados em um custo anual que a liderança pode enfrentar.</span>
+                    </p>
+                </div>
+
+                <div class="bad-data-calculator__grid">
+                    <form id="bad-data-calculator-form" class="bad-data-calculator__form" novalidate>
+                        <label class="bad-data-field" for="bad-data-employees">
+                            <span class="bad-data-field__label">
+                                <span lang-content="es">Personas en datos, analítica y marketing</span>
+                                <span lang-content="en">Employees in data, analytics, and marketing</span>
+                                <span lang-content="pt">Pessoas em dados, analytics e marketing</span>
+                            </span>
+                            <span class="bad-data-field__control">
+                                <i class="fa-solid fa-users" aria-hidden="true"></i>
+                                <input id="bad-data-employees" name="employees" type="number" inputmode="numeric" min="1" max="100000" step="1" value="25" required>
+                            </span>
+                        </label>
+
+                        <label class="bad-data-field" for="bad-data-hours">
+                            <span class="bad-data-field__label">
+                                <span lang-content="es">Horas por semana buscando o limpiando datos</span>
+                                <span lang-content="en">Hours per week searching for or cleaning data</span>
+                                <span lang-content="pt">Horas por semana buscando ou limpando dados</span>
+                            </span>
+                            <span class="bad-data-field__control">
+                                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                                <input id="bad-data-hours" name="weeklyHours" type="number" inputmode="numeric" min="1" max="40" step="1" value="5" aria-describedby="bad-data-calculator-error" required>
+                            </span>
+                        </label>
+
+                        <label class="bad-data-field" for="bad-data-salary">
+                            <span class="bad-data-field__label">
+                                <span lang-content="es">Salario promedio anual (EUR)</span>
+                                <span lang-content="en">Average annual salary (USD)</span>
+                                <span lang-content="pt">Salário médio anual (BRL)</span>
+                            </span>
+                            <span class="bad-data-field__control bad-data-field__control--currency">
+                                <span id="bad-data-currency-prefix" aria-hidden="true">€</span>
+                                <input id="bad-data-salary" name="salary" type="number" inputmode="numeric" min="1" max="10000000" step="1" value="85000" required>
+                            </span>
+                        </label>
+
+                        <p id="bad-data-calculator-error" class="bad-data-calculator__error" role="alert"></p>
+                    </form>
+
+                    <div class="bad-data-result" aria-live="polite">
+                        <div class="bad-data-result__topline">
+                            <span lang-content="es">Pérdida anual estimada</span>
+                            <span lang-content="en">Estimated annual loss</span>
+                            <span lang-content="pt">Perda anual estimada</span>
+                            <i class="fa-solid fa-arrow-trend-down" aria-hidden="true"></i>
+                        </div>
+                        <output id="bad-data-loss-amount" class="bad-data-result__amount" for="bad-data-employees bad-data-hours bad-data-salary">265.625 €</output>
+                        <p class="bad-data-result__statement">
+                            <span lang-content="es">Su empresa está perdiendo aproximadamente <strong data-bad-data-inline-loss>265.625 €</strong>/año por la Fricción de Datos.</span>
+                            <span lang-content="en">Your company is losing approximately <strong data-bad-data-inline-loss>$265,625</strong>/year to Data Friction.</span>
+                            <span lang-content="pt">Sua empresa está perdendo aproximadamente <strong data-bad-data-inline-loss>R$ 265.625</strong>/ano com a Fricção de Dados.</span>
+                        </p>
+                        <div class="bad-data-result__formula">
+                            <span lang-content="es">Equipo × horas perdidas × costo por hora × 52 semanas</span>
+                            <span lang-content="en">Team × lost hours × hourly cost × 52 weeks</span>
+                            <span lang-content="pt">Equipe × horas perdidas × custo por hora × 52 semanas</span>
+                        </div>
+                        <button id="bad-data-pdf-download" class="bad-data-result__cta" type="button">
+                            <span lang-content="es">Descargar informe PDF personalizado</span>
+                            <span lang-content="en">Download personalized PDF report</span>
+                            <span lang-content="pt">Baixar relatório PDF personalizado</span>
+                            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+                        </button>
+                        <p id="bad-data-download-status" class="bad-data-result__privacy" aria-live="polite">
+                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                            <span lang-content="es">Sin formulario. Descarga inmediata.</span>
+                            <span lang-content="en">No form required. Immediate download.</span>
+                            <span lang-content="pt">Sem formulário. Download imediato.</span>
+                        </p>
+                    </div>
+                </div>
+            </article>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <article class="resource-library-card bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
                     <div class="p-8 sm:p-10 flex-grow">
@@ -1595,6 +1692,7 @@
 
             document.getElementById('contact-language').value = normalizedLanguage;
             updateResourceDownloads(normalizedLanguage);
+            window.dispatchEvent(new CustomEvent('site-language-change', { detail: { language: normalizedLanguage } }));
 
             // Submit Button translations
             const textEs = document.getElementById('submit-text');
@@ -1662,6 +1760,7 @@
         setLanguage(detectInitialLanguage());
         initializeDesktopScrollSpy();
     </script>
+    <script src="/assets/js/bad-data-calculator.js" defer></script>
     <script type="module" src="/assets/js/identity.js"></script>
 </body>
 </html>

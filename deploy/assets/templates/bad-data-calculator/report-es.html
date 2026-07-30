@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Ejecutivo - El Costo de la Fricción de Datos</title>
+    <style>
+        :root {
+            --primary-teal: #0E4B59;
+            --dark-teal: #082F38;
+            --accent-orange: #E05A2B;
+            --light-bg: #F4F7F6;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #CBD5E1;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        /* Page / Slide Container */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: var(--light-bg);
+            padding: 25px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            page-break-after: always;
+        }
+
+        /* Header Layout */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .brand-text .brand-title {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--primary-teal);
+            text-transform: uppercase;
+        }
+
+        .brand-text .brand-subtitle {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .capsule-badge {
+            background: var(--primary-teal);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Title Area */
+        .title-section {
+            margin-bottom: 15px;
+        }
+
+        .title-section h1 {
+            font-size: 22px;
+            color: var(--primary-teal);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .title-section p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Input Summary Bar */
+        .inputs-summary {
+            background-color: var(--primary-teal);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+
+        .inputs-summary span strong {
+            color: #38BDF8;
+        }
+
+        /* Hero Loss Metric */
+        .hero-loss-card {
+            background: linear-gradient(135deg, #FFF 0%, #FFF7F5 100%);
+            border-left: 6px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 16px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+
+        .hero-loss-card .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .hero-loss-card .amount {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--accent-orange);
+            margin: 4px 0;
+        }
+
+        .hero-loss-card .sub-label {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Content Grid / Cards */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .grid-1 {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card-number {
+            display: inline-block;
+            background: rgba(14, 75, 89, 0.1);
+            color: var(--primary-teal);
+            font-weight: 800;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .card h3 {
+            font-size: 13px;
+            color: var(--primary-teal);
+            margin-bottom: 6px;
+        }
+
+        .card p, .card ul {
+            font-size: 11px;
+            color: var(--text-dark);
+            line-height: 1.45;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            margin-bottom: 6px;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: "•";
+            color: var(--accent-orange);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Callout Box */
+        .callout-box {
+            background: #EFF6FF;
+            border-left: 4px solid var(--primary-teal);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--dark-teal);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .callout-icon {
+            display: grid;
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--primary-teal);
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .footer-link {
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Next Steps Contact Box */
+        .contact-card {
+            background: var(--dark-teal);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .contact-card h3 {
+            color: #38BDF8;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info a {
+            color: #E2E8F0;
+            text-decoration: none;
+        }
+
+        /* Print Rule */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- DIAPOSITIVA / PÁGINA 1: INFORME EJECUTIVO -->
+    <div class="page">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <div class="brand-container">
+                    <img src="/assets/dejourney-logo.jpg" alt="Logo The Data Empowerment Journey" class="brand-logo">
+                    <div class="brand-text">
+                        <div class="brand-title">The Data Empowerment Journey</div>
+                        <div class="brand-subtitle">Gobernanza para la gente, valor desde los datos</div>
+                    </div>
+                </div>
+                <div class="capsule-badge">Informe de Auditoría</div>
+            </div>
+
+            <!-- Title Section -->
+            <div class="title-section">
+                <h1>Informe Ejecutivo: El Verdadero Costo de la Fricción de Datos</h1>
+                <p>Cuantificando la ineficiencia financiera y la productividad perdida en sus operaciones</p>
+            </div>
+
+            <!-- Audit Inputs Summary -->
+            <div class="inputs-summary">
+                <span>Equipo: <strong>{{NUM_EMPLOYEES}} integrantes</strong></span>
+                <span>Tiempo Perdido: <strong>{{WEEKLY_HOURS}} hrs/semana por persona</strong></span>
+                <span>Salario Promedio Anual: <strong>{{AVG_SALARY}} €</strong></span>
+            </div>
+
+            <!-- Main Loss Metric Card -->
+            <div class="hero-loss-card">
+                <div class="label">Pérdida Estimada de Productividad Anual</div>
+                <div class="amount">{{TOTAL_ANNUAL_LOSS}} €</div>
+                <div class="sub-label">Fuga directa de capital por flujos de trabajo no optimizados y correcciones manuales</div>
+            </div>
+
+            <!-- Loss Breakdown Grid -->
+            <div class="grid-3">
+                <div class="card">
+                    <span class="card-number">01</span>
+                    <h3>Drenaje de Mano de Obra Directa</h3>
+                    <p><strong>{{DIRECT_LABOR_LOSS}} € / año</strong></p>
+                    <p style="margin-top:6px;">Especialistas de alto valor ejecutando "trabajo manual de limpieza de datos": reconciliando planillas, buscando definiciones y eliminando duplicados.</p>
+                </div>
+                <div class="card">
+                    <span class="card-number">02</span>
+                    <h3>Costo de Oportunidad</h3>
+                    <p><strong>{{OPPORTUNITY_COST_LOSS}} € / año</strong></p>
+                    <p style="margin-top:6px;">Horas perdidas investigando inconsistencias en lugar de analizar métricas clave, lanzar campañas o construir modelos predictivos.</p>
+                </div>
+                <div class="card">
+                    <span class="card-number">03</span>
+                    <h3>Retrasos y Reprocesos</h3>
+                    <p><strong>{{REWORK_LOSS}} € / año</strong></p>
+                    <p style="margin-top:6px;">Los datos no verificados generan escepticismo ejecutivo, reconstrucción de informes a última hora y retrasos en decisiones estratégicas.</p>
+                </div>
+            </div>
+
+            <!-- Callout -->
+            <div class="callout-box">
+                <span class="callout-icon" aria-hidden="true">i</span>
+                <div>
+                    <strong>Regla de Oro:</strong> Los líderes ejecutivos no compran "gobernanza" abstracta; invierten en reducción de costos, mitigación de riesgos y velocidad operativa.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>© 2026 The Data Empowerment Journey</span>
+            <a href="https://dejourney.netlify.app/" class="footer-link">https://dejourney.netlify.app/</a>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA / PÁGINA 2: PLAN DE ACCIÓN -->
+    <div class="page">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <div class="brand-container">
+                    <img src="/assets/dejourney-logo.jpg" alt="Logo The Data Empowerment Journey" class="brand-logo">
+                    <div class="brand-text">
+                        <div class="brand-title">The Data Empowerment Journey</div>
+                        <div class="brand-subtitle">Gobernanza para la gente, valor desde los datos</div>
+                    </div>
+                </div>
+                <div class="capsule-badge">Plan de Acción</div>
+            </div>
+
+            <!-- Title Section -->
+            <div class="title-section">
+                <h1>3 Pasos Inmediatos para Recuperar su Presupuesto</h1>
+                <p>Ajustes operativos para recuperar hasta un 60% de las horas perdidas en 30 días, sin costosas implementaciones de software</p>
+            </div>
+
+            <!-- Step by Step Vertical Stack -->
+            <div class="grid-1">
+                <div class="card">
+                    <span class="card-number">Paso 01</span>
+                    <h3>Defina y Congele sus "5 Métricas Clave"</h3>
+                    <ul>
+                        <li><strong>El Problema:</strong> Horas perdidas semanalmente en debates interdepartamentales sobre métricas conflictivas (*"¿Por qué los ingresos de Marketing no coinciden con los de Finanzas?"*).</li>
+                        <li><strong>Acción Inmediata:</strong> Seleccione las 5 métricas clave del negocio (ej. Cliente Activo, ARR, Churn) y establezca una fórmula oficial de cálculo en un diccionario centralizado.</li>
+                        <li><strong>Impacto Esperado:</strong> Elimina de 2 a 3 horas semanales de fricción en reuniones y reprocesos por empleado.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-number">Paso 02</span>
+                    <h3>Implemente la "Propiedad de Datos en el Origen"</h3>
+                    <ul>
+                        <li><strong>El Problema:</strong> Los datos erróneos ingresan mediante formularios de ventas o CRM, obligando a los analistas a limpiar los errores manualmente.</li>
+                        <li><strong>Acción Inmediata:</strong> Traslade la responsabilidad al origen. Añada validaciones estrictas (listas desplegables en lugar de texto libre) y asigne la responsabilidad de calidad a quienes crean los datos.</li>
+                        <li><strong>Impacto Esperado:</strong> Reduce el tiempo de depuración manual de datos en hasta un 50%.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-number">Paso 03</span>
+                    <h3>Establezca un Único Centro de Datos "Autorizado"</h3>
+                    <ul>
+                        <li><strong>El Problema:</strong> Los empleados pierden tiempo preguntando en Slack o buscando en carpetas los archivos y reportes actualizados.</li>
+                        <li><strong>Acción Inmediata:</strong> Designe una ubicación única como la *única* fuente autorizada para la toma de decisiones. Establezca que las fuentes no aprobadas no pueden presentarse a la dirección.</li>
+                        <li><strong>Impacto Esperado:</strong> Recupera de 1 a 2 horas semanales por empleado dedicadas previamente a buscar información.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>© 2026 The Data Empowerment Journey</span>
+            <a href="https://dejourney.netlify.app/" class="footer-link">https://dejourney.netlify.app/</a>
+        </div>
+    </div>
+
+
+    <!-- DIAPOSITIVA / PÁGINA 3: PRÓXIMOS PASOS -->
+    <div class="page">
+        <div>
+            <!-- Header -->
+            <div class="header">
+                <div class="brand-container">
+                    <img src="/assets/dejourney-logo.jpg" alt="Logo The Data Empowerment Journey" class="brand-logo">
+                    <div class="brand-text">
+                        <div class="brand-title">The Data Empowerment Journey</div>
+                        <div class="brand-subtitle">Gobernanza para la gente, valor desde los datos</div>
+                    </div>
+                </div>
+                <div class="capsule-badge">Próximos Pasos</div>
+            </div>
+
+            <!-- Title Section -->
+            <div class="title-section">
+                <h1>Continúe la Transformación</h1>
+                <p>¿Conoce el nivel real de madurez de su organización en todos los pilares de gobernanza?</p>
+            </div>
+
+            <!-- 3 Next Step Boxes -->
+            <div class="grid-1" style="gap: 16px;">
+                <div class="card" style="border-left: 4px solid var(--primary-teal);">
+                    <span class="card-number">01</span>
+                    <h3>Evaluación Gratuita de Gobernanza de Datos</h3>
+                    <p>Complete nuestra evaluación integral de 25 preguntas en menos de 5 minutos en nuestra plataforma para medir su preparación operativa.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--accent-orange);">
+                    <span class="card-number">02</span>
+                    <h3>Diagnóstico Automatizado Instantáneo</h3>
+                    <p>Reciba un informe ejecutivo instantáneo con un análisis de madurez en 5 pilares para identificar riesgos y puntos de fricción clave.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--primary-teal);">
+                    <span class="card-number">03</span>
+                    <h3>Sesión Estratégica Personalizada</h3>
+                    <p>Reserve una consulta de 30 minutos con Sandy Bradbury para transformar estas métricas en una hoja de ruta personalizada a 90 días.</p>
+                </div>
+            </div>
+
+            <!-- Contact Box -->
+            <div class="contact-card">
+                <h3>Sandy Bradbury</h3>
+                <p style="font-size: 11px; opacity: 0.9;">Consultor Principal | The Data Empowerment Journey</p>
+                <p style="font-size: 10px; color: #94A3B8; margin-top:2px;">Especializado en el Marco Internacional DAMA</p>
+
+                <div class="contact-info">
+                    <span><strong>Web:</strong> <a href="https://dejourney.netlify.app/">dejourney.netlify.app</a></span>
+                    <span><strong>Email:</strong> <a href="mailto:san.bradbury@gmail.com">san.bradbury@gmail.com</a></span>
+                    <span><strong>WhatsApp:</strong> +55 (11) 99200-4142 / +34 639 146 751</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>© 2026 The Data Empowerment Journey</span>
+            <a href="https://dejourney.netlify.app/" class="footer-link">https://dejourney.netlify.app/</a>
+        </div>
+    </div>
+
+</body>
+</html>
