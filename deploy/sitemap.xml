@@ -35,4 +35,29 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://datagovjourney.com/en/confession-wall/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/en/confession-wall/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://datagovjourney.com/es/confession-wall/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/confession-wall/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://datagovjourney.com/pt/confession-wall/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/confession-wall/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/confession-wall/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

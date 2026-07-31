@@ -425,7 +425,7 @@
                     </svg>
                     </button>
                 </div>
-                <div class="header-content-links flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200" role="group" aria-label="Blog and newsletter">
+                <div class="header-content-links flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200" role="group" aria-label="Blog, newsletter, and Confession Wall">
                     <a href="/es/blog/" id="header-blog-link" class="header-content-link header-blog-link" aria-label="Abrir el blog" title="Blog">
                         <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
                     </a>
@@ -438,6 +438,9 @@
                         title="Newsletter"
                     >
                         <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
+                    </a>
+                    <a href="/es/confession-wall/" class="language-confession-link header-content-link header-confession-link" aria-label="Visitar el Muro de Confesiones" title="Confession Wall">
+                        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
@@ -809,6 +812,36 @@
                         </p>
                     </div>
                 </div>
+            </article>
+
+            <article class="confession-wall-resource" aria-labelledby="confession-wall-resource-title">
+                <div class="confession-wall-resource__icon" aria-hidden="true">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <span>!</span>
+                </div>
+                <div class="confession-wall-resource__content">
+                    <p class="confession-wall-resource__eyebrow">
+                        <span lang-content="es">Historias reales. Lecciones compartidas.</span>
+                        <span lang-content="en">Real stories. Shared lessons.</span>
+                        <span lang-content="pt">Histórias reais. Lições compartilhadas.</span>
+                    </p>
+                    <h3 id="confession-wall-resource-title">
+                        <span lang-content="es">El Muro de Confesiones de Gobierno de Datos</span>
+                        <span lang-content="en">The Data Governance Confession Wall</span>
+                        <span lang-content="pt">O Mural de Confissões de Governança de Dados</span>
+                    </h3>
+                    <p>
+                        <span lang-content="es">Un espacio anónimo para descubrir desastres de datos reales, aprender de lo que salió mal y convertir errores costosos en mejores prácticas. Comparte tu propia experiencia para que otros equipos no tengan que aprenderla de la forma difícil.</span>
+                        <span lang-content="en">An anonymous space to discover real data disasters, learn from what went wrong, and turn costly mistakes into better practices. Share your own experience so other teams do not have to learn it the hard way.</span>
+                        <span lang-content="pt">Um espaço anônimo para conhecer desastres reais com dados, aprender com o que deu errado e transformar erros caros em melhores práticas. Compartilhe sua própria experiência para que outras equipes não precisem aprender da maneira mais difícil.</span>
+                    </p>
+                </div>
+                <a href="/es/confession-wall/" class="language-confession-link confession-wall-resource__cta">
+                    <span lang-content="es">Visitar el muro y confesar</span>
+                    <span lang-content="en">Visit the wall and confess</span>
+                    <span lang-content="pt">Visitar o mural e confessar</span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
             </article>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -1731,6 +1764,15 @@
             if (blogLink) {
                 blogLink.href = `/${normalizedLanguage}/blog/`;
                 blogLink.setAttribute('aria-label', normalizedLanguage === 'es' ? 'Abrir el blog' : normalizedLanguage === 'pt' ? 'Abrir o blog' : 'Open the blog');
+            }
+
+            document.querySelectorAll('.language-confession-link').forEach(link => {
+                link.href = `/${normalizedLanguage}/confession-wall/`;
+            });
+
+            const confessionHeaderLink = document.querySelector('.header-confession-link');
+            if (confessionHeaderLink) {
+                confessionHeaderLink.setAttribute('aria-label', normalizedLanguage === 'es' ? 'Visitar el Muro de Confesiones' : normalizedLanguage === 'pt' ? 'Visitar o Mural de Confissões' : 'Visit the Confession Wall');
             }
 
             // Sync Placeholders
