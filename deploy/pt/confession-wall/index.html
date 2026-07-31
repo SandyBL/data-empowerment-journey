@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>O Mural de Confissões de Governança de Dados | The Data Empowerment Journey</title>
+  <meta name="description" content="Confissões anônimas de governança de dados, lições organizacionais reais e orientação prática de Sandy Bradbury.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/jpeg" href="/assets/dejourney-logo.jpg">
+  <link rel="canonical" href="https://datagovjourney.com/pt/confession-wall/">
+  <link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/confession-wall/">
+  <link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/confession-wall/">
+  <link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/confession-wall/">
+  <link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/en/confession-wall/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/confession-wall.css">
+</head>
+<body data-locale="pt">
+  <header class="wall-header">
+    <div class="wall-header__inner">
+      <a class="wall-brand" href="/?lang=pt" aria-label="Início da The Data Empowerment Journey">
+        <img src="/assets/dejourney-logo.jpg" alt="The Data Empowerment Journey logo" width="200" height="194">
+        <span class="wall-brand__title">The Data Empowerment Journey</span>
+      </a>
+      <div class="wall-header__actions">
+        <a class="wall-home-link" href="/?lang=pt">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          <span data-copy="home"></span>
+        </a>
+        <nav class="wall-language-nav" aria-label="Language selection">
+          <a href="/en/confession-wall/">EN</a>
+          <a href="/es/confession-wall/">ES</a>
+          <a href="/pt/confession-wall/" aria-current="page">PT</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="wall-hero">
+      <div class="wall-hero__inner">
+        <div>
+          <p class="wall-eyebrow" data-copy="eyebrow"></p>
+          <h1><span data-copy="titleLead"></span> <em data-copy="titleAccent"></em></h1>
+          <p class="wall-hero__lead" data-copy="lead"></p>
+          <button class="wall-submit-button" type="button" data-open-confession-form>
+            <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+            <span data-copy="submit"></span>
+          </button>
+        </div>
+        <aside class="wall-expert-card">
+          <div class="wall-expert-card__icon" aria-hidden="true"><i class="fa-solid fa-lightbulb"></i></div>
+          <div class="wall-expert-card__caption">
+            <strong data-copy="guidanceTitle"></strong>
+            <span data-copy="expertCaption"></span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="wall-main" aria-labelledby="wall-section-title">
+      <div class="wall-intro">
+        <div>
+          <h2 id="wall-section-title" data-copy="sectionTitle"></h2>
+          <p data-copy="sectionLead"></p>
+        </div>
+        <span class="wall-count"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span id="wall-count"></span></span>
+      </div>
+      <div class="wall-controls">
+        <label class="wall-search" for="wall-search-input">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="wall-search-input" type="search">
+        </label>
+        <div id="wall-filters" class="wall-filters" aria-label="Confession categories"></div>
+      </div>
+      <div id="wall-grid" class="wall-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <section class="wall-assessment-cta">
+    <div class="wall-assessment-cta__inner">
+      <div class="wall-assessment-cta__mark" aria-hidden="true"><i class="fa-solid fa-chart-simple"></i></div>
+      <div><p data-copy="assessmentEyebrow"></p><h2 data-copy="assessmentTitle"></h2><span data-copy="assessmentLead"></span></div>
+      <a class="wall-assessment-cta__button" href="/?lang=pt#assessment"><span data-copy="assessmentButton"></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </section>
+
+  <footer class="wall-footer">
+    <div class="wall-footer__inner">
+      <div class="wall-footer__brand">
+        <img src="/assets/dejourney-logo.jpg" alt="" width="200" height="194">
+        <div><strong>The Data Empowerment Journey</strong><span id="footer-copy"></span></div>
+      </div>
+      <p class="wall-footer__copy">&copy; 2026 Sandy Bradbury. <span id="footer-rights"></span></p>
+    </div>
+  </footer>
+
+  <div id="submission-modal" class="wall-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="wall-modal__card">
+      <div class="wall-modal__header">
+        <div><h2 id="modal-title"></h2><p id="modal-lead"></p></div>
+        <button class="wall-modal__close" type="button" data-close-confession-form aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+      <form id="confession-form" class="wall-form">
+        <div class="wall-form__row">
+          <div class="wall-field"><label for="confession-role"></label><input id="confession-role" name="role" type="text" maxlength="160"></div>
+          <div class="wall-field"><label for="confession-category"></label><select id="confession-category" name="category" required></select></div>
+        </div>
+        <div class="wall-field"><label for="confession-title"></label><input id="confession-title" name="title" type="text" maxlength="180" required></div>
+        <div class="wall-field"><label for="confession-story"></label><textarea id="confession-story" name="story" minlength="20" maxlength="5000" required></textarea></div>
+        <p class="wall-form__privacy"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span id="privacy-copy"></span></p>
+        <p id="confession-form-status" class="wall-form__status" role="alert"></p>
+        <div class="wall-form__actions">
+          <button id="confession-form-cancel" class="wall-secondary-button" type="button" data-close-confession-form></button>
+          <button id="confession-form-submit" class="wall-primary-button" type="submit"></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="wall-toast" class="wall-toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/assets/js/confession-wall.js"></script>
+</body>
+</html>

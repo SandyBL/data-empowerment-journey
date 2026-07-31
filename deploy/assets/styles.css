@@ -449,6 +449,10 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
     color: var(--dejourney-orange);
 }
 
+.header-confession-link:hover {
+    color: #9f3f39;
+}
+
 .header-content-links i {
     width: 1em;
     text-align: center;
@@ -874,6 +878,150 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
     position: relative;
     border-color: rgb(101 183 199 / 0.5);
     box-shadow: 0 14px 36px rgb(0 51 102 / 0.08);
+}
+
+.confession-wall-resource {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: center;
+    margin: 2rem 0 3rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    overflow: hidden;
+    border: 1px solid rgb(159 63 57 / 0.28);
+    border-radius: 1.75rem;
+    background:
+        radial-gradient(circle at 86% 15%, rgb(233 93 36 / 0.13), transparent 16rem),
+        linear-gradient(125deg, #fffaf6, #ffffff 58%, #eef8fa);
+    box-shadow: 0 20px 48px rgb(0 51 102 / 0.09);
+}
+
+.confession-wall-resource::after {
+    content: "CONFIDENTIAL";
+    position: absolute;
+    right: -1.4rem;
+    bottom: 0.6rem;
+    color: rgb(159 63 57 / 0.055);
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: -0.07em;
+    line-height: 0.8;
+    pointer-events: none;
+    transform: rotate(-4deg);
+}
+
+.confession-wall-resource__icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 4.75rem;
+    height: 4.75rem;
+    place-items: center;
+    border: 1px solid rgb(159 63 57 / 0.3);
+    border-radius: 1.35rem 1.35rem 1.35rem 0.35rem;
+    background: #9f3f39;
+    box-shadow: 0.55rem 0.55rem 0 #f2c7ad;
+    color: #ffffff;
+    font-size: 1.8rem;
+}
+
+.confession-wall-resource__icon span {
+    position: absolute;
+    top: -0.55rem;
+    right: -0.45rem;
+    display: grid;
+    width: 1.65rem;
+    height: 1.65rem;
+    place-items: center;
+    border: 3px solid #fffaf6;
+    border-radius: 9999px;
+    background: var(--dejourney-orange);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 900;
+}
+
+.confession-wall-resource__content {
+    position: relative;
+    z-index: 1;
+}
+
+.confession-wall-resource__eyebrow {
+    margin-bottom: 0.45rem;
+    color: #9f3f39;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.confession-wall-resource h3 {
+    margin-bottom: 0.65rem;
+    color: var(--deepblue);
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+}
+
+.confession-wall-resource__content > p:last-child {
+    max-width: 48rem;
+    color: #475569;
+    font-size: 0.92rem;
+    line-height: 1.75;
+}
+
+.confession-wall-resource__cta {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    min-width: 13rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1.15rem;
+    border-radius: 0.9rem;
+    background: var(--deepblue);
+    box-shadow: 0 12px 26px rgb(0 51 102 / 0.18);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+    transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.confession-wall-resource__cta:hover {
+    transform: translateY(-3px);
+    background: #9f3f39;
+    box-shadow: 0 16px 32px rgb(159 63 57 / 0.22);
+}
+
+.confession-wall-resource__cta:focus-visible {
+    outline: 3px solid rgb(80 200 120 / 0.42);
+    outline-offset: 4px;
+}
+
+@media (max-width: 840px) {
+    .confession-wall-resource {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .confession-wall-resource__cta {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .confession-wall-resource {
+        grid-template-columns: 1fr;
+    }
+
+    .confession-wall-resource__icon {
+        width: 4rem;
+        height: 4rem;
+    }
 }
 
 .resource-library-card::before {
