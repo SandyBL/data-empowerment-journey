@@ -111,4 +111,4 @@ Chega de adivinhar com a sua arquitetura de dados. Preencha nosso formulário r�
 
 
 
-\[Avalie seu Nível de Maturidade de Dados →](https://dejourney.netlify.app/?lang=pt#contacto)
+\[Avalie seu Nível de Maturidade de Dados →](https://datagovjourney.com/?lang=pt#contacto)

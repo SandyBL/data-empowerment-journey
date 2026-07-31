@@ -1,5 +1,6 @@
 (() => {
   const language = document.body.dataset.lang || document.documentElement.lang || 'en';
+  const productionOrigin = 'https://datagovjourney.com';
   const localeByLanguage = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
   const labels = {
     en: { minRead: 'min read', error: 'This article could not be loaded.', toc: 'On this page', leadTitle: 'Put this into practice', leadText: 'Use our free data governance tools to turn the ideas in this article into action.', leadLink: 'Explore the tools →', allCategories: 'All categories', result: 'article', results: 'articles', previous: '← Previous', next: 'Next →', pagination: 'Article archive pages' },
@@ -206,7 +207,7 @@
     const slug = /^[a-z0-9-]+$/.test(requestedSlug) ? requestedSlug : 'building-a-data-governance-operating-model';
     try {
       const post = await fetchPost(`/content/blog/${language}/${slug}.md`);
-      const canonicalUrl = `${window.location.origin}/${language}/blog/article.html?post=${slug}`;
+      const canonicalUrl = `${productionOrigin}/${language}/blog/article.html?post=${slug}`;
       document.title = `${post.attributes.title} | The Data Empowerment Journey`;
       document.querySelector('[data-article-title]').textContent = post.attributes.title;
       document.querySelector('[data-article-summary]').textContent = post.attributes.summary;
@@ -231,7 +232,7 @@
       document.querySelectorAll('link[rel="alternate"]').forEach((link) => {
         const hreflang = link.getAttribute('hreflang');
         const targetLanguage = hreflang === 'x-default' ? 'en' : hreflang;
-        link.href = `${window.location.origin}/${targetLanguage}/blog/article.html?post=${slug}`;
+        link.href = `${productionOrigin}/${targetLanguage}/blog/article.html?post=${slug}`;
       });
       document.querySelectorAll('.language-nav a').forEach((link) => {
         const targetLanguage = link.pathname.split('/').filter(Boolean)[0];

@@ -112,4 +112,4 @@ Deja de adivinar con tu arquitectura de datos. Completa nuestro formulario rápi
 
 
 
-\[Evalúa tu Nivel de Madurez de Datos →](https://dejourney.netlify.app/?lang=es#contacto)
+\[Evalúa tu Nivel de Madurez de Datos →](https://datagovjourney.com/?lang=es#contacto)

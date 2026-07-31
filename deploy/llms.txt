@@ -16,5 +16,5 @@
 - Sandy Bradbury: Lead Consultant, CDMP Associate & Data Management Fundamentals Certified.
 
 ## Official Links
-- Website: https://dejourney.netlify.app/
+- Website: https://datagovjourney.com/
 - LinkedIn Newsletter: The Data Empowerment Journey

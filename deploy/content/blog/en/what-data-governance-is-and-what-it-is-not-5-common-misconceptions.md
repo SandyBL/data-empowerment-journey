@@ -112,4 +112,4 @@ Stop guessing with your data architecture. Take our quick assessment form to eva
 
 
 
-\[Assess Your Data Maturity Level →](https://dejourney.netlify.app/?lang=en#contacto)
+\[Assess Your Data Maturity Level →](https://datagovjourney.com/?lang=en#contacto)
