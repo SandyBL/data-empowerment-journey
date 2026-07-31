@@ -77,4 +77,4 @@ Consider how both function in a **hospital setting**:
 ### Where Does Your Data Governance Stand?
 Stop guessing with your data architecture. Take our quick assessment form to evaluate your organization's data maturity level, pinpoint bottlenecks, and get actionable insights to make your data secure and scalable.
 
-[Assess Your Data Maturity Level →](https://dejourney.netlify.app/?lang=en#contacto)
+[Assess Your Data Maturity Level →](https://datagovjourney.com/?lang=en#contacto)

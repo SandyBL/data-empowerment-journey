@@ -78,4 +78,4 @@ Considera cómo funcionan ambas en un **entorno hospitalario**:
 ### ¿En qué nivel se encuentra tu Gobernanza de Datos?
 Deja de adivinar con tu arquitectura de datos. Completa nuestro formulario rápido para evaluar el nivel de madurez de datos de tu organización, identificar cuellos de botella y descubrir cómo construir un marco seguro y escalable.
 
-[Evalúa tu Nivel de Madurez de Datos →](https://dejourney.netlify.app/?lang=es#contacto)
+[Evalúa tu Nivel de Madurez de Datos →](https://datagovjourney.com/?lang=es#contacto)

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dejourney.netlify.app/sitemap.xml
+Sitemap: https://datagovjourney.com/sitemap.xml

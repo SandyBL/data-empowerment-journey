@@ -2,36 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://dejourney.netlify.app/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://dejourney.netlify.app/"/>
+    <loc>https://datagovjourney.com/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://dejourney.netlify.app/en/blog/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/en/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/pt/blog/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://dejourney.netlify.app/en/blog/"/>
+    <loc>https://datagovjourney.com/en/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/en/blog/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dejourney.netlify.app/es/blog/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/en/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/pt/blog/"/>
+    <loc>https://datagovjourney.com/es/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/blog/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dejourney.netlify.app/pt/blog/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://dejourney.netlify.app/en/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://dejourney.netlify.app/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://dejourney.netlify.app/pt/blog/"/>
+    <loc>https://datagovjourney.com/pt/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/blog/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

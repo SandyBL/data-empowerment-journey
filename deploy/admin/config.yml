@@ -8,8 +8,8 @@ local_backend: true
 media_folder: "deploy/assets/images/blog"
 public_folder: "/assets/images/blog"
 
-site_url: "https://dejourney.netlify.app"
-display_url: "https://dejourney.netlify.app"
+site_url: "https://datagovjourney.com"
+display_url: "https://datagovjourney.com"
 logo_url: "/assets/images/dejourney-logo.jpg"
 
 slug:
