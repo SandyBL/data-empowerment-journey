@@ -5,7 +5,7 @@ category: Data Governance
 summary: ¿Confundido entre Gobernanza de Datos y Gestión de Datos? Descubre sus
   diferencias clave, ejemplos del mundo real y cómo trabajan juntas para
   proteger tus datos.
-author: Sandy Bradbury / The Data Empowerment Journey
+author: Sandy Bradbury / Data Governance Journey
 translation_key: data-governance-vs-data-management
 ---
 En el entorno empresarial actual, los datos son uno de los activos más valiosos que posee una organización. Sin embargo, para desbloquear todo su potencial, deben gestionarse, protegerse y utilizarse adecuadamente. 
