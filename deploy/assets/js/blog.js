@@ -208,7 +208,7 @@
     try {
       const post = await fetchPost(`/content/blog/${language}/${slug}.md`);
       const canonicalUrl = `${productionOrigin}/${language}/blog/article.html?post=${slug}`;
-      document.title = `${post.attributes.title} | The Data Empowerment Journey`;
+      document.title = `${post.attributes.title} | Data Governance Journey`;
       document.querySelector('[data-article-title]').textContent = post.attributes.title;
       document.querySelector('[data-article-summary]').textContent = post.attributes.summary;
       document.querySelector('[data-article-category]').textContent = post.attributes.category;
@@ -228,6 +228,8 @@
       setMeta('meta[property="og:title"]', 'content', post.attributes.title);
       setMeta('meta[property="og:description"]', 'content', post.attributes.summary);
       setMeta('meta[property="og:url"]', 'content', canonicalUrl);
+      setMeta('meta[name="twitter:title"]', 'content', `${post.attributes.title} | Data Governance Journey`);
+      setMeta('meta[name="twitter:description"]', 'content', post.attributes.summary);
       setMeta('link[rel="canonical"]', 'href', canonicalUrl);
       document.querySelectorAll('link[rel="alternate"]').forEach((link) => {
         const hreflang = link.getAttribute('hreflang');

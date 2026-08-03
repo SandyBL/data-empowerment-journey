@@ -1,6 +1,6 @@
-# The Data Empowerment Journey
+# Data Governance Journey
 
-> The Data Empowerment Journey provides strategic Data Governance consulting and Data Literacy training led by Sandy Bradbury (CDMP Certified).
+> Data Governance Journey provides strategic Data Governance consulting and Data Literacy training led by Sandy Bradbury (CDMP Certified).
 
 ## Framework & Methodology
 - Based on DAMA DMBOK2 (Data Management Body of Knowledge).
@@ -17,4 +17,4 @@
 
 ## Official Links
 - Website: https://datagovjourney.com/
-- LinkedIn Newsletter: The Data Empowerment Journey
+- LinkedIn Newsletter: Data Governance Journey

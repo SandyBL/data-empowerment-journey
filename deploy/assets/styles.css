@@ -378,7 +378,6 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
     display: flex;
     min-width: 0;
     align-items: center;
-    gap: 0.35rem;
 }
 
 .dejourney-brand-logo {
@@ -394,16 +393,6 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
 
 .dejourney-brand:hover .dejourney-brand-logo {
     transform: rotate(-2deg) scale(1.03);
-}
-
-.dejourney-brand-name {
-    max-width: 6rem;
-    color: #ffffff;
-    font-size: 0.57rem;
-    font-weight: 800;
-    letter-spacing: 0.045em;
-    line-height: 1.25;
-    text-transform: uppercase;
 }
 
 .dejourney-header .lang-btn {
@@ -456,16 +445,6 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
 .header-content-links i {
     width: 1em;
     text-align: center;
-}
-
-.dejourney-brand-name::after {
-    content: "";
-    display: block;
-    width: 2.5rem;
-    height: 2px;
-    margin-top: 0.35rem;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, var(--dejourney-orange), var(--dejourney-cyan));
 }
 
 .dejourney-footer-logo {
@@ -1102,9 +1081,7 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
 }
 
 @media (min-width: 640px) {
-    .dejourney-brand { gap: 0.8rem; }
     .dejourney-brand-logo { width: 4rem; height: 4rem; }
-    .dejourney-brand-name { max-width: 13rem; font-size: 0.82rem; }
     .dejourney-header .lang-btn { width: 2.5rem; }
     .header-content-link { width: 2.5rem; }
     .sm\:flex-row { flex-direction: row; }
@@ -1128,10 +1105,6 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
     .sm\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
     .sm\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
     .sm\:text-5xl { font-size: 3rem; line-height: 1; }
-}
-
-@media (max-width: 520px) {
-    .dejourney-brand-name { display: none; }
 }
 
 @media (min-width: 768px) {

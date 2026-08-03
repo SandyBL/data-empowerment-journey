@@ -10,7 +10,7 @@ public_folder: "/assets/images/blog"
 
 site_url: "https://datagovjourney.com"
 display_url: "https://datagovjourney.com"
-logo_url: "/assets/images/dejourney-logo.jpg"
+logo_url: "/assets/images/dg-logo.png"
 
 slug:
   encoding: "ascii"

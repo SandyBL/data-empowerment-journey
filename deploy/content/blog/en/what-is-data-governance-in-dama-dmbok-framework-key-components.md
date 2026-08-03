@@ -5,7 +5,7 @@ category: Data Governance
 summary: Discover how the DAMA DMBOK framework defines Data Governance, its core
   pillars, key roles, and how it integrates across data management to drive real
   value.
-author: Sandy Bradbury / The Data Empowerment Journey
+author: Sandy Bradbury / Data Governance Journey
 translation_key: dama-dmbok-data-governance-framework
 ---
 Managing data at scale requires more than just modern infrastructure—it demands clear authority, structured policies, and accountability. This is where the **DAMA Data Management Body of Knowledge (DMBOK)** comes in as the global standard framework.
