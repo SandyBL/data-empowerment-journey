@@ -374,26 +374,29 @@
 
             <!-- Desktop Section Navigation Bar -->
             <nav class="desktop-section-nav" aria-label="Section navigation">
-                <a href="#metodologia">
-                    <span lang-content="es">Metodología</span><span lang-content="en">Methodology</span><span lang-content="pt">Metodologia</span>
+                <a href="#framework">
+                    <span lang-content="es">Marco</span><span lang-content="en">Framework</span><span lang-content="pt">Framework</span>
                 </a>
-                <a href="#pilares">
-                    <span lang-content="es">Pilares</span><span lang-content="en">Pillars</span><span lang-content="pt">Pilares</span>
+                <a href="#simulators">
+                    <span lang-content="es">Simuladores</span><span lang-content="en">Simulators</span><span lang-content="pt">Simuladores</span>
                 </a>
-                <a href="#recursos">
-                    <span lang-content="es">Recursos</span><span lang-content="en">Resources</span><span lang-content="pt">Recursos</span>
-                </a>
-                <a href="#plantillas">
-                    <span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span>
-                </a>
+                <div class="desktop-resources-menu">
+                    <button type="button" class="desktop-resources-trigger" aria-expanded="false" aria-controls="desktop-resources-dropdown">
+                        <span lang-content="es">Recursos</span><span lang-content="en">Resources</span><span lang-content="pt">Recursos</span>
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div id="desktop-resources-dropdown" class="desktop-resources-dropdown" role="menu">
+                        <a href="#cost-calculator" role="menuitem"><span lang-content="es">Calculadora del Costo de la Ignorancia</span><span lang-content="en">Cost of Ignorance Calculator</span><span lang-content="pt">Calculadora do Custo da Ignorância</span></a>
+                        <a href="/es/confession-wall/" class="language-confession-link" role="menuitem"><span lang-content="es">Muro de Confesiones</span><span lang-content="en">Confession Wall</span><span lang-content="pt">Mural de Confissões</span></a>
+                        <a href="#playbooks" role="menuitem">Playbooks</a>
+                        <a href="#excel-templates" role="menuitem"><span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span></a>
+                    </div>
+                </div>
                 <a href="#preguntas-frecuentes">
                     <span lang-content="es">FAQ</span><span lang-content="en">FAQ</span><span lang-content="pt">FAQ</span>
                 </a>
-                <a href="#assessment">
-                    <span lang-content="es">Evaluación</span><span lang-content="en">Assessment</span><span lang-content="pt">Avaliação</span>
-                </a>
-                <a href="#contacto">
-                    <span lang-content="es">Contacto</span><span lang-content="en">Contact</span><span lang-content="pt">Contacto</span>
+                <a href="#scorecard" class="desktop-scorecard-cta">
+                    <span lang-content="es">Scorecard de Madurez</span><span lang-content="en">Maturity Scorecard</span><span lang-content="pt">Scorecard de Maturidade</span>
                 </a>
             </nav>
 
@@ -447,8 +450,31 @@
                         <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
                     </a>
                 </div>
+                <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Open navigation menu">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
+        <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+            <div class="mobile-navigation__panel">
+                <a href="#framework"><span lang-content="es">Marco</span><span lang-content="en">Framework</span><span lang-content="pt">Framework</span></a>
+                <a href="#simulators"><span lang-content="es">Simuladores</span><span lang-content="en">Simulators</span><span lang-content="pt">Simuladores</span></a>
+                <div class="mobile-resources-menu">
+                    <button type="button" class="mobile-resources-trigger" aria-expanded="false" aria-controls="mobile-resources-links">
+                        <span lang-content="es">Recursos</span><span lang-content="en">Resources</span><span lang-content="pt">Recursos</span>
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div id="mobile-resources-links" class="mobile-resources-links" hidden>
+                        <a href="#cost-calculator"><span lang-content="es">Calculadora del Costo de la Ignorancia</span><span lang-content="en">Cost of Ignorance Calculator</span><span lang-content="pt">Calculadora do Custo da Ignorância</span></a>
+                        <a href="/es/confession-wall/" class="language-confession-link"><span lang-content="es">Muro de Confesiones</span><span lang-content="en">Confession Wall</span><span lang-content="pt">Mural de Confissões</span></a>
+                        <a href="#playbooks">Playbooks</a>
+                        <a href="#excel-templates"><span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span></a>
+                    </div>
+                </div>
+                <a href="#preguntas-frecuentes">FAQ</a>
+                <a href="#scorecard" class="mobile-scorecard-cta"><span lang-content="es">Scorecard de Madurez</span><span lang-content="en">Maturity Scorecard</span><span lang-content="pt">Scorecard de Maturidade</span></a>
+            </div>
+        </nav>
     </header>
 
     <main>
@@ -498,10 +524,10 @@
             </div>
             
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#metodologia" class="inline-flex items-center gap-2 px-6 py-3.5 bg-emeraldgreen hover:bg-emeraldgreen/95 text-deepblue font-bold rounded-lg shadow-lg hover:shadow-emeraldgreen/20 hover:-translate-y-0.5 transition-all">
-                    <span lang-content="es">Explorar Metodología</span>
-                    <span lang-content="en">Explore Methodology</span>
-                    <span lang-content="pt">Explorar Metodologia</span>
+                <a href="#framework" class="inline-flex items-center gap-2 px-6 py-3.5 bg-emeraldgreen hover:bg-emeraldgreen/95 text-deepblue font-bold rounded-lg shadow-lg hover:shadow-emeraldgreen/20 hover:-translate-y-0.5 transition-all">
+                    <span lang-content="es">Explorar Marco</span>
+                    <span lang-content="en">Explore Framework</span>
+                    <span lang-content="pt">Explorar Framework</span>
                     <i class="fa-solid fa-arrow-down text-sm"></i>
                 </a>
                 <a href="#contacto" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/35 text-white font-semibold rounded-lg hover:-translate-y-0.5 transition-all">
@@ -514,8 +540,9 @@
         </div>
     </section>
 
-    <!-- METHODOLOGY INTRODUCTION -->
-    <section id="metodologia" class="scroll-mt-20 py-20 bg-white">
+    <!-- FRAMEWORK: METHODOLOGY + PILLARS -->
+    <section id="framework" class="framework-section scroll-mt-20 bg-white">
+    <div id="metodologia" class="scroll-mt-20 py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emeraldgreen/10 border border-emeraldgreen/25 text-deepblue text-xs font-bold uppercase tracking-wider mb-4">
                 <img src="assets/dama-logo.png" alt="DAMA International" width="29" height="20" class="h-5 w-auto object-contain" loading="lazy">
@@ -538,10 +565,10 @@
                 Baseada no renomado framework de referência <strong>DAMA</strong>, nossa consultoria garante que a governança não seja um evento isolado, mas uma função corporativa contínua que assegura a disponibilidade, integridade e segurança do ativo de dados.
             </p>
         </div>
-    </section>
+    </div>
 
     <!-- THREE PILLARS -->
-    <section id="pilares" class="scroll-mt-20 py-16 bg-slate-50 border-t border-b border-slate-200">
+    <div id="pilares" class="scroll-mt-20 py-16 bg-slate-50 border-t border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">Framework & Strategy</p>
@@ -697,10 +724,44 @@
 
             </div>
         </div>
+    </div>
+    </section>
+
+    <!-- SIMULATORS -->
+    <section id="simulators" class="simulators-section scroll-mt-20 py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="simulators-heading">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2"><span lang-content="es">Practica decisiones reales</span><span lang-content="en">Practice real decisions</span><span lang-content="pt">Pratique decisões reais</span></p>
+                <h2><span lang-content="es">Simuladores de Gobierno de Datos</span><span lang-content="en">Data Governance Simulators</span><span lang-content="pt">Simuladores de Governança de Dados</span></h2>
+                <p><span lang-content="es">Pon a prueba tu criterio en escenarios interactivos sobre operaciones, propiedad y alfabetización de datos.</span><span lang-content="en">Test your judgment in interactive scenarios covering operations, ownership, and data literacy.</span><span lang-content="pt">Teste seu critério em cenários interativos sobre operações, propriedade e alfabetização de dados.</span></p>
+            </div>
+            <div class="simulator-grid">
+                <article class="simulator-card simulator-card--operations">
+                    <span class="simulator-card__number">01</span><div class="simulator-card__icon"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></div>
+                    <h3><span lang-content="es">Día a Día del Gobierno de Datos</span><span lang-content="en">Data Governance Day to Day</span><span lang-content="pt">Dia a Dia da Governança de Dados</span></h3>
+                    <p><span lang-content="es">Gestiona prioridades, incidentes y decisiones cotidianas dentro de un programa de gobierno.</span><span lang-content="en">Manage priorities, incidents, and everyday decisions inside a governance program.</span><span lang-content="pt">Gerencie prioridades, incidentes e decisões cotidianas em um programa de governança.</span></p>
+                    <a href="/simulators/es/data-governance-day-to-day/" class="language-simulator-link" data-simulator="data-governance-day-to-day"><span lang-content="es">Abrir simulador</span><span lang-content="en">Open simulator</span><span lang-content="pt">Abrir simulador</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+                <article class="simulator-card simulator-card--ownership">
+                    <span class="simulator-card__number">02</span><div class="simulator-card__icon"><i class="fa-solid fa-people-arrows-left-right" aria-hidden="true"></i></div>
+                    <h3><span lang-content="es">¿Quién es Dueño de Estos Datos?</span><span lang-content="en">Who Owns This Data?</span><span lang-content="pt">Quem é o Dono Destes Dados?</span></h3>
+                    <p><span lang-content="es">Resuelve un conflicto de propiedad equilibrando responsabilidad, autoridad y valor de negocio.</span><span lang-content="en">Resolve an ownership conflict by balancing accountability, authority, and business value.</span><span lang-content="pt">Resolva um conflito de propriedade equilibrando responsabilidade, autoridade e valor de negócio.</span></p>
+                    <a href="/simulators/es/data-ownership-conflict/" class="language-simulator-link" data-simulator="data-ownership-conflict"><span lang-content="es">Abrir simulador</span><span lang-content="en">Open simulator</span><span lang-content="pt">Abrir simulador</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+                <article class="simulator-card simulator-card--literacy">
+                    <span class="simulator-card__number">03</span><div class="simulator-card__icon"><i class="fa-solid fa-chart-column" aria-hidden="true"></i></div>
+                    <h3><span lang-content="es">Alfabetización de Datos</span><span lang-content="en">Data Literacy</span><span lang-content="pt">Alfabetização de Dados</span></h3>
+                    <p><span lang-content="es">Interpreta métricas, cuestiona visualizaciones y fortalece decisiones basadas en evidencia.</span><span lang-content="en">Interpret metrics, challenge visualizations, and strengthen evidence-based decisions.</span><span lang-content="pt">Interprete métricas, questione visualizações e fortaleça decisões baseadas em evidências.</span></p>
+                    <a href="/simulators/es/data-literacy/" class="language-simulator-link" data-simulator="data-literacy"><span lang-content="es">Abrir simulador</span><span lang-content="en">Open simulator</span><span lang-content="pt">Abrir simulador</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+            </div>
+        </div>
     </section>
 
     <!-- DOWNLOADABLE RESOURCES & TEMPLATES -->
-    <section id="recursos" class="scroll-mt-20 py-20 bg-slate-50 border-t border-slate-200">
+    <section id="resources" class="resources-section scroll-mt-20 bg-slate-50 border-t border-slate-200">
+        <span id="recursos" class="anchor-alias" aria-hidden="true"></span>
+        <div class="py-20">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-12">
                 <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
@@ -721,7 +782,7 @@
                 </p>
             </div>
 
-            <article class="bad-data-calculator" aria-labelledby="bad-data-calculator-title">
+            <article id="cost-calculator" class="bad-data-calculator scroll-mt-24" aria-labelledby="bad-data-calculator-title">
                 <div class="bad-data-calculator__intro">
                     <div>
                         <p class="bad-data-calculator__eyebrow">
@@ -849,7 +910,7 @@
             </article>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <article class="resource-library-card bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
+                <article id="playbooks" class="resource-library-card scroll-mt-24 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
                     <div class="p-8 sm:p-10 flex-grow">
                         <div class="w-14 h-14 rounded-2xl bg-deepblue text-white flex items-center justify-center mb-6">
                             <i class="fa-solid fa-book-open text-2xl" aria-hidden="true"></i>
@@ -906,9 +967,9 @@
                             <span class="resource-badge resource-badge-accent"><i class="fa-solid fa-microchip" aria-hidden="true"></i><span lang-content="es">Tecnología</span><span lang-content="en">Technology</span><span lang-content="pt">Tecnologia</span></span>
                         </div>
                         <h3 class="text-2xl font-extrabold text-deepblue leading-tight mb-4">
-                            <span lang-content="es">Marco de Evaluación de Madurez en Gobierno de Datos</span>
-                            <span lang-content="en">Data Governance Maturity Assessment Framework</span>
-                            <span lang-content="pt">Framework de Avaliação de Maturidade em Governança de Dados</span>
+                            <span lang-content="es">Marco del Scorecard de Madurez en Gobierno de Datos</span>
+                            <span lang-content="en">Data Governance Maturity Scorecard Framework</span>
+                            <span lang-content="pt">Framework do Scorecard de Maturidade em Governança de Dados</span>
                         </h3>
                         <p lang-content="es" class="text-slate-600 leading-relaxed">Una plantilla de diagnóstico práctica para evaluar el nivel actual de madurez de datos de tu organización en Personas, Procesos y Tecnología.</p>
                         <p lang-content="en" class="text-slate-600 leading-relaxed">A practical diagnostic template to evaluate your organization's current data maturity level across People, Process, and Technology.</p>
@@ -923,10 +984,11 @@
                 </article>
             </div>
         </div>
-    </section>
+        </div>
 
     <!-- TEMPLATES LIBRARY -->
-    <section id="plantillas" class="templates-section scroll-mt-20 py-20 border-t border-slate-200">
+    <div id="plantillas" class="templates-section scroll-mt-20 py-20 border-t border-slate-200">
+        <span id="excel-templates" class="anchor-alias" aria-hidden="true"></span>
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="templates-heading">
                 <div>
@@ -1019,6 +1081,127 @@
                     <p><span lang-content="es">Próximamente</span><span lang-content="en">Coming soon</span><span lang-content="pt">Em breve</span></p>
                 </article>
             </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- MATURITY SCORECARD SECTION -->
+    <section id="scorecard" class="scorecard-section scroll-mt-20 py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                    <span lang-content="es">Scorecard de Madurez DAMA</span>
+                    <span lang-content="en">DAMA Maturity Scorecard</span>
+                    <span lang-content="pt">Scorecard de Maturidade DAMA</span>
+                </p>
+                <h2 class="text-3xl font-extrabold text-deepblue">
+                    <span lang-content="es">Convierte tus respuestas en una hoja de ruta</span>
+                    <span lang-content="en">Turn your answers into a roadmap</span>
+                    <span lang-content="pt">Transforme suas respostas em um roteiro</span>
+                </h2>
+                <div class="w-12 h-1 bg-emeraldgreen mx-auto mt-4 rounded-full"></div>
+                <p class="text-sm text-slate-500 mt-4 max-w-lg mx-auto">
+                    <span lang-content="es">Completa el test y recibe automáticamente una lectura ejecutiva de la madurez de tu organización.</span>
+                    <span lang-content="en">Complete the scorecard and automatically receive an executive view of your organization's maturity.</span>
+                    <span lang-content="pt">Responda ao teste e receba automaticamente uma visão executiva da maturidade da sua organização.</span>
+                </p>
+            </div>
+
+            <div class="maturity-test-card mb-10">
+                <div class="maturity-test-glow" aria-hidden="true"></div>
+                <div class="maturity-test-grid">
+                    <div class="maturity-test-intro">
+                        <div class="maturity-test-kicker">
+                            <span class="maturity-test-pulse" aria-hidden="true"></span>
+                            <span lang-content="es">Resultado automático al finalizar</span>
+                            <span lang-content="en">Automatic results upon completion</span>
+                            <span lang-content="pt">Resultado automático ao finalizar</span>
+                        </div>
+                        <h3>
+                            <span lang-content="es">Descubre tu nivel de madurez en datos</span>
+                            <span lang-content="en">Discover your data maturity level</span>
+                            <span lang-content="pt">Descubra seu nível de maturidade em dados</span>
+                        </h3>
+                        <p lang-content="es">Un test práctico basado en DAMA que transforma tus respuestas en un diagnóstico visual y accionable.</p>
+                        <p lang-content="en">A practical DAMA-based scorecard that turns your answers into a visual, actionable diagnosis.</p>
+                        <p lang-content="pt">Um teste prático baseado na DAMA que transforma suas respostas em um diagnóstico visual e acionável.</p>
+
+                        <a href="https://forms.gle/oeTYXyGWEW2wbdgu5" target="_blank" rel="noopener noreferrer" class="maturity-test-cta">
+                            <span lang-content="es">Abrir el Scorecard de Madurez</span>
+                            <span lang-content="en">Open the Maturity Scorecard</span>
+                            <span lang-content="pt">Abrir o Scorecard de Maturidade</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
+                        <p class="maturity-test-note">
+                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                            <span lang-content="es">Informe generado y enviado por correo al completar el test.</span>
+                            <span lang-content="en">Report generated and emailed after completing the scorecard.</span>
+                            <span lang-content="pt">Relatório gerado e enviado por e-mail após concluir o teste.</span>
+                        </p>
+                    </div>
+
+                    <div class="maturity-deliverables" aria-label="Entregables del diagnóstico">
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">01</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
+                            <h4>
+                                <span lang-content="es">Reporte Ejecutivo Instantáneo</span>
+                                <span lang-content="en">Instant Executive Report</span>
+                                <span lang-content="pt">Relatório Executivo Instantâneo</span>
+                            </h4>
+                            <p lang-content="es">Diagnóstico detallado con tu nivel de madurez DAMA, del Nivel 1 al 5.</p>
+                            <p lang-content="en">Detailed diagnosis with your DAMA maturity level, from Level 1 to 5.</p>
+                            <p lang-content="pt">Diagnóstico detalhado com seu nível de maturidade DAMA, do Nível 1 ao 5.</p>
+                        </article>
+
+                        <article class="maturity-deliverable maturity-deliverable-featured">
+                            <span class="maturity-deliverable-number">02</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+                            <h4>
+                                <span lang-content="es">Gráfico de Araña Personalizado</span>
+                                <span lang-content="en">Personalized Radar Chart</span>
+                                <span lang-content="pt">Gráfico Radar Personalizado</span>
+                            </h4>
+                            <p lang-content="es">Un mapa de radar de 5 ejes para visualizar fortalezas y cuellos de botella de un vistazo.</p>
+                            <p lang-content="en">A five-axis radar map to see strengths and bottlenecks at a glance.</p>
+                            <p lang-content="pt">Um mapa radar de cinco eixos para visualizar forças e gargalos rapidamente.</p>
+                        </article>
+
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">03</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-forward-fast" aria-hidden="true"></i></div>
+                            <h4>
+                                <span lang-content="es">3 Quick Wins Inmediatos</span>
+                                <span lang-content="en">3 Immediate Quick Wins</span>
+                                <span lang-content="pt">3 Quick Wins Imediatos</span>
+                            </h4>
+                            <p lang-content="es">Acciones prioritarias enfocadas en el pilar con menor puntuación.</p>
+                            <p lang-content="en">Priority actions focused on your lowest-scoring pillar.</p>
+                            <p lang-content="pt">Ações prioritárias focadas no pilar com menor pontuação.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div class="diagnostic-next-step">
+                <div class="diagnostic-next-step-mark" aria-hidden="true"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div>
+                    <p class="diagnostic-next-step-label">
+                        <span lang-content="es">Tu siguiente paso</span>
+                        <span lang-content="en">Your next step</span>
+                        <span lang-content="pt">Seu próximo passo</span>
+                    </p>
+                    <h3>
+                        <span lang-content="es">¿Ya tienes tu diagnóstico? Demos el siguiente paso.</span>
+                        <span lang-content="en">Already have your diagnosis? Let’s take the next step.</span>
+                        <span lang-content="pt">Já tem seu diagnóstico? Vamos dar o próximo passo.</span>
+                    </h3>
+                    <p lang-content="es">Revisemos juntos tu gráfico de radar en una Sesión de Diagnóstico Estratégico de 30 minutos y tracemos la hoja de ruta para elevar la madurez de tu organización.</p>
+                    <p lang-content="en">Let’s review your radar chart together in a 30-minute Strategic Diagnostic Session and map the roadmap to elevate your organization’s maturity.</p>
+                    <p lang-content="pt">Vamos revisar juntos seu gráfico radar em uma Sessão de Diagnóstico Estratégico de 30 minutos e traçar o roteiro para elevar a maturidade da sua organização.</p>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1244,126 +1427,6 @@
                     <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Um projeto de diagnóstico e implementação de um Mínimo Produto Viável (MVP) demora habitualmente entre 8 e 12 semanas, entregando valor rápido num caso de uso prioritário antes de expandir a governança a toda a organização.</p>
                 </details>
             </div>
-        </div>
-    </section>
-
-    <!-- ASSESSMENT SECTION -->
-    <section id="assessment" class="assessment-section scroll-mt-20 py-20 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
-                    <span lang-content="es">Diagnóstico de Madurez DAMA</span>
-                    <span lang-content="en">DAMA Maturity Assessment</span>
-                    <span lang-content="pt">Diagnóstico de Maturidade DAMA</span>
-                </p>
-                <h2 class="text-3xl font-extrabold text-deepblue">
-                    <span lang-content="es">Convierte tus respuestas en una hoja de ruta</span>
-                    <span lang-content="en">Turn your answers into a roadmap</span>
-                    <span lang-content="pt">Transforme suas respostas em um roteiro</span>
-                </h2>
-                <div class="w-12 h-1 bg-emeraldgreen mx-auto mt-4 rounded-full"></div>
-                <p class="text-sm text-slate-500 mt-4 max-w-lg mx-auto">
-                    <span lang-content="es">Completa el test y recibe automáticamente una lectura ejecutiva de la madurez de tu organización.</span>
-                    <span lang-content="en">Complete the assessment and automatically receive an executive view of your organization's maturity.</span>
-                    <span lang-content="pt">Responda ao teste e receba automaticamente uma visão executiva da maturidade da sua organização.</span>
-                </p>
-            </div>
-
-            <div class="maturity-test-card mb-10">
-                <div class="maturity-test-glow" aria-hidden="true"></div>
-                <div class="maturity-test-grid">
-                    <div class="maturity-test-intro">
-                        <div class="maturity-test-kicker">
-                            <span class="maturity-test-pulse" aria-hidden="true"></span>
-                            <span lang-content="es">Resultado automático al finalizar</span>
-                            <span lang-content="en">Automatic results upon completion</span>
-                            <span lang-content="pt">Resultado automático ao finalizar</span>
-                        </div>
-                        <h3>
-                            <span lang-content="es">Descubre tu nivel de madurez en datos</span>
-                            <span lang-content="en">Discover your data maturity level</span>
-                            <span lang-content="pt">Descubra seu nível de maturidade em dados</span>
-                        </h3>
-                        <p lang-content="es">Un test práctico basado en DAMA que transforma tus respuestas en un diagnóstico visual y accionable.</p>
-                        <p lang-content="en">A practical DAMA-based assessment that turns your answers into a visual, actionable diagnosis.</p>
-                        <p lang-content="pt">Um teste prático baseado na DAMA que transforma suas respostas em um diagnóstico visual e acionável.</p>
-
-                        <a href="https://forms.gle/oeTYXyGWEW2wbdgu5" target="_blank" rel="noopener noreferrer" class="maturity-test-cta">
-                            <span lang-content="es">Realizar el test de madurez</span>
-                            <span lang-content="en">Take the maturity assessment</span>
-                            <span lang-content="pt">Fazer o teste de maturidade</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-                        </a>
-                        <p class="maturity-test-note">
-                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
-                            <span lang-content="es">Informe generado y enviado por correo al completar el test.</span>
-                            <span lang-content="en">Report generated and emailed after completing the assessment.</span>
-                            <span lang-content="pt">Relatório gerado e enviado por e-mail após concluir o teste.</span>
-                        </p>
-                    </div>
-
-                    <div class="maturity-deliverables" aria-label="Entregables del diagnóstico">
-                        <article class="maturity-deliverable">
-                            <span class="maturity-deliverable-number">01</span>
-                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
-                            <h4>
-                                <span lang-content="es">Reporte Ejecutivo Instantáneo</span>
-                                <span lang-content="en">Instant Executive Report</span>
-                                <span lang-content="pt">Relatório Executivo Instantâneo</span>
-                            </h4>
-                            <p lang-content="es">Diagnóstico detallado con tu nivel de madurez DAMA, del Nivel 1 al 5.</p>
-                            <p lang-content="en">Detailed diagnosis with your DAMA maturity level, from Level 1 to 5.</p>
-                            <p lang-content="pt">Diagnóstico detalhado com seu nível de maturidade DAMA, do Nível 1 ao 5.</p>
-                        </article>
-
-                        <article class="maturity-deliverable maturity-deliverable-featured">
-                            <span class="maturity-deliverable-number">02</span>
-                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
-                            <h4>
-                                <span lang-content="es">Gráfico de Araña Personalizado</span>
-                                <span lang-content="en">Personalized Radar Chart</span>
-                                <span lang-content="pt">Gráfico Radar Personalizado</span>
-                            </h4>
-                            <p lang-content="es">Un mapa de radar de 5 ejes para visualizar fortalezas y cuellos de botella de un vistazo.</p>
-                            <p lang-content="en">A five-axis radar map to see strengths and bottlenecks at a glance.</p>
-                            <p lang-content="pt">Um mapa radar de cinco eixos para visualizar forças e gargalos rapidamente.</p>
-                        </article>
-
-                        <article class="maturity-deliverable">
-                            <span class="maturity-deliverable-number">03</span>
-                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-forward-fast" aria-hidden="true"></i></div>
-                            <h4>
-                                <span lang-content="es">3 Quick Wins Inmediatos</span>
-                                <span lang-content="en">3 Immediate Quick Wins</span>
-                                <span lang-content="pt">3 Quick Wins Imediatos</span>
-                            </h4>
-                            <p lang-content="es">Acciones prioritarias enfocadas en el pilar con menor puntuación.</p>
-                            <p lang-content="en">Priority actions focused on your lowest-scoring pillar.</p>
-                            <p lang-content="pt">Ações prioritárias focadas no pilar com menor pontuação.</p>
-                        </article>
-                    </div>
-                </div>
-            </div>
-
-            <div class="diagnostic-next-step">
-                <div class="diagnostic-next-step-mark" aria-hidden="true"><i class="fa-solid fa-arrow-trend-up"></i></div>
-                <div>
-                    <p class="diagnostic-next-step-label">
-                        <span lang-content="es">Tu siguiente paso</span>
-                        <span lang-content="en">Your next step</span>
-                        <span lang-content="pt">Seu próximo passo</span>
-                    </p>
-                    <h3>
-                        <span lang-content="es">¿Ya tienes tu diagnóstico? Demos el siguiente paso.</span>
-                        <span lang-content="en">Already have your diagnosis? Let’s take the next step.</span>
-                        <span lang-content="pt">Já tem seu diagnóstico? Vamos dar o próximo passo.</span>
-                    </h3>
-                    <p lang-content="es">Revisemos juntos tu gráfico de radar en una Sesión de Diagnóstico Estratégico de 30 minutos y tracemos la hoja de ruta para elevar la madurez de tu organización.</p>
-                    <p lang-content="en">Let’s review your radar chart together in a 30-minute Strategic Diagnostic Session and map the roadmap to elevate your organization’s maturity.</p>
-                    <p lang-content="pt">Vamos revisar juntos seu gráfico radar em uma Sessão de Diagnóstico Estratégico de 30 minutos e traçar o roteiro para elevar a maturidade da sua organização.</p>
-                </div>
-            </div>
-
         </div>
     </section>
 
@@ -1710,6 +1773,7 @@
                 <p>&copy; 2026 Data Governance Journey. <span lang-content="es">Todos los derechos reservados.</span><span lang-content="en">All rights reserved.</span><span lang-content="pt">Todos os direitos reservados.</span></p>
                 <div class="flex gap-4">
                     <a href="#preguntas-frecuentes" class="hover:text-emeraldgreen transition-colors">FAQ</a>
+                    <a href="#contacto" class="hover:text-emeraldgreen transition-colors"><span lang-content="es">Contacto</span><span lang-content="en">Contact</span><span lang-content="pt">Contacto</span></a>
                     <a href="https://www.dama.org" target="_blank" rel="noopener noreferrer" class="hover:text-emeraldgreen transition-colors">DAMA International</a>
                     <a href="https://www.linkedin.com/in/sandy-bradbury" target="_blank" rel="noopener noreferrer" class="hover:text-emeraldgreen transition-colors">LinkedIn</a>
                 </div>
@@ -1871,6 +1935,10 @@
                 link.href = `/${normalizedLanguage}/confession-wall/`;
             });
 
+            document.querySelectorAll('.language-simulator-link').forEach(link => {
+                link.href = `/simulators/${normalizedLanguage}/${link.dataset.simulator}/`;
+            });
+
             const confessionHeaderLink = document.querySelector('.header-confession-link');
             if (confessionHeaderLink) {
                 confessionHeaderLink.setAttribute('aria-label', normalizedLanguage === 'es' ? 'Visitar el Muro de Confesiones' : normalizedLanguage === 'pt' ? 'Visitar o Mural de Confissões' : 'Visit the Confession Wall');
@@ -1908,8 +1976,78 @@
             }
         }
 
+        function initializeNavigationMenus() {
+            const desktopMenu = document.querySelector('.desktop-resources-menu');
+            const desktopTrigger = document.querySelector('.desktop-resources-trigger');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileNavigation = document.getElementById('mobile-navigation');
+            const mobileResourcesTrigger = document.querySelector('.mobile-resources-trigger');
+            const mobileResourcesLinks = document.getElementById('mobile-resources-links');
+
+            const closeDesktopResources = () => {
+                desktopMenu?.classList.remove('is-open');
+                desktopTrigger?.setAttribute('aria-expanded', 'false');
+            };
+
+            const closeMobileNavigation = () => {
+                if (!mobileNavigation || !mobileToggle) return;
+                mobileNavigation.hidden = true;
+                mobileToggle.setAttribute('aria-expanded', 'false');
+                mobileToggle.setAttribute('aria-label', 'Open navigation menu');
+                mobileToggle.querySelector('i')?.classList.replace('fa-xmark', 'fa-bars');
+                document.body.classList.remove('mobile-navigation-open');
+            };
+
+            desktopTrigger?.addEventListener('click', event => {
+                event.stopPropagation();
+                const isOpen = desktopMenu.classList.toggle('is-open');
+                desktopTrigger.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            mobileToggle?.addEventListener('click', () => {
+                const isOpen = mobileNavigation.hidden;
+                mobileNavigation.hidden = !isOpen;
+                mobileToggle.setAttribute('aria-expanded', String(isOpen));
+                mobileToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+                mobileToggle.querySelector('i')?.classList.toggle('fa-bars', !isOpen);
+                mobileToggle.querySelector('i')?.classList.toggle('fa-xmark', isOpen);
+                document.body.classList.toggle('mobile-navigation-open', isOpen);
+            });
+
+            mobileResourcesTrigger?.addEventListener('click', () => {
+                const isOpen = mobileResourcesLinks.hidden;
+                mobileResourcesLinks.hidden = !isOpen;
+                mobileResourcesTrigger.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            document.addEventListener('click', event => {
+                if (desktopMenu && !desktopMenu.contains(event.target)) closeDesktopResources();
+            });
+
+            document.addEventListener('keydown', event => {
+                if (event.key !== 'Escape') return;
+                closeDesktopResources();
+                closeMobileNavigation();
+            });
+
+            mobileNavigation?.addEventListener('click', event => {
+                if (event.target === mobileNavigation) closeMobileNavigation();
+            });
+
+            document.querySelectorAll('.desktop-resources-dropdown a, .mobile-navigation a').forEach(link => {
+                link.addEventListener('click', () => {
+                    closeDesktopResources();
+                    closeMobileNavigation();
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1180) closeMobileNavigation();
+            });
+        }
+
         function initializeDesktopScrollSpy() {
-            const navigationLinks = [...document.querySelectorAll('.desktop-section-nav a[href^="#"]')];
+            const navigationLinks = [...document.querySelectorAll('.desktop-section-nav > a[href^="#"]')];
             const sections = navigationLinks
                 .map(link => document.querySelector(link.getAttribute('href')))
                 .filter(Boolean);
@@ -1923,6 +2061,7 @@
                     if (isActive) link.setAttribute('aria-current', 'location');
                     else link.removeAttribute('aria-current');
                 });
+                document.querySelector('.desktop-resources-menu')?.classList.toggle('is-active', sectionId === 'resources');
             };
 
             const visibleSections = new Set();
@@ -1952,6 +2091,7 @@
         });
 
         setLanguage(detectInitialLanguage());
+        initializeNavigationMenus();
         initializeDesktopScrollSpy();
     </script>
     <script src="/assets/js/bad-data-calculator.js" defer></script>

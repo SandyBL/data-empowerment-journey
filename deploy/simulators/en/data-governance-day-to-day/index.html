@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Governance Day-to-Day Simulator (DAMA-DMBOK Framework)</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js for Web Audio sound effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    @keyframes floatUpFade {
+      0% { opacity: 0; transform: translateY(8px) scale(0.9); }
+      20% { opacity: 1; transform: translateY(0) scale(1.05); }
+      80% { opacity: 1; transform: translateY(-12px) scale(1); }
+      100% { opacity: 0; transform: translateY(-20px) scale(0.85); }
+    }
+    .delta-indicator {
+      animation: floatUpFade 1.8s ease-out forwards;
+    }
+
+    .glow-hover:hover {
+      box-shadow: 0 0 25px -5px rgba(37, 99, 235, 0.35);
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100 selection:bg-blue-600 selection:text-white">
+
+  <!-- Main Navigation Header -->
+  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 shrink-0">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-bold text-lg text-white tracking-tight">DataGov OS</h1>
+            <span class="px-2 py-0.5 text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full">DAMA-DMBOK Edition</span>
+          </div>
+          <p class="text-xs text-slate-400">Enterprise Data Governance Simulator (10 Challenges)</p>
+        </div>
+      </div>
+
+      <!-- Header Utilities -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button id="audio-toggle-btn" onclick="toggleAudio()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
+          <svg id="audio-icon-on" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+          </svg>
+          <span id="audio-label" class="hidden sm:inline">Sound On</span>
+        </button>
+
+        <button onclick="openDamaMatrixModal()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+          <span class="hidden sm:inline">DAMA Framework</span>
+        </button>
+
+        <button onclick="resetSimulation()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium flex items-center space-x-1.5 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span>Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Container -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto">
+
+    <!-- LEFT SIDEBAR: Operational Health Metrics -->
+    <aside class="lg:col-span-4 flex flex-col space-y-5">
+      
+      <!-- Governance Health Index Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-blue-600/10 rounded-full blur-xl pointer-events-none"></div>
+        
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs uppercase font-mono tracking-wider text-slate-400 font-semibold">Governance Health Index</span>
+          <span id="health-status-badge" class="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Phase 1: Operational Baseline
+          </span>
+        </div>
+
+        <div class="flex items-baseline justify-between mb-1">
+          <div class="text-3xl font-extrabold text-white font-mono" id="governance-index-score">50.0</div>
+          <span class="text-xs text-slate-400 font-medium">Weighted Maturity Score</span>
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Real-time measurement across 5 DAMA-DMBOK dimensions and budget efficiency.
+        </p>
+      </div>
+
+      <!-- Key Metrics List -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col justify-between space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <h2 class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            <span>Platform Operational Indicators</span>
+          </h2>
+          <span class="text-[10px] text-slate-500 font-mono">DAMA Metrics (Live)</span>
+        </div>
+
+        <!-- Single-Row Compact Grid for 6 Metrics -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <!-- Metric 1: Process Efficiency -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Efficiency</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-efficiency-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-efficiency" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-efficiency" class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 2: Data Trust & Quality -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Trust</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-trust-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-trust" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-trust" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 3: Team Accountability -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Accountability</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-accountability-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-accountability" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-accountability" class="h-full bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 4: Security & Privacy -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Security</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-security-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-security" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-security" class="h-full bg-gradient-to-r from-rose-600 to-rose-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 5: Data Context -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Context</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-context-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-context" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-context" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 6: Operational Budget -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Budget</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-budget-val" class="text-amber-400 font-bold text-xs">$100k</span>
+                <span id="delta-budget" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-budget" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full transition-all duration-700 ease-out" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA: Educational State Machine -->
+    <main class="lg:col-span-8 flex flex-col space-y-6">
+
+      <!-- Progress Stepper Bar -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Progress</span>
+          <div class="flex items-center space-x-1" id="stepper-dots">
+            <!-- Dynamically generated via JS for 10 steps -->
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 font-mono" id="scenario-counter">
+          Challenge 1 of 10
+        </div>
+      </div>
+
+      <!-- Active Scenario Card -->
+      <div id="active-scenario-card" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 lg:p-7 shadow-xl flex-1 flex flex-col justify-between relative">
+        <!-- Scenario Header & Dynamic Metadata -->
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span id="scenario-dama-area" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                DAMA Area: Roles & Responsibilities
+              </span>
+              <span id="scenario-difficulty" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-400">
+                Operational Dilemma
+              </span>
+            </div>
+            <span class="text-xs text-slate-400 font-mono" id="scenario-incident-id">Incident #DG-2026-01</span>
+          </div>
+
+          <h2 id="scenario-title" class="text-xl lg:text-2xl font-bold text-white mb-3 leading-snug">
+            Metric Definition Conflict: The 'Active Customer' Formula
+          </h2>
+
+          <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60 mb-5">
+            <p id="scenario-description" class="text-sm lg:text-base text-slate-300 leading-relaxed">
+              "The Marketing team requests a change to the 'Active Customer' formula in the Data Warehouse because their numbers don't match Sales..."
+            </p>
+          </div>
+        </div>
+
+        <!-- OPTIONS SECTION (Visible during active choice state) -->
+        <div id="choices-container" class="space-y-3.5 my-2">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Select Strategic Approach (3 Options):</p>
+          
+          <!-- Option A Button -->
+          <button onclick="handleSelectOption('A')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                A
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 id="option-a-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Option A</h3>
+                </div>
+                <p id="option-a-text" class="text-xs text-slate-400 leading-relaxed">
+                  Option description...
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Option B Button -->
+          <button onclick="handleSelectOption('B')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 transition">
+                B
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 id="option-b-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Option B</h3>
+                </div>
+                <p id="option-b-text" class="text-xs text-slate-400 leading-relaxed">
+                  Option description...
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Option C Button -->
+          <button onclick="handleSelectOption('C')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-blue-600 group-hover:text-white transition">
+                C
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 id="option-c-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Option C</h3>
+                </div>
+                <p id="option-c-text" class="text-xs text-slate-400 leading-relaxed">
+                  Option description...
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- GOVERNANCE DEBRIEF CARD (Hidden initially, shown post-selection) -->
+        <div id="debrief-container" class="hidden space-y-4 my-2">
+          <div class="p-5 rounded-xl border border-blue-500/30 bg-blue-950/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+              <svg class="w-24 h-24 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+
+            <div class="flex items-center space-x-2 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Governance Analysis & Strategic Impact</span>
+            </div>
+
+            <h3 class="text-base font-bold text-white mb-2" id="debrief-choice-title">
+              Selected Option Analysis
+            </h3>
+
+            <!-- Impact Summary Badges -->
+            <div id="debrief-impact-summary" class="flex flex-wrap gap-2 mb-4 font-mono text-xs">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="bg-slate-900/80 p-4 rounded-lg border border-slate-800 mb-3">
+              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-1 flex items-center space-x-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span>Core DAMA-DMBOK Principle</span>
+              </h4>
+              <p id="dama-lesson-text" class="text-sm text-slate-200 leading-relaxed italic">
+                --
+              </p>
+            </div>
+
+            <div class="text-xs text-slate-400 leading-relaxed" id="debrief-extra-insight">
+              <!-- Strategic context detail -->
+            </div>
+          </div>
+
+          <!-- Advance Button -->
+          <button id="next-btn" onclick="advanceScenario()" class="w-full py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 flex items-center justify-center space-x-2 transition">
+            <span>Next Challenge</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- FINAL SIMULATION SUMMARY CARD (Hidden until end) -->
+      <div id="simulation-summary-card" class="hidden bg-slate-900/90 border border-slate-800 rounded-2xl p-6 lg:p-8 shadow-xl space-y-6">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-400 mb-1">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-widest">
+            Simulation Completed (10 Challenges)
+          </span>
+          <h2 class="text-2xl lg:text-3xl font-extrabold text-white">Governance Evaluation Report</h2>
+          <p class="text-xs text-slate-400">
+            Comprehensive assessment of your operational choices and data governance strategy.
+          </p>
+        </div>
+
+        <!-- Classification Rating Card -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-800/80 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-2 text-center md:text-left">
+            <span class="text-xs uppercase font-mono text-slate-400">Assessed Governance Profile</span>
+            <div id="summary-rating-title" class="text-2xl font-bold text-white">
+              Structured Governance Leader
+            </div>
+            <p id="summary-rating-desc" class="text-xs text-slate-300 max-w-lg leading-relaxed">
+              You prioritize formal accountability, documented policies, clear context, and automated pipeline governance.
+            </p>
+          </div>
+
+          <div class="shrink-0 text-center bg-slate-900/80 px-6 py-4 rounded-xl border border-slate-700/50 min-w-[160px]">
+            <span class="text-[11px] font-mono text-slate-400 block mb-1">Final Score</span>
+            <span id="summary-final-score" class="text-3xl font-extrabold text-blue-400 font-mono">85.5</span>
+            <span class="text-[10px] text-slate-500 block mt-1">out of 100 max index</span>
+          </div>
+        </div>
+
+        <!-- Metrics Summary Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Efficiency</span>
+            <span id="summary-metric-eff" class="text-lg font-bold text-cyan-400 font-mono">75%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Trust</span>
+            <span id="summary-metric-trust" class="text-lg font-bold text-emerald-400 font-mono">85%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Accountability</span>
+            <span id="summary-metric-acc" class="text-lg font-bold text-indigo-400 font-mono">90%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Security</span>
+            <span id="summary-metric-sec" class="text-lg font-bold text-rose-400 font-mono">80%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Context</span>
+            <span id="summary-metric-ctx" class="text-lg font-bold text-purple-400 font-mono">85%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Remaining Budget</span>
+            <span id="summary-metric-budget" class="text-lg font-bold text-amber-400 font-mono">$45,000</span>
+          </div>
+        </div>
+
+        <!-- Key Conclusion -->
+        <div class="p-4 rounded-xl bg-blue-950/20 border border-blue-500/20 space-y-1.5">
+          <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>DAMA-DMBOK Executive Key Conclusion</span>
+          </h3>
+          <p class="text-xs lg:text-sm text-slate-200 leading-relaxed font-medium">
+            "Data governance is not about creating bureaucracy or slowing down engineering; it is about building sustainable, predictable, and automated workflows that empower the enterprise to scale without destroying data trust."
+          </p>
+        </div>
+
+        <!-- LEADERBOARD SUBMISSION FORM -->
+        <div id="leaderboard-submission-form" class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="w-full sm:w-auto flex-1">
+            <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
+              Save your name to the Global Leaderboard:
+            </label>
+            <input type="text" id="player-name-input" placeholder="e.g. Maria Silva - CDO" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          </div>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span>Save to Ranking</span>
+          </button>
+        </div>
+
+        <!-- GLOBAL LEADERBOARD TABLE -->
+        <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-white flex items-center space-x-2">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+              </svg>
+              <span>Global Leaderboard</span>
+            </h3>
+            <span class="text-[10px] text-slate-500 font-mono">Player Rankings</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+              <thead class="text-[10px] uppercase font-mono bg-slate-800/50 text-slate-400">
+                <tr>
+                  <th class="py-2 px-3">#</th>
+                  <th class="py-2 px-3">Player</th>
+                  <th class="py-2 px-3 text-right">Score</th>
+                  <th class="py-2 px-3">Evaluated Profile</th>
+                  <th class="py-2 px-3 text-right">Date</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-table-body" class="divide-y divide-slate-800/60 font-mono text-[11px]">
+                <!-- Dynamically inserted via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CALL TO ACTION BANNER -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="space-y-1 text-center sm:text-left">
+            <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full">
+              Specialized Data Advisory
+            </span>
+            <h3 class="text-lg lg:text-xl font-bold text-white">
+              Struggling with Data Governance best practices in real life?
+            </h3>
+            <p class="text-xs text-slate-300 max-w-xl">
+              Let's build a customized, scalable, and automated data governance framework tailored to your company's architecture and business goals.
+            </p>
+          </div>
+
+          <a href="https://datagovjourney.com/?lang=en#contacto" target="_blank" rel="noopener noreferrer" class="shrink-0 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5">
+            <span>Let's build your framework</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Action Footer Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          <button onclick="openDamaMatrixModal()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center justify-center space-x-2 transition">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <span>Review DAMA Knowledge Areas</span>
+          </button>
+
+          <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span>Restart Simulation</span>
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: DAMA-DMBOK Knowledge Areas Reference -->
+  <div id="dama-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold">
+            D
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">DAMA-DMBOK Framework Reference</h3>
+            <p class="text-xs text-slate-400">Core Areas for Enterprise Data Governance</p>
+          </div>
+        </div>
+        <button onclick="closeDamaMatrixModal()" class="text-slate-400 hover:text-white transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-300">
+        <p class="leading-relaxed text-slate-400">
+          The DAMA-DMBOK2 framework structures data management into 11 interconnected functions with Data Governance as the central orchestrator.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">1. Data Governance</span>
+            <p class="text-slate-400">Planning, oversight, and control over data management and strategy.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">2. Data Security & Privacy</span>
+            <p class="text-slate-400">Ensuring confidentiality, access control, regulatory compliance (GDPR/CCPA), and encryption.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">3. Metadata & Context</span>
+            <p class="text-slate-400">Business glossaries, data catalogs, technical definitions, and end-to-end lineage.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">4. Data Quality</span>
+            <p class="text-slate-400">Defining, measuring, monitoring, and improving data fitness for use.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">5. Master & Reference Data</span>
+            <p class="text-slate-400">Single customer/entity records, identity resolution, and enterprise taxonomies.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">6. Data Architecture</span>
+            <p class="text-slate-400">Structural design, semantic layers, and FinOps cloud cost management.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 bg-slate-900/90 border-t border-slate-800 flex justify-end">
+        <button onclick="closeDamaMatrixModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white transition">
+          Close Reference
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    const SCENARIOS = [
+      {
+        id: 1,
+        incidentId: "DG-2026-01",
+        damaArea: "Roles & Responsibilities",
+        title: "Metric Definition Conflict: The 'Active Customer' Formula",
+        description: "The Marketing team requests a change to the 'Active Customer' formula in the Data Warehouse because their numbers don't match Sales. Nobody knows who owns the metric or who has the authority to approve modifications.",
+        optionA: {
+          label: "Allow the Data Engineer to make a quick fix",
+          costLabel: "$0 Immediate Cost",
+          text: "The engineer updates the SQL query directly on Marketing's dashboard to unblock the request.",
+          impact: { efficiency: 4, trust: -6, accountability: -5, security: 0, context: -4, budget: 0 },
+          damaLesson: "Quick patches without Data Stewards or governance create conflicting definitions and destroy trust in data.",
+          insight: "Immediate workarounds seem agile, but split the enterprise into contradictory versions of the truth."
+        },
+        optionB: {
+          label: "Form an informal committee between Marketing and Sales",
+          costLabel: "Moderate Cost",
+          text: "Organize weekly meetings to negotiate a middle ground on active customer logic.",
+          impact: { efficiency: -2, trust: 2, accountability: 2, security: 0, context: 2, budget: -2000 },
+          damaLesson: "Informal alignment helps, but lacks formal authority and clear ownership.",
+          insight: "Without defined Data Stewardship roles, committee decisions rely on goodwill and lose momentum over time."
+        },
+        optionC: {
+          label: "Appoint a Data Steward & publish in the Business Glossary",
+          costLabel: "Strategic Investment",
+          text: "Designate the Customer Domain Data Steward, map requirements, and document the official metric in the catalog.",
+          impact: { efficiency: -2, trust: 6, accountability: 7, security: 0, context: 5, budget: -5000 },
+          damaLesson: "Formal Data Governance establishes clear roles (RACI) and creates a single source of truth for corporate metrics.",
+          insight: "Centralized, documented definitions eliminate ambiguity and align executive leadership."
+        }
+      },
+      {
+        id: 2,
+        incidentId: "DG-2026-02",
+        damaArea: "Security & Privacy",
+        title: "Potential Data Leak: Sensitive HR Data in Public Bucket",
+        description: "The Analytics team copied salary and personal employee files into a temporary public cloud S3 bucket to speed up creating a dashboard.",
+        optionA: {
+          label: "Move files manually and give a verbal warning",
+          costLabel: "$0 Immediate Cost",
+          text: "Delete files from the public folder and tell the team on Slack not to do it again.",
+          impact: { efficiency: -2, trust: 1, accountability: 0, security: -8, context: 0, budget: 0 },
+          damaLesson: "Manual fixes without formal policies or automated controls do not prevent repeat violations.",
+          insight: "Treating data security informally exposes the organization to severe regulatory fines (GDPR/CCPA)."
+        },
+        optionB: {
+          label: "Restrict bucket access via IAM policies",
+          costLabel: "Moderate Cost",
+          text: "Block the folder using cloud provider access policies and restrict access to specific IPs.",
+          impact: { efficiency: -1, trust: 2, accountability: 2, security: 4, context: 2, budget: -3000 },
+          damaLesson: "Infrastructure controls enforce immediate security, but must be backed by official policies.",
+          insight: "Technical security without team awareness leads to workarounds and new vulnerabilities."
+        },
+        optionC: {
+          label: "Implement Classification Policy & Auto-Masking",
+          costLabel: "Strategic Investment",
+          text: "Publish Data Classification Policy, apply automatic PII masking, and configure compliance alerts.",
+          impact: { efficiency: -2, trust: 5, accountability: 5, security: 8, context: 4, budget: -8000 },
+          damaLesson: "Formal classification policies paired with automated privacy controls guarantee 'Privacy by Design'.",
+          insight: "Data protection is sustainable when security rules are natively integrated into the platform architecture."
+        }
+      },
+      {
+        id: 3,
+        incidentId: "DG-2026-03",
+        damaArea: "Data Engineering & CI/CD",
+        title: "Unannounced Schema Change Breaks Morning Pipelines",
+        description: "A software developer renamed column 'user_id' to 'customer_uuid' in the relational database. The change broke the nightly ELT pipeline, taking executive dashboards offline.",
+        optionA: {
+          label: "Fix the query manually and request Slack notifications",
+          costLabel: "$0 Immediate Cost",
+          text: "Spend the morning fixing broken SQL and ask the engineering team to warn you next time.",
+          impact: { efficiency: 2, trust: -5, accountability: -3, security: 0, context: -2, budget: 0 },
+          damaLesson: "Relying on informal communication and emergency fixes is unsustainable at enterprise scale.",
+          insight: "The cost of downtime and lost trust far exceeds the time required to implement schema testing."
+        },
+        optionB: {
+          label: "Create a compatibility view in the relational DB",
+          costLabel: "Moderate Cost",
+          text: "Maintain a database view at the source emulating the old column to prevent report breakages.",
+          impact: { efficiency: 0, trust: 2, accountability: 1, security: 0, context: 2, budget: -2000 },
+          damaLesson: "Compatibility layers hide structural problems and accumulate technical debt in data architecture.",
+          insight: "Palliative tactics fix current symptoms, but increase maintenance complexity over time."
+        },
+        optionC: {
+          label: "Integrate Data Contracts & Automated CI/CD Tests",
+          costLabel: "Strategic Investment",
+          text: "Implement Data Contracts in deployment pipelines to block breaking changes before hitting production.",
+          impact: { efficiency: 4, trust: 4, accountability: 4, security: 0, context: 3, budget: -12000 },
+          damaLesson: "Data contracts and automated CI/CD testing proactively safeguard pipeline health.",
+          insight: "Embedded governance in development workflows prevents failures before pipelines even run."
+        }
+      },
+      {
+        id: 4,
+        incidentId: "DG-2026-04",
+        damaArea: "Master & Reference Data",
+        title: "Massive Customer Duplication Across Sales & CRM Systems",
+        description: "The same customer has different records in CRM (HubSpot) and ERP (SAP). Revenue reports display inconsistent counts due to a lack of identity resolution.",
+        optionA: {
+          label: "Perform bi-weekly manual deduplication via spreadsheets",
+          costLabel: "$0 Immediate Cost",
+          text: "Ask Analytics to manually consolidate records in Excel prior to monthly closing.",
+          impact: { efficiency: -4, trust: -4, accountability: -2, security: 0, context: -2, budget: 0 },
+          damaLesson: "Manual spreadsheet cleaning creates repetitive labor without solving root cause duplication.",
+          insight: "Cleaning data downstream without governing master data guarantees errors will reappear next month."
+        },
+        optionB: {
+          label: "Unify customer IDs using a shared cross-reference key",
+          costLabel: "Moderate Cost",
+          text: "Add a cross-reference column joining system tables in the Data Lake.",
+          impact: { efficiency: 2, trust: 3, accountability: 2, security: 0, context: 2, budget: -6000 },
+          damaLesson: "Point-to-point mappings simplify joins, but do not solve input data conflicts.",
+          insight: "Without entry validation in operational systems, duplicate creation continues unchecked."
+        },
+        optionC: {
+          label: "Implement Master Data Management (MDM) Architecture",
+          costLabel: "Strategic Investment",
+          text: "Establish Golden Record rules, automated fuzzy deduplication, and govern Customer entity centrally.",
+          impact: { efficiency: 3, trust: 6, accountability: 5, security: 1, context: 4, budget: -15000 },
+          damaLesson: "Master Data Management (MDM) guarantees structural integrity across core business entities.",
+          insight: "A single master customer record elevates accuracy and confidence across all strategic analytics."
+        }
+      },
+      {
+        id: 5,
+        incidentId: "DG-2026-05",
+        damaArea: "Architecture & Semantic Layer",
+        title: "BI Silos: Each Department Builds Its Own Metrics",
+        description: "Finance, Sales, and Product use different BI tools connected directly to raw tables, resulting in 3 distinct Churn rates presented to the board.",
+        optionA: {
+          label: "Force company-wide adoption of a single BI tool",
+          costLabel: "$0 Immediate Cost",
+          text: "Standardize visualization software without modifying underlying data modeling.",
+          impact: { efficiency: -2, trust: -3, accountability: 1, security: 0, context: 0, budget: -2000 },
+          damaLesson: "Standardizing BI tools does not resolve conceptual discrepancies in raw SQL queries.",
+          insight: "The root problem isn't charting software, but the lack of a standardized business logic layer."
+        },
+        optionB: {
+          label: "Create consolidated views in the Data Warehouse",
+          costLabel: "Moderate Cost",
+          text: "Model aggregate tables in the Data Warehouse and recommend adoption to analytics teams.",
+          impact: { efficiency: 2, trust: 3, accountability: 2, security: 0, context: 3, budget: -5000 },
+          damaLesson: "Centralized views improve consistency, but require governance to prevent obsolescence.",
+          insight: "Aggregated tables help, but without version-controlled semantics, analysts can re-define rules."
+        },
+        optionC: {
+          label: "Deploy Governed Semantic Layer (Headless BI / dbt)",
+          costLabel: "Strategic Investment",
+          text: "Centralize business logic and metrics as code with version control (dbt / Semantic Layer) for all tools.",
+          impact: { efficiency: 4, trust: 5, accountability: 4, security: 2, context: 6, budget: -10000 },
+          damaLesson: "Semantic layers in code ensure consistent metrics regardless of consumption tool.",
+          insight: "Metrics-as-code foster transparency, testability, and a truly scalable analytics environment."
+        }
+      },
+      {
+        id: 6,
+        incidentId: "DG-2026-06",
+        damaArea: "Data Quality Management",
+        title: "Null Data and Outliers in Production Without Monitoring",
+        description: "A mobile app form bug caused thousands of transactions with '0' or negative values, corrupting average order value in executive dashboards.",
+        optionA: {
+          label: "Filter bad data directly in the executive report",
+          costLabel: "$0 Immediate Cost",
+          text: "Add 'WHERE value > 0' in dashboard queries to hide anomalies from executives.",
+          impact: { efficiency: 2, trust: -7, accountability: -4, security: 0, context: -2, budget: 0 },
+          damaLesson: "Hiding faulty data compromises auditability and masks operational failures.",
+          insight: "Masking anomalies in visualization prevents product teams from identifying and fixing source bugs."
+        },
+        optionB: {
+          label: "Run weekly automated cleanup scripts",
+          costLabel: "Moderate Cost",
+          text: "Schedule periodic CRON tasks to delete or patch anomalous records.",
+          impact: { efficiency: 0, trust: 2, accountability: 2, security: 0, context: 2, budget: -3000 },
+          damaLesson: "Periodic reactive cleanups improve historical data, but leave windows of corrupt data.",
+          insight: "Effective data quality must be monitored in real time to prevent error propagation."
+        },
+        optionC: {
+          label: "Implement Automated Quality Monitoring (Great Expectations / Monte Carlo)",
+          costLabel: "Strategic Investment",
+          text: "Configure completeness, validity, and volume tests with immediate alerts to Data Owners.",
+          impact: { efficiency: 3, trust: 7, accountability: 4, security: 1, context: 3, budget: -10000 },
+          damaLesson: "Data Quality Management under DMBOK requires proactive monitoring across multiple quality dimensions.",
+          insight: "Automated alerts prevent decisions based on corrupt data and drastically reduce resolution time."
+        }
+      },
+      {
+        id: 7,
+        incidentId: "DG-2026-07",
+        damaArea: "Metadata & Data Lineage",
+        title: "Unknown Impact Mapping When Modifying Legacy Tables",
+        description: "Infrastructure needs to deprecate a legacy operational table, but nobody knows which reports, ML models, or pipelines consume it.",
+        optionA: {
+          label: "Deprecate the table and wait for complaints",
+          costLabel: "$0 Immediate Cost",
+          text: "Rename table to '_deprecated' and see who opens a support ticket reporting errors.",
+          impact: { efficiency: -4, trust: -7, accountability: -4, security: -2, context: -5, budget: 0 },
+          damaLesson: "Unplanned outage testing destabilizes operations and demonstrates low governance maturity.",
+          insight: "The 'scream test' approach is highly destructive to trust in data engineering teams."
+        },
+        optionB: {
+          label: "Inspect code repositories manually and send surveys",
+          costLabel: "Moderate Cost",
+          text: "Map dependencies by reviewing code repositories and sending email questionnaires to analysts.",
+          impact: { efficiency: -2, trust: 2, accountability: 1, security: 0, context: 3, budget: -2000 },
+          damaLesson: "Manual metadata tracking is time-consuming and error-prone in complex ecosystems.",
+          insight: "As table count grows, manual lineage tracking becomes entirely unsustainable."
+        },
+        optionC: {
+          label: "Automate End-to-End Lineage in Data Catalog",
+          costLabel: "Strategic Investment",
+          text: "Integrate SQL parsing tools to automatically generate a visual lineage graph.",
+          impact: { efficiency: 4, trust: 4, accountability: 3, security: 2, context: 7, budget: -9000 },
+          damaLesson: "Data lineage provides full traceability, enabling precise root-cause and impact analysis.",
+          insight: "Knowing the exact origin and destination of every dataset allows safe architecture evolution."
+        }
+      },
+      {
+        id: 8,
+        incidentId: "DG-2026-08",
+        damaArea: "Data Lifecycle & Retention",
+        title: "Exponential Cloud Cost Spike Due to Stale Data",
+        description: "The Data Lake accumulated petabytes of unorganized logs over 7 years without an expiration policy, consuming half the cloud budget.",
+        optionA: {
+          label: "Request an infrastructure budget expansion",
+          costLabel: "$0 Immediate Cost",
+          text: "Approve cloud quota expansion to avoid performing data retention analysis.",
+          impact: { efficiency: -2, trust: -3, accountability: -3, security: -3, context: 0, budget: -15000 },
+          damaLesson: "Scaling resources without lifecycle governance scales costs infinitely and preserves legal risks.",
+          insight: "Accumulating ROT data (Redundant, Obsolete, Trivial) inflates costs and widens attack surfaces."
+        },
+        optionB: {
+          label: "Delete old data arbitrarily without business validation",
+          costLabel: "Moderate Cost",
+          text: "Run a script to delete all partitions older than 3 years to free up storage.",
+          impact: { efficiency: 2, trust: -4, accountability: -2, security: 1, context: -3, budget: 5000 },
+          damaLesson: "Deleting data without consulting legal/compliance requirements exposes severe regulatory penalties.",
+          insight: "Data retention must balance legal compliance, analytical value, and storage costs."
+        },
+        optionC: {
+          label: "Implement Lifecycle Policy & Auto-Tiering Rules",
+          costLabel: "Strategic Investment",
+          text: "Define legal retention periods with Legal, move data to cold storage (Glacier), and automate purging.",
+          impact: { efficiency: 3, trust: 4, accountability: 3, security: 4, context: 3, budget: 12000 },
+          damaLesson: "Data lifecycle management optimizes cloud costs while reducing legal liability.",
+          insight: "Automating transition and purging of unused data drastically optimizes cloud spend."
+        }
+      },
+      {
+        id: 9,
+        incidentId: "DG-2026-09",
+        damaArea: "Data Catalog & Discovery",
+        title: "New Data Scientists Take Weeks to Find Datasets",
+        description: "Every new hire takes nearly a month to locate correct tables and understand column definitions due to complete lack of documentation.",
+        optionA: {
+          label: "Instruct new hires to ask team members on Slack",
+          costLabel: "$0 Immediate Cost",
+          text: "Rely on oral culture and informal knowledge transfer across the team.",
+          impact: { efficiency: -4, trust: -2, accountability: -2, security: 0, context: -6, budget: 0 },
+          damaLesson: "Tribal knowledge dependency creates bottlenecks and irreversible knowledge loss during turnover.",
+          insight: "Constantly interrupting senior engineers to explain data schemas degrades overall productivity."
+        },
+        optionB: {
+          label: "Create a static wiki page in Confluence listing tables",
+          costLabel: "Moderate Cost",
+          text: "Document schemas manually in a static document on the company intranet.",
+          impact: { efficiency: 0, trust: 1, accountability: 1, security: 0, context: 2, budget: -2000 },
+          damaLesson: "Static documentation becomes stale quickly as production data models evolve.",
+          insight: "Outdated documentation often causes more confusion than no documentation at all."
+        },
+        optionC: {
+          label: "Deploy Active Data Catalog with Auto-Discovery",
+          costLabel: "Strategic Investment",
+          text: "Implement a catalog connected to sources with automated lineage, field descriptions, and usage metrics.",
+          impact: { efficiency: 5, trust: 4, accountability: 3, security: 2, context: 7, budget: -10000 },
+          damaLesson: "Modern metadata management democratizes data access and accelerates time-to-value securely.",
+          insight: "An active catalog dramatically speeds up talent onboarding and empowers self-service analytics."
+        }
+      },
+      {
+        id: 10,
+        incidentId: "DG-2026-10",
+        damaArea: "FinOps & Analytics Governance",
+        title: "Inefficient SQL Queries Trigger Massive Cloud Bill",
+        description: "An ML model executed unpartitioned cross-joins repeatedly over the weekend, resulting in an unexpected $25,000 cloud bill.",
+        optionA: {
+          label: "Absorb the cost and verbally ask the team to be careful",
+          costLabel: "$0 Immediate Cost",
+          text: "Pay the bill without enforcing technical limits to avoid slowing team research.",
+          impact: { efficiency: -2, trust: -3, accountability: -4, security: 0, context: 0, budget: -25000 },
+          damaLesson: "Lack of financial limits and query monitoring in data compute leads to budget leaks.",
+          insight: "Offering compute without restrictions or spending caps is financially unsustainable."
+        },
+        optionB: {
+          label: "Restrict Data Scientists to small samples only",
+          costLabel: "Moderate Cost",
+          text: "Block queries on full production tables, limiting the team to 1% data samples.",
+          impact: { efficiency: -5, trust: 0, accountability: 1, security: 1, context: -2, budget: 0 },
+          damaLesson: "Overly restrictive measures stifle innovation and prevent training statistically valid models.",
+          insight: "Mutilating analytical capability protects short-term budget but destroys value creation."
+        },
+        optionC: {
+          label: "Implement Data FinOps Practices & Query Quotas",
+          costLabel: "Strategic Investment",
+          text: "Set scan limits, automated cost alerts, and enforce partitioning and clustering best practices.",
+          impact: { efficiency: 4, trust: 4, accountability: 4, security: 1, context: 3, budget: -5000 },
+          damaLesson: "Data FinOps balances cost efficiency with analytical freedom necessary for innovation.",
+          insight: "Financial guardrails and query optimization preserve fiscal health while maintaining agility."
+        }
+      }
+    ];
+
+    // --- APPLICATION STATE ---
+    let state = {
+      currentScenarioIdx: 0,
+      metrics: {
+        efficiency: 50,
+        trust: 50,
+        accountability: 50,
+        security: 50,
+        context: 50,
+        budget: 100000
+      },
+      hasChosen: false,
+      selectedKey: null,
+      currentShuffledOptions: [],
+      audioEnabled: true,
+      history: []
+    };
+
+    // Pre-populated Leaderboard Mock Data in English
+    let leaderboardData = [
+      { name: "Maria Silva - CDO", score: "92.4", profile: "Structured Governance Leader", date: "2026-07-28" },
+      { name: "Alexandre Santos - Lead DE", score: "88.1", profile: "Structured Governance Leader", date: "2026-07-29" },
+      { name: "Carlos Oliveira - Data Steward", score: "74.5", profile: "Reactive Data Operator", date: "2026-07-25" }
+    ];
+
+    // Tone.js Audio Synthesizer setup
+    let synth = null;
+    function initAudio() {
+      if (!synth && window.Tone) {
+        try {
+          synth = new Tone.PolySynth(Tone.Synth).toDestination();
+          synth.volume.value = -12;
+        } catch(e) {
+          console.warn("Tone.js initialization warning:", e);
+        }
+      }
+    }
+
+    function playSoundEffect(type) {
+      if (!state.audioEnabled || !window.Tone) return;
+      initAudio();
+      try {
+        if (Tone.context.state !== 'running') {
+          Tone.start();
+        }
+        if (type === 'click') {
+          synth.triggerAttackRelease(["C4", "E4"], "16n");
+        } else if (type === 'success') {
+          synth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
+        } else if (type === 'warning') {
+          synth.triggerAttackRelease(["C3", "F#3"], "8n");
+        } else if (type === 'complete') {
+          synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "4n");
+        }
+      } catch(e) {}
+    }
+
+    function toggleAudio() {
+      state.audioEnabled = !state.audioEnabled;
+      const label = document.getElementById('audio-label');
+      const iconOn = document.getElementById('audio-icon-on');
+      if (state.audioEnabled) {
+        label.innerText = "Sound On";
+        iconOn.classList.remove("text-slate-500");
+        iconOn.classList.add("text-emerald-400");
+        playSoundEffect('click');
+      } else {
+        label.innerText = "Sound Off";
+        iconOn.classList.remove("text-emerald-400");
+        iconOn.classList.add("text-slate-500");
+      }
+    }
+
+    // Defensive UI DOM helpers
+    function setSafeText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.innerText = val;
+    }
+
+    function setSafeWidth(id, percent) {
+      const el = document.getElementById(id);
+      if (el) el.style.width = Math.min(100, Math.max(0, percent)) + "%";
+    }
+
+    // --- UI INITIALIZATION AND RENDER ---
+    window.onload = function() {
+      renderStepper();
+      renderCurrentScenario();
+      updateMetricsUI();
+      renderLeaderboard();
+    };
+
+    function renderStepper() {
+      const dotsContainer = document.getElementById('stepper-dots');
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      
+      for (let i = 0; i < SCENARIOS.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+          i === state.currentScenarioIdx 
+            ? 'bg-blue-500 ring-4 ring-blue-500/20 scale-110' 
+            : i < state.currentScenarioIdx 
+            ? 'bg-emerald-500' 
+            : 'bg-slate-800 border border-slate-700'
+        }`;
+        dotsContainer.appendChild(dot);
+      }
+      setSafeText('scenario-counter', `Challenge ${state.currentScenarioIdx + 1} of ${SCENARIOS.length}`);
+    }
+
+    function renderCurrentScenario() {
+      const sc = SCENARIOS[state.currentScenarioIdx];
+      
+      setSafeText('scenario-incident-id', `Incident #${sc.incidentId}`);
+      setSafeText('scenario-dama-area', `DAMA Area: ${sc.damaArea}`);
+      setSafeText('scenario-title', sc.title);
+      setSafeText('scenario-description', sc.description);
+
+      // Randomize option order for each scenario
+      const rawOptions = [
+        { key: 'A', data: sc.optionA },
+        { key: 'B', data: sc.optionB },
+        { key: 'C', data: sc.optionC }
+      ];
+      
+      // Shuffle options using Fisher-Yates algorithm
+      const shuffled = [...rawOptions];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      state.currentShuffledOptions = shuffled;
+
+      // Populate Option Buttons (Hidden point/cost indicators for fair decision making)
+      ['a', 'b', 'c'].forEach((slot, idx) => {
+        const item = shuffled[idx];
+        setSafeText(`option-${slot}-label`, item.data.label);
+        setSafeText(`option-${slot}-text`, item.data.text);
+      });
+
+      // Reset Visibility to Choice State
+      document.getElementById('choices-container').classList.remove('hidden');
+      document.getElementById('debrief-container').classList.add('hidden');
+      state.hasChosen = false;
+      state.selectedKey = null;
+
+      renderStepper();
+    }
+
+    function handleSelectOption(slotKey) {
+      if (state.hasChosen) return;
+      state.hasChosen = true;
+
+      // Map slot button letter (A, B, C) to randomized shuffled option
+      const slotIndex = slotKey === 'A' ? 0 : slotKey === 'B' ? 1 : 2;
+      const selectedOptionObj = state.currentShuffledOptions[slotIndex];
+      const selectedData = selectedOptionObj.data;
+      state.selectedKey = selectedOptionObj.key;
+
+      playSoundEffect('click');
+
+      // Calculate Impact Deltas
+      const impact = selectedData.impact;
+      const prevMetrics = { ...state.metrics };
+
+      state.metrics.efficiency = Math.min(100, Math.max(0, state.metrics.efficiency + impact.efficiency));
+      state.metrics.trust = Math.min(100, Math.max(0, state.metrics.trust + impact.trust));
+      state.metrics.accountability = Math.min(100, Math.max(0, state.metrics.accountability + impact.accountability));
+      state.metrics.security = Math.min(100, Math.max(0, state.metrics.security + impact.security));
+      state.metrics.context = Math.min(100, Math.max(0, state.metrics.context + impact.context));
+      state.metrics.budget = Math.max(0, state.metrics.budget + impact.budget);
+
+      // Save Decision History
+      state.history.push({
+        scenarioId: SCENARIOS[state.currentScenarioIdx].id,
+        incidentId: SCENARIOS[state.currentScenarioIdx].incidentId,
+        title: SCENARIOS[state.currentScenarioIdx].title,
+        slotSelected: slotKey,
+        originalKey: selectedOptionObj.key,
+        label: selectedData.label,
+        impact: impact
+      });
+
+      // Show Floating Deltas and Update Metrics UI
+      triggerDeltas(prevMetrics, state.metrics, impact);
+      updateMetricsUI();
+
+      // Render Governance Debrief Card
+      document.getElementById('choices-container').classList.add('hidden');
+      document.getElementById('debrief-container').classList.remove('hidden');
+
+      setSafeText('debrief-choice-title', `Selected Option: ${selectedData.label}`);
+      setSafeText('dama-lesson-text', `"${selectedData.damaLesson}"`);
+      setSafeText('debrief-extra-insight', selectedData.insight);
+
+      // Render Debrief Impact Summary Badges
+      const summaryContainer = document.getElementById('debrief-impact-summary');
+      summaryContainer.innerHTML = '';
+
+      const formatDeltaBadge = (label, val) => {
+        if (val === 0) return '';
+        const isPos = val > 0;
+        const colorClass = isPos 
+          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+          : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+        const sign = isPos ? '+' : '';
+        return `<span class="px-2.5 py-1 rounded-md border ${colorClass}">${label}: ${sign}${val}${label === 'Budget' ? '' : '%'}</span>`;
+      };
+
+      summaryContainer.innerHTML += formatDeltaBadge('Efficiency', impact.efficiency);
+      summaryContainer.innerHTML += formatDeltaBadge('Trust', impact.trust);
+      summaryContainer.innerHTML += formatDeltaBadge('Accountability', impact.accountability);
+      summaryContainer.innerHTML += formatDeltaBadge('Security', impact.security);
+      summaryContainer.innerHTML += formatDeltaBadge('Context', impact.context);
+      
+      if (impact.budget !== 0) {
+        const budgetFormatted = (impact.budget > 0 ? '+$' : '-$') + Math.abs(impact.budget).toLocaleString();
+        const bClass = impact.budget > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+        summaryContainer.innerHTML += `<span class="px-2.5 py-1 rounded-md border ${bClass}">Budget: ${budgetFormatted}</span>`;
+      }
+    }
+
+    function triggerDeltas(prev, current, impact) {
+      const showDelta = (id, delta, isCurrency = false) => {
+        const el = document.getElementById(id);
+        if (!el || delta === 0) return;
+
+        const isPos = delta > 0;
+        el.innerText = isCurrency 
+          ? `${isPos ? '+' : '-'}$${Math.abs(delta / 1000)}k` 
+          : `${isPos ? '+' : ''}${delta}%`;
+
+        el.className = `font-bold text-[10px] delta-indicator ${isPos ? 'text-emerald-400' : 'text-rose-400'}`;
+        el.classList.remove('hidden');
+
+        setTimeout(() => {
+          el.classList.add('hidden');
+        }, 1800);
+      };
+
+      showDelta('delta-efficiency', impact.efficiency);
+      showDelta('delta-trust', impact.trust);
+      showDelta('delta-accountability', impact.accountability);
+      showDelta('delta-security', impact.security);
+      showDelta('delta-context', impact.context);
+      showDelta('delta-budget', impact.budget, true);
+    }
+
+    function updateMetricsUI() {
+      // Calculate Weighted Health Index (5 Core DAMA Dimensions equally weighted at 20%)
+      const m = state.metrics;
+      const indexScore = (
+        m.efficiency * 0.20 +
+        m.trust * 0.20 +
+        m.accountability * 0.20 +
+        m.security * 0.20 +
+        m.context * 0.20
+      ).toFixed(1);
+
+      setSafeText('governance-index-score', indexScore);
+
+      // Update Health Status Badge
+      const badge = document.getElementById('health-status-badge');
+      if (badge) {
+        if (indexScore >= 75) {
+          badge.innerText = "Mature Governance";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        } else if (indexScore >= 50) {
+          badge.innerText = "Operational Baseline";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20";
+        } else {
+          badge.innerText = "Critical Vulnerability";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20";
+        }
+      }
+
+      // Update Metric Values and Bars
+      setSafeText('metric-efficiency-val', `${m.efficiency}%`);
+      setSafeWidth('bar-efficiency', m.efficiency);
+
+      setSafeText('metric-trust-val', `${m.trust}%`);
+      setSafeWidth('bar-trust', m.trust);
+
+      setSafeText('metric-accountability-val', `${m.accountability}%`);
+      setSafeWidth('bar-accountability', m.accountability);
+
+      setSafeText('metric-security-val', `${m.security}%`);
+      setSafeWidth('bar-security', m.security);
+
+      setSafeText('metric-context-val', `${m.context}%`);
+      setSafeWidth('bar-context', m.context);
+
+      // Budget Metric Format
+      setSafeText('metric-budget-val', `$${(m.budget / 1000).toFixed(0)}k`);
+      const budgetPercent = (m.budget / 100000) * 100;
+      setSafeWidth('bar-budget', budgetPercent);
+    }
+
+    function advanceScenario() {
+      if (state.currentScenarioIdx < SCENARIOS.length - 1) {
+        state.currentScenarioIdx++;
+        renderCurrentScenario();
+      } else {
+        showSimulationSummary();
+      }
+    }
+
+    function showSimulationSummary() {
+      playSoundEffect('complete');
+
+      document.getElementById('active-scenario-card').classList.add('hidden');
+      document.getElementById('simulation-summary-card').classList.remove('hidden');
+
+      const m = state.metrics;
+      const finalScore = (
+        m.efficiency * 0.20 +
+        m.trust * 0.20 +
+        m.accountability * 0.20 +
+        m.security * 0.20 +
+        m.context * 0.20
+      ).toFixed(1);
+
+      setSafeText('summary-final-score', finalScore);
+
+      // Determine Profile Rating
+      let ratingTitle = "Structured Governance Leader";
+      let ratingDesc = "You prioritize formal accountability, documented policies, clear context, and automated pipeline governance.";
+
+      if (finalScore < 50) {
+        ratingTitle = "Siloed Firefighter";
+        ratingDesc = "Your choices relied heavily on quick manual patches and uncoordinated silos. Data debt and risks accumulated over time.";
+      } else if (finalScore < 75) {
+        ratingTitle = "Reactive Data Operator";
+        ratingDesc = "You resolved urgent issues and balanced budget, but lacked automated safeguards and formal stewardship definitions.";
+      }
+
+      setSafeText('summary-rating-title', ratingTitle);
+      setSafeText('summary-rating-desc', ratingDesc);
+
+      // Summary Grid Metrics
+      setSafeText('summary-metric-eff', `${m.efficiency}%`);
+      setSafeText('summary-metric-trust', `${m.trust}%`);
+      setSafeText('summary-metric-acc', `${m.accountability}%`);
+      setSafeText('summary-metric-sec', `${m.security}%`);
+      setSafeText('summary-metric-ctx', `${m.context}%`);
+      setSafeText('summary-metric-budget', `$${m.budget.toLocaleString()}`);
+
+      renderLeaderboard();
+    }
+
+    function savePlayerScore() {
+      const nameInput = document.getElementById('player-name-input');
+      const playerName = nameInput ? nameInput.value.trim() : "";
+      if (!playerName) {
+        alert("Please enter your name to save your score to the leaderboard.");
+        return;
+      }
+
+      const score = document.getElementById('summary-final-score').innerText;
+      const profile = document.getElementById('summary-rating-title').innerText;
+      const today = new Date().toISOString().split('T')[0];
+
+      leaderboardData.push({
+        name: playerName,
+        score: score,
+        profile: profile,
+        date: today
+      });
+
+      // Sort Leaderboard descending
+      leaderboardData.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+
+      renderLeaderboard();
+
+      // Disable submission form after saving
+      document.getElementById('leaderboard-submission-form').innerHTML = `
+        <div class="w-full text-center py-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+          ✓ Your score has been successfully recorded in the Global Leaderboard!
+        </div>
+      `;
+      playSoundEffect('success');
+    }
+
+    function renderLeaderboard() {
+      const tbody = document.getElementById('leaderboard-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      leaderboardData.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+
+      leaderboardData.forEach((entry, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 transition";
+
+        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}`;
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-bold text-slate-400">${medal}</td>
+          <td class="py-2.5 px-3 font-semibold text-white">${escapeHtml(entry.name)}</td>
+          <td class="py-2.5 px-3 text-right font-bold text-blue-400">${entry.score}</td>
+          <td class="py-2.5 px-3 text-slate-400">${escapeHtml(entry.profile)}</td>
+          <td class="py-2.5 px-3 text-right text-slate-500">${entry.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    function resetSimulation() {
+      state = {
+        currentScenarioIdx: 0,
+        metrics: {
+          efficiency: 50,
+          trust: 50,
+          accountability: 50,
+          security: 50,
+          context: 50,
+          budget: 100000
+        },
+        hasChosen: false,
+        selectedKey: null,
+        currentShuffledOptions: [],
+        audioEnabled: state.audioEnabled,
+        history: []
+      };
+
+      document.getElementById('simulation-summary-card').classList.add('hidden');
+      document.getElementById('active-scenario-card').classList.remove('hidden');
+
+      // Reset Leaderboard Form
+      const subForm = document.getElementById('leaderboard-submission-form');
+      if (subForm) {
+        subForm.innerHTML = `
+          <div class="w-full sm:w-auto flex-1">
+            <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
+              Save your name to the Global Leaderboard:
+            </label>
+            <input type="text" id="player-name-input" placeholder="e.g. Maria Silva - CDO" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          </div>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span>Save to Ranking</span>
+          </button>
+        `;
+      }
+
+      renderStepper();
+      renderCurrentScenario();
+      updateMetricsUI();
+    }
+
+    function openDamaMatrixModal() {
+      document.getElementById('dama-modal').classList.remove('hidden');
+    }
+
+    function closeDamaMatrixModal() {
+      document.getElementById('dama-modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

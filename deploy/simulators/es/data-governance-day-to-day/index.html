@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador del Día a Día en Gobierno de Datos (Marco DAMA-DMBOK)</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js for Web Audio sound effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    @keyframes floatUpFade {
+      0% { opacity: 0; transform: translateY(8px) scale(0.9); }
+      20% { opacity: 1; transform: translateY(0) scale(1.05); }
+      80% { opacity: 1; transform: translateY(-12px) scale(1); }
+      100% { opacity: 0; transform: translateY(-20px) scale(0.85); }
+    }
+    .delta-indicator {
+      animation: floatUpFade 1.8s ease-out forwards;
+    }
+
+    .glow-hover:hover {
+      box-shadow: 0 0 25px -5px rgba(37, 99, 235, 0.35);
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100 selection:bg-blue-600 selection:text-white">
+
+  <!-- Main Navigation Header -->
+  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 shrink-0">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-bold text-lg text-white tracking-tight">DataGov OS</h1>
+            <span class="px-2 py-0.5 text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full">Edición DAMA-DMBOK</span>
+          </div>
+          <p class="text-xs text-slate-400">Simulador de Gobierno de Datos Empresarial (10 Desafíos)</p>
+        </div>
+      </div>
+
+      <!-- Header Utilities -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button id="audio-toggle-btn" onclick="toggleAudio()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
+          <svg id="audio-icon-on" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+          </svg>
+          <span id="audio-label" class="hidden sm:inline">Audio Activado</span>
+        </button>
+
+        <button onclick="openDamaMatrixModal()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+          <span class="hidden sm:inline">Marco DAMA</span>
+        </button>
+
+        <button onclick="resetSimulation()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium flex items-center space-x-1.5 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span>Reiniciar</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Container -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto">
+
+    <!-- LEFT SIDEBAR: Operational Health Metrics -->
+    <aside class="lg:col-span-4 flex flex-col space-y-5">
+      
+      <!-- Governance Health Index Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-blue-600/10 rounded-full blur-xl pointer-events-none"></div>
+        
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs uppercase font-mono tracking-wider text-slate-400 font-semibold">Índice de Salud de Gobernanza</span>
+          <span id="health-status-badge" class="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Fase 1: Línea Base Operativa
+          </span>
+        </div>
+
+        <div class="flex items-baseline justify-between mb-1">
+          <div class="text-3xl font-extrabold text-white font-mono" id="governance-index-score">50.0</div>
+          <span class="text-xs text-slate-400 font-medium">Índice Ponderado de Madurez</span>
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Medición en tiempo real en 5 dimensiones DAMA-DMBOK y eficiencia presupuestaria.
+        </p>
+      </div>
+
+      <!-- Key Metrics List -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col justify-between space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <h2 class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            <span>Indicadores Operacionales de la Plataforma</span>
+          </h2>
+          <span class="text-[10px] text-slate-500 font-mono">Métricas DAMA (En Vivo)</span>
+        </div>
+
+        <!-- Single-Row Compact Grid for 6 Metrics -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <!-- Metric 1: Process Efficiency -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Eficiencia</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-efficiency-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-efficiency" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-efficiency" class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 2: Data Trust & Quality -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Confianza</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-trust-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-trust" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-trust" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 3: Team Accountability -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Responsabilidad</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-accountability-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-accountability" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-accountability" class="h-full bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 4: Security & Privacy -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Seguridad</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-security-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-security" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-security" class="h-full bg-gradient-to-r from-rose-600 to-rose-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 5: Data Context -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Contexto</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-context-val" class="text-white font-bold text-xs">50%</span>
+                <span id="delta-context" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-context" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 6: Operational Budget -->
+          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-1 text-[11px]">
+              <div class="flex items-center space-x-1 truncate">
+                <div class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></div>
+                <span class="font-medium text-slate-300 truncate">Presupuesto</span>
+              </div>
+              <div class="flex items-center space-x-1 font-mono shrink-0">
+                <span id="metric-budget-val" class="text-amber-400 font-bold text-xs">$100k</span>
+                <span id="delta-budget" class="hidden font-bold text-[10px]"></span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+              <div id="bar-budget" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full transition-all duration-700 ease-out" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA: Educational State Machine -->
+    <main class="lg:col-span-8 flex flex-col space-y-6">
+
+      <!-- Progress Stepper Bar -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Progreso</span>
+          <div class="flex items-center space-x-1" id="stepper-dots">
+            <!-- Dynamically generated via JS for 10 steps -->
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 font-mono" id="scenario-counter">
+          Desafío 1 de 10
+        </div>
+      </div>
+
+      <!-- Active Scenario Card -->
+      <div id="active-scenario-card" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 lg:p-7 shadow-xl flex-1 flex flex-col justify-between relative">
+        <!-- Scenario Header & Dynamic Metadata -->
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span id="scenario-dama-area" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                Área DAMA: Roles y Responsabilidades
+              </span>
+              <span id="scenario-difficulty" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-400">
+                Dilema Operativo
+              </span>
+            </div>
+            <span class="text-xs text-slate-400 font-mono" id="scenario-incident-id">Incidente #DG-2026-01</span>
+          </div>
+
+          <h2 id="scenario-title" class="text-xl lg:text-2xl font-bold text-white mb-3 leading-snug">
+            Conflicto de Definición de Métricas: La Fórmula del 'Cliente Activo'
+          </h2>
+
+          <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60 mb-5">
+            <p id="scenario-description" class="text-sm lg:text-base text-slate-300 leading-relaxed">
+              "El equipo de Marketing solicita cambiar la fórmula de 'Cliente Activo' en el Data Warehouse porque sus números no coinciden con los de Ventas..."
+            </p>
+          </div>
+        </div>
+
+        <!-- OPTIONS SECTION (Visible during active choice state) -->
+        <div id="choices-container" class="space-y-3.5 my-2">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Seleccionar Enfoque Estratégico (3 Opciones):</p>
+          
+          <!-- Option A Button -->
+          <button onclick="handleSelectOption('A')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                A
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 id="option-a-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Opción A</h3>
+                </div>
+                <p id="option-a-text" class="text-xs text-slate-400 leading-relaxed">
+                  Descripción de la opción...
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Option B Button -->
+          <button onclick="handleSelectOption('B')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 transition">
+                B
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 id="option-b-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Opción B</h3>
+                </div>
+                <p id="option-b-text" class="text-xs text-slate-400 leading-relaxed">
+                  Descripción de la opción...
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Option C Button -->
+          <button onclick="handleSelectOption('C')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
+            <div class="flex items-start space-x-3.5">
+              <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-blue-600 group-hover:text-white transition">
+                C
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 id="option-c-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Opción C</h3>
+                </div>
+                <p id="option-c-text" class="text-xs text-slate-400 leading-relaxed">
+                  Descripción de la opción...
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- GOVERNANCE DEBRIEF CARD (Hidden initially, shown post-selection) -->
+        <div id="debrief-container" class="hidden space-y-4 my-2">
+          <div class="p-5 rounded-xl border border-blue-500/30 bg-blue-950/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+              <svg class="w-24 h-24 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+
+            <div class="flex items-center space-x-2 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Análisis de Gobernanza e Impacto Estratégico</span>
+            </div>
+
+            <h3 class="text-base font-bold text-white mb-2" id="debrief-choice-title">
+              Análisis de la Opción Seleccionada
+            </h3>
+
+            <!-- Impact Summary Badges -->
+            <div id="debrief-impact-summary" class="flex flex-wrap gap-2 mb-4 font-mono text-xs">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="bg-slate-900/80 p-4 rounded-lg border border-slate-800 mb-3">
+              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-1 flex items-center space-x-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span>Principio Clave DAMA-DMBOK</span>
+              </h4>
+              <p id="dama-lesson-text" class="text-sm text-slate-200 leading-relaxed italic">
+                --
+              </p>
+            </div>
+
+            <div class="text-xs text-slate-400 leading-relaxed" id="debrief-extra-insight">
+              <!-- Strategic context detail -->
+            </div>
+          </div>
+
+          <!-- Advance Button -->
+          <button id="next-btn" onclick="advanceScenario()" class="w-full py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 flex items-center justify-center space-x-2 transition">
+            <span>Siguiente Desafío</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- FINAL SIMULATION SUMMARY CARD (Hidden until end) -->
+      <div id="simulation-summary-card" class="hidden bg-slate-900/90 border border-slate-800 rounded-2xl p-6 lg:p-8 shadow-xl space-y-6">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-400 mb-1">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-widest">
+            Simulación Completada (10 Desafíos)
+          </span>
+          <h2 class="text-2xl lg:text-3xl font-extrabold text-white">Reporte de Evaluación de Gobernanza</h2>
+          <p class="text-xs text-slate-400">
+            Evaluación integral de sus decisiones operativas y estratégicas de gobierno de datos.
+          </p>
+        </div>
+
+        <!-- Classification Rating Card -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-800/80 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-2 text-center md:text-left">
+            <span class="text-xs uppercase font-mono text-slate-400">Perfil de Gobernanza Evaluado</span>
+            <div id="summary-rating-title" class="text-2xl font-bold text-white">
+              Líder de Gobernanza Estructurado
+            </div>
+            <p id="summary-rating-desc" class="text-xs text-slate-300 max-w-lg leading-relaxed">
+              Priorizas la responsabilidad formal, las políticas documentadas, la claridad de contexto y la gobernanza automatizada de pipelines.
+            </p>
+          </div>
+
+          <div class="shrink-0 text-center bg-slate-900/80 px-6 py-4 rounded-xl border border-slate-700/50 min-w-[160px]">
+            <span class="text-[11px] font-mono text-slate-400 block mb-1">Puntaje Final</span>
+            <span id="summary-final-score" class="text-3xl font-extrabold text-blue-400 font-mono">85.5</span>
+            <span class="text-[10px] text-slate-500 block mt-1">de 100 índice máx.</span>
+          </div>
+        </div>
+
+        <!-- Metrics Summary Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Eficiencia</span>
+            <span id="summary-metric-eff" class="text-lg font-bold text-cyan-400 font-mono">75%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Confianza</span>
+            <span id="summary-metric-trust" class="text-lg font-bold text-emerald-400 font-mono">85%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Responsabilidad</span>
+            <span id="summary-metric-acc" class="text-lg font-bold text-indigo-400 font-mono">90%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Seguridad</span>
+            <span id="summary-metric-sec" class="text-lg font-bold text-rose-400 font-mono">80%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Contexto</span>
+            <span id="summary-metric-ctx" class="text-lg font-bold text-purple-400 font-mono">85%</span>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Presupuesto Restante</span>
+            <span id="summary-metric-budget" class="text-lg font-bold text-amber-400 font-mono">$45,000</span>
+          </div>
+        </div>
+
+        <!-- Key Conclusion -->
+        <div class="p-4 rounded-xl bg-blue-950/20 border border-blue-500/20 space-y-1.5">
+          <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Conclusión Estratégica Ejecutiva DAMA-DMBOK</span>
+          </h3>
+          <p class="text-xs lg:text-sm text-slate-200 leading-relaxed font-medium">
+            "El gobierno de datos no consiste en crear burocracia o frenar a la ingeniería; se trata de construir flujos de trabajo sostenibles, predecibles y automatizados que permitan a la empresa escalar sin destruir la confianza en los datos."
+          </p>
+        </div>
+
+        <!-- LEADERBOARD SUBMISSION FORM -->
+        <div id="leaderboard-submission-form" class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="w-full sm:w-auto flex-1">
+            <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
+              Registra tu nombre en la Tabla de Clasificación Global:
+            </label>
+            <input type="text" id="player-name-input" placeholder="ej. María Silva - CDO" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          </div>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span>Guardar en el Ranking</span>
+          </button>
+        </div>
+
+        <!-- GLOBAL LEADERBOARD TABLE -->
+        <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-white flex items-center space-x-2">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+              </svg>
+              <span>Tabla de Clasificación Global</span>
+            </h3>
+            <span class="text-[10px] text-slate-500 font-mono">Ranking de Jugadores</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+              <thead class="text-[10px] uppercase font-mono bg-slate-800/50 text-slate-400">
+                <tr>
+                  <th class="py-2 px-3">#</th>
+                  <th class="py-2 px-3">Jugador</th>
+                  <th class="py-2 px-3 text-right">Puntaje</th>
+                  <th class="py-2 px-3">Perfil Evaluado</th>
+                  <th class="py-2 px-3 text-right">Fecha</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-table-body" class="divide-y divide-slate-800/60 font-mono text-[11px]">
+                <!-- Dynamically inserted via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CALL TO ACTION BANNER -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="space-y-1 text-center sm:text-left">
+            <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full">
+              Consultoría Especializada en Datos
+            </span>
+            <h3 class="text-lg lg:text-xl font-bold text-white">
+              ¿Luchando con las mejores prácticas de Gobierno de Datos en la vida real?
+            </h3>
+            <p class="text-xs text-slate-300 max-w-xl">
+              Construyamos un marco de gobierno personalizado, escalable y automatizado alineado con la arquitectura de datos y los objetivos operacionales de tu empresa.
+            </p>
+          </div>
+
+          <a href="https://datagovjourney.com/?lang=es#contacto" target="_blank" rel="noopener noreferrer" class="shrink-0 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5">
+            <span>Construyamos tu marco de trabajo</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Action Footer Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          <button onclick="openDamaMatrixModal()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center justify-center space-x-2 transition">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <span>Revisar Áreas de Conocimiento DAMA</span>
+          </button>
+
+          <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            <span>Reiniciar Simulación</span>
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: DAMA-DMBOK Knowledge Areas Reference -->
+  <div id="dama-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold">
+            D
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Referencia del Marco DAMA-DMBOK</h3>
+            <p class="text-xs text-slate-400">Áreas Clave para el Gobierno de Datos Empresarial</p>
+          </div>
+        </div>
+        <button onclick="closeDamaMatrixModal()" class="text-slate-400 hover:text-white transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-300">
+        <p class="leading-relaxed text-slate-400">
+          El marco DAMA-DMBOK2 estructura la gestión de datos en 11 funciones interconectadas con el Gobierno de Datos como núcleo orquestador.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">1. Gobierno de Datos</span>
+            <p class="text-slate-400">Planificación, supervisión y control sobre la gestión de datos y la estrategia.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">2. Seguridad y Privacidad de Datos</span>
+            <p class="text-slate-400">Garantizar la confidencialidad, control de acceso, cumplimiento normativo (GDPR/LGPD) y encriptación.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">3. Metadatos y Contexto</span>
+            <p class="text-slate-400">Glosarios de negocio, catálogos de datos, definiciones técnicas y linaje de extremo a extremo.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">4. Calidad de Datos</span>
+            <p class="text-slate-400">Definir, medir, monitorear y mejorar la idoneidad de los datos para su uso.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">5. Datos Maestros y de Referencia</span>
+            <p class="text-slate-400">Registros únicos de clientes/entidades, resolución de identidades y taxonomías empresariales.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">6. Arquitectura de Datos</span>
+            <p class="text-slate-400">Diseño estructural, capas semánticas y gestión de costos en la nube FinOps.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 bg-slate-900/90 border-t border-slate-800 flex justify-end">
+        <button onclick="closeDamaMatrixModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white transition">
+          Cerrar Referencia
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    const SCENARIOS = [
+      {
+        id: 1,
+        incidentId: "DG-2026-01",
+        damaArea: "Roles y Responsabilidades",
+        title: "Conflicto de Definición de Métricas: La Fórmula del 'Cliente Activo'",
+        description: "El equipo de Marketing solicita cambiar la fórmula de 'Cliente Activo' en el Data Warehouse porque sus números no coinciden con los de Ventas. Nadie sabe quién es el dueño de la métrica o quién tiene autoridad para aprobar modificaciones.",
+        optionA: {
+          label: "Permitir que el Ingeniero de Datos haga un cambio rápido",
+          costLabel: "$0 Custo Inmediato",
+          text: "El ingeniero actualiza la consulta SQL directamente en el tablero de Marketing para desbloquear la solicitud.",
+          impact: { efficiency: 4, trust: -6, accountability: -5, security: 0, context: -4, budget: 0 },
+          damaLesson: "Los parches rápidos sin Data Stewards ni gobernanza crean definiciones conflictivas y destruyen la confianza en los datos.",
+          insight: "Las soluciones inmediatas parecen ágiles, pero dividen a la empresa en versiones contradictorias de la verdad."
+        },
+        optionB: {
+          label: "Formar un comité informal entre Marketing y Ventas",
+          costLabel: "Costo Moderado",
+          text: "Organizar reuniones semanales para negociar un punto medio en la lógica del cliente activo.",
+          impact: { efficiency: -2, trust: 2, accountability: 2, security: 0, context: 2, budget: -2000 },
+          damaLesson: "La alineación informal ayuda, pero carece de autoridad formal y responsabilidad clara.",
+          insight: "Sin roles definidos de Data Stewardship, las decisiones del comité dependen de la buena voluntad y pierden impulso."
+        },
+        optionC: {
+          label: "Nombrar un Data Steward y publicar en el Glosario de Negocio",
+          costLabel: "Inversión Estratégica",
+          text: "Designar al Data Steward del Dominio de Clientes, mapear requerimientos y documentar la métrica oficial en el catálogo.",
+          impact: { efficiency: -2, trust: 6, accountability: 7, security: 0, context: 5, budget: -5000 },
+          damaLesson: "El Gobierno de Datos formal establece roles claros (RACI) y crea una única fuente de verdad para las métricas corporativas.",
+          insight: "Las definiciones centralizadas y documentadas eliminan la ambigüedad y alinean a la alta dirección."
+        }
+      },
+      {
+        id: 2,
+        incidentId: "DG-2026-02",
+        damaArea: "Seguridad y Privacidad",
+        title: "Fuga Potencial de Datos: Datos Sensibles de RRHH en un Bucket Público",
+        description: "El equipo de Analítica copió archivos con salarios y datos personales de empleados en un bucket S3 público temporal para acelerar la creación de un dashboard.",
+        optionA: {
+          label: "Mover los archivos manualmente y dar una advertencia verbal",
+          costLabel: "$0 Custo Inmediato",
+          text: "Eliminar los archivos de la carpeta pública y pedir al equipo en Slack que no lo repitan.",
+          impact: { efficiency: -2, trust: 1, accountability: 0, security: -8, context: 0, budget: 0 },
+          damaLesson: "Las soluciones manuales sin políticas formales ni controles automáticos no evitan violaciones repetidas.",
+          insight: "Tratar la seguridad de datos de forma informal expone a la organización a severas multas regulatorias (GDPR/LGPD)."
+        },
+        optionB: {
+          label: "Restringir accesos al bucket mediante políticas IAM",
+          costLabel: "Costo Moderado",
+          text: "Bloquear la carpeta usando políticas de acceso del proveedor Cloud y limitar el acceso a IPs específicas.",
+          impact: { efficiency: -1, trust: 2, accountability: 2, security: 4, context: 2, budget: -3000 },
+          damaLesson: "Los controles de infraestructura imponen seguridad inmediata, pero deben estar respaldados por políticas oficiales.",
+          insight: "La seguridad técnica sin concienciación del equipo genera atajos y nuevas vulnerabilidades."
+        },
+        optionC: {
+          label: "Implementar Política de Clasificación y Enmascaramiento Automatizado",
+          costLabel: "Inversión Estratégica",
+          text: "Publicar la Política de Clasificación de Datos, aplicar enmascaramiento automático de PII y configurar alertas de cumplimiento.",
+          impact: { efficiency: -2, trust: 5, accountability: 5, security: 8, context: 4, budget: -8000 },
+          damaLesson: "Las políticas formales de clasificación junto con controles automáticos de privacidad garantizan 'Privacy by Design'.",
+          insight: "La protección de datos es sostenible cuando las reglas de seguridad están nativamente integradas en la arquitectura."
+        }
+      },
+      {
+        id: 3,
+        incidentId: "DG-2026-03",
+        damaArea: "Ingeniería de Datos y CI/CD",
+        title: "Cambio de Esquema no Anunciado Rompe los Pipelines de la Mañana",
+        description: "Un desarrollador renombró la columna 'user_id' a 'customer_uuid' en la base de datos relacional. El cambio rompió el pipeline nocturno ELT, dejando fuera de servicio los dashboards ejecutivos.",
+        optionA: {
+          label: "Corregir la consulta manualmente y pedir avisos por Slack",
+          costLabel: "$0 Custo Inmediato",
+          text: "Dedicarse la mañana a arreglar el SQL roto y pedir al equipo de ingeniería que avise la próxima vez.",
+          impact: { efficiency: 2, trust: -5, accountability: -3, security: 0, context: -2, budget: 0 },
+          damaLesson: "Depender de la comunicación informal y correcciones de emergencia es insostenible a escala empresarial.",
+          insight: "El costo del tiempo de inactividad y la pérdida de confianza supera con creces el tiempo de implementar pruebas de esquema."
+        },
+        optionB: {
+          label: "Crear una vista de compatibilidad en la base de datos relacional",
+          costLabel: "Costo Moderado",
+          text: "Mantener una vista en la base de datos origen que emule la columna antigua para evitar la rotura de reportes.",
+          impact: { efficiency: 0, trust: 2, accountability: 1, security: 0, context: 2, budget: -2000 },
+          damaLesson: "Las capas de compatibilidad ocultan problemas estructurales y acumulan deuda técnica en la arquitectura de datos.",
+          insight: "Las tácticas paliativas solucionan síntomas actuales, pero aumentan la complejidad de mantenimiento en el tiempo."
+        },
+        optionC: {
+          label: "Integrar Contratos de Datos y Pruebas Automáticas en CI/CD",
+          costLabel: "Inversión Estratégica",
+          text: "Implementar Data Contracts en los pipelines de despliegue para bloquear cambios destructivos antes de llegar a producción.",
+          impact: { efficiency: 4, trust: 4, accountability: 4, security: 0, context: 3, budget: -12000 },
+          damaLesson: "Los contratos de datos y las pruebas automatizadas en CI/CD protegen proactivamente la salud de los pipelines.",
+          insight: "La gobernanza integrada en los flujos de desarrollo previene fallas antes de que los pipelines se ejecuten."
+        }
+      },
+      {
+        id: 4,
+        incidentId: "DG-2026-04",
+        damaArea: "Datos Maestros y de Referencia",
+        title: "Duplicación Masiva de Clientes entre Sistemas de Ventas y CRM",
+        description: "El mismo cliente tiene registros diferentes en CRM (HubSpot) y ERP (SAP). Los reportes de ingresos muestran conteos inconsistentes debido a la falta de resolución de identidades.",
+        optionA: {
+          label: "Realizar desduplicación manual bisemanal mediante hojas de cálculo",
+          costLabel: "$0 Custo Inmediato",
+          text: "Pedir al equipo de Analítica que consolide manualmente los registros en Excel antes del cierre mensual.",
+          impact: { efficiency: -4, trust: -4, accountability: -2, security: 0, context: -2, budget: 0 },
+          damaLesson: "La limpieza manual en hojas de cálculo genera trabajo repetitivo sin resolver la causa raíz de la duplicación.",
+          insight: "Limpiar datos aguas abajo sin gobernar los datos maestros garantiza que los errores reaparezcan el próximo mes."
+        },
+        optionB: {
+          label: "Unificar IDs de clientes usando una clave cruzada compartida",
+          costLabel: "Costo Moderado",
+          text: "Añadir una columna de referencia cruzada uniendo tablas de sistemas en el Data Lake.",
+          impact: { efficiency: 2, trust: 3, accountability: 2, security: 0, context: 2, budget: -6000 },
+          damaLesson: "Los mapeos punto a punto simplifican cruces, pero no resuelven conflictos de datos al ingresar.",
+          insight: "Sin validación de entrada en sistemas operacionales, la creación de duplicados continuará sin control."
+        },
+        optionC: {
+          label: "Implementar Arquitectura de Gestión de Datos Maestros (MDM)",
+          costLabel: "Inversión Estratégica",
+          text: "Establecer reglas de Registro Dorado, desduplicación difusa automatizada y gobernar la entidad Cliente de forma centralizada.",
+          impact: { efficiency: 3, trust: 6, accountability: 5, security: 1, context: 4, budget: -15000 },
+          damaLesson: "La gestión de datos maestros (MDM) garantiza la integridad estructural en las entidades centrales del negocio.",
+          insight: "Un registro maestro único de clientes eleva la confianza y precisión de toda la analítica estratégica."
+        }
+      },
+      {
+        id: 5,
+        incidentId: "DG-2026-05",
+        damaArea: "Arquitectura y Capa Semántica",
+        title: "Silos de BI: Cada Departamento Crea sus Propias Métricas",
+        description: "Finanzas, Ventas y Producto usan herramientas de BI diferentes conectadas directamente a tablas crudas, lo que genera 3 tasas de Churn distintas en la junta directiva.",
+        optionA: {
+          label: "Obligar al uso de una sola herramienta de BI en toda la empresa",
+          costLabel: "$0 Custo Inmediato",
+          text: "Estandarizar el software de visualización sin modificar el modelado de datos subyacente.",
+          impact: { efficiency: -2, trust: -3, accountability: 1, security: 0, context: 0, budget: -2000 },
+          damaLesson: "Estandarizar herramientas de BI no resuelve las discrepancias conceptuales en las consultas SQL crudas.",
+          insight: "El problema raíz no es el software de gráficos, sino la falta de una capa de lógica de negocio estandarizada."
+        },
+        optionB: {
+          label: "Crear vistas consolidadas en el Data Warehouse",
+          costLabel: "Costo Moderado",
+          text: "Modelar tablas agregadas en el Data Warehouse y recomendar su adopción a los equipos de analítica.",
+          impact: { efficiency: 2, trust: 3, accountability: 2, security: 0, context: 3, budget: -5000 },
+          damaLesson: "Las vistas centralizadas mejoran la consistencia, pero requieren gobernanza para evitar su obsolescencia.",
+          insight: "Las tablas agregadas ayudan, pero sin semántica controlada por versiones, los analistas pueden redefinir reglas."
+        },
+        optionC: {
+          label: "Desplegar una Capa Semántica Gobernada (Headless BI / dbt)",
+          costLabel: "Inversión Estratégica",
+          text: "Centralizar la lógica de negocio y métricas en código con control de versiones (dbt / Capa Semántica) para todas las herramientas.",
+          impact: { efficiency: 4, trust: 5, accountability: 4, security: 2, context: 6, budget: -10000 },
+          damaLesson: "Las capas semánticas en código garantizan métricas consistentes independientemente de la herramienta de consumo.",
+          insight: "Métricas como código fomentan transparencia, posibilidad de pruebas y un entorno analítico verdaderamente escalable."
+        }
+      },
+      {
+        id: 6,
+        incidentId: "DG-2026-06",
+        damaArea: "Gestión de Calidad de Datos",
+        title: "Datos Nulos y Valores Atípicos en Producción sin Monitoreo",
+        description: "Un error en un formulario de la app móvil generó miles de transacciones con valor '0' o negativo, corrompiendo el ticket promedio en los dashboards ejecutivos.",
+        optionA: {
+          label: "Filtrar los datos incorrectos directamente en el reporte ejecutivo",
+          costLabel: "$0 Custo Inmediato",
+          text: "Añadir 'WHERE valor > 0' en la consulta del dashboard para ocultar anomalías a los ejecutivos.",
+          impact: { efficiency: 2, trust: -7, accountability: -4, security: 0, context: -2, budget: 0 },
+          damaLesson: "Ocultar datos erróneos compromete la auditabilidad y encubre fallas operacionales.",
+          insight: "Enmascarar anomalías en la visualización impide que el equipo de producto identifique y corrija los errores de origen."
+        },
+        optionB: {
+          label: "Ejecutar scripts semanales automatizados de limpieza",
+          costLabel: "Costo Moderado",
+          text: "Programar tareas CRON periódicas para eliminar o corregir registros anómalos.",
+          impact: { efficiency: 0, trust: 2, accountability: 2, security: 0, context: 2, budget: -3000 },
+          damaLesson: "Las limpiezas reactivas periódicas mejoran los datos históricos, pero dejan ventanas de tiempo con datos corruptos.",
+          insight: "La calidad de datos efectiva debe monitorearse en tiempo real para evitar la propagación de errores."
+        },
+        optionC: {
+          label: "Implementar Monitoreo Automatizado de Calidad (Great Expectations / Monte Carlo)",
+          costLabel: "Inversión Estratégica",
+          text: "Configurar pruebas de completitud, validez y volumen con alertas inmediatas a los Data Owners.",
+          impact: { efficiency: 3, trust: 7, accountability: 4, security: 1, context: 3, budget: -10000 },
+          damaLesson: "La gestión de calidad de datos bajo DMBOK requiere monitoreo proactivo en múltiples dimensiones de calidad.",
+          insight: "Las alertas automatizadas evitan decisiones basadas en datos corruptos y reducen drásticamente el tiempo de resolución."
+        }
+      },
+      {
+        id: 7,
+        incidentId: "DG-2026-07",
+        damaArea: "Metadatos y Linaje de Datos",
+        title: "Mapeo de Impacto Desconocido al Modificar Tablas Heredadas",
+        description: "Infraestructura necesita descontinuar una tabla operacional heredada, pero nadie sabe qué reportes, modelos de ML o pipelines la consumen.",
+        optionA: {
+          label: "Descontinuar la tabla y esperar quejas",
+          costLabel: "$0 Custo Inmediato",
+          text: "Renombrar la tabla a '_descontinuada' y ver quién abre un ticket de soporte reportando errores.",
+          impact: { efficiency: -4, trust: -7, accountability: -4, security: -2, context: -5, budget: 0 },
+          damaLesson: "Las pruebas de interrupción no planificadas desestabilizan las operaciones y demuestran baja madurez de gobernanza.",
+          insight: "El enfoque de 'prueba de grito' es altamente destructivo para la confianza en los equipos de datos."
+        },
+        optionB: {
+          label: "Inspeccionar repositorios de código manualmente y hacer encuestas",
+          costLabel: "Costo Moderado",
+          text: "Mapear dependencias revisando repositorios de código y enviando cuestionarios por correo a analistas.",
+          impact: { efficiency: -2, trust: 2, accountability: 1, security: 0, context: 3, budget: -2000 },
+          damaLesson: "El rastreo manual de metadatos consume mucho tiempo y es propenso a errores en ecosistemas complejos.",
+          insight: "A medida que crece el volumen de tablas, el rastreo manual del linaje se vuelve completamente insostenible."
+        },
+        optionC: {
+          label: "Automatizar Linaje de Datos de Extremo a Extremo en el Catálogo",
+          costLabel: "Inversión Estratégica",
+          text: "Integrar herramientas de procesamiento de SQL/pipelines para generar automáticamente un gráfico visual de linaje.",
+          impact: { efficiency: 4, trust: 4, accountability: 3, security: 2, context: 7, budget: -9000 },
+          damaLesson: "El linaje de datos proporciona trazabilidad completa, permitiendo un análisis preciso de causa raíz e impacto.",
+          insight: "Conocer el origen y destino exacto de cada dataset permite evolucionar la arquitectura sin riesgos."
+        }
+      },
+      {
+        id: 8,
+        incidentId: "DG-2026-08",
+        damaArea: "Ciclo de Vida y Retención de Datos",
+        title: "Aumento Exponencial de Costos en la Nube debido a Datos Obsoletos",
+        description: "El Data Lake acumuló petabytes de logs desorganizados durante 7 años sin política de expiración, consumiendo la mitad del presupuesto cloud.",
+        optionA: {
+          label: "Solicitar una ampliación de presupuesto de infraestructura",
+          costLabel: "$0 Custo Inmediato",
+          text: "Aprobar la expansión de cuotas en la nube para evitar el análisis de retención de datos.",
+          impact: { efficiency: -2, trust: -3, accountability: -3, security: -3, context: 0, budget: -15000 },
+          damaLesson: "Ampliar recursos sin gobernanza del ciclo de vida escala los costos infinitamente y conserva riesgos legales.",
+          insight: "Acumular datos ROT (Redundantes, Obsoletos, Triviales) infla costos operativos y amplía la superficie de ataque."
+        },
+        optionB: {
+          label: "Eliminar datos antiguos arbitrariamente sin validación de negocio",
+          costLabel: "Costo Moderado",
+          text: "Ejecutar un script para eliminar todas las particiones con más de 3 años para liberar espacio.",
+          impact: { efficiency: 2, trust: -4, accountability: -2, security: 1, context: -3, budget: 5000 },
+          damaLesson: "Eliminar datos sin consultar requerimientos legales y de cumplimiento expone a sanciones regulatorias severas.",
+          insight: "La retención de datos debe equilibrar el cumplimiento legal, el valor analítico y los costos de almacenamiento."
+        },
+        optionC: {
+          label: "Implementar Política de Ciclo de Vida y Reglas de Almacenamiento Automático",
+          costLabel: "Inversión Estratégica",
+          text: "Definir plazos legales con Legal/Cumplimiento, mover datos a almacenamiento frío (Glacier) y configurar depuración regulada.",
+          impact: { efficiency: 3, trust: 4, accountability: 3, security: 4, context: 3, budget: 12000 },
+          damaLesson: "La gestión del ciclo de vida de datos optimiza costos en la nube reduciendo la exposición legal.",
+          insight: "Automatizar la transición y depuración regulada de datos sin uso optimiza drásticamente el gasto cloud."
+        }
+      },
+      {
+        id: 9,
+        incidentId: "DG-2026-09",
+        damaArea: "Catálogo de Datos y Descubrimiento",
+        title: "Los Nuevos Científicos de Datos Tardan Semanas en Encontrar Datasets",
+        description: "Cada nuevo contratado tarda casi un mes en ubicar las tablas correctas y entender las definiciones de columnas debido a la falta total de documentación.",
+        optionA: {
+          label: "Instruir a los nuevos contratados a preguntar a compañeros por Slack",
+          costLabel: "$0 Custo Inmediato",
+          text: "Depender de la cultura oral y la transferencia informal de conocimiento en el equipo.",
+          impact: { efficiency: -4, trust: -2, accountability: -2, security: 0, context: -6, budget: 0 },
+          damaLesson: "La dependencia del conocimiento tribal crea cuellos de botella y pérdida irreversible de saber hacer ante la rotación.",
+          insight: "Interrumpir constantemente a ingenieros sénior para explicar esquemas de datos degrada la productividad general."
+        },
+        optionB: {
+          label: "Crear una página wiki estática en Confluence listando tablas",
+          costLabel: "Costo Moderado",
+          text: "Documentar esquemas manualmente en un documento estático dentro de la intranet de la empresa.",
+          impact: { efficiency: 0, trust: 1, accountability: 1, security: 0, context: 2, budget: -2000 },
+          damaLesson: "La documentación estática queda obsoleta rápidamente a medida que evolucionan los modelos de datos en producción.",
+          insight: "La documentación desactualizada a menudo causa más confusión que la falta total de documentación."
+        },
+        optionC: {
+          label: "Desplegar un Catálogo de Datos Activo con Auto-Descubrimiento",
+          costLabel: "Inversión Estratégica",
+          text: "Implementar un catálogo de datos conectado a fuentes con linaje automatizado, descripciones de campos y métricas de uso.",
+          impact: { efficiency: 5, trust: 4, accountability: 3, security: 2, context: 7, budget: -10000 },
+          damaLesson: "La gestión moderna de metadatos democratiza el acceso a los datos y acelera el tiempo de valor de forma segura.",
+          insight: "Un catálogo activo acelera drásticamente la incorporación de talento y fomenta la analítica de autoservicio."
+        }
+      },
+      {
+        id: 10,
+        incidentId: "DG-2026-10",
+        damaArea: "FinOps y Gobernanza Analítica",
+        title: "Consultas SQL Ineficientes Generan Facturas Masivas en BigQuery/Snowflake",
+        description: "Un modelo de Machine Learning ejecutó cross-joins no particionados repetidamente durante el fin de semana, resultando en una factura inesperada de $25,000 en la nube.",
+        optionA: {
+          label: "Absorber el costo y recordar verbalmente al equipo tener cuidado",
+          costLabel: "$0 Custo Inmediato",
+          text: "Pagar la factura sin aplicar límites técnicos para evitar frenar las investigaciones del equipo.",
+          impact: { efficiency: -2, trust: -3, accountability: -4, security: 0, context: 0, budget: -25000 },
+          damaLesson: "La falta de límites financieros y monitoreo de consultas en el procesamiento de datos genera fugas presupuestarias.",
+          insight: "Ofrecer cómputo sin restricciones ni cuotas de gasto es financieramente insostenible."
+        },
+        optionB: {
+          label: "Restringir a los Científicos de Datos a muestras pequeñas únicamente",
+          costLabel: "Costo Moderado",
+          text: "Bloquear consultas en tablas de producción completas, limitando al equipo a muestras del 1% de los datos.",
+          impact: { efficiency: -5, trust: 0, accountability: 1, security: 1, context: -2, budget: 0 },
+          damaLesson: "Las medidas excesivamente restrictivas asfixian la innovación e impiden entrenar modelos estadísticamente válidos.",
+          insight: "Mutilar la capacidad analítica protege el presupuesto a corto plazo pero destruye la creación de valor."
+        },
+        optionC: {
+          label: "Implementar Prácticas de Data FinOps y Cuotas de Consulta",
+          costLabel: "Inversión Estratégica",
+          text: "Establecer límites de escaneo, alertas automáticas de costo y exigir buenas prácticas de particionamiento y clustering.",
+          impact: { efficiency: 4, trust: 4, accountability: 4, security: 1, context: 3, budget: -5000 },
+          damaLesson: "Data FinOps equilibra la eficiencia de costos con la libertad analítica necesaria para la innovación empresarial.",
+          insight: "Los límites financieros y la optimización de consultas preservan la salud financiera manteniendo la agilidad del equipo."
+        }
+      }
+    ];
+
+    // --- APPLICATION STATE ---
+    let state = {
+      currentScenarioIdx: 0,
+      metrics: {
+        efficiency: 50,
+        trust: 50,
+        accountability: 50,
+        security: 50,
+        context: 50,
+        budget: 100000
+      },
+      hasChosen: false,
+      selectedKey: null,
+      currentShuffledOptions: [],
+      audioEnabled: true,
+      history: []
+    };
+
+    // Pre-populated Leaderboard Mock Data in Spanish
+    let leaderboardData = [
+      { name: "María Silva - CDO", score: "92.4", profile: "Líder de Gobernanza Estructurado", date: "2026-07-28" },
+      { name: "Alexandre Santos - Lead DE", score: "88.1", profile: "Líder de Gobernanza Estructurado", date: "2026-07-29" },
+      { name: "Carlos Oliveira - Data Steward", score: "74.5", profile: "Operador de Datos Reactivo", date: "2026-07-25" }
+    ];
+
+    // Tone.js Audio Synthesizer setup
+    let synth = null;
+    function initAudio() {
+      if (!synth && window.Tone) {
+        try {
+          synth = new Tone.PolySynth(Tone.Synth).toDestination();
+          synth.volume.value = -12;
+        } catch(e) {
+          console.warn("Tone.js no se pudo inicializar:", e);
+        }
+      }
+    }
+
+    function playSoundEffect(type) {
+      if (!state.audioEnabled || !window.Tone) return;
+      initAudio();
+      try {
+        if (Tone.context.state !== 'running') {
+          Tone.start();
+        }
+        if (type === 'click') {
+          synth.triggerAttackRelease(["C4", "E4"], "16n");
+        } else if (type === 'success') {
+          synth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
+        } else if (type === 'warning') {
+          synth.triggerAttackRelease(["C3", "F#3"], "8n");
+        } else if (type === 'complete') {
+          synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "4n");
+        }
+      } catch(e) {}
+    }
+
+    function toggleAudio() {
+      state.audioEnabled = !state.audioEnabled;
+      const label = document.getElementById('audio-label');
+      const iconOn = document.getElementById('audio-icon-on');
+      if (state.audioEnabled) {
+        label.innerText = "Audio Activado";
+        iconOn.classList.remove("text-slate-500");
+        iconOn.classList.add("text-emerald-400");
+        playSoundEffect('click');
+      } else {
+        label.innerText = "Audio Desactivado";
+        iconOn.classList.remove("text-emerald-400");
+        iconOn.classList.add("text-slate-500");
+      }
+    }
+
+    // Defensive UI DOM helpers
+    function setSafeText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.innerText = val;
+    }
+
+    function setSafeWidth(id, percent) {
+      const el = document.getElementById(id);
+      if (el) el.style.width = Math.min(100, Math.max(0, percent)) + "%";
+    }
+
+    // --- UI INITIALIZATION AND RENDER ---
+    window.onload = function() {
+      renderStepper();
+      renderCurrentScenario();
+      updateMetricsUI();
+      renderLeaderboard();
+    };
+
+    function renderStepper() {
+      const dotsContainer = document.getElementById('stepper-dots');
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      
+      for (let i = 0; i < SCENARIOS.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+          i === state.currentScenarioIdx 
+            ? 'bg-blue-500 ring-4 ring-blue-500/20 scale-110' 
+            : i < state.currentScenarioIdx 
+            ? 'bg-emerald-500' 
+            : 'bg-slate-800 border border-slate-700'
+        }`;
+        dotsContainer.appendChild(dot);
+      }
+      setSafeText('scenario-counter', `Desafío ${state.currentScenarioIdx + 1} de ${SCENARIOS.length}`);
+    }
+
+    function renderCurrentScenario() {
+      const sc = SCENARIOS[state.currentScenarioIdx];
+      
+      setSafeText('scenario-incident-id', `Incidente #${sc.incidentId}`);
+      setSafeText('scenario-dama-area', `Área DAMA: ${sc.damaArea}`);
+      setSafeText('scenario-title', sc.title);
+      setSafeText('scenario-description', sc.description);
+
+      // Randomize option order for each scenario
+      const rawOptions = [
+        { key: 'A', data: sc.optionA },
+        { key: 'B', data: sc.optionB },
+        { key: 'C', data: sc.optionC }
+      ];
+      
+      // Shuffle options using Fisher-Yates algorithm
+      const shuffled = [...rawOptions];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      state.currentShuffledOptions = shuffled;
+
+      // Populate Option Buttons (Hidden point/cost indicators for fair decision making)
+      ['a', 'b', 'c'].forEach((slot, idx) => {
+        const item = shuffled[idx];
+        setSafeText(`option-${slot}-label`, item.data.label);
+        setSafeText(`option-${slot}-text`, item.data.text);
+      });
+
+      // Reset Visibility to Choice State
+      document.getElementById('choices-container').classList.remove('hidden');
+      document.getElementById('debrief-container').classList.add('hidden');
+      state.hasChosen = false;
+      state.selectedKey = null;
+
+      renderStepper();
+    }
+
+    function handleSelectOption(slotKey) {
+      if (state.hasChosen) return;
+      state.hasChosen = true;
+
+      // Map slot button letter (A, B, C) to randomized shuffled option
+      const slotIndex = slotKey === 'A' ? 0 : slotKey === 'B' ? 1 : 2;
+      const selectedOptionObj = state.currentShuffledOptions[slotIndex];
+      const selectedData = selectedOptionObj.data;
+      state.selectedKey = selectedOptionObj.key;
+
+      playSoundEffect('click');
+
+      // Calculate Impact Deltas
+      const impact = selectedData.impact;
+      const prevMetrics = { ...state.metrics };
+
+      state.metrics.efficiency = Math.min(100, Math.max(0, state.metrics.efficiency + impact.efficiency));
+      state.metrics.trust = Math.min(100, Math.max(0, state.metrics.trust + impact.trust));
+      state.metrics.accountability = Math.min(100, Math.max(0, state.metrics.accountability + impact.accountability));
+      state.metrics.security = Math.min(100, Math.max(0, state.metrics.security + impact.security));
+      state.metrics.context = Math.min(100, Math.max(0, state.metrics.context + impact.context));
+      state.metrics.budget = Math.max(0, state.metrics.budget + impact.budget);
+
+      // Save Decision History
+      state.history.push({
+        scenarioId: SCENARIOS[state.currentScenarioIdx].id,
+        incidentId: SCENARIOS[state.currentScenarioIdx].incidentId,
+        title: SCENARIOS[state.currentScenarioIdx].title,
+        slotSelected: slotKey,
+        originalKey: selectedOptionObj.key,
+        label: selectedData.label,
+        impact: impact
+      });
+
+      // Show Floating Deltas and Update Metrics UI
+      triggerDeltas(prevMetrics, state.metrics, impact);
+      updateMetricsUI();
+
+      // Render Governance Debrief Card
+      document.getElementById('choices-container').classList.add('hidden');
+      document.getElementById('debrief-container').classList.remove('hidden');
+
+      setSafeText('debrief-choice-title', `Opción Seleccionada: ${selectedData.label}`);
+      setSafeText('dama-lesson-text', `"${selectedData.damaLesson}"`);
+      setSafeText('debrief-extra-insight', selectedData.insight);
+
+      // Render Debrief Impact Summary Badges
+      const summaryContainer = document.getElementById('debrief-impact-summary');
+      summaryContainer.innerHTML = '';
+
+      const formatDeltaBadge = (label, val) => {
+        if (val === 0) return '';
+        const isPos = val > 0;
+        const colorClass = isPos 
+          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+          : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+        const sign = isPos ? '+' : '';
+        return `<span class="px-2.5 py-1 rounded-md border ${colorClass}">${label}: ${sign}${val}${label === 'Presupuesto' ? '' : '%'}</span>`;
+      };
+
+      summaryContainer.innerHTML += formatDeltaBadge('Eficiencia', impact.efficiency);
+      summaryContainer.innerHTML += formatDeltaBadge('Confianza', impact.trust);
+      summaryContainer.innerHTML += formatDeltaBadge('Responsabilidad', impact.accountability);
+      summaryContainer.innerHTML += formatDeltaBadge('Seguridad', impact.security);
+      summaryContainer.innerHTML += formatDeltaBadge('Contexto', impact.context);
+      
+      if (impact.budget !== 0) {
+        const budgetFormatted = (impact.budget > 0 ? '+$' : '-$') + Math.abs(impact.budget).toLocaleString();
+        const bClass = impact.budget > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+        summaryContainer.innerHTML += `<span class="px-2.5 py-1 rounded-md border ${bClass}">Presupuesto: ${budgetFormatted}</span>`;
+      }
+    }
+
+    function triggerDeltas(prev, current, impact) {
+      const showDelta = (id, delta, isCurrency = false) => {
+        const el = document.getElementById(id);
+        if (!el || delta === 0) return;
+
+        const isPos = delta > 0;
+        el.innerText = isCurrency 
+          ? `${isPos ? '+' : '-'}$${Math.abs(delta / 1000)}k` 
+          : `${isPos ? '+' : ''}${delta}%`;
+
+        el.className = `font-bold text-[10px] delta-indicator ${isPos ? 'text-emerald-400' : 'text-rose-400'}`;
+        el.classList.remove('hidden');
+
+        setTimeout(() => {
+          el.classList.add('hidden');
+        }, 1800);
+      };
+
+      showDelta('delta-efficiency', impact.efficiency);
+      showDelta('delta-trust', impact.trust);
+      showDelta('delta-accountability', impact.accountability);
+      showDelta('delta-security', impact.security);
+      showDelta('delta-context', impact.context);
+      showDelta('delta-budget', impact.budget, true);
+    }
+
+    function updateMetricsUI() {
+      // Calculate Weighted Health Index (5 Core DAMA Dimensions equally weighted at 20%)
+      const m = state.metrics;
+      const indexScore = (
+        m.efficiency * 0.20 +
+        m.trust * 0.20 +
+        m.accountability * 0.20 +
+        m.security * 0.20 +
+        m.context * 0.20
+      ).toFixed(1);
+
+      setSafeText('governance-index-score', indexScore);
+
+      // Update Health Status Badge
+      const badge = document.getElementById('health-status-badge');
+      if (badge) {
+        if (indexScore >= 75) {
+          badge.innerText = "Gobernanza Madura";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        } else if (indexScore >= 50) {
+          badge.innerText = "Línea Base Operativa";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20";
+        } else {
+          badge.innerText = "Vulnerabilidad Crítica";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20";
+        }
+      }
+
+      // Update Metric Values and Bars
+      setSafeText('metric-efficiency-val', `${m.efficiency}%`);
+      setSafeWidth('bar-efficiency', m.efficiency);
+
+      setSafeText('metric-trust-val', `${m.trust}%`);
+      setSafeWidth('bar-trust', m.trust);
+
+      setSafeText('metric-accountability-val', `${m.accountability}%`);
+      setSafeWidth('bar-accountability', m.accountability);
+
+      setSafeText('metric-security-val', `${m.security}%`);
+      setSafeWidth('bar-security', m.security);
+
+      setSafeText('metric-context-val', `${m.context}%`);
+      setSafeWidth('bar-context', m.context);
+
+      // Budget Metric Format
+      setSafeText('metric-budget-val', `$${(m.budget / 1000).toFixed(0)}k`);
+      const budgetPercent = (m.budget / 100000) * 100;
+      setSafeWidth('bar-budget', budgetPercent);
+    }
+
+    function advanceScenario() {
+      if (state.currentScenarioIdx < SCENARIOS.length - 1) {
+        state.currentScenarioIdx++;
+        renderCurrentScenario();
+      } else {
+        showSimulationSummary();
+      }
+    }
+
+    function showSimulationSummary() {
+      playSoundEffect('complete');
+
+      document.getElementById('active-scenario-card').classList.add('hidden');
+      document.getElementById('simulation-summary-card').classList.remove('hidden');
+
+      const m = state.metrics;
+      const finalScore = (
+        m.efficiency * 0.20 +
+        m.trust * 0.20 +
+        m.accountability * 0.20 +
+        m.security * 0.20 +
+        m.context * 0.20
+      ).toFixed(1);
+
+      setSafeText('summary-final-score', finalScore);
+
+      // Determine Profile Rating
+      let ratingTitle = "Líder de Gobernanza Estructurado";
+      let ratingDesc = "Priorizas la responsabilidad formal, las políticas documentadas, la claridad de contexto y la gobernanza automatizada de pipelines.";
+
+      if (finalScore < 50) {
+        ratingTitle = "Bombero en Silos";
+        ratingDesc = "Tus decisiones dependieron en gran medida de arreglos manuales rápidos y silos no coordinados. La deuda de datos y los riesgos se acumularon con el tiempo.";
+      } else if (finalScore < 75) {
+        ratingTitle = "Operador de Datos Reactivo";
+        ratingDesc = "Resolviste problemas urgentes y balanceaste el presupuesto, pero faltaron salvaguardas automatizadas y definiciones formales de stewardship.";
+      }
+
+      setSafeText('summary-rating-title', ratingTitle);
+      setSafeText('summary-rating-desc', ratingDesc);
+
+      // Summary Grid Metrics
+      setSafeText('summary-metric-eff', `${m.efficiency}%`);
+      setSafeText('summary-metric-trust', `${m.trust}%`);
+      setSafeText('summary-metric-acc', `${m.accountability}%`);
+      setSafeText('summary-metric-sec', `${m.security}%`);
+      setSafeText('summary-metric-ctx', `${m.context}%`);
+      setSafeText('summary-metric-budget', `$${m.budget.toLocaleString()}`);
+
+      renderLeaderboard();
+    }
+
+    function savePlayerScore() {
+      const nameInput = document.getElementById('player-name-input');
+      const playerName = nameInput ? nameInput.value.trim() : "";
+      if (!playerName) {
+        alert("Por favor ingresa tu nombre para guardar tu puntaje en la tabla de clasificación.");
+        return;
+      }
+
+      const score = document.getElementById('summary-final-score').innerText;
+      const profile = document.getElementById('summary-rating-title').innerText;
+      const today = new Date().toISOString().split('T')[0];
+
+      leaderboardData.push({
+        name: playerName,
+        score: score,
+        profile: profile,
+        date: today
+      });
+
+      // Sort Leaderboard descending
+      leaderboardData.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+
+      renderLeaderboard();
+
+      // Disable submission form after saving
+      document.getElementById('leaderboard-submission-form').innerHTML = `
+        <div class="w-full text-center py-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+          ✓ ¡Tu puntaje ha sido registrado en la Tabla de Clasificación!
+        </div>
+      `;
+      playSoundEffect('success');
+    }
+
+    function renderLeaderboard() {
+      const tbody = document.getElementById('leaderboard-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      leaderboardData.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+
+      leaderboardData.forEach((entry, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 transition";
+
+        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}`;
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-bold text-slate-400">${medal}</td>
+          <td class="py-2.5 px-3 font-semibold text-white">${escapeHtml(entry.name)}</td>
+          <td class="py-2.5 px-3 text-right font-bold text-blue-400">${entry.score}</td>
+          <td class="py-2.5 px-3 text-slate-400">${escapeHtml(entry.profile)}</td>
+          <td class="py-2.5 px-3 text-right text-slate-500">${entry.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    function resetSimulation() {
+      state = {
+        currentScenarioIdx: 0,
+        metrics: {
+          efficiency: 50,
+          trust: 50,
+          accountability: 50,
+          security: 50,
+          context: 50,
+          budget: 100000
+        },
+        hasChosen: false,
+        selectedKey: null,
+        currentShuffledOptions: [],
+        audioEnabled: state.audioEnabled,
+        history: []
+      };
+
+      document.getElementById('simulation-summary-card').classList.add('hidden');
+      document.getElementById('active-scenario-card').classList.remove('hidden');
+
+      // Reset Leaderboard Form
+      const subForm = document.getElementById('leaderboard-submission-form');
+      if (subForm) {
+        subForm.innerHTML = `
+          <div class="w-full sm:w-auto flex-1">
+            <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
+              Registra tu nombre en la Tabla de Clasificación Global:
+            </label>
+            <input type="text" id="player-name-input" placeholder="ej. María Silva - CDO" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          </div>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span>Guardar en el Ranking</span>
+          </button>
+        `;
+      }
+
+      renderStepper();
+      renderCurrentScenario();
+      updateMetricsUI();
+    }
+
+    function openDamaMatrixModal() {
+      document.getElementById('dama-modal').classList.remove('hidden');
+    }
+
+    function closeDamaMatrixModal() {
+      document.getElementById('dama-modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

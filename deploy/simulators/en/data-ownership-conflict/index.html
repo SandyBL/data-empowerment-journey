@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Owns This? — The Data Ownership Conflict Simulator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            teal: '#0E4B59',
+                            navy: '#082F38',
+                            orange: '#E05A2B',
+                            orangeHover: '#C84B20',
+                            bg: '#F4F7F6',
+                            card: '#FFFFFF',
+                            text: '#1E293B',
+                            muted: '#64748B',
+                            success: '#10B981',
+                            error: '#EF4444'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 25px -5px rgba(14, 75, 89, 0.08), 0 8px 10px -6px rgba(14, 75, 89, 0.04)',
+                        'glow': '0 0 20px rgba(224, 90, 43, 0.35)',
+                        'card-hover': '0 20px 30px -10px rgba(8, 47, 56, 0.12)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F4F7F6;
+            color: #1E293B;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-header {
+            background: linear-gradient(135deg, #082F38 0%, #0E4B59 100%);
+        }
+
+        .gradient-accent {
+            background: linear-gradient(135deg, #E05A2B 0%, #F97316 100%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F4F7F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 9999px;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-pop {
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(224, 90, 43, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(224, 90, 43, 0.5); }
+        }
+
+        .pulse-accent {
+            animation: pulseGlow 2s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brand-orange selection:text-white">
+
+    <!-- MAIN NAVIGATION HEADER -->
+    <header class="gradient-header text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="w-12 h-12 rounded-full object-cover border-2 border-white/20 shadow-md bg-white">
+                <div>
+                    <a href="https://datagovjourney.com" target="_blank" class="text-xs sm:text-sm font-semibold tracking-wide text-teal-200 hover:text-white transition flex items-center gap-1">
+                        The Data Empowerment Journey <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <div class="flex items-center gap-2 mt-0.5">
+                        <span class="text-sm sm:text-base font-bold tracking-tight text-white leading-none">Who Owns This?</span>
+                        <span class="bg-teal-900/80 text-teal-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-teal-700 uppercase tracking-wider hidden sm:inline-block">
+                            Role-Conflict Matrix Game
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Action Controls -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button id="btnSoundToggle" onclick="toggleSound()" class="p-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-teal-100 transition text-sm flex items-center gap-1.5" title="Toggle Sound">
+                    <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="openRACIModal()" class="px-3 py-2 rounded-lg bg-teal-800/80 hover:bg-teal-700 text-teal-100 border border-teal-600/50 text-xs sm:text-sm font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-sitemap text-brand-orange"></i>
+                    <span class="hidden md:inline">RACI Guide</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- ================= WELCOME SCREEN ================= -->
+        <section id="welcomeScreen" class="animate-pop space-y-8">
+            <div class="bg-brand-card rounded-2xl p-6 sm:p-10 shadow-soft border border-slate-200/80 relative overflow-hidden">
+                <!-- Background decorative elements -->
+                <div class="absolute -right-12 -top-12 w-64 h-64 bg-teal-50 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-12 -bottom-12 w-64 h-64 bg-orange-50 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-3xl mx-auto text-center space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-brand-teal text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-shield-halved text-brand-orange"></i> Enterprise Governance Challenge
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-brand-navy tracking-tight leading-tight">
+                        Who Owns This? <br>
+                        <span class="text-brand-orange">The Data Ownership Conflict Simulator</span>
+                    </h1>
+
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+                        End internal corporate turf wars. Test your knowledge on who actually owns real-world data tasks according to the international <strong>DAMA Data Governance framework</strong>.
+                    </p>
+
+                    <!-- Role Quick Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-4 text-left">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-teal/40 transition">
+                            <div class="flex items-center gap-2 font-bold text-brand-navy text-sm mb-1">
+                                <span class="text-lg">👔</span> Business Owner
+                            </div>
+                            <p class="text-xs text-slate-500">Owns domain definitions, logic, business rules, revenue metrics & final risk sign-off.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-teal/40 transition">
+                            <div class="flex items-center gap-2 font-bold text-brand-navy text-sm mb-1">
+                                <span class="text-lg">🛡️</span> Data Steward
+                            </div>
+                            <p class="text-xs text-slate-500">Maintains data hygiene, quality profiling, catalog metadata & cross-functional rules.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-teal/40 transition">
+                            <div class="flex items-center gap-2 font-bold text-brand-navy text-sm mb-1">
+                                <span class="text-lg">💻</span> IT / Tech
+                            </div>
+                            <p class="text-xs text-slate-500">Executes SQL pipelines, storage infrastructure, cloud hosting, security & backups.</p>
+                        </div>
+                    </div>
+
+                    <!-- Player Name Input Box -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 max-w-md mx-auto space-y-4">
+                        <div class="text-left">
+                            <label for="playerNameInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                Player Name or Corporate Title
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <input type="text" id="playerNameInput" placeholder="e.g. Alex Chen (Data Lead)" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-teal focus:border-transparent text-slate-800 font-medium placeholder-slate-400 bg-white shadow-sm text-sm" maxlength="30">
+                            </div>
+                        </div>
+
+                        <button onclick="startGame()" class="w-full py-4 px-6 rounded-xl bg-brand-orange hover:bg-brand-orangeHover text-white font-bold text-lg shadow-lg hover:shadow-xl hover:shadow-orange-500/20 transform hover:-translate-y-0.5 transition duration-150 flex items-center justify-center gap-2 group">
+                            <span>Start Challenge (10 Scenarios)</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </button>
+                    </div>
+
+                    <p class="text-xs text-slate-400">
+                        Takes ~3 minutes • Benchmark your data maturity score against industry peers
+                    </p>
+                </div>
+            </div>
+
+            <!-- Recent Leaderboard Teaser -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-200/80">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-brand-navy text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-amber-500"></i> Top Governance Champions
+                    </h3>
+                    <span class="text-xs font-semibold text-slate-500">Local Leaderboard</span>
+                </div>
+                <div id="welcomeLeaderboard" class="divide-y divide-slate-100">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GAMEPLAY SCREEN ================= -->
+        <section id="gameplayScreen" class="hidden space-y-6">
+            
+            <!-- Game HUD / Progress Bar Card -->
+            <div class="bg-brand-navy text-white rounded-2xl p-5 shadow-soft border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between sm:justify-start gap-3">
+                        <span id="hudScenarioCounter" class="text-xs font-extrabold uppercase tracking-widest text-teal-300">Scenario 1 of 10</span>
+                        <span id="hudStreakBadge" class="hidden inline-flex items-center gap-1 text-xs font-bold bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                            <i class="fa-solid fa-fire text-amber-400"></i> <span id="hudStreakCount">2</span> Streak!
+                        </span>
+                    </div>
+                    <!-- Visual Progress Bar -->
+                    <div class="w-full sm:w-64 bg-slate-700/60 h-2.5 rounded-full overflow-hidden border border-slate-600/40 mt-1">
+                        <div id="hudProgressBar" class="bg-brand-orange h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6 justify-between sm:justify-end border-t sm:border-t-0 border-slate-700/60 pt-3 sm:pt-0">
+                    <div class="text-left sm:text-right">
+                        <div class="text-[10px] uppercase font-bold text-teal-200/70 tracking-wider">Player</div>
+                        <div id="hudPlayerName" class="font-bold text-sm text-white truncate max-w-[120px]">Player</div>
+                    </div>
+                    <div class="text-right pl-4 border-l border-slate-700/60">
+                        <div class="text-[10px] uppercase font-bold text-teal-200/70 tracking-wider">Current Score</div>
+                        <div id="hudScore" class="text-2xl font-black text-brand-orange tracking-tight">0 <span class="text-xs font-normal text-teal-200">pts</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario Card Display -->
+            <div class="bg-brand-card rounded-2xl p-6 sm:p-10 shadow-soft border border-slate-200/80 space-y-8 animate-pop">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-brand-teal bg-teal-50 px-3 py-1 rounded-full border border-teal-200/60">
+                            <i class="fa-solid fa-building-user mr-1"></i> Data Conflict Task
+                        </span>
+                        <span id="scenarioCategoryBadge" class="text-xs font-semibold text-slate-400">
+                            Category: Data Management
+                        </span>
+                    </div>
+                    <h2 id="scenarioTaskText" class="text-2xl sm:text-3xl font-extrabold text-brand-navy leading-snug">
+                        "Defining what 'Active Customer' officially means for business reporting."
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        Who has primary accountability and ownership for executing or signing off on this task?
+                    </p>
+                </div>
+
+                <!-- 3 Interactive Choice Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <!-- Business Owner Button -->
+                    <button onclick="submitAnswer('Business Owner')" class="role-btn group relative p-5 rounded-2xl bg-slate-50 hover:bg-teal-50/50 border-2 border-slate-200 hover:border-brand-teal text-left transition duration-200 flex flex-col justify-between shadow-sm hover:shadow-md">
+                        <div class="flex items-center justify-between w-full mb-3">
+                            <span class="text-3xl p-2 bg-white rounded-xl shadow-xs group-hover:scale-110 transition transform">👔</span>
+                            <span class="text-[11px] font-bold text-slate-400 group-hover:text-brand-teal uppercase tracking-wider">Domain Lead</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">Business Owner</h3>
+                            <p class="text-xs text-slate-500 mt-1">Holds revenue goals, metric logic, budget & domain risk sign-off.</p>
+                        </div>
+                    </button>
+
+                    <!-- Data Steward Button -->
+                    <button onclick="submitAnswer('Data Steward')" class="role-btn group relative p-5 rounded-2xl bg-slate-50 hover:bg-teal-50/50 border-2 border-slate-200 hover:border-brand-teal text-left transition duration-200 flex flex-col justify-between shadow-sm hover:shadow-md">
+                        <div class="flex items-center justify-between w-full mb-3">
+                            <span class="text-3xl p-2 bg-white rounded-xl shadow-xs group-hover:scale-110 transition transform">🛡️</span>
+                            <span class="text-[11px] font-bold text-slate-400 group-hover:text-brand-teal uppercase tracking-wider">Quality Lead</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">Data Steward</h3>
+                            <p class="text-xs text-slate-500 mt-1">Bridges tech & business; enforces hygiene, definitions & profiling.</p>
+                        </div>
+                    </button>
+
+                    <!-- IT / Tech Button -->
+                    <button onclick="submitAnswer('IT / Tech')" class="role-btn group relative p-5 rounded-2xl bg-slate-50 hover:bg-teal-50/50 border-2 border-slate-200 hover:border-brand-teal text-left transition duration-200 flex flex-col justify-between shadow-sm hover:shadow-md">
+                        <div class="flex items-center justify-between w-full mb-3">
+                            <span class="text-3xl p-2 bg-white rounded-xl shadow-xs group-hover:scale-110 transition transform">💻</span>
+                            <span class="text-[11px] font-bold text-slate-400 group-hover:text-brand-teal uppercase tracking-wider">Engineering</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">IT / Tech</h3>
+                            <p class="text-xs text-slate-500 mt-1">Builds pipelines, configures databases, hosting, security & backups.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FEEDBACK MODAL / CARD ================= -->
+        <div id="feedbackModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden animate-pop">
+            <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6 relative overflow-hidden">
+                <!-- Status Header Indicator -->
+                <div id="feedbackBanner" class="p-4 rounded-xl flex items-center gap-3">
+                    <div id="feedbackIcon" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-black text-white shrink-0">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div>
+                        <h3 id="feedbackResultTitle" class="text-xl font-extrabold tracking-tight">Correct Choice!</h3>
+                        <p id="feedbackPointsEarned" class="text-xs font-bold uppercase tracking-wider">+100 Points Added</p>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <span>DAMA Governance Rationale</span>
+                        <span id="feedbackCorrectRoleBadge" class="bg-teal-100 text-brand-teal px-2 py-0.5 rounded font-semibold">
+                            Role: Business Owner
+                        </span>
+                    </div>
+                    <p id="feedbackExplanationText" class="text-sm text-slate-700 leading-relaxed font-medium">
+                        Explanation line here...
+                    </p>
+                </div>
+
+                <button id="btnNextScenario" onclick="nextScenario()" class="w-full py-3.5 px-6 rounded-xl bg-brand-navy hover:bg-brand-teal text-white font-bold text-base shadow-md transition flex items-center justify-center gap-2 group">
+                    <span>Next Scenario</span>
+                    <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-1 transition"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= RESULTS & LEADERBOARD SCREEN ================= -->
+        <section id="resultsScreen" class="hidden space-y-8 animate-pop">
+            
+            <!-- Result Summary Card -->
+            <div class="bg-brand-card rounded-2xl p-6 sm:p-10 shadow-soft border border-slate-200/80 space-y-8 text-center relative overflow-hidden">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-flag-checkered text-brand-orange"></i> Assessment Completed
+                </div>
+
+                <div class="space-y-2">
+                    <h2 id="resultPlayerGreeting" class="text-2xl sm:text-3xl font-extrabold text-brand-navy">
+                        Great job, Alex!
+                    </h2>
+                    <p class="text-sm text-slate-500">Here is your Data Governance Ownership maturity breakdown:</p>
+                </div>
+
+                <!-- Score Big Counter & Tier Badge -->
+                <div class="bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200 max-w-md mx-auto space-y-4">
+                    <div>
+                        <span id="finalScoreDisplay" class="text-5xl sm:text-6xl font-black text-brand-navy tracking-tight">800</span>
+                        <span class="text-lg font-bold text-slate-400">/ 1000 pts</span>
+                    </div>
+
+                    <!-- Performance Tier Badge -->
+                    <div id="tierBadgeContainer" class="p-3 rounded-xl bg-teal-50 border border-teal-200 text-brand-teal inline-block w-full">
+                        <div id="tierTitle" class="text-lg font-extrabold flex items-center justify-center gap-2">
+                            <span>🏆 Data Ownership Master</span>
+                        </div>
+                        <p id="tierDescription" class="text-xs mt-1 text-slate-600 font-normal">
+                            Expert level! You know exactly how to structure governance roles.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Share / Download Badge Button -->
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="copyResultsToClipboard()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-2 border border-slate-200">
+                        <i class="fa-regular fa-copy"></i> Copy Score Summary
+                    </button>
+                    <button onclick="toggleReviewMode()" class="px-4 py-2.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-brand-teal font-bold text-xs transition flex items-center gap-2 border border-teal-200">
+                        <i class="fa-solid fa-list-check"></i> Review All Answers
+                    </button>
+                </div>
+            </div>
+
+            <!-- Answer Review Section (Collapsible/Toggleable) -->
+            <div id="answerReviewContainer" class="hidden bg-white rounded-2xl p-6 shadow-soft border border-slate-200/80 space-y-4">
+                <h3 class="font-bold text-brand-navy text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass text-brand-orange"></i> Scenario Review & DAMA Guidelines
+                </h3>
+                <div id="reviewList" class="space-y-3 divide-y divide-slate-100">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Personalized Takeaways & Tips Section -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-soft border border-slate-200/80 space-y-6">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-brand-orange bg-orange-50 px-3 py-1 rounded-full border border-orange-200/60">
+                        Action Plan
+                    </span>
+                    <h3 class="text-xl font-extrabold text-brand-navy mt-2">Personalized Governance Takeaways</h3>
+                    <p class="text-xs text-slate-500">3 actionable recommendations to eliminate role ambiguity in your enterprise:</p>
+                </div>
+
+                <div id="takeawaysList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Populated dynamically based on score tier -->
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-soft border border-slate-200/80 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-brand-navy flex items-center gap-2">
+                            <i class="fa-solid fa-trophy text-amber-500"></i> Local Leaderboard
+                        </h3>
+                        <p class="text-xs text-slate-500">Top governance scores saved on this browser</p>
+                    </div>
+                    <button onclick="clearLeaderboard()" class="text-xs text-slate-400 hover:text-rose-500 transition underline">
+                        Reset Board
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200 text-xs text-slate-400 font-bold uppercase tracking-wider">
+                                <th class="pb-3 pl-2">Rank</th>
+                                <th class="pb-3">Player</th>
+                                <th class="pb-3">Tier</th>
+                                <th class="pb-3 text-right pr-2">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody" class="divide-y divide-slate-100 font-medium">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Call to Action Box (Data Empowerment Journey) -->
+            <div class="gradient-header text-white rounded-2xl p-8 shadow-xl border border-teal-800 space-y-6 relative overflow-hidden text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-3 max-w-xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-900/90 text-teal-200 text-xs font-bold uppercase tracking-wider border border-teal-700">
+                        <i class="fa-solid fa-chart-line text-brand-orange"></i> Data Maturity Diagnostic
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                        Know your company's data maturity level
+                    </h3>
+                    <p class="text-teal-100 text-sm leading-relaxed">
+                        Fill in the quick evaluation form to discover where your organization stands on data maturity and get a tailored diagnostic report.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-auto shrink-0">
+                    <a href="https://datagovjourney.com/?lang=en#contacto" target="_blank" rel="noopener noreferrer" class="px-6 py-4 rounded-xl bg-brand-orange hover:bg-brand-orangeHover text-white font-bold text-center text-sm shadow-lg hover:shadow-orange-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <span>Get Your Company's Diagnostic</span>
+                        <i class="fa-solid fa-square-poll-vertical"></i>
+                    </a>
+                    <button onclick="resetGame()" class="px-6 py-3 rounded-xl bg-teal-800/80 hover:bg-teal-700 text-teal-100 font-semibold text-center text-sm border border-teal-600/50 transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Try Simulator Again
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-navy text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-white">The Data Empowerment Journey</span>
+                <span>•</span>
+                <a href="https://datagovjourney.com" target="_blank" class="hover:text-teal-300 transition">datagovjourney.com</a>
+            </div>
+            <p>© 2026 The Data Empowerment Journey. Based on DAMA-DMBOK Governance Standards.</p>
+        </div>
+    </footer>
+
+    <!-- RACI / GOVERNANCE CHEATSHEET MODAL -->
+    <div id="raciModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-teal-100 text-brand-teal flex items-center justify-center font-black">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-brand-navy text-lg">DAMA Governance RACI Guide</h3>
+                        <p class="text-xs text-slate-500">Core Role Matrix Breakdown</p>
+                    </div>
+                </div>
+                <button onclick="closeRACIModal()" class="text-slate-400 hover:text-slate-600 p-2 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-sm text-slate-700">
+                <div class="p-4 rounded-xl bg-teal-50/60 border border-teal-100 space-y-1">
+                    <h4 class="font-bold text-brand-teal flex items-center gap-2">
+                        <span>👔 Business Owner (Accountable)</span>
+                    </h4>
+                    <p class="text-xs text-slate-600">
+                        Holds budget, commercial outcomes, metric definitions, domain rules, and final business risk sign-off. If a metric is wrong, the Business Owner is held accountable by leadership.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-100 space-y-1">
+                    <h4 class="font-bold text-amber-900 flex items-center gap-2">
+                        <span>🛡️ Data Steward (Responsible / Consulted)</span>
+                    </h4>
+                    <p class="text-xs text-slate-600">
+                        Operational domain experts who manage data quality profiling, document metadata catalog definitions, resolve operational duplicate records, and enforce hygiene workflows daily.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100 space-y-1">
+                    <h4 class="font-bold text-blue-900 flex items-center gap-2">
+                        <span>💻 IT / Tech (Infrastructure Enabler)</span>
+                    </h4>
+                    <p class="text-xs text-slate-600">
+                        Technical custodians responsible for writing ETL pipelines, building cloud warehouses, setting firewall security, maintaining backup protocols, and ensuring uptime.
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="closeRACIModal()" class="w-full py-3 rounded-xl bg-brand-navy hover:bg-brand-teal text-white font-bold text-sm transition">
+                Got It, Return to Challenge
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT GAME LOGIC -->
+    <script>
+        // PRE-LOADED 10 DAMA GOVERNANCE SCENARIOS
+        const SCENARIOS = [
+            {
+                id: 1,
+                task: "Defining what 'Active Customer' officially means for business reporting.",
+                category: "Business Metric & Definitions",
+                correctRole: "Business Owner",
+                explanation: "The Business Owner sets metric logic and definitions because they hold accountability for commercial revenue and reporting outcomes. IT builds the reports, but Business owns the definition."
+            },
+            {
+                id: 2,
+                task: "Writing an automated SQL pipeline to merge duplicate email addresses in the database.",
+                category: "Technical Data Engineering",
+                correctRole: "IT / Tech",
+                explanation: "IT executes the technical build, storage, database indexing, and code execution. Technical implementation belongs to Tech teams."
+            },
+            {
+                id: 3,
+                task: "Creating data quality profiling rules and monitoring dirty data in the CRM.",
+                category: "Data Hygiene & Quality",
+                correctRole: "Data Steward",
+                explanation: "Data Stewards maintain data hygiene, operational quality standards, and definitions daily across business operations."
+            },
+            {
+                id: 4,
+                task: "Configuring database firewall rules and granting server access permissions.",
+                category: "Security & Infrastructure",
+                correctRole: "IT / Tech",
+                explanation: "IT manages security infrastructure, access control protocols, network firewalls, and server operating systems."
+            },
+            {
+                id: 5,
+                task: "Deciding whether Marketing can share customer purchase history with a 3rd-party vendor.",
+                category: "Data Usage Approval & Risk",
+                correctRole: "Business Owner",
+                explanation: "The Business Owner owns domain approval, business risk, commercial agreements, and vendor revenue goals."
+            },
+            {
+                id: 6,
+                task: "Investigating why 15% of regional sales entries are missing postal codes.",
+                category: "Root-Cause Data Resolution",
+                correctRole: "Data Steward",
+                explanation: "Data Stewards investigate operational root-cause data issues across business workflows and work with users to fix data entry habits."
+            },
+            {
+                id: 7,
+                task: "Purchasing and setting up a new Enterprise Cloud Data Warehouse server.",
+                category: "Cloud Infrastructure Setup",
+                correctRole: "IT / Tech",
+                explanation: "IT handles software infrastructure, hosting architecture, vendor provisioning, and system maintenance."
+            },
+            {
+                id: 8,
+                task: "Documenting business metadata and column descriptions in the Data Catalog.",
+                category: "Data Governance Metadata",
+                correctRole: "Data Steward",
+                explanation: "Data Stewards bridge business context and technical metadata by maintaining definitions and attributes in the Data Catalog."
+            },
+            {
+                id: 9,
+                task: "Approving a $50k budget for a new customer data enhancement campaign.",
+                category: "Financial Budget & P&L",
+                correctRole: "Business Owner",
+                explanation: "The Business Owner holds P&L authority, capital allocation, and budget approval for commercial data initiatives."
+            },
+            {
+                id: 10,
+                task: "Setting up automated daily backups and disaster recovery protocols for analytics tables.",
+                category: "System Availability & Backups",
+                correctRole: "IT / Tech",
+                explanation: "IT ensures system uptime, automated backups, redundancy protocols, and technical infrastructure stability."
+            }
+        ];
+
+        // MOCK INITIAL LEADERBOARD DATA
+        const MOCK_LEADERBOARD = [
+            { name: "Elena Rostova (CDO)", score: 1000, tier: "Data Ownership Master", date: "2026-07-28" },
+            { name: "Marcus Vance (Gov Lead)", score: 900, tier: "Data Ownership Master", date: "2026-07-29" },
+            { name: "Sarah Jenkins (Sr. Steward)", score: 700, tier: "Governance Practitioner", date: "2026-07-25" },
+            { name: "David Kim (IT Director)", score: 600, tier: "Governance Practitioner", date: "2026-07-27" },
+            { name: "Priya Patel (Analyst)", score: 400, tier: "Ownership Rookie", date: "2026-07-20" }
+        ];
+
+        // GAME STATE
+        let currentState = {
+            playerName: "",
+            currentScenarioIndex: 0,
+            score: 0,
+            streak: 0,
+            userAnswers: [], // stores { scenarioId, selectedRole, correctRole, isCorrect, explanation }
+            soundEnabled: true
+        };
+
+        // WEB AUDIO SOUND SYNTHESIZER
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!currentState.soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'incorrect') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(220, now); // A3
+                    osc.frequency.setValueAtTime(174.61, now + 0.1); // F3
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'complete') {
+                    // Celebration fanfare
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.frequency.setValueAtTime(freq, now + i * 0.08);
+                        g.gain.setValueAtTime(0.15, now + i * 0.08);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.3);
+                        o.start(now + i * 0.08);
+                        o.stop(now + i * 0.08 + 0.3);
+                    });
+                }
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        function toggleSound() {
+            currentState.soundEnabled = !currentState.soundEnabled;
+            const soundIcon = document.getElementById('soundIcon');
+            if (currentState.soundEnabled) {
+                soundIcon.className = "fa-solid fa-volume-high";
+                playSound('click');
+            } else {
+                soundIcon.className = "fa-solid fa-volume-xmark text-slate-400";
+            }
+        }
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            renderWelcomeLeaderboard();
+        });
+
+        // START GAME
+        function startGame() {
+            playSound('click');
+            const nameInput = document.getElementById('playerNameInput').value.trim();
+            currentState.playerName = nameInput !== "" ? nameInput : "Anonymous Leader";
+            currentState.currentScenarioIndex = 0;
+            currentState.score = 0;
+            currentState.streak = 0;
+            currentState.userAnswers = [];
+
+            // UI Switch
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.remove('hidden');
+
+            renderCurrentScenario();
+        }
+
+        // RENDER CURRENT SCENARIO
+        function renderCurrentScenario() {
+            const scenario = SCENARIOS[currentState.currentScenarioIndex];
+            
+            // HUD updates
+            document.getElementById('hudScenarioCounter').innerText = `Scenario ${currentState.currentScenarioIndex + 1} of 10`;
+            document.getElementById('hudPlayerName').innerText = currentState.playerName;
+            document.getElementById('hudScore').innerText = currentState.score;
+            
+            const progressPercent = ((currentState.currentScenarioIndex) / 10) * 100;
+            document.getElementById('hudProgressBar').style.width = `${progressPercent}%`;
+
+            if (currentState.streak >= 2) {
+                document.getElementById('hudStreakBadge').classList.remove('hidden');
+                document.getElementById('hudStreakCount').innerText = currentState.streak;
+            } else {
+                document.getElementById('hudStreakBadge').classList.add('hidden');
+            }
+
+            // Scenario Card Updates
+            document.getElementById('scenarioCategoryBadge').innerText = `Category: ${scenario.category}`;
+            document.getElementById('scenarioTaskText').innerText = `"${scenario.task}"`;
+        }
+
+        // SUBMIT ANSWER
+        function submitAnswer(selectedRole) {
+            const scenario = SCENARIOS[currentState.currentScenarioIndex];
+            const isCorrect = selectedRole === scenario.correctRole;
+
+            if (isCorrect) {
+                currentState.score += 100;
+                currentState.streak += 1;
+                playSound('correct');
+            } else {
+                currentState.streak = 0;
+                playSound('incorrect');
+            }
+
+            // Record Answer
+            currentState.userAnswers.push({
+                scenarioId: scenario.id,
+                task: scenario.task,
+                selectedRole: selectedRole,
+                correctRole: scenario.correctRole,
+                isCorrect: isCorrect,
+                explanation: scenario.explanation
+            });
+
+            showFeedbackModal(isCorrect, scenario.correctRole, scenario.explanation);
+        }
+
+        // SHOW FEEDBACK MODAL
+        function showFeedbackModal(isCorrect, correctRole, explanation) {
+            const modal = document.getElementById('feedbackModal');
+            const banner = document.getElementById('feedbackBanner');
+            const icon = document.getElementById('feedbackIcon');
+            const title = document.getElementById('feedbackResultTitle');
+            const points = document.getElementById('feedbackPointsEarned');
+            const roleBadge = document.getElementById('feedbackCorrectRoleBadge');
+            const explanationText = document.getElementById('feedbackExplanationText');
+            const btnNext = document.getElementById('btnNextScenario');
+
+            if (isCorrect) {
+                banner.className = "p-4 rounded-xl flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-900";
+                icon.className = "w-12 h-12 rounded-full flex items-center justify-center text-xl font-black bg-emerald-500 text-white shrink-0";
+                icon.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                title.innerText = "Correct Choice!";
+                title.className = "text-xl font-extrabold text-emerald-950 tracking-tight";
+                points.innerText = currentState.streak > 2 ? `+100 Points (${currentState.streak}x Streak!)` : "+100 Points Added";
+                points.className = "text-xs font-bold uppercase tracking-wider text-emerald-600";
+            } else {
+                banner.className = "p-4 rounded-xl flex items-center gap-3 bg-rose-50 border border-rose-200 text-rose-900";
+                icon.className = "w-12 h-12 rounded-full flex items-center justify-center text-xl font-black bg-rose-500 text-white shrink-0";
+                icon.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+                title.innerText = "Incorrect Role Assigned";
+                title.className = "text-xl font-extrabold text-rose-950 tracking-tight";
+                points.innerText = "0 Points";
+                points.className = "text-xs font-bold uppercase tracking-wider text-rose-500";
+            }
+
+            roleBadge.innerText = `Correct Owner: ${correctRole}`;
+            explanationText.innerText = explanation;
+
+            if (currentState.currentScenarioIndex === 9) {
+                btnNext.innerHTML = `<span>View Final Results</span> <i class="fa-solid fa-trophy text-amber-300"></i>`;
+            } else {
+                btnNext.innerHTML = `<span>Next Scenario</span> <i class="fa-solid fa-chevron-right text-xs"></i>`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // NEXT SCENARIO OR END GAME
+        function nextScenario() {
+            playSound('click');
+            document.getElementById('feedbackModal').classList.add('hidden');
+
+            currentState.currentScenarioIndex += 1;
+
+            if (currentState.currentScenarioIndex < 10) {
+                renderCurrentScenario();
+            } else {
+                finishGame();
+            }
+        }
+
+        // FINISH GAME & DISPLAY RESULTS
+        function finishGame() {
+            playSound('complete');
+            document.getElementById('gameplayScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            document.getElementById('resultPlayerGreeting').innerText = `Great job, ${currentState.playerName}!`;
+            document.getElementById('finalScoreDisplay').innerText = currentState.score;
+
+            // Determine Tier
+            let tierTitle = "";
+            let tierDesc = "";
+            let tierBgClass = "";
+
+            if (currentState.score <= 400) {
+                tierTitle = "🌱 Ownership Rookie";
+                tierDesc = "High organizational friction! You're likely treating IT like a data janitor.";
+                tierBgClass = "p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 inline-block w-full";
+            } else if (currentState.score <= 700) {
+                tierTitle = "⚡ Governance Practitioner";
+                tierDesc = "Good foundation, but boundary lines between Stewards & Business are still blurry.";
+                tierBgClass = "p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 inline-block w-full";
+            } else {
+                tierTitle = "🏆 Data Ownership Master";
+                tierDesc = "Expert level! You know exactly how to structure governance roles according to DAMA.";
+                tierBgClass = "p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 inline-block w-full";
+            }
+
+            const tierContainer = document.getElementById('tierBadgeContainer');
+            tierContainer.className = tierBgClass;
+            document.getElementById('tierTitle').innerText = tierTitle;
+            document.getElementById('tierDescription').innerText = tierDesc;
+
+            renderTakeaways(currentState.score);
+            saveToLeaderboard(currentState.playerName, currentState.score, tierTitle.replace(/^[^\w]+/, ''));
+            renderFullLeaderboard();
+            renderAnswerReview();
+        }
+
+        // RENDER TAKEAWAYS & TIPS BASED ON TIER
+        function renderTakeaways(score) {
+            const list = document.getElementById('takeawaysList');
+            let tips = [];
+
+            if (score <= 400) {
+                tips = [
+                    {
+                        title: "1. Stop Treating IT as Data Janitors",
+                        desc: "IT provides the server pipes and infrastructure. Business metrics logic must be defined by Business Owners."
+                    },
+                    {
+                        title: "2. Publish a Business RACI Matrix",
+                        desc: "Document explicit Responsibilities and Accountabilities for all critical reporting metrics."
+                    },
+                    {
+                        title: "3. Nominate Data Stewards",
+                        desc: "Appoint operational subject matter experts in sales and marketing to enforce daily data entry hygiene."
+                    }
+                ];
+            } else if (score <= 700) {
+                tips = [
+                    {
+                        title: "1. Clarify Steward vs. Business Roles",
+                        desc: "Business Owners approve metric logic & budgets; Data Stewards implement profiling rules and maintain metadata catalogs."
+                    },
+                    {
+                        title: "2. Automate Catalog Documentation",
+                        desc: "Implement a data catalog tool to bridge technical schemas with business definitions transparently."
+                    },
+                    {
+                        title: "3. Establish Data Quality Thresholds",
+                        desc: "Set automated SLAs for error rates on core CRM tables so Stewards can triage missing data proactively."
+                    }
+                ];
+            } else {
+                tips = [
+                    {
+                        title: "1. Scale Governance Across Domains",
+                        desc: "Expand your clear role accountability model to new AI, ML, and real-time streaming data pipelines."
+                    },
+                    {
+                        title: "2. Incentivize Steward Stewardship",
+                        desc: "Tie data quality KPIs to annual performance benchmarks for domain Data Stewards."
+                    },
+                    {
+                        title: "3. Share Best Practices Enterprise-Wide",
+                        desc: "Host internal 'Data Empowerment' workshops with Sandy Bradbury to coach other business units."
+                    }
+                ];
+            }
+
+            list.innerHTML = tips.map(tip => `
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1 text-left">
+                    <h4 class="font-bold text-brand-navy text-sm">${tip.title}</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">${tip.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        // LEADERBOARD LOCALSTORAGE MANAGEMENT
+        function getLeaderboard() {
+            const data = localStorage.getItem('dej_ownership_leaderboard');
+            if (!data) {
+                localStorage.setItem('dej_ownership_leaderboard', JSON.stringify(MOCK_LEADERBOARD));
+                return MOCK_LEADERBOARD;
+            }
+            try {
+                return JSON.parse(data);
+            } catch (e) {
+                return MOCK_LEADERBOARD;
+            }
+        }
+
+        function saveToLeaderboard(name, score, tier) {
+            let board = getLeaderboard();
+            const dateStr = new Date().toISOString().split('T')[0];
+            board.push({ name, score, tier, date: dateStr });
+            board.sort((a, b) => b.score - a.score);
+            board = board.slice(0, 10); // Keep top 10
+            localStorage.setItem('dej_ownership_leaderboard', JSON.stringify(board));
+        }
+
+        function clearLeaderboard() {
+            localStorage.setItem('dej_ownership_leaderboard', JSON.stringify(MOCK_LEADERBOARD));
+            renderFullLeaderboard();
+            renderWelcomeLeaderboard();
+        }
+
+        function renderWelcomeLeaderboard() {
+            const board = getLeaderboard().slice(0, 3);
+            const container = document.getElementById('welcomeLeaderboard');
+            container.innerHTML = board.map((item, idx) => `
+                <div class="py-2.5 flex items-center justify-between text-xs sm:text-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-full font-bold flex items-center justify-center text-xs ${idx === 0 ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">
+                            #${idx + 1}
+                        </span>
+                        <span class="font-bold text-slate-800 truncate max-w-[180px]">${item.name}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-slate-400 text-xs hidden sm:inline">${item.tier}</span>
+                        <span class="font-extrabold text-brand-teal">${item.score} pts</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFullLeaderboard() {
+            const board = getLeaderboard();
+            const tbody = document.getElementById('leaderboardTableBody');
+            
+            tbody.innerHTML = board.map((item, idx) => {
+                const isCurrentPlayer = item.name === currentState.playerName && item.score === currentState.score;
+                return `
+                    <tr class="${isCurrentPlayer ? 'bg-teal-50/80 font-bold' : ''}">
+                        <td class="py-3 pl-2 text-xs font-bold text-slate-500">
+                            ${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '#' + (idx + 1)}
+                        </td>
+                        <td class="py-3 text-slate-800">
+                            ${item.name} ${isCurrentPlayer ? '<span class="text-[10px] bg-brand-teal text-white px-1.5 py-0.5 rounded ml-1">You</span>' : ''}
+                        </td>
+                        <td class="py-3 text-xs text-slate-500">${item.tier}</td>
+                        <td class="py-3 text-right pr-2 font-extrabold text-brand-navy">${item.score} pts</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // RENDER SCENARIO ANSWER REVIEW
+        function renderAnswerReview() {
+            const list = document.getElementById('reviewList');
+            list.innerHTML = currentState.userAnswers.map((ans, idx) => `
+                <div class="pt-3 first:pt-0 space-y-1">
+                    <div class="flex items-start justify-between gap-2">
+                        <span class="text-xs font-bold text-slate-800">
+                            ${idx + 1}. "${ans.task}"
+                        </span>
+                        <span class="text-xs font-bold shrink-0 ${ans.isCorrect ? 'text-emerald-600' : 'text-rose-600'}">
+                            ${ans.isCorrect ? '✓ Correct' : '✗ Missed'}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="text-slate-500">Your choice: <strong class="${ans.isCorrect ? 'text-emerald-700' : 'text-rose-600 line-through'}">${ans.selectedRole}</strong></span>
+                        ${!ans.isCorrect ? `<span class="text-slate-500">• Correct: <strong class="text-brand-teal">${ans.correctRole}</strong></span>` : ''}
+                    </div>
+                    <p class="text-[11px] text-slate-500 italic bg-slate-50 p-2 rounded border border-slate-100">
+                        ${ans.explanation}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function toggleReviewMode() {
+            playSound('click');
+            const container = document.getElementById('answerReviewContainer');
+            container.classList.toggle('hidden');
+            if (!container.classList.contains('hidden')) {
+                container.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // COPY RESULTS TO CLIPBOARD
+        function copyResultsToClipboard() {
+            playSound('click');
+            const text = `🏆 I scored ${currentState.score}/1000 in "Who Owns This? — The Data Ownership Conflict Simulator" by The Data Empowerment Journey! Try it out and end corporate data turf wars at datagovjourney.com`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alertToast("Summary copied to clipboard!");
+                }).catch(() => {
+                    fallbackCopyText(text);
+                });
+            } else {
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alertToast("Summary copied to clipboard!");
+        }
+
+        function alertToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-6 right-6 z-50 bg-brand-navy text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl border border-teal-600 animate-pop";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-brand-orange mr-2"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // RACI MODAL CONTROLS
+        function openRACIModal() {
+            playSound('click');
+            document.getElementById('raciModal').classList.remove('hidden');
+        }
+
+        function closeRACIModal() {
+            playSound('click');
+            document.getElementById('raciModal').classList.add('hidden');
+        }
+
+        // RESET GAME
+        function resetGame() {
+            playSound('click');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
