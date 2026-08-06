@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Governança de Dados (DAMA-DMBOK)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; overflow-x: hidden; }
+        .sidebar { background-color: #1e293b; color: #f8fafc; }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
+        .metric-bar-bg { background-color: #334155; overflow: hidden; }
+        .metric-bar-fill { transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease; }
+        
+        .floating-delta {
+            position: absolute; right: 0; top: -20px; font-weight: bold; font-size: 0.85rem;
+            opacity: 0; transform: translateY(10px); animation: floatUp 2s forwards; z-index: 10;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(10px); }
+            80% { opacity: 1; transform: translateY(-15px); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .btn-option { transition: all 0.2s ease; border-left: 4px solid transparent; }
+        .btn-option:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-left-color: #2563eb; }
+        
+        /* Compact layout styles */
+        .compact-metric-label { font-size: 0.70rem; line-height: 1; margin-bottom: 2px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .compact-metric-val { font-size: 0.85rem; font-weight: 700; color: #fff; }
+        
+        .modal { display: none; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
+        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Leaderboard table styles */
+        .leaderboard-row:nth-child(even) { background-color: #f1f5f9; }
+        .leaderboard-row.highlight { background-color: #dbeafe; border-left: 4px solid #2563eb; }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- Modal DAMA-DMBOK Guia -->
+    <div id="dama-modal" class="modal fixed inset-0 z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2 border-b pb-2"><i class="fas fa-book text-blue-600 mr-2"></i>Áreas de Conhecimento DAMA-DMBOK</h2>
+            <p class="text-sm text-slate-600 mb-4">A Estrutura DAMA (Data Management Association) define 11 áreas centrais de gerenciamento de dados. Este simulador testa suas decisões operacionais em relação a estes princípios.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">1. Governança de Dados:</strong> Planejamento, supervisão e controle do gerenciamento de dados.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">2. Arquitetura de Dados:</strong> A estrutura geral dos dados e os recursos relacionados a eles.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">3. Modelagem e Design:</strong> Análise e design para criação e manutenção de dados.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">4. Armazenamento e Operações:</strong> Implantação e gerenciamento de bancos de dados físicos.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">5. Segurança de Dados:</strong> Garantia de privacidade, confidencialidade e acesso adequado.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">6. Integração e Interoperabilidade:</strong> Movimentação e consolidação de dados.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">7. Gerenciamento de Documentos:</strong> Controle sobre dados armazenados em formatos não estruturados.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">8. Dados Mestres e Referência:</strong> Gerenciamento de dados compartilhados para reduzir redundâncias.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">9. Data Warehousing & BI:</strong> Gerenciamento de dados analíticos para relatórios.</div>
+                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">10. Metadados:</strong> Informações sobre os dados (contexto, linhagem, definições).</div>
+                <div class="p-3 bg-slate-50 rounded border md:col-span-2"><strong class="text-blue-700">11. Qualidade de Dados:</strong> Garantir que os dados sejam adequados para uso, medindo e melhorando sua condição.</div>
+            </div>
+            <button onclick="closeModal()" class="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Entendido</button>
+        </div>
+    </div>
+
+    <!-- Left Sidebar: Health Metrics -->
+    <div class="sidebar w-full md:w-1/4 lg:w-1/5 flex flex-col p-4 shadow-2xl z-20 flex-shrink-0 border-r border-slate-700 relative h-auto md:h-full overflow-y-auto">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-network-wired text-blue-400"></i> DAMA Simulator
+            </h1>
+            <button onclick="openModal()" class="text-slate-400 hover:text-white" title="Referência DAMA-DMBOK">
+                <i class="fas fa-info-circle text-lg"></i>
+            </button>
+        </div>
+        
+        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 mb-4 text-center">
+            <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Índice Ponderado de Madurez</p>
+            <div class="text-4xl font-bold text-white flex justify-center items-baseline gap-1">
+                <span id="overall-score">50.0</span><span class="text-sm text-slate-400">/100</span>
+            </div>
+        </div>
+
+        <h2 class="text-xs uppercase tracking-widest text-slate-400 mb-3 font-semibold">Indicadores Operacionais</h2>
+        
+        <!-- COMPACT METRICS GRID (Side by side) -->
+        <div class="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-2 gap-2 mb-4">
+            <!-- Efficiency -->
+            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="compact-metric-label"><i class="fas fa-bolt text-yellow-400 mr-1"></i>Eficiência</span>
+                    <span class="compact-metric-val" id="val-efficiency">50%</span>
+                </div>
+                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-efficiency" class="metric-bar-fill h-full rounded-full bg-yellow-400" style="width: 50%;"></div></div>
+                <div id="delta-efficiency"></div>
+            </div>
+            <!-- Trust -->
+            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="compact-metric-label"><i class="fas fa-shield-check text-green-400 mr-1"></i>Confiança</span>
+                    <span class="compact-metric-val" id="val-trust">50%</span>
+                </div>
+                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-trust" class="metric-bar-fill h-full rounded-full bg-green-400" style="width: 50%;"></div></div>
+                <div id="delta-trust"></div>
+            </div>
+            <!-- Accountability -->
+            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="compact-metric-label"><i class="fas fa-users-cog text-blue-400 mr-1"></i>Resp.</span>
+                    <span class="compact-metric-val" id="val-accountability">50%</span>
+                </div>
+                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-accountability" class="metric-bar-fill h-full rounded-full bg-blue-400" style="width: 50%;"></div></div>
+                <div id="delta-accountability"></div>
+            </div>
+            <!-- Security -->
+            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="compact-metric-label"><i class="fas fa-lock text-red-400 mr-1"></i>Segurança</span>
+                    <span class="compact-metric-val" id="val-security">50%</span>
+                </div>
+                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-security" class="metric-bar-fill h-full rounded-full bg-red-400" style="width: 50%;"></div></div>
+                <div id="delta-security"></div>
+            </div>
+            <!-- Context -->
+            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="compact-metric-label"><i class="fas fa-book-open text-purple-400 mr-1"></i>Contexto</span>
+                    <span class="compact-metric-val" id="val-context">50%</span>
+                </div>
+                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-context" class="metric-bar-fill h-full rounded-full bg-purple-400" style="width: 50%;"></div></div>
+                <div id="delta-context"></div>
+            </div>
+            <!-- Budget -->
+            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="compact-metric-label"><i class="fas fa-wallet text-emerald-400 mr-1"></i>Orçamento</span>
+                    <span class="compact-metric-val text-emerald-400" id="val-budget">$50k</span>
+                </div>
+                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-budget" class="metric-bar-fill h-full rounded-full bg-emerald-400" style="width: 100%;"></div></div>
+                <div id="delta-budget"></div>
+            </div>
+        </div>
+
+        <div class="mt-auto pt-4 border-t border-slate-700">
+            <div class="text-xs text-slate-400 flex justify-between items-center">
+                <span>Progresso</span>
+                <span id="scenario-counter">1 de 10</span>
+            </div>
+            <div class="w-full bg-slate-700 h-1 mt-1 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-blue-500 h-full" style="width: 10%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 bg-slate-50 flex flex-col h-full relative overflow-y-auto">
+        
+        <!-- Header -->
+        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Simulador de Liderança de Dados</h2>
+                <p class="text-sm text-slate-500">Tome decisões baseadas no DAMA-DMBOK</p>
+            </div>
+            <div class="hidden sm:block">
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full border border-blue-200">
+                    SaaS Enterprise Edition
+                </span>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Container -->
+        <main class="flex-1 p-4 sm:p-8 max-w-5xl mx-auto w-full flex flex-col" id="main-container">
+            
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="glass-panel p-8 rounded-2xl shadow-xl text-center my-auto">
+                <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                    <i class="fas fa-sitemap text-3xl text-blue-600"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">Bem-vindo ao Simulador Diário de Governança de Dados</h1>
+                <p class="text-slate-600 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+                    Você acaba de assumir como <strong class="text-slate-800">Líder de Dados</strong>. Suas decisões operacionais diárias moldarão a maturidade, a cultura e a eficiência dos dados da empresa. Avalie as compensações entre agilidade, custo, segurança e governança sustentável usando as diretrizes estruturais da DAMA.
+                </p>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 text-sm text-blue-800 inline-block text-left">
+                    <p><strong><i class="fas fa-bullseye mr-2"></i>Seu Objetivo:</strong> Maximizar as métricas de saúde da plataforma terminando com a maior pontuação possível. As decisões mais fáceis raramente são as corretas.</p>
+                </div>
+                <br>
+                <button onclick="startGame()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center mx-auto gap-2">
+                    <i class="fas fa-play"></i> Iniciar Simulação
+                </button>
+            </div>
+
+            <!-- Scenario Screen (Hidden initially) -->
+            <div id="scenario-screen" class="hidden flex-col h-full">
+                <div class="mb-6 flex items-center text-sm font-semibold text-blue-600 uppercase tracking-wide">
+                    <i class="fas fa-bolt mr-2"></i> <span id="scen-topic">Tópico</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 leading-tight" id="scen-text">Texto do Cenário...</h2>
+                
+                <div id="options-container" class="space-y-4 mt-6">
+                    <!-- Options injected via JS -->
+                </div>
+
+                <!-- Debrief Card (Hidden initially) -->
+                <div id="debrief-card" class="hidden mt-8 glass-panel border-l-4 border-l-blue-600 rounded-xl p-6 shadow-lg bg-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-blue-50 px-3 py-1 rounded-bl-lg border-b border-l border-blue-100 text-xs font-bold text-blue-700">
+                        Análise de Governança
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                        <i class="fas fa-clipboard-check text-blue-500"></i> Resultado Operacional
+                    </h3>
+                    
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4 mt-4" id="debrief-impacts">
+                        <!-- Impacts injected via JS -->
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
+                        <h4 class="font-bold text-slate-700 text-sm mb-1 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fas fa-graduation-cap text-blue-600"></i> Princípio DAMA-DMBOK
+                        </h4>
+                        <p class="text-slate-600 text-sm leading-relaxed" id="debrief-lesson">A lição vai aqui.</p>
+                    </div>
+
+                    <button onclick="nextScenario()" class="mt-6 w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                        Próximo Desafio <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Final Summary Screen (Hidden initially) -->
+            <div id="summary-screen" class="hidden glass-panel p-8 rounded-2xl shadow-xl w-full max-w-4xl mx-auto my-auto relative">
+                <div class="text-center border-b border-slate-200 pb-6 mb-6">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Simulação Concluída</h2>
+                    <p class="text-slate-500">Relatório Final de Avaliação da Maturidade dos Dados</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-8 items-center justify-center mb-8">
+                    <div class="text-center relative">
+                        <svg class="w-40 h-40 transform -rotate-90">
+                            <circle cx="80" cy="80" r="70" stroke="#e2e8f0" stroke-width="12" fill="none" />
+                            <circle id="final-circle" cx="80" cy="80" r="70" stroke="#2563eb" stroke-width="12" fill="none" stroke-dasharray="439.8" stroke-dashoffset="439.8" class="transition-all duration-1500 ease-out" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-4xl font-bold text-slate-800" id="final-score-text">0</span>
+                            <span class="text-xs text-slate-500 font-semibold uppercase">Índice Final</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 bg-slate-50 p-6 rounded-xl border border-slate-200 w-full">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2" id="profile-title">Perfil</h3>
+                        <p class="text-slate-600 mb-4 text-sm leading-relaxed" id="profile-desc">Descrição do perfil.</p>
+                        <div class="text-sm font-semibold text-slate-700 bg-white p-3 rounded border shadow-sm">
+                            <i class="fas fa-lightbulb text-yellow-500 mr-2"></i> Conclusão Principal: <span class="font-normal text-slate-600">A Governança de Dados não tem a ver com burocracia; trata-se de construir fluxos de trabalho sustentáveis, seguros e previsíveis.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Global Leaderboard Section -->
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-8">
+                    <div class="bg-slate-800 text-white p-3 flex justify-between items-center">
+                        <h3 class="font-bold"><i class="fas fa-trophy text-yellow-400 mr-2"></i> Tabela de Classificação Global</h3>
+                    </div>
+                    
+                    <div class="p-4 bg-slate-50 border-b border-slate-200" id="leaderboard-form-container">
+                        <p class="text-sm text-slate-600 mb-2 font-medium">Salve sua pontuação no ranking:</p>
+                        <div class="flex gap-2">
+                            <input type="text" id="player-name" placeholder="Seu Nome ou Cargo" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            <button onclick="saveScore()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow">
+                                Salvar no Ranking
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-100 text-slate-600 font-semibold border-b">
+                                <tr>
+                                    <th class="p-3 w-16 text-center">Pos</th>
+                                    <th class="p-3">Jogador</th>
+                                    <th class="p-3 text-right">Índice</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CTA Banner -->
+                <a href="https://datagovjourney.com/?lang=pt#contacto" target="_blank" rel="noopener noreferrer" class="block w-full bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white rounded-xl p-6 text-center transition transform hover:-translate-y-1 shadow-lg mb-6 group">
+                    <h4 class="text-lg font-bold mb-1 flex justify-center items-center gap-2">
+                        Com dificuldades com as melhores práticas de Governança de Dados no dia a dia?
+                    </h4>
+                    <p class="text-blue-200 text-sm font-medium mb-3">Vamos construir seu framework.</p>
+                    <span class="inline-block bg-white text-blue-800 font-bold px-6 py-2 rounded-full text-sm group-hover:bg-blue-50 transition shadow">
+                        Fale Conosco <i class="fas fa-external-link-alt ml-1"></i>
+                    </span>
+                </a>
+
+                <div class="text-center">
+                    <button onclick="resetGame()" class="text-slate-500 hover:text-slate-800 font-medium text-sm transition flex items-center justify-center mx-auto gap-2">
+                        <i class="fas fa-redo"></i> Jogar Novamente
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+<script>
+    // System Initialization & Audio
+    let synth = null;
+    try { synth = new Tone.Synth().toDestination(); synth.volume.value = -10; } catch (e) { console.warn("Tone.js init failed", e); }
+    
+    function playSound(type) {
+        if(!synth) return;
+        Tone.start();
+        if(type === 'start') synth.triggerAttackRelease("C4", "8n");
+        if(type === 'click') synth.triggerAttackRelease("G4", "16n");
+        if(type === 'success') {
+            const now = Tone.now();
+            synth.triggerAttackRelease("C5", "8n", now);
+            synth.triggerAttackRelease("E5", "8n", now + 0.1);
+            synth.triggerAttackRelease("G5", "4n", now + 0.2);
+        }
+    }
+
+    // Modal Logic
+    function openModal() { document.getElementById('dama-modal').classList.add('active'); }
+    function closeModal() { document.getElementById('dama-modal').classList.remove('active'); }
+
+    // Hardcoded initial leaderboard data
+    let leaderboard = [
+        { name: "Líder de CDO", score: 82.5 },
+        { name: "Engenheiro Sênior", score: 74.0 },
+        { name: "Arquiteto de Dados", score: 68.5 },
+        { name: "Analista de Negócios", score: 55.0 }
+    ];
+    let playerRanked = false;
+
+    // SCENARIO DATA (10 DAMA-DMBOK scenarios, balanced deltas max ~9%, fully localized to PT-BR)
+    const SCENARIOS = [
+        {
+            topic: "Papéis & Responsabilidades (Stewardship)",
+            text: "A equipe de Marketing solicita uma alteração urgente na fórmula usada para calcular 'Cliente Ativo' no data warehouse, pois os números não batem com os de Vendas. Ninguém sabe quem aprova ou é dono desta métrica. Como você lida com isso?",
+            options: [
+                {
+                    label: "A", title: "Correção Rápida no BI",
+                    desc: "Deixe o engenheiro de dados fazer a alteração rapidamente para desbloquear o Marketing.",
+                    impact: { eff: 8, trust: -6, acc: -8, sec: 0, ctx: -4, budget: 0 },
+                    lesson: "Corrigir dados em silos sem Governança clara leva a definições conflitantes e destrói a confiança entre os departamentos."
+                },
+                {
+                    label: "B", title: "Dono do Domínio (Stewardship)",
+                    desc: "Nomeie formalmente um Data Steward para o domínio de clientes, estabeleça aprovação e documente no glossário de negócios.",
+                    impact: { eff: -3, trust: 9, acc: 9, sec: 2, ctx: 8, budget: -1500 },
+                    lesson: "Atribuir papéis formalmente (Stewardship) garante responsabilidade e cria uma fonte única de verdade para métricas corporativas."
+                },
+                {
+                    label: "C", title: "Comitê Executivo",
+                    desc: "Congele o desenvolvimento e exija que as duas equipes apresentem ao comitê de diretores para debater a fórmula.",
+                    impact: { eff: -9, trust: 2, acc: 4, sec: 0, ctx: 2, budget: -3000 },
+                    lesson: "A burocracia excessiva para decisões de nível de métrica trava as operações. A Governança deve capacitar os Stewards, não escalar tudo para os executivos."
+                }
+            ]
+        },
+        {
+            topic: "Segurança de Dados & Políticas",
+            text: "A equipe de Analytics copia dados confidenciais de RH para uma pasta pública na nuvem para economizar tempo na construção de um dashboard. Não há regra oficial proibindo estritamente isso.",
+            options: [
+                {
+                    label: "A", title: "Intervenção Manual",
+                    desc: "Mova os dados manualmente e advirta verbalmente a equipe analítica.",
+                    impact: { eff: -2, trust: 2, acc: 2, sec: 4, ctx: 0, budget: 0 },
+                    lesson: "Correções manuais não previnem erros futuros. As organizações precisam de regras sistêmicas de segurança integradas ao fluxo de trabalho."
+                },
+                {
+                    label: "B", title: "Política de Classificação Sistêmica",
+                    desc: "Publique uma 'Política de Classificação de Dados' formal e automatize as permissões de nuvem com base em tags (PII).",
+                    impact: { eff: -4, trust: 6, acc: 5, sec: 9, ctx: 4, budget: -2500 },
+                    lesson: "Políticas documentadas estabelecem limites claros e permitem que a arquitetura automatize regras de segurança (Security by Design)."
+                },
+                {
+                    label: "C", title: "Bloqueio Total de Acesso",
+                    desc: "Revogue todo o acesso direto a dados brutos para analistas até segunda ordem.",
+                    impact: { eff: -9, trust: -5, acc: 0, sec: 9, ctx: 0, budget: 0 },
+                    lesson: "A segurança excessiva por meio de bloqueios prejudica a entrega de valor. O objetivo da Governança de Dados é o acesso seguro e governado, não a restrição total."
+                }
+            ]
+        },
+        {
+            topic: "Arquitetura & Qualidade (Schema Contracts)",
+            text: "Um engenheiro de software altera o nome de uma coluna de 'user_id' para 'customer_uuid' no banco transacional. O pipeline noturno quebra e trava todos os painéis executivos.",
+            options: [
+                {
+                    label: "A", title: "Comunicação Informal",
+                    desc: "Conserte o pipeline manualmente e peça no Slack para o engenheiro te avisar da próxima vez.",
+                    impact: { eff: 5, trust: -4, acc: -4, sec: 0, ctx: 0, budget: 0 },
+                    lesson: "Depender de comunicação informal falha em escala. Sem gerenciamento de mudanças (Change Management), os pipelines continuarão a quebrar."
+                },
+                {
+                    label: "B", title: "Contratos de Esquema CI/CD",
+                    desc: "Integre um fluxo de alerta automático no pipeline CI/CD que avisa os donos dos dados antes de mudanças no banco irem ao ar.",
+                    impact: { eff: 8, trust: 6, acc: 5, sec: 3, ctx: 3, budget: -4000 },
+                    lesson: "Codificar fluxos de Governança na arquitetura de dados (Data Contracts) previne indisponibilidade de forma proativa."
+                },
+                {
+                    label: "C", title: "Trava de Banco de Dados",
+                    desc: "Remova a permissão da engenharia de software para modificar qualquer esquema de banco de dados sem a aprovação da equipe de dados.",
+                    impact: { eff: -8, trust: 3, acc: 2, sec: 2, ctx: 0, budget: -1000 },
+                    lesson: "Criar gargalos operacionais estrangula a agilidade de desenvolvimento (Shadow IT vai surgir)."
+                }
+            ]
+        },
+        {
+            topic: "Gerenciamento de Dados Mestres (MDM)",
+            text: "Vários sistemas de CRM contêm registros duplicados dos mesmos clientes, causando faturamento duplo e reclamações frequentes no Suporte ao Cliente.",
+            options: [
+                {
+                    label: "A", title: "Deduplicação Manual Mensal",
+                    desc: "Atribua um analista júnior para baixar arquivos Excel todo mês e cruzar (vlookup) as duplicatas.",
+                    impact: { eff: -5, trust: 2, acc: 0, sec: -2, ctx: 0, budget: -500 },
+                    lesson: "O gerenciamento manual de dados mestres é insustentável, sujeito a erros e introduz riscos de segurança com exportações de planilhas."
+                },
+                {
+                    label: "B", title: "Implementação de Golden Record",
+                    desc: "Estabeleça um programa MDM (Master Data Management) automatizado para criar uma 'Visão Única do Cliente' via APIs.",
+                    impact: { eff: 7, trust: 9, acc: 5, sec: 4, ctx: 6, budget: -6000 },
+                    lesson: "O MDM estabelece um 'Golden Record' autoritário, melhorando drasticamente a experiência do cliente e a confiança no nível executivo."
+                },
+                {
+                    label: "C", title: "Ignorar e Compensar",
+                    desc: "Deixe os sistemas como estão e ofereça descontos aos clientes que reclamarem de faturamento duplo.",
+                    impact: { eff: 4, trust: -8, acc: -5, sec: 0, ctx: 0, budget: -8000 },
+                    lesson: "Ignorar problemas de qualidade na origem causa vazamento financeiro exponencial e perda permanente de reputação."
+                }
+            ]
+        },
+        {
+            topic: "Metadados & Camada Semântica",
+            text: "Em uma reunião da diretoria, o CFO e o CMO apresentam relatórios diferentes para a 'Margem de Lucro' do último trimestre. As reuniões viram brigas sobre quem tem os dados 'certos'.",
+            options: [
+                {
+                    label: "A", title: "Guerra de Dashboards",
+                    desc: "Permita que ambos os departamentos continuem usando sua própria lógica nas ferramentas de BI locais.",
+                    impact: { eff: 5, trust: -9, acc: -6, sec: 0, ctx: -8, budget: 0 },
+                    lesson: "Definições não gerenciadas criam silos de dados, destruindo o alinhamento da liderança e a confiabilidade dos relatórios."
+                },
+                {
+                    label: "B", title: "Glossário e Camada Semântica",
+                    desc: "Crie um Glossário de Negócios oficial e implemente a definição certificada em uma camada semântica central.",
+                    impact: { eff: -2, trust: 8, acc: 6, sec: 0, ctx: 9, budget: -2000 },
+                    lesson: "O gerenciamento de Metadados e as camadas semânticas abstraem lógicas complexas, garantindo que toda a empresa fale a mesma linguagem."
+                },
+                {
+                    label: "C", title: "Mandato Top-Down",
+                    desc: "Desative o painel de Marketing e force todos a usar o painel da equipe de Finanças sem colaboração.",
+                    impact: { eff: 2, trust: 2, acc: 3, sec: 0, ctx: -4, budget: -500 },
+                    lesson: "Ditar definições sem consenso (Stewardship) resulta em baixa adoção e ressentimento entre departamentos."
+                }
+            ]
+        },
+        {
+            topic: "Qualidade de Dados",
+            text: "Um novo modelo de Machine Learning falha em produção porque 30% dos registros de clientes na tabela de faturamento estão sem código postal (CEP).",
+            options: [
+                {
+                    label: "A", title: "Preencher com Default",
+                    desc: "Escreva um script rápido que preenche os códigos postais ausentes com '00000' para fazer o modelo rodar hoje.",
+                    impact: { eff: 8, trust: -7, acc: -4, sec: 0, ctx: -2, budget: 0 },
+                    lesson: "Mascarar erros de Qualidade de Dados contamina algoritmos de IA/ML, levando a previsões perigosas ou enviesadas."
+                },
+                {
+                    label: "B", title: "Regras de Qualidade na Origem",
+                    desc: "Implemente verificações de Qualidade de Dados na API do CRM de origem para rejeitar perfis sem CEP e alerte o time de vendas.",
+                    impact: { eff: -4, trust: 9, acc: 8, sec: 0, ctx: 4, budget: -1500 },
+                    lesson: "A Qualidade de Dados proativa impede que o lixo entre na plataforma. Consertar os dados na origem é o princípio fundamental da DAMA."
+                },
+                {
+                    label: "C", title: "Limpeza Local",
+                    desc: "Apenas filtre (WHERE CEP IS NOT NULL) as linhas incorretas no pipeline do modelo de IA.",
+                    impact: { eff: 4, trust: -3, acc: -2, sec: 0, ctx: 2, budget: 0 },
+                    lesson: "Filtrar dados passivamente reduz o volume do dataset sem resolver o problema sistêmico de captura de dados."
+                }
+            ]
+        },
+        {
+            topic: "Linhagem de Dados & Conformidade",
+            text: "Uma auditoria regulatória de conformidade exige que você prove exatamente de quais tabelas o modelo de IA de concessão de crédito extrai os dados, e quem os tocou.",
+            options: [
+                {
+                    label: "A", title: "Conjecturas (Guesswork)",
+                    desc: "Adivinhe os caminhos vasculhando logs antigos do GitHub e envie um PDF informal aos auditores.",
+                    impact: { eff: 3, trust: -8, acc: -6, sec: -5, ctx: -5, budget: 0 },
+                    lesson: "A incapacidade de provar a linhagem resulta em multas regulatórias e desconfiança na transparência operacional."
+                },
+                {
+                    label: "B", title: "Linhagem de Dados Automatizada",
+                    desc: "Invista em uma ferramenta de linhagem (Data Lineage) que rastreia os fluxos da origem ao destino, comprovando a conformidade de ponta a ponta.",
+                    impact: { eff: 6, trust: 8, acc: 6, sec: 7, ctx: 8, budget: -5000 },
+                    lesson: "O gerenciamento robusto de metadados fornece linhagem visual, vital para auditorias de conformidade (Compliance) e solução de problemas."
+                },
+                {
+                    label: "C", title: "Esconder o Modelo",
+                    desc: "Desligue temporariamente o modelo de IA de crédito até que os auditores terminem a avaliação.",
+                    impact: { eff: -9, trust: -9, acc: -8, sec: -2, ctx: 0, budget: -10000 },
+                    lesson: "Desligar sistemas geradores de receita devido ao medo de conformidade é uma falha massiva de governança."
+                }
+            ]
+        },
+        {
+            topic: "Ciclo de Vida & Armazenamento",
+            text: "Os custos do banco de dados na nuvem estão fora de controle porque o data lake retém petabytes de logs de tráfego web não analisados com mais de 7 anos.",
+            options: [
+                {
+                    label: "A", title: "Exclusão Silenciosa",
+                    desc: "Escreva um script para excluir todos os logs com mais de 3 anos sem notificar o departamento jurídico.",
+                    impact: { eff: 6, trust: -4, acc: -7, sec: -5, ctx: -2, budget: 3000 },
+                    lesson: "A exclusão não governada viola leis de retenção legal e destrói a responsabilidade histórica dos dados."
+                },
+                {
+                    label: "B", title: "Arquivamento e Retenção",
+                    desc: "Crie uma 'Política de Ciclo de Vida e Retenção de Dados' validada pelo jurídico, automatizando a transição para armazenamento frio (Cold Storage).",
+                    impact: { eff: -2, trust: 6, acc: 8, sec: 4, ctx: 3, budget: 2000 },
+                    lesson: "O Gerenciamento de Documentos e Registros (DMBOK) define ciclos de vida claros (Criação, Arquivamento, Expurgo) baseados em valor."
+                },
+                {
+                    label: "C", title: "Comprar Mais Espaço",
+                    desc: "Ignore o problema e apenas aprove mais orçamento de nuvem para continuar crescendo.",
+                    impact: { eff: 5, trust: 0, acc: -3, sec: 0, ctx: 0, budget: -7000 },
+                    lesson: "Jogar dinheiro em infraestrutura sem otimização de arquitetura é o oposto da gestão eficiente de ativos de dados."
+                }
+            ]
+        },
+        {
+            topic: "Acesso a Dados & Catálogo",
+            text: "Analistas recém-contratados demoram 3 semanas para entender onde as tabelas principais estão localizadas e o que cada coluna significa, atrasando as entregas de projetos.",
+            options: [
+                {
+                    label: "A", title: "Shadow Pairing",
+                    desc: "Mande-os sentar ao lado de engenheiros seniores por 3 semanas para absorver conhecimento tribal.",
+                    impact: { eff: -6, trust: 0, acc: -3, sec: 0, ctx: -5, budget: -1000 },
+                    lesson: "Depender de 'conhecimento tribal' não escala e desperdiça tempo valioso dos engenheiros de dados mais caros."
+                },
+                {
+                    label: "B", title: "Catálogo de Dados de Autoatendimento",
+                    desc: "Implemente um Catálogo de Dados de autoatendimento onde tabelas, donos e regras são documentados e facilmente pesquisáveis.",
+                    impact: { eff: 9, trust: 7, acc: 6, sec: 3, ctx: 9, budget: -4000 },
+                    lesson: "Um Catálogo de Dados de metadados democratiza o conhecimento, reduz o tempo de onboarding e capacita os analistas de forma autônoma."
+                },
+                {
+                    label: "C", title: "Acesso Total de Administrador",
+                    desc: "Dê a eles privilégios de administrador em toda a plataforma na nuvem para que possam 'explorar e descobrir' sozinhos.",
+                    impact: { eff: 7, trust: -5, acc: -8, sec: -9, ctx: 2, budget: 0 },
+                    lesson: "Fornecer acesso excessivo destrói a Segurança de Dados e abre a plataforma para exclusões ou vazamentos acidentais."
+                }
+            ]
+        },
+        {
+            topic: "Operações em Nuvem (FinOps)",
+            text: "Um cluster de processamento analítico foi deixado ligado rodando uma query recursiva de um Cientista de Dados por um fim de semana inteiro, estourando 200% do limite de orçamento do mês.",
+            options: [
+                {
+                    label: "A", title: "Bronca na Equipe",
+                    desc: "Pague a conta da nuvem e envie um e-mail agressivo proibindo queries pesadas nos fins de semana.",
+                    impact: { eff: -2, trust: -3, acc: -4, sec: 0, ctx: 0, budget: -9000 },
+                    lesson: "A culpa não previne falhas de sistema. A infraestrutura de dados moderna requer salvaguardas (guardrails) incorporadas."
+                },
+                {
+                    label: "B", title: "Tags FinOps & Alertas",
+                    desc: "Implemente tags de custo obrigatórias (FinOps), defina alertas de faturamento e crie regras de desligamento automático ocioso.",
+                    impact: { eff: 4, trust: 5, acc: 8, sec: 2, ctx: 4, budget: -1000 },
+                    lesson: "FinOps e Arquitetura de Dados trabalham juntos para criar monitoramento contínuo e responsabilidade orçamentária previsível."
+                },
+                {
+                    label: "C", title: "Revisão Manual de Queries",
+                    desc: "Exija que todas as queries de Cientistas de Dados passem por aprovação manual de um DBA antes da execução.",
+                    impact: { eff: -9, trust: -2, acc: 3, sec: 1, ctx: 0, budget: -500 },
+                    lesson: "Introduzir gargalos operacionais drásticos para resolver falhas mecânicas afoga a inovação analítica da equipe."
+                }
+            ]
+        }
+    ];
+
+    // Core State (Starts at 50% and $50k)
+    let state = {
+        metrics: { efficiency: 50, trust: 50, accountability: 50, security: 50, context: 50, budget: 50000 },
+        currentScenarioIndex: 0,
+        score: 50.0
+    };
+
+    // Helper Functions
+    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+    
+    function setSafeText(id, text) { 
+        const el = document.getElementById(id); 
+        if (el) el.innerText = text; 
+    }
+    
+    function setSafeWidth(id, percentage) { 
+        const el = document.getElementById(id); 
+        if (el) el.style.width = percentage + '%'; 
+    }
+    
+    function setSafeColor(id, value) {
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.className = 'metric-bar-fill h-full rounded-full ' + 
+            (value < 30 ? 'bg-red-500' : value < 70 ? 'bg-yellow-400' : 'bg-green-500');
+    }
+
+    // Shuffle Array for randomized options
+    function shuffleArray(array) {
+        let curId = array.length;
+        while (0 !== curId) {
+            let randId = Math.floor(Math.random() * curId);
+            curId -= 1;
+            let tmp = array[curId];
+            array[curId] = array[randId];
+            array[randId] = tmp;
+        }
+        return array;
+    }
+
+    function calculateScore() {
+        // Average of the 5 core governance pillars ensures 50.0 starting point
+        let baseAvg = (state.metrics.efficiency + state.metrics.trust + state.metrics.accountability + state.metrics.security + state.metrics.context) / 5;
+        // Apply budget preservation weight (20% of final score behavior, calculated as bonus/penalty)
+        let budgetFactor = (state.metrics.budget / 50000); // 1.0 at start
+        let finalScore = (baseAvg * 0.8) + (baseAvg * 0.2 * budgetFactor);
+        state.score = clamp(finalScore, 0, 100);
+        return state.score.toFixed(1);
+    }
+
+    function updateMetricsUI(deltas = null) {
+        // Update Values
+        setSafeText('val-efficiency', state.metrics.efficiency + '%');
+        setSafeText('val-trust', state.metrics.trust + '%');
+        setSafeText('val-accountability', state.metrics.accountability + '%');
+        setSafeText('val-security', state.metrics.security + '%');
+        setSafeText('val-context', state.metrics.context + '%');
+        setSafeText('val-budget', '$' + state.metrics.budget.toLocaleString('pt-BR'));
+        
+        // Overall Score
+        setSafeText('overall-score', calculateScore());
+
+        // Update Bars
+        setSafeWidth('bar-efficiency', state.metrics.efficiency);
+        setSafeWidth('bar-trust', state.metrics.trust);
+        setSafeWidth('bar-accountability', state.metrics.accountability);
+        setSafeWidth('bar-security', state.metrics.security);
+        setSafeWidth('bar-context', state.metrics.context);
+        
+        // Budget bar logic (max $50k)
+        let bPct = clamp((state.metrics.budget / 50000) * 100, 0, 100);
+        setSafeWidth('bar-budget', bPct);
+
+        // Update Colors based on health
+        setSafeColor('bar-efficiency', state.metrics.efficiency);
+        setSafeColor('bar-trust', state.metrics.trust);
+        setSafeColor('bar-accountability', state.metrics.accountability);
+        setSafeColor('bar-security', state.metrics.security);
+        setSafeColor('bar-context', state.metrics.context);
+
+        // Show floating deltas if provided
+        if(deltas) {
+            showFloatingDelta('delta-efficiency', deltas.eff);
+            showFloatingDelta('delta-trust', deltas.trust);
+            showFloatingDelta('delta-accountability', deltas.acc);
+            showFloatingDelta('delta-security', deltas.sec);
+            showFloatingDelta('delta-context', deltas.ctx);
+            
+            if(deltas.budget !== 0) {
+                const el = document.getElementById('delta-budget');
+                if(el) {
+                    el.innerText = deltas.budget > 0 ? `+$${deltas.budget}` : `-$${Math.abs(deltas.budget)}`;
+                    el.style.color = deltas.budget > 0 ? '#4ade80' : '#f87171';
+                    el.style.animation = 'none';
+                    void el.offsetWidth; // trigger reflow
+                    el.style.animation = 'floatUp 2s forwards';
+                }
+            }
+        }
+    }
+
+    function showFloatingDelta(id, val) {
+        if(!val || val === 0) return;
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.innerText = val > 0 ? `+${val}%` : `${val}%`;
+        el.style.color = val > 0 ? '#4ade80' : '#f87171';
+        el.style.animation = 'none';
+        void el.offsetWidth; // trigger reflow
+        el.style.animation = 'floatUp 2s forwards';
+    }
+
+    function startGame() {
+        playSound('start');
+        document.getElementById('welcome-screen').classList.add('hidden');
+        document.getElementById('scenario-screen').classList.remove('hidden');
+        document.getElementById('scenario-screen').classList.add('flex');
+        updateMetricsUI();
+        renderScenario();
+    }
+
+    function renderScenario() {
+        if(state.currentScenarioIndex >= SCENARIOS.length) {
+            showSummary();
+            return;
+        }
+
+        const scen = SCENARIOS[state.currentScenarioIndex];
+        
+        document.getElementById('scenario-counter').innerText = `${state.currentScenarioIndex + 1} de ${SCENARIOS.length}`;
+        document.getElementById('progress-bar').style.width = `${((state.currentScenarioIndex) / SCENARIOS.length) * 100}%`;
+        
+        document.getElementById('scen-topic').innerText = scen.topic;
+        document.getElementById('scen-text').innerText = scen.text;
+        
+        document.getElementById('debrief-card').classList.add('hidden');
+        
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        container.classList.remove('hidden');
+
+        // Shuffle options for this render so order is unpredictable
+        let randomizedOptions = shuffleArray([...scen.options]);
+
+        randomizedOptions.forEach((opt) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-option w-full text-left bg-white border border-slate-200 p-5 rounded-xl hover:bg-slate-50 relative group';
+            
+            // NOTE: Impacts/Points/Costs are intentionally hidden from the button to force qualitative decision making
+            btn.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800 text-lg mb-1">${opt.title}</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">${opt.desc}</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300 group-hover:text-blue-500 mt-2 transition"></i>
+                </div>
+            `;
+            btn.onclick = () => handleOptionSelection(opt, scen);
+            container.appendChild(btn);
+        });
+    }
+
+    function handleOptionSelection(opt, scen) {
+        playSound('click');
+        
+        // Hide options
+        document.getElementById('options-container').classList.add('hidden');
+        
+        // Apply logic
+        state.metrics.efficiency = clamp(state.metrics.efficiency + opt.impact.eff, 0, 100);
+        state.metrics.trust = clamp(state.metrics.trust + opt.impact.trust, 0, 100);
+        state.metrics.accountability = clamp(state.metrics.accountability + opt.impact.acc, 0, 100);
+        state.metrics.security = clamp(state.metrics.security + opt.impact.sec, 0, 100);
+        state.metrics.context = clamp(state.metrics.context + opt.impact.ctx, 0, 100);
+        state.metrics.budget = state.metrics.budget + opt.impact.budget;
+
+        updateMetricsUI(opt.impact);
+
+        // Prepare Debrief Card
+        const debriefImpacts = document.getElementById('debrief-impacts');
+        debriefImpacts.innerHTML = '';
+        
+        const metricsList = [
+            { key: 'eff', icon: 'fa-bolt', color: 'text-yellow-600', bg: 'bg-yellow-50', label: 'Efic' },
+            { key: 'trust', icon: 'fa-shield-check', color: 'text-green-600', bg: 'bg-green-50', label: 'Conf' },
+            { key: 'acc', icon: 'fa-users-cog', color: 'text-blue-600', bg: 'bg-blue-50', label: 'Resp' },
+            { key: 'sec', icon: 'fa-lock', color: 'text-red-600', bg: 'bg-red-50', label: 'Seg' },
+            { key: 'ctx', icon: 'fa-book-open', color: 'text-purple-600', bg: 'bg-purple-50', label: 'Cont' }
+        ];
+
+        metricsList.forEach(m => {
+            const val = opt.impact[m.key];
+            if(val !== 0) {
+                const sign = val > 0 ? '+' : '';
+                debriefImpacts.innerHTML += `
+                    <div class="${m.bg} p-2 rounded border border-slate-100 flex flex-col items-center justify-center text-center">
+                        <i class="fas ${m.icon} ${m.color} mb-1 text-sm"></i>
+                        <span class="font-bold text-xs text-slate-800">${sign}${val}%</span>
+                        <span class="text-[0.6rem] text-slate-500 uppercase">${m.label}</span>
+                    </div>
+                `;
+            }
+        });
+
+        if(opt.impact.budget !== 0) {
+            const bSign = opt.impact.budget > 0 ? '+' : '';
+            const bColor = opt.impact.budget > 0 ? 'text-emerald-600' : 'text-red-600';
+            const bBg = opt.impact.budget > 0 ? 'bg-emerald-50' : 'bg-red-50';
+            debriefImpacts.innerHTML += `
+                <div class="${bBg} p-2 rounded border border-slate-100 flex flex-col items-center justify-center text-center">
+                    <i class="fas fa-wallet ${bColor} mb-1 text-sm"></i>
+                    <span class="font-bold text-xs text-slate-800">${bSign}$${Math.abs(opt.impact.budget)}</span>
+                    <span class="text-[0.6rem] text-slate-500 uppercase">Orçam</span>
+                </div>
+            `;
+        }
+
+        document.getElementById('debrief-lesson').innerText = opt.lesson;
+        document.getElementById('debrief-card').classList.remove('hidden');
+    }
+
+    function nextScenario() {
+        state.currentScenarioIndex++;
+        renderScenario();
+    }
+
+    function showSummary() {
+        playSound('success');
+        document.getElementById('scenario-screen').classList.add('hidden');
+        document.getElementById('scenario-screen').classList.remove('flex');
+        document.getElementById('summary-screen').classList.remove('hidden');
+        
+        document.getElementById('progress-bar').style.width = `100%`;
+        
+        let finalS = calculateScore();
+        
+        // Counter Animation for Score
+        let currentS = 0;
+        let interval = setInterval(() => {
+            currentS += 2;
+            if(currentS >= finalS) {
+                currentS = finalS;
+                clearInterval(interval);
+                triggerConfetti();
+            }
+            document.getElementById('final-score-text').innerText = parseFloat(currentS).toFixed(1);
+            
+            let offset = 439.8 - (439.8 * (currentS / 100));
+            document.getElementById('final-circle').style.strokeDashoffset = offset;
+            
+        }, 30);
+
+        // Determine Profile Level
+        let title = "";
+        let desc = "";
+        let color = "";
+        
+        if(finalS >= 85) {
+            title = "Líder de Governança Estruturado";
+            desc = "Excelente! Você equilibrou perfeitamente a agilidade com as regras de governança estruturada da DAMA, construindo uma arquitetura resiliente dentro do orçamento.";
+            color = "#22c55e"; // green
+        } else if (finalS >= 65) {
+            title = "Operador de Dados Reativo";
+            desc = "Bom esforço. Você salvou projetos no curto prazo, mas dependeu de comunicação manual ou excedeu um pouco o orçamento. Tente focar mais na automação de regras sistêmicas.";
+            color = "#eab308"; // yellow
+        } else {
+            title = "Bombeiro em Silos";
+            desc = "Cuidado. Suas decisões causaram gargalos, quebraram a confiança nos dados, introduziram riscos de segurança ou estouraram o orçamento operacional severamente. A plataforma está instável.";
+            color = "#ef4444"; // red
+        }
+
+        document.getElementById('profile-title').innerText = title;
+        document.getElementById('profile-title').style.color = color;
+        document.getElementById('profile-desc').innerText = desc;
+        document.getElementById('final-circle').style.stroke = color;
+
+        renderLeaderboard();
+    }
+
+    function triggerConfetti() {
+        if(state.score > 70) {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#2563eb', '#4ade80', '#fbbf24'] });
+        }
+    }
+
+    function resetGame() {
+        state = {
+            metrics: { efficiency: 50, trust: 50, accountability: 50, security: 50, context: 50, budget: 50000 },
+            currentScenarioIndex: 0,
+            score: 50.0
+        };
+        playerRanked = false;
+        
+        document.getElementById('summary-screen').classList.add('hidden');
+        document.getElementById('leaderboard-form-container').classList.remove('hidden');
+        document.getElementById('player-name').value = '';
+        
+        startGame();
+    }
+
+    function saveScore() {
+        if (playerRanked) return;
+        const nameInput = document.getElementById('player-name').value.trim();
+        if (!nameInput) {
+            alert("Por favor, insira seu nome ou cargo para salvar no ranking.");
+            return;
+        }
+
+        const finalS = parseFloat(calculateScore());
+        
+        leaderboard.push({ name: nameInput, score: finalS, isPlayer: true });
+        playerRanked = true;
+        
+        // Hide form after submission
+        document.getElementById('leaderboard-form-container').classList.add('hidden');
+        
+        renderLeaderboard();
+        playSound('success');
+    }
+
+    function renderLeaderboard() {
+        // Sort highest to lowest
+        leaderboard.sort((a, b) => b.score - a.score);
+        
+        const tbody = document.getElementById('leaderboard-body');
+        tbody.innerHTML = '';
+        
+        // Render top 5
+        leaderboard.slice(0, 5).forEach((entry, index) => {
+            let rankIcon = `<span class="font-bold text-slate-500">${index + 1}</span>`;
+            if (index === 0) rankIcon = `🥇`;
+            else if (index === 1) rankIcon = `🥈`;
+            else if (index === 2) rankIcon = `🥉`;
+
+            const rowClass = entry.isPlayer ? 'leaderboard-row highlight' : 'leaderboard-row';
+            const nameBold = entry.isPlayer ? 'font-bold text-blue-800' : 'text-slate-700';
+
+            tbody.innerHTML += `
+                <tr class="${rowClass} border-b">
+                    <td class="p-3 text-center">${rankIcon}</td>
+                    <td class="p-3 ${nameBold}">${entry.name} ${entry.isPlayer ? '(Você)' : ''}</td>
+                    <td class="p-3 text-right font-mono font-bold text-slate-800">${entry.score.toFixed(1)}</td>
+                </tr>
+            `;
+        });
+    }
+
+    // Initialize UI on load
+    updateMetricsUI();
+</script>
+</body>
+</html>

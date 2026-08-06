@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Quién es el dueño de esto? — Simulador de Conflictos de Propiedad de Datos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-teal: #0E4B59;
+      --dark-navy-teal: #082F38;
+      --accent-orange: #E05A2B;
+      --accent-orange-hover: #c84c21;
+      --light-bg: #F4F7F6;
+      --card-bg: #FFFFFF;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --success-green: #10B981;
+      --success-light: #ECFDF5;
+      --error-red: #EF4444;
+      --error-light: #FEF2F2;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-md: 0 10px 25px -5px rgba(8, 47, 56, 0.08), 0 8px 10px -6px rgba(8, 47, 56, 0.04);
+      --shadow-lg: 0 20px 30px -10px rgba(8, 47, 56, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--dark-navy-teal);
+      color: white;
+      padding: 1rem 1.5rem;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent-orange);
+      background-color: #ffffff;
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .brand-subtitle-badge {
+      display: inline-block;
+      background: rgba(224, 90, 43, 0.2);
+      color: #FF9D7D;
+      border: 1px solid rgba(224, 90, 43, 0.4);
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    main {
+      flex: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TARJETAS Y CONTENEDORES */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+
+    /* PANTALLA DE BIENVENIDA */
+    .welcome-card {
+      text-align: center;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+    }
+
+    .welcome-title {
+      font-size: 2.2rem;
+      color: var(--dark-navy-teal);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .welcome-tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .roles-preview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 2.5rem;
+      text-align: left;
+    }
+
+    .role-preview-box {
+      background: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+    }
+
+    .role-preview-header {
+      font-weight: 700;
+      color: var(--primary-teal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .role-preview-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      max-width: 420px;
+      margin: 0 auto 1.5rem auto;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: var(--dark-navy-teal);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-teal);
+    }
+
+    .btn-primary {
+      background-color: var(--accent-orange);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(224, 90, 43, 0.3);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-orange-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(224, 90, 43, 0.4);
+    }
+
+    /* PANTALLA DE JUEGO */
+    .game-header {
+      background: var(--dark-navy-teal);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .game-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .stat-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .stat-value {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2px 10px;
+      border-radius: 12px;
+      color: #FFD166;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent-orange);
+      width: 10%;
+      transition: width 0.3s ease;
+    }
+
+    .scenario-card {
+      position: relative;
+    }
+
+    .scenario-number-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-orange);
+      margin-bottom: 8px;
+    }
+
+    .scenario-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--dark-navy-teal);
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+
+    .choices-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .choice-btn {
+      background: #FFFFFF;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .choice-btn:hover {
+      border-color: var(--primary-teal);
+      background-color: #F8FAFC;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .choice-icon {
+      font-size: 2rem;
+    }
+
+    .choice-title {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+
+    .choice-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* MODAL DE RETROALIMENTACIÓN */
+    .feedback-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(8, 47, 56, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+
+    .feedback-modal-overlay.active {
+      display: flex;
+    }
+
+    .feedback-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 550px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .feedback-badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feedback-badge.correct {
+      background-color: var(--success-light);
+      color: var(--success-green);
+    }
+
+    .feedback-badge.incorrect {
+      background-color: var(--error-light);
+      color: var(--error-red);
+    }
+
+    .feedback-explanation {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+      background: var(--light-bg);
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--primary-teal);
+    }
+
+    .feedback-explanation p {
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-explanation p:last-child {
+      margin-bottom: 0;
+    }
+
+    .dama-framework-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+      display: block;
+    }
+
+    /* PANTALLA DE RESULTADOS */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .tier-badge-card {
+      text-align: center;
+      background: linear-gradient(135deg, var(--dark-navy-teal) 0%, var(--primary-teal) 100%);
+      color: white;
+    }
+
+    .tier-title-label {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+
+    .tier-name {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #FFD166;
+      margin-bottom: 0.5rem;
+    }
+
+    .final-score-display {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 1rem 0;
+    }
+
+    .tier-description {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      color: var(--dark-navy-teal);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tips-list {
+      list-style: none;
+    }
+
+    .tip-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 1rem;
+      background: var(--light-bg);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      align-items: flex-start;
+    }
+
+    .tip-icon {
+      background: var(--primary-teal);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* TABLA DE CLASIFICACIÓN */
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+
+    .leaderboard-table th, 
+    .leaderboard-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    .leaderboard-table th {
+      background: var(--light-bg);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .leaderboard-table tr {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .leaderboard-table tr.current-user {
+      background-color: #FEF3C7;
+      font-weight: 700;
+    }
+
+    .rank-cell {
+      font-weight: 700;
+      width: 50px;
+    }
+
+    /* SECCIÓN CALL TO ACTION (CTA) */
+    .cta-box {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+      border: 2px dashed var(--accent-orange);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .cta-heading {
+      font-size: 1.3rem;
+      color: var(--dark-navy-teal);
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .cta-subtext {
+      color: var(--text-main);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary-teal);
+      border: 2px solid var(--primary-teal);
+      padding: 0.85rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--light-bg);
+    }
+
+    /* REVISIÓN DE ESCENARIOS */
+    .review-item {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .review-item.is-correct {
+      border-left: 4px solid var(--success-green);
+    }
+
+    .review-item.is-incorrect {
+      border-left: 4px solid var(--error-red);
+    }
+
+    /* MODAL GUÍA DE MATRIZ RACI */
+    .raci-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .raci-modal.active {
+      display: flex;
+    }
+
+    .raci-modal-content {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 700px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .raci-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .raci-table th, .raci-table td {
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .raci-table th {
+      background: var(--light-bg);
+      color: var(--dark-navy-teal);
+    }
+
+    /* DISEÑO ADAPTATIVO (RESPONSIVE) */
+    @media (max-width: 768px) {
+      .welcome-title {
+        font-size: 1.75rem;
+      }
+
+      .roles-preview, .choices-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .final-score-display {
+        font-size: 2.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO DE LA MARCA -->
+  <header>
+    <div class="header-container">
+      <div class="brand-section">
+        <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="brand-logo-img">
+        <div class="brand-info">
+          <span class="brand-name">The Data Empowerment Journey</span>
+          <span class="brand-subtitle-badge">Simulador de Matriz de Conflictos de Roles</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="toggleSound()" id="soundToggleBtn">
+          🔊 Sonido: ON
+        </button>
+        <button class="btn-icon" onclick="openRaciModal()">
+          📖 Guía RACI de Datos
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. PANTALLA DE BIENVENIDA -->
+    <section id="welcome-screen" class="screen active">
+      <div class="card welcome-card">
+        <h1 class="welcome-title">¿Quién es el dueño de esto?</h1>
+        <p class="welcome-tagline">
+          Acaba con las disputas internas de territorio. Pon a prueba tus conocimientos sobre quién es realmente el dueño de las tareas de datos: <strong>Dueño del Negocio</strong>, <strong>Data Steward</strong> o <strong>TI / Tecnología</strong>.
+        </p>
+
+        <div class="roles-preview">
+          <div class="role-preview-box">
+            <div class="role-preview-header">👔 Dueño del Negocio</div>
+            <div class="role-preview-desc">Define la lógica comercial, asume los riesgos del negocio, fija presupuestos y aprueba reglas de dominio.</div>
+          </div>
+          <div class="role-preview-box">
+            <div class="role-preview-header">🛡️ Data Steward</div>
+            <div class="role-preview-desc">Mantiene la higiene de datos a diario, define reglas de calidad y conecta el contexto de negocio con metadatos.</div>
+          </div>
+          <div class="role-preview-box">
+            <div class="role-preview-header">💻 TI / Tecnología</div>
+            <div class="role-preview-desc">Construye la infraestructura, automatiza pipelines de datos, administra la seguridad y garantiza el tiempo de actividad.</div>
+          </div>
+        </div>
+
+        <form id="start-form" onsubmit="startGame(event)">
+          <div class="form-group">
+            <label for="player-name" class="form-label">Tu Nombre o Nombre de tu Equipo:</label>
+            <input type="text" id="player-name" class="form-input" placeholder="Ej. Ana García (Líder de Analytics)" required>
+          </div>
+          <button type="submit" class="btn-primary">Iniciar Desafío (10 Escenarios)</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 2. PANTALLA DE JUEGO -->
+    <section id="game-screen" class="screen">
+      <div class="game-header">
+        <div class="game-stats">
+          <div class="stat-badge">
+            📌 Escenario: <span id="current-scenario-num" class="stat-value">1 de 10</span>
+          </div>
+          <div class="stat-badge">
+            🔥 Racha: <span id="current-streak" class="stat-value">0</span>
+          </div>
+          <div class="stat-badge">
+            ⭐ Puntaje: <span id="current-score" class="stat-value">0</span>
+          </div>
+        </div>
+        <div class="progress-bar-container">
+          <div id="progress-bar" class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="card scenario-card">
+        <div class="scenario-number-tag">Conflictos de Gobernanza de Datos</div>
+        <h2 id="scenario-title" class="scenario-text">Cargando escenario...</h2>
+
+        <div class="choices-grid">
+          <button class="choice-btn" onclick="makeChoice('Business Owner')">
+            <span class="choice-icon">👔</span>
+            <span class="choice-title">Dueño del Negocio</span>
+            <span class="choice-subtitle">Lógica Comercial y Riesgo</span>
+          </button>
+
+          <button class="choice-btn" onclick="makeChoice('Data Steward')">
+            <span class="choice-icon">🛡️</span>
+            <span class="choice-title">Data Steward</span>
+            <span class="choice-subtitle">Calidad e Higiene Diaria</span>
+          </button>
+
+          <button class="choice-btn" onclick="makeChoice('IT / Tech')">
+            <span class="choice-icon">💻</span>
+            <span class="choice-title">TI / Tecnología</span>
+            <span class="choice-subtitle">Infraestructura y Código</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PANTALLA DE RESULTADOS -->
+    <section id="results-screen" class="screen">
+      <div class="results-grid">
+        <!-- Nivel / Medalla -->
+        <div class="card tier-badge-card">
+          <div class="tier-title-label">Tu Nivel de Madurez de Gobernanza</div>
+          <div id="res-tier-name" class="tier-name">Evaluando...</div>
+          <div id="res-final-score" class="final-score-display">0 pts</div>
+          <p id="res-tier-desc" class="tier-description">Análisis de rendimiento...</p>
+        </div>
+
+        <!-- Recomendaciones Clave -->
+        <div class="card">
+          <h3 class="section-title">💡 Recomendaciones Estratégicas para tu Empresa</h3>
+          <ul id="res-tips-list" class="tips-list">
+            <!-- Dinámico -->
+          </ul>
+        </div>
+
+        <!-- Tabla de Clasificación Local -->
+        <div class="card">
+          <h3 class="section-title">🏆 Tabla de Clasificación de la Empresa</h3>
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Pos.</th>
+                <th>Jugador</th>
+                <th>Puntaje</th>
+                <th>Rango</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <!-- Dinámico -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Revisión de Respuestas -->
+        <div class="card">
+          <h3 class="section-title">🔍 Resumen de Escenarios Evaluados</h3>
+          <div id="review-list">
+            <!-- Dinámico -->
+          </div>
+        </div>
+
+        <!-- Llamado a la Acción (CTA) -->
+        <div class="cta-box">
+          <h3 class="cta-heading">¿Cansado de la confusión sobre la propiedad de los datos en tu empresa?</h3>
+          <p class="cta-subtext">
+            Mide la madurez analítica de tu organización y descubre exactamente qué pasos seguir para estructurar tu modelo de gobernanza.
+          </p>
+          <div class="cta-buttons">
+            <a href="https://datagovjourney.com/?lang=es#contacto" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
+              Obtener Diagnóstico de Madurez de Datos
+            </a>
+            <button class="btn-secondary" onclick="resetGame()">Intentar de Nuevo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DE RETROALIMENTACIÓN DE ESCENARIOS -->
+  <div id="feedback-modal" class="feedback-modal-overlay">
+    <div class="feedback-card">
+      <div class="feedback-header">
+        <span id="feedback-badge" class="feedback-badge correct"> Correcto</span>
+      </div>
+      <div class="feedback-explanation">
+        <p id="feedback-text">Explicación técnica...</p>
+        <span class="dama-framework-tag">📐 Estándar DAMA-DMBOK</span>
+      </div>
+      <button class="btn-primary" style="width: 100%; max-width: none;" onclick="nextScenario()">Siguiente Escenario ➔</button>
+    </div>
+  </div>
+
+  <!-- MODAL GUÍA RÁPIDA RACI -->
+  <div id="raci-modal" class="raci-modal">
+    <div class="raci-modal-content">
+      <button class="close-modal" onclick="closeRaciModal()">✕</button>
+      <h2 style="color: var(--dark-navy-teal); margin-bottom: 0.5rem;">Guía de Roles DAMA (Matriz RACI)</h2>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Criterios estándar de la industria para evitar superposiciones y cuellos de botella entre equipos de negocio y tecnología.
+      </p>
+
+      <table class="raci-table">
+        <thead>
+          <tr>
+            <th>Rol de Gobernanza</th>
+            <th>Responsabilidad Principal</th>
+            <th>Ejemplos de Tareas Comunes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>👔 Dueño del Negocio</strong><br><em>(Business Owner)</em></td>
+            <td>Decisiones de Negocio y Riesgos</td>
+            <td>Definición de KPIs, presupuestos, aprobaciones de acceso a proveedores y cumplimiento legal del dominio.</td>
+          </tr>
+          <tr>
+            <td><strong>🛡️ Data Steward</strong><br><em>(Custodio de Datos)</em></td>
+            <td>Calidad de Datos y Operación Diaria</td>
+            <td>Documentación del catálogo de datos, reglas de validación, investigaciones de causa raíz y diccionario de términos.</td>
+          </tr>
+          <tr>
+            <td><strong>💻 TI / Tecnología</strong><br><em>(IT / Tech)</em></td>
+            <td>Infraestructura y Automatización</td>
+            <td>Pipelines de extracción (ETL/ELT), scripts SQL, respaldos, seguridad de red y mantenimiento del Data Warehouse.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // --- BASE DE DATOS DE ESCENARIOS (DAMA FRAMEWORK) ---
+    const scenarios = [
+      {
+        id: 1,
+        title: "Definir qué significa oficialmente 'Cliente Activo' para los informes de rendimiento del negocio.",
+        correct: "Business Owner",
+        explanation: "El Dueño del Negocio debe definir la lógica comercial y las reglas de negocio de los indicadores (KPIs). TI o los Stewards no deben inventar los criterios de rendimiento de la empresa."
+      },
+      {
+        id: 2,
+        title: "Escribir un script SQL automatizado para fusionar correos electrónicos duplicados directamente en la base de datos.",
+        correct: "IT / Tech",
+        explanation: "TI / Tecnología ejecuta el código, la optimización de consultas y la manipulación de la infraestructura técnica donde residen los datos."
+      },
+      {
+        id: 3,
+        title: "Crear reglas de perfilado de calidad de datos y monitorear registros con formato incorrecto en el CRM.",
+        correct: "Data Steward",
+        explanation: "Los Data Stewards supervisan la calidad operativa diaria, establecen los umbrales de validez de los datos y monitorean la higiene de la información."
+      },
+      {
+        id: 4,
+        title: "Configurar reglas de firewall en la base de datos y gestionar las credenciales de acceso a los servidores.",
+        correct: "IT / Tech",
+        explanation: "TI / Tecnología administra la seguridad de infraestructura, arquitecturas de red y protocolos de autenticación de sistemas."
+      },
+      {
+        id: 5,
+        title: "Decidir si el área de Marketing puede compartir el historial de compras de los clientes con una agencia externa.",
+        correct: "Business Owner",
+        explanation: "El Dueño del Negocio asume el riesgo comercial, la responsabilidad legal de los acuerdos y la toma de decisiones sobre el uso de activos del dominio."
+      },
+      {
+        id: 6,
+        title: "Investigar por qué el 15% de las ventas registradas en la región Norte carecen de código postal.",
+        correct: "Data Steward",
+        explanation: "Los Data Stewards investigan las anomalías operativas y las causas raíz de la degradación de datos en los flujos de proceso."
+      },
+      {
+        id: 7,
+        title: "Seleccionar, comprar y configurar la arquitectura de un nuevo Data Warehouse en la nube.",
+        correct: "IT / Tech",
+        explanation: "TI / Tecnología evalúa, dimensiona e implementa la infraestructura física/nube y las plataformas tecnológicas."
+      },
+      {
+        id: 8,
+        title: "Documentar la descripción funcional de los campos y metadatos de negocio en el Catálogo de Datos.",
+        correct: "Data Steward",
+        explanation: "Los Data Stewards sirven como puente entre el lenguaje operativo del negocio y la estructura técnica del catálogo de datos."
+      },
+      {
+        id: 9,
+        title: "Aprobar un presupuesto de $50,000 USD para una campaña de enriquecimiento de datos de clientes.",
+        correct: "Business Owner",
+        explanation: "El Dueño del Negocio posee la responsabilidad sobre la cuenta de pérdidas y ganancias (P&L) y la inversión de recursos financieros."
+      },
+      {
+        id: 10,
+        title: "Configurar las copias de seguridad (backups) diarias y los planes de recuperación ante desastres para los servidores analíticos.",
+        correct: "IT / Tech",
+        explanation: "TI / Tecnología garantiza la continuidad operativa, el almacenamiento seguro de copias de respaldo y la disponibilidad de los sistemas."
+      }
+    ];
+
+    // --- ESTADO DEL JUEGO ---
+    let gameState = {
+      playerName: "",
+      currentScenarioIndex: 0,
+      score: 0,
+      streak: 0,
+      userAnswers: [],
+      soundEnabled: true
+    };
+
+    // --- EFECTOS DE SONIDO SINTETIZADOS (WEB AUDIO API) ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+      if (!gameState.soundEnabled) return;
+      try {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15); // E5
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.3);
+        } else if (type === 'incorrect') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+          osc.frequency.exponentialRampToValueAtTime(130.81, audioCtx.currentTime + 0.2); // C4
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.3);
+        }
+      } catch (e) {
+        console.warn("Audio Context setup skipped:", e);
+      }
+    }
+
+    function toggleSound() {
+      gameState.soundEnabled = !gameState.soundEnabled;
+      document.getElementById('soundToggleBtn').innerHTML = gameState.soundEnabled ? '🔊 Sonido: ON' : '🔇 Sonido: OFF';
+    }
+
+    // --- CONTROL DE PANTALLAS ---
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // --- INICIO DE JUEGO ---
+    function startGame(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('player-name').value.trim();
+      if (!nameInput) return;
+
+      gameState.playerName = nameInput;
+      gameState.currentScenarioIndex = 0;
+      gameState.score = 0;
+      gameState.streak = 0;
+      gameState.userAnswers = [];
+
+      showScreen('game-screen');
+      loadScenario();
+    }
+
+    // --- CARGAR ESCENARIO ACTUAL ---
+    function loadScenario() {
+      const scenario = scenarios[gameState.currentScenarioIndex];
+      const totalScenarios = scenarios.length;
+
+      document.getElementById('current-scenario-num').textContent = `${gameState.currentScenarioIndex + 1} de ${totalScenarios}`;
+      document.getElementById('current-score').textContent = gameState.score;
+      document.getElementById('current-streak').textContent = gameState.streak;
+      document.getElementById('scenario-title').textContent = scenario.title;
+
+      const progressPercent = ((gameState.currentScenarioIndex + 1) / totalScenarios) * 100;
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+    }
+
+    // --- PROCESAR ELECCIÓN DE JUGADOR ---
+    function makeChoice(selectedRole) {
+      const scenario = scenarios[gameState.currentScenarioIndex];
+      const isCorrect = (selectedRole === scenario.correct);
+
+      let pointsEarned = 0;
+      if (isCorrect) {
+        gameState.streak += 1;
+        pointsEarned = 100 + (gameState.streak > 1 ? (gameState.streak - 1) * 20 : 0);
+        gameState.score += pointsEarned;
+        playSound('correct');
+      } else {
+        gameState.streak = 0;
+        playSound('incorrect');
+      }
+
+      gameState.userAnswers.push({
+        scenarioId: scenario.id,
+        title: scenario.title,
+        selectedRole: selectedRole,
+        correctRole: scenario.correct,
+        isCorrect: isCorrect,
+        explanation: scenario.explanation
+      });
+
+      // Mostrar Modal
+      const modal = document.getElementById('feedback-modal');
+      const badge = document.getElementById('feedback-badge');
+      const text = document.getElementById('feedback-text');
+
+      if (isCorrect) {
+        badge.className = "feedback-badge correct";
+        badge.innerHTML = `✓ ¡Correcto! (+${pointsEarned} pts)`;
+      } else {
+        badge.className = "feedback-badge incorrect";
+        badge.innerHTML = `✕ Incorrecto (El responsable es: ${translateRole(scenario.correct)})`;
+      }
+
+      text.innerHTML = `<strong>${translateRole(scenario.correct)}:</strong> ${scenario.explanation}`;
+      modal.classList.add('active');
+    }
+
+    function translateRole(roleKey) {
+      switch(roleKey) {
+        case 'Business Owner': return 'Dueño del Negocio';
+        case 'Data Steward': return 'Data Steward';
+        case 'IT / Tech': return 'TI / Tecnología';
+        default: return roleKey;
+      }
+    }
+
+    function nextScenario() {
+      document.getElementById('feedback-modal').classList.remove('active');
+      gameState.currentScenarioIndex += 1;
+
+      if (gameState.currentScenarioIndex < scenarios.length) {
+        loadScenario();
+      } else {
+        endGame();
+      }
+    }
+
+    // --- FINALIZACIÓN DE JUEGO Y RESULTADOS ---
+    function endGame() {
+      saveScoreToLeaderboard();
+      renderResults();
+      showScreen('results-screen');
+    }
+
+    function renderResults() {
+      const score = gameState.score;
+      let tierTitle = "";
+      let tierDesc = "";
+      let tips = [];
+
+      if (score <= 400) {
+        tierTitle = "🌱 Novato de la Propiedad";
+        tierDesc = "Existe una alta fricción organizacional en tu estructura actual. Probablemente tu equipo trata al área de TI como 'conserjes de datos' encargados de corregir errores de negocio.";
+        tips = [
+          "<strong>Detén la delegación indebida en TI:</strong> El equipo de TI no debe definir el significado de métricas de negocio ni autorizar acceso a clientes.",
+          "<strong>Implementa una Matriz RACI básica:</strong> Clarifica por escrito quién Aprueba (Business) y quién Ejecuta (TI).",
+          "<strong>Designa Data Stewards en áreas clave:</strong> Asigna al menos un Steward funcional en Finanzas y Marketing."
+        ];
+      } else if (score <= 700) {
+        tierTitle = "⚡ Practicante de Gobernanza";
+        tierDesc = "Cuentas con una buena base teórica, pero los límites operativos entre los Data Stewards y los Dueños del Negocio aún presentan zonas grises en tu día a día.";
+        tips = [
+          "<strong>Documenta las reglas de calidad de datos:</strong> Pasa de resolver incidentes reactivamente a formalizar catálogos de metadatos.",
+          "<strong>Empodera a los Data Stewards:</strong> Otorga a los Stewards autoridad para hacer cumplir estándares con los equipos de operaciones.",
+          "<strong>Separa presupuesto de ejecución técnica:</strong> Asegúrate de que las inversiones en proyectos analíticos sean aprobadas por el Dueño del Negocio."
+        ];
+      } else {
+        tierTitle = "🏆 Maestro en Propiedad de Datos";
+        tierDesc = "¡Nivel Experto! Comprendes con precisión la separación estratégica entre decisiones de negocio, gestión de calidad e infraestructura técnica.";
+        tips = [
+          "<strong>Escala el modelo a toda la organización:</strong> Formaliza tu marco de trabajo basándote en el estándar DAMA-DMBOK.",
+          "<strong>Automatiza el gobierno de datos:</strong> Implementa herramientas modernas de linaje de datos y catálogos automatizados.",
+          "<strong>Promueve la cultura Data-Driven:</strong> Utiliza tu conocimiento para entrenar a líderes de dominio en responsabilidad de datos."
+        ];
+      }
+
+      document.getElementById('res-tier-name').textContent = tierTitle;
+      document.getElementById('res-final-score').textContent = `${score} / 1000 pts`;
+      document.getElementById('res-tier-desc').textContent = tierDesc;
+
+      const tipsListEl = document.getElementById('res-tips-list');
+      tipsListEl.innerHTML = tips.map((tip, idx) => `
+        <li class="tip-item">
+          <span class="tip-icon">${idx + 1}</span>
+          <div>${tip}</div>
+        </li>
+      `).join('');
+
+      renderLeaderboard();
+      renderReview();
+    }
+
+    // --- GESTIÓN DE TABLA DE CLASIFICACIÓN (LOCALSTORAGE) ---
+    function saveScoreToLeaderboard() {
+      let leaderboard = JSON.parse(localStorage.getItem('dej_ownership_leaderboard') || '[]');
+      
+      // Si la tabla está vacía, agregar registros por defecto para comparación
+      if (leaderboard.length === 0) {
+        leaderboard = [
+          { name: "Carlos M. (CDO)", score: 920, tier: "Maestro" },
+          { name: "Laura R. (Data Governance)", score: 850, tier: "Maestro" },
+          { name: "Javier P. (BI Lead)", score: 650, tier: "Practicante" },
+          { name: "Elena S. (Analista)", score: 450, tier: "Novato" }
+        ];
+      }
+
+      leaderboard.push({
+        name: gameState.playerName,
+        score: gameState.score,
+        isCurrent: true
+      });
+
+      // Ordenar de mayor a menor puntaje
+      leaderboard.sort((a, b) => b.score - a.score);
+      leaderboard = leaderboard.slice(0, 5); // Conservar Top 5
+
+      localStorage.setItem('dej_ownership_leaderboard', JSON.stringify(leaderboard));
+    }
+
+    function renderLeaderboard() {
+      const leaderboard = JSON.parse(localStorage.getItem('dej_ownership_leaderboard') || '[]');
+      const tbody = document.getElementById('leaderboard-body');
+      
+      tbody.innerHTML = leaderboard.map((entry, index) => {
+        const isUser = entry.name === gameState.playerName && entry.isCurrent;
+        return `
+          <tr class="${isUser ? 'current-user' : ''}">
+            <td class="rank-cell">#${index + 1}</td>
+            <td>${escapeHtml(entry.name)} ${isUser ? '👈 (Tú)' : ''}</td>
+            <td><strong>${entry.score} pts</strong></td>
+            <td>${entry.score >= 800 ? 'Maestro' : entry.score >= 500 ? 'Practicante' : 'Novato'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderReview() {
+      const container = document.getElementById('review-list');
+      container.innerHTML = gameState.userAnswers.map((ans, idx) => `
+        <div class="review-item ${ans.isCorrect ? 'is-correct' : 'is-incorrect'}">
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">ESCENARIO ${idx + 1}</div>
+            <div style="font-weight: 700; color: var(--dark-navy-teal); margin: 2px 0;">${escapeHtml(ans.title)}</div>
+            <div style="font-size: 0.85rem; color: var(--text-main);">
+              Tu respuesta: <strong>${translateRole(ans.selectedRole)}</strong> | 
+              Correcto: <strong>${translateRole(ans.correctRole)}</strong>
+            </div>
+          </div>
+          <div style="font-size: 1.2rem;">
+            ${ans.isCorrect ? '✅' : '❌'}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function resetGame() {
+      showScreen('welcome-screen');
+    }
+
+    function openRaciModal() {
+      document.getElementById('raci-modal').classList.add('active');
+    }
+
+    function closeRaciModal() {
+      document.getElementById('raci-modal').classList.remove('active');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>

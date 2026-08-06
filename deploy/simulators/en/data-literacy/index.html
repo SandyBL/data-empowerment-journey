@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Literacy Simulator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for Radar Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#080d1a',
+                        },
+                        cyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            900: '#164e63',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite ease-in-out',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(6, 182, 212, 0.3)' },
+                            '50%': { boxShadow: '0 0 30px rgba(6, 182, 212, 0.6)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(6, 182, 212, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-interactive {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel-interactive:hover {
+            border-color: rgba(6, 182, 212, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.18);
+        }
+        .metric-card-glow {
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="h-full bg-navy-950 font-sans text-slate-100 antialiased flex flex-col overflow-x-hidden selection:bg-cyan-500 selection:text-slate-950">
+
+    <header class="border-b border-slate-800 bg-navy-900/90 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-cyan-400">
+                <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <div class="flex items-center space-x-2">
+                    <h1 class="font-bold text-lg md:text-xl tracking-tight text-white">Data Literacy Simulator</h1>
+                    <span class="px-2 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded-full">v3.1 Executive Edition</span>
+                </div>
+                <p class="text-xs text-slate-400 hidden sm:block">Strategic Command Center & Organizational Data Culture</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <!-- Audio Toggle -->
+            <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 text-slate-400 hover:text-cyan-400 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 rounded-lg transition" title="Toggle Audio">
+                <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Tab Switcher -->
+            <div class="flex bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
+                <button id="tabSimulationBtn" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
+                    <i data-lucide="play" class="w-3.5 h-3.5 text-cyan-400"></i>
+                    <span>Simulation</span>
+                </button>
+                <button id="tabCatalogBtn" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span>Glossary</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 text-slate-300 hover:text-white bg-slate-800 rounded-lg border border-slate-700">
+                <i data-lucide="line-chart" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+
+        <!-- Mobile Overlay Backdrop -->
+        <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-20 lg:hidden"></div>
+
+        <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-30 w-80 md:w-96 bg-navy-900 border-r border-slate-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 h-full">
+            <div class="p-5 border-b border-slate-800/80 bg-slate-900/50 flex items-center justify-between">
+                <div>
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">Asset Tracker</h2>
+                    <p class="text-sm font-semibold text-slate-200 mt-0.5">Real-Time Data Capital Metrics</p>
+                </div>
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" title="System Active"></div>
+            </div>
+
+            <div class="p-5 space-y-4 overflow-y-auto flex-1">
+                <!-- Metric 1: Data Asset Value -->
+                <div class="glass-panel p-4 rounded-2xl relative overflow-hidden metric-card-glow group">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                                <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-300">Data Asset Value</span>
+                        </div>
+                        <span id="deltaAssetValue" class="text-xs font-mono font-bold transition-all opacity-0">+$0</span>
+                    </div>
+                    <div class="flex items-baseline space-x-2">
+                        <span id="metricAssetValue" class="text-2xl font-extrabold font-mono text-white tracking-tight">$50,000</span>
+                        <span class="text-[11px] text-slate-400">monetary capital</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <span>Baseline: $150,000</span>
+                            <span id="pctAssetValue">33%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="barAssetValue" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-700 ease-out" style="width: 33%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metric 2: Information ROI -->
+                <div class="glass-panel p-4 rounded-2xl relative overflow-hidden metric-card-glow">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-300">Information ROI</span>
+                        </div>
+                        <span id="deltaRoi" class="text-xs font-mono font-bold transition-all opacity-0">+0%</span>
+                    </div>
+                    <div class="flex items-baseline space-x-2">
+                        <span id="metricRoi" class="text-2xl font-extrabold font-mono text-cyan-300 tracking-tight">50%</span>
+                        <span class="text-[11px] text-slate-400">analytical yield</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <span>Efficiency Scale</span>
+                            <span id="pctRoi">50%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="barRoi" class="h-full bg-cyan-500 transition-all duration-700 ease-out" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metric 3: Data Friction & Waste -->
+                <div class="glass-panel p-4 rounded-2xl relative overflow-hidden metric-card-glow">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-300">Data Friction & Waste</span>
+                        </div>
+                        <span id="deltaFriction" class="text-xs font-mono font-bold transition-all opacity-0">+0%</span>
+                    </div>
+                    <div class="flex items-baseline space-x-2">
+                        <span id="metricFriction" class="text-2xl font-extrabold font-mono text-rose-400 tracking-tight">40%</span>
+                        <span class="text-[11px] text-slate-400">time finding/fixing</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <span>Operational Load</span>
+                            <span id="pctFriction">40%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="barFriction" class="h-full bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-700 ease-out" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metric 4: Data Literacy Score -->
+                <div class="glass-panel p-4 rounded-2xl relative overflow-hidden metric-card-glow border-purple-500/30">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg">
+                                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-300">Data Literacy Score</span>
+                        </div>
+                        <span id="deltaLiteracy" class="text-xs font-mono font-bold transition-all opacity-0">+0 pts</span>
+                    </div>
+                    <div class="flex items-baseline space-x-2">
+                        <span id="metricLiteracy" class="text-2xl font-extrabold font-mono text-purple-300 tracking-tight">0%</span>
+                        <span class="text-[11px] text-slate-400">Cognitive & Governance Index</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                            <span>Literacy Target</span>
+                            <span id="pctLiteracy">0%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="barLiteracy" class="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-700 ease-out" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario Progress Badges -->
+                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+                    <div class="text-[11px] font-mono uppercase text-slate-400 mb-3 flex justify-between">
+                        <span>Scenario Progress</span>
+                        <span id="scenarioProgressCount">1 / 15</span>
+                    </div>
+                    <div class="grid grid-cols-5 sm:grid-cols-15 gap-1.5" id="milestoneBadges">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-slate-800/80 bg-slate-950 text-xs text-slate-500 flex justify-between items-center">
+                <span>Data Literacy Simulator</span>
+                <span class="flex items-center gap-1 text-cyan-400">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Cognitive Control
+                </span>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto bg-grid-pattern relative p-4 md:p-8 flex flex-col items-center">
+
+            <!-- SIMULATION TAB CONTAINER -->
+            <div id="tabSimulationView" class="w-full max-w-4xl space-y-6">
+
+                <!-- Scenario Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-5 rounded-2xl border border-slate-800">
+                    <div class="flex items-center space-x-3">
+                        <div id="scenarioIconContainer" class="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/30">
+                            <i id="scenarioIcon" data-lucide="brain" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs font-mono font-semibold uppercase text-cyan-400 tracking-wider">Strategic Scenario</span>
+                                <span id="scenarioStepBadge" class="px-2 py-0.5 text-[10px] bg-slate-800 text-slate-300 rounded font-mono">Phase 1 of 15</span>
+                            </div>
+                            <h2 id="scenarioTopic" class="text-lg md:text-xl font-bold text-white mt-0.5">Loading topic...</h2>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs font-mono text-slate-400 bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800">
+                        <i data-lucide="compass" class="w-4 h-4 text-cyan-400"></i>
+                        <span>Decision Impact: High</span>
+                    </div>
+                </div>
+
+                <!-- Scenario Card and Choice Options -->
+                <div id="scenarioCard" class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden transition-all duration-500">
+                    
+                    <!-- Category Point Tracker (Neutral, no hints on correctness) -->
+                    <div class="mb-6 p-4 bg-slate-950/80 rounded-2xl border border-slate-800/90 shadow-inner">
+                        <div class="flex items-center justify-between mb-2.5">
+                            <span class="text-[11px] font-mono uppercase text-cyan-400 font-bold tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i> Category Competency Points
+                            </span>
+                            <span class="text-[10px] font-mono text-slate-400">Real-Time Score</span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-mono">
+                            <!-- Governance -->
+                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[10px] mb-1">
+                                    <span class="truncate text-cyan-300 font-semibold flex items-center gap-1">
+                                        <i data-lucide="database" class="w-3 h-3 text-cyan-400"></i> Governance
+                                    </span>
+                                    <span id="catScore-governance" class="font-bold text-white">0/3 pts</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="catBar-governance" class="h-full bg-cyan-400 transition-all duration-500" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Biases -->
+                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[10px] mb-1">
+                                    <span class="truncate text-rose-300 font-semibold flex items-center gap-1">
+                                        <i data-lucide="filter" class="w-3 h-3 text-rose-400"></i> Biases
+                                    </span>
+                                    <span id="catScore-bias" class="font-bold text-white">0/3 pts</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="catBar-bias" class="h-full bg-rose-400 transition-all duration-500" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- AI & Security -->
+                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[10px] mb-1">
+                                    <span class="truncate text-purple-300 font-semibold flex items-center gap-1">
+                                        <i data-lucide="bot" class="w-3 h-3 text-purple-400"></i> AI & Sec.
+                                    </span>
+                                    <span id="catScore-ai" class="font-bold text-white">0/3 pts</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="catBar-ai" class="h-full bg-purple-400 transition-all duration-500" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Root Cause -->
+                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[10px] mb-1">
+                                    <span class="truncate text-amber-300 font-semibold flex items-center gap-1">
+                                        <i data-lucide="search-code" class="w-3 h-3 text-amber-400"></i> Root Cause
+                                    </span>
+                                    <span id="catScore-analytics" class="font-bold text-white">0/3 pts</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="catBar-analytics" class="h-full bg-amber-400 transition-all duration-500" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Culture -->
+                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between col-span-2 sm:col-span-1">
+                                <div class="flex items-center justify-between text-[10px] mb-1">
+                                    <span class="truncate text-emerald-300 font-semibold flex items-center gap-1">
+                                        <i data-lucide="users" class="w-3 h-3 text-emerald-400"></i> Culture
+                                    </span>
+                                    <span id="catScore-culture" class="font-bold text-white">0/3 pts</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="catBar-culture" class="h-full bg-emerald-400 transition-all duration-500" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scenario Narrative -->
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                            <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">Corporate Challenge and Context</h3>
+                        </div>
+                        <p id="scenarioText" class="text-slate-200 text-base md:text-lg leading-relaxed font-normal">
+                            Loading scenario description...
+                        </p>
+                    </div>
+
+                    <div class="my-6 border-t border-slate-800/80"></div>
+
+                    <!-- Strategic Options Container -->
+                    <div id="optionsContainer" class="space-y-4">
+                        <p class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold mb-3">Select Your Approach (3 Options)</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Option A -->
+                            <button id="btnOptionA" onclick="handleChoice('A')" class="glass-panel glass-panel-interactive p-4 rounded-2xl border border-slate-800 text-left group flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-200">
+                                <div>
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="px-2.5 py-1 bg-slate-800 text-slate-200 font-mono text-xs font-bold rounded-lg group-hover:bg-cyan-500 group-hover:text-slate-950 transition">Option A</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
+                                    </div>
+                                    <p id="textOptionA" class="text-xs md:text-sm text-slate-200 font-medium leading-normal mb-4">
+                                        Description for Option A...
+                                    </p>
+                                </div>
+                                <div id="previewA" class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                    <span>Approach 1</span>
+                                    <span class="text-slate-400 font-semibold">Tactical Analysis</span>
+                                </div>
+                            </button>
+
+                            <!-- Option B -->
+                            <button id="btnOptionB" onclick="handleChoice('B')" class="glass-panel glass-panel-interactive p-4 rounded-2xl border border-slate-800 text-left group flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-200">
+                                <div>
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="px-2.5 py-1 bg-slate-800 text-slate-200 font-mono text-xs font-bold rounded-lg group-hover:bg-cyan-500 group-hover:text-slate-950 transition">Option B</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
+                                    </div>
+                                    <p id="textOptionB" class="text-xs md:text-sm text-slate-200 font-medium leading-normal mb-4">
+                                        Description for Option B...
+                                    </p>
+                                </div>
+                                <div id="previewB" class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                    <span>Approach 2</span>
+                                    <span class="text-slate-400 font-semibold">Operational View</span>
+                                </div>
+                            </button>
+
+                            <!-- Option C -->
+                            <button id="btnOptionC" onclick="handleChoice('C')" class="glass-panel glass-panel-interactive p-4 rounded-2xl border border-slate-800 text-left group flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-200">
+                                <div>
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="px-2.5 py-1 bg-slate-800 text-slate-200 font-mono text-xs font-bold rounded-lg group-hover:bg-cyan-500 group-hover:text-slate-950 transition">Option C</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
+                                    </div>
+                                    <p id="textOptionC" class="text-xs md:text-sm text-slate-200 font-medium leading-normal mb-4">
+                                        Description for Option C...
+                                    </p>
+                                </div>
+                                <div id="previewC" class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                    <span>Approach 3</span>
+                                    <span class="text-slate-400 font-semibold">Strategic Action</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Debrief Educational Card -->
+                    <div id="debriefCard" class="hidden mt-6 bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-500"></div>
+                        <div class="flex items-center space-x-2 text-cyan-400 mb-2">
+                            <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                            <span class="font-mono text-xs uppercase font-bold tracking-wider">Intelligence & Literacy Debrief Report</span>
+                        </div>
+                        <h4 id="debriefChoiceTitle" class="text-base font-bold text-white mb-2">Analysis of Selected Approach</h4>
+                        
+                        <!-- Literacy Lesson -->
+                        <div id="debriefLessonText" class="text-slate-300 text-sm leading-relaxed mb-6 bg-slate-950/60 p-4 rounded-xl border border-slate-800 font-sans">
+                            The lesson will be loaded here...
+                        </div>
+
+                        <!-- Metric Impact Grid -->
+                        <div id="impactGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 font-mono text-xs">
+                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 block text-[10px]">Asset Delta</span>
+                                <span id="debriefAsset" class="font-bold text-emerald-400">+$0</span>
+                            </div>
+                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 block text-[10px]">ROI Delta</span>
+                                <span id="debriefRoi" class="font-bold text-cyan-400">+0%</span>
+                            </div>
+                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 block text-[10px]">Friction Delta</span>
+                                <span id="debriefFriction" class="font-bold text-rose-400">-0%</span>
+                            </div>
+                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 block text-[10px]">Literacy Delta</span>
+                                <span id="debriefLiteracy" class="font-bold text-purple-400">+0 pts</span>
+                            </div>
+                        </div>
+
+                        <!-- Advance Button -->
+                        <div class="flex justify-end">
+                            <button id="nextPhaseBtn" onclick="advanceScenario()" class="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm rounded-xl transition-all shadow-lg shadow-cyan-500/20 flex items-center space-x-2">
+                                <span id="nextPhaseText">Next Simulation Phase</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Executive Decision Audit Log -->
+                <div class="glass-panel p-5 rounded-2xl border border-slate-800">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="history" class="w-4 h-4 text-cyan-400"></i>
+                            <h3 class="text-xs font-mono uppercase tracking-wider font-semibold text-slate-300">Executive Decision Audit Trail</h3>
+                        </div>
+                        <span id="auditCount" class="text-[11px] font-mono text-slate-500">0 decisions recorded</span>
+                    </div>
+                    <div id="auditLogList" class="space-y-2 text-xs font-mono text-slate-400 max-h-48 overflow-y-auto">
+                        <div class="p-3 bg-slate-950/50 rounded-lg border border-slate-800/60 text-center text-slate-500">
+                            No decisions recorded yet. Evaluate Scenario 1.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="finalSummaryView" class="hidden w-full max-w-4xl space-y-6">
+                <div class="glass-panel p-8 rounded-3xl border border-cyan-500/40 text-center relative overflow-hidden">
+                    <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-2xl border border-cyan-500/30 mb-4 inline-flex items-center justify-center">
+                        <i data-lucide="award" class="w-10 h-10"></i>
+                    </div>
+                    
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyan-400 block mb-1">Data Literacy Assessment Complete</span>
+                    <h2 class="text-2xl md:text-3xl font-black text-white mb-2">Executive Profile in Data Literacy & Culture</h2>
+                    <p class="text-slate-400 text-sm max-w-xl mx-auto mb-6">
+                        Your strategic decisions across all 15 scenarios were analyzed against analytical capability frameworks and organizational data culture principles.
+                    </p>
+
+                    <!-- Assigned Executive Profile Card -->
+                    <div class="max-w-md mx-auto p-6 bg-slate-900/90 rounded-2xl border border-slate-800 mb-8 shadow-xl">
+                        <span class="text-[11px] font-mono uppercase text-slate-500 block mb-1">Assigned Executive Profile</span>
+                        <h3 id="finalRankTitle" class="text-xl md:text-2xl font-extrabold text-cyan-300 tracking-tight">Literate Data Strategist</h3>
+                        <p id="finalRankDesc" class="text-xs text-slate-400 mt-2 leading-relaxed">
+                            Effectively avoids cognitive biases, navigates diverse data personas, and treats corporate data as a high-value strategic asset.
+                        </p>
+                    </div>
+
+                    <!-- Final Metric Cards Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 text-left">
+                        <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-mono">Final Data Asset Value</span>
+                            <div id="finalValAsset" class="text-xl font-bold font-mono text-emerald-400 mt-1">$0</div>
+                        </div>
+                        <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-mono">Information ROI</span>
+                            <div id="finalValRoi" class="text-xl font-bold font-mono text-cyan-400 mt-1">0%</div>
+                        </div>
+                        <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-mono">Data Friction & Waste</span>
+                            <div id="finalValFriction" class="text-xl font-bold font-mono text-rose-400 mt-1">0%</div>
+                        </div>
+                        <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                            <span class="text-xs text-slate-400 font-mono">Final Literacy Score</span>
+                            <div id="finalValLiteracy" class="text-xl font-bold font-mono text-purple-400 mt-1">0%</div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Strengths and Weaknesses Breakdown -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-8">
+                        <!-- Strengths -->
+                        <div class="p-5 bg-slate-950/70 rounded-2xl border border-emerald-500/30">
+                            <h4 class="text-xs font-mono uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-2 font-bold">
+                                <i data-lucide="check-circle-2" class="w-4 h-4"></i> Strategic Strengths
+                            </h4>
+                            <ul id="finalStrengthsList" class="text-xs text-slate-300 space-y-2 font-sans">
+                                <!-- Filled dynamically -->
+                            </ul>
+                        </div>
+
+                        <!-- Vulnerabilities & Weaknesses -->
+                        <div class="p-5 bg-slate-950/70 rounded-2xl border border-amber-500/30">
+                            <h4 class="text-xs font-mono uppercase tracking-wider text-amber-400 mb-3 flex items-center gap-2 font-bold">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i> Vulnerabilities & Growth Opportunities
+                            </h4>
+                            <ul id="finalWeaknessesList" class="text-xs text-slate-300 space-y-2 font-sans">
+                                <!-- Filled dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Radar Chart and Executive Conclusion -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-8">
+                        <div class="p-5 bg-slate-950/60 rounded-2xl border border-slate-800 flex flex-col justify-center items-center">
+                            <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 w-full text-left">Competency Breakdown (Radar)</h4>
+                            <div class="w-full max-w-xs h-56">
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-slate-950/60 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-xs font-mono uppercase tracking-wider text-cyan-400 mb-3 flex items-center gap-2 font-bold">
+                                    <i data-lucide="key" class="w-4 h-4"></i> Key Executive Takeaway
+                                </h4>
+                                <p class="text-slate-200 text-sm leading-relaxed mb-3 font-normal">
+                                    Data literacy and analytical culture are not merely technical skills; they form the bedrock for turning enterprise data into your company's most valuable strategic asset.
+                                </p>
+                                <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                                    <li>Mitigate cognitive biases (Survivorship, Confirmation, Anchoring).</li>
+                                    <li>Tailor communication to data personas (Skeptics vs. Dreamers).</li>
+                                    <li>Apply Root Cause Analysis (5 Whys) rather than patching symptoms.</li>
+                                    <li>Enforce human verification (HITL) and privacy safeguards in GenAI.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LEADERBOARD SECTION -->
+                    <div class="p-6 bg-slate-950/80 rounded-2xl border border-slate-800 text-left mb-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center space-x-2 text-cyan-400 mb-1">
+                                    <i data-lucide="trophy" class="w-5 h-5"></i>
+                                    <span class="text-xs font-mono uppercase tracking-wider font-bold">Literacy Ranking</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-white">Executive Leaderboard in Data Culture</h3>
+                                <p class="text-xs text-slate-400">Record your score on the global leaderboard and compare performance with other leaders.</p>
+                            </div>
+
+                            <!-- Name Input Form -->
+                            <div id="leaderboardInputForm" class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                                <input type="text" id="playerNameInput" placeholder="Your Name / Title" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-cyan-500 font-sans min-w-[200px]" maxlength="30">
+                                <button onclick="submitLeaderboardScore()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                                    <span>Save to Ranking</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Leaderboard Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs font-mono">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 uppercase text-[10px]">
+                                        <th class="py-2.5 px-3"># Rank</th>
+                                        <th class="py-2.5 px-3">Executive</th>
+                                        <th class="py-2.5 px-3">Assigned Profile</th>
+                                        <th class="py-2.5 px-3 text-right">Optimal Choices</th>
+                                        <th class="py-2.5 px-3 text-right">Data Asset Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaderboardTableBody" class="divide-y divide-slate-800/60 text-slate-300">
+                                    <!-- Populated via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- CALL TO ACTION SECTION -->
+                    <div class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-2">
+                            Struggling with Data Literacy in your company? Let's build your framework.
+                        </h3>
+                        <p class="text-xs md:text-sm text-slate-300 max-w-2xl mx-auto mb-5">
+                            Transforming organizational data culture requires structured governance, tailored literacy programs, and platform alignment.
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a href="https://datagovjourney.com/?lang=en#contacto" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-sm rounded-xl transition shadow-lg shadow-cyan-500/25 flex items-center justify-center space-x-2">
+                                <span>Get Your Customized Framework</span>
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                            <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                                <span>Restart Simulation</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="tabCatalogView" class="hidden w-full max-w-4xl space-y-6">
+                <!-- Glossary Header Panel -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-xs font-mono font-semibold uppercase text-cyan-400 tracking-wider">Knowledge Base</span>
+                            <h2 class="text-xl font-bold text-white mt-1">Data Literacy & Culture Glossary</h2>
+                            <p class="text-xs text-slate-400 mt-1">Consult key concepts, cognitive biases, governance, and artificial intelligence.</p>
+                        </div>
+                        <!-- Search Box -->
+                        <div class="relative min-w-[240px]">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="catalogSearchInput" onkeyup="filterCatalogSearch()" placeholder="Search concept..." class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs pl-9 pr-3 py-2 rounded-xl focus:outline-none focus:border-cyan-500 font-sans">
+                        </div>
+                    </div>
+
+                    <!-- Category Filter Buttons -->
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800 text-xs">
+                        <button id="catBtn-all" onclick="filterCatalogCategory('all')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold border border-cyan-400 transition">All</button>
+                        <button id="catBtn-governance" onclick="filterCatalogCategory('governance')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Governance</button>
+                        <button id="catBtn-bias" onclick="filterCatalogCategory('bias')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Cognitive Biases</button>
+                        <button id="catBtn-ai" onclick="filterCatalogCategory('ai')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">AI & Security</button>
+                        <button id="catBtn-analytics" onclick="filterCatalogCategory('analytics')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Root Cause & Analytics</button>
+                        <button id="catBtn-culture" onclick="filterCatalogCategory('culture')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Culture & Personas</button>
+                    </div>
+                </div>
+
+                <!-- Glossary Cards Grid -->
+                <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Card 1: Survivorship Bias -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="bias">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
+                                <i data-lucide="filter" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Survivorship Bias</h3>
+                                <span class="text-[10px] font-mono text-rose-400">Cognitive Biases</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            The tendency to focus exclusively on individuals or datasets that "survived" a selection process, ignoring cases that dropped out or failed because they remain hidden or inaccessible.
+                        </p>
+                    </div>
+
+                    <!-- Card 2: Confirmation Bias -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="bias">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Confirmation Bias</h3>
+                                <span class="text-[10px] font-mono text-rose-400">Cognitive Biases</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Selectively cherry-picking metrics and charts that confirm pre-existing hypotheses or political narratives, while dismissing or suppressing contradictory data.
+                        </p>
+                    </div>
+
+                    <!-- Card 3: Anchoring Bias -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="bias">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
+                                <i data-lucide="anchor" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">First-Conclusion Bias</h3>
+                                <span class="text-[10px] font-mono text-rose-400">Cognitive Biases</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Fixating executive decision-making on the first piece of data or explanation offered during a crisis without investigating underlying variables or external factors.
+                        </p>
+                    </div>
+
+                    <!-- Card 4: Business Glossary -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="governance">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Business Glossary</h3>
+                                <span class="text-[10px] font-mono text-cyan-400">Governance</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            A centralized repository of standardized business terminology. Establishes a common organizational language and eliminates conflicting definitions between departments.
+                        </p>
+                    </div>
+
+                    <!-- Card 5: Data Lineage -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="governance">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
+                                <i data-lucide="git-commit" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Data Lineage</h3>
+                                <span class="text-[10px] font-mono text-cyan-400">Governance</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Visual mapping of data origins, transformations, and downstream dependencies. Essential for impact analysis and preventing broken pipeline workflows.
+                        </p>
+                    </div>
+
+                    <!-- Card 6: Data Personas -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="culture">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Data Personas</h3>
+                                <span class="text-[10px] font-mono text-emerald-400">Culture</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Behavioral profiling of organizational users: Data Skeptic (relies on gut feeling), Data Dreamer (expects magical AI solutions), Key User, and Data Guru.
+                        </p>
+                    </div>
+
+                    <!-- Card 7: RAG & HITL in AI -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="ai">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg">
+                                <i data-lucide="bot" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">RAG & Human Supervision (HITL)</h3>
+                                <span class="text-[10px] font-mono text-purple-400">AI & Security</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            AI architecture that grounds LLMs on verified internal documents (Retrieval-Augmented Generation) paired with Human-In-The-Loop validation to mitigate hallucinations.
+                        </p>
+                    </div>
+
+                    <!-- Card 8: 5 Whys Root Cause Analysis -->
+                    <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="analytics">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
+                                <i data-lucide="search-code" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Root Cause Analysis (5 Whys)</h3>
+                                <span class="text-[10px] font-mono text-amber-400">Root Cause & Analytics</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            An iterative investigative technique that repeatedly asks "why" to move past surface-level symptoms and pinpoint the primary root cause of data anomalies.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        let currentScenarioIndex = 0;
+        let soundEnabled = true;
+        let radarChartInstance = null;
+
+        let metrics = {
+            assetValue: 50000,
+            roi: 50,
+            friction: 40,
+            literacy: 0
+        };
+
+        let decisionsHistory = [];
+
+        // 15 Balanced Scenarios (Optimal choices distributed across A, B, and C)
+        const scenarios = [
+            // ==================== CATEGORY 1: GOVERNANCE (3 SCENARIOS) ====================
+            {
+                id: 1,
+                topic: "Data as an Asset vs. Liability & Data Swamps",
+                category: "governance",
+                icon: "database",
+                text: "The Sales department wants to store all unformatted casual interaction text, raw PDFs, and unindexed logs 'just in case', with no plan for sanitization, metadata tagging, or retention policies.",
+                optimalChoice: "A",
+                optionA: {
+                    title: "Require Metadata Registration & Data Catalog Entry",
+                    impact: { asset: 15000, roi: 15, friction: -10, literacy: 35 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Data only becomes an asset when it is discoverable, cataloged, and contextually understood. Adding metadata is like labeling warehouse inventory—it unlocks productive usage."
+                },
+                optionB: {
+                    title: "Approve Storage Request Immediately Without Metadata",
+                    impact: { asset: -5000, roi: -10, friction: 20, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Raw, unorganized data without metadata is not an asset; it is an operational and financial liability. It creates a 'data swamp' that inflates storage costs while yielding zero actionable value."
+                },
+                optionC: {
+                    title: "Delegate Storage to Sales' Local Departmental Servers",
+                    impact: { asset: -10000, roi: -15, friction: 25, literacy: 0 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Allowing departmental silos hides strategic information, creates duplicate costs, and prevents a single 360-degree customer view."
+                }
+            },
+            {
+                id: 2,
+                topic: "Business Glossary & Single Source of Truth",
+                category: "governance",
+                icon: "book-open",
+                text: "Product defines 'Churned User' as no login for 30 days. Finance defines it as someone who canceled their paid subscription. CEO reports show conflicting numbers, causing executive gridlock.",
+                optimalChoice: "C",
+                optionA: {
+                    title: "Maintain Both Definitions in Separate Spreadsheets",
+                    impact: { asset: -5000, roi: -15, friction: 25, literacy: -10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> The absence of a shared data vocabulary paralyzes executive decisions. Conflicting metric definitions destroy trust in executive dashboards."
+                },
+                optionB: {
+                    title: "Force Finance's Definition Across the Entire Company",
+                    impact: { asset: 5000, roi: 5, friction: 10, literacy: 15 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Dictating views without aligning operational use cases triggers pushback and results in shadow reporting."
+                },
+                optionC: {
+                    title: "Form a Governance Council & Central Business Glossary",
+                    impact: { asset: 20000, roi: 25, friction: -20, literacy: 40 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Data literacy requires a common language. A shared Business Glossary ensures everyone across the organization interprets key metrics identically."
+                }
+            },
+            {
+                id: 3,
+                topic: "Data Stewardship & Domain Ownership",
+                category: "governance",
+                icon: "shield-check",
+                text: "When HR dashboard errors occur, leadership blames IT. IT responds that they only maintain servers, and employee data domain rules belong to HR.",
+                optimalChoice: "B",
+                optionA: {
+                    title: "Shift Full Data Quality Responsibility to IT",
+                    impact: { asset: -10000, roi: -15, friction: 20, literacy: -5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> IT manages infrastructure, but business domains understand the context and business rules. IT cannot own the semantic meaning of domain data."
+                },
+                optionB: {
+                    title: "Formally Assign HR Managers as Domain Data Stewards",
+                    impact: { asset: 15000, roi: 20, friction: -15, literacy: 35 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Designating Domain Data Stewards ensures that those who create and use data are accountable for its quality, governance, and compliance."
+                },
+                optionC: {
+                    title: "Hire External Consultants for Annual Data Audits",
+                    impact: { asset: 5000, roi: 0, friction: 5, literacy: 10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> External audits catch point-in-time errors, but fail to build the internal culture required for day-to-day data governance."
+                }
+            },
+
+            // ==================== CATEGORIA 2: COGNITIVE BIASES (3 SCENARIOS) ====================
+            {
+                id: 4,
+                topic: "Survivorship Bias in Product Analytics",
+                category: "bias",
+                icon: "filter",
+                text: "Product analyzes only active daily users and concludes the new checkout flow is an absolute success, ignoring 80% of registered users who abandoned the platform.",
+                optimalChoice: "A",
+                optionA: {
+                    title: "Mandate Cohort Analysis Including Dropped-off Users",
+                    impact: { asset: 20000, roi: 30, friction: -15, literacy: 40 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Genuine data literacy requires analyzing the complete dataset. Understanding why churned users left delivers deeper growth insights than celebrating survivors."
+                },
+                optionB: {
+                    title: "Allocate Entire Budget to Expanding the New Flow",
+                    impact: { asset: -15000, roi: -30, friction: 25, literacy: -10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Survivorship Bias occurs when evaluating only visible 'successes' while ignoring invisible failures, leading to disastrous strategic bets."
+                },
+                optionC: {
+                    title: "Send Satisfaction Surveys Only to Daily Users",
+                    impact: { asset: -5000, roi: -10, friction: 10, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Surveying only highly engaged power users compounds confirmation bias and gives executive leadership a false sense of security."
+                }
+            },
+            {
+                id: 5,
+                topic: "Confirmation Bias & Cherry-Picking Metrics",
+                category: "bias",
+                icon: "eye",
+                text: "A director selects 3 revenue growth charts for the annual board deck while hiding metrics showing a sharp decline in customer retention.",
+                optimalChoice: "C",
+                optionA: {
+                    title: "Approve Presentation As-Is to Avoid Political Friction",
+                    impact: { asset: -15000, roi: -20, friction: 20, literacy: -10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Confirmation Bias causes leaders to cherry-pick data supporting pre-existing beliefs, blinding the executive team to serious operational risks."
+                },
+                optionB: {
+                    title: "Add a Hidden Footnote Regarding the Retention Drop",
+                    impact: { asset: -5000, roi: -5, friction: 10, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Burying critical metrics in fine print compromises governance and delays urgent strategic course corrections."
+                },
+                optionC: {
+                    title: "Enforce Balanced Scorecards Integrating Revenue & Retention",
+                    impact: { asset: 15000, roi: 25, friction: -10, literacy: 35 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Data-driven decision making requires intellectual honesty. Balanced scorecards present both opportunities and real vulnerabilities."
+                }
+            },
+            {
+                id: 6,
+                topic: "Selection Bias & Non-Representative Sampling",
+                category: "bias",
+                icon: "pie-chart",
+                text: "A pricing survey for subscription tiers is conducted exclusively via desktop pop-up during business hours, excluding mobile users entirely.",
+                optimalChoice: "A",
+                optionA: {
+                    title: "Redesign Multi-Channel Weighted Representative Sampling",
+                    impact: { asset: 15000, roi: 20, friction: -10, literacy: 35 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Proper sampling ensures all key user segments are represented proportionally before executing major pricing overhauls."
+                },
+                optionB: {
+                    title: "Roll Out Global Price Changes Based on Desktop Results",
+                    impact: { asset: -15000, roi: -25, friction: 20, literacy: -10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Selection Bias occurs when sample datasets fail to mirror the full population. Decisions built on biased samples alienate major customer segments."
+                },
+                optionC: {
+                    title: "Quietly Deploy Dynamic Pricing Tiers Without User Notification",
+                    impact: { asset: -10000, roi: -15, friction: 25, literacy: 0 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Unannounced price testing without clear transparency creates user friction and destroys customer brand trust."
+                }
+            },
+
+            // ==================== CATEGORIA 3: AI & SECURITY (3 SCENARIOS) ====================
+            {
+                id: 7,
+                topic: "Data Lineage & Downstream Impact Analysis",
+                category: "ai",
+                icon: "git-commit",
+                text: "An analyst renames a database column in their local query to clean a chart, unaware that this column feeds 5 executive dashboards and an AI pipeline.",
+                optimalChoice: "C",
+                optionA: {
+                    title: "Fix Broken Dashboard Code Manually & Warn Analyst",
+                    impact: { asset: 0, roi: -5, friction: 10, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Fixing symptoms without instilling structural data awareness builds pipeline debt. Systemic breakage will reoccur."
+                },
+                optionB: {
+                    title: "Revoke All Schema Alteration Permissions From Analysts",
+                    impact: { asset: -5000, roi: -20, friction: 30, literacy: -10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Overly restrictive locks paralyze analytics and force employees to create unsafe workarounds (Shadow IT)."
+                },
+                optionC: {
+                    title: "Deploy Automated Lineage Tracking with Impact Warnings",
+                    impact: { asset: 10000, roi: 15, friction: -15, literacy: 30 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Understanding Data Lineage (origins, transformations, destinations) protects data assets from accidental operational disruptions."
+                }
+            },
+            {
+                id: 8,
+                topic: "Generative AI, Hallucinations & Human Verification (HITL)",
+                category: "ai",
+                icon: "bot",
+                text: "Executives push to connect an unguided commercial LLM directly to customer support channels without human oversight to automate contract queries.",
+                optimalChoice: "B",
+                optionA: {
+                    title: "Connect LLM Directly to Customer Channels Without Guardrails",
+                    impact: { asset: -20000, roi: -35, friction: 30, literacy: -15 },
+                    lesson: "<strong>AI Literacy Lesson:</strong> AI models are probabilistic engines, not truth oracles. Without guardrails, they hallucinate contractual commitments leading to legal liabilities."
+                },
+                optionB: {
+                    title: "Deploy RAG Architecture paired with Human-in-the-Loop (HITL)",
+                    impact: { asset: 20000, roi: 30, friction: -20, literacy: 40 },
+                    lesson: "<strong>AI Literacy Lesson:</strong> Retrieval-Augmented Generation (RAG) anchors AI to verified company records, while Human-In-The-Loop review validates critical outputs."
+                },
+                optionC: {
+                    title: "Ban All Generative AI Use Across the Enterprise",
+                    impact: { asset: -5000, roi: -15, friction: 15, literacy: -5 },
+                    lesson: "<strong>AI Literacy Lesson:</strong> Blanked bans crush competitive agility and drive employees toward unmonitored shadow AI tools."
+                }
+            },
+
+            {
+                id: 9,
+                topic: "AI Data Privacy, Prompt Leakage & Shadow AI",
+                category: "ai",
+                icon: "shield-alert",
+                text: "Analysts paste sensitive customer PII and proprietary code into public online AI tools to draft reports faster.",
+                optimalChoice: "A",
+                optionA: {
+                    title: "Deploy Private AI Instance with DLP Data Masking",
+                    impact: { asset: 20000, roi: 25, friction: -15, literacy: 40 },
+                    lesson: "<strong>AI Literacy Lesson:</strong> Providing secure enterprise AI environments with automated DLP masking unlocks productivity gains without exposing company secrets."
+                },
+                optionB: {
+                    title: "Ignore Practice While Analyst Productivity Remains High",
+                    impact: { asset: -25000, roi: -30, friction: 35, literacy: -20 },
+                    lesson: "<strong>AI Literacy Lesson:</strong> Pasting private data into public AI models trains external platforms on your trade secrets, violating privacy laws (GDPR/CCPA)."
+                },
+                optionC: {
+                    title: "Block Internet Access for All Analytics Teams",
+                    impact: { asset: -10000, roi: -20, friction: 40, literacy: -10 },
+                    lesson: "<strong>AI Literacy Lesson:</strong> Extreme internet blocks stall daily workflows and encourage staff to use personal mobile devices to bypass controls."
+                }
+            },
+
+            // ==================== CATEGORIA 4: ROOT CAUSE & ANALYTICS (3 SCENARIOS) ====================
+            {
+                id: 10,
+                topic: "Root Cause Analysis (5 Whys Methodology)",
+                category: "analytics",
+                icon: "search-code",
+                text: "The sales dashboard shows a sudden spike in order cancellations over the weekend. The analytics team suggests altering dashboard filters to smooth out the anomaly.",
+                optimalChoice: "C",
+                optionA: {
+                    title: "Adjust Dashboard Filters to Filter Out Outliers",
+                    impact: { asset: -10000, roi: -15, friction: 20, literacy: -5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Filtering out real-world anomalies or manipulating data to 'look normal' hides underlying operational process failures."
+                },
+                optionB: {
+                    title: "Re-send Weekend Numbers Without Making Alterations",
+                    impact: { asset: 0, roi: 0, friction: 10, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Ignoring abnormal variances leaves the organization blind to shifting customer behavior or system outages."
+                },
+                optionC: {
+                    title: "Execute 5 Whys Analysis to Isolate Operational Breakdowns",
+                    impact: { asset: 15000, roi: 20, friction: -15, literacy: 30 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Analytical literacy investigates the 'why' behind metrics. Digging to the root cause prevents systemic issues from reoccurring."
+                }
+            },
+            {
+                id: 11,
+                topic: "Business Context in Data Interpretation",
+                category: "analytics",
+                icon: "compass",
+                text: "Data shows a massive surge in winter coat sales in tropical regions during mid-summer. Technical staff assume the algorithm discovered a revolutionary consumer trend.",
+                optimalChoice: "A",
+                optionA: {
+                    title: "Consult Domain Experts to Identify Category Misclassification",
+                    impact: { asset: 10000, roi: 15, friction: -10, literacy: 30 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Data literacy pairs statistical outputs with domain context. Here, investigation revealed a simple product SKU tagging error."
+                },
+                optionB: {
+                    title: "Immediately Shift Heavy Winter Inventory to Tropical Stores",
+                    impact: { asset: -20000, roi: -30, friction: 25, literacy: -10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Data without domain context breeds absurd conclusions. Blindly trusting numbers without real-world validation causes heavy financial losses."
+                },
+                optionC: {
+                    title: "Ignore Discrepancy & Maintain Existing Inventory Plans",
+                    impact: { asset: 0, roi: 0, friction: 5, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Ignoring data discrepancies leaves data entry errors hidden in production systems indefinitely."
+                }
+            },
+            {
+                id: 12,
+                topic: "Decision Trees & Expected Monetary Value (EMV)",
+                category: "analytics",
+                icon: "git-fork",
+                text: "Your team must decide between launching a new product (60% chance of $100k profit, 40% chance of $20k loss) or optimizing an existing product (100% chance of $30k profit). Leadership prefers gut feel.",
+                optimalChoice: "B",
+                optionA: {
+                    title: "Choose New Product Based Solely on Maximum Upside",
+                    impact: { asset: -5000, roi: 5, friction: 10, literacy: 5 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Evaluating choices only by the best-case scenario ignores risk probabilities and downside exposure."
+                },
+                optionB: {
+                    title: "Model Decision Tree Calculating Expected Monetary Value (EMV)",
+                    impact: { asset: 20000, roi: 25, friction: -15, literacy: 35 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> EMV (Probability × Impact) enables quantitative comparison of probabilistic risk ($52k expected value vs $30k)."
+                },
+                optionC: {
+                    title: "Select Optimization to Guarantee Zero Risk Exposure",
+                    impact: { asset: 0, roi: -10, friction: 5, literacy: 0 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Excessive risk aversion prevents companies from capturing opportunities with higher expected statistical value."
+                }
+            },
+
+            // ==================== CATEGORIA 5: CULTURE & PERSONAS (3 SCENARIOS) ====================
+            {
+                id: 13,
+                topic: "Cost of Dirty Data & Quality at Source",
+                category: "culture",
+                icon: "sparkles",
+                text: "Marketing is about to launch an expensive campaign using an unverified database where 25% of customer email addresses contain typos, blank fields, or duplicates.",
+                optimalChoice: "C",
+                optionA: {
+                    title: "Launch Campaign Immediately to Meet Tight Deadline",
+                    impact: { asset: -10000, roi: -25, friction: 15, literacy: 0 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Poor data quality acts like high financial fees on investments. Operating with dirty data wastes budget on email bounces and harms sender reputation."
+                },
+                optionB: {
+                    title: "Run Automatic Script Cleanup Without Human Verification",
+                    impact: { asset: 0, roi: -5, friction: 10, literacy: 10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Automated cleaning without domain rules risks accidentally deleting valid customer contacts."
+                },
+                optionC: {
+                    title: "Pause Launch 48h for Data Profiling & Validation at Source",
+                    impact: { asset: 10000, roi: 20, friction: -15, literacy: 30 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Fixing data quality at the source yields compounding returns. Sanitized data ensures every dollar spent delivers maximum marketing yield."
+                }
+            },
+            {
+                id: 14,
+                topic: "Managing Data Personas in Executive Teams",
+                category: "culture",
+                icon: "users",
+                text: "When pitching a new analytics platform, you face both the 'Data Skeptic' (relies on intuition) and the 'Data Dreamer' (expects AI to solve everything magically).",
+                optimalChoice: "B",
+                optionA: {
+                    title: "Present Only Deep Technical Code & Data Engineering Pipelines",
+                    impact: { asset: 0, roi: -10, friction: 15, literacy: 0 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Overly technical jargon alienates business stakeholders. Data communication must center on business value and practical use cases."
+                },
+                optionB: {
+                    title: "Tailor Pitch: Show Lineage to Skeptic & Set Limits for Dreamer",
+                    impact: { asset: 15000, roi: 20, friction: -15, literacy: 35 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Driving data literacy requires understanding personas: Skeptics need lineage transparency, while Dreamers need realistic AI feasibility boundaries."
+                },
+                optionC: {
+                    title: "Focus Training Exclusively on the Team's 'Data Guru'",
+                    impact: { asset: 5000, roi: 0, friction: 10, literacy: 10 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Upskilling only technical specialists creates operational bottlenecks. Literacy and democratization must reach the whole organization."
+                }
+            },
+            {
+                id: 15,
+                topic: "First-Conclusion & Anchoring Bias Under Pressure",
+                category: "culture",
+                icon: "anchor",
+                text: "During an unexpected drop in monthly sales, an initial report blames customer service. Executive leadership wants to fire the department manager immediately.",
+                optimalChoice: "A",
+                optionA: {
+                    title: "Pause to Evaluate Multiple Hypotheses & External Factors",
+                    impact: { asset: 20000, roi: 25, friction: -20, literacy: 40 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Literate leaders resist early anchoring. Root cause investigation revealed the drop was caused by a payment gateway outage."
+                },
+                optionB: {
+                    title: "Approve Immediate Termination to Show Decisive Leadership",
+                    impact: { asset: -20000, roi: -30, friction: 30, literacy: -15 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Anchoring Bias makes leaders react impulsively to the first plausible explanation, punishing staff while ignoring root causes."
+                },
+                optionC: {
+                    title: "Wait Until End of Quarter to See If Sales Recover",
+                    impact: { asset: -5000, roi: -10, friction: 10, literacy: 0 },
+                    lesson: "<strong>Data Literacy Lesson:</strong> Postponing critical diagnostic analysis during financial drops allows real operational leaks to drain company profits."
+                }
+            }
+        ];
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('mobileSidebarBackdrop');
+            if (sidebar && backdrop) {
+                sidebar.classList.toggle('-translate-x-full');
+                backdrop.classList.toggle('hidden');
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (icon) {
+                icon.setAttribute('data-lucide', soundEnabled ? 'volume-2' : 'volume-x');
+                lucide.createIcons();
+            }
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'select') {
+                    osc.frequency.setValueAtTime(520, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.12);
+                } else if (type === 'win') {
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                }
+            } catch (e) {
+                // Audio synthesis fallback
+            }
+        }
+
+        function buildMilestoneBadges() {
+            const container = document.getElementById('milestoneBadges');
+            if (!container) return;
+            container.innerHTML = '';
+
+            scenarios.forEach((s, idx) => {
+                const badge = document.createElement('div');
+                badge.id = `milestoneDot-${idx}`;
+                badge.className = `h-2 rounded-full transition-all duration-300 ${
+                    idx === 0 ? 'bg-cyan-400 ring-2 ring-cyan-500/50' : 'bg-slate-800'
+                }`;
+                badge.title = `Phase ${idx + 1}: ${s.topic}`;
+                container.appendChild(badge);
+            });
+        }
+
+        function showDelta(elId, value, prefix = '', suffix = '') {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            
+            const isPositive = value >= 0;
+            const strVal = (isPositive ? '+' : '') + value + suffix;
+            
+            el.innerText = strVal;
+            el.className = `text-xs font-mono font-bold transition-all duration-500 ${
+                isPositive ? 'text-emerald-400' : 'text-rose-400'
+            } opacity-100 transform translate-y-0`;
+
+            setTimeout(() => {
+                el.className = 'text-xs font-mono font-bold transition-all duration-500 opacity-0 -translate-y-1';
+            }, 2000);
+        }
+
+        function renderMetrics(impact = null) {
+            document.getElementById('metricAssetValue').innerText = `$${metrics.assetValue.toLocaleString()}`;
+            document.getElementById('metricRoi').innerText = `${metrics.roi}%`;
+            document.getElementById('metricFriction').innerText = `${metrics.friction}%`;
+            document.getElementById('metricLiteracy').innerText = `${metrics.literacy}%`;
+
+            const pctAsset = Math.min(100, Math.max(0, Math.round((metrics.assetValue / 150000) * 100)));
+            document.getElementById('barAssetValue').style.width = `${pctAsset}%`;
+            document.getElementById('pctAssetValue').innerText = `${pctAsset}%`;
+
+            document.getElementById('barRoi').style.width = `${metrics.roi}%`;
+            document.getElementById('pctRoi').innerText = `${metrics.roi}%`;
+
+            document.getElementById('barFriction').style.width = `${metrics.friction}%`;
+            document.getElementById('pctFriction').innerText = `${metrics.friction}%`;
+
+            document.getElementById('barLiteracy').style.width = `${metrics.literacy}%`;
+            document.getElementById('pctLiteracy').innerText = `${metrics.literacy}%`;
+
+            if (impact) {
+                if (impact.asset !== 0) showDelta('deltaAssetValue', impact.asset, '$', '');
+                if (impact.roi !== 0) showDelta('deltaRoi', impact.roi, '', '%');
+                if (impact.friction !== 0) showDelta('deltaFriction', impact.friction, '', '%');
+                if (impact.literacy !== 0) showDelta('deltaLiteracy', impact.literacy, '', ' pts');
+            }
+        }
+
+        function loadScenario(index) {
+            if (index < 0 || index >= scenarios.length) return;
+            currentScenarioIndex = index;
+
+            const sc = scenarios[index];
+
+            // Header progress
+            document.getElementById('scenarioProgressCount').innerText = `${index + 1} / ${scenarios.length}`;
+            document.getElementById('scenarioStepBadge').innerText = `Phase ${index + 1} of ${scenarios.length}`;
+            document.getElementById('scenarioTopic').innerText = sc.topic;
+            document.getElementById('scenarioText').innerHTML = sc.text;
+
+            const scenarioIcon = document.getElementById('scenarioIcon');
+            if (scenarioIcon) {
+                scenarioIcon.setAttribute('data-lucide', sc.icon || 'brain');
+            }
+
+            // Neutral option buttons
+            document.getElementById('textOptionA').innerText = sc.optionA.title;
+            document.getElementById('textOptionB').innerText = sc.optionB.title;
+            document.getElementById('textOptionC').innerText = sc.optionC.title;
+
+            // Reset container displays
+            document.getElementById('optionsContainer').classList.remove('hidden');
+            document.getElementById('debriefCard').classList.add('hidden');
+
+            // Update scenario progress dots
+            scenarios.forEach((_, idx) => {
+                const dot = document.getElementById(`milestoneDot-${idx}`);
+                if (dot) {
+                    if (idx < index) {
+                        dot.className = 'h-2 rounded-full bg-cyan-500 opacity-80';
+                    } else if (idx === index) {
+                        dot.className = 'h-2 rounded-full bg-cyan-400 ring-2 ring-cyan-500/50';
+                    } else {
+                        dot.className = 'h-2 rounded-full bg-slate-800';
+                    }
+                }
+            });
+
+            lucide.createIcons();
+        }
+
+        function advanceScenario() {
+            if (currentScenarioIndex < scenarios.length - 1) {
+                loadScenario(currentScenarioIndex + 1);
+            } else {
+                playSound('win');
+                showFinalSummary();
+            }
+        }
+
+        function renderAuditLog() {
+            const list = document.getElementById('auditLogList');
+            const countEl = document.getElementById('auditCount');
+            if (!list || !countEl) return;
+
+            countEl.innerText = `${decisionsHistory.length} decisions recorded`;
+            list.innerHTML = '';
+
+            decisionsHistory.slice().reverse().forEach((item) => {
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-xl border flex items-center justify-between transition ${
+                    item.isOptimal 
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200' 
+                        : 'bg-rose-500/10 border-rose-500/30 text-rose-200'
+                }`;
+
+                div.innerHTML = `
+                    <div class="flex items-center space-x-2 truncate">
+                        <span class="font-bold text-xs uppercase ${item.isOptimal ? 'text-emerald-400' : 'text-rose-400'}">
+                            ${item.isOptimal ? '✓ Optimal' : '⚠ Partial'}
+                        </span>
+                        <span class="truncate text-slate-200">Phase ${item.scenarioIndex + 1}: ${item.topic}</span>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
+                        Option ${item.optionChosen}
+                    </span>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function calculateDetailedResults() {
+            const categories = {
+                governance: { label: "Governance & Metadata", correct: 0, total: 0 },
+                bias: { label: "Cognitive Biases", correct: 0, total: 0 },
+                ai: { label: "AI & Security", correct: 0, total: 0 },
+                analytics: { label: "Root Cause Analytics", correct: 0, total: 0 },
+                culture: { label: "Data Culture", correct: 0, total: 0 }
+            };
+
+            scenarios.forEach(s => {
+                if (categories[s.category]) {
+                    categories[s.category].total++;
+                }
+            });
+
+            let totalOptimal = 0;
+            decisionsHistory.forEach(item => {
+                if (item.isOptimal) {
+                    totalOptimal++;
+                    if (categories[item.category]) {
+                        categories[item.category].correct++;
+                    }
+                }
+            });
+
+            return { categories, totalOptimal };
+        }
+
+        function renderRadarChart(categories) {
+            const ctx = document.getElementById('radarChart')?.getContext('2d');
+            if (!ctx) return;
+
+            if (radarChartInstance) {
+                radarChartInstance.destroy();
+            }
+
+            const labels = Object.keys(categories).map(k => categories[k].label);
+            const dataScores = Object.keys(categories).map(k => {
+                const cat = categories[k];
+                return cat.total > 0 ? Math.round((cat.correct / cat.total) * 100) : 0;
+            });
+
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Competency (%)',
+                        data: dataScores,
+                        backgroundColor: 'rgba(6, 182, 212, 0.25)',
+                        borderColor: '#06b6d4',
+                        pointBackgroundColor: '#22d3ee',
+                        pointBorderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: {
+                                color: '#94a3b8',
+                                font: { size: 9, family: 'Plus Jakarta Sans' }
+                            },
+                            ticks: { display: false, beginAtZero: true, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function switchMainTab(tab) {
+            const simView = document.getElementById('tabSimulationView');
+            const catView = document.getElementById('tabCatalogView');
+            const simBtn = document.getElementById('tabSimulationBtn');
+            const catBtn = document.getElementById('tabCatalogBtn');
+
+            if (tab === 'simulation') {
+                simView.classList.remove('hidden');
+                catView.classList.add('hidden');
+                simBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5";
+                catBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5";
+            } else {
+                simView.classList.add('hidden');
+                catView.classList.remove('hidden');
+                catBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5";
+                simBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5";
+            }
+        }
+
+        function filterCatalogSearch() {
+            const query = document.getElementById('catalogSearchInput')?.value.toLowerCase().trim() || "";
+            const cards = document.querySelectorAll('.catalog-card');
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterCatalogCategory(cat) {
+            const buttons = document.querySelectorAll('.catalog-cat-btn');
+            buttons.forEach(btn => {
+                btn.className = "catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition";
+            });
+
+            const activeBtn = document.getElementById(`catBtn-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = "catalog-cat-btn px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold border border-cyan-400 transition";
+            }
+
+            const cards = document.querySelectorAll('.catalog-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (cat === 'all' || cardCat === cat) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function handleChoice(option) {
+            const currentScenario = scenarios[currentScenarioIndex];
+            if (!currentScenario) return;
+
+            const optMap = {
+                'A': currentScenario.optionA,
+                'B': currentScenario.optionB,
+                'C': currentScenario.optionC
+            };
+
+            const selectedOpt = optMap[option];
+            if (!selectedOpt) return;
+
+            const isOptimal = (option === currentScenario.optimalChoice);
+
+            // Record choice in audit log first
+            decisionsHistory.push({
+                scenarioIndex: currentScenarioIndex,
+                topic: currentScenario.topic,
+                category: currentScenario.category,
+                optionChosen: option,
+                isOptimal: isOptimal,
+                impact: selectedOpt.impact
+            });
+
+            // Update Core Asset Metrics
+            metrics.assetValue = Math.max(0, metrics.assetValue + selectedOpt.impact.asset);
+            metrics.roi = Math.min(100, Math.max(0, metrics.roi + selectedOpt.impact.roi));
+            metrics.friction = Math.min(100, Math.max(0, metrics.friction + selectedOpt.impact.friction));
+
+            // Calculate Data Literacy Score as percentage of optimal choices
+            const totalOptimalCount = decisionsHistory.filter(item => item.isOptimal).length;
+            const previousLiteracy = metrics.literacy;
+            metrics.literacy = Math.round((totalOptimalCount / scenarios.length) * 100);
+            const literacyDelta = metrics.literacy - previousLiteracy;
+
+            renderMetrics(selectedOpt.impact);
+            updateCategoryTracker();
+            renderAuditLog();
+
+            // Hide option buttons and reveal debrief
+            document.getElementById('optionsContainer').classList.add('hidden');
+            const debriefCard = document.getElementById('debriefCard');
+            debriefCard.classList.remove('hidden');
+
+            document.getElementById('debriefChoiceTitle').innerText = `Selected Approach: Option ${option} - ${selectedOpt.title}`;
+            document.getElementById('debriefLessonText').innerHTML = selectedOpt.lesson;
+
+            // Debrief metric impact formatting
+            document.getElementById('debriefAsset').innerText = `${selectedOpt.impact.asset >= 0 ? '+' : ''}$${selectedOpt.impact.asset.toLocaleString()}`;
+            document.getElementById('debriefRoi').innerText = `${selectedOpt.impact.roi >= 0 ? '+' : ''}${selectedOpt.impact.roi}%`;
+            document.getElementById('debriefFriction').innerText = `${selectedOpt.impact.friction >= 0 ? '-' : '+'}${Math.abs(selectedOpt.impact.friction)}%`;
+            document.getElementById('debriefLiteracy').innerText = isOptimal ? `+${literacyDelta > 0 ? literacyDelta : 7}%` : '+0%';
+
+            const nextBtnText = document.getElementById('nextPhaseText');
+            if (currentScenarioIndex === scenarios.length - 1) {
+                if (nextBtnText) nextBtnText.innerText = "View Final Literacy Assessment";
+            } else {
+                if (nextBtnText) nextBtnText.innerText = "Next Simulation Phase";
+            }
+
+            playSound(isOptimal ? 'win' : 'select');
+        }
+
+        function updateCategoryTracker() {
+            const totals = {
+                governance: 3,
+                bias: 3,
+                ai: 3,
+                analytics: 3,
+                culture: 3
+            };
+
+            Object.keys(totals).forEach(cat => {
+                const countScenarios = scenarios.filter(s => s.category === cat).length;
+                if (countScenarios > 0) totals[cat] = countScenarios;
+            });
+
+            const correctCounts = {
+                governance: 0,
+                bias: 0,
+                ai: 0,
+                analytics: 0,
+                culture: 0
+            };
+
+            decisionsHistory.forEach(item => {
+                if (item.isOptimal && correctCounts[item.category] !== undefined) {
+                    correctCounts[item.category]++;
+                }
+            });
+
+            Object.keys(totals).forEach(cat => {
+                const scoreEl = document.getElementById(`catScore-${cat}`);
+                const barEl = document.getElementById(`catBar-${cat}`);
+                if (scoreEl && barEl) {
+                    const count = correctCounts[cat];
+                    const total = totals[cat];
+                    scoreEl.innerText = `${count}/${total} pts`;
+                    const pct = Math.round((count / total) * 100);
+                    barEl.style.width = `${pct}%`;
+                }
+            });
+        }
+
+        function showFinalSummary() {
+            document.getElementById('tabSimulationView').classList.add('hidden');
+            document.getElementById('finalSummaryView').classList.remove('hidden');
+
+            const { categories, totalOptimal } = calculateDetailedResults();
+
+            // Profile Assignment
+            let rankTitle = "";
+            let rankDesc = "";
+
+            if (totalOptimal >= 13) {
+                rankTitle = "Culture Champion & Executive Data Strategist";
+                rankDesc = "Demonstrates total mastery of data literacy, analytical culture, cognitive bias mitigation, secure AI, and financial data valuation. Exemplary leadership in enterprise data transformation.";
+            } else if (totalOptimal >= 10) {
+                rankTitle = "Literate Data Strategist";
+                rankDesc = "Effectively avoids cognitive biases, navigates diverse data personas, and treats corporate data as a high-value strategic asset.";
+            } else if (totalOptimal >= 6) {
+                rankTitle = "Tactical Operational Manager";
+                rankDesc = "Understands the importance of data, but occasionally succumbs to administrative shortcuts or analytical biases during high-pressure moments.";
+            } else {
+                rankTitle = "Siloed Data Hoarder";
+                rankDesc = "Treats data as disposable noise or passive archiving. High risk of data swamps and biased decision-making.";
+            }
+
+            document.getElementById('finalRankTitle').innerText = rankTitle;
+            document.getElementById('finalRankDesc').innerText = rankDesc;
+
+            // Calculate balanced average literacy across categories
+            let totalCategoryPctSum = 0;
+            const categoryKeys = Object.keys(categories);
+            categoryKeys.forEach(catKey => {
+                const cat = categories[catKey];
+                const catPct = cat.total > 0 ? (cat.correct / cat.total) * 100 : 0;
+                totalCategoryPctSum += catPct;
+            });
+            const finalBalancedLiteracyScore = Math.round(totalCategoryPctSum / categoryKeys.length);
+            metrics.literacy = finalBalancedLiteracyScore;
+
+            // Render final metric values
+            document.getElementById('finalValAsset').innerText = `$${metrics.assetValue.toLocaleString()}`;
+            document.getElementById('finalValRoi').innerText = `${metrics.roi}%`;
+            document.getElementById('finalValFriction').innerText = `${metrics.friction}%`;
+            document.getElementById('finalValLiteracy').innerText = `${finalBalancedLiteracyScore}%`;
+
+            // Strengths and Weaknesses
+            const strengthsList = document.getElementById('finalStrengthsList');
+            const weaknessesList = document.getElementById('finalWeaknessesList');
+
+            strengthsList.innerHTML = '';
+            weaknessesList.innerHTML = '';
+
+            let hasStrengths = false;
+            let hasWeaknesses = false;
+
+            Object.keys(categories).forEach(catKey => {
+                const cat = categories[catKey];
+                const pct = cat.total > 0 ? (cat.correct / cat.total) * 100 : 0;
+
+                const li = document.createElement('li');
+                li.className = "flex items-start gap-1.5";
+
+                if (pct >= 60) {
+                    hasStrengths = true;
+                    li.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5"></i> <span><strong>${cat.label}:</strong> ${Math.round(pct)}% accuracy (${cat.correct}/${cat.total}). Strong alignment with best practices.</span>`;
+                    strengthsList.appendChild(li);
+                } else {
+                    hasWeaknesses = true;
+                    li.innerHTML = `<i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5"></i> <span><strong>${cat.label}:</strong> ${Math.round(pct)}% accuracy (${cat.correct}/${cat.total}). Key area for further development.</span>`;
+                    weaknessesList.appendChild(li);
+                }
+            });
+
+            if (!hasStrengths) {
+                strengthsList.innerHTML = '<li class="text-slate-400 italic">Consider restarting the simulation and reviewing the Glossary guidelines to build key strengths.</li>';
+            }
+            if (!hasWeaknesses) {
+                weaknessesList.innerHTML = '<li class="text-emerald-400 font-semibold">Outstanding consistency across all competency categories!</li>';
+            }
+
+            renderRadarChart(categories);
+            renderLeaderboard();
+            lucide.createIcons();
+        }
+
+        function getLeaderboardData() {
+            const stored = localStorage.getItem('data_literacy_leaderboard_en');
+            if (stored) {
+                try { return JSON.parse(stored); } catch (e) { return []; }
+            }
+            return [
+                { name: "Sarah Jenkins (CDO)", rank: "Culture Champion & Executive Data Strategist", score: 14, asset: 145000 },
+                { name: "David Chen (Head of Analytics)", rank: "Literate Data Strategist", score: 12, asset: 120000 },
+                { name: "Elena Rostova (Product Mgr)", rank: "Tactical Operational Manager", score: 8, asset: 75000 }
+            ];
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('leaderboardTableBody');
+            if (!tbody) return;
+
+            const list = getLeaderboardData();
+            tbody.innerHTML = '';
+
+            list.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-950/40';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 font-bold ${idx === 0 ? 'text-amber-400' : 'text-slate-400'}">#${idx + 1}</td>
+                    <td class="py-2.5 px-3 font-semibold text-white">${item.name}</td>
+                    <td class="py-2.5 px-3 text-slate-400">${item.rank}</td>
+                    <td class="py-2.5 px-3 text-right font-bold text-cyan-400">${item.score}/15</td>
+                    <td class="py-2.5 px-3 text-right font-mono text-emerald-400">$${item.asset.toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function submitLeaderboardScore() {
+            const input = document.getElementById('playerNameInput');
+            const name = input?.value.trim() || "Anonymous Executive";
+
+            const { totalOptimal } = calculateDetailedResults();
+            const rankTitle = document.getElementById('finalRankTitle')?.innerText || "Data Strategist";
+
+            const list = getLeaderboardData();
+            list.push({
+                name: name,
+                rank: rankTitle,
+                score: totalOptimal,
+                asset: metrics.assetValue
+            });
+
+            list.sort((a, b) => b.score - a.score || b.asset - a.asset);
+
+            localStorage.setItem('data_literacy_leaderboard_en', JSON.stringify(list));
+            renderLeaderboard();
+
+            if (input) {
+                input.value = '';
+                input.disabled = true;
+                input.placeholder = "Score recorded successfully!";
+            }
+        }
+
+        function resetSimulation() {
+            currentScenarioIndex = 0;
+            metrics = {
+                assetValue: 50000,
+                roi: 50,
+                friction: 40,
+                literacy: 0
+            };
+            decisionsHistory = [];
+
+            updateCategoryTracker();
+            renderMetrics();
+            renderAuditLog();
+
+            document.getElementById('finalSummaryView').classList.add('hidden');
+            document.getElementById('tabSimulationView').classList.remove('hidden');
+
+            loadScenario(0);
+        }
+
+        window.onload = function () {
+            buildMilestoneBadges();
+            renderMetrics();
+            updateCategoryTracker();
+            loadScenario(0);
+            renderLeaderboard();
+        };
+    </script>
+</body>
+</html>
