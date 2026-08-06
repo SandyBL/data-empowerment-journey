@@ -41,6 +41,7 @@
         .leaderboard-row:nth-child(even) { background-color: #f1f5f9; }
         .leaderboard-row.highlight { background-color: #dbeafe; border-left: 4px solid #2563eb; }
     </style>
+    <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body class="h-screen flex flex-col md:flex-row overflow-hidden">
 
@@ -162,15 +163,33 @@
     <div class="flex-1 bg-slate-50 flex flex-col h-full relative overflow-y-auto">
         
         <!-- Header -->
-        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10 shadow-sm">
-            <div>
-                <h2 class="text-xl font-bold text-slate-800">Simulador de Liderança de Dados</h2>
-                <p class="text-sm text-slate-500">Tome decisões baseadas no DAMA-DMBOK</p>
+        <header class="simulator-site-header">
+            <div class="simulator-site-header-inner flex justify-between items-center">
+            <div class="simulator-brand-block">
+                <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="simulator-brand-logo">
+                <div class="simulator-brand-copy">
+                    <span class="simulator-brand-name">Data Governance Journey</span>
+                </div>
             </div>
-            <div class="hidden sm:block">
-                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full border border-blue-200">
+
+            <div class="simulator-product-copy">
+                <div class="simulator-title-row">
+                    <h2 class="simulator-title">Simulador de Liderança de Dados</h2>
+                </div>
+                <p class="simulator-subtitle text-sm">Tome decisões baseadas no DAMA-DMBOK</p>
+            </div>
+
+            <div class="simulator-header-actions flex items-center space-x-2 sm:space-x-3">
+                <span class="simulator-badge text-xs font-semibold px-3 py-1 rounded-full border">
                     SaaS Enterprise Edition
                 </span>
+                <a href="/" class="simulator-home-link" aria-label="Voltar ao site principal">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+                    </svg>
+                    <span>Site principal</span>
+                </a>
+            </div>
             </div>
         </header>
 

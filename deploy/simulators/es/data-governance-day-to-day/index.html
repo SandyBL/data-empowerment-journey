@@ -68,29 +68,30 @@
       box-shadow: 0 0 25px -5px rgba(37, 99, 235, 0.35);
     }
   </style>
+  <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100 selection:bg-blue-600 selection:text-white">
 
   <!-- Main Navigation Header -->
-  <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 shrink-0">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-          </svg>
-        </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <h1 class="font-bold text-lg text-white tracking-tight">DataGov OS</h1>
-            <span class="px-2 py-0.5 text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full">Edición DAMA-DMBOK</span>
-          </div>
-          <p class="text-xs text-slate-400">Simulador de Gobierno de Datos Empresarial (10 Desafíos)</p>
+  <header class="simulator-site-header shrink-0">
+    <div class="simulator-site-header-inner flex items-center justify-between">
+      <div class="simulator-brand-block">
+        <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="simulator-brand-logo">
+        <div class="simulator-brand-copy">
+          <span class="simulator-brand-name">Data Governance Journey</span>
         </div>
       </div>
 
+      <div class="simulator-product-copy">
+        <div class="simulator-title-row">
+          <h1 class="simulator-title">DataGov OS</h1>
+          <span class="simulator-badge px-2 py-0.5 text-xs font-semibold border rounded-full">Edición DAMA-DMBOK</span>
+        </div>
+        <p class="simulator-subtitle text-xs">Simulador de Gobierno de Datos Empresarial (10 Desafíos)</p>
+      </div>
+
       <!-- Header Utilities -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
+      <div class="simulator-header-actions flex items-center space-x-2 sm:space-x-3">
         <button id="audio-toggle-btn" onclick="toggleAudio()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
           <svg id="audio-icon-on" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
@@ -111,6 +112,13 @@
           </svg>
           <span>Reiniciar</span>
         </button>
+
+        <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+          </svg>
+          <span>Sitio principal</span>
+        </a>
       </div>
     </div>
   </header>
