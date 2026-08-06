@@ -1,0 +1,245 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+.simulator-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgb(101 183 199 / 0.38) !important;
+  background: #003366 !important;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgb(9 91 115 / 0.08) !important;
+  backdrop-filter: blur(12px);
+}
+
+.simulator-site-header-inner {
+  width: 100%;
+  max-width: 80rem;
+  min-height: 5rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.simulator-site-header.simulator-site-header-inner {
+  max-width: none;
+}
+
+.simulator-brand-block {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.simulator-brand-logo {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+  flex: 0 0 auto;
+  padding: 0 !important;
+  border: 4px solid rgb(255 255 255 / 0.18) !important;
+  border-radius: 1.5rem !important;
+  object-fit: cover;
+  box-shadow: 0 14px 35px rgb(0 0 0 / 0.2) !important;
+  transition: transform 220ms ease;
+}
+
+.simulator-brand-block:hover .simulator-brand-logo {
+  transform: rotate(-2deg) scale(1.03);
+}
+
+.simulator-brand-copy {
+  min-width: 0;
+}
+
+.simulator-product-copy {
+  min-width: 0;
+  margin-right: auto;
+  margin-left: 1.25rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid rgb(101 183 199 / 0.38);
+}
+
+.simulator-product-copy .simulator-title-row {
+  margin-top: 0;
+}
+
+.simulator-header-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.simulator-brand-name {
+  display: block;
+  max-width: 6rem;
+  color: #ffffff !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.57rem !important;
+  font-weight: 800 !important;
+  font-synthesis: none;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  letter-spacing: 0.045em !important;
+  line-height: 1.25 !important;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.simulator-brand-name::after {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin-top: 0.35rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #e95d24, #65b7c7);
+  content: "";
+}
+
+.simulator-title-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.simulator-title {
+  color: #ffffff !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.15 !important;
+}
+
+.simulator-subtitle {
+  margin-top: 0.2rem;
+  color: #b9dce4 !important;
+}
+
+.simulator-badge {
+  border-color: rgb(101 183 199 / 0.42) !important;
+  background: rgb(9 91 115 / 0.72) !important;
+  color: #d9f2f7 !important;
+}
+
+.simulator-site-header button,
+.simulator-home-link {
+  border-color: rgb(101 183 199 / 0.38) !important;
+  background-color: #f1f5f9 !important;
+  color: rgb(9 91 115 / 0.88) !important;
+  box-shadow: 0 4px 12px rgb(9 91 115 / 0.08);
+}
+
+.simulator-site-header button:hover,
+.simulator-home-link:hover {
+  background-color: rgb(101 183 199 / 0.2) !important;
+  color: #003366 !important;
+}
+
+.simulator-site-header button:focus-visible,
+.simulator-home-link:focus-visible {
+  outline: 2px solid #65b7c7;
+  outline-offset: 2px;
+}
+
+.simulator-home-link {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid;
+  border-radius: 0.5rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.simulator-home-link:hover {
+  transform: translateY(-1px);
+}
+
+.simulator-home-link svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+@media (min-width: 640px) {
+  .simulator-site-header-inner {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .simulator-brand-block {
+    gap: 0.8rem;
+  }
+
+  .simulator-brand-logo {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+
+  .simulator-brand-name {
+    max-width: 13rem;
+    font-size: 0.82rem !important;
+  }
+
+  .simulator-title {
+    font-size: 1.05rem !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .simulator-site-header-inner {
+    gap: 0.65rem;
+  }
+
+  .simulator-brand-block {
+    gap: 0.55rem;
+  }
+
+  .simulator-brand-name,
+  .simulator-subtitle,
+  .simulator-badge {
+    display: none !important;
+  }
+
+  .simulator-title-row {
+    margin-top: 0;
+  }
+
+  .simulator-title {
+    max-width: 10rem;
+    font-size: 0.82rem !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .simulator-home-link span {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .simulator-product-copy .simulator-subtitle,
+  .simulator-product-copy .simulator-badge {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .simulator-product-copy {
+    display: none;
+  }
+
+  .simulator-home-link {
+    min-width: 2.25rem;
+    padding-right: 0.55rem;
+    padding-left: 0.55rem;
+  }
+}

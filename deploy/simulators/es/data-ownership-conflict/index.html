@@ -740,26 +740,37 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body>
 
   <!-- ENCABEZADO DE LA MARCA -->
-  <header>
-    <div class="header-container">
-      <div class="brand-section">
-        <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="brand-logo-img">
-        <div class="brand-info">
-          <span class="brand-name">The Data Empowerment Journey</span>
-          <span class="brand-subtitle-badge">Simulador de Matriz de Conflictos de Roles</span>
+  <header class="simulator-site-header">
+    <div class="header-container simulator-site-header-inner">
+      <div class="brand-section simulator-brand-block">
+        <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="brand-logo-img simulator-brand-logo">
+        <div class="brand-info simulator-brand-copy">
+          <span class="brand-name simulator-brand-name">Data Governance Journey</span>
         </div>
       </div>
-      <div class="header-actions">
+      <div class="simulator-product-copy">
+        <div class="simulator-title-row">
+          <span class="brand-subtitle-badge simulator-badge simulator-title">Simulador de Matriz de Conflictos de Roles</span>
+        </div>
+      </div>
+      <div class="header-actions simulator-header-actions">
         <button class="btn-icon" onclick="toggleSound()" id="soundToggleBtn">
           🔊 Sonido: ON
         </button>
         <button class="btn-icon" onclick="openRaciModal()">
           📖 Guía RACI de Datos
         </button>
+        <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+          </svg>
+          <span>Sitio principal</span>
+        </a>
       </div>
     </div>
   </header>

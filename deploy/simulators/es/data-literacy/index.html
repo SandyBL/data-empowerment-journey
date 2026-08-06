@@ -90,31 +90,34 @@
             box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body class="h-full bg-navy-950 font-sans text-slate-100 antialiased flex flex-col overflow-x-hidden selection:bg-cyan-500 selection:text-slate-950">
 
-    <header class="border-b border-slate-800 bg-navy-900/90 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-cyan-400">
-                <i data-lucide="brain-circuit" class="w-6 h-6"></i>
-            </div>
-            <div>
-                <div class="flex items-center space-x-2">
-                    <h1 class="font-bold text-lg md:text-xl tracking-tight text-white">Simulador de Alfabetización de Datos</h1>
-                    <span class="px-2 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded-full">v3.1 Edición Ejecutiva</span>
-                </div>
-                <p class="text-xs text-slate-400 hidden sm:block">Centro de Mando Estratégico y Cultura Organizacional de Datos</p>
+    <header class="simulator-site-header simulator-site-header-inner flex items-center justify-between">
+        <div class="simulator-brand-block">
+            <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="simulator-brand-logo">
+            <div class="simulator-brand-copy">
+                <span class="simulator-brand-name">Data Governance Journey</span>
             </div>
         </div>
 
-        <div class="flex items-center space-x-3">
+        <div class="simulator-product-copy">
+            <div class="simulator-title-row">
+                <h1 class="simulator-title">Simulador de Alfabetización de Datos</h1>
+                <span class="simulator-badge px-2 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider border rounded-full">v3.1 Edición Ejecutiva</span>
+            </div>
+            <p class="simulator-subtitle text-xs hidden sm:block">Centro de Mando Estratégico y Cultura Organizacional de Datos</p>
+        </div>
+
+        <div class="simulator-header-actions flex items-center space-x-3">
             <!-- Audio Toggle -->
             <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 text-slate-400 hover:text-cyan-400 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 rounded-lg transition" title="Alternar Sonido">
                 <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
             </button>
 
             <!-- Tab Switcher -->
-            <div class="flex bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
+            <div class="flex gap-1 bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
                 <button id="tabSimulationBtn" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
                     <i data-lucide="play" class="w-3.5 h-3.5 text-cyan-400"></i>
                     <span>Simulación</span>
@@ -129,6 +132,13 @@
             <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 text-slate-300 hover:text-white bg-slate-800 rounded-lg border border-slate-700">
                 <i data-lucide="line-chart" class="w-5 h-5"></i>
             </button>
+
+            <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+                </svg>
+                <span>Sitio principal</span>
+            </a>
         </div>
     </header>
 

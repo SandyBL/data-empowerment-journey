@@ -94,29 +94,33 @@
             animation: pulseGlow 2s infinite;
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brand-orange selection:text-white">
 
     <!-- MAIN NAVIGATION HEADER -->
-    <header class="gradient-header text-white shadow-md sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="w-12 h-12 rounded-full object-cover border-2 border-white/20 shadow-md bg-white">
-                <div>
-                    <a href="https://datagovjourney.com" target="_blank" class="text-xs sm:text-sm font-semibold tracking-wide text-teal-200 hover:text-white transition flex items-center gap-1">
-                        The Data Empowerment Journey <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+    <header class="simulator-site-header">
+        <div class="simulator-site-header-inner max-w-6xl flex items-center justify-between">
+            <div class="simulator-brand-block">
+                <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" class="simulator-brand-logo">
+                <div class="simulator-brand-copy">
+                    <a href="https://datagovjourney.com" target="_blank" class="simulator-brand-name hover:text-white transition">
+                        Data Governance Journey
                     </a>
-                    <div class="flex items-center gap-2 mt-0.5">
-                        <span class="text-sm sm:text-base font-bold tracking-tight text-white leading-none">Who Owns This?</span>
-                        <span class="bg-teal-900/80 text-teal-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-teal-700 uppercase tracking-wider hidden sm:inline-block">
-                            Role-Conflict Matrix Game
-                        </span>
-                    </div>
+                </div>
+            </div>
+
+            <div class="simulator-product-copy">
+                <div class="simulator-title-row">
+                    <span class="simulator-title">Who Owns This?</span>
+                    <span class="simulator-badge text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider hidden sm:inline-block">
+                        Role-Conflict Matrix Game
+                    </span>
                 </div>
             </div>
 
             <!-- Global Action Controls -->
-            <div class="flex items-center space-x-2 sm:space-x-3">
+            <div class="simulator-header-actions flex items-center space-x-2 sm:space-x-3">
                 <button id="btnSoundToggle" onclick="toggleSound()" class="p-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-teal-100 transition text-sm flex items-center gap-1.5" title="Toggle Sound">
                     <i id="soundIcon" class="fa-solid fa-volume-high"></i>
                 </button>
@@ -124,6 +128,12 @@
                     <i class="fa-solid fa-sitemap text-brand-orange"></i>
                     <span class="hidden md:inline">RACI Guide</span>
                 </button>
+                <a href="/" class="simulator-home-link" aria-label="Return to main website">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+                    </svg>
+                    <span>Main website</span>
+                </a>
             </div>
         </div>
     </header>
