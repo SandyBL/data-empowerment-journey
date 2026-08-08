@@ -26,7 +26,7 @@ collections:
     extension: "md"
     format: "frontmatter"
     slug: "{{slug}}"
-    preview_path: "en/blog/article.html?post={{slug}}"
+    preview_path: "en/blog/{{slug}}/"
     summary: "{{title}} — {{date}}"
     fields: &blog_fields
       - { label: "Title", name: "title", widget: "string" }
@@ -35,6 +35,12 @@ collections:
       - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences for cards and search results." }
       - { label: "Author", name: "author", widget: "string", default: "Sandy Bradbury" }
       - { label: "Translation key", name: "translation_key", widget: "string", required: false, hint: "Use the same slug in all three language folders to connect hreflang links." }
+      - label: "Previous URLs"
+        name: "redirect_from"
+        widget: "list"
+        required: false
+        field: { label: "Old slug", name: "slug", widget: "string" }
+        hint: "Only needed if you rename a published article. Add the slug it used before (the last part of its old address) so the old link still works instead of returning a 404."
       - label: "Body"
         name: "body"
         widget: "markdown"
@@ -49,7 +55,7 @@ collections:
     extension: "md"
     format: "frontmatter"
     slug: "{{slug}}"
-    preview_path: "es/blog/article.html?post={{slug}}"
+    preview_path: "es/blog/{{slug}}/"
     summary: "{{title}} — {{date}}"
     fields: *blog_fields
 
@@ -61,6 +67,6 @@ collections:
     extension: "md"
     format: "frontmatter"
     slug: "{{slug}}"
-    preview_path: "pt/blog/article.html?post={{slug}}"
+    preview_path: "pt/blog/{{slug}}/"
     summary: "{{title}} — {{date}}"
     fields: *blog_fields
