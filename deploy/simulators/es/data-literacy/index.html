@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Simulador interactivo gratuito: recorre 15 escenarios ejecutivos y descubre cómo las decisiones de alfabetización de datos cambian el valor de los activos, el ROI de la información y la fricción diaria.">
     <meta name="twitter:image" content="https://datagovjourney.com/assets/dg-logo.png">
     <link rel="icon" href="/assets/dg-logo.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Simulador de Alfabetización de Datos", "url": "https://datagovjourney.com/simulators/es/data-literacy/", "description": "Simulador interactivo gratuito: recorre 15 escenarios ejecutivos y descubre cómo las decisiones de alfabetización de datos cambian el valor de los activos, el ROI de la información y la fricción diaria.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser", "inLanguage": "es", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "Data Governance Journey", "url": "https://datagovjourney.com/", "logo": {"@type": "ImageObject", "url": "https://datagovjourney.com/assets/dg-logo.png"}}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://datagovjourney.com/"}, {"@type": "ListItem", "position": 2, "name": "Simuladores", "item": "https://datagovjourney.com/#simulators"}, {"@type": "ListItem", "position": 3, "name": "Simulador de Alfabetización de Datos", "item": "https://datagovjourney.com/simulators/es/data-literacy/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Simulador de Alfabetización de Datos","url":"https://datagovjourney.com/simulators/es/data-literacy/","description":"Simulador interactivo gratuito: recorre 15 escenarios ejecutivos y descubre cómo las decisiones de alfabetización de datos cambian el valor de los activos, el ROI de la información y la fricción diaria.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"es","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/es/data-literacy/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Sesgos cognitivos en la decisión","Análisis de causa raíz","Alfabetización en gobierno","Criterio sobre IA y seguridad","Cultura de datos","Medir la alfabetización como capacidad"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data literacy","sameAs":["https://en.wikipedia.org/wiki/Data_literacy","https://www.wikidata.org/wiki/Q105776957"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://datagovjourney.com/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/#simulators"},{"@type":"ListItem","position":3,"name":"Simulador de Alfabetización de Datos","item":"https://datagovjourney.com/simulators/es/data-literacy/"}],"@id":"https://datagovjourney.com/simulators/es/data-literacy/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/es/data-literacy/#faq","inLanguage":"es","isPartOf":{"@id":"https://datagovjourney.com/simulators/es/data-literacy/"},"mainEntity":[{"@type":"Question","name":"¿Qué es la alfabetización de datos, en una frase?","acceptedAnswer":{"@type":"Answer","text":"Es la capacidad de leer, interpretar, cuestionar y actuar sobre los datos en el contexto de una decisión real; y a nivel organizacional, hacerlo de forma tan confiable que la gente crea más en el dato que en su intuición."}},{"@type":"Question","name":"¿Por qué este simulador mide dinero y no notas de examen?","acceptedAnswer":{"@type":"Answer","text":"Porque un programa que produce certificados pero no reduce el tiempo que la gente pasa conciliando números no cambió nada. El valor del activo de datos, el ROI de la información y la fricción son indicadores de si la capacidad realmente aterrizó."}},{"@type":"Question","name":"¿Sirve si no soy ejecutivo?","acceptedAnswer":{"@type":"Answer","text":"Sí. Los escenarios están escritos desde la silla directiva porque ahí se ven los trade-offs, pero analistas y stewards lo usan para entender por qué las solicitudes que reciben tienen la forma que tienen."}},{"@type":"Question","name":"¿Cuánto dura y es gratis?","acceptedAnswer":{"@type":"Answer","text":"Unos quince minutos, gratis y sin cuenta. Todo corre en tu navegador y tu registro de decisiones se queda en tu dispositivo."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/dg-logo.png"}}]}</script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -848,7 +848,58 @@
                 </div>
             </div>
 
-        </main>
+        
+    <!--
+      Static explainer.
+
+      Everything above this point is an empty shell until JavaScript fills it in,
+      so a crawler that does not run scripts — which includes most of the
+      assistants that answer questions from the open web — sees a page of loading
+      placeholders and no explanation of what the simulator teaches. This section
+      is the page saying, in plain HTML, what the exercise is and what it covers.
+    -->
+    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
+      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-900">Sobre este simulador</h2>
+        <p class="mb-4 leading-relaxed">El Simulador de Alfabetización de Datos es un ejercicio gratuito de quince escenarios sobre el lado organizacional de la alfabetización de datos: no si una persona sabe leer un gráfico, sino si una empresa es capaz de actuar según lo que dicen sus datos. Juegas como el ejecutivo que decide sobre formación, herramientas, incentivos y escalamiento, y cada decisión mueve cuatro cifras: valor del activo de datos, ROI de la información, fricción de datos y una puntuación de alfabetización.</p>
+        <p class="mb-4 leading-relaxed">Los escenarios se puntúan en cinco competencias: gobierno, sesgos cognitivos, IA y seguridad, análisis de causa raíz y cultura. El encuadre es deliberado. La mayoría de los programas de alfabetización se miden por cursos completados, la única métrica que no puede fallar. Este mide qué le pasa al valor del patrimonio de datos y a la parte de la semana que la gente dedica a buscar y corregir datos en vez de usarlos.</p>
+        <p class="mb-4 leading-relaxed">Toma unos quince minutos, guarda un registro de auditoría de cada decisión y termina con un perfil que explica dónde tus elecciones construyeron capacidad y dónde compraron actividad. No hay registro y nada sale de tu navegador.</p>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Qué vas a practicar</h3>
+        <ul class="mb-4 list-disc space-y-2 pl-6 leading-relaxed">
+          <li><strong>Sesgos cognitivos en la decisión</strong>: sesgo de confirmación, supervivencia y el tablero que solo confirma la estrategia.</li>
+          <li><strong>Análisis de causa raíz</strong>: distinguir un problema de datos de un problema de proceso que los datos solo están reportando.</li>
+          <li><strong>Alfabetización en gobierno</strong>: saber qué preguntas necesitan un dueño antes que un analista.</li>
+          <li><strong>Criterio sobre IA y seguridad</strong>: qué se puede delegar responsablemente a un modelo y qué no.</li>
+          <li><strong>Cultura de datos</strong>: incentivos, seguridad psicológica y por qué la gente sigue guardando su propia hoja de cálculo.</li>
+          <li><strong>Medir la alfabetización como capacidad</strong>: valor del activo, ROI de la información y fricción, en vez de asistencia.</li>
+        </ul>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Preguntas sobre este simulador</h3>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">¿Qué es la alfabetización de datos, en una frase?</h4>
+          <p class="leading-relaxed">Es la capacidad de leer, interpretar, cuestionar y actuar sobre los datos en el contexto de una decisión real; y a nivel organizacional, hacerlo de forma tan confiable que la gente crea más en el dato que en su intuición.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">¿Por qué este simulador mide dinero y no notas de examen?</h4>
+          <p class="leading-relaxed">Porque un programa que produce certificados pero no reduce el tiempo que la gente pasa conciliando números no cambió nada. El valor del activo de datos, el ROI de la información y la fricción son indicadores de si la capacidad realmente aterrizó.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">¿Sirve si no soy ejecutivo?</h4>
+          <p class="leading-relaxed">Sí. Los escenarios están escritos desde la silla directiva porque ahí se ven los trade-offs, pero analistas y stewards lo usan para entender por qué las solicitudes que reciben tienen la forma que tienen.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">¿Cuánto dura y es gratis?</h4>
+          <p class="leading-relaxed">Unos quince minutos, gratis y sin cuenta. Todo corre en tu navegador y tu registro de decisiones se queda en tu dispositivo.</p>
+        </div>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Lecturas relacionadas</h3>
+        <ul class="list-disc space-y-2 pl-6">
+          <li><a class="underline hover:no-underline" href="/simulators/es/data-governance-day-to-day/">Simulador del Día a Día en Gobierno de Datos</a></li>
+          <li><a class="underline hover:no-underline" href="/simulators/es/data-ownership-conflict/">¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos</a></li>
+          <li><a class="underline hover:no-underline" href="/es/blog/">Artículos sobre gobierno de datos</a></li>
+        </ul>
+    </section>
+    </main>
     </div>
 
     <script>

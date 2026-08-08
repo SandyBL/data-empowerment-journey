@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Simulador gratuito baseado em RACI: decida se o dono de negócio, o data steward ou a TI é responsável por cada tarefa de dados segundo o framework DAMA de governança de dados.">
     <meta name="twitter:image" content="https://datagovjourney.com/assets/dg-logo.png">
     <link rel="icon" href="/assets/dg-logo.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Quem é o Dono Disso? Simulador de Conflitos de Propriedade de Dados", "url": "https://datagovjourney.com/simulators/pt/data-ownership-conflict/", "description": "Simulador gratuito baseado em RACI: decida se o dono de negócio, o data steward ou a TI é responsável por cada tarefa de dados segundo o framework DAMA de governança de dados.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser", "inLanguage": "pt-BR", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "Data Governance Journey", "url": "https://datagovjourney.com/", "logo": {"@type": "ImageObject", "url": "https://datagovjourney.com/assets/dg-logo.png"}}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Início", "item": "https://datagovjourney.com/"}, {"@type": "ListItem", "position": 2, "name": "Simuladores", "item": "https://datagovjourney.com/#simulators"}, {"@type": "ListItem", "position": 3, "name": "Quem é o Dono Disso? Simulador de Conflitos de Propriedade de Dados", "item": "https://datagovjourney.com/simulators/pt/data-ownership-conflict/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Quem é o Dono Disso? Simulador de Conflitos de Propriedade de Dados","url":"https://datagovjourney.com/simulators/pt/data-ownership-conflict/","description":"Simulador gratuito baseado em RACI: decida se o dono de negócio, o data steward ou a TI é responsável por cada tarefa de dados segundo o framework DAMA de governança de dados.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"pt-BR","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/pt/data-ownership-conflict/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Separar responsabilidade de execução","Propriedade de negócio sobre as definições","Stewardship entre áreas","Os limites do mandato da TI","Caminhos de escalonamento"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://datagovjourney.com/pt/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/pt/#simulators"},{"@type":"ListItem","position":3,"name":"Quem é o Dono Disso? Simulador de Conflitos de Propriedade de Dados","item":"https://datagovjourney.com/simulators/pt/data-ownership-conflict/"}],"@id":"https://datagovjourney.com/simulators/pt/data-ownership-conflict/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/pt/data-ownership-conflict/#faq","inLanguage":"pt-BR","isPartOf":{"@id":"https://datagovjourney.com/simulators/pt/data-ownership-conflict/"},"mainEntity":[{"@type":"Question","name":"Qual a diferença entre data owner e data steward?","acceptedAnswer":{"@type":"Answer","text":"O data owner presta contas: decide o que o dado significa, aprova suas regras de negócio e assume o risco do uso. O data steward é responsável por mantê-lo apto ao uso no dia a dia — perfilar qualidade, manter glossário e catálogo, e conciliar regras que cruzam áreas. Propriedade é um direito de decisão; stewardship é um trabalho contínuo."}},{"@type":"Question","name":"Onde a TI entra na propriedade do dado?","acceptedAnswer":{"@type":"Answer","text":"A TI é dona da camada de execução: pipelines, armazenamento, infraestrutura, controle de acesso e backups. Ela não é dona do significado de negócio. Quando uma métrica está errada porque a definição está errada, isso é uma questão de propriedade, não um chamado de engenharia — exatamente a confusão sobre a qual este simulador foi construído."}},{"@type":"Question","name":"Preciso de uma matriz RACI formal antes de começar?","acceptedAnswer":{"@type":"Answer","text":"Não. O simulador serve para descobrir qual é o seu RACI implícito. Times costumam resolvê-lo juntos e descobrem que discordam em cenários que davam por encerrados, o que costuma ser mais útil que a pontuação."}},{"@type":"Question","name":"É gratuito?","acceptedAnswer":{"@type":"Answer","text":"Sim. Não há conta, não pedimos e-mail e não há armazenamento em servidor: os dez cenários e o ranking local rodam inteiramente no seu navegador."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/dg-logo.png"}}]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -934,7 +934,57 @@
         </div>
       </div>
     </section>
-  </main>
+  
+    <!--
+      Static explainer.
+
+      Everything above this point is an empty shell until JavaScript fills it in,
+      so a crawler that does not run scripts — which includes most of the
+      assistants that answer questions from the open web — sees a page of loading
+      placeholders and no explanation of what the simulator teaches. This section
+      is the page saying, in plain HTML, what the exercise is and what it covers.
+    -->
+    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
+      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-900">Sobre este simulador</h2>
+        <p class="mb-4 leading-relaxed">"Quem é o Dono Disso?" é um simulador gratuito de dez cenários sobre a discussão que todo programa de governança de dados acaba tendo: quando algo dá errado com um dataset, de quem era a tarefa? Cada cenário descreve uma situação concreta — a definição de uma métrica muda, um pipeline perde linhas, uma regra de retenção precisa ser aplicada — e pede que você a atribua ao Dono de Negócio, ao Data Steward ou à TI.</p>
+        <p class="mb-4 leading-relaxed">Os três papéis vêm do framework DAMA de governança de dados: fáceis de enunciar e difíceis de aplicar. O Dono de Negócio detém as definições do domínio, as regras de negócio, as métricas de receita e a aprovação final do risco. O Data Steward mantém a higiene do dado, o perfilamento de qualidade, os metadados do catálogo e as regras que cruzam áreas. A TI executa os pipelines, o armazenamento, a hospedagem, a segurança e os backups. Quase toda disputa real acontece porque a tarefa parece ser de quem a percebeu primeiro.</p>
+        <p class="mb-4 leading-relaxed">O exercício leva cerca de três minutos e não exige conta. Ele é deliberadamente moldado como um RACI: a pergunta não é quem faz o trabalho, e sim quem responde pelo resultado — a distinção que encerra guerras de território em vez de reiniciá-las.</p>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">O que você vai praticar</h3>
+        <ul class="mb-4 list-disc space-y-2 pl-6 leading-relaxed">
+          <li><strong>Separar responsabilidade de execução</strong>: quem roda o processo raramente é quem responde por ele.</li>
+          <li><strong>Propriedade de negócio sobre as definições</strong>: por que "o que conta como cliente ativo" nunca é decisão de TI.</li>
+          <li><strong>Stewardship entre áreas</strong>: quem arbitra quando dois domínios discordam sobre o mesmo campo.</li>
+          <li><strong>Os limites do mandato da TI</strong>: infraestrutura, segurança e pipelines, não o significado de negócio.</li>
+          <li><strong>Caminhos de escalonamento</strong>: reconhecer as poucas decisões que realmente precisam de aprovação, e não de correção.</li>
+        </ul>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Perguntas sobre este simulador</h3>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">Qual a diferença entre data owner e data steward?</h4>
+          <p class="leading-relaxed">O data owner presta contas: decide o que o dado significa, aprova suas regras de negócio e assume o risco do uso. O data steward é responsável por mantê-lo apto ao uso no dia a dia — perfilar qualidade, manter glossário e catálogo, e conciliar regras que cruzam áreas. Propriedade é um direito de decisão; stewardship é um trabalho contínuo.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">Onde a TI entra na propriedade do dado?</h4>
+          <p class="leading-relaxed">A TI é dona da camada de execução: pipelines, armazenamento, infraestrutura, controle de acesso e backups. Ela não é dona do significado de negócio. Quando uma métrica está errada porque a definição está errada, isso é uma questão de propriedade, não um chamado de engenharia — exatamente a confusão sobre a qual este simulador foi construído.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">Preciso de uma matriz RACI formal antes de começar?</h4>
+          <p class="leading-relaxed">Não. O simulador serve para descobrir qual é o seu RACI implícito. Times costumam resolvê-lo juntos e descobrem que discordam em cenários que davam por encerrados, o que costuma ser mais útil que a pontuação.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">É gratuito?</h4>
+          <p class="leading-relaxed">Sim. Não há conta, não pedimos e-mail e não há armazenamento em servidor: os dez cenários e o ranking local rodam inteiramente no seu navegador.</p>
+        </div>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Leituras relacionadas</h3>
+        <ul class="list-disc space-y-2 pl-6">
+          <li><a class="underline hover:no-underline" href="/simulators/pt/data-governance-day-to-day/">Simulador do Dia a Dia da Governança de Dados</a></li>
+          <li><a class="underline hover:no-underline" href="/simulators/pt/data-literacy/">Simulador de Alfabetização de Dados</a></li>
+          <li><a class="underline hover:no-underline" href="/pt/blog/">Artigos sobre governança de dados</a></li>
+        </ul>
+    </section>
+    </main>
 
   <!-- MODAL DE FEEDBACK DE CENÁRIOS -->
   <div id="feedback-modal" class="feedback-modal-overlay">

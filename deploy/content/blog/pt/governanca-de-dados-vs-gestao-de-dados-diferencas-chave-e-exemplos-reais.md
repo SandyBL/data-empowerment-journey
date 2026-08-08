@@ -77,4 +77,4 @@ Considere como ambas funcionam em um **ambiente hospitalar**:
 ### Qual é o Nível de Maturidade dos Seus Dados?
 Chega de adivinhar com a sua arquitetura de dados. Preencha nosso formulário rápido para avaliar o nível de maturidade de dados da sua empresa, identificar gargalos e descobrir como construir uma governança sólida e escalável.
 
-[Avalie seu Nível de Maturidade de Dados →](https://datagovjourney.com/?lang=pt#contacto)
+[Avalie seu Nível de Maturidade de Dados →](https://datagovjourney.com/pt/#contacto)

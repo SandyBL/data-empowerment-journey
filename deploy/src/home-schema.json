@@ -1,0 +1,317 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://datagovjourney.com/#organization",
+      "name": "Data Governance Journey",
+      "alternateName": "Data Gov Journey",
+      "url": "https://datagovjourney.com/",
+      "logo": "https://datagovjourney.com/assets/dg-logo.png",
+      "description": "Consultoría estratégica en Gobierno de Datos, Cultura de Datos y Alfabetización en Datos basada en el marco internacional DAMA.",
+      "founder": {
+        "@id": "https://datagovjourney.com/#sandy-bradbury"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/sandy-bradbury"
+      ],
+      "knowsAbout": [
+        "Data Governance",
+        "DAMA",
+        "Data Literacy",
+        "Data Quality",
+        "CDMP Certification"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://datagovjourney.com/#sandy-bradbury",
+      "name": "Sandy Bradbury",
+      "url": "https://datagovjourney.com/#consultor",
+      "image": "https://datagovjourney.com/icone%20foto%20limpo.png",
+      "jobTitle": "Lead Data Governance Consultant & CDMP Certified",
+      "worksFor": {
+        "@id": "https://datagovjourney.com/#organization"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/sandy-bradbury"
+      ],
+      "knowsAbout": [
+        "DAMA Framework",
+        "Data Governance Strategy",
+        "Change Management",
+        "Data Quality & Stewardship"
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://datagovjourney.com/#data-governance-consulting",
+      "name": "Data Governance Consulting (DAMA)",
+      "description": "Strategic data governance consulting based on the DAMA framework, including governance operating models, policies, roles, stewardship, data quality, and implementation roadmaps.",
+      "provider": {
+        "@id": "https://datagovjourney.com/#organization"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://datagovjourney.com/#data-literacy-culture-training",
+      "name": "Data Literacy & Culture Training",
+      "description": "Practical training and enablement programs that build data literacy, strengthen data-driven decision-making, and foster a sustainable data culture across teams and leadership.",
+      "provider": {
+        "@id": "https://datagovjourney.com/#organization"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://datagovjourney.com/#website",
+      "url": "https://datagovjourney.com/",
+      "name": "Data Governance Journey",
+      "description": "Estrategia, arquitectura y aculturación de datos alineados con el estándar DAMA.",
+      "inLanguage": [
+        "es",
+        "en",
+        "pt"
+      ],
+      "publisher": {
+        "@id": "https://datagovjourney.com/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://datagovjourney.com/?lang=es#faq",
+      "inLanguage": "es",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué es el Gobierno de Datos según la metodología DAMA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Según el marco internacional DAMA, el Gobierno de Datos es el ejercicio de autoridad y control sobre la gestión de los activos de datos. Establece las políticas, roles (Owners, Stewards) y procesos para garantizar la calidad, seguridad e integridad del dato."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuál es la diferencia entre Gobierno de Datos y Gestión de Datos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El Gobierno de Datos define la estrategia, las reglas y los roles ('saber cómo decidir'). La Gestión de Datos ejecuta técnicamente esas reglas en la arquitectura, integración y almacenamiento ('saber cómo hacer'). Ambos se complementan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué es la Alfabetización en Datos (Data Literacy) y por qué es tan importante?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La alfabetización en datos es la habilidad de las personas para entender, analizar y comunicarse con datos. Es el pilar del aculturamiento: de nada sirve la tecnología si los equipos no confían ni saben utilizar la información para tomar decisiones."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿En qué consiste un proyecto MVP (Mínimo Producto Viable) de Gobierno de Datos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "En lugar de intentar gobernar toda la empresa desde el día uno, seleccionamos un caso de uso estratégico (por ejemplo, el dominio de clientes o un reporte financiero crítico) y aplicamos gobierno de punta a punta para demostrar retorno de inversión rápido."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuál es la diferencia entre un Data Owner y un Data Steward?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El Data Owner (Dueño de Datos) es un líder de negocio con autoridad estratégica y presupuesto sobre un dominio de datos específico (ej. Clientes o Finanzas). El Data Steward (Custodio Funcional) es el experto operativo que aplica la calidad, define reglas de negocio y asegura el cumplimiento día a día."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo se mide el ROI de un proyecto de Gobierno de Datos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El ROI del Gobierno de Datos se mide reduciendo costes operativos (menos horas dedicadas a limpiar datos o corregir reportes), aumentando ingresos (al habilitar analítica confiable e IA) y mitigando riesgos de seguridad, multas regulatorias o fugas de información."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Necesitamos software o herramientas costosas para iniciar el Gobierno de Datos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. La tecnología es solo el motor, pero la estrategia y las personas son la brújula y el corazón. Puedes iniciar Gobierno de Datos con herramientas existentes, estructurando la matriz RACI, las políticas y un catálogo inicial antes de invertir en software especializado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo apoya el Gobierno de Datos la implementación de Inteligencia Artificial (IA)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La Inteligencia Artificial solo es tan buena como los datos que la alimentan (\"Garbage in, Garbage out\"). El Gobierno de Datos garantiza que los datos utilizados para entrenar o alimentar modelos de IA sean precisos, clasificados por privacidad y éticamente gestionados."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto tiempo toma un proyecto de implementación de Gobierno de Datos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un proyecto de diagnóstico e implementación de Mínimo Producto Viable (MVP) suele tomar entre 8 y 12 semanas. Esto permite entregar valor rápido en un caso de uso prioritario antes de escalar el marco gradualmente a toda la organización."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://datagovjourney.com/?lang=en#faq",
+      "inLanguage": "en",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Data Governance according to the DAMA framework?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "According to DAMA, Data Governance is the exercise of authority and control over the management of data assets. It establishes policies, roles (Data Owners, Stewards), and rules to ensure data quality, security, and usability."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between Data Governance and Data Management?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Data Governance sets the strategy, policies, and decision rights ('how to decide'). Data Management executes those policies technically across database architecture, integration, and security ('how to do')."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Data Literacy and why is it essential for organizations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Data Literacy is the ability of teams to read, analyze, and communicate with data effectively. It drives change management—ensuring employees adopt data-driven habits instead of relying on gut feelings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a Data Governance MVP project?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instead of attempting enterprise-wide governance all at once, we focus on a high-value business use case (e.g. Customer Domain or Executive Reporting) to prove immediate end-to-end business value."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between a Data Owner and a Data Steward?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Data Owner is a business leader with strategic authority and budget over a specific data domain (e.g., Customer or Finance). A Data Steward is an operational subject matter expert who manages daily data quality, enforces business rules, and maintains data definitions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you measure the ROI of a Data Governance project?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Data Governance ROI is measured by reducing operational costs (less time spent cleaning bad data or fixing reports), driving revenue (by enabling trusted analytics and AI models), and mitigating compliance risks, regulatory fines, and security breaches."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do we need expensive software or tools to start Data Governance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Software is just an enabler. You can start Data Governance using existing enterprise tools by setting clear policies, RACI roles, and business glossaries first, proving business value before investing in enterprise governance platforms."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Data Governance support AI (Artificial Intelligence) implementation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI is only as effective as the data feeding it (\"Garbage in, Garbage out\"). Data Governance ensures that data used for AI models, LLMs, and automated reporting is accurate, securely classified, compliant, and well-contextualized."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a Data Governance implementation project take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A typical diagnostic and Minimum Viable Product (MVP) governance implementation takes between 8 to 12 weeks. This delivers quick wins on a priority use case before scaling the framework across the rest of the enterprise."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://datagovjourney.com/?lang=pt#faq",
+      "inLanguage": "pt",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que é Governança de Dados segundo a metodologia DAMA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Segundo o framework internacional DAMA, Governança de Dados é o exercício de autoridade e controle sobre a gestão dos ativos de dados. Estabelece políticas, papéis (Owners, Stewards) e regras para garantir qualidade e segurança."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual é a diferença entre Governança de Dados e Gestão de Dados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Governança de Dados define a estratégia, políticas e regras ('saber como decidir'). A Gestão de Dados executa tecnicamente essas regras na arquitetura, integração e armazenamento ('saber como fazer')."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O que é Alfabetização em Dados (Data Literacy)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A alfabetização em dados é a capacidade de ler, analisar e se comunicar com dados. É o pilar cultural que garante que as equipes saibam transformar informações em decisões reais de negócio."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O que é um projeto MVP de Governança de Dados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Em vez de governar toda a empresa de uma só vez, selecionamos um caso de uso crítico (como o domínio de clientes) e aplicamos governança de ponta a ponta para demonstrar valor imediato."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual é a diferença entre um Data Owner e um Data Steward?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Data Owner é um líder de negócio com autoridade estratégica sobre um domínio de dados (ex. Clientes ou Finanças). O Data Steward é o especialista operacional que aplica a qualidade, define regras de negócio e garante o cumprimento no dia a dia."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como se mede o ROI de um projeto de Governança de Dados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O ROI da Governança de Dados é medido pela redução de custos operacionais (menos tempo a limpar dados incorretos), aumento de receitas (ao viabilizar analítica e IA confiáveis) e mitigação de riscos de conformidade e segurança."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Precisamos de software ou ferramentas caras para iniciar a Governança de Dados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. O software é apenas um viabilizador. Pode iniciar a Governança de Dados com ferramentas existentes, definindo papéis RACI, políticas e glossários de negócio antes de investir em plataformas de software complexas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como a Governança de Dados apoia a implementação de Inteligência Artificial (IA)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Inteligência Artificial é tão boa quanto os dados que a alimentam. A Governança de Dados garante que os dados usados para modelos de IA e analítica sejam precisos, seguros, classificados e alinhados com regras de privacidade."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto tempo demora um projeto de implementação de Governança de Dados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Um projeto de diagnóstico e implementação de um Mínimo Produto Viável (MVP) demora habitualmente entre 8 e 12 semanas, entregando valor rápido num caso de uso prioritário antes de expandir a governança a toda a organização."
+          }
+        }
+      ]
+    }
+  ]
+}
