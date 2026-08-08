@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Free interactive simulator: work through 10 real data governance dilemmas across five DAMA-DMBOK dimensions and watch your decisions move maturity, trust, and budget.">
     <meta name="twitter:image" content="https://datagovjourney.com/assets/dg-logo.png">
     <link rel="icon" href="/assets/dg-logo.png">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Data Governance Day-to-Day Simulator (DAMA-DMBOK)", "url": "https://datagovjourney.com/simulators/en/data-governance-day-to-day/", "description": "Free interactive simulator: work through 10 real data governance dilemmas across five DAMA-DMBOK dimensions and watch your decisions move maturity, trust, and budget.", "applicationCategory": "EducationalApplication", "operatingSystem": "Web browser", "inLanguage": "en", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "Data Governance Journey", "url": "https://datagovjourney.com/", "logo": {"@type": "ImageObject", "url": "https://datagovjourney.com/assets/dg-logo.png"}}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://datagovjourney.com/"}, {"@type": "ListItem", "position": 2, "name": "Simulators", "item": "https://datagovjourney.com/#simulators"}, {"@type": "ListItem", "position": 3, "name": "Data Governance Day-to-Day Simulator (DAMA-DMBOK)", "item": "https://datagovjourney.com/simulators/en/data-governance-day-to-day/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Data Governance Day-to-Day Simulator (DAMA-DMBOK)","url":"https://datagovjourney.com/simulators/en/data-governance-day-to-day/","description":"Free interactive simulator: work through 10 real data governance dilemmas across five DAMA-DMBOK dimensions and watch your decisions move maturity, trust, and budget.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"en","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/en/data-governance-day-to-day/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Roles and responsibilities","Data quality management","Metadata and data lineage","Data catalog and discovery","Master and reference data","Data lifecycle and retention","FinOps and analytics governance"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://datagovjourney.com/en/"},{"@type":"ListItem","position":2,"name":"Simulators","item":"https://datagovjourney.com/en/#simulators"},{"@type":"ListItem","position":3,"name":"Data Governance Day-to-Day Simulator (DAMA-DMBOK)","item":"https://datagovjourney.com/simulators/en/data-governance-day-to-day/"}],"@id":"https://datagovjourney.com/simulators/en/data-governance-day-to-day/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/en/data-governance-day-to-day/#faq","inLanguage":"en","isPartOf":{"@id":"https://datagovjourney.com/simulators/en/data-governance-day-to-day/"},"mainEntity":[{"@type":"Question","name":"Do I need to know DAMA-DMBOK to use it?","acceptedAnswer":{"@type":"Answer","text":"No. Each scenario is written in plain operational language, and the debrief after every decision names the DMBOK principle behind it. Many people use the simulator as their first introduction to the framework rather than as a test of it."}},{"@type":"Question","name":"Is there a single correct answer to each scenario?","acceptedAnswer":{"@type":"Answer","text":"No. Every option is one a real organisation has chosen. The scoring reflects what each option costs and buys across the five indicators, so a defensible decision under budget pressure can score well even when it is not the textbook answer."}},{"@type":"Question","name":"Is it free, and does it collect my data?","acceptedAnswer":{"@type":"Answer","text":"It is free and requires no account. The simulator runs entirely in your browser; scores and the leaderboard are kept in your own browser storage and are not transmitted to us."}},{"@type":"Question","name":"What does the final score mean?","acceptedAnswer":{"@type":"Answer","text":"The score is a weighted maturity index across Efficiency, Trust, Accountability, Security, and Context, plus the budget you have left. It is a reading of your decision-making style, not a certification or a benchmark of your organisation."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/dg-logo.png"}}]}</script>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -604,6 +604,58 @@
 
       </div>
 
+    
+    <!--
+      Static explainer.
+
+      Everything above this point is an empty shell until JavaScript fills it in,
+      so a crawler that does not run scripts — which includes most of the
+      assistants that answer questions from the open web — sees a page of loading
+      placeholders and no explanation of what the simulator teaches. This section
+      is the page saying, in plain HTML, what the exercise is and what it covers.
+    -->
+    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
+      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-900">About this simulator</h2>
+        <p class="mb-4 leading-relaxed">The Data Governance Day-to-Day Simulator is a free, browser-based exercise that puts you in the seat of the person who has to answer ten governance incidents in a row — the kind that arrive as a Slack message rather than as a project. Marketing wants the "Active Customer" formula changed because their numbers disagree with Sales. A stale table is quietly costing five figures a month in cloud spend. New data scientists spend weeks finding datasets that already exist. Each incident offers three plausible responses, and none of them is free.</p>
+        <p class="mb-4 leading-relaxed">Every choice moves five DAMA-DMBOK indicators — Efficiency, Trust, Accountability, Security, and Context — and draws down a fixed budget. The point is the trade-off: the fastest fix usually costs accountability, and the most rigorous one usually costs budget and goodwill. After the tenth incident the simulator scores the pattern of your decisions rather than any single answer, and explains which DMBOK principle each one leaned on.</p>
+        <p class="mb-4 leading-relaxed">It takes about ten minutes, needs no sign-up, and runs entirely in your browser. Nothing you enter is sent anywhere; the leaderboard is stored locally on your own device.</p>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">What you practise</h3>
+        <ul class="mb-4 list-disc space-y-2 pl-6 leading-relaxed">
+          <li><strong>Roles and responsibilities</strong> — deciding when a dispute needs a named data steward rather than another meeting.</li>
+          <li><strong>Data quality management</strong> — choosing between filtering bad data at the report and fixing it at the source.</li>
+          <li><strong>Metadata and data lineage</strong> — what it costs to leave a business glossary unwritten.</li>
+          <li><strong>Data catalog and discovery</strong> — why a wiki page is not a catalog.</li>
+          <li><strong>Master and reference data</strong> — resolving duplicate customers across CRM and sales systems.</li>
+          <li><strong>Data lifecycle and retention</strong> — deprecating data without breaking the reports that depend on it.</li>
+          <li><strong>FinOps and analytics governance</strong> — query quotas, cost attribution, and who pays for an inefficient join.</li>
+        </ul>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Questions about this simulator</h3>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">Do I need to know DAMA-DMBOK to use it?</h4>
+          <p class="leading-relaxed">No. Each scenario is written in plain operational language, and the debrief after every decision names the DMBOK principle behind it. Many people use the simulator as their first introduction to the framework rather than as a test of it.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">Is there a single correct answer to each scenario?</h4>
+          <p class="leading-relaxed">No. Every option is one a real organisation has chosen. The scoring reflects what each option costs and buys across the five indicators, so a defensible decision under budget pressure can score well even when it is not the textbook answer.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">Is it free, and does it collect my data?</h4>
+          <p class="leading-relaxed">It is free and requires no account. The simulator runs entirely in your browser; scores and the leaderboard are kept in your own browser storage and are not transmitted to us.</p>
+        </div>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-900 mb-1">What does the final score mean?</h4>
+          <p class="leading-relaxed">The score is a weighted maturity index across Efficiency, Trust, Accountability, Security, and Context, plus the budget you have left. It is a reading of your decision-making style, not a certification or a benchmark of your organisation.</p>
+        </div>
+
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Related reading</h3>
+        <ul class="list-disc space-y-2 pl-6">
+          <li><a class="underline hover:no-underline" href="/simulators/en/data-ownership-conflict/">Who Owns This? Data Ownership Conflict Simulator</a></li>
+          <li><a class="underline hover:no-underline" href="/simulators/en/data-literacy/">Data Literacy Simulator</a></li>
+          <li><a class="underline hover:no-underline" href="/en/blog/">Data governance articles</a></li>
+        </ul>
+    </section>
     </main>
   </div>
 

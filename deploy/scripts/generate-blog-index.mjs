@@ -2,6 +2,9 @@ import { mkdir, readdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { parseFrontMatter, renderMarkdown, readingTimeMinutes, escapeHtml } from './lib/markdown.mjs';
+import { renderHomePage, HOME_PATH } from './lib/home-pages.mjs';
+import { renderLlmsIndex, renderLlmsFull } from './lib/llms.mjs';
+import { renderArticleSchema } from './lib/article-schema.mjs';
 
 const SITE_ORIGIN = 'https://datagovjourney.com';
 const LANGUAGES = ['en', 'es', 'pt'];
@@ -79,27 +82,41 @@ const LABELS = {
 };
 
 /**
+ * The date the hand-maintained pages were last materially revised.
+ *
+ * Every sitemap entry needs a <lastmod>, and articles supply their own from the
+ * front matter. The static pages have no such field, and file timestamps are
+ * useless here because a fresh checkout stamps every file with the build time —
+ * which would announce that the whole site changed on every deploy and teach
+ * crawlers to ignore the signal. So this is a constant: bump it when the copy on
+ * those pages actually changes.
+ */
+const STATIC_LAST_MODIFIED = '2026-08-08';
+
+/**
  * Non-article URLs that belong in the sitemap.
  *
- * The homepage serves all three languages from a single URL, so only "/" is
- * listed; the ?lang= variants are declared as hreflang alternates rather than
- * as their own entries, which keeps one canonical homepage in the index.
+ * Each language's homepage is its own page — Spanish at "/", English at "/en/",
+ * Portuguese at "/pt/" — so all three are listed, each declaring the other two
+ * as hreflang alternates.
  */
 const STATIC_ROUTES = [
-  {
-    url: '/',
-    priority: '1.0',
+  ...LANGUAGES.map((lang) => ({
+    url: HOME_PATH[lang],
+    priority: lang === 'es' ? '1.0' : '0.9',
     changefreq: 'weekly',
+    lastmod: STATIC_LAST_MODIFIED,
     alternates: [
-      ...LANGUAGES.map((lang) => ({ hreflang: lang, url: `/?lang=${lang}` })),
-      { hreflang: 'x-default', url: '/' },
+      ...LANGUAGES.map((other) => ({ hreflang: other, url: HOME_PATH[other] })),
+      { hreflang: 'x-default', url: HOME_PATH.en },
     ],
-  },
+  })),
   ...['blog', 'confession-wall'].flatMap((section) =>
     LANGUAGES.map((lang) => ({
       url: `/${lang}/${section}/`,
       priority: section === 'blog' ? '0.8' : '0.7',
       changefreq: 'weekly',
+      lastmod: STATIC_LAST_MODIFIED,
       alternates: [
         ...LANGUAGES.map((other) => ({ hreflang: other, url: `/${other}/${section}/` })),
         { hreflang: 'x-default', url: `/en/${section}/` },
@@ -111,6 +128,7 @@ const STATIC_ROUTES = [
       url: `/simulators/${lang}/${simulator}/`,
       priority: '0.8',
       changefreq: 'monthly',
+      lastmod: STATIC_LAST_MODIFIED,
       alternates: [
         ...LANGUAGES.map((other) => ({ hreflang: other, url: `/simulators/${other}/${simulator}/` })),
         { hreflang: 'x-default', url: `/simulators/en/${simulator}/` },
@@ -171,6 +189,7 @@ async function loadArticles() {
         translationKey: attributes.translation_key || slug,
         redirectFrom: [attributes.redirect_from ?? []].flat().map(normalizeSlug).filter(Boolean),
         readingTime: readingTimeMinutes(body),
+        body: body.trim(),
         bodyHtml: html,
         headings,
         searchText: normalizeSearchText(`${attributes.title} ${attributes.category} ${attributes.summary} ${body}`),
@@ -257,36 +276,18 @@ function renderArticlePage(article, translations, articles) {
     return `<a href="${href}"${current}>${lang.toUpperCase()}</a>`;
   }).join('');
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'BlogPosting',
-        headline: article.title,
-        description,
-        datePublished: article.date,
-        dateModified: article.date,
-        inLanguage: HTML_LANG[article.lang],
-        articleSection: article.category,
-        author: { '@type': 'Person', name: article.author },
-        publisher: {
-          '@type': 'Organization',
-          name: 'Data Governance Journey',
-          logo: { '@type': 'ImageObject', url: `${SITE_ORIGIN}/assets/images/dg-logo.png` },
-        },
-        mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-        url: canonical,
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: labels.breadcrumbHome, item: `${SITE_ORIGIN}/` },
-          { '@type': 'ListItem', position: 2, name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${article.lang}/blog/` },
-          { '@type': 'ListItem', position: 3, name: article.title, item: canonical },
-        ],
-      },
+  const schema = renderArticleSchema({
+    article,
+    canonical,
+    homeUrl: `${SITE_ORIGIN}${HOME_PATH[article.lang]}`,
+    htmlLanguage: HTML_LANG[article.lang],
+    blogName: `${labels.blogTitle} — Data Governance Journey`,
+    breadcrumb: [
+      { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[article.lang]}` },
+      { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${article.lang}/blog/` },
+      { name: article.title, item: canonical },
     ],
-  };
+  });
 
   return `<!doctype html>
 <html lang="${HTML_LANG[article.lang]}">
@@ -323,7 +324,7 @@ function renderArticlePage(article, translations, articles) {
 </head>
 <body data-lang="${article.lang}" class="article-ready">
   <a class="skip-link" href="#article">${labels.skip}</a>
-  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="/?lang=${article.lang}"><img src="/assets/images/dg-logo.png" alt="Data Governance Journey" width="40" height="40"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" aria-label="Language">${languageNav}</div></div></nav></header>
+  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[article.lang]}"><img src="/assets/images/dg-logo.png" alt="Data Governance Journey" width="40" height="40"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" aria-label="Language">${languageNav}</div></div></nav></header>
   <main id="article">
     <header class="article-hero blog-shell">
       <span class="blog-kicker">${escapeHtml(article.category)}</span>
@@ -341,7 +342,7 @@ ${bodyHtml}
       </div>
     </div>
     ${renderRelated(article, articles, labels)}
-    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="/?lang=${article.lang}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="/?lang=${article.lang}#scorecard">${labels.ctaScorecard}</a></div></aside>
+    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[article.lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[article.lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
   </main>
   <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
 </body>
@@ -351,12 +352,17 @@ ${bodyHtml}
 
 function renderArchiveCard(article, { hero = false } = {}) {
   const href = articlePath(article.lang, article.slug);
+  // The full article text used to ride along in a data-search attribute — around
+  // 4 KB of duplicated, invisible prose per card. A crawler that reads raw HTML
+  // saw every archive page as its articles pasted end to end, which buries the
+  // page's real content. The corpus now lives in /assets/search/<lang>.json,
+  // which only the search script fetches.
   const attributes = [
     `data-post-path="/content/blog/${article.lang}/${article.file}"`,
+    `data-slug="${article.slug}"`,
     `data-title="${escapeHtml(article.title)}"`,
     `data-category="${escapeHtml(article.category)}"`,
     `data-date="${article.date}"`,
-    `data-search="${escapeHtml(article.searchText.slice(0, 4000))}"`,
   ].join(' ');
 
   if (hero) {
@@ -398,16 +404,44 @@ async function updateBlogIndexes(articles) {
   }
 }
 
+/**
+ * Writes the search corpus the archive script fetches on demand.
+ *
+ * One file per language, keyed by slug, so a visitor searching the English
+ * archive never downloads the Spanish and Portuguese text.
+ */
+async function writeSearchIndexes(articles) {
+  const searchDirectory = path.join(projectDirectory, 'assets/search');
+  await mkdir(searchDirectory, { recursive: true });
+
+  for (const lang of LANGUAGES) {
+    const corpus = {};
+    for (const article of articles.filter((entry) => entry.lang === lang)) {
+      corpus[article.slug] = article.searchText.slice(0, 4000);
+    }
+    await writeFile(path.join(searchDirectory, `${lang}.json`), `${JSON.stringify(corpus)}\n`, 'utf8');
+  }
+}
+
 function renderSitemap(articles, translationMap) {
   const entries = [];
 
   const escapeUrl = (url) => `${SITE_ORIGIN}${url}`.replace(/&/g, '&amp;');
+
+  // A blog index changes whenever an article is published under it, so its own
+  // newest article is a truer lastmod than the hand-maintained constant.
+  const newestArticleDate = new Map();
+  for (const article of articles) {
+    const route = `/${article.lang}/blog/`;
+    if (article.date > (newestArticleDate.get(route) || '')) newestArticleDate.set(route, article.date);
+  }
 
   for (const route of STATIC_ROUTES) {
     entries.push(
       [
         '  <url>',
         `    <loc>${escapeUrl(route.url)}</loc>`,
+        `    <lastmod>${newestArticleDate.get(route.url) || route.lastmod}</lastmod>`,
         ...route.alternates.map(
           (alternate) =>
             `    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escapeUrl(alternate.url)}"/>`
@@ -490,6 +524,19 @@ function renderRedirects(articles, renames) {
     '# Canonical host: force HTTPS on the apex domain.',
     'http://datagovjourney.com/* https://datagovjourney.com/:splat 301!',
     '',
+    '# The homepage used to serve all three languages from "/" and switch between',
+    '# them with ?lang=. Each language now has its own page, so the old query-string',
+    '# addresses point at the page they used to render.',
+    '#',
+    '# Spanish is deliberately absent: it still lives at "/", and Netlify carries the',
+    '# query string over to the destination, so "/?lang=es" -> "/" would arrive back',
+    '# at "/?lang=es" and loop. The canonical tag on "/" consolidates it instead.',
+    '/  lang=en  /en/  301!',
+    '/  lang=pt  /pt/  301!',
+    '',
+    '# "/es/" never existed as a page, but it is the obvious guess once /en/ and /pt/ do.',
+    '/es/  /  301!',
+    '',
     '# Legacy client-rendered article URLs now have their own static pages.',
   ];
   for (const article of articles) {
@@ -512,10 +559,43 @@ function renderRedirects(articles, renames) {
   return `${lines.join('\n')}\n`;
 }
 
+/**
+ * Writes one single-language homepage per language from the shared master.
+ *
+ * These files are build output: edit src/home.html, not index.html, en/index.html
+ * or pt/index.html, which every deploy overwrites.
+ */
+async function writeHomePages() {
+  const template = await readFile(path.join(projectDirectory, 'src/home.html'), 'utf8');
+  const schemaGraph = JSON.parse(await readFile(path.join(projectDirectory, 'src/home-schema.json'), 'utf8'));
+
+  for (const lang of LANGUAGES) {
+    const route = HOME_PATH[lang];
+    const outputDirectory = path.join(projectDirectory, route === '/' ? '.' : route.slice(1, -1));
+    await mkdir(outputDirectory, { recursive: true });
+    await writeFile(path.join(outputDirectory, 'index.html'), renderHomePage(template, schemaGraph, lang), 'utf8');
+  }
+}
+
+/**
+ * Writes the two llms.txt files from the same article list as the sitemap.
+ *
+ * The human-maintained prose at the top lives in src/llms-intro.md; everything
+ * below it is generated, so a newly published article shows up without anyone
+ * remembering to edit a second file.
+ */
+async function writeLlmsFiles(articles) {
+  const intro = await readFile(path.join(projectDirectory, 'src/llms-intro.md'), 'utf8');
+  await writeFile(path.join(projectDirectory, 'llms.txt'), renderLlmsIndex(intro, articles, LANGUAGES), 'utf8');
+  await writeFile(path.join(projectDirectory, 'llms-full.txt'), renderLlmsFull(intro, articles, LANGUAGES), 'utf8');
+}
+
 async function main() {
   const articles = await loadArticles();
   const translationMap = buildTranslationMap(articles);
   const renames = collectRenames(articles);
+
+  await writeHomePages();
 
   const generatedDirectories = new Set();
   for (const article of articles) {
@@ -542,6 +622,8 @@ async function main() {
   }
 
   await updateBlogIndexes(articles);
+  await writeSearchIndexes(articles);
+  await writeLlmsFiles(articles);
   await writeFile(path.join(projectDirectory, 'sitemap.xml'), renderSitemap(articles, translationMap), 'utf8');
   await writeFile(path.join(projectDirectory, '_redirects'), renderRedirects(articles, renames), 'utf8');
 
@@ -557,7 +639,7 @@ async function main() {
     );
   }
 
-  console.log(`Generated ${articles.length} static article pages, sitemap, and redirects.`);
+  console.log(`Generated ${LANGUAGES.length} homepages, ${articles.length} static article pages, sitemap, and redirects.`);
 }
 
 await main();

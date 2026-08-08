@@ -22,14 +22,31 @@ export const slugify = (text) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
-const renderInline = (text) =>
-  escapeHtml(text)
+/**
+ * Markdown punctuation a backslash can escape. Editors paste `\*` or `\[` when
+ * they mean a literal character, so without this the backslash survives into the
+ * published page and the character it protects is still read as formatting.
+ */
+const ESCAPABLE_PUNCTUATION = /\\([\\`*_{}[\]()#+\-.!<>|~"'$%&/:;=?@^])/g;
+
+const renderInline = (text) => {
+  // Escaped characters are parked behind a marker no source text can contain, so
+  // the formatting passes below cannot mistake them for syntax, then restored.
+  const literals = [];
+  const parked = text.replace(ESCAPABLE_PUNCTUATION, (match, character) => {
+    literals.push(character);
+    return `\u0000${literals.length - 1}\u0000`;
+  });
+
+  return escapeHtml(parked)
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (match, label, href) =>
       /^(https?:|\/|#|mailto:)/.test(href) ? `<a href="${href}">${label}</a>` : label
     )
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/\u0000(\d+)\u0000/g, (match, position) => escapeHtml(literals[Number(position)]));
+};
 
 const parseFrontMatter = (source) => {
   const match = source.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
@@ -63,6 +80,13 @@ const parseFrontMatter = (source) => {
     attributes[currentKey] = unquote(line.slice(separator + 1).trim());
   }
   return { attributes, body: match[2] };
+};
+
+/** Advances past a run of blank lines and reports where content resumes. */
+const skipBlankLines = (lines, index) => {
+  let cursor = index;
+  while (cursor < lines.length && !lines[cursor].trim()) cursor += 1;
+  return cursor;
 };
 
 const renderTable = (rows) => {
@@ -133,9 +157,18 @@ export const renderMarkdown = (markdown) => {
 
     if (/^\s*>\s?/.test(line)) {
       const quoted = [];
-      while (index < lines.length && /^\s*>\s?/.test(lines[index])) {
-        quoted.push(lines[index].replace(/^\s*>\s?/, ''));
-        index += 1;
+      while (index < lines.length) {
+        if (/^\s*>\s?/.test(lines[index])) {
+          quoted.push(lines[index].replace(/^\s*>\s?/, ''));
+          index += 1;
+          continue;
+        }
+        // A blank line between quoted lines is a paragraph break inside the
+        // quote, not the end of it, so the quote survives loose formatting.
+        const resumed = skipBlankLines(lines, index);
+        if (resumed === index || !/^\s*>\s?/.test(lines[resumed] || '')) break;
+        quoted.push('');
+        index = resumed;
       }
       // Blockquotes can hold their own blocks (lists, headings), so recurse.
       html.push(`<blockquote>${renderMarkdown(quoted.join('\n')).html}</blockquote>`);
@@ -147,7 +180,14 @@ export const renderMarkdown = (markdown) => {
       const ordered = /\d/.test(listMatch[1]);
       const pattern = ordered ? /^\s*\d+\.\s+/ : /^\s*[*-]\s+/;
       const items = [];
-      while (index < lines.length && pattern.test(lines[index])) {
+      while (index < lines.length) {
+        if (!pattern.test(lines[index])) {
+          // Same reasoning as blockquotes: a blank line between bullets is a
+          // loose list, which should still render as one list.
+          const resumed = skipBlankLines(lines, index);
+          if (resumed === index || !pattern.test(lines[resumed] || '')) break;
+          index = resumed;
+        }
         let item = lines[index].replace(pattern, '');
         index += 1;
         // Absorb wrapped continuation lines that are not a new list item.

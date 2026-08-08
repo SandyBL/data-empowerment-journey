@@ -36,6 +36,28 @@
   [headers.values]
     X-Robots-Tag = "noindex"
 
+# src/ holds the homepage master the build renders into /, /en/ and /pt/. It is
+# a template full of placeholders and all three languages at once, so publish =
+# "." makes it reachable but it must never compete with the pages built from it.
+[[headers]]
+  for = "/src/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+# The llms.txt convention asks assistants to read these as plain text; without
+# the charset the accented Spanish and Portuguese copy arrives mojibaked.
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/llms-full.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
 [[headers]]
   for = "/*"
   [headers.values]
