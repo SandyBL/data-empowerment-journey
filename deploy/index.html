@@ -12,7 +12,7 @@
     <link rel="icon" type="image/png" href="/assets/dg-logo.png">
     
     <!-- SEO & Dynamic Multilingual Links -->
-    <link id="canonical-link" rel="canonical" href="https://datagovjourney.com/?lang=es">
+    <link id="canonical-link" rel="canonical" href="https://datagovjourney.com/">
     <link id="alternate-en" rel="alternate" hreflang="en" href="https://datagovjourney.com/?lang=en">
     <link id="alternate-es" rel="alternate" hreflang="es" href="https://datagovjourney.com/?lang=es">
     <link id="alternate-pt" rel="alternate" hreflang="pt" href="https://datagovjourney.com/?lang=pt">
@@ -23,7 +23,7 @@
     <meta property="og:site_name" content="Data Governance Journey">
     <meta id="og-title" property="og:title" content="Data Governance Journey | Gobierno de Datos">
     <meta id="og-description" property="og:description" content="Convertimos los datos en activos estratégicos orquestando personas, procesos y tecnología. Basado en DAMA.">
-    <meta id="og-url" property="og:url" content="https://datagovjourney.com/?lang=es">
+    <meta id="og-url" property="og:url" content="https://datagovjourney.com/">
     <meta property="og:image" content="https://datagovjourney.com/assets/dg-logo.png">
     <meta id="og-locale" property="og:locale" content="es_ES">
     <meta property="og:locale:alternate" content="en_US">
@@ -1769,6 +1769,39 @@
                 <span lang-content="pt">Consultoria premium de dados alinhada a metodologias globais</span>
             </p>
             
+            <nav class="w-full border-t border-slate-700/60 pt-8 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left text-sm" aria-label="Site directory">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">English</p>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="/en/blog/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Data Governance Insights</a></li>
+                        <li><a href="/en/confession-wall/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Confession Wall</a></li>
+                        <li><a href="/simulators/en/data-governance-day-to-day/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Data Governance Day-to-Day Simulator</a></li>
+                        <li><a href="/simulators/en/data-ownership-conflict/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Who Owns This? Simulator</a></li>
+                        <li><a href="/simulators/en/data-literacy/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Data Literacy Simulator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Español</p>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="/es/blog/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Ideas sobre Gobierno de Datos</a></li>
+                        <li><a href="/es/confession-wall/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Muro de Confesiones</a></li>
+                        <li><a href="/simulators/es/data-governance-day-to-day/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Simulador del Día a Día en Gobierno de Datos</a></li>
+                        <li><a href="/simulators/es/data-ownership-conflict/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Simulador ¿Quién es el dueño de esto?</a></li>
+                        <li><a href="/simulators/es/data-literacy/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Simulador de Alfabetización de Datos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Português</p>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="/pt/blog/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Ideias sobre Governança de Dados</a></li>
+                        <li><a href="/pt/confession-wall/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Mural de Confissões</a></li>
+                        <li><a href="/simulators/pt/data-governance-day-to-day/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Simulador do Dia a Dia da Governança de Dados</a></li>
+                        <li><a href="/simulators/pt/data-ownership-conflict/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Simulador Quem é o Dono Disso?</a></li>
+                        <li><a href="/simulators/pt/data-literacy/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Simulador de Alfabetização de Dados</a></li>
+                    </ul>
+                </div>
+            </nav>
+
             <div class="w-full border-t border-slate-700/60 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
                 <p>&copy; 2026 Data Governance Journey. <span lang-content="es">Todos los derechos reservados.</span><span lang-content="en">All rights reserved.</span><span lang-content="pt">Todos os direitos reservados.</span></p>
                 <div class="flex gap-4">
@@ -1851,13 +1884,16 @@
         function updateLanguageMetadata(lang) {
             const localizedUrl = getLanguageUrl(lang);
             const baseUrl = `${productionOrigin}/`;
+            // The bare "/" must stay self-canonical; only an explicit ?lang= request
+            // canonicalises to its language variant, so each hreflang URL is self-referencing.
+            const canonicalUrl = new URLSearchParams(window.location.search).has("lang") ? localizedUrl : baseUrl;
 
             document.title = pageTitles[lang];
             document.getElementById("meta-description").content = pageDescriptions[lang];
-            document.getElementById("canonical-link").href = localizedUrl;
+            document.getElementById("canonical-link").href = canonicalUrl;
             document.getElementById("og-title").content = pageTitles[lang];
             document.getElementById("og-description").content = pageDescriptions[lang];
-            document.getElementById("og-url").content = localizedUrl;
+            document.getElementById("og-url").content = canonicalUrl;
             document.getElementById("og-locale").content = openGraphLocales[lang];
             document.getElementById("twitter-title").content = pageTitles[lang];
             document.getElementById("twitter-description").content = pageDescriptions[lang];
@@ -1900,7 +1936,6 @@
             document.body.classList.remove(...supportedLanguages.map(language => `lang-${language}`));
             document.body.classList.add('lang-' + normalizedLanguage);
             document.documentElement.lang = normalizedLanguage;
-            updateLanguageMetadata(normalizedLanguage);
 
             try {
                 localStorage.setItem("preferredLanguage", normalizedLanguage);
@@ -1913,6 +1948,9 @@
                 url.searchParams.set("lang", normalizedLanguage);
                 window.history.replaceState({ lang: normalizedLanguage }, "", url);
             }
+
+            // Runs after any URL change so the canonical reflects the address actually shown.
+            updateLanguageMetadata(normalizedLanguage);
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -2090,7 +2128,9 @@
             setLanguage(detectInitialLanguage(), false);
         });
 
-        setLanguage(detectInitialLanguage());
+        // Detected preferences must not rewrite the address bar: "/" stays "/" so it
+        // remains self-canonical, and only an explicit language choice adds ?lang=.
+        setLanguage(detectInitialLanguage(), false);
         initializeNavigationMenus();
         initializeDesktopScrollSpy();
     </script>
