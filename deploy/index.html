@@ -1126,7 +1126,7 @@
                         <p lang-content="en">A practical DAMA-based scorecard that turns your answers into a visual, actionable diagnosis.</p>
                         <p lang-content="pt">Um teste prático baseado na DAMA que transforma suas respostas em um diagnóstico visual e acionável.</p>
 
-                        <a href="https://forms.gle/oeTYXyGWEW2wbdgu5" target="_blank" rel="noopener noreferrer" class="maturity-test-cta">
+                        <a href="https://forms.gle/CAApA7ENzfL72piJ6" data-es="https://forms.gle/CAApA7ENzfL72piJ6" data-en="https://forms.gle/JGRfTUvuCAewTY469" data-pt="https://forms.gle/yz5gxgSz2QrjczoSA" target="_blank" rel="noopener noreferrer" class="language-scorecard-link maturity-test-cta">
                             <span lang-content="es">Abrir el Scorecard de Madurez</span>
                             <span lang-content="en">Open the Maturity Scorecard</span>
                             <span lang-content="pt">Abrir o Scorecard de Maturidade</span>
@@ -1933,6 +1933,10 @@
 
             document.querySelectorAll('.language-confession-link').forEach(link => {
                 link.href = `/${normalizedLanguage}/confession-wall/`;
+            });
+
+            document.querySelectorAll('.language-scorecard-link').forEach(link => {
+                link.href = link.dataset[normalizedLanguage] || link.dataset.es;
             });
 
             document.querySelectorAll('.language-simulator-link').forEach(link => {
