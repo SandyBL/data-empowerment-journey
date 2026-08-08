@@ -35,9 +35,24 @@ const parseFrontMatter = (source) => {
   const match = source.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
   if (!match) return { attributes: {}, body: source };
 
+  const unquote = (value) =>
+    (value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))
+      ? value.slice(1, -1)
+      : value;
+
   const attributes = {};
   let currentKey = '';
   for (const line of match[1].split('\n')) {
+    // Sequence entries collect under the key above them, which YAML leaves
+    // empty (`redirect_from:` followed by `  - old-slug`). Requiring that empty
+    // value keeps a wrapped text line starting with a dash a string, not a list.
+    const item = line.match(/^\s*-\s+(.*)$/);
+    if (item && currentKey && (attributes[currentKey] === '' || Array.isArray(attributes[currentKey]))) {
+      if (!Array.isArray(attributes[currentKey])) attributes[currentKey] = [];
+      attributes[currentKey].push(unquote(item[1].trim()));
+      continue;
+    }
+
     const separator = line.indexOf(':');
     // Indented continuation lines belong to the previous key (folded YAML scalars).
     if (separator < 0 || (/^\s+/.test(line) && currentKey && !/^\s*[\w-]+\s*:/.test(line))) {
@@ -45,11 +60,7 @@ const parseFrontMatter = (source) => {
       continue;
     }
     currentKey = line.slice(0, separator).trim();
-    const value = line.slice(separator + 1).trim();
-    attributes[currentKey] =
-      (value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))
-        ? value.slice(1, -1)
-        : value;
+    attributes[currentKey] = unquote(line.slice(separator + 1).trim());
   }
   return { attributes, body: match[2] };
 };

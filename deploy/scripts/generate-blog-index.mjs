@@ -129,6 +129,18 @@ const formatDate = (isoDate, lang) =>
 
 const articlePath = (lang, slug) => `/${lang}/blog/${slug}/`;
 
+/**
+ * Accepts an old slug however an editor supplies it — bare, as a full path, or
+ * as the Markdown filename — and reduces it to the slug itself.
+ */
+const normalizeSlug = (value) =>
+  String(value)
+    .trim()
+    .replace(/\.md$/, '')
+    .split('/')
+    .filter(Boolean)
+    .pop() || '';
+
 const normalizeSearchText = (text) =>
   text
     .toLowerCase()
@@ -157,6 +169,7 @@ async function loadArticles() {
         author: attributes.author || 'Sandy Bradbury',
         date: attributes.date,
         translationKey: attributes.translation_key || slug,
+        redirectFrom: [attributes.redirect_from ?? []].flat().map(normalizeSlug).filter(Boolean),
         readingTime: readingTimeMinutes(body),
         bodyHtml: html,
         headings,
@@ -437,8 +450,42 @@ ${entries.join('\n')}
 `;
 }
 
+/**
+ * Collects the slugs published articles used to live at, keyed by language.
+ *
+ * Renaming a Markdown file changes the article's URL and deletes the directory
+ * behind the old one, so without these the previous address becomes a hard 404
+ * for anyone holding a link to it. Two articles claiming the same old slug, or
+ * one claiming a slug a live article already occupies, would make the forced
+ * redirect shadow a real page — both fail the build rather than ship quietly.
+ */
+function collectRenames(articles) {
+  const liveSlugs = new Set(articles.map((article) => `${article.lang}/${article.slug}`));
+  const renames = [];
+  const claimed = new Map();
+
+  for (const article of articles) {
+    for (const previousSlug of article.redirectFrom) {
+      const key = `${article.lang}/${previousSlug}`;
+      if (liveSlugs.has(key)) {
+        throw new Error(
+          `content/blog/${article.lang}/${article.file} lists "${previousSlug}" as a previous URL, but that is the address of a published article.`
+        );
+      }
+      if (claimed.has(key)) {
+        throw new Error(
+          `content/blog/${article.lang}/${article.file} and ${claimed.get(key)} both list "${previousSlug}" as a previous URL; only one article can own it.`
+        );
+      }
+      claimed.set(key, `content/blog/${article.lang}/${article.file}`);
+      renames.push({ lang: article.lang, previousSlug, target: articlePath(article.lang, article.slug) });
+    }
+  }
+  return renames;
+}
+
 /** Rewrites the legacy query-string article URLs to their static equivalents. */
-function renderRedirects(articles) {
+function renderRedirects(articles, renames) {
   const lines = [
     '# Canonical host: force HTTPS on the apex domain.',
     'http://datagovjourney.com/* https://datagovjourney.com/:splat 301!',
@@ -448,8 +495,19 @@ function renderRedirects(articles) {
   for (const article of articles) {
     lines.push(`/${article.lang}/blog/article.html post=${article.slug} ${articlePath(article.lang, article.slug)} 301!`);
   }
+  // Ordered ahead of the catch-all below so a legacy link to a since-renamed
+  // article reaches the article rather than the index.
+  for (const rename of renames) {
+    lines.push(`/${rename.lang}/blog/article.html post=${rename.previousSlug} ${rename.target} 301!`);
+  }
   for (const lang of LANGUAGES) {
     lines.push(`/${lang}/blog/article.html /${lang}/blog/ 301!`);
+  }
+  if (renames.length) {
+    lines.push('', '# Addresses published articles were renamed away from.');
+    for (const rename of renames) {
+      lines.push(`/${rename.lang}/blog/${rename.previousSlug}/ ${rename.target} 301!`);
+    }
   }
   return `${lines.join('\n')}\n`;
 }
@@ -457,6 +515,7 @@ function renderRedirects(articles) {
 async function main() {
   const articles = await loadArticles();
   const translationMap = buildTranslationMap(articles);
+  const renames = collectRenames(articles);
 
   const generatedDirectories = new Set();
   for (const article of articles) {
@@ -471,10 +530,12 @@ async function main() {
   }
 
   // Remove article directories whose Markdown source no longer exists.
+  const removed = [];
   for (const lang of LANGUAGES) {
     const blogDirectory = path.join(projectDirectory, lang, 'blog');
     for (const entry of await readdir(blogDirectory, { withFileTypes: true })) {
       if (entry.isDirectory() && !generatedDirectories.has(`${lang}/${entry.name}`)) {
+        removed.push({ lang, slug: entry.name });
         await rm(path.join(blogDirectory, entry.name), { recursive: true, force: true });
       }
     }
@@ -482,7 +543,19 @@ async function main() {
 
   await updateBlogIndexes(articles);
   await writeFile(path.join(projectDirectory, 'sitemap.xml'), renderSitemap(articles, translationMap), 'utf8');
-  await writeFile(path.join(projectDirectory, '_redirects'), renderRedirects(articles), 'utf8');
+  await writeFile(path.join(projectDirectory, '_redirects'), renderRedirects(articles, renames), 'utf8');
+
+  // This is the only build that can see the old address: the directory is gone
+  // afterwards, so an unannounced rename would never be reported again.
+  const redirected = new Set(renames.map((rename) => `${rename.lang}/${rename.previousSlug}`));
+  const unhandled = removed.filter((entry) => !redirected.has(`${entry.lang}/${entry.slug}`));
+  if (unhandled.length) {
+    console.warn(
+      `Warning: removed ${unhandled.length} article URL(s) that nothing redirects away from:\n${unhandled
+        .map((entry) => `  ${articlePath(entry.lang, entry.slug)}`)
+        .join('\n')}\nIf an article was renamed, add its old slug to the "Previous URLs" field so existing links keep working.`
+    );
+  }
 
   console.log(`Generated ${articles.length} static article pages, sitemap, and redirects.`);
 }
