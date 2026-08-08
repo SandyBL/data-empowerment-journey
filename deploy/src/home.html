@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<!--
+  Trilingual master for the homepage.
+
+  scripts/generate-blog-index.mjs renders this into three single-language pages
+  (/ in Spanish, /en/ and /pt/), keeping only the lang-content blocks for the
+  language being built. Crawlers that do not run JavaScript — which includes
+  most of the assistants that answer questions from the open web — read whatever
+  is in the raw HTML, so shipping all three languages at once made every page
+  read as interleaved gibberish. Editing happens here; the published files are
+  build output and are overwritten on every deploy.
+-->
+<html lang="__HTML_LANG__">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="/assets/styles.css" as="style">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <meta name="google-site-verification" content="E4KLrkhNpy-EpIG1IRxGICciCHV-9Trc6WycFxr4RGg" />
+    <link rel="icon" type="image/png" href="/assets/dg-logo.png">
+
+    <!-- Title, description, canonical, hreflang, and social cards, per language. -->
+    <!--BUILD:METADATA-->
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/site-brand.css">
+
+    <!-- Schema.org JSON-LD Structured Data for AI & Search Engines -->
+    <!--BUILD:SCHEMA-->
+
+</head>
+<body class="lang-__LANG__ bg-softbg font-sans text-slate-700 antialiased scroll-smooth">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="dejourney-header sticky top-0 z-50 backdrop-blur border-b shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo & Brand Title -->
+            <a href="#" class="dejourney-brand group" aria-label="Data Governance Journey home">
+                <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" width="200" height="194" class="dejourney-brand-logo">
+                <span class="dejourney-brand-name">Data Governance Journey</span>
+            </a>
+
+            <!-- Desktop Section Navigation Bar -->
+            <nav class="desktop-section-nav" aria-label="Section navigation">
+                <a href="#framework">
+                    <span lang-content="es">Marco</span><span lang-content="en">Framework</span><span lang-content="pt">Framework</span>
+                </a>
+                <a href="#simulators">
+                    <span lang-content="es">Simuladores</span><span lang-content="en">Simulators</span><span lang-content="pt">Simuladores</span>
+                </a>
+                <div class="desktop-resources-menu">
+                    <button type="button" class="desktop-resources-trigger" aria-expanded="false" aria-controls="desktop-resources-dropdown">
+                        <span lang-content="es">Recursos</span><span lang-content="en">Resources</span><span lang-content="pt">Recursos</span>
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div id="desktop-resources-dropdown" class="desktop-resources-dropdown" role="menu">
+                        <a href="#cost-calculator" role="menuitem"><span lang-content="es">Calculadora del Costo de la Ignorancia</span><span lang-content="en">Cost of Ignorance Calculator</span><span lang-content="pt">Calculadora do Custo da Ignorância</span></a>
+                        <a href="/es/confession-wall/" class="language-confession-link" role="menuitem"><span lang-content="es">Muro de Confesiones</span><span lang-content="en">Confession Wall</span><span lang-content="pt">Mural de Confissões</span></a>
+                        <a href="#playbooks" role="menuitem">Playbooks</a>
+                        <a href="#excel-templates" role="menuitem"><span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span></a>
+                    </div>
+                </div>
+                <a href="#preguntas-frecuentes">
+                    <span lang-content="es">FAQ</span><span lang-content="en">FAQ</span><span lang-content="pt">FAQ</span>
+                </a>
+                <a href="#scorecard" class="desktop-scorecard-cta">
+                    <span lang-content="es">Scorecard de Madurez</span><span lang-content="en">Maturity Scorecard</span><span lang-content="pt">Scorecard de Maturidade</span>
+                </a>
+            </nav>
+
+            <!-- Language Switcher & Content Links -->
+            <div class="header-actions flex items-center gap-1 sm:gap-2 shrink-0">
+                <div class="language-switcher flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200">
+                    <a href="__HOME_EN__" hreflang="en" id="btn-en" aria-label="Switch language to English" class="lang-btn flex h-8 w-10 items-center justify-center rounded-full p-1.5 transition-all">
+                    <svg class="h-4 w-6 rounded-sm shadow-sm" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="20" fill="#fff"/>
+                        <path fill="#B22234" d="M0 0h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28V7.7H0zm0 3.08h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28V20H0z"/>
+                        <rect width="12" height="10.78" fill="#3C3B6E"/>
+                        <g fill="#fff">
+                            <circle cx="1.5" cy="1.4" r=".45"/><circle cx="4.5" cy="1.4" r=".45"/><circle cx="7.5" cy="1.4" r=".45"/><circle cx="10.5" cy="1.4" r=".45"/>
+                            <circle cx="3" cy="3.2" r=".45"/><circle cx="6" cy="3.2" r=".45"/><circle cx="9" cy="3.2" r=".45"/>
+                            <circle cx="1.5" cy="5" r=".45"/><circle cx="4.5" cy="5" r=".45"/><circle cx="7.5" cy="5" r=".45"/><circle cx="10.5" cy="5" r=".45"/>
+                        </g>
+                    </svg>
+                    </a>
+                    <a href="__HOME_ES__" hreflang="es" id="btn-es" aria-label="Cambiar idioma a español" class="lang-btn flex h-8 w-10 items-center justify-center rounded-full p-1.5 transition-all">
+                    <svg class="h-4 w-6 rounded-sm shadow-sm" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="20" fill="#AA151B"/>
+                        <rect y="5" width="28" height="10" fill="#F1BF00"/>
+                        <rect x="7" y="8" width="2.2" height="4" rx=".3" fill="#AA151B"/>
+                        <rect x="7.35" y="7.2" width="1.5" height=".8" fill="#F1BF00" stroke="#AA151B" stroke-width=".3"/>
+                    </svg>
+                    </a>
+                    <a href="__HOME_PT__" hreflang="pt" id="btn-pt" aria-label="Mudar idioma para português" class="lang-btn flex h-8 w-10 items-center justify-center rounded-full p-1.5 transition-all">
+                    <svg class="h-4 w-6 rounded-sm shadow-sm" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="20" fill="#009B3A"/>
+                        <path d="M14 2.5 25 10 14 17.5 3 10Z" fill="#FFDF00"/>
+                        <circle cx="14" cy="10" r="4.2" fill="#002776"/>
+                        <path d="M10.2 8.8c2.8-.5 5.5.2 7.7 2" fill="none" stroke="#fff" stroke-width=".7"/>
+                    </svg>
+                    </a>
+                </div>
+                <div class="header-content-links flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200" role="group" aria-label="Blog, newsletter, and Confession Wall">
+                    <a href="/es/blog/" id="header-blog-link" class="header-content-link header-blog-link" aria-label="__ARIA_BLOG__" title="Blog">
+                        <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="header-content-link header-newsletter-link"
+                        aria-label="Open Data Governance Journey newsletter"
+                        title="Newsletter"
+                    >
+                        <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
+                    </a>
+                    <a href="/es/confession-wall/" class="language-confession-link header-content-link header-confession-link" aria-label="__ARIA_CONFESSION__" title="Confession Wall">
+                        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Open navigation menu">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+            <div class="mobile-navigation__panel">
+                <a href="#framework"><span lang-content="es">Marco</span><span lang-content="en">Framework</span><span lang-content="pt">Framework</span></a>
+                <a href="#simulators"><span lang-content="es">Simuladores</span><span lang-content="en">Simulators</span><span lang-content="pt">Simuladores</span></a>
+                <div class="mobile-resources-menu">
+                    <button type="button" class="mobile-resources-trigger" aria-expanded="false" aria-controls="mobile-resources-links">
+                        <span lang-content="es">Recursos</span><span lang-content="en">Resources</span><span lang-content="pt">Recursos</span>
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div id="mobile-resources-links" class="mobile-resources-links" hidden>
+                        <a href="#cost-calculator"><span lang-content="es">Calculadora del Costo de la Ignorancia</span><span lang-content="en">Cost of Ignorance Calculator</span><span lang-content="pt">Calculadora do Custo da Ignorância</span></a>
+                        <a href="/es/confession-wall/" class="language-confession-link"><span lang-content="es">Muro de Confesiones</span><span lang-content="en">Confession Wall</span><span lang-content="pt">Mural de Confissões</span></a>
+                        <a href="#playbooks">Playbooks</a>
+                        <a href="#excel-templates"><span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span></a>
+                    </div>
+                </div>
+                <a href="#preguntas-frecuentes">FAQ</a>
+                <a href="#scorecard" class="mobile-scorecard-cta"><span lang-content="es">Scorecard de Madurez</span><span lang-content="en">Maturity Scorecard</span><span lang-content="pt">Scorecard de Maturidade</span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-deepblue via-slatecool to-slatecool text-white py-20 lg:py-32">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="45" height="45" patternUnits="userSpaceOnUse">
+                        <path d="M 45 0 L 0 0 0 45" fill="none" stroke="white" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+        </div>
+        
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-6">
+                <span class="w-2 h-2 rounded-full bg-emeraldgreen animate-ping"></span>
+                <span class="text-xs uppercase tracking-widest font-semibold text-emeraldgreen">
+                    <span lang-content="es">Extrae Valor a tus Datos</span>
+                    <span lang-content="en">Extract Value from Your Data</span>
+                    <span lang-content="pt">Extraia Valor dos seus Dados</span>
+                </span>
+            </div>
+
+            <!-- Consolidated Single H1 for SEO -->
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                <span lang-content="es">Consultoría Estratégica en <br><span class="text-emeraldgreen">Gobierno de Datos</span></span>
+                <span lang-content="en">Strategic Data <br><span class="text-emeraldgreen">Governance Consulting</span></span>
+                <span lang-content="pt">Consultoria Estratégica em <br><span class="text-emeraldgreen">Governança de Dados</span></span>
+            </h1>
+
+            <p lang-content="es" class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+                Convertimos los datos en activos estratégicos orquestando personas, procesos y tecnología de punta a punta.
+            </p>
+            <p lang-content="en" class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+                We transform data into strategic assets by orchestrating people, processes, and technology end-to-end.
+            </p>
+            <p lang-content="pt" class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+                Convertemos dados em ativos estratégicos orquestrando pessoas, processos e tecnologia de ponta a ponta.
+            </p>
+
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 max-w-xl mx-auto backdrop-blur-md shadow-xl mb-8">
+                <p class="text-[10px] uppercase tracking-widest text-emeraldgreen font-bold mb-1">Corporate Mantra</p>
+                <p class="text-lg sm:text-xl font-medium tracking-wide italic text-slate-100">"Governance for People, Value from Data"</p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#framework" class="inline-flex items-center gap-2 px-6 py-3.5 bg-emeraldgreen hover:bg-emeraldgreen/95 text-deepblue font-bold rounded-lg shadow-lg hover:shadow-emeraldgreen/20 hover:-translate-y-0.5 transition-all">
+                    <span lang-content="es">Explorar Marco</span>
+                    <span lang-content="en">Explore Framework</span>
+                    <span lang-content="pt">Explorar Framework</span>
+                    <i class="fa-solid fa-arrow-down text-sm"></i>
+                </a>
+                <a href="#contacto" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/35 text-white font-semibold rounded-lg hover:-translate-y-0.5 transition-all">
+                    <span lang-content="es">Agendar Sesión</span>
+                    <span lang-content="en">Book a Session</span>
+                    <span lang-content="pt">Agendar Sessão</span>
+                    <i class="fa-solid fa-calendar-check text-sm text-emeraldgreen"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FRAMEWORK: METHODOLOGY + PILLARS -->
+    <section id="framework" class="framework-section scroll-mt-20 bg-white">
+    <div id="metodologia" class="scroll-mt-20 py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emeraldgreen/10 border border-emeraldgreen/25 text-deepblue text-xs font-bold uppercase tracking-wider mb-4">
+                <img src="/assets/dama-logo.png" alt="DAMA International" width="29" height="20" class="h-5 w-auto object-contain" loading="lazy">
+                <span>DAMA International Standard</span>
+            </div>
+            <h2 class="text-3xl font-extrabold text-deepblue tracking-tight mb-6">
+                <span lang-content="es">Nuestra Metodología</span>
+                <span lang-content="en">Our Methodology</span>
+                <span lang-content="pt">Nossa Metodologia</span>
+            </h2>
+            <div class="w-16 h-1 bg-emeraldgreen mx-auto mb-8 rounded-full"></div>
+
+            <p lang-content="es" class="text-lg text-slate-600 leading-relaxed font-light">
+                Basada en el prestigioso marco de referencia <strong>DAMA</strong>, nuestra consultoría asegura que el gobierno no sea un evento aislado, sino una función corporativa continua que garantiza la disponibilidad, integridad y seguridad del activo del dato.
+            </p>
+            <p lang-content="en" class="text-lg text-slate-600 leading-relaxed font-light">
+                Based on the prestigious <strong>DAMA</strong> framework, our consultancy ensures that governance is not an isolated event, but a continuous corporate function that guarantees the availability, integrity, and security of the data asset.
+            </p>
+            <p lang-content="pt" class="text-lg text-slate-600 leading-relaxed font-light">
+                Baseada no renomado framework de referência <strong>DAMA</strong>, nossa consultoria garante que a governança não seja um evento isolado, mas uma função corporativa contínua que assegura a disponibilidade, integridade e segurança do ativo de dados.
+            </p>
+        </div>
+    </div>
+
+    <!-- THREE PILLARS -->
+    <div id="pilares" class="scroll-mt-20 py-16 bg-slate-50 border-t border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">Framework & Strategy</p>
+                <h2 class="text-3xl font-extrabold text-deepblue">
+                    <span lang-content="es">Los Pilares del Gobierno de Datos</span>
+                    <span lang-content="en">The Pillars of Data Governance</span>
+                    <span lang-content="pt">Os Pilares da Governança de Dados</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Pillar 1 -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 flex-grow">
+                        <div class="w-14 h-14 rounded-2xl bg-deepblue/5 border border-deepblue/10 flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-compass text-2xl text-deepblue animate-pulse"></i>
+                        </div>
+                        
+                        <span class="text-xs font-bold text-emeraldgreen uppercase tracking-wider block mb-2">Pilar 1</span>
+                        <h3 class="text-xl font-bold text-deepblue mb-4">
+                            <span lang-content="es">Fundamentos del Gobierno<br><span class="inline-block mt-1">(La Brújula)</span></span>
+                            <span lang-content="en">Governance Foundations<br><span class="inline-block mt-1">(The Compass)</span></span>
+                            <span lang-content="pt">Fundamentos da Governança<br><span class="inline-block mt-1">(A Bússola)</span></span>
+                        </h3>
+                        
+                        <p lang-content="es" class="text-slate-500 text-sm mb-6">Establecemos la base sólida para que la organización sepa "cómo decidir" sobre sus datos con reglas claras.</p>
+                        <p lang-content="en" class="text-slate-500 text-sm mb-6">We establish the solid foundation for the organization to know "how to decide" about its data with clear rules.</p>
+                        <p lang-content="pt" class="text-slate-500 text-sm mb-6">Estabelecemos a base sólida para que a organização saiba "como decidir" sobre seus dados com regras claras.</p>
+
+                        <div class="space-y-4 border-t border-slate-100 pt-6">
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Políticas</span><span lang-content="en">Policies</span><span lang-content="pt">Políticas</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Definición de la Política General de Datos y Seguridad corporativa.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">Definition of the General Data and Corporate Security Policy.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Definição da Política Geral de Dados e Segurança corporativa.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Roles y Responsabilidades</span><span lang-content="en">Roles & Responsibilities</span><span lang-content="pt">Papéis e Responsabilidades</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Implementación de la matriz RACI asignando Data Owners, Data Stewards y Custodians.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">RACI matrix setup mapping Data Owners, Data Stewards, and Custodians.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Implementação da matriz RACI atribuindo Data Owners, Data Stewards e Custodians.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Criticidad de Datos</span><span lang-content="en">Data Criticality</span><span lang-content="pt">Criticidade de Dados</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Clasificación en niveles (Muy Crítico, Crítico, No Crítico) según riesgos.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">Classification levels (Very Critical, Critical, Non-Critical) based on risks.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Classificação em níveis (Muito Crítico, Crítico, Não Crítico) segundo riscos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 flex-grow">
+                        <div class="w-14 h-14 rounded-2xl bg-deepblue/5 border border-deepblue/10 flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-gears text-2xl text-deepblue"></i>
+                        </div>
+                        
+                        <span class="text-xs font-bold text-emeraldgreen uppercase tracking-wider block mb-2">Pilar 2</span>
+                        <h3 class="text-xl font-bold text-deepblue mb-4">
+                            <span lang-content="es">Caso de Uso<br><span class="inline-block mt-1">(El Motor)</span></span>
+                            <span lang-content="en">Use Case<br><span class="inline-block mt-1">(The Engine)</span></span>
+                            <span lang-content="pt">Caso de Uso<br><span class="inline-block mt-1">(O Motor)</span></span>
+                        </h3>
+                        
+                        <p lang-content="es" class="text-slate-500 text-sm mb-6">Aplicamos el gobierno de datos a un caso de uso prioritario para demostrar valor inmediato de punta a punta.</p>
+                        <p lang-content="en" class="text-slate-500 text-sm mb-6">We apply data governance to a priority use case to demonstrate immediate end-to-end value.</p>
+                        <p lang-content="pt" class="text-slate-500 text-sm mb-6">Aplicamos a governança de dados a um caso de uso prioritário para demonstrar valor imediato de ponta a ponta.</p>
+
+                        <div class="space-y-4 border-t border-slate-100 pt-6">
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Calidad de Datos</span><span lang-content="en">Data Quality</span><span lang-content="pt">Qualidade de Dados</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Perfilado de datos y definición de reglas de calidad alineadas con las reglas de negocio.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">Data profiling and quality rules aligned with business rules.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Perfilagem de dados e definição de regras de qualidade alinhadas às regras de negócio.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Metadatos</span><span lang-content="en">Metadata</span><span lang-content="pt">Metadados</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Creación de un Catálogo y Glosario de Negocio unificado.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">Creation of a unified Enterprise Catalog and Business Glossary.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Criação de um Catálogo e Glossário de Negócios corporativo unificado.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Control y Seguridad</span><span lang-content="en">Control & Security</span><span lang-content="pt">Controle e Segurança</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Clasificación (Confidencial, Sensible) y control de acceso basado en roles (RBAC).</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">Classification levels (Sensitive, Private) and Role-Based Access Control (RBAC).</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Classificação (Privado, Sensível) e controle de acesso baseado em funções (RBAC).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 flex-grow">
+                        <div class="w-14 h-14 rounded-2xl bg-deepblue/5 border border-deepblue/10 flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-heart-pulse text-2xl text-deepblue"></i>
+                        </div>
+                        
+                        <span class="text-xs font-bold text-emeraldgreen uppercase tracking-wider block mb-2">Pilar 3</span>
+                        <h3 class="text-xl font-bold text-deepblue mb-4">
+                            <span lang-content="es">Aculturamiento<br><span class="inline-block mt-1">(El Corazón)</span></span>
+                            <span lang-content="en">Change Management<br><span class="inline-block mt-1">(The Heart)</span></span>
+                            <span lang-content="pt">Gestão de Mudança<br><span class="inline-block mt-1">(O Coração)</span></span>
+                        </h3>
+                        
+                        <p lang-content="es" class="text-slate-500 text-sm mb-6">El pilar más estratégico. El Gobierno de Datos es un cambio cultural y organizacional, no solo tecnológico.</p>
+                        <p lang-content="en" class="text-slate-500 text-sm mb-6">Our most strategic pillar. Data Governance is about culture and organizational shifts, not just tech.</p>
+                        <p lang-content="pt" class="text-slate-500 text-sm mb-6">O pilar mais estratégico. Governança de Dados é uma mudança cultural e organizacional, não apenas tecnológica.</p>
+
+                        <div class="space-y-4 border-t border-slate-100 pt-6">
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">El Lado Humano</span><span lang-content="en">The Human Side</span><span lang-content="pt">O Lado Humano</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Entendemos que las personas cambian, las empresas no. Derribamos complacencia.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">We address individual behavior. We break down corporate friction and complacency.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Entendemos que pessoas mudam, as empresas não. Eliminamos a complacência.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Lenguaje Adaptado</span><span lang-content="en">Adapted Language</span><span lang-content="pt">Linguagem Adaptada</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Traducimos tecnicismos a un discurso de valor e impacto real de negocio.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">We avoid technical jargon, communicating strictly in value and business outcomes.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Traduzimos termos técnicos para um discurso focado em valor real para o negócio.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-deepblue uppercase tracking-wider mb-1">
+                                    <span lang-content="es">Compromiso</span><span lang-content="en">Engagement</span><span lang-content="pt">Engajamento</span>
+                                </h4>
+                                <p lang-content="es" class="text-slate-600 text-sm">Trabajamos sobre el "corazón", demostrando que gobernar los datos facilita el día a día.</p>
+                                <p lang-content="en" class="text-slate-600 text-sm">We focus on engagement, proving that proper data structures make work effortless.</p>
+                                <p lang-content="pt" class="text-slate-600 text-sm">Trabalhamos o "coração", provando que governar dados facilita as rotinas diárias.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- SIMULATORS -->
+    <section id="simulators" class="simulators-section scroll-mt-20 py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="simulators-heading">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2"><span lang-content="es">Practica decisiones reales</span><span lang-content="en">Practice real decisions</span><span lang-content="pt">Pratique decisões reais</span></p>
+                <h2><span lang-content="es">Simuladores de Gobierno de Datos</span><span lang-content="en">Data Governance Simulators</span><span lang-content="pt">Simuladores de Governança de Dados</span></h2>
+                <p><span lang-content="es">Pon a prueba tu criterio en escenarios interactivos sobre operaciones, propiedad y alfabetización de datos.</span><span lang-content="en">Test your judgment in interactive scenarios covering operations, ownership, and data literacy.</span><span lang-content="pt">Teste seu critério em cenários interativos sobre operações, propriedade e alfabetização de dados.</span></p>
+            </div>
+            <div class="simulator-grid">
+                <article class="simulator-card simulator-card--operations">
+                    <span class="simulator-card__number">01</span><div class="simulator-card__icon"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></div>
+                    <h3><span lang-content="es">Día a Día del Gobierno de Datos</span><span lang-content="en">Data Governance Day to Day</span><span lang-content="pt">Dia a Dia da Governança de Dados</span></h3>
+                    <p><span lang-content="es">Gestiona prioridades, incidentes y decisiones cotidianas dentro de un programa de gobierno.</span><span lang-content="en">Manage priorities, incidents, and everyday decisions inside a governance program.</span><span lang-content="pt">Gerencie prioridades, incidentes e decisões cotidianas em um programa de governança.</span></p>
+                    <a href="/simulators/es/data-governance-day-to-day/" class="language-simulator-link" data-simulator="data-governance-day-to-day"><span lang-content="es">Abrir simulador</span><span lang-content="en">Open simulator</span><span lang-content="pt">Abrir simulador</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+                <article class="simulator-card simulator-card--ownership">
+                    <span class="simulator-card__number">02</span><div class="simulator-card__icon"><i class="fa-solid fa-people-arrows-left-right" aria-hidden="true"></i></div>
+                    <h3><span lang-content="es">¿Quién es Dueño de Estos Datos?</span><span lang-content="en">Who Owns This Data?</span><span lang-content="pt">Quem é o Dono Destes Dados?</span></h3>
+                    <p><span lang-content="es">Resuelve un conflicto de propiedad equilibrando responsabilidad, autoridad y valor de negocio.</span><span lang-content="en">Resolve an ownership conflict by balancing accountability, authority, and business value.</span><span lang-content="pt">Resolva um conflito de propriedade equilibrando responsabilidade, autoridade e valor de negócio.</span></p>
+                    <a href="/simulators/es/data-ownership-conflict/" class="language-simulator-link" data-simulator="data-ownership-conflict"><span lang-content="es">Abrir simulador</span><span lang-content="en">Open simulator</span><span lang-content="pt">Abrir simulador</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+                <article class="simulator-card simulator-card--literacy">
+                    <span class="simulator-card__number">03</span><div class="simulator-card__icon"><i class="fa-solid fa-chart-column" aria-hidden="true"></i></div>
+                    <h3><span lang-content="es">Alfabetización de Datos</span><span lang-content="en">Data Literacy</span><span lang-content="pt">Alfabetização de Dados</span></h3>
+                    <p><span lang-content="es">Interpreta métricas, cuestiona visualizaciones y fortalece decisiones basadas en evidencia.</span><span lang-content="en">Interpret metrics, challenge visualizations, and strengthen evidence-based decisions.</span><span lang-content="pt">Interprete métricas, questione visualizações e fortaleça decisões baseadas em evidências.</span></p>
+                    <a href="/simulators/es/data-literacy/" class="language-simulator-link" data-simulator="data-literacy"><span lang-content="es">Abrir simulador</span><span lang-content="en">Open simulator</span><span lang-content="pt">Abrir simulador</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOADABLE RESOURCES & TEMPLATES -->
+    <section id="resources" class="resources-section scroll-mt-20 bg-slate-50 border-t border-slate-200">
+        <span id="recursos" class="anchor-alias" aria-hidden="true"></span>
+        <div class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                    <span lang-content="es">Biblioteca práctica</span>
+                    <span lang-content="en">Practical Library</span>
+                    <span lang-content="pt">Biblioteca prática</span>
+                </p>
+                <h2 class="text-3xl font-extrabold text-deepblue tracking-tight">
+                    <span lang-content="es">Recursos y Plantillas Descargables</span>
+                    <span lang-content="en">Downloadable Resources &amp; Templates</span>
+                    <span lang-content="pt">Recursos e Modelos para Download</span>
+                </h2>
+                <div class="w-16 h-1 bg-emeraldgreen mx-auto my-5 rounded-full"></div>
+                <p class="text-slate-600 font-light leading-relaxed">
+                    <span lang-content="es">Herramientas listas para usar que convierten los principios de gobierno de datos en acciones concretas.</span>
+                    <span lang-content="en">Ready-to-use tools that turn data governance principles into concrete action.</span>
+                    <span lang-content="pt">Ferramentas prontas para uso que transformam princípios de governança de dados em ações concretas.</span>
+                </p>
+            </div>
+
+            <article id="cost-calculator" class="bad-data-calculator scroll-mt-24" aria-labelledby="bad-data-calculator-title">
+                <div class="bad-data-calculator__intro">
+                    <div>
+                        <p class="bad-data-calculator__eyebrow">
+                            <i class="fa-solid fa-calculator" aria-hidden="true"></i>
+                            <span lang-content="es">Calculadora ejecutiva</span>
+                            <span lang-content="en">Executive calculator</span>
+                            <span lang-content="pt">Calculadora executiva</span>
+                        </p>
+                        <h3 id="bad-data-calculator-title">
+                            <span lang-content="es">El Costo de la Ignorancia</span>
+                            <span lang-content="en">The Cost of Ignorance</span>
+                            <span lang-content="pt">O Custo da Ignorância</span>
+                        </h3>
+                    </div>
+                    <p>
+                        <span lang-content="es">Convierte las horas perdidas buscando, validando y limpiando datos en un costo anual que la dirección puede actuar.</span>
+                        <span lang-content="en">Turn hours lost searching, validating, and cleaning data into an annual cost leaders can act on.</span>
+                        <span lang-content="pt">Transforme as horas perdidas buscando, validando e limpando dados em um custo anual que a liderança pode enfrentar.</span>
+                    </p>
+                </div>
+
+                <div class="bad-data-calculator__grid">
+                    <form id="bad-data-calculator-form" class="bad-data-calculator__form" novalidate>
+                        <label class="bad-data-field" for="bad-data-employees">
+                            <span class="bad-data-field__label">
+                                <span lang-content="es">Personas en datos, analítica y marketing</span>
+                                <span lang-content="en">Employees in data, analytics, and marketing</span>
+                                <span lang-content="pt">Pessoas em dados, analytics e marketing</span>
+                            </span>
+                            <span class="bad-data-field__control">
+                                <i class="fa-solid fa-users" aria-hidden="true"></i>
+                                <input id="bad-data-employees" name="employees" type="number" inputmode="numeric" min="1" max="100000" step="1" value="25" required>
+                            </span>
+                        </label>
+
+                        <label class="bad-data-field" for="bad-data-hours">
+                            <span class="bad-data-field__label">
+                                <span lang-content="es">Horas por semana buscando o limpiando datos</span>
+                                <span lang-content="en">Hours per week searching for or cleaning data</span>
+                                <span lang-content="pt">Horas por semana buscando ou limpando dados</span>
+                            </span>
+                            <span class="bad-data-field__control">
+                                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                                <input id="bad-data-hours" name="weeklyHours" type="number" inputmode="numeric" min="1" max="40" step="1" value="5" aria-describedby="bad-data-calculator-error" required>
+                            </span>
+                        </label>
+
+                        <label class="bad-data-field" for="bad-data-salary">
+                            <span class="bad-data-field__label">
+                                <span lang-content="es">Salario promedio anual (EUR)</span>
+                                <span lang-content="en">Average annual salary (USD)</span>
+                                <span lang-content="pt">Salário médio anual (BRL)</span>
+                            </span>
+                            <span class="bad-data-field__control bad-data-field__control--currency">
+                                <span id="bad-data-currency-prefix" aria-hidden="true">€</span>
+                                <input id="bad-data-salary" name="salary" type="number" inputmode="numeric" min="1" max="10000000" step="1" value="85000" required>
+                            </span>
+                        </label>
+
+                        <p id="bad-data-calculator-error" class="bad-data-calculator__error" role="alert"></p>
+                    </form>
+
+                    <div class="bad-data-result" aria-live="polite">
+                        <div class="bad-data-result__topline">
+                            <span lang-content="es">Pérdida anual estimada</span>
+                            <span lang-content="en">Estimated annual loss</span>
+                            <span lang-content="pt">Perda anual estimada</span>
+                            <i class="fa-solid fa-arrow-trend-down" aria-hidden="true"></i>
+                        </div>
+                        <output id="bad-data-loss-amount" class="bad-data-result__amount" for="bad-data-employees bad-data-hours bad-data-salary">265.625 €</output>
+                        <p class="bad-data-result__statement">
+                            <span lang-content="es">Su empresa está perdiendo aproximadamente <strong data-bad-data-inline-loss>265.625 €</strong>/año por la Fricción de Datos.</span>
+                            <span lang-content="en">Your company is losing approximately <strong data-bad-data-inline-loss>$265,625</strong>/year to Data Friction.</span>
+                            <span lang-content="pt">Sua empresa está perdendo aproximadamente <strong data-bad-data-inline-loss>R$ 265.625</strong>/ano com a Fricção de Dados.</span>
+                        </p>
+                        <div class="bad-data-result__formula">
+                            <span lang-content="es">Equipo × horas perdidas × costo por hora × 52 semanas</span>
+                            <span lang-content="en">Team × lost hours × hourly cost × 52 weeks</span>
+                            <span lang-content="pt">Equipe × horas perdidas × custo por hora × 52 semanas</span>
+                        </div>
+                        <button id="bad-data-pdf-download" class="bad-data-result__cta" type="button">
+                            <span lang-content="es">Descargar informe PDF personalizado</span>
+                            <span lang-content="en">Download personalized PDF report</span>
+                            <span lang-content="pt">Baixar relatório PDF personalizado</span>
+                            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+                        </button>
+                        <p id="bad-data-download-status" class="bad-data-result__privacy" aria-live="polite">
+                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                            <span lang-content="es">Sin formulario. Descarga inmediata.</span>
+                            <span lang-content="en">No form required. Immediate download.</span>
+                            <span lang-content="pt">Sem formulário. Download imediato.</span>
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="confession-wall-resource" aria-labelledby="confession-wall-resource-title">
+                <div class="confession-wall-resource__icon" aria-hidden="true">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <span>!</span>
+                </div>
+                <div class="confession-wall-resource__content">
+                    <p class="confession-wall-resource__eyebrow">
+                        <span lang-content="es">Historias reales. Lecciones compartidas.</span>
+                        <span lang-content="en">Real stories. Shared lessons.</span>
+                        <span lang-content="pt">Histórias reais. Lições compartilhadas.</span>
+                    </p>
+                    <h3 id="confession-wall-resource-title">
+                        <span lang-content="es">El Muro de Confesiones de Gobierno de Datos</span>
+                        <span lang-content="en">The Data Governance Confession Wall</span>
+                        <span lang-content="pt">O Mural de Confissões de Governança de Dados</span>
+                    </h3>
+                    <p>
+                        <span lang-content="es">Un espacio anónimo para descubrir desastres de datos reales, aprender de lo que salió mal y convertir errores costosos en mejores prácticas. Comparte tu propia experiencia para que otros equipos no tengan que aprenderla de la forma difícil.</span>
+                        <span lang-content="en">An anonymous space to discover real data disasters, learn from what went wrong, and turn costly mistakes into better practices. Share your own experience so other teams do not have to learn it the hard way.</span>
+                        <span lang-content="pt">Um espaço anônimo para conhecer desastres reais com dados, aprender com o que deu errado e transformar erros caros em melhores práticas. Compartilhe sua própria experiência para que outras equipes não precisem aprender da maneira mais difícil.</span>
+                    </p>
+                </div>
+                <a href="/es/confession-wall/" class="language-confession-link confession-wall-resource__cta">
+                    <span lang-content="es">Visitar el muro y confesar</span>
+                    <span lang-content="en">Visit the wall and confess</span>
+                    <span lang-content="pt">Visitar o mural e confessar</span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <article id="playbooks" class="resource-library-card scroll-mt-24 bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 sm:p-10 flex-grow">
+                        <div class="w-14 h-14 rounded-2xl bg-deepblue text-white flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-book-open text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <div class="resource-badges">
+                            <span class="resource-badge"><i class="fa-solid fa-compass" aria-hidden="true"></i><span lang-content="es">Marco DAMA</span><span lang-content="en">DAMA Framework</span><span lang-content="pt">Framework DAMA</span></span>
+                            <span class="resource-badge"><i class="fa-solid fa-shapes" aria-hidden="true"></i><span lang-content="es">Cuadrado Dorado</span><span lang-content="en">Golden Square</span><span lang-content="pt">Quadrado Dourado</span></span>
+                            <span class="resource-badge resource-badge-accent"><i class="fa-solid fa-chart-line" aria-hidden="true"></i><span lang-content="es">Impacto financiero</span><span lang-content="en">Financial Impact</span><span lang-content="pt">Impacto Financeiro</span></span>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-deepblue leading-tight mb-4">Data Governance Playbook</h3>
+                        <p lang-content="es" class="text-slate-600 leading-relaxed">De la Teoría a la Acción: Guía práctica para transformar el caos de la información en valor estratégico bajo el marco DAMA. Incluye el Cuadrado Dorado (Personas, Procesos, Tecnología y Datos) y estrategias de impacto financiero.</p>
+                        <p lang-content="en" class="text-slate-600 leading-relaxed">From Theory to Action: A practical guide to transforming information chaos into strategic value using the DAMA framework. Includes the Golden Square (People, Processes, Technology &amp; Data) and financial impact strategies.</p>
+                        <p lang-content="pt" class="text-slate-600 leading-relaxed">Da Teoria à Ação: Guia prático para transformar o caos da informação em valor estratégico no framework DAMA. Inclui o Quadrado Dourado (Pessoas, Processos, Tecnologia e Dados) e estratégias de impacto financeiro.</p>
+                    </div>
+                    <div class="px-8 pb-8 sm:px-10 sm:pb-10">
+                        <a href="/assets/playbooks/data-governance-playbook-es.pdf" download="data-governance-playbook-es.pdf" data-es="/assets/playbooks/data-governance-playbook-es.pdf" data-en="/assets/playbooks/data-governance-playbook-en.pdf" data-pt="/assets/playbooks/data-governance-playbook-pt.pdf" class="language-resource-download w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-deepblue text-white text-sm font-bold hover:bg-deepblue/90 hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-download text-emeraldgreen" aria-hidden="true"></i>
+                            <span lang-content="es">Descargar PDF</span><span lang-content="en">Download PDF</span><span lang-content="pt">Baixar PDF</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="resource-library-card bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 sm:p-10 flex-grow">
+                        <div class="w-14 h-14 rounded-2xl bg-deepblue text-white flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-shield-halved text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <div class="resource-badges">
+                            <span class="resource-badge"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i><span lang-content="es">IA Ética</span><span lang-content="en">Ethical AI</span><span lang-content="pt">IA Ética</span></span>
+                            <span class="resource-badge"><i class="fa-solid fa-eye" aria-hidden="true"></i><span lang-content="es">Transparencia</span><span lang-content="en">Transparency</span><span lang-content="pt">Transparência</span></span>
+                            <span class="resource-badge resource-badge-accent"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><span lang-content="es">Canvas 5W2H</span><span lang-content="en">5W2H Canvas</span><span lang-content="pt">Canvas 5W2H</span></span>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-deepblue leading-tight mb-4">AI Governance Playbook</h3>
+                        <p lang-content="es" class="text-slate-600 leading-relaxed">Del Riesgo a la Confianza: Estrategia para una IA Ética, Transparente y Gobernada. Incluye el Canvas 5W2H para proyectos de IA.</p>
+                        <p lang-content="en" class="text-slate-600 leading-relaxed">From Risk to Trust: A strategy for ethical, transparent, and governed AI. Includes the 5W2H Canvas for AI projects.</p>
+                        <p lang-content="pt" class="text-slate-600 leading-relaxed">Do Risco à Confiança: Estratégia para uma IA Ética, Transparente e Governada. Inclui o Canvas 5W2H para projetos de IA.</p>
+                    </div>
+                    <div class="px-8 pb-8 sm:px-10 sm:pb-10">
+                        <a href="/assets/playbooks/ai-governance-playbook-es.pdf" download="ai-governance-playbook-es.pdf" data-es="/assets/playbooks/ai-governance-playbook-es.pdf" data-en="/assets/playbooks/ai-governance-playbook-en.pdf" data-pt="/assets/playbooks/ai-governance-playbook-pt.pdf" class="language-resource-download w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-deepblue text-white text-sm font-bold hover:bg-deepblue/90 hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-download text-emeraldgreen" aria-hidden="true"></i>
+                            <span lang-content="es">Descargar PDF</span><span lang-content="en">Download PDF</span><span lang-content="pt">Baixar PDF</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="resource-library-card bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 sm:p-10 flex-grow">
+                        <div class="w-14 h-14 rounded-2xl bg-deepblue text-white flex items-center justify-center mb-6">
+                            <i class="fa-solid fa-chart-line text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <div class="resource-badges">
+                            <span class="resource-badge"><i class="fa-solid fa-users" aria-hidden="true"></i><span lang-content="es">Personas</span><span lang-content="en">People</span><span lang-content="pt">Pessoas</span></span>
+                            <span class="resource-badge"><i class="fa-solid fa-gears" aria-hidden="true"></i><span lang-content="es">Procesos</span><span lang-content="en">Processes</span><span lang-content="pt">Processos</span></span>
+                            <span class="resource-badge resource-badge-accent"><i class="fa-solid fa-microchip" aria-hidden="true"></i><span lang-content="es">Tecnología</span><span lang-content="en">Technology</span><span lang-content="pt">Tecnologia</span></span>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-deepblue leading-tight mb-4">
+                            <span lang-content="es">Marco del Scorecard de Madurez en Gobierno de Datos</span>
+                            <span lang-content="en">Data Governance Maturity Scorecard Framework</span>
+                            <span lang-content="pt">Framework do Scorecard de Maturidade em Governança de Dados</span>
+                        </h3>
+                        <p lang-content="es" class="text-slate-600 leading-relaxed">Una plantilla de diagnóstico práctica para evaluar el nivel actual de madurez de datos de tu organización en Personas, Procesos y Tecnología.</p>
+                        <p lang-content="en" class="text-slate-600 leading-relaxed">A practical diagnostic template to evaluate your organization's current data maturity level across People, Process, and Technology.</p>
+                        <p lang-content="pt" class="text-slate-600 leading-relaxed">Um modelo prático de diagnóstico para avaliar o nível atual de maturidade de dados da sua organização em Pessoas, Processos e Tecnologia.</p>
+                    </div>
+                    <div class="px-8 pb-8 sm:px-10 sm:pb-10">
+                        <a href="/assets/templates/data-maturity-assessment-es.pdf" download="data-maturity-assessment-es.pdf" data-es="/assets/templates/data-maturity-assessment-es.pdf" data-en="/assets/templates/data-maturity-assessment-en.pdf" data-pt="/assets/templates/data-maturity-assessment-pt.pdf" class="language-resource-download w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-deepblue text-white text-sm font-bold hover:bg-deepblue/90 hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-download text-emeraldgreen" aria-hidden="true"></i>
+                            <span lang-content="es">Descargar PDF</span><span lang-content="en">Download PDF</span><span lang-content="pt">Baixar PDF</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+        </div>
+
+    <!-- TEMPLATES LIBRARY -->
+    <div id="plantillas" class="templates-section scroll-mt-20 py-20 border-t border-slate-200">
+        <span id="excel-templates" class="anchor-alias" aria-hidden="true"></span>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="templates-heading">
+                <div>
+                    <p class="templates-eyebrow">
+                        <span lang-content="es">Herramientas de trabajo</span>
+                        <span lang-content="en">Working tools</span>
+                        <span lang-content="pt">Ferramentas de trabalho</span>
+                    </p>
+                    <h2>
+                        <span lang-content="es">Plantillas</span>
+                        <span lang-content="en">Templates</span>
+                        <span lang-content="pt">Modelos</span>
+                    </h2>
+                </div>
+                <p>
+                    <span lang-content="es">Documentos editables para convertir conversaciones de gobierno en decisiones, responsables y próximos pasos.</span>
+                    <span lang-content="en">Editable documents that turn governance conversations into decisions, ownership, and next steps.</span>
+                    <span lang-content="pt">Documentos editáveis para transformar conversas de governança em decisões, responsáveis e próximos passos.</span>
+                </p>
+            </div>
+
+            <article class="template-category template-category--evaluation" aria-labelledby="evaluation-templates-title">
+                <div class="template-category__intro">
+                    <span class="template-category__number" aria-hidden="true">01</span>
+                    <div>
+                        <p class="template-category__label">
+                            <span lang-content="es">Categoría</span><span lang-content="en">Category</span><span lang-content="pt">Categoria</span>
+                        </p>
+                        <h3 id="evaluation-templates-title">
+                            <span lang-content="es">Evaluación</span><span lang-content="en">Evaluation</span><span lang-content="pt">Avaliação</span>
+                        </h3>
+                        <p>
+                            <span lang-content="es">Tres lienzos para explorar el contexto, reconocer los principales dolores y ubicar la evolución de la gobernanza.</span>
+                            <span lang-content="en">Three canvases to explore context, identify core pain points, and locate governance evolution.</span>
+                            <span lang-content="pt">Três canvases para explorar o contexto, identificar as principais dores e situar a evolução da governança.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="template-download-grid">
+                    <article class="template-download-card">
+                        <div class="template-download-card__topline"><span>XLSX</span><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i></div>
+                        <h4><span lang-content="es">Canvas 5W2H de Gobierno de Datos</span><span lang-content="en">5W2H Data Governance Canvas</span><span lang-content="pt">Canvas 5W2H de Governança de Dados</span></h4>
+                        <p><span lang-content="es">Estructura el qué, por qué, quién, cuándo, dónde, cómo y cuánto de una iniciativa.</span><span lang-content="en">Structure the what, why, who, when, where, how, and cost of an initiative.</span><span lang-content="pt">Estruture o quê, por quê, quem, quando, onde, como e quanto de uma iniciativa.</span></p>
+                        <a href="/assets/templates/evaluation/5w2h-data-governance-es.xlsx" download="5w2h-data-governance-es.xlsx" data-es="/assets/templates/evaluation/5w2h-data-governance-es.xlsx" data-en="/assets/templates/evaluation/5w2h-data-governance-en.xlsx" data-pt="/assets/templates/evaluation/5w2h-data-governance-pt.xlsx" class="language-resource-download template-download-card__link">
+                            <span lang-content="es">Descargar plantilla</span><span lang-content="en">Download template</span><span lang-content="pt">Baixar modelo</span>
+                            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </article>
+
+                    <article class="template-download-card">
+                        <div class="template-download-card__topline"><span>XLSX</span><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+                        <h4><span lang-content="es">Etapas Evolutivas de la Gobernanza</span><span lang-content="en">Governance Evolution Stages</span><span lang-content="pt">Estágios Evolutivos da Governança</span></h4>
+                        <p><span lang-content="es">Sitúa el estado actual y abre una conversación concreta sobre la siguiente etapa.</span><span lang-content="en">Locate the current state and open a concrete conversation about the next stage.</span><span lang-content="pt">Posicione o estado atual e abra uma conversa concreta sobre o próximo estágio.</span></p>
+                        <a href="/assets/templates/evaluation/governance-evolution-stages-es.xlsx" download="governance-evolution-stages-es.xlsx" data-es="/assets/templates/evaluation/governance-evolution-stages-es.xlsx" data-en="/assets/templates/evaluation/governance-evolution-stages-en.xlsx" data-pt="/assets/templates/evaluation/governance-evolution-stages-pt.xlsx" class="language-resource-download template-download-card__link">
+                            <span lang-content="es">Descargar plantilla</span><span lang-content="en">Download template</span><span lang-content="pt">Baixar modelo</span>
+                            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </article>
+
+                    <article class="template-download-card">
+                        <div class="template-download-card__topline"><span>XLSX</span><i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i></div>
+                        <h4><span lang-content="es">Identificar Dolores</span><span lang-content="en">Identify Pain Points</span><span lang-content="pt">Identificar Dores</span></h4>
+                        <p><span lang-content="es">Captura fricciones reales y conecta cada problema con sus impactos en el negocio.</span><span lang-content="en">Capture real friction and connect each problem to its business impact.</span><span lang-content="pt">Registre fricções reais e conecte cada problema aos seus impactos no negócio.</span></p>
+                        <a href="/assets/templates/evaluation/identify-pain-points-es.xlsx" download="identify-pain-points-es.xlsx" data-es="/assets/templates/evaluation/identify-pain-points-es.xlsx" data-en="/assets/templates/evaluation/identify-pain-points-en.xlsx" data-pt="/assets/templates/evaluation/identify-pain-points-pt.xlsx" class="language-resource-download template-download-card__link">
+                            <span lang-content="es">Descargar plantilla</span><span lang-content="en">Download template</span><span lang-content="pt">Baixar modelo</span>
+                            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                </div>
+            </article>
+
+            <div class="template-coming-grid">
+                <article class="template-category template-category--coming">
+                    <span class="template-category__number" aria-hidden="true">02</span>
+                    <i class="fa-solid fa-compass-drafting" aria-hidden="true"></i>
+                    <h3><span lang-content="es">Fundamentos</span><span lang-content="en">Foundations</span><span lang-content="pt">Fundamentos</span></h3>
+                    <p><span lang-content="es">Próximamente</span><span lang-content="en">Coming soon</span><span lang-content="pt">Em breve</span></p>
+                </article>
+                <article class="template-category template-category--coming">
+                    <span class="template-category__number" aria-hidden="true">03</span>
+                    <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                    <h3><span lang-content="es">Catálogo</span><span lang-content="en">Catalog</span><span lang-content="pt">Catálogo</span></h3>
+                    <p><span lang-content="es">Próximamente</span><span lang-content="en">Coming soon</span><span lang-content="pt">Em breve</span></p>
+                </article>
+                <article class="template-category template-category--coming">
+                    <span class="template-category__number" aria-hidden="true">04</span>
+                    <i class="fa-solid fa-arrows-spin" aria-hidden="true"></i>
+                    <h3><span lang-content="es">Procesos</span><span lang-content="en">Processes</span><span lang-content="pt">Processos</span></h3>
+                    <p><span lang-content="es">Próximamente</span><span lang-content="en">Coming soon</span><span lang-content="pt">Em breve</span></p>
+                </article>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- MATURITY SCORECARD SECTION -->
+    <section id="scorecard" class="scorecard-section scroll-mt-20 py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                    <span lang-content="es">Scorecard de Madurez DAMA</span>
+                    <span lang-content="en">DAMA Maturity Scorecard</span>
+                    <span lang-content="pt">Scorecard de Maturidade DAMA</span>
+                </p>
+                <h2 class="text-3xl font-extrabold text-deepblue">
+                    <span lang-content="es">Convierte tus respuestas en una hoja de ruta</span>
+                    <span lang-content="en">Turn your answers into a roadmap</span>
+                    <span lang-content="pt">Transforme suas respostas em um roteiro</span>
+                </h2>
+                <div class="w-12 h-1 bg-emeraldgreen mx-auto mt-4 rounded-full"></div>
+                <p class="text-sm text-slate-500 mt-4 max-w-lg mx-auto">
+                    <span lang-content="es">Completa el test y recibe automáticamente una lectura ejecutiva de la madurez de tu organización.</span>
+                    <span lang-content="en">Complete the scorecard and automatically receive an executive view of your organization's maturity.</span>
+                    <span lang-content="pt">Responda ao teste e receba automaticamente uma visão executiva da maturidade da sua organização.</span>
+                </p>
+            </div>
+
+            <div class="maturity-test-card mb-10">
+                <div class="maturity-test-glow" aria-hidden="true"></div>
+                <div class="maturity-test-grid">
+                    <div class="maturity-test-intro">
+                        <div class="maturity-test-kicker">
+                            <span class="maturity-test-pulse" aria-hidden="true"></span>
+                            <span lang-content="es">Resultado automático al finalizar</span>
+                            <span lang-content="en">Automatic results upon completion</span>
+                            <span lang-content="pt">Resultado automático ao finalizar</span>
+                        </div>
+                        <h3>
+                            <span lang-content="es">Descubre tu nivel de madurez en datos</span>
+                            <span lang-content="en">Discover your data maturity level</span>
+                            <span lang-content="pt">Descubra seu nível de maturidade em dados</span>
+                        </h3>
+                        <p lang-content="es">Un test práctico basado en DAMA que transforma tus respuestas en un diagnóstico visual y accionable.</p>
+                        <p lang-content="en">A practical DAMA-based scorecard that turns your answers into a visual, actionable diagnosis.</p>
+                        <p lang-content="pt">Um teste prático baseado na DAMA que transforma suas respostas em um diagnóstico visual e acionável.</p>
+
+                        <a href="https://forms.gle/CAApA7ENzfL72piJ6" data-es="https://forms.gle/CAApA7ENzfL72piJ6" data-en="https://forms.gle/JGRfTUvuCAewTY469" data-pt="https://forms.gle/yz5gxgSz2QrjczoSA" target="_blank" rel="noopener noreferrer" class="language-scorecard-link maturity-test-cta">
+                            <span lang-content="es">Abrir el Scorecard de Madurez</span>
+                            <span lang-content="en">Open the Maturity Scorecard</span>
+                            <span lang-content="pt">Abrir o Scorecard de Maturidade</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
+                        <p class="maturity-test-note">
+                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                            <span lang-content="es">Informe generado y enviado por correo al completar el test.</span>
+                            <span lang-content="en">Report generated and emailed after completing the scorecard.</span>
+                            <span lang-content="pt">Relatório gerado e enviado por e-mail após concluir o teste.</span>
+                        </p>
+                    </div>
+
+                    <div class="maturity-deliverables" aria-label="Entregables del diagnóstico">
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">01</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
+                            <h4>
+                                <span lang-content="es">Reporte Ejecutivo Instantáneo</span>
+                                <span lang-content="en">Instant Executive Report</span>
+                                <span lang-content="pt">Relatório Executivo Instantâneo</span>
+                            </h4>
+                            <p lang-content="es">Diagnóstico detallado con tu nivel de madurez DAMA, del Nivel 1 al 5.</p>
+                            <p lang-content="en">Detailed diagnosis with your DAMA maturity level, from Level 1 to 5.</p>
+                            <p lang-content="pt">Diagnóstico detalhado com seu nível de maturidade DAMA, do Nível 1 ao 5.</p>
+                        </article>
+
+                        <article class="maturity-deliverable maturity-deliverable-featured">
+                            <span class="maturity-deliverable-number">02</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+                            <h4>
+                                <span lang-content="es">Gráfico de Araña Personalizado</span>
+                                <span lang-content="en">Personalized Radar Chart</span>
+                                <span lang-content="pt">Gráfico Radar Personalizado</span>
+                            </h4>
+                            <p lang-content="es">Un mapa de radar de 5 ejes para visualizar fortalezas y cuellos de botella de un vistazo.</p>
+                            <p lang-content="en">A five-axis radar map to see strengths and bottlenecks at a glance.</p>
+                            <p lang-content="pt">Um mapa radar de cinco eixos para visualizar forças e gargalos rapidamente.</p>
+                        </article>
+
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">03</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-forward-fast" aria-hidden="true"></i></div>
+                            <h4>
+                                <span lang-content="es">3 Quick Wins Inmediatos</span>
+                                <span lang-content="en">3 Immediate Quick Wins</span>
+                                <span lang-content="pt">3 Quick Wins Imediatos</span>
+                            </h4>
+                            <p lang-content="es">Acciones prioritarias enfocadas en el pilar con menor puntuación.</p>
+                            <p lang-content="en">Priority actions focused on your lowest-scoring pillar.</p>
+                            <p lang-content="pt">Ações prioritárias focadas no pilar com menor pontuação.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div class="diagnostic-next-step">
+                <div class="diagnostic-next-step-mark" aria-hidden="true"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div>
+                    <p class="diagnostic-next-step-label">
+                        <span lang-content="es">Tu siguiente paso</span>
+                        <span lang-content="en">Your next step</span>
+                        <span lang-content="pt">Seu próximo passo</span>
+                    </p>
+                    <h3>
+                        <span lang-content="es">¿Ya tienes tu diagnóstico? Demos el siguiente paso.</span>
+                        <span lang-content="en">Already have your diagnosis? Let’s take the next step.</span>
+                        <span lang-content="pt">Já tem seu diagnóstico? Vamos dar o próximo passo.</span>
+                    </h3>
+                    <p lang-content="es">Revisemos juntos tu gráfico de radar en una Sesión de Diagnóstico Estratégico de 30 minutos y tracemos la hoja de ruta para elevar la madurez de tu organización.</p>
+                    <p lang-content="en">Let’s review your radar chart together in a 30-minute Strategic Diagnostic Session and map the roadmap to elevate your organization’s maturity.</p>
+                    <p lang-content="pt">Vamos revisar juntos seu gráfico radar em uma Sessão de Diagnóstico Estratégico de 30 minutos e traçar o roteiro para elevar a maturidade da sua organização.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FREQUENTLY ASKED QUESTIONS (TRILINGUAL ACCORDION) -->
+    <section id="preguntas-frecuentes" class="scroll-mt-20 relative overflow-hidden py-20 bg-softbg border-t border-b border-slate-200">
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-10">
+                <div class="md:col-span-5">
+                    <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                        <span lang-content="es">Respuestas Directas</span>
+                        <span lang-content="en">Direct Answers</span>
+                        <span lang-content="pt">Respostas Diretas</span>
+                    </p>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-deepblue leading-tight">
+                        <span lang-content="es">Preguntas frecuentes</span>
+                        <span lang-content="en">Frequently asked questions</span>
+                        <span lang-content="pt">Perguntas frequentes</span>
+                    </h2>
+                </div>
+                <div class="md:col-span-7 md:border-l md:border-slate-200 md:pl-8 flex items-end">
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        <span lang-content="es">Contexto esencial sobre Gobierno de Datos, metodología DAMA y cómo abordar la aculturación corporativa.</span>
+                        <span lang-content="en">Essential context on Data Governance, DAMA methodology, and corporate change management.</span>
+                        <span lang-content="pt">Contexto essencial sobre Governança de Dados, metodologia DAMA e gestão de mudança corporativa.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Spanish FAQ -->
+            <div lang-content="es" class="space-y-4">
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Qué es el Gobierno de Datos según la metodología DAMA?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Según el marco internacional DAMA, el Gobierno de Datos es el ejercicio de autoridad y control sobre la gestión de los activos de datos. Establece las políticas, roles (Owners, Stewards) y procesos para garantizar la calidad, seguridad e integridad del dato.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Cuál es la diferencia entre Gobierno de Datos y Gestión de Datos?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">El Gobierno de Datos define la estrategia, las reglas y los roles ('saber cómo decidir'). La Gestión de Datos ejecuta técnicamente esas reglas en la arquitectura, integración y almacenamiento ('saber cómo hacer'). Ambos se complementan.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Qué es la Alfabetización en Datos (Data Literacy) y por qué es tan importante?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">La alfabetización en datos es la habilidad de las personas para entender, analizar y comunicarse con datos. Es el pilar del aculturamiento: de nada sirve la tecnología si los equipos no confían ni saben utilizar la información para tomar decisiones.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿En qué consiste un proyecto MVP (Mínimo Producto Viable) de Gobierno de Datos?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">En lugar de intentar gobernar toda la empresa desde el día uno, seleccionamos un caso de uso estratégico (por ejemplo, el dominio de clientes o un reporte financiero crítico) y aplicamos gobierno de punta a punta para demostrar retorno de inversión rápido.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Cuál es la diferencia entre un Data Owner y un Data Steward?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">El Data Owner (Dueño de Datos) es un líder de negocio con autoridad estratégica y presupuesto sobre un dominio de datos específico (ej. Clientes o Finanzas). El Data Steward (Custodio Funcional) es el experto operativo que aplica la calidad, define reglas de negocio y asegura el cumplimiento día a día.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Cómo se mide el ROI de un proyecto de Gobierno de Datos?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">El ROI del Gobierno de Datos se mide reduciendo costes operativos (menos horas dedicadas a limpiar datos o corregir reportes), aumentando ingresos (al habilitar analítica confiable e IA) y mitigando riesgos de seguridad, multas regulatorias o fugas de información.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Necesitamos software o herramientas costosas para iniciar el Gobierno de Datos?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">No. La tecnología es solo el motor, pero la estrategia y las personas son la brújula y el corazón. Puedes iniciar Gobierno de Datos con herramientas existentes, estructurando la matriz RACI, las políticas y un catálogo inicial antes de invertir en software especializado.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Cómo apoya el Gobierno de Datos la implementación de Inteligencia Artificial (IA)?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">La Inteligencia Artificial solo es tan buena como los datos que la alimentan ("Garbage in, Garbage out"). El Gobierno de Datos garantiza que los datos utilizados para entrenar o alimentar modelos de IA sean precisos, clasificados por privacidad y éticamente gestionados.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>¿Cuánto tiempo toma un proyecto de implementación de Gobierno de Datos?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Un proyecto de diagnóstico e implementación de Mínimo Producto Viable (MVP) suele tomar entre 8 y 12 semanas. Esto permite entregar valor rápido en un caso de uso prioritario antes de escalar el marco gradualmente a toda la organización.</p>
+                </details>
+            </div>
+
+            <!-- English FAQ -->
+            <div lang-content="en" class="space-y-4">
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>What is Data Governance according to the DAMA framework?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">According to DAMA, Data Governance is the exercise of authority and control over the management of data assets. It establishes policies, roles (Data Owners, Stewards), and rules to ensure data quality, security, and usability.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>What is the difference between Data Governance and Data Management?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Data Governance sets the strategy, policies, and decision rights ('how to decide'). Data Management executes those policies technically across database architecture, integration, and security ('how to do').</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>What is Data Literacy and why is it essential for organizations?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Data Literacy is the ability of teams to read, analyze, and communicate with data effectively. It drives change management—ensuring employees adopt data-driven habits instead of relying on gut feelings.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>What is a Data Governance MVP project?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Instead of attempting enterprise-wide governance all at once, we focus on a high-value business use case (e.g. Customer Domain or Executive Reporting) to prove immediate end-to-end business value.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>What is the difference between a Data Owner and a Data Steward?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">A Data Owner is a business leader with strategic authority and budget over a specific data domain (e.g., Customer or Finance). A Data Steward is an operational subject matter expert who manages daily data quality, enforces business rules, and maintains data definitions.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>How do you measure the ROI of a Data Governance project?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Data Governance ROI is measured by reducing operational costs (less time spent cleaning bad data or fixing reports), driving revenue (by enabling trusted analytics and AI models), and mitigating compliance risks, regulatory fines, and security breaches.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Do we need expensive software or tools to start Data Governance?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">No. Software is just an enabler. You can start Data Governance using existing enterprise tools by setting clear policies, RACI roles, and business glossaries first, proving business value before investing in enterprise governance platforms.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>How does Data Governance support AI (Artificial Intelligence) implementation?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">AI is only as effective as the data feeding it ("Garbage in, Garbage out"). Data Governance ensures that data used for AI models, LLMs, and automated reporting is accurate, securely classified, compliant, and well-contextualized.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>How long does a Data Governance implementation project take?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">A typical diagnostic and Minimum Viable Product (MVP) governance implementation takes between 8 to 12 weeks. This delivers quick wins on a priority use case before scaling the framework across the rest of the enterprise.</p>
+                </details>
+            </div>
+
+            <!-- Portuguese FAQ -->
+            <div lang-content="pt" class="space-y-4">
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>O que é Governança de Dados segundo a metodologia DAMA?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Segundo o framework internacional DAMA, Governança de Dados é o exercício de autoridade e controle sobre a gestão dos ativos de dados. Estabelece políticas, papéis (Owners, Stewards) e regras para garantir qualidade e segurança.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Qual é a diferença entre Governança de Dados e Gestão de Dados?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">A Governança de Dados define a estratégia, políticas e regras ('saber como decidir'). A Gestão de Dados executa tecnicamente essas regras na arquitetura, integração e armazenamento ('saber como fazer').</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>O que é Alfabetização em Dados (Data Literacy)?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">A alfabetização em dados é a capacidade de ler, analisar e se comunicar com dados. É o pilar cultural que garante que as equipes saibam transformar informações em decisões reais de negócio.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>O que é um projeto MVP de Governança de Dados?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Em vez de governar toda a empresa de uma só vez, selecionamos um caso de uso crítico (como o domínio de clientes) e aplicamos governança de ponta a ponta para demonstrar valor imediato.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Qual é a diferença entre um Data Owner e um Data Steward?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">O Data Owner é um líder de negócio com autoridade estratégica sobre um domínio de dados (ex. Clientes ou Finanças). O Data Steward é o especialista operacional que aplica a qualidade, define regras de negócio e garante o cumprimento no dia a dia.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Como se mede o ROI de um projeto de Governança de Dados?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">O ROI da Governança de Dados é medido pela redução de custos operacionais (menos tempo a limpar dados incorretos), aumento de receitas (ao viabilizar analítica e IA confiáveis) e mitigação de riscos de conformidade e segurança.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Precisamos de software ou ferramentas caras para iniciar a Governança de Dados?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Não. O software é apenas um viabilizador. Pode iniciar a Governança de Dados com ferramentas existentes, definindo papéis RACI, políticas e glossários de negócio antes de investir em plataformas de software complexas.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Como a Governança de Dados apoia a implementação de Inteligência Artificial (IA)?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">A Inteligência Artificial é tão boa quanto os dados que a alimentam. A Governança de Dados garante que os dados usados para modelos de IA e analítica sejam precisos, seguros, classificados e alinhados com regras de privacidade.</p>
+                </details>
+
+                <details name="faq" class="faq-item bg-white border border-slate-200 rounded-2xl p-6 transition-all">
+                    <summary class="flex items-center justify-between gap-5 cursor-pointer text-deepblue font-extrabold">
+                        <span>Quanto tempo demora um projeto de implementação de Governança de Dados?</span>
+                    </summary>
+                    <p class="mt-4 pr-10 text-sm text-slate-600 leading-relaxed">Um projeto de diagnóstico e implementação de um Mínimo Produto Viável (MVP) demora habitualmente entre 8 e 12 semanas, entregando valor rápido num caso de uso prioritário antes de expandir a governança a toda a organização.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contacto" class="contact-hub scroll-mt-20 py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-4">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                    <span lang-content="es">Conversemos</span>
+                    <span lang-content="en">Let’s connect</span>
+                    <span lang-content="pt">Vamos conversar</span>
+                </p>
+                <h2 class="text-3xl font-extrabold text-deepblue">
+                    <span lang-content="es">Elige cómo quieres conectar</span>
+                    <span lang-content="en">Choose how you want to connect</span>
+                    <span lang-content="pt">Escolha como deseja se conectar</span>
+                </h2>
+                <div class="w-12 h-1 bg-emeraldgreen mx-auto mt-4 rounded-full"></div>
+                <p class="text-sm text-slate-500 mt-4 max-w-2xl mx-auto">
+                    <span lang-content="es">Conoce al consultor, sigue la newsletter o comparte directamente el reto de datos de tu organización.</span>
+                    <span lang-content="en">Meet the consultant, follow the newsletter, or tell us directly about your organization’s data challenge.</span>
+                    <span lang-content="pt">Conheça o consultor, acompanhe a newsletter ou compartilhe diretamente o desafio de dados da sua organização.</span>
+                </p>
+            </div>
+
+            <div class="contact-choice-nav" role="navigation" aria-label="Contact options">
+                <a href="#consultor">
+                    <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
+                    <span lang-content="es">Conocer al consultor</span>
+                    <span lang-content="en">Meet the consultant</span>
+                    <span lang-content="pt">Conhecer o consultor</span>
+                </a>
+                <a href="#newsletter">
+                    <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
+                    <span lang-content="es">Seguir la newsletter</span>
+                    <span lang-content="en">Follow the newsletter</span>
+                    <span lang-content="pt">Acompanhar a newsletter</span>
+                </a>
+                <a href="#contact-form">
+                    <i class="fa-solid fa-message" aria-hidden="true"></i>
+                    <span lang-content="es">Enviar una consulta</span>
+                    <span lang-content="en">Send an inquiry</span>
+                    <span lang-content="pt">Enviar uma consulta</span>
+                </a>
+            </div>
+
+    <!-- CONSULTANT PROFILE SECTION -->
+    <section id="consultor" class="contact-contained-section contact-consultant scroll-mt-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative group w-full max-w-[320px]">
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-deepblue to-emeraldgreen rounded-full blur opacity-25 group-hover:opacity-45 transition duration-1000"></div>
+                        
+                        <div class="relative bg-white p-5 rounded-[2rem] border border-slate-200/80 shadow-xl flex flex-col items-center">
+                            <div class="w-48 h-48 rounded-full overflow-hidden bg-gradient-to-br from-deepblue to-emeraldgreen/80 relative border-4 border-white shadow-inner flex items-center justify-center">
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4 select-none">
+                                    <span class="text-4xl font-extrabold tracking-wider leading-none">SB</span>
+                                    <span class="text-[9px] uppercase tracking-widest font-bold opacity-80 mt-1.5">Data Leader</span>
+                                </div>
+                                <img
+                                    src="/icone%20foto%20limpo.png"
+                                    alt="Sandy Bradbury"
+                                    width="192"
+                                    height="192"
+                                    loading="lazy"
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 z-10"
+                                    onerror="this.style.display='none';"
+                                >
+                            </div>
+                            
+                            <div class="mt-5 text-center">
+                                <h3 class="text-xl font-extrabold text-deepblue">Sandy Bradbury</h3>
+                                <p class="text-xs text-emeraldgreen font-bold uppercase tracking-widest mt-1">
+                                    <span lang-content="es">Consultor Principal</span>
+                                    <span lang-content="en">Lead Consultant</span>
+                                    <span lang-content="pt">Consultor Principal</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-deepblue/5 border border-deepblue/10">
+                        <i class="fa-brands fa-linkedin text-[#0077B5] text-sm"></i>
+                        <span class="text-xs font-bold text-deepblue tracking-wider uppercase">LinkedIn Partner</span>
+                    </div>
+
+                    <h2 class="text-3xl font-extrabold text-deepblue tracking-tight">
+                        <span lang-content="es">Liderazgo y Experiencia</span>
+                        <span lang-content="en">Leadership & Experience</span>
+                        <span lang-content="pt">Liderança e Experiência</span>
+                    </h2>
+
+                    <div lang-content="es" class="space-y-4 text-slate-600 font-light leading-relaxed">
+                        <p>Hola, soy <strong>Sandy Bradbury</strong>. Me especializo en diseñar e implementar marcos de Gobierno de Datos robustos, prácticos y orientados al negocio, alineados con el estándar internacional <strong>DAMA</strong>.</p>
+                        <p>Mi enfoque metodológico va más allá de la tecnología: creo firmemente que el verdadero éxito radica en la aculturación y en estructurar las dinámicas de las personas que interactúan diariamente con la información.</p>
+                    </div>
+
+                    <div lang-content="en" class="space-y-4 text-slate-600 font-light leading-relaxed">
+                        <p>Hello, I'm <strong>Sandy Bradbury</strong>. We specialize in designing and implementing robust, practical, and business-oriented Data Governance frameworks aligned with the international <strong>DAMA</strong> standard.</p>
+                        <p>My methodological approach goes beyond technology: I firmly believe that true success lies in change management and structuring the dynamics of the people who interact with data daily.</p>
+                    </div>
+
+                    <div lang-content="pt" class="space-y-4 text-slate-600 font-light leading-relaxed">
+                        <p>Olá, sou <strong>Sandy Bradbury</strong>. Especializo-me no desenho e implementação de estruturas de Governança de Dados robustas, práticas e orientadas ao negócio, alinhadas ao padrão internacional <strong>DAMA</strong>.</p>
+                        <p>Minha abordagem metodológica vai além da tecnologia: acredito firmemente que o verdadeiro sucesso está na aculturação e na estruturação das dinâmicas das pessoas que interagem diariamente com as informações.</p>
+                    </div>
+
+                    <!-- DAMA Certifications -->
+                    <div class="pt-2">
+                        <p class="text-xs font-bold text-deepblue uppercase tracking-widest mb-4">
+                            <span lang-content="es">Certificaciones DAMA</span>
+                            <span lang-content="en">DAMA Certifications</span>
+                            <span lang-content="pt">Certificações DAMA</span>
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 max-w-md">
+                            <figure class="group/cert bg-slate-50 rounded-2xl border border-slate-200 p-3 sm:p-4 flex items-center justify-center aspect-square shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                                <img
+                                    src="/assets/certifications/cdmp-associate-certified.png"
+                                    alt="Certificación CDMP Associate Certified de Sandy Bradbury"
+                                    width="160"
+                                    height="160"
+                                    class="w-full h-full object-contain transition-transform duration-300 group-hover/cert:scale-[1.03]"
+                                    loading="lazy"
+                                >
+                            </figure>
+                            <figure class="group/cert bg-slate-50 rounded-2xl border border-slate-200 p-3 sm:p-4 flex items-center justify-center aspect-square shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                                <img
+                                    src="/assets/certifications/cdmp-data-management-fundamentals.jpg"
+                                    alt="Certificación CDMP Data Management Fundamentals de Sandy Bradbury"
+                                    width="160"
+                                    height="160"
+                                    class="w-full h-full object-contain rounded-lg transition-transform duration-300 group-hover/cert:scale-[1.03]"
+                                    loading="lazy"
+                                >
+                            </figure>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a 
+                            href="https://www.linkedin.com/in/sandy-bradbury" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-3 px-6 py-3.5 bg-[#0077B5] hover:bg-[#0077B5]/90 text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm"
+                        >
+                            <i class="fa-brands fa-linkedin text-lg"></i>
+                            <span lang-content="es">Conectar en LinkedIn</span>
+                            <span lang-content="en">Connect on LinkedIn</span>
+                            <span lang-content="pt">Conectar no LinkedIn</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION -->
+    <section id="newsletter" class="contact-contained-section contact-newsletter scroll-mt-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0077B5]/10 border border-[#0077B5]/20 mb-4">
+                    <i class="fa-brands fa-linkedin text-[#0077B5] text-sm"></i>
+                    <span class="text-xs font-bold text-[#0077B5] tracking-wider uppercase">LinkedIn Newsletter</span>
+                </div>
+                <h2 class="text-3xl font-extrabold text-deepblue tracking-tight mb-4">
+                    Data Governance Journey
+                </h2>
+                <div class="w-16 h-1 bg-emeraldgreen mx-auto mb-6 rounded-full"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden">
+                <div class="p-8 sm:p-10 flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-shrink-0">
+                        <div class="w-20 h-20 rounded-2xl bg-[#0077B5]/10 border border-[#0077B5]/20 flex items-center justify-center">
+                            <i class="fa-solid fa-newspaper text-3xl text-[#0077B5]"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow text-center md:text-left">
+                        <p lang-content="es" class="text-slate-600 text-base font-light leading-relaxed mb-6">
+                            Insights sobre <strong>Datos, Personas, Procesos y Tecnología</strong> para ayudar a las organizaciones a convertirse en verdaderamente impulsadas por datos.
+                        </p>
+                        <p lang-content="en" class="text-slate-600 text-base font-light leading-relaxed mb-6">
+                            Insights on <strong>Data, People, Processes and Technology</strong> to help organizations become truly data-driven.
+                        </p>
+                        <p lang-content="pt" class="text-slate-600 text-base font-light leading-relaxed mb-6">
+                            Insights sobre <strong>Dados, Pessoas, Processos e Tecnologia</strong> para ajudar organizações a se tornarem verdadeiramente orientadas a dados.
+                        </p>
+
+                        <div class="mb-6 rounded-2xl border border-emeraldgreen/25 bg-emeraldgreen/5 p-4 sm:p-5">
+                            <div class="flex items-start gap-3 text-left">
+                                <div class="mt-0.5 w-9 h-9 rounded-xl bg-emeraldgreen/15 text-deepblue flex-shrink-0 flex items-center justify-center">
+                                    <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <p lang-content="es" class="text-sm text-slate-700 leading-relaxed">
+                                        <strong class="text-deepblue">Suscríbete a Data Governance Journey.</strong> Sigue la newsletter en LinkedIn para recibir nuevas ideas y perspectivas sobre gobierno de datos.
+                                    </p>
+                                    <p lang-content="en" class="text-sm text-slate-700 leading-relaxed">
+                                        <strong class="text-deepblue">Subscribe to Data Governance Journey.</strong> Follow the newsletter on LinkedIn for new ideas and perspectives on data governance.
+                                    </p>
+                                    <p lang-content="pt" class="text-sm text-slate-700 leading-relaxed">
+                                        <strong class="text-deepblue">Assine Data Governance Journey.</strong> Acompanhe a newsletter no LinkedIn para receber novas ideias e perspectivas sobre governança de dados.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a
+                            href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3B%2B%2BpiV%2FqOTb6IDNm%2F323vOQ%3D%3D"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-3 px-6 py-3.5 bg-[#0077B5] hover:bg-[#0077B5]/90 text-white font-bold rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm"
+                        >
+                            <i class="fa-brands fa-linkedin text-lg"></i>
+                            <span lang-content="es">Suscribirse en LinkedIn</span>
+                            <span lang-content="en">Subscribe on LinkedIn</span>
+                            <span lang-content="pt">Assinar no LinkedIn</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+            <div class="contact-form-heading text-center mb-8">
+                <div class="contact-option-icon" aria-hidden="true"><i class="fa-solid fa-message"></i></div>
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                    <span lang-content="es">Contacto directo</span>
+                    <span lang-content="en">Direct inquiry</span>
+                    <span lang-content="pt">Contato direto</span>
+                </p>
+                <h3 class="text-2xl font-extrabold text-deepblue">
+                    <span lang-content="es">Cuéntanos qué necesitas resolver</span>
+                    <span lang-content="en">Tell us what you need to solve</span>
+                    <span lang-content="pt">Conte o que você precisa resolver</span>
+                </h3>
+            </div>
+
+            <div class="contact-form-card bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-sm relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-40 h-40 bg-emeraldgreen/5 rounded-full blur-2xl pointer-events-none"></div>
+
+                <form id="contact-form" name="contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" autocomplete="on" class="space-y-6 relative z-10">
+                    <input type="hidden" name="subject" value="Nuevo contacto de Data Governance Journey">
+                    <input type="hidden" id="contact-language" name="language" value="__LANG__">
+                    <p class="hidden">
+                        <label>Do not fill this out: <input name="bot-field"></label>
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-deepblue uppercase tracking-wider mb-2" for="form-name">
+                                <span lang-content="es">Nombre Completo</span>
+                                <span lang-content="en">Full Name</span>
+                                <span lang-content="pt">Nome Completo</span>
+                            </label>
+                            <input 
+                                required 
+                                type="text" 
+                                id="form-name" 
+                                name="name" 
+                                autocomplete="name"
+                                autocapitalize="words"
+                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-deepblue uppercase tracking-wider mb-2" for="form-email">
+                                <span lang-content="es">Correo Electrónico</span>
+                                <span lang-content="en">Email Address</span>
+                                <span lang-content="pt">E-mail</span>
+                            </label>
+                            <input 
+                                required 
+                                type="email" 
+                                id="form-email" 
+                                name="email" 
+                                autocomplete="email"
+                                inputmode="email"
+                                autocapitalize="none"
+                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-deepblue uppercase tracking-wider mb-2" for="form-message">
+                            <span lang-content="es">¿En qué te podemos ayudar?</span>
+                            <span lang-content="en">How can we help you?</span>
+                            <span lang-content="pt">Como podemos ajudar?</span>
+                        </label>
+                        <textarea 
+                            required 
+                            id="form-message" 
+                            name="message" 
+                            rows="4" 
+                            class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all resize-none"
+                        ></textarea>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button 
+                            type="submit" 
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-deepblue hover:bg-deepblue/95 text-white font-bold rounded-xl shadow-lg shadow-deepblue/10 hover:shadow-deepblue/25 hover:-translate-y-0.5 transition-all min-w-[200px]"
+                        >
+                            <span id="submit-text" lang-content="es">Enviar consulta</span>
+                            <span id="submit-text-en" lang-content="en">Send inquiry</span>
+                            <span id="submit-text-pt" lang-content="pt">Enviar consulta</span>
+                            
+                            <i class="fa-solid fa-paper-plane text-sm text-emeraldgreen"></i>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-deepblue text-white py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+            
+            <div class="mb-6 flex flex-col items-center">
+                <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo" width="200" height="194" class="dejourney-footer-logo mb-4">
+                <p class="dejourney-footer-name">Data Governance Journey</p>
+            </div>
+
+            <p class="text-slate-300 text-sm mb-8 max-w-md">
+                <span lang-content="es">Consultoría premium de datos alineada con metodologías globales</span>
+                <span lang-content="en">Premium data consulting aligned with global methodologies</span>
+                <span lang-content="pt">Consultoria premium de dados alinhada a metodologias globais</span>
+            </p>
+            
+            <nav class="w-full border-t border-slate-700/60 pt-8 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left text-sm" aria-label="Site directory">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">English</p>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="/en/blog/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Data Governance Insights</a></li>
+                        <li><a href="/en/confession-wall/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Confession Wall</a></li>
+                        <li><a href="/simulators/en/data-governance-day-to-day/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Data Governance Day-to-Day Simulator</a></li>
+                        <li><a href="/simulators/en/data-ownership-conflict/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Who Owns This? Simulator</a></li>
+                        <li><a href="/simulators/en/data-literacy/" hreflang="en" class="hover:text-emeraldgreen transition-colors">Data Literacy Simulator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Español</p>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="/es/blog/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Ideas sobre Gobierno de Datos</a></li>
+                        <li><a href="/es/confession-wall/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Muro de Confesiones</a></li>
+                        <li><a href="/simulators/es/data-governance-day-to-day/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Simulador del Día a Día en Gobierno de Datos</a></li>
+                        <li><a href="/simulators/es/data-ownership-conflict/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Simulador ¿Quién es el dueño de esto?</a></li>
+                        <li><a href="/simulators/es/data-literacy/" hreflang="es" class="hover:text-emeraldgreen transition-colors">Simulador de Alfabetización de Datos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Português</p>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="/pt/blog/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Ideias sobre Governança de Dados</a></li>
+                        <li><a href="/pt/confession-wall/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Mural de Confissões</a></li>
+                        <li><a href="/simulators/pt/data-governance-day-to-day/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Simulador do Dia a Dia da Governança de Dados</a></li>
+                        <li><a href="/simulators/pt/data-ownership-conflict/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Simulador Quem é o Dono Disso?</a></li>
+                        <li><a href="/simulators/pt/data-literacy/" hreflang="pt" class="hover:text-emeraldgreen transition-colors">Simulador de Alfabetização de Dados</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="w-full border-t border-slate-700/60 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+                <p>&copy; 2026 Data Governance Journey. <span lang-content="es">Todos los derechos reservados.</span><span lang-content="en">All rights reserved.</span><span lang-content="pt">Todos os direitos reservados.</span></p>
+                <div class="flex gap-4">
+                    <a href="#preguntas-frecuentes" class="hover:text-emeraldgreen transition-colors">FAQ</a>
+                    <a href="#contacto" class="hover:text-emeraldgreen transition-colors"><span lang-content="es">Contacto</span><span lang-content="en">Contact</span><span lang-content="pt">Contacto</span></a>
+                    <a href="https://www.dama.org" target="_blank" rel="noopener noreferrer" class="hover:text-emeraldgreen transition-colors">DAMA International</a>
+                    <a href="https://www.linkedin.com/in/sandy-bradbury" target="_blank" rel="noopener noreferrer" class="hover:text-emeraldgreen transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <section id="identity-modal" class="identity-modal" role="dialog" aria-modal="true" aria-labelledby="identity-modal-title" hidden>
+        <div class="identity-modal__backdrop"></div>
+        <div class="identity-modal__card">
+            <img class="identity-modal__logo" src="/assets/images/dg-logo.png" alt="Data Governance Journey Logo">
+            <p class="identity-modal__eyebrow">Netlify Identity</p>
+            <h2 id="identity-modal-title" class="identity-modal__title">Completing your secure link…</h2>
+            <p id="identity-modal-description" class="identity-modal__description" aria-live="polite">Please wait while the invitation or password-reset link is verified.</p>
+
+            <form id="identity-password-form" class="identity-modal__form" hidden>
+                <label for="identity-password">New password</label>
+                <input id="identity-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+
+                <label for="identity-password-confirmation">Confirm new password</label>
+                <input id="identity-password-confirmation" name="passwordConfirmation" type="password" autocomplete="new-password" minlength="8" required>
+
+                <p id="identity-modal-error" class="identity-modal__error" role="alert"></p>
+                <button id="identity-submit-button" class="identity-modal__submit" type="submit">Save password</button>
+            </form>
+
+            <div id="identity-modal-success" class="identity-modal__success" hidden>
+                <a class="identity-modal__submit" href="/admin/">Continue to Content Studio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const inputPlaceholders = {
+            es: {
+                name: "Ej. Carlos Mendoza",
+                email: "carlos@empresa.com",
+                message: "Describa brevemente sus necesidades de datos, retos actuales o el alcance de su proyecto..."
+            },
+            en: {
+                name: "e.g. Charles Smith",
+                email: "charles@company.com",
+                message: "Briefly describe your data needs, current challenges, or project scope..."
+            },
+            pt: {
+                name: "Ex. Carlos Silva",
+                email: "carlos@empresa.com",
+                message: "Descreva brevemente suas necessidades de dados, desafios atuais ou escopo do projeto..."
+            }
+        };
+
+        // Every language has its own URL, so the page language is fixed at build
+        // time and baked into the markup. This wires up only the two things that
+        // cannot be: the input placeholders and the active switcher state.
+        const pageLanguage = (document.documentElement.lang || "es").split("-")[0];
+
+        function applyPageLanguage(language) {
+            const activeSwitch = document.getElementById("btn-" + language);
+            if (activeSwitch) {
+                activeSwitch.classList.add("active");
+                activeSwitch.setAttribute("aria-current", "page");
+            }
+
+            const placeholders = inputPlaceholders[language];
+            if (!placeholders) return;
+            document.getElementById("form-name").placeholder = placeholders.name;
+            document.getElementById("form-email").placeholder = placeholders.email;
+            document.getElementById("form-message").placeholder = placeholders.message;
+        }
+
+        function initializeNavigationMenus() {
+            const desktopMenu = document.querySelector('.desktop-resources-menu');
+            const desktopTrigger = document.querySelector('.desktop-resources-trigger');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileNavigation = document.getElementById('mobile-navigation');
+            const mobileResourcesTrigger = document.querySelector('.mobile-resources-trigger');
+            const mobileResourcesLinks = document.getElementById('mobile-resources-links');
+
+            const closeDesktopResources = () => {
+                desktopMenu?.classList.remove('is-open');
+                desktopTrigger?.setAttribute('aria-expanded', 'false');
+            };
+
+            const closeMobileNavigation = () => {
+                if (!mobileNavigation || !mobileToggle) return;
+                mobileNavigation.hidden = true;
+                mobileToggle.setAttribute('aria-expanded', 'false');
+                mobileToggle.setAttribute('aria-label', 'Open navigation menu');
+                mobileToggle.querySelector('i')?.classList.replace('fa-xmark', 'fa-bars');
+                document.body.classList.remove('mobile-navigation-open');
+            };
+
+            desktopTrigger?.addEventListener('click', event => {
+                event.stopPropagation();
+                const isOpen = desktopMenu.classList.toggle('is-open');
+                desktopTrigger.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            mobileToggle?.addEventListener('click', () => {
+                const isOpen = mobileNavigation.hidden;
+                mobileNavigation.hidden = !isOpen;
+                mobileToggle.setAttribute('aria-expanded', String(isOpen));
+                mobileToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+                mobileToggle.querySelector('i')?.classList.toggle('fa-bars', !isOpen);
+                mobileToggle.querySelector('i')?.classList.toggle('fa-xmark', isOpen);
+                document.body.classList.toggle('mobile-navigation-open', isOpen);
+            });
+
+            mobileResourcesTrigger?.addEventListener('click', () => {
+                const isOpen = mobileResourcesLinks.hidden;
+                mobileResourcesLinks.hidden = !isOpen;
+                mobileResourcesTrigger.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            document.addEventListener('click', event => {
+                if (desktopMenu && !desktopMenu.contains(event.target)) closeDesktopResources();
+            });
+
+            document.addEventListener('keydown', event => {
+                if (event.key !== 'Escape') return;
+                closeDesktopResources();
+                closeMobileNavigation();
+            });
+
+            mobileNavigation?.addEventListener('click', event => {
+                if (event.target === mobileNavigation) closeMobileNavigation();
+            });
+
+            document.querySelectorAll('.desktop-resources-dropdown a, .mobile-navigation a').forEach(link => {
+                link.addEventListener('click', () => {
+                    closeDesktopResources();
+                    closeMobileNavigation();
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1180) closeMobileNavigation();
+            });
+        }
+
+        function initializeDesktopScrollSpy() {
+            const navigationLinks = [...document.querySelectorAll('.desktop-section-nav > a[href^="#"]')];
+            const sections = navigationLinks
+                .map(link => document.querySelector(link.getAttribute('href')))
+                .filter(Boolean);
+
+            if (!navigationLinks.length || !sections.length || !('IntersectionObserver' in window)) return;
+
+            const setActiveLink = sectionId => {
+                navigationLinks.forEach(link => {
+                    const isActive = link.getAttribute('href') === `#${sectionId}`;
+                    link.classList.toggle('is-active', isActive);
+                    if (isActive) link.setAttribute('aria-current', 'location');
+                    else link.removeAttribute('aria-current');
+                });
+                document.querySelector('.desktop-resources-menu')?.classList.toggle('is-active', sectionId === 'resources');
+            };
+
+            const visibleSections = new Set();
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) visibleSections.add(entry.target);
+                    else visibleSections.delete(entry.target);
+                });
+
+                const activeSection = [...visibleSections]
+                    .sort((first, second) => (
+                        Math.abs(first.getBoundingClientRect().top - 80)
+                        - Math.abs(second.getBoundingClientRect().top - 80)
+                    ))[0];
+
+                if (activeSection) setActiveLink(activeSection.id);
+            }, {
+                rootMargin: '-80px 0px -55% 0px',
+                threshold: [0, 0.1, 0.25]
+            });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        applyPageLanguage(pageLanguage);
+        initializeNavigationMenus();
+        initializeDesktopScrollSpy();
+    </script>
+    <script src="/assets/js/bad-data-calculator.js" defer></script>
+    <script type="module" src="/assets/js/identity.js"></script>
+</body>
+</html>

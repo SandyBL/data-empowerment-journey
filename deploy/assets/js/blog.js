@@ -33,6 +33,33 @@
   let currentPage = 1;
   const collator = new Intl.Collator(localeByLanguage[language], { sensitivity: 'base' });
 
+  /**
+   * Full article text for searching, fetched once on first use.
+   *
+   * It used to be inlined into every card as a data-search attribute, which put
+   * the entire archive's prose into the page source: invisible to readers, and
+   * to a crawler indistinguishable from the page's own content. Fetching it only
+   * when someone actually types keeps the markup to what the page really says.
+   */
+  let corpus = null;
+  let corpusRequest = null;
+  const loadCorpus = () => {
+    if (corpus) return Promise.resolve(corpus);
+    corpusRequest ||= fetch(`/assets/search/${language}.json`)
+      .then((response) => (response.ok ? response.json() : {}))
+      // A failed fetch degrades to title-and-category search rather than to a
+      // search box that silently returns nothing.
+      .catch(() => ({}))
+      .then((loaded) => (corpus = loaded));
+    return corpusRequest;
+  };
+
+  const searchableText = (card) => {
+    const fullText = corpus?.[card.dataset.slug];
+    const heading = normalizeText(`${card.dataset.title} ${card.dataset.category}`);
+    return fullText ? `${heading} ${fullText}` : heading;
+  };
+
   const pagination = document.createElement('nav');
   pagination.className = 'archive-pagination';
   pagination.dataset.archivePagination = '';
@@ -80,7 +107,7 @@
     });
 
     const matchingCards = sortedCards.filter((card) => {
-      const matchesSearch = !query || card.dataset.search.includes(query);
+      const matchesSearch = !query || searchableText(card).includes(query);
       const matchesCategory = !selectedCategory || card.dataset.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -104,6 +131,13 @@
   [search, category, sortField, sortDirection].forEach((control) =>
     control.addEventListener(control === search ? 'input' : 'change', () => updateArchive(true))
   );
+
+  // Warm the corpus on the first keystroke and re-run once it lands, so an early
+  // query is not judged on titles alone.
+  search.addEventListener('input', () => {
+    if (corpus) return;
+    loadCorpus().then(() => updateArchive());
+  });
 
   pagination.addEventListener('click', (event) => {
     const button = event.target.closest('[data-page]');
