@@ -243,3 +243,58 @@
     padding-left: 0.55rem;
   }
 }
+
+/* Cross-language and cross-simulator navigation appended to every simulator page. */
+.simulator-locale-nav {
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.92);
+  color: #cbd5f5;
+  font-size: 0.8125rem;
+}
+
+.simulator-locale-nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+}
+
+.simulator-locale-nav span {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.simulator-locale-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.simulator-locale-nav a {
+  color: #e2e8f0;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.simulator-locale-nav a:hover,
+.simulator-locale-nav a:focus-visible {
+  color: #22d3ee;
+  border-bottom-color: currentColor;
+}
+
+.simulator-locale-nav-languages a[aria-current="page"] {
+  color: #22d3ee;
+  font-weight: 700;
+}
