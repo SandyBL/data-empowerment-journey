@@ -1,9 +1,23 @@
 # Netlify configuration.
 #
-# Build settings intentionally stay in the Netlify UI; this file only adds
-# response headers. Crawl directives live here (rather than in robots.txt) so
-# Google can still fetch these files and read the noindex instruction — a
-# robots.txt Disallow would hide the directive and leave the URLs indexable.
+# Crawl directives live here (rather than in robots.txt) so Google can still
+# fetch these files and read the noindex instruction — a robots.txt Disallow
+# would hide the directive and leave the URLs indexable.
+
+# The build command generates the article pages, sitemap.xml and _redirects
+# (see scripts/generate-blog-index.mjs). Because that output is committed, a
+# missing or broken command fails silently: the site keeps serving the last
+# generated copy while new articles never get a page or a sitemap entry. So the
+# command is versioned here rather than kept in the UI, where a change leaves
+# no history and can't be tested on a deploy preview.
+#
+# Paths below are relative to the base directory. Base itself stays in the UI
+# (currently "deploy") because Netlify must resolve it before it can find this
+# file; publish = "." therefore means deploy/, which is where the generator
+# writes in place.
+[build]
+  command = "npm run build"
+  publish = "."
 
 [[headers]]
   for = "/admin/*"
