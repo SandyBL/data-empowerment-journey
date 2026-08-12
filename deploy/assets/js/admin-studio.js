@@ -7,37 +7,40 @@ import {
   logout,
 } from "https://esm.sh/@netlify/identity@1.2.0";
 
-const requiredRole = "confession-admin";
+// The studio hosts two independent tools with two independent authorities.
+// Blog editing is authorized by Git Gateway when Decap commits, so signing in is
+// the only gate it needs here — requiring a moderation role for it locked the
+// blog behind a role it never used. Confession moderation is authorized by the
+// /api/admin/confessions function; this list only decides which view to render
+// and must stay in sync with netlify/functions/admin-confessions.mts.
+const confessionRoles = ["confession-admin", "admin", "owner"];
+
+const canModerate = (user) =>
+  (user.roles ?? []).some((role) => confessionRoles.includes(String(role).toLowerCase()));
+
 const loginView = document.querySelector("#studio-login");
 const loginForm = document.querySelector("#studio-login-form");
 const loginError = document.querySelector("#studio-login-error");
 const loginButton = document.querySelector("#studio-login-button");
-const deniedView = document.querySelector("#studio-denied");
 const shell = document.querySelector("#studio-shell");
 const queue = document.querySelector("#studio-queue");
 const pendingCount = document.querySelector("#studio-pending-count");
 
 function showLogin() {
   loginView.hidden = false;
-  deniedView.hidden = true;
-  shell.hidden = true;
-}
-
-function showDenied() {
-  loginView.hidden = true;
-  deniedView.hidden = false;
   shell.hidden = true;
 }
 
 function showShell(user) {
   loginView.hidden = true;
-  deniedView.hidden = true;
   shell.hidden = false;
   document.querySelector("#studio-user-email").textContent = user.email || "Authenticated administrator";
 }
 
 function loadCms() {
+  loginView.hidden = true;
   shell.hidden = true;
+  if (document.querySelector("#decap-cms-script")) return;
   const script = document.createElement("script");
   script.id = "decap-cms-script";
   script.src = "https://unpkg.com/decap-cms@^3.8.3/dist/decap-cms.js";
@@ -52,6 +55,29 @@ function createState(icon, message) {
   text.textContent = message;
   state.append(text);
   return state;
+}
+
+// Missing moderation rights are reported inside the queue rather than as a
+// full-page wall, so the account keeps the access it does have: the blog.
+function createModerationNotice(user) {
+  const notice = createState("fa-user-shield", "");
+  notice.classList.add("studio-state--notice");
+  notice.querySelector("span").textContent =
+    `${user.email || "This account"} is signed in and can edit the blog, but reviewing Confession Wall submissions also needs the "confession-admin" role.`;
+
+  const help = document.createElement("p");
+  help.className = "studio-state__help";
+  help.textContent =
+    "Add it once in Netlify: Project configuration → Identity → Users → this account → Edit roles.";
+
+  const openBlog = document.createElement("button");
+  openBlog.type = "button";
+  openBlog.className = "studio-state__action";
+  openBlog.textContent = "Open Blog Content Studio";
+  openBlog.addEventListener("click", openBlogStudio);
+
+  notice.append(help, openBlog);
+  return notice;
 }
 
 function createSubmissionCard(submission) {
@@ -143,11 +169,16 @@ function createSubmissionCard(submission) {
   return article;
 }
 
-async function loadQueue() {
+async function loadQueue(user) {
   queue.replaceChildren(createState("fa-spinner fa-spin", "Loading pending confessions…"));
   try {
     const response = await fetch("/api/admin/confessions");
     const payload = await response.json();
+    if (response.status === 401 || response.status === 403) {
+      pendingCount.textContent = "0";
+      queue.replaceChildren(createModerationNotice(user));
+      return;
+    }
     if (!response.ok) throw new Error(payload.error || "Unable to load submissions");
     const submissions = Array.isArray(payload.submissions) ? payload.submissions : [];
     pendingCount.textContent = String(submissions.length);
@@ -163,16 +194,17 @@ async function loadQueue() {
 }
 
 async function enterStudio(user) {
-  if (!user.roles?.includes(requiredRole)) {
-    showDenied();
-    return;
-  }
   showShell(user);
   if (new URLSearchParams(window.location.search).get("studio") === "blog") {
     loadCms();
     return;
   }
-  await loadQueue();
+  if (!canModerate(user)) {
+    pendingCount.textContent = "0";
+    queue.replaceChildren(createModerationNotice(user));
+    return;
+  }
+  await loadQueue(user);
 }
 
 loginForm.addEventListener("submit", async (event) => {
@@ -198,11 +230,15 @@ async function signOut() {
   window.location.assign("/admin/");
 }
 
+function openBlogStudio() {
+  window.history.replaceState({}, "", "/admin/?studio=blog");
+  loadCms();
+}
+
 document.querySelectorAll("[data-sign-out]").forEach((button) => button.addEventListener("click", signOut));
 document.querySelector("#open-blog-studio").addEventListener("click", (event) => {
   event.preventDefault();
-  window.history.replaceState({}, "", "/admin/?studio=blog");
-  loadCms();
+  openBlogStudio();
 });
 
 try {

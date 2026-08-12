@@ -20,21 +20,13 @@
         <div><strong>Data Governance Journey</strong><span>Private administration</span></div>
       </div>
       <h1>Secure Content Studio</h1>
-      <p class="studio-login__lead">Sign in with Sandy's authorized Netlify Identity account to review confessions and manage published content.</p>
+      <p class="studio-login__lead">Sign in with Sandy's authorized Netlify Identity account to edit the blog and review Confession Wall submissions.</p>
       <div class="studio-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="username" required></div>
       <div class="studio-field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
       <button id="studio-login-button" class="studio-login__button" type="submit">Sign in securely</button>
       <p id="studio-login-error" class="studio-error" role="alert"></p>
     </form>
   </main>
-
-  <section id="studio-denied" class="studio-denied" hidden>
-    <div class="studio-denied__card">
-      <h1>Access restricted</h1>
-      <p>This account is authenticated but does not have the private <code>confession-admin</code> role required to review or publish Confession Wall submissions.</p>
-      <button type="button" data-sign-out>Sign out</button>
-    </div>
-  </section>
 
   <div id="studio-shell" class="studio-shell" hidden>
     <header class="studio-header">

@@ -38,11 +38,9 @@ button { cursor: pointer; }
 }
 
 .studio-login[hidden],
-.studio-shell[hidden],
-.studio-denied[hidden] { display: none; }
+.studio-shell[hidden] { display: none; }
 
-.studio-login__card,
-.studio-denied__card {
+.studio-login__card {
   width: min(100%, 31rem);
   padding: clamp(1.8rem, 5vw, 3rem);
   border: 1px solid rgb(255 255 255 / 0.16);
@@ -72,15 +70,13 @@ button { cursor: pointer; }
 .studio-login__brand strong { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .studio-login__brand span { margin-top: 0.35rem; color: #a9ddd2; font-size: 0.68rem; }
 
-.studio-login h1,
-.studio-denied h1 {
+.studio-login h1 {
   margin: 2rem 0 0.6rem;
   font-size: clamp(2rem, 6vw, 3.2rem);
   letter-spacing: -0.05em;
 }
 
-.studio-login__lead,
-.studio-denied p {
+.studio-login__lead {
   margin: 0 0 1.7rem;
   color: #c7d8de;
   font-size: 0.88rem;
@@ -100,8 +96,7 @@ button { cursor: pointer; }
 }
 .studio-field input:focus { border-color: var(--dejourney-cyan); box-shadow: 0 0 0 3px rgb(101 183 199 / 0.2); }
 
-.studio-login__button,
-.studio-denied button {
+.studio-login__button {
   width: 100%;
   margin-top: 1.4rem;
   padding: 0.9rem 1rem;
@@ -114,14 +109,6 @@ button { cursor: pointer; }
 
 .studio-login__button:disabled { cursor: wait; opacity: 0.6; }
 .studio-error { min-height: 1.3rem; margin: 0.7rem 0 0; color: #ffb7aa; font-size: 0.76rem; font-weight: 700; }
-
-.studio-denied {
-  display: grid;
-  min-height: 100vh;
-  padding: 1.5rem;
-  place-items: center;
-  background: linear-gradient(135deg, var(--deepblue), var(--slatecool));
-}
 
 .studio-shell { min-height: 100vh; }
 
@@ -243,6 +230,21 @@ button { cursor: pointer; }
 
 .studio-state { padding: 4rem 1.5rem; border: 1px dashed #bfd1d6; border-radius: 1.3rem; background: #ffffff; color: #64748b; text-align: center; }
 .studio-state i { display: block; margin-bottom: 0.8rem; color: var(--dejourney-cyan); font-size: 2rem; }
+
+.studio-state--notice { padding: 3rem 1.5rem; border-color: #f3d8a6; background: #fffdf6; }
+.studio-state--notice i { color: #c98a12; }
+.studio-state--notice span { display: block; max-width: 38rem; margin: 0 auto; color: var(--deepblue); font-weight: 700; line-height: 1.6; }
+.studio-state__help { max-width: 38rem; margin: 0.75rem auto 0; font-size: 0.82rem; line-height: 1.6; }
+.studio-state__action {
+  margin-top: 1.3rem;
+  padding: 0.8rem 1.4rem;
+  border: 0;
+  border-radius: 0.8rem;
+  background: var(--deepblue);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
 
 @media (max-width: 850px) {
   .studio-heading { grid-template-columns: 1fr; }
