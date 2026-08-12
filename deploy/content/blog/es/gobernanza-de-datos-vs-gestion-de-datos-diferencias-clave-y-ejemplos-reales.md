@@ -1,6 +1,6 @@
 ---
 title: "Gobernanza de Datos vs. Gestión de Datos: Diferencias Clave y Ejemplos Reales"
-date: 2025-01-01
+date: 2026-07-28
 category: Data Governance
 summary: ¿Confundido entre Gobernanza de Datos y Gestión de Datos? Descubre sus
   diferencias clave, ejemplos del mundo real y cómo trabajan juntas para
