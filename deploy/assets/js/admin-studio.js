@@ -7,16 +7,16 @@ import {
   logout,
 } from "https://esm.sh/@netlify/identity@1.2.0";
 
-// The studio hosts two independent tools with two independent authorities.
-// Blog editing is authorized by Git Gateway when Decap commits, so signing in is
-// the only gate it needs here — requiring a moderation role for it locked the
-// blog behind a role it never used. Confession moderation is authorized by the
-// /api/admin/confessions function; this list only decides which view to render
-// and must stay in sync with netlify/functions/admin-confessions.mts.
-const confessionRoles = ["confession-admin", "admin", "owner"];
-
-const canModerate = (user) =>
-  (user.roles ?? []).some((role) => confessionRoles.includes(String(role).toLowerCase()));
+// Confession moderation is gated by sign-in alone, exactly like the Blog
+// Content Studio: an authorized Netlify Identity account is the whole
+// authorization model for this site. No extra role is required here or in
+// netlify/functions/admin-confessions.mts — keep the two in step.
+//
+// The Blog Content Studio lives on its own page (/admin/blog/). It used to
+// share this one, which meant handing the document over to Decap CMS and
+// hiding every element this page owns. Any hiccup in that handover — a blocked
+// CDN, a stale ?studio=blog URL — left a white page with no message and no way
+// back. This page now never hides all of its own views.
 
 const loginView = document.querySelector("#studio-login");
 const loginForm = document.querySelector("#studio-login-form");
@@ -37,16 +37,6 @@ function showShell(user) {
   document.querySelector("#studio-user-email").textContent = user.email || "Authenticated administrator";
 }
 
-function loadCms() {
-  loginView.hidden = true;
-  shell.hidden = true;
-  if (document.querySelector("#decap-cms-script")) return;
-  const script = document.createElement("script");
-  script.id = "decap-cms-script";
-  script.src = "https://unpkg.com/decap-cms@^3.8.3/dist/decap-cms.js";
-  document.body.append(script);
-}
-
 function createState(icon, message) {
   const state = document.createElement("div");
   state.className = "studio-state";
@@ -57,26 +47,19 @@ function createState(icon, message) {
   return state;
 }
 
-// Missing moderation rights are reported inside the queue rather than as a
-// full-page wall, so the account keeps the access it does have: the blog.
-function createModerationNotice(user) {
-  const notice = createState("fa-user-shield", "");
+// A rejected request means the session is gone or no longer valid, not that the
+// account lacks a privilege — so the only useful next step is signing in again.
+function createSessionNotice() {
+  const notice = createState("fa-user-shield", "Your session has expired or is no longer valid. Sign in again to review submissions.");
   notice.classList.add("studio-state--notice");
-  notice.querySelector("span").textContent =
-    `${user.email || "This account"} is signed in and can edit the blog, but reviewing Confession Wall submissions also needs the "confession-admin" role.`;
 
-  const help = document.createElement("p");
-  help.className = "studio-state__help";
-  help.textContent =
-    "Add it once in Netlify: Project configuration → Identity → Users → this account → Edit roles.";
+  const signIn = document.createElement("button");
+  signIn.type = "button";
+  signIn.className = "studio-state__action";
+  signIn.textContent = "Sign in again";
+  signIn.addEventListener("click", signOut);
 
-  const openBlog = document.createElement("button");
-  openBlog.type = "button";
-  openBlog.className = "studio-state__action";
-  openBlog.textContent = "Open Blog Content Studio";
-  openBlog.addEventListener("click", openBlogStudio);
-
-  notice.append(help, openBlog);
+  notice.append(signIn);
   return notice;
 }
 
@@ -87,10 +70,13 @@ function createSubmissionCard(submission) {
   const storyPanel = document.createElement("div");
   const meta = document.createElement("div");
   meta.className = "studio-submission__meta";
+  const createdAt = new Date(submission.createdAt);
   [
     [submission.locale?.toUpperCase() || "—", "studio-pill studio-pill--locale"],
     [submission.category || "Uncategorized", "studio-pill"],
-    [new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" }).format(new Date(submission.createdAt)), "studio-pill"],
+    [Number.isNaN(createdAt.valueOf())
+      ? "Date unavailable"
+      : new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" }).format(createdAt), "studio-pill"],
   ].forEach(([text, className]) => {
     const pill = document.createElement("span");
     pill.className = className;
@@ -148,10 +134,11 @@ function createSubmissionCard(submission) {
     try {
       const response = await fetch("/api/admin/confessions", {
         method: "PATCH",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: submission.id, action, expertComment: textarea.value.trim() }),
       });
-      const payload = await response.json();
+      const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload.error || "Moderation failed");
       article.remove();
       const remaining = queue.querySelectorAll(".studio-submission").length;
@@ -169,16 +156,16 @@ function createSubmissionCard(submission) {
   return article;
 }
 
-async function loadQueue(user) {
+async function loadQueue() {
   queue.replaceChildren(createState("fa-spinner fa-spin", "Loading pending confessions…"));
   try {
-    const response = await fetch("/api/admin/confessions");
-    const payload = await response.json();
+    const response = await fetch("/api/admin/confessions", { credentials: "same-origin" });
     if (response.status === 401 || response.status === 403) {
       pendingCount.textContent = "0";
-      queue.replaceChildren(createModerationNotice(user));
+      queue.replaceChildren(createSessionNotice());
       return;
     }
+    const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || "Unable to load submissions");
     const submissions = Array.isArray(payload.submissions) ? payload.submissions : [];
     pendingCount.textContent = String(submissions.length);
@@ -195,16 +182,7 @@ async function loadQueue(user) {
 
 async function enterStudio(user) {
   showShell(user);
-  if (new URLSearchParams(window.location.search).get("studio") === "blog") {
-    loadCms();
-    return;
-  }
-  if (!canModerate(user)) {
-    pendingCount.textContent = "0";
-    queue.replaceChildren(createModerationNotice(user));
-    return;
-  }
-  await loadQueue(user);
+  await loadQueue();
 }
 
 loginForm.addEventListener("submit", async (event) => {
@@ -216,6 +194,7 @@ loginForm.addEventListener("submit", async (event) => {
     const user = await login(loginForm.email.value, loginForm.password.value);
     await enterStudio(user);
   } catch (error) {
+    showLogin();
     if (error instanceof MissingIdentityError) loginError.textContent = "Netlify Identity is not enabled for this site.";
     else if (error instanceof AuthError && error.status === 401) loginError.textContent = "Invalid email or password.";
     else loginError.textContent = error instanceof Error ? error.message : "Sign-in failed.";
@@ -226,27 +205,27 @@ loginForm.addEventListener("submit", async (event) => {
 });
 
 async function signOut() {
-  await logout();
-  window.location.assign("/admin/");
-}
-
-function openBlogStudio() {
-  window.history.replaceState({}, "", "/admin/?studio=blog");
-  loadCms();
+  try {
+    await logout();
+  } finally {
+    window.location.assign("/admin/");
+  }
 }
 
 document.querySelectorAll("[data-sign-out]").forEach((button) => button.addEventListener("click", signOut));
-document.querySelector("#open-blog-studio").addEventListener("click", (event) => {
-  event.preventDefault();
-  openBlogStudio();
-});
 
-try {
-  await handleAuthCallback();
-  const user = await getUser();
-  if (user) await enterStudio(user);
-  else showLogin();
-} catch (error) {
-  showLogin();
-  loginError.textContent = error instanceof Error ? error.message : "Unable to complete authentication.";
+// The blog studio used to open in place through this query string. Anyone who
+// bookmarked that URL is sent to the page that now owns it.
+if (new URLSearchParams(window.location.search).get("studio") === "blog") {
+  window.location.replace("/admin/blog/");
+} else {
+  try {
+    await handleAuthCallback();
+    const user = await getUser();
+    if (user) await enterStudio(user);
+    else showLogin();
+  } catch (error) {
+    showLogin();
+    loginError.textContent = error instanceof Error ? error.message : "Unable to complete authentication.";
+  }
 }

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Blog Content Studio | Data Governance Journey</title>
+  <link rel="icon" href="/assets/dg-logo.png">
+  <!-- Decap CMS looks for config.yml next to this page unless it is told where
+       the real one lives. The config stays at /admin/config.yml so the editor
+       can move without moving the collection definitions with it. -->
+  <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/admin-studio.css">
+</head>
+<body>
+  <main id="blog-gate" class="studio-login">
+    <div class="studio-login__card">
+      <div class="studio-login__brand">
+        <img src="/assets/dg-logo.png" alt="Data Governance Journey Logo">
+        <div><strong>Data Governance Journey</strong><span>Private administration</span></div>
+      </div>
+      <h1>Blog Content Studio</h1>
+
+      <form id="blog-login-form">
+        <p class="studio-login__lead">Sign in with Sandy's authorized Netlify Identity account to write and publish articles in English, Spanish and Portuguese.</p>
+        <div class="studio-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="username" required></div>
+        <div class="studio-field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+        <button id="blog-login-button" class="studio-login__button" type="submit">Sign in securely</button>
+        <p id="blog-login-error" class="studio-error" role="alert"></p>
+      </form>
+
+      <div id="blog-status" class="studio-login__status" hidden>
+        <p id="blog-status-message" class="studio-login__lead" role="status">Opening the editor…</p>
+        <button id="blog-retry" class="studio-login__button" type="button" hidden>Try loading the editor again</button>
+      </div>
+
+      <p class="studio-login__switch"><a href="/admin/">Go to Confession Review instead</a></p>
+    </div>
+  </main>
+  <script type="module" src="/assets/js/admin-blog.js"></script>
+</body>
+</html>

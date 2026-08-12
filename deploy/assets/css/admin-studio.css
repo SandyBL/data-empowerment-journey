@@ -110,6 +110,16 @@ button { cursor: pointer; }
 .studio-login__button:disabled { cursor: wait; opacity: 0.6; }
 .studio-error { min-height: 1.3rem; margin: 0.7rem 0 0; color: #ffb7aa; font-size: 0.76rem; font-weight: 700; }
 
+/* Shown on /admin/blog/ while Decap CMS starts up, and left on screen with a
+   retry button if it never does — so the handover to the editor can fail
+   visibly instead of turning the page white. */
+.studio-login__status[hidden],
+#blog-login-form[hidden] { display: none; }
+.studio-login__status .studio-login__lead { margin-bottom: 0; }
+
+.studio-login__switch { margin: 1.6rem 0 0; font-size: 0.78rem; }
+.studio-login__switch a { color: var(--dejourney-cyan); font-weight: 700; }
+
 .studio-shell { min-height: 100vh; }
 
 .studio-header {
@@ -234,7 +244,6 @@ button { cursor: pointer; }
 .studio-state--notice { padding: 3rem 1.5rem; border-color: #f3d8a6; background: #fffdf6; }
 .studio-state--notice i { color: #c98a12; }
 .studio-state--notice span { display: block; max-width: 38rem; margin: 0 auto; color: var(--deepblue); font-weight: 700; line-height: 1.6; }
-.studio-state__help { max-width: 38rem; margin: 0.75rem auto 0; font-size: 0.82rem; line-height: 1.6; }
 .studio-state__action {
   margin-top: 1.3rem;
   padding: 0.8rem 1.4rem;
