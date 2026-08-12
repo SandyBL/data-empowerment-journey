@@ -28,20 +28,38 @@ collections:
     slug: "{{slug}}"
     preview_path: "en/blog/{{slug}}/"
     summary: "{{title}} — {{date}}"
-    fields: &blog_fields
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publication date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Category", name: "category", widget: "select", options: ["Data Governance", "Data Culture", "Data Literacy", "AI Governance", "Data Quality"] }
-      - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences for cards and search results." }
-      - { label: "Author", name: "author", widget: "string", default: "Sandy Bradbury" }
-      - { label: "Translation key", name: "translation_key", widget: "string", required: false, hint: "Use the same slug in all three language folders to connect hreflang links." }
-      - label: "Previous URLs"
+    fields:
+      # Every field except the category is shared verbatim across the three
+      # language collections, so each one is anchored here and aliased below.
+      # The category is the exception on purpose: it is stored as a
+      # language-neutral key (see deploy/scripts/lib/categories.mjs) and each
+      # collection offers that key under the name readers of that language see.
+      # A single shared dropdown is what used to stamp the English "Data
+      # Governance" onto Spanish and Portuguese articles.
+      - &title_field { label: "Title", name: "title", widget: "string" }
+      - &date_field { label: "Publication date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        hint: "Pick the topic. The same topic appears translated in the Spanish and Portuguese collections, so an English article never shows a Spanish category and vice versa."
+        options:
+          - { label: "Data Governance", value: "data-governance" }
+          - { label: "Data Culture", value: "data-culture" }
+          - { label: "Data Literacy", value: "data-literacy" }
+          - { label: "AI Governance", value: "ai-governance" }
+          - { label: "Data Quality", value: "data-quality" }
+      - &summary_field { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences for cards and search results." }
+      - &author_field { label: "Author", name: "author", widget: "string", default: "Sandy Bradbury" }
+      - &translation_key_field { label: "Translation key", name: "translation_key", widget: "string", required: false, hint: "Use the same slug in all three language folders to connect hreflang links." }
+      - &redirect_from_field
+        label: "Previous URLs"
         name: "redirect_from"
         widget: "list"
         required: false
         field: { label: "Old slug", name: "slug", widget: "string" }
         hint: "Only needed if you rename a published article. Add the slug it used before (the last part of its old address) so the old link still works instead of returning a 404."
-      - label: "Body"
+      - &body_field
+        label: "Body"
         name: "body"
         widget: "markdown"
         buttons: ["bold", "italic", "link", "heading-two", "heading-three", "quote", "bulleted-list", "numbered-list"]
@@ -57,7 +75,24 @@ collections:
     slug: "{{slug}}"
     preview_path: "es/blog/{{slug}}/"
     summary: "{{title}} — {{date}}"
-    fields: *blog_fields
+    fields:
+      - *title_field
+      - *date_field
+      - label: "Categoría"
+        name: "category"
+        widget: "select"
+        hint: "Elige el tema. Se publica siempre en español en las páginas en español; el mismo tema aparece traducido en las colecciones en inglés y portugués."
+        options:
+          - { label: "Gobierno de Datos", value: "data-governance" }
+          - { label: "Cultura de Datos", value: "data-culture" }
+          - { label: "Alfabetización de Datos", value: "data-literacy" }
+          - { label: "Gobierno de IA", value: "ai-governance" }
+          - { label: "Calidad de Datos", value: "data-quality" }
+      - *summary_field
+      - *author_field
+      - *translation_key_field
+      - *redirect_from_field
+      - *body_field
 
   - name: "blog_pt"
     label: "Blog — Português"
@@ -69,4 +104,21 @@ collections:
     slug: "{{slug}}"
     preview_path: "pt/blog/{{slug}}/"
     summary: "{{title}} — {{date}}"
-    fields: *blog_fields
+    fields:
+      - *title_field
+      - *date_field
+      - label: "Categoria"
+        name: "category"
+        widget: "select"
+        hint: "Escolha o tema. Ele é publicado sempre em português nas páginas em português; o mesmo tema aparece traduzido nas coleções em inglês e espanhol."
+        options:
+          - { label: "Governança de Dados", value: "data-governance" }
+          - { label: "Cultura de Dados", value: "data-culture" }
+          - { label: "Alfabetização de Dados", value: "data-literacy" }
+          - { label: "Governança de IA", value: "ai-governance" }
+          - { label: "Qualidade de Dados", value: "data-quality" }
+      - *summary_field
+      - *author_field
+      - *translation_key_field
+      - *redirect_from_field
+      - *body_field
