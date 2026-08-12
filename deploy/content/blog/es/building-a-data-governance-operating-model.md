@@ -2,7 +2,7 @@
 title: Cómo construir un modelo operativo de gobierno de datos que la gente
   realmente use
 date: 2026-07-21
-category: Gobierno de Datos
+category: data-governance
 summary: Una guía práctica para convertir los principios de gobierno en
   decisiones claras, rutinas útiles y resultados de negocio medibles.
 author: Sandy Bradbury

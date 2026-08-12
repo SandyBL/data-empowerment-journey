@@ -1,7 +1,7 @@
 ---
 title: Data Literacy Is a Business Capability, Not a Training Event
 date: 2026-06-30
-category: Data Literacy
+category: data-literacy
 summary: Move beyond one-off courses and build the habits, language, and support
   systems that make confident data use repeatable.
 author: Sandy Bradbury

@@ -1,7 +1,7 @@
 ---
 title: Responsible AI Starts with Data Governance
 date: 2026-06-09
-category: AI Governance
+category: ai-governance
 summary: AI controls become more effective when ownership, lineage, quality, and
   acceptable use are already part of the data lifecycle.
 author: Sandy Bradbury

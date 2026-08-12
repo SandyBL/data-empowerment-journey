@@ -2,7 +2,7 @@
 title: Como criar um modelo operacional de governança de dados que as pessoas
   realmente usem
 date: 2026-07-21
-category: Governança de Dados
+category: data-governance
 summary: Um guia prático para transformar princípios de governança em decisões
   claras, rotinas úteis e resultados de negócio mensuráveis.
 author: Sandy Bradbury

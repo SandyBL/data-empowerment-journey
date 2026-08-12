@@ -5,6 +5,7 @@ import { parseFrontMatter, renderMarkdown, readingTimeMinutes, escapeHtml } from
 import { renderHomePage, HOME_PATH } from './lib/home-pages.mjs';
 import { renderLlmsIndex, renderLlmsFull } from './lib/llms.mjs';
 import { renderArticleSchema } from './lib/article-schema.mjs';
+import { resolveCategory } from './lib/categories.mjs';
 
 const SITE_ORIGIN = 'https://datagovjourney.com';
 const LANGUAGES = ['en', 'es', 'pt'];
@@ -177,13 +178,17 @@ async function loadArticles() {
         throw new Error(`Missing title or date in content/blog/${lang}/${file}`);
       }
       const { html, headings } = renderMarkdown(body);
+      // Front matter stores a language-neutral category key; the label people
+      // read is resolved per language so a page never mixes languages.
+      const category = resolveCategory(attributes.category, lang, `content/blog/${lang}/${file}`);
       articles.push({
         lang,
         slug,
         file,
         title: attributes.title,
         summary: attributes.summary || '',
-        category: attributes.category || '',
+        category: category.label,
+        categoryKey: category.key,
         author: attributes.author || 'Sandy Bradbury',
         date: attributes.date,
         translationKey: attributes.translation_key || slug,
@@ -192,7 +197,7 @@ async function loadArticles() {
         body: body.trim(),
         bodyHtml: html,
         headings,
-        searchText: normalizeSearchText(`${attributes.title} ${attributes.category} ${attributes.summary} ${body}`),
+        searchText: normalizeSearchText(`${attributes.title} ${category.label} ${attributes.summary} ${body}`),
       });
     }
   }
@@ -249,7 +254,8 @@ function renderRelated(article, articles, labels) {
   const related = articles
     .filter((candidate) => candidate.lang === article.lang && candidate.slug !== article.slug)
     .sort((first, second) => {
-      const sameCategory = Number(second.category === article.category) - Number(first.category === article.category);
+      const sameCategory =
+        Number(second.categoryKey === article.categoryKey) - Number(first.categoryKey === article.categoryKey);
       return sameCategory || second.date.localeCompare(first.date);
     })
     .slice(0, 3);
