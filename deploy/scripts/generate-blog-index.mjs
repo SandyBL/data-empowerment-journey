@@ -383,24 +383,62 @@ function replaceBetweenMarkers(source, marker, replacement, filePath) {
   return `${source.slice(0, startIndex + start.length)}${replacement}${source.slice(endIndex)}`;
 }
 
-/** Renders the archive listing into each blog index so crawlers see real links. */
+/**
+ * Renders the archive listing into each blog index so crawlers see real links.
+ *
+ * The newest article is also promoted into the featured slot at the top of the
+ * page, but it stays in the archive grid below: that section is titled "All
+ * articles", and the script that powers the search, category filter, sort and
+ * result counter only ever reads `.post-card` elements from the grid. Handing
+ * the featured article to the hero *instead of* the grid is what used to make a
+ * six-article blog report "5 articles" and hide the newest one from every
+ * filter — the one article an editor has just published being the one the page
+ * could not find.
+ */
 async function updateBlogIndexes(articles) {
   for (const lang of LANGUAGES) {
     const indexPath = path.join(projectDirectory, lang, 'blog', 'index.html');
     const localized = articles
       .filter((article) => article.lang === lang)
       .sort((first, second) => second.date.localeCompare(first.date));
-    const [hero, ...rest] = localized;
+    const [hero] = localized;
 
     let source = await readFile(indexPath, 'utf8');
-    source = replaceBetweenMarkers(source, 'BLOG_HERO', renderArchiveCard(hero, { hero: true }), indexPath);
+    source = replaceBetweenMarkers(
+      source,
+      'BLOG_HERO',
+      hero ? renderArchiveCard(hero, { hero: true }) : '',
+      indexPath
+    );
     source = replaceBetweenMarkers(
       source,
       'BLOG_ARCHIVE',
-      rest.map((article) => renderArchiveCard(article)).join(''),
+      localized.map((article) => renderArchiveCard(article)).join(''),
       indexPath
     );
+    assertArchiveIsComplete(source, localized, indexPath);
     await writeFile(indexPath, source, 'utf8');
+  }
+}
+
+/**
+ * Fails the build if a published article is missing from an archive page.
+ *
+ * This checks the rendered HTML rather than the array it was rendered from, so
+ * it catches a card that the template dropped as well as one the listing never
+ * selected. Silent omission is the failure mode worth guarding: nothing else
+ * about the page looks broken when an article simply is not there.
+ */
+function assertArchiveIsComplete(source, localized, indexPath) {
+  const cards = source.matchAll(/<article class="post-card[^"]*"[^>]*data-slug="([^"]+)"/g);
+  const rendered = new Set([...cards].map((match) => match[1]));
+  const missing = localized.filter((article) => !rendered.has(article.slug));
+  if (missing.length) {
+    throw new Error(
+      `${indexPath} lists ${rendered.size} of ${localized.length} published articles; missing: ${missing
+        .map((article) => article.slug)
+        .join(', ')}`
+    );
   }
 }
 
