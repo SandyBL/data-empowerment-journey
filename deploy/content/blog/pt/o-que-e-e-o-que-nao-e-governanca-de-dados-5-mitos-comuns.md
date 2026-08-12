@@ -1,6 +1,6 @@
 ---
 title: "O que é e o que NÃO é Governança de Dados: 5 Mitos Comuns"
-date: 2025-03-11
+date: 2026-08-11
 category: Data Governance
 summary: Com dúvidas sobre Governança de Dados? Descubra o que é de fato a
   governança de dados, o que ela não é e como evitar erros caros na sua empresa.
