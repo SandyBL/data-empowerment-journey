@@ -1,6 +1,6 @@
 ---
 title: What is Data Governance in DAMA DMBOK? Framework & Key Components
-date: 2025-01-14
+date: 2026-08-04
 category: Data Governance
 summary: Discover how the DAMA DMBOK framework defines Data Governance, its core
   pillars, key roles, and how it integrates across data management to drive real
