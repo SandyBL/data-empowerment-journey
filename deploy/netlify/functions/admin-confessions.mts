@@ -4,14 +4,12 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { confessionSubmissions } from "../../db/schema.js";
 
-// Roles allowed to moderate the Confession Wall. A general site administrator
-// counts too, so a single exact role name cannot lock the owner out of their own
-// moderation queue. Blog editing is not checked here at all — Git Gateway
-// authorizes CMS commits. Keep in sync with assets/js/admin-studio.js.
-const moderatorRoles = ["confession-admin", "admin", "owner"];
-
-const canModerate = (roles: string[] | undefined) =>
-  (roles ?? []).some((role) => moderatorRoles.includes(role.toLowerCase()));
+// Moderating the Confession Wall requires an authorized Netlify Identity
+// account and nothing more. That is the same bar the Blog Content Studio
+// clears through Git Gateway, so a signed-in editor is never turned away from
+// one tool while holding the keys to the other. Access is controlled by who is
+// invited into Identity, so keep registration set to "Invite only".
+// Keep in sync with assets/js/admin-studio.js.
 
 const cleanText = (value: unknown, maxLength: number) =>
   typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -21,10 +19,6 @@ export default async (request: Request) => {
 
   if (!user) {
     return Response.json({ error: "Authentication required" }, { status: 401 });
-  }
-
-  if (!canModerate(user.roles)) {
-    return Response.json({ error: "Confession administrator access required" }, { status: 403 });
   }
 
   if (request.method === "GET") {
