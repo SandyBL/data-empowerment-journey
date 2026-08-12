@@ -4,7 +4,14 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { confessionSubmissions } from "../../db/schema.js";
 
-const requiredRole = "confession-admin";
+// Roles allowed to moderate the Confession Wall. A general site administrator
+// counts too, so a single exact role name cannot lock the owner out of their own
+// moderation queue. Blog editing is not checked here at all — Git Gateway
+// authorizes CMS commits. Keep in sync with assets/js/admin-studio.js.
+const moderatorRoles = ["confession-admin", "admin", "owner"];
+
+const canModerate = (roles: string[] | undefined) =>
+  (roles ?? []).some((role) => moderatorRoles.includes(role.toLowerCase()));
 
 const cleanText = (value: unknown, maxLength: number) =>
   typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -16,7 +23,7 @@ export default async (request: Request) => {
     return Response.json({ error: "Authentication required" }, { status: 401 });
   }
 
-  if (!user.roles?.includes(requiredRole)) {
+  if (!canModerate(user.roles)) {
     return Response.json({ error: "Confession administrator access required" }, { status: 403 });
   }
 
