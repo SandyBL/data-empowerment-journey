@@ -34,7 +34,10 @@ const LABELS = {
     skip: 'Skip to article',
     breadcrumbHome: 'Home',
     breadcrumbBlog: 'Insights',
-    relatedTitle: 'Keep reading',
+    relatedKicker: 'Keep reading',
+    relatedTitle: 'Three more from the journal',
+    relatedText: 'Articles that pick up where this one leaves off — chosen from the same track first, newest first after that.',
+    relatedCue: 'Read article',
   },
   es: {
     blogTitle: 'Journal / Ideas',
@@ -43,9 +46,9 @@ const LABELS = {
     toc: 'En esta página',
     minRead: 'min de lectura',
     by: 'Por',
-    about: 'Sobre la autora',
+    about: 'Sobre el autor',
     aboutText:
-      'Consultora de gobierno de datos y profesional certificada CDMP que ayuda a las organizaciones a alinear personas, procesos y tecnología en torno a datos confiables.',
+      'Consultor de gobierno de datos y profesional certificado CDMP que ayuda a las organizaciones a alinear personas, procesos y tecnología en torno a datos confiables.',
     ctaKicker: 'Continúa el camino',
     ctaTitle: 'Convierte la idea en una capacidad de datos práctica.',
     ctaTools: 'Explorar herramientas gratuitas →',
@@ -56,7 +59,10 @@ const LABELS = {
     skip: 'Saltar al artículo',
     breadcrumbHome: 'Inicio',
     breadcrumbBlog: 'Ideas',
-    relatedTitle: 'Seguir leyendo',
+    relatedKicker: 'Seguir leyendo',
+    relatedTitle: 'Tres lecturas más del journal',
+    relatedText: 'Artículos que continúan donde termina este: primero los de la misma temática y después los más recientes.',
+    relatedCue: 'Leer artículo',
   },
   pt: {
     blogTitle: 'Journal / Ideias',
@@ -65,9 +71,9 @@ const LABELS = {
     toc: 'Nesta página',
     minRead: 'min de leitura',
     by: 'Por',
-    about: 'Sobre a autora',
+    about: 'Sobre o autor',
     aboutText:
-      'Consultora de governança de dados e profissional certificada CDMP que ajuda organizações a alinhar pessoas, processos e tecnologia em torno de dados confiáveis.',
+      'Consultor de governança de dados e profissional certificado CDMP que ajuda organizações a alinhar pessoas, processos e tecnologia em torno de dados confiáveis.',
     ctaKicker: 'Continue a jornada',
     ctaTitle: 'Transforme a ideia em uma capacidade prática de dados.',
     ctaTools: 'Explorar ferramentas gratuitas →',
@@ -78,7 +84,10 @@ const LABELS = {
     skip: 'Ir para o artigo',
     breadcrumbHome: 'Início',
     breadcrumbBlog: 'Ideias',
-    relatedTitle: 'Continue lendo',
+    relatedKicker: 'Continue lendo',
+    relatedTitle: 'Mais três leituras do journal',
+    relatedText: 'Artigos que seguem de onde este parou: primeiro os do mesmo tema e depois os mais recentes.',
+    relatedCue: 'Ler artigo',
   },
 };
 
@@ -250,6 +259,15 @@ function insertLeadMagnet(bodyHtml, labels) {
   return `${bodyHtml.slice(0, position)}${callout}${bodyHtml.slice(position)}`;
 }
 
+/**
+ * Renders the "keep reading" section: three articles in the reader's language,
+ * same category first and newest after that.
+ *
+ * Each card is one link wrapping the whole surface, so the category, title,
+ * summary and meta are all part of the same target rather than a bare list item
+ * with a link buried in it. The heading carries an id the section points at with
+ * aria-labelledby, which is what names the region for a screen reader.
+ */
 function renderRelated(article, articles, labels) {
   const related = articles
     .filter((candidate) => candidate.lang === article.lang && candidate.slug !== article.slug)
@@ -260,13 +278,21 @@ function renderRelated(article, articles, labels) {
     })
     .slice(0, 3);
   if (!related.length) return '';
+  const arrow =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
   const items = related
     .map(
-      (item) =>
-        `<li><a href="${articlePath(item.lang, item.slug)}"><span>${escapeHtml(item.category)}</span><strong>${escapeHtml(item.title)}</strong></a></li>`
+      (item, index) =>
+        `<li class="related-card"><a href="${articlePath(item.lang, item.slug)}"><span class="related-index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><span class="related-category">${escapeHtml(item.category)}</span><h3>${escapeHtml(item.title)}</h3>${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}<span class="related-meta"><time datetime="${item.date}">${formatDate(item.date, item.lang)}</time><span>${item.readingTime} ${labels.minRead}</span></span><span class="related-cue">${labels.relatedCue}${arrow}</span></a></li>`
     )
     .join('');
-  return `<nav class="related-articles blog-shell" aria-label="${labels.relatedTitle}"><h2>${labels.relatedTitle}</h2><ul>${items}</ul></nav>`;
+  return `<section class="related-articles blog-shell" aria-labelledby="keep-reading">
+      <div class="related-head">
+        <div><span class="blog-kicker">${labels.relatedKicker}</span><h2 id="keep-reading">${labels.relatedTitle}</h2><p>${labels.relatedText}</p></div>
+        <a class="related-all" href="/${article.lang}/blog/">${labels.allArticles}${arrow}</a>
+      </div>
+      <ul class="related-grid">${items}</ul>
+    </section>`;
 }
 
 function renderArticlePage(article, translations, articles) {
