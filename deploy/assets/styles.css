@@ -1171,6 +1171,11 @@ body.mobile-navigation-open { overflow: hidden; }
     line-height: 1.7;
 }
 
+.diagnostic-next-step-cta {
+    margin-top: 1.25rem;
+    box-shadow: 0 12px 24px rgb(0 51 102 / 0.18);
+}
+
 @keyframes maturity-pulse {
     70% { box-shadow: 0 0 0 0.55rem rgb(80 200 120 / 0); }
     100% { box-shadow: 0 0 0 0 rgb(80 200 120 / 0); }
@@ -1202,6 +1207,7 @@ body.mobile-navigation-open { overflow: hidden; }
         width: 3.25rem;
         height: 3.25rem;
     }
+    .diagnostic-next-step-cta { width: 100%; }
     .contact-contained-section {
         margin-top: 2rem;
         padding: 1.5rem;
@@ -1214,6 +1220,7 @@ body.mobile-navigation-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
     .maturity-test-pulse { animation: none; }
     .maturity-test-cta,
+    .diagnostic-next-step-cta,
     .maturity-deliverable { transition: none; }
 }
 
