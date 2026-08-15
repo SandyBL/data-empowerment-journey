@@ -264,8 +264,11 @@
       transition: border-color 0.2s;
     }
 
-    .form-input:focus {
-      outline: none;
+    /* The border tint alone is not a focus indicator: it changes only hue and
+       is easy to miss. WCAG 2.4.7 wants the ring, so keep both. */
+    .form-input:focus-visible {
+      outline: 3px solid var(--primary-teal);
+      outline-offset: 2px;
       border-color: var(--primary-teal);
     }
 
@@ -767,6 +770,7 @@
   <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body>
+    <a class="skip-link" href="#simulator-main">Saltar al simulador</a>
 
   <!-- ENCABEZADO DE LA MARCA -->
   <header class="simulator-site-header">
@@ -798,8 +802,15 @@
       </div>
     </div>
   </header>
+    <nav class="simulator-breadcrumb" aria-label="Ruta de navegación">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/#simulators">Simuladores</a></li>
+        <li><span aria-current="page">Propiedad de Datos</span></li>
+      </ol>
+    </nav>
 
-  <main>
+  <main id="simulator-main" tabindex="-1">
     <!-- 1. PANTALLA DE BIENVENIDA -->
     <section id="welcome-screen" class="screen active">
       <div class="card welcome-card">

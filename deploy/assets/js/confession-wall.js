@@ -34,8 +34,14 @@ function wireFilters() {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       activeCategory = button.dataset.category;
-      buttons.forEach((filter) => filter.classList.remove("is-active"));
-      button.classList.add("is-active");
+      buttons.forEach((filter) => {
+        const isActive = filter === button;
+        filter.classList.toggle("is-active", isActive);
+        // The buttons are a set of toggles, and the pressed one is the only
+        // thing that says which category is showing; the tint alone does not
+        // reach a screen reader.
+        filter.setAttribute("aria-pressed", String(isActive));
+      });
       renderStories();
     });
   });
@@ -104,7 +110,10 @@ function renderStories() {
     return categoryMatch && (!searchTerm || searchable.includes(searchTerm));
   });
 
-  elements.count.textContent = `${stories.length} ${copy.count}`;
+  // The count is the live region for search and filtering: it says how many
+  // cards survived. The grid itself is not, because replacing it would read
+  // every card back out on every keystroke.
+  elements.count.textContent = `${filtered.length} ${copy.count}`;
   elements.grid.replaceChildren();
 
   if (!filtered.length) {
@@ -135,16 +144,61 @@ async function loadPublishedStories() {
   }
 }
 
-function openModal() {
+// Everything outside the dialog, so it can be hidden from assistive technology
+// while the dialog is up rather than only covered visually. The toast is left
+// out: it is a status region that has to stay announceable.
+const backgroundRegions = () =>
+  [...document.body.children].filter(
+    (child) => child !== elements.modal && child !== elements.toast && child.tagName !== "SCRIPT",
+  );
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+let lastFocusedBeforeModal = null;
+
+function openModal(event) {
+  // Remember where the visitor was so closing can put them back; clicking the
+  // hero button and then landing at the top of the page loses their place.
+  lastFocusedBeforeModal = event?.currentTarget instanceof HTMLElement ? event.currentTarget : document.activeElement;
   elements.formStatus.textContent = "";
   elements.modal.hidden = false;
   document.body.classList.add("modal-open");
+  backgroundRegions().forEach((region) => {
+    region.inert = true;
+  });
   requestAnimationFrame(() => document.querySelector("#confession-title").focus());
 }
 
 function closeModal() {
   elements.modal.hidden = true;
   document.body.classList.remove("modal-open");
+  backgroundRegions().forEach((region) => {
+    region.inert = false;
+  });
+  lastFocusedBeforeModal?.focus();
+  lastFocusedBeforeModal = null;
+}
+
+/**
+ * Keeps Tab inside the dialog while it is open.
+ *
+ * `inert` on the rest of the page already stops focus from reaching it in
+ * browsers that support it, but Tab would still escape to the browser chrome
+ * and back into a page the visitor cannot see, so wrap at both ends.
+ */
+function trapTab(event) {
+  const focusable = [...elements.modal.querySelectorAll(FOCUSABLE)].filter((node) => node.offsetParent !== null);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 
 function showToast(message) {
@@ -160,7 +214,9 @@ elements.modal.addEventListener("click", (event) => {
   if (event.target === elements.modal) closeModal();
 });
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !elements.modal.hidden) closeModal();
+  if (elements.modal.hidden) return;
+  if (event.key === "Escape") closeModal();
+  else if (event.key === "Tab") trapTab(event);
 });
 elements.search.addEventListener("input", renderStories);
 

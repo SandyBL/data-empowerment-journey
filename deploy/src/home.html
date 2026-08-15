@@ -39,18 +39,20 @@
 </head>
 <body class="lang-__LANG__ bg-softbg font-sans text-slate-700 antialiased scroll-smooth">
 
+    <a href="#main-content" class="skip-link">__SKIP_LINK__</a>
+
     <!-- HEADER / NAVIGATION BAR -->
     <header class="dejourney-header sticky top-0 z-50 backdrop-blur border-b shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            
+
             <!-- Logo & Brand Title -->
-            <a href="#" class="dejourney-brand group" aria-label="Data Governance Journey home">
+            <a href="__HOME_SELF__" class="dejourney-brand group" aria-label="__ARIA_BRAND__">
                 <img src="/.netlify/images?url=/assets/images/dg-logo.png&amp;w=400&amp;h=388" alt="Data Governance Journey Logo" width="200" height="194" class="dejourney-brand-logo" fetchpriority="high" decoding="async">
                 <span class="dejourney-brand-name">Data Governance Journey</span>
             </a>
 
             <!-- Desktop Section Navigation Bar -->
-            <nav class="desktop-section-nav" aria-label="Section navigation">
+            <nav class="desktop-section-nav" aria-label="__ARIA_SECTION_NAV__">
                 <a href="#framework">
                     <span lang-content="es">Marco</span><span lang-content="en">Framework</span><span lang-content="pt">Framework</span>
                 </a>
@@ -62,11 +64,11 @@
                         <span lang-content="es">Recursos</span><span lang-content="en">Resources</span><span lang-content="pt">Recursos</span>
                         <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                     </button>
-                    <div id="desktop-resources-dropdown" class="desktop-resources-dropdown" role="menu">
-                        <a href="#cost-calculator" role="menuitem"><span lang-content="es">Calculadora del Costo de la Ignorancia</span><span lang-content="en">Cost of Ignorance Calculator</span><span lang-content="pt">Calculadora do Custo da Ignorância</span></a>
-                        <a href="/es/confession-wall/" class="language-confession-link" role="menuitem"><span lang-content="es">Muro de Confesiones</span><span lang-content="en">Confession Wall</span><span lang-content="pt">Mural de Confissões</span></a>
-                        <a href="#playbooks" role="menuitem">Playbooks</a>
-                        <a href="#excel-templates" role="menuitem"><span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span></a>
+                    <div id="desktop-resources-dropdown" class="desktop-resources-dropdown">
+                        <a href="#cost-calculator"><span lang-content="es">Calculadora del Costo de la Ignorancia</span><span lang-content="en">Cost of Ignorance Calculator</span><span lang-content="pt">Calculadora do Custo da Ignorância</span></a>
+                        <a href="/es/confession-wall/" class="language-confession-link"><span lang-content="es">Muro de Confesiones</span><span lang-content="en">Confession Wall</span><span lang-content="pt">Mural de Confissões</span></a>
+                        <a href="#playbooks">Playbooks</a>
+                        <a href="#excel-templates"><span lang-content="es">Plantillas</span><span lang-content="en">Templates</span><span lang-content="pt">Modelos</span></a>
                     </div>
                 </div>
                 <a href="#preguntas-frecuentes">
@@ -109,7 +111,7 @@
                     </svg>
                     </a>
                 </div>
-                <div class="header-content-links flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200" role="group" aria-label="Blog, newsletter, and Confession Wall">
+                <div class="header-content-links flex items-center gap-1 sm:gap-2 bg-slate-100 p-1 rounded-full border border-slate-200" role="group" aria-label="__ARIA_CONTENT_LINKS__">
                     <a href="/es/blog/" id="header-blog-link" class="header-content-link header-blog-link" aria-label="__ARIA_BLOG__" title="Blog">
                         <i class="fa-solid fa-pen-nib" aria-hidden="true"></i>
                     </a>
@@ -118,7 +120,7 @@
                         target="_blank"
                         rel="noopener noreferrer"
                         class="header-content-link header-newsletter-link"
-                        aria-label="Open Data Governance Journey newsletter"
+                        aria-label="__ARIA_NEWSLETTER__"
                         title="Newsletter"
                     >
                         <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
@@ -127,12 +129,12 @@
                         <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
                     </a>
                 </div>
-                <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Open navigation menu">
+                <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-navigation" aria-label="__ARIA_MENU_OPEN__">
                     <i class="fa-solid fa-bars" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
-        <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+        <nav id="mobile-navigation" class="mobile-navigation" aria-label="__ARIA_MOBILE_NAV__" hidden>
             <div class="mobile-navigation__panel">
                 <a href="#framework"><span lang-content="es">Marco</span><span lang-content="en">Framework</span><span lang-content="pt">Framework</span></a>
                 <a href="#simulators"><span lang-content="es">Simuladores</span><span lang-content="en">Simulators</span><span lang-content="pt">Simuladores</span></a>
@@ -154,7 +156,7 @@
         </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
     <!-- HERO SECTION -->
     <section class="relative overflow-hidden bg-gradient-to-br from-deepblue via-slatecool to-slatecool text-white py-20 lg:py-32">
         <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -483,46 +485,53 @@
 
                 <div class="bad-data-calculator__grid">
                     <form id="bad-data-calculator-form" class="bad-data-calculator__form" novalidate>
-                        <label class="bad-data-field" for="bad-data-employees">
-                            <span class="bad-data-field__label">
-                                <span lang-content="es">Personas en datos, analítica y marketing</span>
-                                <span lang-content="en">Employees in data, analytics, and marketing</span>
-                                <span lang-content="pt">Pessoas em dados, analytics e marketing</span>
-                            </span>
-                            <span class="bad-data-field__control">
-                                <i class="fa-solid fa-users" aria-hidden="true"></i>
-                                <input id="bad-data-employees" name="employees" type="number" inputmode="numeric" min="1" max="100000" step="1" value="25" required>
-                            </span>
-                        </label>
+                        <div class="bad-data-field-group">
+                            <label class="bad-data-field" for="bad-data-employees">
+                                <span class="bad-data-field__label">
+                                    <span lang-content="es">Personas en datos, analítica y marketing</span>
+                                    <span lang-content="en">Employees in data, analytics, and marketing</span>
+                                    <span lang-content="pt">Pessoas em dados, analytics e marketing</span>
+                                </span>
+                                <span class="bad-data-field__control">
+                                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                                    <input id="bad-data-employees" name="employees" type="number" inputmode="numeric" min="1" max="100000" step="1" value="25" aria-describedby="bad-data-employees-error" required>
+                                </span>
+                            </label>
+                            <p id="bad-data-employees-error" class="bad-data-calculator__error" hidden></p>
+                        </div>
 
-                        <label class="bad-data-field" for="bad-data-hours">
-                            <span class="bad-data-field__label">
-                                <span lang-content="es">Horas por semana buscando o limpiando datos</span>
-                                <span lang-content="en">Hours per week searching for or cleaning data</span>
-                                <span lang-content="pt">Horas por semana buscando ou limpando dados</span>
-                            </span>
-                            <span class="bad-data-field__control">
-                                <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                                <input id="bad-data-hours" name="weeklyHours" type="number" inputmode="numeric" min="1" max="40" step="1" value="5" aria-describedby="bad-data-calculator-error" required>
-                            </span>
-                        </label>
+                        <div class="bad-data-field-group">
+                            <label class="bad-data-field" for="bad-data-hours">
+                                <span class="bad-data-field__label">
+                                    <span lang-content="es">Horas por semana buscando o limpiando datos</span>
+                                    <span lang-content="en">Hours per week searching for or cleaning data</span>
+                                    <span lang-content="pt">Horas por semana buscando ou limpando dados</span>
+                                </span>
+                                <span class="bad-data-field__control">
+                                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                                    <input id="bad-data-hours" name="weeklyHours" type="number" inputmode="numeric" min="1" max="40" step="1" value="5" aria-describedby="bad-data-hours-error" required>
+                                </span>
+                            </label>
+                            <p id="bad-data-hours-error" class="bad-data-calculator__error" hidden></p>
+                        </div>
 
-                        <label class="bad-data-field" for="bad-data-salary">
-                            <span class="bad-data-field__label">
-                                <span lang-content="es">Salario promedio anual (EUR)</span>
-                                <span lang-content="en">Average annual salary (USD)</span>
-                                <span lang-content="pt">Salário médio anual (BRL)</span>
-                            </span>
-                            <span class="bad-data-field__control bad-data-field__control--currency">
-                                <span id="bad-data-currency-prefix" aria-hidden="true">€</span>
-                                <input id="bad-data-salary" name="salary" type="number" inputmode="numeric" min="1" max="10000000" step="1" value="85000" required>
-                            </span>
-                        </label>
-
-                        <p id="bad-data-calculator-error" class="bad-data-calculator__error" role="alert"></p>
+                        <div class="bad-data-field-group">
+                            <label class="bad-data-field" for="bad-data-salary">
+                                <span class="bad-data-field__label">
+                                    <span lang-content="es">Salario promedio anual (EUR)</span>
+                                    <span lang-content="en">Average annual salary (USD)</span>
+                                    <span lang-content="pt">Salário médio anual (BRL)</span>
+                                </span>
+                                <span class="bad-data-field__control bad-data-field__control--currency">
+                                    <span id="bad-data-currency-prefix" aria-hidden="true">€</span>
+                                    <input id="bad-data-salary" name="salary" type="number" inputmode="numeric" min="1" max="10000000" step="1" value="85000" aria-describedby="bad-data-salary-error" required>
+                                </span>
+                            </label>
+                            <p id="bad-data-salary-error" class="bad-data-calculator__error" hidden></p>
+                        </div>
                     </form>
 
-                    <div class="bad-data-result" aria-live="polite">
+                    <div class="bad-data-result">
                         <div class="bad-data-result__topline">
                             <span lang-content="es">Pérdida anual estimada</span>
                             <span lang-content="en">Estimated annual loss</span>
@@ -817,7 +826,7 @@
                         </p>
                     </div>
 
-                    <div class="maturity-deliverables" aria-label="Entregables del diagnóstico">
+                    <div class="maturity-deliverables" role="group" aria-label="__ARIA_DELIVERABLES__">
                         <article class="maturity-deliverable">
                             <span class="maturity-deliverable-number">01</span>
                             <div class="maturity-deliverable-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
@@ -1129,7 +1138,7 @@
                 </p>
             </div>
 
-            <div class="contact-choice-nav" role="navigation" aria-label="Contact options">
+            <div class="contact-choice-nav" role="navigation" aria-label="__ARIA_CONTACT_OPTIONS__">
                 <a href="#consultor">
                     <i class="fa-solid fa-user-tie" aria-hidden="true"></i>
                     <span lang-content="es">Conocer al consultor</span>
@@ -1357,11 +1366,17 @@
             <div class="contact-form-card bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-12 shadow-sm relative overflow-hidden">
                 <div class="absolute -top-12 -right-12 w-40 h-40 bg-emeraldgreen/5 rounded-full blur-2xl pointer-events-none"></div>
 
-                <form id="contact-form" name="contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" autocomplete="on" class="space-y-6 relative z-10">
+                <form id="contact-form" name="contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" autocomplete="on" novalidate class="space-y-6 relative z-10">
                     <input type="hidden" name="subject" value="Nuevo contacto de Data Governance Journey">
                     <input type="hidden" id="contact-language" name="language" value="__LANG__">
                     <p class="hidden">
                         <label>Do not fill this out: <input name="bot-field"></label>
+                    </p>
+
+                    <p class="form-required-legend">
+                        <span lang-content="es">Los campos marcados con <span class="field-required" aria-hidden="true">*</span> son obligatorios.</span>
+                        <span lang-content="en">Fields marked with <span class="field-required" aria-hidden="true">*</span> are required.</span>
+                        <span lang-content="pt">Os campos marcados com <span class="field-required" aria-hidden="true">*</span> são obrigatórios.</span>
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -1370,16 +1385,19 @@
                                 <span lang-content="es">Nombre Completo</span>
                                 <span lang-content="en">Full Name</span>
                                 <span lang-content="pt">Nome Completo</span>
+                                <span class="field-required" aria-hidden="true">*</span>
                             </label>
-                            <input 
-                                required 
-                                type="text" 
-                                id="form-name" 
-                                name="name" 
+                            <input
+                                required
+                                type="text"
+                                id="form-name"
+                                name="name"
                                 autocomplete="name"
                                 autocapitalize="words"
-                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
+                                aria-describedby="form-name-error"
+                                class="form-input w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
                             >
+                            <p id="form-name-error" class="field-error" hidden></p>
                         </div>
 
                         <div>
@@ -1387,17 +1405,20 @@
                                 <span lang-content="es">Correo Electrónico</span>
                                 <span lang-content="en">Email Address</span>
                                 <span lang-content="pt">E-mail</span>
+                                <span class="field-required" aria-hidden="true">*</span>
                             </label>
-                            <input 
-                                required 
-                                type="email" 
-                                id="form-email" 
-                                name="email" 
+                            <input
+                                required
+                                type="email"
+                                id="form-email"
+                                name="email"
                                 autocomplete="email"
                                 inputmode="email"
                                 autocapitalize="none"
-                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
+                                aria-describedby="form-email-error"
+                                class="form-input w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
                             >
+                            <p id="form-email-error" class="field-error" hidden></p>
                         </div>
                     </div>
 
@@ -1406,14 +1427,18 @@
                             <span lang-content="es">¿En qué te podemos ayudar?</span>
                             <span lang-content="en">How can we help you?</span>
                             <span lang-content="pt">Como podemos ajudar?</span>
+                            <span class="field-required" aria-hidden="true">*</span>
                         </label>
-                        <textarea 
-                            required 
-                            id="form-message" 
-                            name="message" 
-                            rows="4" 
-                            class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all resize-none"
+                        <textarea
+                            required
+                            id="form-message"
+                            name="message"
+                            rows="4"
+                            minlength="12"
+                            aria-describedby="form-message-error"
+                            class="form-input w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all resize-none"
                         ></textarea>
+                        <p id="form-message-error" class="field-error" hidden></p>
                     </div>
 
                     <div class="text-center pt-2">
@@ -1450,7 +1475,7 @@
                 <span lang-content="pt">Consultoria premium de dados alinhada a metodologias globais</span>
             </p>
             
-            <nav class="w-full border-t border-slate-700/60 pt-8 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left text-sm" aria-label="Site directory">
+            <nav class="w-full border-t border-slate-700/60 pt-8 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left text-sm" aria-label="__ARIA_DIRECTORY__">
                 <div>
                     <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">English</p>
                     <ul class="space-y-2 text-slate-300">
@@ -1566,36 +1591,70 @@
             const mobileNavigation = document.getElementById('mobile-navigation');
             const mobileResourcesTrigger = document.querySelector('.mobile-resources-trigger');
             const mobileResourcesLinks = document.getElementById('mobile-resources-links');
+            const backgroundRegions = [document.getElementById('main-content'), document.querySelector('footer')];
 
-            const closeDesktopResources = () => {
-                desktopMenu?.classList.remove('is-open');
-                desktopTrigger?.setAttribute('aria-expanded', 'false');
-            };
-
-            const closeMobileNavigation = () => {
-                if (!mobileNavigation || !mobileToggle) return;
-                mobileNavigation.hidden = true;
-                mobileToggle.setAttribute('aria-expanded', 'false');
-                mobileToggle.setAttribute('aria-label', 'Open navigation menu');
-                mobileToggle.querySelector('i')?.classList.replace('fa-xmark', 'fa-bars');
-                document.body.classList.remove('mobile-navigation-open');
-            };
-
-            desktopTrigger?.addEventListener('click', event => {
-                event.stopPropagation();
-                const isOpen = desktopMenu.classList.toggle('is-open');
+            // The dropdown used to open on :hover and :focus-within in CSS while
+            // aria-expanded stayed false, so the visual state and the
+            // accessibility tree disagreed. Every path now goes through here.
+            const setDesktopResources = isOpen => {
+                if (!desktopMenu || !desktopTrigger) return;
+                desktopMenu.classList.toggle('is-open', isOpen);
                 desktopTrigger.setAttribute('aria-expanded', String(isOpen));
-            });
+            };
 
-            mobileToggle?.addEventListener('click', () => {
-                const isOpen = mobileNavigation.hidden;
+            const focusableInDrawer = () => [
+                ...mobileNavigation.querySelectorAll('a[href], button:not([disabled])')
+            ].filter(element => element.offsetParent !== null);
+
+            const setMobileNavigation = isOpen => {
+                if (!mobileNavigation || !mobileToggle) return;
                 mobileNavigation.hidden = !isOpen;
                 mobileToggle.setAttribute('aria-expanded', String(isOpen));
-                mobileToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+                mobileToggle.setAttribute('aria-label', isOpen ? '__ARIA_MENU_CLOSE__' : '__ARIA_MENU_OPEN__');
                 mobileToggle.querySelector('i')?.classList.toggle('fa-bars', !isOpen);
                 mobileToggle.querySelector('i')?.classList.toggle('fa-xmark', isOpen);
                 document.body.classList.toggle('mobile-navigation-open', isOpen);
+
+                // The drawer covers the page, so hide the rest of it from assistive
+                // technology too rather than only visually.
+                backgroundRegions.forEach(region => {
+                    if (region) region.inert = isOpen;
+                });
+
+                if (isOpen) {
+                    focusableInDrawer()[0]?.focus();
+                    return;
+                }
+                // Only reclaim focus if it is still inside the drawer we just closed;
+                // clicking a link should let the destination keep it.
+                if (mobileNavigation.contains(document.activeElement)) mobileToggle.focus();
+            };
+
+            const closeMobileNavigation = () => setMobileNavigation(false);
+
+            desktopTrigger?.addEventListener('click', event => {
+                event.stopPropagation();
+                setDesktopResources(!desktopMenu.classList.contains('is-open'));
             });
+
+            // Pointer users get hover-to-open, but only where the desktop nav is
+            // actually rendered and only on devices that really hover.
+            const hoverCapable = window.matchMedia('(hover: hover) and (min-width: 1180px)');
+            desktopMenu?.addEventListener('mouseenter', () => {
+                if (hoverCapable.matches) setDesktopResources(true);
+            });
+            desktopMenu?.addEventListener('mouseleave', () => {
+                if (hoverCapable.matches) setDesktopResources(false);
+            });
+
+            // The panel is visibility:hidden when closed, so its links are not
+            // tabbable until focus on the trigger opens it.
+            desktopMenu?.addEventListener('focusin', () => setDesktopResources(true));
+            desktopMenu?.addEventListener('focusout', event => {
+                if (!desktopMenu.contains(event.relatedTarget)) setDesktopResources(false);
+            });
+
+            mobileToggle?.addEventListener('click', () => setMobileNavigation(mobileNavigation.hidden));
 
             mobileResourcesTrigger?.addEventListener('click', () => {
                 const isOpen = mobileResourcesLinks.hidden;
@@ -1604,13 +1663,30 @@
             });
 
             document.addEventListener('click', event => {
-                if (desktopMenu && !desktopMenu.contains(event.target)) closeDesktopResources();
+                if (desktopMenu && !desktopMenu.contains(event.target)) setDesktopResources(false);
             });
 
             document.addEventListener('keydown', event => {
-                if (event.key !== 'Escape') return;
-                closeDesktopResources();
-                closeMobileNavigation();
+                if (event.key === 'Escape') {
+                    setDesktopResources(false);
+                    closeMobileNavigation();
+                    return;
+                }
+
+                // Keep Tab inside the open drawer: it covers the page, so tabbing
+                // out of it would land on content the visitor cannot see.
+                if (event.key !== 'Tab' || !mobileNavigation || mobileNavigation.hidden) return;
+                const focusable = focusableInDrawer();
+                if (!focusable.length) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
             });
 
             mobileNavigation?.addEventListener('click', event => {
@@ -1619,7 +1695,7 @@
 
             document.querySelectorAll('.desktop-resources-dropdown a, .mobile-navigation a').forEach(link => {
                 link.addEventListener('click', () => {
-                    closeDesktopResources();
+                    setDesktopResources(false);
                     closeMobileNavigation();
                 });
             });
@@ -1669,9 +1745,102 @@
             sections.forEach(section => observer.observe(section));
         }
 
+        /*
+         * Inline validation for the contact form.
+         *
+         * The browser's own bubbles are the fallback, but they vanish on the
+         * next click, are not reachable by a screen reader after the fact, and
+         * only ever show one field at a time. This marks every invalid field
+         * with aria-invalid, writes a specific reason into the element the
+         * field already points at with aria-describedby, and sends focus to
+         * the first problem. Fields are only checked once the visitor has
+         * either left them or tried to submit, so nobody is told their email
+         * is wrong while they are still typing the first letter.
+         */
+        function initializeContactValidation() {
+            const form = document.getElementById('contact-form');
+            if (!form) return;
+
+            const messages = {
+                es: {
+                    name: 'Escribe tu nombre para saber cómo dirigirnos a ti.',
+                    emailMissing: 'Necesitamos un correo para poder responderte.',
+                    emailInvalid: 'Ese correo no parece válido. Revisa que incluya @ y un dominio.',
+                    messageMissing: 'Cuéntanos brevemente en qué podemos ayudarte.',
+                    messageShort: 'Añade un poco más de detalle (al menos 12 caracteres).'
+                },
+                en: {
+                    name: 'Enter your name so we know how to address you.',
+                    emailMissing: 'We need an email address to be able to reply.',
+                    emailInvalid: 'That email does not look valid. Check that it has an @ and a domain.',
+                    messageMissing: 'Tell us briefly what we can help you with.',
+                    messageShort: 'Add a little more detail (at least 12 characters).'
+                },
+                pt: {
+                    name: 'Escreva seu nome para sabermos como falar com você.',
+                    emailMissing: 'Precisamos de um e-mail para poder responder.',
+                    emailInvalid: 'Esse e-mail não parece válido. Verifique se tem @ e um domínio.',
+                    messageMissing: 'Conte brevemente como podemos ajudar.',
+                    messageShort: 'Acrescente um pouco mais de detalhe (ao menos 12 caracteres).'
+                }
+            };
+            const copy = messages[pageLanguage] || messages.es;
+
+            const problemWith = field => {
+                const value = field.value.trim();
+                if (field.id === 'form-name') return value ? '' : copy.name;
+                if (field.id === 'form-email') {
+                    if (!value) return copy.emailMissing;
+                    return field.validity.typeMismatch ? copy.emailInvalid : '';
+                }
+                if (!value) return copy.messageMissing;
+                return value.length < 12 ? copy.messageShort : '';
+            };
+
+            const fields = ['form-name', 'form-email', 'form-message']
+                .map(id => document.getElementById(id))
+                .filter(Boolean);
+
+            const showProblem = field => {
+                const problem = problemWith(field);
+                const error = document.getElementById(`${field.id}-error`);
+                field.setAttribute('aria-invalid', problem ? 'true' : 'false');
+                if (error) {
+                    error.textContent = problem;
+                    error.hidden = !problem;
+                }
+                return !problem;
+            };
+
+            let hasAttemptedSubmit = false;
+
+            fields.forEach(field => {
+                field.addEventListener('blur', () => {
+                    // Before the first submit, only flag a field the visitor
+                    // actually filled in; leaving an empty field on the way to
+                    // the next one is not yet a mistake.
+                    if (hasAttemptedSubmit || field.value.trim()) showProblem(field);
+                });
+                field.addEventListener('input', () => {
+                    // Clear a message as soon as it stops being true, so the
+                    // correction is acknowledged without waiting for blur.
+                    if (field.getAttribute('aria-invalid') === 'true') showProblem(field);
+                });
+            });
+
+            form.addEventListener('submit', event => {
+                hasAttemptedSubmit = true;
+                const valid = fields.map(showProblem);
+                if (valid.every(Boolean)) return;
+                event.preventDefault();
+                fields[valid.indexOf(false)].focus();
+            });
+        }
+
         applyPageLanguage(pageLanguage);
         initializeNavigationMenus();
         initializeDesktopScrollSpy();
+        initializeContactValidation();
     </script>
     <script src="/assets/js/bad-data-calculator.js" defer></script>
     <script type="module" src="/assets/js/identity.js"></script>

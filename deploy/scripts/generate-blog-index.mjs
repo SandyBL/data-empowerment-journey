@@ -8,6 +8,7 @@ import { renderArticleSchema } from './lib/article-schema.mjs';
 import { resolveCategory } from './lib/categories.mjs';
 import { renderConfessionWalls } from './lib/confession-wall.mjs';
 import { renderBlogIndexSchema } from './lib/blog-index-schema.mjs';
+import { checkClassCoverage } from './check-class-coverage.mjs';
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
 
 const LANGUAGES = ['en', 'es', 'pt'];
@@ -37,6 +38,7 @@ const LABELS = {
     breadcrumbHome: 'Home',
     breadcrumbBlog: 'Insights',
     breadcrumb: 'Breadcrumb',
+    languageNav: 'Language',
     relatedKicker: 'Keep reading',
     relatedTitle: 'Three more from the journal',
     relatedText: 'Articles that pick up where this one leaves off — chosen from the same track first, newest first after that.',
@@ -63,6 +65,7 @@ const LABELS = {
     breadcrumbHome: 'Inicio',
     breadcrumbBlog: 'Ideas',
     breadcrumb: 'Ruta de navegación',
+    languageNav: 'Idioma',
     relatedKicker: 'Seguir leyendo',
     relatedTitle: 'Tres lecturas más del journal',
     relatedText: 'Artículos que continúan donde termina este: primero los de la misma temática y después los más recientes.',
@@ -89,6 +92,7 @@ const LABELS = {
     breadcrumbHome: 'Início',
     breadcrumbBlog: 'Ideias',
     breadcrumb: 'Trilha de navegação',
+    languageNav: 'Idioma',
     relatedKicker: 'Continue lendo',
     relatedTitle: 'Mais três leituras do journal',
     relatedText: 'Artigos que seguem de onde este parou: primeiro os do mesmo tema e depois os mais recentes.',
@@ -421,8 +425,8 @@ function renderArticlePage(article, translations, articles) {
 </head>
 <body data-lang="${article.lang}" class="article-ready">
   <a class="skip-link" href="#article">${labels.skip}</a>
-  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[article.lang]}"><img src="${imageCdn(LOGO.url, 80, 78)}" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" aria-label="Language">${languageNav}</div></div></nav></header>
-  <main id="article">
+  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[article.lang]}"><img src="${imageCdn(LOGO.url, 80, 78)}" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" role="navigation" aria-label="${labels.languageNav}">${languageNav}</div></div></nav></header>
+  <main id="article" tabindex="-1">
     <header class="article-hero blog-shell">
       ${renderBreadcrumbNav(breadcrumb, labels)}
       <span class="blog-kicker">${escapeHtml(article.category)}</span>
@@ -732,7 +736,27 @@ async function writeLlmsFiles(articles) {
   await writeFile(path.join(projectDirectory, 'llms-full.txt'), renderLlmsFull(intro, articles, LANGUAGES), 'utf8');
 }
 
+/**
+ * `assets/styles.css` is a hand-written Tailwind subset, so a class that is not
+ * authored there does nothing and reports no error. Fail the build instead of
+ * shipping markup whose layout silently does not apply.
+ */
+async function verifyClassCoverage() {
+  const results = await checkClassCoverage();
+  const offenders = results.filter((result) => result.missing.length > 0);
+  if (offenders.length === 0) return;
+
+  const detail = offenders
+    .flatMap((result) => result.missing.map(({ token, line }) => `  ${result.file}:${line}  .${token}`))
+    .join('\n');
+  throw new Error(
+    `Undefined CSS class(es) used in markup:\n${detail}\nAdd the rule to the stylesheet, or list the class in scripts/check-class-coverage.mjs if it is a behavioural hook.`
+  );
+}
+
 async function main() {
+  await verifyClassCoverage();
+
   const articles = await loadArticles();
   const translationMap = buildTranslationMap(articles);
   const renames = collectRenames(articles);

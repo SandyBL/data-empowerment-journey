@@ -29,6 +29,17 @@ const PAGE_METADATA = {
       'Convertimos los datos en activos estratégicos orquestando personas, procesos y tecnología. Basado en DAMA.',
     ariaBlog: 'Abrir el blog',
     ariaConfession: 'Visitar el Muro de Confesiones',
+    ariaBrand: 'Data Governance Journey, ir al inicio',
+    ariaSectionNav: 'Navegación por secciones',
+    ariaContentLinks: 'Blog, newsletter y Muro de Confesiones',
+    ariaNewsletter: 'Abrir la newsletter de Data Governance Journey',
+    ariaMenuOpen: 'Abrir el menú de navegación',
+    ariaMenuClose: 'Cerrar el menú de navegación',
+    ariaMobileNav: 'Navegación móvil',
+    ariaContactOptions: 'Opciones de contacto',
+    ariaDirectory: 'Directorio del sitio',
+    ariaDeliverables: 'Entregables del diagnóstico',
+    skipLink: 'Saltar al contenido principal',
   },
   en: {
     title: 'Data Governance Journey | Data Governance & Data Culture Consulting',
@@ -39,6 +50,17 @@ const PAGE_METADATA = {
       'We turn data into a strategic asset by orchestrating people, processes, and technology. Built on DAMA.',
     ariaBlog: 'Open the blog',
     ariaConfession: 'Visit the Confession Wall',
+    ariaBrand: 'Data Governance Journey, go to home',
+    ariaSectionNav: 'Section navigation',
+    ariaContentLinks: 'Blog, newsletter, and Confession Wall',
+    ariaNewsletter: 'Open the Data Governance Journey newsletter',
+    ariaMenuOpen: 'Open the navigation menu',
+    ariaMenuClose: 'Close the navigation menu',
+    ariaMobileNav: 'Mobile navigation',
+    ariaContactOptions: 'Contact options',
+    ariaDirectory: 'Site directory',
+    ariaDeliverables: 'Assessment deliverables',
+    skipLink: 'Skip to main content',
   },
   pt: {
     title: 'Data Governance Journey | Governança de Dados & Cultura de Dados',
@@ -49,6 +71,17 @@ const PAGE_METADATA = {
       'Transformamos dados em ativos estratégicos orquestrando pessoas, processos e tecnologia. Baseado no DAMA.',
     ariaBlog: 'Abrir o blog',
     ariaConfession: 'Visitar o Mural de Confissões',
+    ariaBrand: 'Data Governance Journey, ir para o início',
+    ariaSectionNav: 'Navegação por seções',
+    ariaContentLinks: 'Blog, newsletter e Mural de Confissões',
+    ariaNewsletter: 'Abrir a newsletter da Data Governance Journey',
+    ariaMenuOpen: 'Abrir o menu de navegação',
+    ariaMenuClose: 'Fechar o menu de navegação',
+    ariaMobileNav: 'Navegação móvel',
+    ariaContactOptions: 'Opções de contato',
+    ariaDirectory: 'Diretório do site',
+    ariaDeliverables: 'Entregáveis do diagnóstico',
+    skipLink: 'Ir para o conteúdo principal',
   },
 };
 
@@ -194,6 +227,18 @@ export const renderHomePage = (template, schemaGraph, lang) => {
     .replace(/__LANG__/g, lang)
     .replace(/__ARIA_BLOG__/g, escapeAttribute(metadata.ariaBlog))
     .replace(/__ARIA_CONFESSION__/g, escapeAttribute(metadata.ariaConfession))
+    .replace(/__ARIA_BRAND__/g, escapeAttribute(metadata.ariaBrand))
+    .replace(/__ARIA_SECTION_NAV__/g, escapeAttribute(metadata.ariaSectionNav))
+    .replace(/__ARIA_CONTENT_LINKS__/g, escapeAttribute(metadata.ariaContentLinks))
+    .replace(/__ARIA_NEWSLETTER__/g, escapeAttribute(metadata.ariaNewsletter))
+    .replace(/__ARIA_MENU_OPEN__/g, escapeAttribute(metadata.ariaMenuOpen))
+    .replace(/__ARIA_MENU_CLOSE__/g, escapeAttribute(metadata.ariaMenuClose))
+    .replace(/__ARIA_MOBILE_NAV__/g, escapeAttribute(metadata.ariaMobileNav))
+    .replace(/__ARIA_CONTACT_OPTIONS__/g, escapeAttribute(metadata.ariaContactOptions))
+    .replace(/__ARIA_DIRECTORY__/g, escapeAttribute(metadata.ariaDirectory))
+    .replace(/__ARIA_DELIVERABLES__/g, escapeAttribute(metadata.ariaDeliverables))
+    .replace(/__SKIP_LINK__/g, escapeAttribute(metadata.skipLink))
+    .replace(/__HOME_SELF__/g, HOME_PATH[lang])
     .replace(/__HOME_EN__/g, HOME_PATH.en)
     .replace(/__HOME_ES__/g, HOME_PATH.es)
     .replace(/__HOME_PT__/g, HOME_PATH.pt);

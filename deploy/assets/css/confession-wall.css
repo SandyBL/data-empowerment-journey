@@ -11,7 +11,84 @@
   --muted: #64748b;
   --line: #dce7ea;
   --paper: #ffffff;
+
+  /* Focus indicator: 9.9:1 on white, 9.4:1 on the page background. */
+  --focus-ring: #0b4a5c;
 }
+
+/*
+ * Baseline focus indicator. Components may restyle it, but none may remove it:
+ * this stylesheet previously had a single :focus-visible rule in 1000 lines.
+ */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/*
+ * Available to screen readers, absent from the visual layout. Used where an
+ * icon carries the meaning visually but a control still needs a real name.
+ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Bypass block (WCAG 2.4.1): off-canvas until it takes keyboard focus. */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  transform: translateY(-200%);
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: var(--deepblue);
+  color: #ffffff;
+  font-size: .85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus { transform: none; }
+
+/* Breadcrumb: the page already declared one in JSON-LD but never showed it. */
+.wall-breadcrumb {
+  width: min(1180px, calc(100% - 40px));
+  margin: 20px auto 0;
+}
+
+.wall-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.wall-breadcrumb li + li::before {
+  margin-right: 8px;
+  content: "/";
+  color: var(--dejourney-cyan);
+}
+
+.wall-breadcrumb a {
+  color: var(--dejourney-teal);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.wall-breadcrumb a:hover { text-decoration: underline; }
+.wall-breadcrumb [aria-current="page"] { color: var(--ink); font-weight: 700; }
 
 *,
 *::before,
@@ -354,7 +431,6 @@ a {
   border-radius: 0.85rem;
   background: #f8fafc;
   color: var(--ink);
-  outline: none;
 }
 
 .wall-search input:focus {
@@ -640,7 +716,7 @@ a {
 }
 
 .wall-assessment-cta__button:focus-visible {
-  outline: 3px solid rgb(80 200 120 / 0.45);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 4px;
 }
 
@@ -781,7 +857,6 @@ a {
   border-radius: 0.75rem;
   background: #f8fafc;
   color: var(--ink);
-  outline: none;
 }
 
 .wall-field textarea {

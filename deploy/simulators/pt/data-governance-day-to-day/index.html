@@ -72,11 +72,12 @@
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body class="h-screen flex flex-col md:flex-row overflow-hidden">
+    <a class="skip-link" href="#main-container">Ir para o simulador</a>
 
     <!-- Modal DAMA-DMBOK Guia -->
     <div id="dama-modal" class="modal fixed inset-0 z-50 items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition">
+            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition">
                 <i class="fas fa-times text-xl"></i>
             </button>
             <h2 class="text-2xl font-bold text-slate-800 mb-2 border-b pb-2"><i class="fas fa-book text-blue-600 mr-2"></i>Áreas de Conhecimento DAMA-DMBOK</h2>
@@ -94,7 +95,7 @@
                 <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">10. Metadados:</strong> Informações sobre os dados (contexto, linhagem, definições).</div>
                 <div class="p-3 bg-slate-50 rounded border md:col-span-2"><strong class="text-blue-700">11. Qualidade de Dados:</strong> Garantir que os dados sejam adequados para uso, medindo e melhorando sua condição.</div>
             </div>
-            <button onclick="closeModal()" class="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Entendido</button>
+            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Entendido</button>
         </div>
     </div>
 
@@ -104,7 +105,7 @@
             <p class="text-lg font-bold flex items-center gap-2">
                 <i class="fas fa-network-wired text-blue-400"></i> DAMA Simulator
             </p>
-            <button onclick="openModal()" class="text-slate-400 hover:text-white" title="Referência DAMA-DMBOK">
+            <button onclick="openModal()" aria-label="Abrir a referência DAMA-DMBOK" class="text-slate-400 hover:text-white" title="Referência DAMA-DMBOK">
                 <i class="fas fa-info-circle text-lg"></i>
             </button>
         </div>
@@ -211,7 +212,7 @@
                 <span class="simulator-badge text-xs font-semibold px-3 py-1 rounded-full border">
                     SaaS Enterprise Edition
                 </span>
-                <a href="/" class="simulator-home-link" aria-label="Voltar ao site principal">
+                <a href="/pt/" class="simulator-home-link" aria-label="Voltar ao site principal">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
                     </svg>
@@ -220,9 +221,16 @@
             </div>
             </div>
         </header>
+    <nav class="simulator-breadcrumb" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="/pt/">Início</a></li>
+        <li><a href="/pt/#simulators">Simuladores</a></li>
+        <li><span aria-current="page">Dia a Dia</span></li>
+      </ol>
+    </nav>
 
         <!-- Dynamic Content Container -->
-        <main class="flex-1 p-4 sm:p-8 max-w-5xl mx-auto w-full flex flex-col" id="main-container">
+        <main class="flex-1 p-4 sm:p-8 max-w-5xl mx-auto w-full flex flex-col" id="main-container" tabindex="-1">
             
             <!-- Welcome Screen -->
             <div id="welcome-screen" class="glass-panel p-8 rounded-2xl shadow-xl text-center my-auto">
@@ -317,6 +325,7 @@
                     <div class="p-4 bg-slate-50 border-b border-slate-200" id="leaderboard-form-container">
                         <p class="text-sm text-slate-600 mb-2 font-medium">Salve sua pontuação no ranking:</p>
                         <div class="flex gap-2">
+                            <label for="player-name" class="sr-only">Seu nome ou cargo para o ranking</label>
                             <input type="text" id="player-name" placeholder="Seu Nome ou Cargo" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                             <button onclick="saveScore()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow">
                                 Salvar no Ranking

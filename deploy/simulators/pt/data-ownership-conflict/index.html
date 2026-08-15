@@ -264,8 +264,11 @@
       transition: border-color 0.2s;
     }
 
-    .form-input:focus {
-      outline: none;
+    /* The border tint alone is not a focus indicator: it changes only hue and
+       is easy to miss. WCAG 2.4.7 wants the ring, so keep both. */
+    .form-input:focus-visible {
+      outline: 3px solid var(--primary-teal);
+      outline-offset: 2px;
       border-color: var(--primary-teal);
     }
 
@@ -767,6 +770,7 @@
   <link rel="stylesheet" href="/assets/css/simulator-header.css">
 </head>
 <body>
+    <a class="skip-link" href="#simulator-main">Ir para o simulador</a>
 
   <!-- CABEÇALHO DA MARCA -->
   <header class="simulator-site-header">
@@ -789,7 +793,7 @@
         <button class="btn-icon" onclick="openRaciModal()">
           📖 Guia RACI de Dados
         </button>
-        <a href="/" class="simulator-home-link" aria-label="Voltar ao site principal">
+        <a href="/pt/" class="simulator-home-link" aria-label="Voltar ao site principal">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
           </svg>
@@ -798,8 +802,15 @@
       </div>
     </div>
   </header>
+    <nav class="simulator-breadcrumb" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="/pt/">Início</a></li>
+        <li><a href="/pt/#simulators">Simuladores</a></li>
+        <li><span aria-current="page">Propriedade de Dados</span></li>
+      </ol>
+    </nav>
 
-  <main>
+  <main id="simulator-main" tabindex="-1">
     <!-- 1. TELA DE BOAS-VINDAS -->
     <section id="welcome-screen" class="screen active">
       <div class="card welcome-card">

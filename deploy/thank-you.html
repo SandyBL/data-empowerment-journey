@@ -8,7 +8,7 @@
     <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/fonts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="/assets/styles.css">
     <style>
         .confirmation-shell { min-height: 100vh; }
         [lang-content] { display: none; }
@@ -33,7 +33,7 @@
                 <span lang-content="en">We received your diagnostic session request. We will contact you to coordinate the next steps.</span>
                 <span lang-content="pt">Recebemos sua solicitação de sessão de diagnóstico. Entraremos em contato para coordenar os próximos passos.</span>
             </p>
-            <a href="/#contacto" class="confirmation-return-link inline-flex items-center justify-center gap-3 px-7 py-3.5 bg-deepblue hover:bg-deepblue/95 text-white font-bold rounded-xl shadow-lg shadow-deepblue/10 hover:shadow-deepblue/25 hover:-translate-y-0.5 transition-all">
+            <a id="return-link" href="/#contacto" class="confirmation-return-link inline-flex items-center justify-center gap-3 px-7 py-3.5 bg-deepblue hover:bg-deepblue/95 text-white font-bold rounded-xl shadow-lg shadow-deepblue/10 hover:shadow-deepblue/25 hover:-translate-y-0.5 transition-all">
                 <i class="fa-solid fa-arrow-left text-sm text-emeraldgreen" aria-hidden="true"></i>
                 <span lang-content="es">Volver al sitio</span>
                 <span lang-content="en">Return to the site</span>
@@ -60,6 +60,12 @@
         document.documentElement.lang = language;
         document.body.classList.remove(...supportedLanguages.map(item => `lang-${item}`));
         document.body.classList.add(`lang-${language}`);
+
+        // The copy above switches with the detected language, so the way back has
+        // to switch with it too: an English visitor was being returned to the
+        // Spanish homepage.
+        const contactSection = { es: '/#contacto', en: '/en/#contacto', pt: '/pt/#contacto' };
+        document.getElementById('return-link').href = contactSection[language];
     </script>
 </body>
 </html>

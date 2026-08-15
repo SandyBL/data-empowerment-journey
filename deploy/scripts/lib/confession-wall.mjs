@@ -33,6 +33,8 @@ const PAGE_METADATA = {
     categoriesAria: 'Confession categories',
     closeAria: 'Close',
     breadcrumbHome: 'Home',
+    skipLink: 'Skip to main content',
+    breadcrumbAria: 'Breadcrumb',
   },
   es: {
     title: 'El Muro de Confesiones de Gobierno de Datos | Data Governance Journey',
@@ -43,6 +45,8 @@ const PAGE_METADATA = {
     categoriesAria: 'Categorías de confesiones',
     closeAria: 'Cerrar',
     breadcrumbHome: 'Inicio',
+    skipLink: 'Saltar al contenido principal',
+    breadcrumbAria: 'Ruta de navegación',
   },
   pt: {
     title: 'O Mural de Confissões de Governança de Dados | Data Governance Journey',
@@ -53,6 +57,8 @@ const PAGE_METADATA = {
     categoriesAria: 'Categorias de confissões',
     closeAria: 'Fechar',
     breadcrumbHome: 'Início',
+    skipLink: 'Ir para o conteúdo principal',
+    breadcrumbAria: 'Trilha de navegação',
   },
 };
 
@@ -187,7 +193,7 @@ const renderPage = (lang) => {
   const filters = categories
     .map(
       (category, index) =>
-        `        <button type="button" class="wall-filter${index === 0 ? ' is-active' : ''}" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`,
+        `        <button type="button" class="wall-filter${index === 0 ? ' is-active' : ''}" data-category="${escapeHtml(category)}" aria-pressed="${index === 0 ? 'true' : 'false'}">${escapeHtml(category)}</button>`,
     )
     .join('\n');
 
@@ -237,6 +243,7 @@ ${alternates}
   </script>
 </head>
 <body data-locale="${lang}">
+  <a class="skip-link" href="#main-content">${escapeHtml(metadata.skipLink)}</a>
   <header class="wall-header">
     <div class="wall-header__inner">
       <a class="wall-brand" href="${home}" aria-label="${escapeHtml(metadata.homeAria)}">
@@ -255,7 +262,13 @@ ${languageNav}
     </div>
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
+    <nav class="wall-breadcrumb" aria-label="${escapeHtml(metadata.breadcrumbAria)}">
+      <ol>
+        <li><a href="${home}">${escapeHtml(metadata.breadcrumbHome)}</a></li>
+        <li><span aria-current="page">${escapeHtml(copy.titleAccent)}</span></li>
+      </ol>
+    </nav>
     <section class="wall-hero">
       <div class="wall-hero__inner">
         <div>
@@ -283,18 +296,19 @@ ${languageNav}
           <h2 id="wall-section-title">${escapeHtml(copy.sectionTitle)}</h2>
           <p>${escapeHtml(copy.sectionLead)}</p>
         </div>
-        <span class="wall-count"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span id="wall-count">${copy.defaultStories.length} ${escapeHtml(copy.count)}</span></span>
+        <span class="wall-count"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span id="wall-count" role="status">${copy.defaultStories.length} ${escapeHtml(copy.count)}</span></span>
       </div>
       <div class="wall-controls">
         <label class="wall-search" for="wall-search-input">
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="wall-search-input" type="search" placeholder="${escapeHtml(copy.search)}" aria-label="${escapeHtml(copy.search)}">
+          <span class="visually-hidden">${escapeHtml(copy.search)}</span>
+          <input id="wall-search-input" type="search" placeholder="${escapeHtml(copy.search)}">
         </label>
         <div id="wall-filters" class="wall-filters" role="group" aria-label="${escapeHtml(metadata.categoriesAria)}">
 ${filters}
         </div>
       </div>
-      <div id="wall-grid" class="wall-grid" aria-live="polite">${copy.defaultStories.map((story) => renderStoryCard(story, copy)).join('')}
+      <div id="wall-grid" class="wall-grid">${copy.defaultStories.map((story) => renderStoryCard(story, copy)).join('')}
       </div>
     </section>
   </main>
