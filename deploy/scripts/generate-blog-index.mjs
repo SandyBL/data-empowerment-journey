@@ -6,8 +6,10 @@ import { renderHomePage, HOME_PATH } from './lib/home-pages.mjs';
 import { renderLlmsIndex, renderLlmsFull } from './lib/llms.mjs';
 import { renderArticleSchema } from './lib/article-schema.mjs';
 import { resolveCategory } from './lib/categories.mjs';
+import { renderConfessionWalls } from './lib/confession-wall.mjs';
+import { renderBlogIndexSchema } from './lib/blog-index-schema.mjs';
+import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
 
-const SITE_ORIGIN = 'https://datagovjourney.com';
 const LANGUAGES = ['en', 'es', 'pt'];
 const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
 const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
@@ -34,6 +36,7 @@ const LABELS = {
     skip: 'Skip to article',
     breadcrumbHome: 'Home',
     breadcrumbBlog: 'Insights',
+    breadcrumb: 'Breadcrumb',
     relatedKicker: 'Keep reading',
     relatedTitle: 'Three more from the journal',
     relatedText: 'Articles that pick up where this one leaves off — chosen from the same track first, newest first after that.',
@@ -59,6 +62,7 @@ const LABELS = {
     skip: 'Saltar al artículo',
     breadcrumbHome: 'Inicio',
     breadcrumbBlog: 'Ideas',
+    breadcrumb: 'Ruta de navegación',
     relatedKicker: 'Seguir leyendo',
     relatedTitle: 'Tres lecturas más del journal',
     relatedText: 'Artículos que continúan donde termina este: primero los de la misma temática y después los más recientes.',
@@ -84,6 +88,7 @@ const LABELS = {
     skip: 'Ir para o artigo',
     breadcrumbHome: 'Início',
     breadcrumbBlog: 'Ideias',
+    breadcrumb: 'Trilha de navegação',
     relatedKicker: 'Continue lendo',
     relatedTitle: 'Mais três leituras do journal',
     relatedText: 'Artigos que seguem de onde este parou: primeiro os do mesmo tema e depois os mais recentes.',
@@ -175,6 +180,30 @@ const normalizeSearchText = (text) =>
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 
+/**
+ * The people who can appear as an author, and nothing else.
+ *
+ * Every article schema points its author at the same `#sandy-bradbury` @id, so
+ * whatever front matter says becomes the name of that one entity. Some files
+ * said "Sandy Bradbury" and others "Sandy Bradbury / Data Governance Journey",
+ * which published one identifier under two names and folded the organisation
+ * into the person \u2014 exactly the ambiguity the shared @id exists to remove. The
+ * publisher is already carried separately, so the person is just the person,
+ * and an unrecognised value fails the build rather than reaching a page.
+ */
+const KNOWN_AUTHORS = ['Sandy Bradbury'];
+
+function resolveAuthor(value, source) {
+  const author = (value || KNOWN_AUTHORS[0]).trim();
+  if (!KNOWN_AUTHORS.includes(author)) {
+    throw new Error(
+      `Unknown author "${author}" in ${source}. Author must be one of: ${KNOWN_AUTHORS.join(', ')}. ` +
+        'The organisation is published separately as the schema publisher and does not belong in this field.'
+    );
+  }
+  return author;
+}
+
 async function loadArticles() {
   const articles = [];
   for (const lang of LANGUAGES) {
@@ -198,8 +227,12 @@ async function loadArticles() {
         summary: attributes.summary || '',
         category: category.label,
         categoryKey: category.key,
-        author: attributes.author || 'Sandy Bradbury',
+        author: resolveAuthor(attributes.author, `content/blog/${lang}/${file}`),
         date: attributes.date,
+        // Schema and the sitemap both need a modified date. Without one the two
+        // dates were identical on every article, which tells a crawler nothing
+        // about whether a page is worth recrawling.
+        updated: attributes.updated || attributes.date,
         translationKey: attributes.translation_key || slug,
         redirectFrom: [attributes.redirect_from ?? []].flat().map(normalizeSlug).filter(Boolean),
         readingTime: readingTimeMinutes(body),
@@ -244,6 +277,28 @@ function renderTableOfContents(headings, label) {
     )
     .join('');
   return `<aside class="toc" aria-label="${label}"><strong>${label}</strong><ol>${items}</ol></aside>`;
+}
+
+/**
+ * Renders the breadcrumb trail the BreadcrumbList schema describes.
+ *
+ * The trail existed only as JSON-LD. Google asks that structured data reflect
+ * something the page actually shows, and a reader arriving from a search result
+ * deep in the blog had no visible route back up, so the same array now renders
+ * as markup and as schema.
+ */
+function renderBreadcrumbNav(breadcrumb, labels) {
+  const items = breadcrumb
+    .map((step, position) => {
+      const isLast = position === breadcrumb.length - 1;
+      const label = escapeHtml(step.name);
+      // The current page is its own breadcrumb tail; linking it to itself adds
+      // a self-referencing link and nothing a reader can use.
+      const content = isLast ? `<span aria-current="page">${label}</span>` : `<a href="${step.item}">${label}</a>`;
+      return `<li>${content}</li>`;
+    })
+    .join('');
+  return `<nav class="article-breadcrumb" aria-label="${labels.breadcrumb}"><ol>${items}</ol></nav>`;
 }
 
 /**
@@ -308,17 +363,19 @@ function renderArticlePage(article, translations, articles) {
     return `<a href="${href}"${current}>${lang.toUpperCase()}</a>`;
   }).join('');
 
+  const breadcrumb = [
+    { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[article.lang]}` },
+    { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${article.lang}/blog/` },
+    { name: article.title, item: canonical },
+  ];
+
   const schema = renderArticleSchema({
     article,
     canonical,
     homeUrl: `${SITE_ORIGIN}${HOME_PATH[article.lang]}`,
     htmlLanguage: HTML_LANG[article.lang],
     blogName: `${labels.blogTitle} — Data Governance Journey`,
-    breadcrumb: [
-      { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[article.lang]}` },
-      { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${article.lang}/blog/` },
-      { name: article.title, item: canonical },
-    ],
+    breadcrumb,
   });
 
   return `<!doctype html>
@@ -338,27 +395,36 @@ function renderArticlePage(article, translations, articles) {
   <meta property="og:url" content="${canonical}">
   <meta property="og:site_name" content="Data Governance Journey">
   <meta property="og:locale" content="${OG_LOCALE[article.lang]}">
-  <meta property="og:image" content="${SITE_ORIGIN}/assets/images/dg-logo.png">
+  <meta property="og:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
+  <meta property="og:image:width" content="${OG_IMAGE.width}">
+  <meta property="og:image:height" content="${OG_IMAGE.height}">
+  <meta property="og:image:alt" content="${escapeHtml(OG_IMAGE.alt)}">
   <meta property="article:published_time" content="${article.date}">
+  <meta property="article:modified_time" content="${article.updated}">
   <meta property="article:author" content="${escapeHtml(article.author)}">
   <meta property="article:section" content="${escapeHtml(article.category)}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(article.title)} | Data Governance Journey">
   <meta name="twitter:description" content="${escapeHtml(description)}">
-  <meta name="twitter:image" content="${SITE_ORIGIN}/assets/images/dg-logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="/assets/images/dg-logo.png">
+  <meta name="twitter:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
+  <meta name="twitter:image:alt" content="${escapeHtml(OG_IMAGE.alt)}">
+  <link rel="preload" href="/assets/fonts/dm-serif-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts-dm.css">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#003366">
   <link rel="stylesheet" href="/assets/css/blog.css">
   <link rel="stylesheet" href="/assets/css/site-brand.css">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body data-lang="${article.lang}" class="article-ready">
   <a class="skip-link" href="#article">${labels.skip}</a>
-  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[article.lang]}"><img src="/assets/images/dg-logo.png" alt="Data Governance Journey" width="40" height="40"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" aria-label="Language">${languageNav}</div></div></nav></header>
+  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[article.lang]}"><img src="${imageCdn(LOGO.url, 80, 78)}" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" aria-label="Language">${languageNav}</div></div></nav></header>
   <main id="article">
     <header class="article-hero blog-shell">
+      ${renderBreadcrumbNav(breadcrumb, labels)}
       <span class="blog-kicker">${escapeHtml(article.category)}</span>
       <h1>${escapeHtml(article.title)}</h1>
       <p class="article-deck">${escapeHtml(article.summary)}</p>
@@ -370,7 +436,7 @@ function renderArticlePage(article, translations, articles) {
         <article class="article-body">
 ${bodyHtml}
         </article>
-        <aside class="author-card" aria-label="${labels.about}"><img src="/icone%20foto%20limpo.png" alt="Sandy Bradbury" width="96" height="96" loading="lazy"><div><small>${labels.about}</small><h2>Sandy Bradbury</h2><p>${labels.aboutText}</p></div></aside>
+        <aside class="author-card" aria-label="${labels.about}"><img src="${imageCdn(PORTRAIT.url, 192, 192, 'cover')}" alt="Sandy Bradbury, Lead Data Governance Consultant" width="96" height="96" loading="lazy" decoding="async"><div><small>${labels.about}</small><h2>Sandy Bradbury</h2><p>${labels.aboutText}</p></div></aside>
       </div>
     </div>
     ${renderRelated(article, articles, labels)}
@@ -446,6 +512,12 @@ async function updateBlogIndexes(articles) {
       source,
       'BLOG_ARCHIVE',
       localized.map((article) => renderArchiveCard(article)).join(''),
+      indexPath
+    );
+    source = replaceBetweenMarkers(
+      source,
+      'BLOG_SCHEMA',
+      renderBlogIndexSchema(lang, HTML_LANG[lang], localized, LABELS[lang]),
       indexPath
     );
     assertArchiveIsComplete(source, localized, indexPath);
@@ -666,6 +738,7 @@ async function main() {
   const renames = collectRenames(articles);
 
   await writeHomePages();
+  const confessionWalls = await renderConfessionWalls(projectDirectory);
 
   const generatedDirectories = new Set();
   for (const article of articles) {
@@ -709,7 +782,9 @@ async function main() {
     );
   }
 
-  console.log(`Generated ${LANGUAGES.length} homepages, ${articles.length} static article pages, sitemap, and redirects.`);
+  console.log(
+    `Generated ${LANGUAGES.length} homepages, ${confessionWalls} confession walls, ${articles.length} static article pages, sitemap, and redirects.`
+  );
 }
 
 await main();

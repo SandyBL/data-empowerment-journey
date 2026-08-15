@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found | Data Governance Journey</title>
+  <meta name="description" content="This page does not exist. Find the Data Governance Journey blog, the Confession Wall, and the maturity simulators here.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#003366">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <!--
+    Styles are inline and the page loads no fonts, no icon set, and no scripts.
+    A 404 is served on a request that already went wrong, often to a crawler
+    checking a stale link, so it renders from a single round trip rather than
+    waiting on three CDNs to tell someone their URL is broken.
+
+    Plus Jakarta Sans still leads the stack below: no @font-face here means it
+    resolves only for the handful of visitors who have it installed, and everyone
+    else gets their system UI font immediately. That is the right trade for a
+    page whose whole job is to hand the visitor a working link quickly.
+  -->
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.25rem;
+      background: #f8fafc;
+      color: #1e293b;
+      font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+    main { width: 100%; max-width: 44rem; text-align: center; }
+    .mark {
+      display: inline-block;
+      width: 3.5rem;
+      height: 3px;
+      margin-bottom: 2rem;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #e95d24, #65b7c7);
+    }
+    .code { margin: 0; color: #94a3b8; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+    h1 { margin: 0.5rem 0 1rem; color: #003366; font-size: clamp(1.6rem, 4vw, 2.25rem); font-weight: 800; }
+    .lead { margin: 0 auto 2.5rem; max-width: 34rem; color: #475569; }
+    .lead span { display: block; }
+    .lead span + span { margin-top: 0.4rem; color: #64748b; font-size: 0.95rem; }
+    h2 { margin: 0 0 1rem; color: #64748b; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+    ul { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); text-align: left; }
+    a.card {
+      display: block;
+      padding: 1rem 1.15rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.9rem;
+      background: #ffffff;
+      color: #003366;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a.card span { display: block; color: #64748b; font-size: 0.85rem; font-weight: 400; }
+    a.card:hover, a.card:focus-visible { border-color: #65b7c7; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="mark" aria-hidden="true"></span>
+    <p class="code">Error 404</p>
+    <h1>This page does not exist</h1>
+    <p class="lead">
+      <span>The address you followed is wrong, or the page has moved. Everything below still works.</span>
+      <span lang="es">La dirección que seguiste no existe o la página cambió de lugar.</span>
+      <span lang="pt-BR">O endereço que você seguiu não existe ou a página foi movida.</span>
+    </p>
+
+    <h2>Where to go next</h2>
+    <ul>
+      <li><a class="card" href="/en/">Home <span>Data governance consulting, in English</span></a></li>
+      <li><a class="card" href="/" lang="es">Inicio <span>Consultoría de gobierno de datos, en español</span></a></li>
+      <li><a class="card" href="/pt/" lang="pt-BR">Início <span>Consultoria de governança de dados, em português</span></a></li>
+      <li><a class="card" href="/en/blog/">Blog <span>Articles on governance, data quality, and culture</span></a></li>
+      <li><a class="card" href="/es/blog/" lang="es">Blog <span>Artículos sobre gobierno, calidad y cultura de datos</span></a></li>
+      <li><a class="card" href="/pt/blog/" lang="pt-BR">Blog <span>Artigos sobre governança, qualidade e cultura de dados</span></a></li>
+      <li><a class="card" href="/en/confession-wall/">Confession Wall <span>Anonymous data failures and what prevents them</span></a></li>
+    </ul>
+  </main>
+</body>
+</html>

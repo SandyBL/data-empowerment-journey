@@ -11,7 +11,7 @@
  * script used to patch in at runtime.
  */
 
-const SITE_ORIGIN = 'https://datagovjourney.com';
+import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 
 /** Where each language's homepage lives. Spanish keeps the root. */
 export const HOME_PATH = { es: '/', en: '/en/', pt: '/pt/' };
@@ -139,14 +139,18 @@ ${alternates}
     <meta property="og:title" content="${escapeAttribute(metadata.socialTitle)}">
     <meta property="og:description" content="${escapeAttribute(metadata.socialDescription)}">
     <meta property="og:url" content="${canonical}">
-    <meta property="og:image" content="${SITE_ORIGIN}/assets/dg-logo.png">
+    <meta property="og:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
+    <meta property="og:image:width" content="${OG_IMAGE.width}">
+    <meta property="og:image:height" content="${OG_IMAGE.height}">
+    <meta property="og:image:alt" content="${escapeAttribute(OG_IMAGE.alt)}">
     <meta property="og:locale" content="${OG_LOCALE[lang]}">
 ${alternateLocales}
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escapeAttribute(metadata.socialTitle)}">
     <meta name="twitter:description" content="${escapeAttribute(metadata.socialDescription)}">
-    <meta name="twitter:image" content="${SITE_ORIGIN}/assets/dg-logo.png">`;
+    <meta name="twitter:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
+    <meta name="twitter:image:alt" content="${escapeAttribute(OG_IMAGE.alt)}">`;
 };
 
 /**

@@ -18,7 +18,7 @@
  *     where the direct answers already are.
  */
 
-const SITE_ORIGIN = 'https://datagovjourney.com';
+import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN } from './brand.mjs';
 
 /**
  * Topics the site writes about, as entities.
@@ -170,7 +170,7 @@ export const renderArticleSchema = ({ article, canonical, breadcrumb, homeUrl, h
       name: article.title,
       description,
       datePublished: article.date,
-      dateModified: article.date,
+      dateModified: article.updated || article.date,
       inLanguage: htmlLanguage,
       articleSection: article.category,
       keywords: [article.category, ...about.map((thing) => thing.name)].filter(Boolean).join(', '),
@@ -184,7 +184,9 @@ export const renderArticleSchema = ({ article, canonical, breadcrumb, homeUrl, h
       mainEntityOfPage: { '@id': canonical },
       image: {
         '@type': 'ImageObject',
-        url: `${SITE_ORIGIN}/assets/images/dg-logo.png`,
+        url: `${SITE_ORIGIN}${OG_IMAGE.url}`,
+        width: OG_IMAGE.width,
+        height: OG_IMAGE.height,
         caption: 'Data Governance Journey',
       },
       url: canonical,
@@ -205,6 +207,7 @@ export const renderArticleSchema = ({ article, canonical, breadcrumb, homeUrl, h
       '@id': `${SITE_ORIGIN}/#sandy-bradbury`,
       name: article.author,
       url: homeUrl,
+      image: `${SITE_ORIGIN}${PORTRAIT.url}`,
       jobTitle: 'Data Governance Consultant',
       worksFor: { '@id': `${SITE_ORIGIN}/#organization` },
     },
@@ -213,7 +216,7 @@ export const renderArticleSchema = ({ article, canonical, breadcrumb, homeUrl, h
       '@id': `${SITE_ORIGIN}/#organization`,
       name: 'Data Governance Journey',
       url: `${SITE_ORIGIN}/`,
-      logo: { '@type': 'ImageObject', url: `${SITE_ORIGIN}/assets/images/dg-logo.png` },
+      logo: { '@type': 'ImageObject', url: `${SITE_ORIGIN}${LOGO.url}`, width: LOGO.width, height: LOGO.height },
     },
     {
       '@type': 'BreadcrumbList',
