@@ -5,7 +5,6 @@
     const salaryInput = document.getElementById('bad-data-salary');
     const amountOutput = document.getElementById('bad-data-loss-amount');
     const inlineAmounts = document.querySelectorAll('[data-bad-data-inline-loss]');
-    const calculatorError = document.getElementById('bad-data-calculator-error');
     const currencyPrefix = document.getElementById('bad-data-currency-prefix');
     const downloadButton = document.getElementById('bad-data-pdf-download');
     const downloadStatus = document.getElementById('bad-data-download-status');
@@ -21,8 +20,12 @@
             prefix: '$',
             template: '/assets/templates/bad-data-calculator/report-en.html',
             filename: 'cost-of-data-friction-report.pdf',
-            invalid: 'Enter valid values in all three fields.',
+            required: 'Enter a value to calculate the loss.',
+            wholeNumber: 'Use a whole number, with no decimals.',
+            minValue: 'Enter a number greater than zero.',
+            maxEmployees: 'The maximum allowed is 100,000 people.',
             maxHours: 'The maximum allowed is 40 hours per week.',
+            maxSalary: 'The maximum allowed is 10,000,000.',
             ready: 'No form required. Immediate download.',
             loading: 'Generating your personalized report…',
             success: 'Your report is ready. The download has started.',
@@ -34,8 +37,12 @@
             prefix: '€',
             template: '/assets/templates/bad-data-calculator/report-es.html',
             filename: 'informe-costo-friccion-de-datos.pdf',
-            invalid: 'Introduce valores válidos en los tres campos.',
+            required: 'Introduce un valor para calcular la pérdida.',
+            wholeNumber: 'Usa un número entero, sin decimales.',
+            minValue: 'Introduce un número mayor que cero.',
+            maxEmployees: 'El máximo permitido es de 100.000 personas.',
             maxHours: 'El máximo permitido es de 40 horas por semana.',
+            maxSalary: 'El máximo permitido es de 10.000.000.',
             ready: 'Sin formulario. Descarga inmediata.',
             loading: 'Generando tu informe personalizado…',
             success: 'Tu informe está listo. La descarga ha comenzado.',
@@ -47,8 +54,12 @@
             prefix: 'R$',
             template: '/assets/templates/bad-data-calculator/report-pt.html',
             filename: 'relatorio-custo-friccao-de-dados.pdf',
-            invalid: 'Insira valores válidos nos três campos.',
+            required: 'Insira um valor para calcular a perda.',
+            wholeNumber: 'Use um número inteiro, sem decimais.',
+            minValue: 'Insira um número maior que zero.',
+            maxEmployees: 'O máximo permitido é de 100.000 pessoas.',
             maxHours: 'O máximo permitido é de 40 horas por semana.',
+            maxSalary: 'O máximo permitido é de 10.000.000.',
             ready: 'Sem formulário. Download imediato.',
             loading: 'Gerando seu relatório personalizado…',
             success: 'Seu relatório está pronto. O download começou.',
@@ -70,22 +81,56 @@
         downloadStatus.textContent = message;
     };
 
+    const inputs = [employeesInput, hoursInput, salaryInput];
+    const maxMessageKey = {
+        'bad-data-employees': 'maxEmployees',
+        'bad-data-hours': 'maxHours',
+        'bad-data-salary': 'maxSalary'
+    };
+
+    /**
+     * Returns why a field is unusable, in the page language, or '' if it is fine.
+     *
+     * Every rule the markup declares gets its own sentence. The previous
+     * version put one generic line under the whole form, which told a visitor
+     * that something among three fields was wrong but not which or why.
+     */
+    const describeProblem = input => {
+        const settings = getSettings();
+        const value = input.value.trim();
+        const number = Number(value);
+        if (!value || Number.isNaN(number)) return settings.required;
+        if (!Number.isInteger(number)) return settings.wholeNumber;
+        if (number < Number(input.min)) return settings.minValue;
+        if (number > Number(input.max)) return settings[maxMessageKey[input.id]];
+        return '';
+    };
+
+    /** Writes (or clears) one field's message and its aria-invalid state. */
+    const showProblem = input => {
+        const problem = describeProblem(input);
+        const error = document.getElementById(`${input.id}-error`);
+        input.setAttribute('aria-invalid', problem ? 'true' : 'false');
+        if (error) {
+            error.textContent = problem;
+            error.hidden = !problem;
+        }
+        return !problem;
+    };
+
+    /** Clears a message that has stopped being true, without raising new ones. */
+    const clearResolvedProblem = input => {
+        if (input.getAttribute('aria-invalid') === 'true') showProblem(input);
+    };
+
     const calculateLoss = () => {
         const employees = Number(employeesInput.value);
         const weeklyHours = Number(hoursInput.value);
         const salary = Number(salaryInput.value);
-        const exceedsWeeklyHoursLimit = weeklyHours > 40;
-        const isValid = employeesInput.checkValidity()
-            && hoursInput.checkValidity()
-            && salaryInput.checkValidity()
-            && employees > 0
-            && weeklyHours > 0
-            && salary > 0;
+        const isValid = inputs.every(input => !describeProblem(input));
 
         if (!isValid) {
             currentCalculation = null;
-            calculatorError.textContent = exceedsWeeklyHoursLimit ? getSettings().maxHours : getSettings().invalid;
-            hoursInput.setAttribute('aria-invalid', String(!hoursInput.checkValidity()));
             amountOutput.textContent = '—';
             inlineAmounts.forEach(element => { element.textContent = '—'; });
             return null;
@@ -102,8 +147,6 @@
             reworkLoss: annualLoss * 0.15
         };
 
-        calculatorError.textContent = '';
-        hoursInput.removeAttribute('aria-invalid');
         const formattedLoss = new Intl.NumberFormat(getSettings().locale, {
             style: 'currency',
             currency: getSettings().currency,
@@ -117,6 +160,8 @@
     const updateLanguage = () => {
         currencyPrefix.textContent = getSettings().prefix;
         calculateLoss();
+        // A message already on screen was written in the previous language.
+        inputs.forEach(clearResolvedProblem);
         if (!isGeneratingPdf) setDownloadStatus(getSettings().ready);
     };
 
@@ -244,8 +289,11 @@
     const downloadPdf = async () => {
         const calculation = calculateLoss();
         if (!calculation) {
-            const invalidInput = [employeesInput, hoursInput, salaryInput].find(input => !input.checkValidity());
-            invalidInput?.focus();
+            // Asking for the report is the visitor committing to the numbers, so
+            // this is the moment to state every problem at once and send them to
+            // the first one rather than only refusing to download.
+            const valid = inputs.map(showProblem);
+            inputs[valid.indexOf(false)].focus();
             return;
         }
 
@@ -268,7 +316,18 @@
         }
     };
 
-    calculator.addEventListener('input', calculateLoss);
+    // Typing recomputes the figure and retracts a message that no longer holds,
+    // but never raises a new one: "enter a number greater than zero" while the
+    // visitor is still on the first digit is noise, not help.
+    calculator.addEventListener('input', event => {
+        if (inputs.includes(event.target)) clearResolvedProblem(event.target);
+        calculateLoss();
+    });
+    // Leaving a field is the visitor saying they are done with it, so that is
+    // when it is fair to tell them the value cannot be used.
+    calculator.addEventListener('focusout', event => {
+        if (inputs.includes(event.target)) showProblem(event.target);
+    });
     downloadButton.addEventListener('click', downloadPdf);
     window.addEventListener('site-language-change', updateLanguage);
 

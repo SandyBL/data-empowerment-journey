@@ -7,6 +7,17 @@
   --slatecool: #0f172a;
   --softbg: #f8fafc;
   --line: #dce7ea;
+
+  /* Focus indicator: 9.9:1 on white, 9.4:1 on the page background. */
+  --focus-ring: #0b4a5c;
+}
+
+/*
+ * Baseline focus indicator. Components may restyle it, but none may remove it.
+ */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 *,
@@ -39,6 +50,9 @@ button { cursor: pointer; }
 
 .studio-login[hidden],
 .studio-shell[hidden] { display: none; }
+
+/* The login panel is a dark gradient: invert the ring so it stays visible. */
+.studio-login { --focus-ring: #ffffff; }
 
 .studio-login__card {
   width: min(100%, 31rem);
@@ -92,7 +106,6 @@ button { cursor: pointer; }
   border-radius: 0.75rem;
   background: rgb(255 255 255 / 0.09);
   color: #ffffff;
-  outline: none;
 }
 .studio-field input:focus { border-color: var(--dejourney-cyan); box-shadow: 0 0 0 3px rgb(101 183 199 / 0.2); }
 
@@ -227,7 +240,7 @@ button { cursor: pointer; }
   background: linear-gradient(135deg, #eff8fa, #f6fbf8);
 }
 .studio-review label { display: block; margin-bottom: 0.5rem; color: var(--deepblue); font-size: 0.7rem; font-weight: 900; }
-.studio-review textarea { width: 100%; min-height: 9rem; padding: 0.8rem; border: 1px solid #bdd3d9; border-radius: 0.7rem; background: #ffffff; color: #31465b; line-height: 1.6; resize: vertical; outline: none; }
+.studio-review textarea { width: 100%; min-height: 9rem; padding: 0.8rem; border: 1px solid #bdd3d9; border-radius: 0.7rem; background: #ffffff; color: #31465b; line-height: 1.6; resize: vertical; }
 .studio-review textarea:focus { border-color: var(--dejourney-cyan); box-shadow: 0 0 0 3px rgb(101 183 199 / 0.16); }
 .studio-review__status { min-height: 1.1rem; margin: 0.55rem 0 0; color: #b42318; font-size: 0.7rem; font-weight: 700; }
 .studio-review__actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.75rem; }

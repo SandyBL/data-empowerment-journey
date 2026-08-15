@@ -3,6 +3,34 @@
    simulators whose body copy is Inter. Loading it from here through an @import
    would delay the request until this file has been fetched and parsed. */
 
+/*
+ * Focus ring for the form controls on every simulator (WCAG 2.4.7, 1.4.11).
+ *
+ * The inputs carry Tailwind's `focus:outline-none` and signal focus with a
+ * border-colour change alone — a hue shift on a one-pixel edge. This restores a
+ * real ring. `!important` is what it takes to beat a utility class from the
+ * stylesheet the Tailwind CDN injects at runtime, after this file.
+ *
+ * The colour has to clear 3:1 against whatever sits behind it, and these pages
+ * are not all the same: the dark app shells get the brand cyan (9.7:1 on the
+ * slate the inputs sit on) and the light ones a deep teal (9.9:1 on white).
+ */
+:root {
+  --simulator-focus-ring: #0b4a5c;
+}
+
+body.bg-navy-950,
+body.bg-slate-950 {
+  --simulator-focus-ring: #22d3ee;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--simulator-focus-ring) !important;
+  outline-offset: 2px !important;
+}
+
 .simulator-site-header {
   position: sticky;
   top: 0;
@@ -300,4 +328,98 @@
 .simulator-locale-nav-languages a[aria-current="page"] {
   color: #22d3ee;
   font-weight: 700;
+}
+
+/*
+ * Bypass block (WCAG 2.4.1). Every simulator opens with a header of brand,
+ * title, sound toggle, tab switcher and home link before the simulation itself,
+ * and a keyboard visitor had to tab through all of it on every page. This is
+ * off-canvas until it takes focus, so it costs the visual design nothing.
+ */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #003366;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: none;
+  outline: 3px solid #65b7c7;
+  outline-offset: 2px;
+}
+
+/*
+ * Breadcrumb. Each simulator already declared a BreadcrumbList in its JSON-LD,
+ * so search engines were shown a trail the visitor never was — and a simulator
+ * opened from a search result is a page with no other route back into the site
+ * apart from the single home icon. Colours sit on the strip's own background,
+ * which is a shade of the header rather than the varying page backgrounds.
+ */
+.simulator-breadcrumb {
+  flex: 0 0 auto;
+  border-bottom: 1px solid rgb(101 183 199 / 0.28);
+  background: #04223f;
+}
+
+.simulator-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0.55rem 1rem;
+  list-style: none;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.simulator-breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.simulator-breadcrumb li + li::before {
+  color: #65b7c7;
+  content: "/";
+}
+
+.simulator-breadcrumb a {
+  border-bottom: 1px solid transparent;
+  color: #cfe9f1;
+  text-decoration: none;
+}
+
+.simulator-breadcrumb a:hover,
+.simulator-breadcrumb a:focus-visible {
+  border-bottom-color: currentColor;
+  color: #ffffff;
+}
+
+.simulator-breadcrumb a:focus-visible {
+  outline: 2px solid #65b7c7;
+  outline-offset: 2px;
+}
+
+.simulator-breadcrumb [aria-current="page"] {
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .simulator-breadcrumb ol {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
 }

@@ -8,6 +8,90 @@
     --dejourney-logo-frame: rgb(255 255 255 / 0.18);
     --slatecool: #0f172a;
     --softbg: #f8fafc;
+
+    /*
+     * Focus indicator. WCAG 2.1 requires a focus indicator with at least 3:1
+     * contrast against its adjacent background (1.4.11) that is always visible
+     * (2.4.7). This deep teal measures 9.9:1 on white and 9.0:1 on slate-100.
+     * Dark panels below re-point --focus-ring at white, which measures 12.6:1
+     * on the deep blue used across those sections.
+     */
+    --focus-ring-dark: #0b4a5c;
+    --focus-ring: var(--focus-ring-dark);
+
+    /*
+     * Emerald used as text. The brand green measures 2.1:1 on white, far under
+     * the 4.5:1 WCAG 1.4.3 minimum, so light surfaces get this darkened emerald
+     * (4.5:1 on white) and dark surfaces re-point the token back to the brand
+     * green, which is already high-contrast there.
+     */
+    --emerald-ink: #23874a;
+
+    /*
+     * Orange carrying text — either as the colour of the text itself or as the
+     * background behind white text. The brand orange measures 3.5:1 against
+     * white, which clears the 3:1 non-text threshold (borders, icon tiles) but
+     * not the 4.5:1 required of text. This deepened orange measures 4.6:1.
+     */
+    --orange-ink: #c25419;
+}
+
+/*
+ * Baseline focus indicator for everything. Components may restyle it, but no
+ * component may remove it: any rule that sets `outline: none` on a focusable
+ * element leaves keyboard users with no way to tell where they are.
+ */
+:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/*
+ * Dark surfaces: invert the focus ring so it stays visible, and restore the
+ * brand green for emerald text, which needs no darkening against these.
+ */
+.from-deepblue,
+.bg-deepblue,
+.simulators-section,
+.bad-data-calculator,
+.maturity-test-card,
+footer {
+    --focus-ring: #ffffff;
+    --emerald-ink: var(--emeraldgreen);
+}
+
+/*
+ * The header bar itself is deep blue, so its ring is white. The language
+ * switcher, content links, and section nav are light pills sitting on top of
+ * it, and their controls take the ring back to the dark value.
+ */
+.dejourney-header { --focus-ring: #ffffff; }
+
+.language-switcher,
+.header-content-links,
+.desktop-section-nav { --focus-ring: var(--focus-ring-dark); }
+
+/*
+ * Bypass block (WCAG 2.4.1). Hidden off-canvas until it takes keyboard focus,
+ * so the first Tab on the page offers a jump past the header navigation.
+ */
+.skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-200%);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    background: var(--deepblue);
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    transform: none;
 }
 
 *,
@@ -103,7 +187,9 @@ summary {
 .mt-1\.5 { margin-top: 0.375rem; }
 .mt-4 { margin-top: 1rem; }
 .mt-5 { margin-top: 1.25rem; }
+.my-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
 .block { display: block; }
+.inline-block { display: inline-block; }
 .inline-flex { display: inline-flex; }
 .flex { display: flex; }
 .grid { display: grid; }
@@ -112,6 +198,7 @@ summary {
 .h-1 { height: 0.25rem; }
 .h-2 { height: 0.5rem; }
 .h-4 { height: 1rem; }
+.h-5 { height: 1.25rem; }
 .h-8 { height: 2rem; }
 .h-9 { height: 2.25rem; }
 .h-10 { height: 2.5rem; }
@@ -137,6 +224,7 @@ summary {
 .max-w-md { max-width: 28rem; }
 .max-w-lg { max-width: 32rem; }
 .max-w-xl { max-width: 36rem; }
+.max-w-2xl { max-width: 42rem; }
 .max-w-3xl { max-width: 48rem; }
 .max-w-4xl { max-width: 56rem; }
 .max-w-5xl { max-width: 64rem; }
@@ -147,6 +235,7 @@ summary {
 .shrink-0 { flex-shrink: 0; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .flex-col { flex-direction: column; }
 .items-start { align-items: flex-start; }
 .items-center { align-items: center; }
@@ -161,6 +250,7 @@ summary {
 .gap-6 { gap: 1.5rem; }
 .gap-8 { gap: 2rem; }
 .gap-12 { gap: 3rem; }
+.space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem; }
 .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
 .space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.5rem; }
 .overflow-hidden { overflow: hidden; }
@@ -222,6 +312,7 @@ summary {
 .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
 .px-4 { padding-left: 1rem; padding-right: 1rem; }
 .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.px-7 { padding-left: 1.75rem; padding-right: 1.75rem; }
 .px-8 { padding-left: 2rem; padding-right: 2rem; }
 .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
 .py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
@@ -275,9 +366,10 @@ summary {
 .text-slate-700 { color: #334155; }
 .text-slate-800 { color: #1e293b; }
 .text-deepblue { color: var(--deepblue); }
-.text-emeraldgreen { color: var(--emeraldgreen); }
+.text-emeraldgreen { color: var(--emerald-ink); }
 .text-\[\#0077B5\] { color: #0077b5; }
-.placeholder-slate-400::placeholder { color: #94a3b8; opacity: 1; }
+/* slate-400 measures 2.6:1 on white; slate-500 is 4.8:1 and still reads as a hint. */
+.placeholder-slate-500::placeholder { color: #64748b; opacity: 1; }
 .opacity-10 { opacity: 0.1; }
 .opacity-25 { opacity: 0.25; }
 .opacity-80 { opacity: 0.8; }
@@ -295,11 +387,17 @@ summary {
 .backdrop-blur { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .backdrop-blur-sm { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 .backdrop-blur-md { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.outline-none,
-.focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+/*
+ * Suppress the indicator only for pointer focus. Keyboard focus still matches
+ * :focus-visible, which keeps the baseline outline above.
+ */
+.outline-none:focus:not(:focus-visible),
+.focus\:outline-none:focus:not(:focus-visible) { outline: 2px solid transparent; outline-offset: 2px; }
 .resize-none { resize: none; }
 .scroll-smooth { scroll-behavior: smooth; }
 .scroll-mt-20 { scroll-margin-top: 5rem; }
+/* Sticky header is 5rem tall; 6rem leaves a gap so anchored headings clear it. */
+.scroll-mt-24 { scroll-margin-top: 6rem; }
 .select-none { user-select: none; }
 .transition { transition: color 150ms, background-color 150ms, border-color 150ms, opacity 150ms, box-shadow 150ms, transform 150ms; }
 .transition-all { transition: all 150ms; }
@@ -329,7 +427,7 @@ summary {
 .hover\:bg-deepblue\/95:hover { background-color: rgb(0 51 102 / 0.95); }
 .hover\:bg-emeraldgreen\/95:hover { background-color: rgb(80 200 120 / 0.95); }
 .hover\:bg-\[\#0077B5\]\/90:hover { background-color: rgb(0 119 181 / 0.9); }
-.hover\:text-emeraldgreen:hover { color: var(--emeraldgreen); }
+.hover\:text-emeraldgreen:hover { color: var(--emerald-ink); }
 .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
 .hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
 .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
@@ -359,11 +457,23 @@ body.lang-es flex[lang-content="es"],
 body.lang-en flex[lang-content="en"],
 body.lang-pt flex[lang-content="pt"] { display: flex !important; }
 
+/*
+ * Active language. This used to be a background tint measuring 1.07:1 against
+ * the pill plus a border-color on an element the reset gives no border width —
+ * so in practice nothing marked the current language. A solid inset ring in
+ * the brand teal reads at 7.0:1 and costs no layout.
+ */
 .lang-btn.active {
-    border-color: var(--emeraldgreen);
-    background-color: rgb(80 200 120 / 0.1);
+    background-color: rgb(9 91 115 / 0.12);
+    box-shadow: inset 0 0 0 2px var(--dejourney-teal);
     color: var(--deepblue);
     font-weight: 700;
+}
+
+/* The switcher pill is only 4px of padding, so the ring has to sit inside. */
+.lang-btn:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: -3px;
 }
 
 .desktop-section-nav { display: none; }
@@ -391,7 +501,7 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
 .mobile-menu-toggle:focus-visible,
 .desktop-resources-trigger:focus-visible,
 .mobile-resources-trigger:focus-visible {
-    outline: 3px solid var(--dejourney-cyan);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -464,13 +574,13 @@ body.lang-pt flex[lang-content="pt"] { display: flex !important; }
 .mobile-navigation__panel .mobile-scorecard-cta {
     justify-content: center;
     margin-top: 0.6rem;
-    background: var(--dejourney-orange);
+    background: var(--orange-ink);
     color: #ffffff;
     box-shadow: 0 12px 28px rgb(234 119 48 / 0.28);
 }
 
 .mobile-navigation__panel .mobile-scorecard-cta:hover {
-    background: #c95d21;
+    background: #a8460f;
     color: #ffffff;
 }
 
@@ -566,6 +676,7 @@ body.mobile-navigation-open { overflow: hidden; }
     box-shadow: 0 12px 28px rgb(101 183 199 / 0.24);
 }
 
+.simulator-card--operations .simulator-card__icon { background: var(--dejourney-cyan); color: var(--deepblue); }
 .simulator-card--ownership .simulator-card__icon { background: var(--dejourney-orange); color: #ffffff; }
 .simulator-card--literacy .simulator-card__icon { background: var(--emeraldgreen); color: var(--deepblue); }
 
@@ -607,8 +718,6 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 .dejourney-header .lang-btn.active {
-    border-color: var(--dejourney-cyan);
-    background-color: rgb(101 183 199 / 0.22);
     color: var(--dejourney-teal);
 }
 
@@ -637,12 +746,12 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 .header-content-link:focus-visible {
-    outline: 3px solid var(--dejourney-cyan);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 1px;
 }
 
 .header-newsletter-link:hover {
-    color: var(--dejourney-orange);
+    color: var(--orange-ink);
 }
 
 .header-confession-link:hover {
@@ -728,7 +837,7 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 .contact-choice-nav a:focus-visible {
-    outline: 3px solid rgb(80 200 120 / 0.32);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
 }
 
@@ -769,6 +878,54 @@ body.mobile-navigation-open { overflow: hidden; }
 
 #contact-form {
     scroll-margin-top: 7rem;
+}
+
+/*
+ * Form validation UX (WCAG 3.3.1, 3.3.2, 3.3.3).
+ *
+ * The asterisk is decorative — `required` on the control is what assistive
+ * technology reads — so it is hidden from the accessibility tree and the
+ * legend above the form explains it for sighted readers. Errors are described
+ * by the control through aria-describedby and carry a text explanation, never
+ * colour alone.
+ */
+.form-required-legend {
+    color: #475569;
+    font-size: 0.78rem;
+}
+
+.field-required {
+    margin-left: 0.15rem;
+    color: #b42318;
+    font-weight: 800;
+}
+
+.field-error {
+    display: flex;
+    gap: 0.4rem;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+    color: #b42318;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.field-error[hidden] {
+    display: none;
+}
+
+.field-error::before {
+    flex: 0 0 auto;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f06a";
+}
+
+/* Two signals, not just colour: the border thickens as well as reddens. */
+.form-input[aria-invalid="true"] {
+    border-color: #b42318;
+    box-shadow: inset 0 0 0 1px #b42318;
 }
 
 .maturity-test-card {
@@ -856,7 +1013,7 @@ body.mobile-navigation-open { overflow: hidden; }
     padding: 0.95rem 1.25rem;
     border: 1px solid rgb(255 255 255 / 0.24);
     border-radius: 0.85rem;
-    background-color: var(--dejourney-orange);
+    background-color: var(--orange-ink);
     box-shadow: 0 12px 28px rgb(0 0 0 / 0.2);
     color: #ffffff;
     font-size: 0.86rem;
@@ -866,12 +1023,12 @@ body.mobile-navigation-open { overflow: hidden; }
 
 .maturity-test-cta:hover {
     transform: translateY(-3px);
-    background-color: #d84f19;
+    background-color: #a8460f;
     box-shadow: 0 16px 34px rgb(0 0 0 / 0.28);
 }
 
 .maturity-test-cta:focus-visible {
-    outline: 3px solid var(--emeraldgreen);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 4px;
 }
 
@@ -1122,7 +1279,7 @@ body.mobile-navigation-open { overflow: hidden; }
     place-items: center;
     border: 3px solid #fffaf6;
     border-radius: 9999px;
-    background: var(--dejourney-orange);
+    background: var(--orange-ink);
     color: #ffffff;
     font-size: 0.7rem;
     font-weight: 900;
@@ -1184,7 +1341,7 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 .confession-wall-resource__cta:focus-visible {
-    outline: 3px solid rgb(80 200 120 / 0.42);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 4px;
 }
 
@@ -1446,7 +1603,7 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 .template-download-card__link:focus-visible {
-    outline: 3px solid rgb(80 200 120 / 0.4);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 5px;
     border-radius: 0.25rem;
 }
@@ -1568,6 +1725,7 @@ body.mobile-navigation-open { overflow: hidden; }
     .header-content-link { width: 2.5rem; }
     .sm\:flex-row { flex-direction: row; }
     .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .sm\:gap-2 { gap: 0.5rem; }
     .sm\:gap-3 { gap: 0.75rem; }
     .sm\:gap-4 { gap: 1rem; }
@@ -1632,7 +1790,7 @@ body.mobile-navigation-open { overflow: hidden; }
         gap: 0.4rem;
         padding: 0.55rem 0.75rem;
         border-radius: 9999px;
-        color: rgb(9 91 115 / 0.78);
+        color: var(--dejourney-teal);
         font-size: 0.75rem;
         font-weight: 700;
         line-height: 1;
@@ -1655,12 +1813,12 @@ body.mobile-navigation-open { overflow: hidden; }
     .desktop-section-nav .desktop-scorecard-cta,
     .desktop-section-nav .desktop-scorecard-cta:hover,
     .desktop-section-nav .desktop-scorecard-cta.is-active {
-        background: var(--dejourney-orange);
+        background: var(--orange-ink);
         color: #ffffff;
         box-shadow: 0 8px 18px rgb(234 119 48 / 0.28);
     }
 
-    .desktop-section-nav .desktop-scorecard-cta:hover { background: #c95d21; transform: translateY(-1px); }
+    .desktop-section-nav .desktop-scorecard-cta:hover { background: #a8460f; transform: translateY(-1px); }
 
     .desktop-resources-menu { position: relative; }
     .desktop-resources-trigger i { font-size: 0.58rem; transition: transform 180ms ease; }
@@ -1684,8 +1842,11 @@ body.mobile-navigation-open { overflow: hidden; }
         transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
     }
 
-    .desktop-resources-menu:hover .desktop-resources-dropdown,
-    .desktop-resources-menu:focus-within .desktop-resources-dropdown,
+    /*
+     * Only .is-open reveals the panel. Hover and keyboard focus used to open it
+     * straight from CSS, which left aria-expanded reporting "false" on a panel
+     * the visitor could see; the navigation script now drives both.
+     */
     .desktop-resources-menu.is-open .desktop-resources-dropdown {
         visibility: visible;
         opacity: 1;
@@ -1705,7 +1866,12 @@ body.mobile-navigation-open { overflow: hidden; }
     .desktop-resources-dropdown a:focus-visible {
         background: #f1f5f9;
         color: var(--deepblue);
-        outline: none;
+    }
+
+    /* The tint alone is a 1.10:1 change; the outline is the real indicator. */
+    .desktop-resources-dropdown a:focus-visible {
+        outline: 3px solid var(--focus-ring);
+        outline-offset: -3px;
     }
 }
 
@@ -1793,7 +1959,6 @@ body.identity-modal-open {
     border: 1px solid #cbd5e1;
     border-radius: 0.75rem;
     background: #fff;
-    outline: none;
 }
 
 .identity-modal__form input:focus {
@@ -1947,6 +2112,15 @@ body.identity-modal-open {
     transform: translateY(-1px);
 }
 
+/*
+ * The control clips its own overflow, so an outline on the input would be cut
+ * off. Draw the indicator on the wrapper instead, and only for keyboard focus.
+ */
+.bad-data-field__control:has(:focus-visible) {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
 .bad-data-field__control > i,
 .bad-data-field__control > span {
     justify-self: center;
@@ -1964,6 +2138,7 @@ body.identity-modal-open {
     color: #fff;
     font-size: 1.05rem;
     font-weight: 700;
+    /* Intentional: the wrapper draws the indicator, which its overflow would clip here. */
     outline: 0;
 }
 
@@ -1973,10 +2148,40 @@ body.identity-modal-open {
     appearance: none;
 }
 
+/*
+ * Each field owns its own message now, so the reason a value is rejected sits
+ * next to the value and is announced through that input's aria-describedby
+ * rather than through one shared line that named no field.
+ */
+.bad-data-field-group {
+    display: grid;
+    gap: 0.5rem;
+}
+
 .bad-data-calculator__error {
-    min-height: 1.25rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: flex-start;
+    margin: 0;
     color: #fecaca;
     font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.bad-data-calculator__error[hidden] {
+    display: none;
+}
+
+.bad-data-calculator__error::before {
+    flex: 0 0 auto;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f06a";
+}
+
+.bad-data-field__control:has([aria-invalid="true"]) {
+    border-color: #fecaca;
+    box-shadow: inset 0 0 0 1px #fecaca;
 }
 
 .bad-data-result {
@@ -2038,7 +2243,7 @@ body.identity-modal-open {
     padding: 1rem 1.15rem;
     border: 0;
     border-radius: 0.95rem;
-    background: var(--dejourney-orange);
+    background: var(--orange-ink);
     box-shadow: 0 0.8rem 1.8rem rgb(3 25 45 / 0.25);
     color: #fff;
     cursor: pointer;
@@ -2050,7 +2255,7 @@ body.identity-modal-open {
 }
 
 .bad-data-result__cta:hover {
-    background: #ce4815;
+    background: #a8460f;
     box-shadow: 0 1rem 2rem rgb(3 25 45 / 0.34);
     transform: translateY(-2px);
 }
