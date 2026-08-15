@@ -4,7 +4,7 @@ date: 2026-08-11
 category: data-governance
 summary: Com dúvidas sobre Governança de Dados? Descubra o que é de fato a
   governança de dados, o que ela não é e como evitar erros caros na sua empresa.
-author: Sandy Bradbury / Data Governance Journey
+author: Sandy Bradbury
 translation_key: what-data-governance-is-and-is-not
 ---
 No mundo da gestão de dados, "Governança de Dados" é um dos termos mais malcompreendidos. As empresas frequentemente lutam para definir o que ela realmente envolve e onde se encaixa na estratégia geral.

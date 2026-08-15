@@ -5,7 +5,7 @@ category: data-governance
 summary: Confused about Data Governance? Discover what Data Governance actually
   is, what it is not, and how clarifying these myths protects your organization
   from costly errors.
-author: Sandy Bradbury / Data Governance Journey
+author: Sandy Bradbury
 translation_key: what-data-governance-is-and-is-not
 ---
 In the world of data management, "Data Governance" is one of the most frequently misunderstood terms. Organizations often struggle to define what it entails and where it fits within their overall strategy.

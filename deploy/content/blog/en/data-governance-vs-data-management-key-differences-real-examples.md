@@ -5,7 +5,7 @@ category: data-governance
 summary: Confused about Data Governance vs. Data Management? Discover their key
   differences, real-world examples, and how both work together to protect your
   data.
-author: Sandy Bradbury / Data Governance Journey
+author: Sandy Bradbury
 translation_key: data-governance-vs-data-management
 ---
 In today’s business environment, data is one of the most valuable assets an organization owns. However, to unlock its full potential, data must be carefully managed, protected, and used properly. 

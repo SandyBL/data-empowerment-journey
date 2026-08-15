@@ -7,7 +7,13 @@
       "name": "Data Governance Journey",
       "alternateName": "Data Gov Journey",
       "url": "https://datagovjourney.com/",
-      "logo": "https://datagovjourney.com/assets/dg-logo.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://datagovjourney.com/assets/images/dg-logo.png",
+        "width": 400,
+        "height": 388
+      },
+      "image": "https://datagovjourney.com/assets/images/og-default.png",
       "description": "Consultoría estratégica en Gobierno de Datos, Cultura de Datos y Alfabetización en Datos basada en el marco internacional DAMA.",
       "founder": {
         "@id": "https://datagovjourney.com/#sandy-bradbury"
@@ -28,7 +34,7 @@
       "@id": "https://datagovjourney.com/#sandy-bradbury",
       "name": "Sandy Bradbury",
       "url": "https://datagovjourney.com/#consultor",
-      "image": "https://datagovjourney.com/icone%20foto%20limpo.png",
+      "image": "https://datagovjourney.com/assets/images/sandy-bradbury.png",
       "jobTitle": "Lead Data Governance Consultant & CDMP Certified",
       "worksFor": {
         "@id": "https://datagovjourney.com/#organization"

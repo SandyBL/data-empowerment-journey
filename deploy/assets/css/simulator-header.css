@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+/* Plus Jakarta Sans is self-hosted in assets/css/fonts.css, which every page
+   carrying this header links directly from its <head> — including the four
+   simulators whose body copy is Inter. Loading it from here through an @import
+   would delay the request until this file has been fetched and parsed. */
 
 .simulator-site-header {
   position: sticky;
