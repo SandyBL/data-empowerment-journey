@@ -4,20 +4,96 @@
 # fetch these files and read the noindex instruction — a robots.txt Disallow
 # would hide the directive and leave the URLs indexable.
 
-# The build command generates the article pages, sitemap.xml and _redirects
-# (see scripts/generate-blog-index.mjs). Because that output is committed, a
-# missing or broken command fails silently: the site keeps serving the last
-# generated copy while new articles never get a page or a sitemap entry. So the
-# command is versioned here rather than kept in the UI, where a change leaves
-# no history and can't be tested on a deploy preview.
+# The build command generates the homepages, article pages, confession walls,
+# sitemap.xml, the llms.txt pair and _redirects (see
+# scripts/generate-blog-index.mjs). That output is NOT committed — it is listed
+# in .gitignore — so the generator is the single source of truth and the
+# repository can never disagree with what the site serves. A missing or broken
+# command therefore fails the deploy outright rather than quietly shipping a
+# stale copy, which is the behaviour we want: Netlify keeps the previous deploy
+# live and the failure is visible. The command is versioned here rather than
+# kept in the UI, where a change leaves no history and can't be tested on a
+# deploy preview.
 #
 # Paths below are relative to the base directory. Base itself stays in the UI
 # (currently "deploy") because Netlify must resolve it before it can find this
 # file; publish = "." therefore means deploy/, which is where the generator
-# writes in place.
+# writes in place. Because the publish directory is the repository, the
+# [[redirects]] block further down 404s the source files that would otherwise
+# be downloadable.
 [build]
   command = "npm run build"
   publish = "."
+
+# Everything in the publish directory is a public URL, and publish = "." means
+# the publish directory is the repository: without these rules the build
+# pipeline, the serverless function sources, the database schema, the raw
+# Markdown behind every article and the dependency lockfiles are all fetchable
+# by anyone who guesses the path. The X-Robots-Tag headers below keep those
+# paths out of search results, but noindex governs indexing, not access.
+#
+# 404 rather than 403: a "forbidden" reply confirms the file is there. force =
+# true because a static file at the same path would otherwise win.
+#
+# Deliberately NOT blocked: /admin/config.yml, which the Decap CMS browser app
+# fetches over HTTP and cannot start without, and /assets/templates/*, which
+# the PDF report generator fetches at download time.
+[[redirects]]
+  from = "/src/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/content/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/db/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Function source and the SQL migration history. The functions themselves are
+# served by Netlify at the paths their Config exports declare (/api/...), not
+# from this directory, so nothing routable is affected.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/deno.lock"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/drizzle.config.ts"
+  to = "/404.html"
+  status = 404
+  force = true
 
 [[headers]]
   for = "/admin/*"
@@ -75,6 +151,28 @@
     # it needs to report back.
     Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    # Content Security Policy.
+    #
+    # The site executes code from a handful of third parties (icon fonts, the
+    # simulator chart/audio/icon libraries, the Tailwind Play compiler on the
+    # simulators, and Decap CMS behind /admin). Every one of those URLs is now
+    # version-pinned and carries an integrity hash, but SRI only proves that a
+    # file we already asked for was not tampered with — it does nothing about a
+    # script tag injected into a page. This is the half that does: an injected
+    # <script src="https://attacker.example/x.js"> is not on the allowlist and
+    # never executes.
+    #
+    # 'unsafe-inline' and 'unsafe-eval' are here on purpose rather than by
+    # oversight. The simulators are single-file pages built around large inline
+    # scripts, the Tailwind Play compiler generates a <style> element at
+    # runtime, and Decap CMS evaluates code as it boots. Removing either keyword
+    # means rewriting those pages, so the policy states the truth today and the
+    # origin allowlist, base-uri, object-src and frame-ancestors still hold.
+    # Tighten script-src to a nonce once the inline blocks move to files.
+    #
+    # form-action 'self': the only form that posts anywhere is the Netlify Forms
+    # contact form, which posts to /thank-you on this origin.
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://api.netlify.com https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net; frame-src 'self' blob: data:; worker-src 'self' blob:; manifest-src 'self'"
 
 [[headers]]
   for = "/assets/images/*"
@@ -114,6 +212,27 @@
   for = "/assets/js/*"
   [headers.values]
     Cache-Control = "public, max-age=3600, must-revalidate"
+
+# The three assets that sit at the root of /assets/ rather than in one of its
+# subdirectories. Every Cache-Control rule above is scoped to a subdirectory, so
+# these matched none of them and were served with max-age=0 — including
+# styles.css, the largest stylesheet on the site, which every page links and
+# every navigation therefore revalidated. They take the same revalidating hour
+# as the CSS and JS directories.
+[[headers]]
+  for = "/assets/styles.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/assets/dg-logo.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/assets/dama-logo.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
 
 [[headers]]
   for = "/sitemap.xml"

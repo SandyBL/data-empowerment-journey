@@ -3,7 +3,13 @@ backend:
   gateway_url: "/.netlify/git/github"
   branch: main
 
-local_backend: true
+# local_backend is deliberately absent. Setting it true makes Decap try to
+# reach a decap-server proxy on localhost:8081 whenever the editor is opened
+# from localhost — convenient for local content work, but it means the copy of
+# this file that ships to production carries a development switch, and anyone
+# running the site locally silently edits a different backend from the one they
+# think they are editing. Turn it on in a local working copy when you need it;
+# do not commit it.
 
 media_folder: "deploy/assets/images/blog"
 public_folder: "/assets/images/blog"

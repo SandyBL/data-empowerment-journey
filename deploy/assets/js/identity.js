@@ -25,7 +25,15 @@ if (hasIdentityCallback) {
     };
 
     try {
-        identity = await import('https://esm.sh/@netlify/identity@1.2.0');
+        // Same-origin, and deliberately so: this form takes a password. Pulling
+        // the auth library from a third-party CDN at this moment would put
+        // credential capture one CDN compromise away, and a dynamic import()
+        // cannot carry an integrity hash to defend itself. The bundle is
+        // vendored from the @netlify/identity dependency in package.json —
+        // see assets/js/vendor/netlify-identity.js for how to regenerate it.
+        // Still imported lazily: nothing loads it unless the URL carries an
+        // invite or recovery token.
+        identity = await import('/assets/js/vendor/netlify-identity.js');
         callbackResult = await identity.handleAuthCallback();
 
         if (callbackResult?.type === 'invite') {

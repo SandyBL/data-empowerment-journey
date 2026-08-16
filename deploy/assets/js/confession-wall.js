@@ -135,7 +135,12 @@ async function loadPublishedStories() {
     const response = await fetch(`/api/confessions?locale=${locale}`);
     if (!response.ok) return;
     const payload = await response.json();
-    if (Array.isArray(payload.submissions)) {
+    // Only re-render when the API actually adds something. Rebuilding the grid
+    // to arrive at the markup the build already shipped costs a layout pass on
+    // every visit, and re-announces the count through its live region for no
+    // reason -- and until the first submission is approved, that is what every
+    // single visit was doing.
+    if (Array.isArray(payload.submissions) && payload.submissions.length) {
       stories = [...payload.submissions, ...copy.defaultStories];
       renderStories();
     }
@@ -242,13 +247,15 @@ elements.form.addEventListener("submit", async (event) => {
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) throw new Error("Submission failed");
+    if (!response.ok) throw new Error(String(response.status));
 
     elements.form.reset();
     closeModal();
     showToast(copy.success);
-  } catch {
-    elements.formStatus.textContent = copy.failure;
+  } catch (error) {
+    // 429 is the edge rate limiter, not a fault: the generic "try again"
+    // message would send someone straight back into the limit they just hit.
+    elements.formStatus.textContent = error?.message === "429" ? copy.tooMany : copy.failure;
   } finally {
     elements.formSubmit.disabled = false;
     elements.formSubmit.textContent = copy.submitForm;

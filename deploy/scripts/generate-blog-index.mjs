@@ -9,6 +9,7 @@ import { resolveCategory } from './lib/categories.mjs';
 import { renderConfessionWalls } from './lib/confession-wall.mjs';
 import { renderBlogIndexSchema } from './lib/blog-index-schema.mjs';
 import { checkClassCoverage } from './check-class-coverage.mjs';
+import { checkAssetIntegrity } from './check-asset-integrity.mjs';
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
 
 const LANGUAGES = ['en', 'es', 'pt'];
@@ -447,6 +448,7 @@ ${bodyHtml}
     <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[article.lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[article.lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
   </main>
   <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
+  <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>
 `;
@@ -522,6 +524,15 @@ async function updateBlogIndexes(articles) {
       source,
       'BLOG_SCHEMA',
       renderBlogIndexSchema(lang, HTML_LANG[lang], localized, LABELS[lang]),
+      indexPath
+    );
+    // The footer year is generated for the same reason the article pages
+    // generate theirs: a literal year is right for twelve months and then makes
+    // the site look abandoned, and nobody reviews a copyright line.
+    source = replaceBetweenMarkers(
+      source,
+      'BLOG_FOOTER',
+      `<footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>`,
       indexPath
     );
     assertArchiveIsComplete(source, localized, indexPath);
@@ -742,8 +753,20 @@ async function writeLlmsFiles(articles) {
  * shipping markup whose layout silently does not apply.
  */
 async function verifyClassCoverage() {
-  const results = await checkClassCoverage();
-  const offenders = results.filter((result) => result.missing.length > 0);
+  const { enforced, advisory, unused } = await checkClassCoverage();
+
+  // Advisory results never stop a deploy, but they should not be silent either:
+  // a build log that only ever says "ok" is how the simulators drifted out of
+  // coverage in the first place.
+  const advisoryTotal = advisory.reduce((total, result) => total + result.missing.length, 0);
+  if (advisoryTotal > 0) {
+    console.log(`  advisory: ${advisoryTotal} undefined class(es) on simulator pages (not enforced)`);
+  }
+  if (unused.length > 0) {
+    console.log(`  advisory: ${unused.length} unreferenced rule(s) in assets/styles.css`);
+  }
+
+  const offenders = enforced.filter((result) => result.missing.length > 0);
   if (offenders.length === 0) return;
 
   const detail = offenders
@@ -751,6 +774,23 @@ async function verifyClassCoverage() {
     .join('\n');
   throw new Error(
     `Undefined CSS class(es) used in markup:\n${detail}\nAdd the rule to the stylesheet, or list the class in scripts/check-class-coverage.mjs if it is a behavioural hook.`
+  );
+}
+
+/**
+ * Fails the build when a third-party asset is loaded without a pinned version
+ * and a matching hash, or a new tab is opened without rel="noopener".
+ *
+ * Runs last, on the pages that were just written, so it inspects what actually
+ * ships rather than whatever happened to be on disk beforehand.
+ */
+async function verifyAssetIntegrity() {
+  const problems = await checkAssetIntegrity();
+  if (problems.length === 0) return;
+
+  throw new Error(
+    `Third-party asset problems:\n${problems.map((problem) => `  ${problem}`).join('\n')}\n` +
+      'Pin the version and record its sha384 in scripts/check-asset-integrity.mjs, or list the URL there as unpinnable with the reason.'
   );
 }
 
@@ -793,6 +833,8 @@ async function main() {
   await writeLlmsFiles(articles);
   await writeFile(path.join(projectDirectory, 'sitemap.xml'), renderSitemap(articles, translationMap), 'utf8');
   await writeFile(path.join(projectDirectory, '_redirects'), renderRedirects(articles, renames), 'utf8');
+
+  await verifyAssetIntegrity();
 
   // This is the only build that can see the old address: the directory is gone
   // afterwards, so an unannounced rename would never be reported again.

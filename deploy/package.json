@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/generate-blog-index.mjs"
+    "build": "node scripts/generate-blog-index.mjs",
+    "check": "node scripts/check-class-coverage.mjs && node scripts/check-asset-integrity.mjs"
   },
   "devDependencies": {
     "@netlify/functions": "^5.3.0",

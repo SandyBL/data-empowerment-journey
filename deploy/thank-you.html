@@ -7,14 +7,14 @@
     <title>Mensaje recibido | Data Governance Journey</title>
     <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/fonts.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="/assets/styles.css">
     <style>
         .confirmation-shell { min-height: 100vh; }
-        [lang-content] { display: none; }
-        body.lang-es [lang-content="es"],
-        body.lang-en [lang-content="en"],
-        body.lang-pt [lang-content="pt"] { display: inline; }
+        [data-lang-content] { display: none; }
+        body.lang-es [data-lang-content="es"],
+        body.lang-en [data-lang-content="en"],
+        body.lang-pt [data-lang-content="pt"] { display: inline; }
     </style>
 </head>
 <body class="lang-es bg-slate-50 text-slate-800 antialiased">
@@ -24,20 +24,20 @@
                 <i class="fa-solid fa-check" aria-hidden="true"></i>
             </div>
             <h1 class="text-3xl font-extrabold text-deepblue mb-4">
-                <span lang-content="es">¡Mensaje recibido!</span>
-                <span lang-content="en">Thank you!</span>
-                <span lang-content="pt">Mensagem recebida!</span>
+                <span data-lang-content="es" lang="es">¡Mensaje recibido!</span>
+                <span data-lang-content="en" lang="en">Thank you!</span>
+                <span data-lang-content="pt" lang="pt">Mensagem recebida!</span>
             </h1>
             <p class="text-slate-500 leading-relaxed max-w-lg mx-auto mb-8">
-                <span lang-content="es">Recibimos tu solicitud de sesión de diagnóstico. Nos pondremos en contacto contigo para coordinar los próximos pasos.</span>
-                <span lang-content="en">We received your diagnostic session request. We will contact you to coordinate the next steps.</span>
-                <span lang-content="pt">Recebemos sua solicitação de sessão de diagnóstico. Entraremos em contato para coordenar os próximos passos.</span>
+                <span data-lang-content="es" lang="es">Recibimos tu solicitud de sesión de diagnóstico. Nos pondremos en contacto contigo para coordinar los próximos pasos.</span>
+                <span data-lang-content="en" lang="en">We received your diagnostic session request. We will contact you to coordinate the next steps.</span>
+                <span data-lang-content="pt" lang="pt">Recebemos sua solicitação de sessão de diagnóstico. Entraremos em contato para coordenar os próximos passos.</span>
             </p>
             <a id="return-link" href="/#contacto" class="confirmation-return-link inline-flex items-center justify-center gap-3 px-7 py-3.5 bg-deepblue hover:bg-deepblue/95 text-white font-bold rounded-xl shadow-lg shadow-deepblue/10 hover:shadow-deepblue/25 hover:-translate-y-0.5 transition-all">
                 <i class="fa-solid fa-arrow-left text-sm text-emeraldgreen" aria-hidden="true"></i>
-                <span lang-content="es">Volver al sitio</span>
-                <span lang-content="en">Return to the site</span>
-                <span lang-content="pt">Voltar ao site</span>
+                <span data-lang-content="es" lang="es">Volver al sitio</span>
+                <span data-lang-content="en" lang="en">Return to the site</span>
+                <span data-lang-content="pt" lang="pt">Voltar ao site</span>
             </a>
         </section>
     </main>
@@ -60,6 +60,16 @@
         document.documentElement.lang = language;
         document.body.classList.remove(...supportedLanguages.map(item => `lang-${item}`));
         document.body.classList.add(`lang-${language}`);
+
+        // The heading, the body copy and the way back all switch with the
+        // detected language; the tab title was the one thing that did not, so a
+        // visitor who filled in the English form still got a Spanish tab.
+        const pageTitle = {
+            es: 'Mensaje recibido | Data Governance Journey',
+            en: 'Message received | Data Governance Journey',
+            pt: 'Mensagem recebida | Data Governance Journey',
+        };
+        document.title = pageTitle[language];
 
         // The copy above switches with the detected language, so the way back has
         // to switch with it too: an English visitor was being returned to the

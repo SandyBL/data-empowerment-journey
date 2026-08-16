@@ -17,7 +17,11 @@ import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 export const HOME_PATH = { es: '/', en: '/en/', pt: '/pt/' };
 
 const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
-const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_PT' };
+// pt_BR, not pt_PT: the Portuguese copy across this site is Brazilian
+// (“você”, “Anônimo”, R$ figures in the simulators), and the blog generator
+// and the confession wall both already say so. Three files disagreeing meant
+// the homepage advertised a variant the page is not written in.
+const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
 
 const PAGE_METADATA = {
   es: {
@@ -89,7 +93,7 @@ const escapeAttribute = (text) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /**
- * Removes every element carrying a `lang-content` attribute for a language
+ * Removes every element carrying a `data-lang-content` attribute for a language
  * other than the one being built.
  *
  * A regular expression cannot do this safely because the elements nest, so this
@@ -98,7 +102,7 @@ const escapeAttribute = (text) =>
  * void, so tracking one tag name at a time is enough.
  */
 const stripOtherLanguages = (html, lang) => {
-  const opening = /<(div|p|span)\b[^>]*?\slang-content="([a-z-]+)"[^>]*>/gi;
+  const opening = /<(div|p|span)\b[^>]*?\sdata-lang-content="([a-z-]+)"[^>]*>/gi;
   let output = html;
   let cursor = 0;
 
@@ -204,6 +208,13 @@ const renderSchema = (graph, lang) => {
         localized.url = homeUrl;
         localized.isPartOf = { '@id': `${SITE_ORIGIN}/#website` };
       }
+      // The archive search is per-language, so the searchbox an assistant or a
+      // search engine builds from this node has to point at the archive the
+      // reader is actually on — otherwise a Portuguese visitor's query lands in
+      // the Spanish index.
+      if (localized['@type'] === 'WebSite' && localized.potentialAction?.target) {
+        localized.potentialAction.target.urlTemplate = `${SITE_ORIGIN}/${lang}/blog/?q={search_term_string}`;
+      }
       return localized;
     });
 
@@ -225,6 +236,10 @@ export const renderHomePage = (template, schemaGraph, lang) => {
     .replace('<!--BUILD:SCHEMA-->', renderSchema(schemaGraph, lang))
     .replace(/__HTML_LANG__/g, HTML_LANG[lang])
     .replace(/__LANG__/g, lang)
+    // Stamped at build time rather than written into the template: a literal
+    // year in the footer is correct for twelve months and then quietly wrong,
+    // and nobody notices a copyright notice until it looks abandoned.
+    .replace(/__YEAR__/g, String(new Date().getUTCFullYear()))
     .replace(/__ARIA_BLOG__/g, escapeAttribute(metadata.ariaBlog))
     .replace(/__ARIA_CONFESSION__/g, escapeAttribute(metadata.ariaConfession))
     .replace(/__ARIA_BRAND__/g, escapeAttribute(metadata.ariaBrand))

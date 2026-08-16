@@ -268,6 +268,32 @@ button { cursor: pointer; }
   font-weight: 900;
 }
 
+/* Field performance panel. Sits below the moderation queue: something to
+   glance at between reviews rather than a workspace of its own. */
+.studio-vitals { margin-top: 2.5rem; }
+.studio-vitals__heading { margin-bottom: 1.1rem; }
+.studio-vitals__heading h2 { margin: 0; color: var(--deepblue); font-size: 1.05rem; font-weight: 900; }
+.studio-vitals__heading p { margin: 0.3rem 0 0; max-width: 46rem; color: #64748b; font-size: 0.8rem; line-height: 1.6; }
+
+.studio-vitals__grid { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); }
+.studio-vitals__card { padding: 1.1rem 1.2rem; border: 1px solid #dbe7ea; border-radius: 1.1rem; background: #ffffff; }
+.studio-vitals__metric { display: block; color: var(--deepblue); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+.studio-vitals__value { display: block; margin-top: 0.35rem; color: var(--deepblue); font-size: 1.5rem; font-weight: 900; }
+.studio-vitals__samples { display: block; margin-top: 0.3rem; color: #94a3b8; font-size: 0.7rem; }
+
+/* Google's own three bands, so the colour here means the same thing it means
+   in Search Console. */
+.studio-vitals__card--good { border-color: #b7e4c7; background: #f4fbf6; }
+.studio-vitals__card--needs-improvement { border-color: #f3d8a6; background: #fffdf6; }
+.studio-vitals__card--poor { border-color: #f2c0c0; background: #fdf5f5; }
+
+.studio-vitals__slowest { margin-top: 1.4rem; }
+.studio-vitals__slowest h3 { margin: 0 0 0.6rem; color: var(--deepblue); font-size: 0.78rem; font-weight: 900; }
+.studio-vitals__slowest ol { margin: 0; padding-left: 1.2rem; color: #475569; font-size: 0.78rem; line-height: 1.9; }
+.studio-vitals__slowest code { color: var(--deepblue); font-size: 0.75rem; }
+
+.studio-vitals__empty { padding: 1.6rem; border: 1px dashed #bfd1d6; border-radius: 1.1rem; color: #64748b; font-size: 0.8rem; }
+
 @media (max-width: 850px) {
   .studio-heading { grid-template-columns: 1fr; }
   .studio-submission { grid-template-columns: 1fr; }

@@ -59,7 +59,11 @@ export default async (request: Request) => {
       }
 
       return Response.json({ submission: updated });
-    } catch {
+    } catch (error) {
+      // Logged rather than swallowed: a moderator who sees only "unable to
+      // moderate" has nothing to report, and without this line neither does
+      // anyone reading the function logs afterwards.
+      console.error("Confession moderation failed", error);
       return Response.json({ error: "Unable to moderate submission" }, { status: 500 });
     }
   }

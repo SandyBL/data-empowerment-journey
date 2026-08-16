@@ -1,2 +1,31 @@
 node_modules/
 .netlify/assets/
+
+# Build output. `npm run build` (scripts/generate-blog-index.mjs) writes these
+# in place, and Netlify publishes the repository directory itself, so every one
+# of them is regenerated on every deploy. Committing them meant two copies of
+# the same page — the generator's and the repository's — and nothing forced the
+# two to agree: a change to src/home.html or to an article's Markdown showed up
+# in the deploy while the committed copy stayed as it was, so a reviewer reading
+# the repository was reading a page the site no longer served. The generator is
+# the single source of truth. A failing build now fails the deploy outright
+# instead of quietly shipping a stale copy, which is the behaviour we want.
+#
+# What is NOT here, and must stay tracked: the three <lang>/blog/index.html
+# files, which are hand-maintained pages the build only edits between markers;
+# 404.html, thank-you.html and robots.txt, which nothing generates; and
+# everything under src/, admin/ and simulators/.
+/index.html
+/en/index.html
+/pt/index.html
+/en/confession-wall/
+/es/confession-wall/
+/pt/confession-wall/
+/en/blog/*/
+/es/blog/*/
+/pt/blog/*/
+/llms.txt
+/llms-full.txt
+/sitemap.xml
+/_redirects
+/assets/search/
