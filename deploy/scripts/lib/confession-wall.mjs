@@ -235,7 +235,7 @@ ${alternates}
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="/assets/css/confession-wall.css">
   <link rel="stylesheet" href="/assets/css/site-brand.css">
   <script type="application/ld+json">
@@ -327,7 +327,7 @@ ${filters}
         ${logo}
         <div><strong>Data Governance Journey</strong><span id="footer-copy">${escapeHtml(copy.footer)}</span></div>
       </div>
-      <p class="wall-footer__copy">&copy; 2026 Data Governance Journey. <span id="footer-rights">${escapeHtml(copy.copyright)}</span></p>
+      <p class="wall-footer__copy">&copy; ${new Date().getUTCFullYear()} Data Governance Journey. <span id="footer-rights">${escapeHtml(copy.copyright)}</span></p>
     </div>
   </footer>
 
@@ -355,6 +355,7 @@ ${filters}
   </div>
   <div id="wall-toast" class="wall-toast" role="status" aria-live="polite"></div>
   <script type="module" src="/assets/js/confession-wall.js"></script>
+  <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>
 `;

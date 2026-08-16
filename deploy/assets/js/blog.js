@@ -26,6 +26,15 @@
   const sortDirection = archive.querySelector('[data-archive-direction]');
   const count = archive.querySelector('[data-archive-count]');
   const emptyState = archive.querySelector('[data-archive-empty]');
+
+  // Every control above is written by the build script, so all seven are
+  // normally present. If one ever is not, the first dereference throws and the
+  // script dies partway through — after it has appended the pagination bar but
+  // before it can hide or page anything, leaving a half-enhanced archive.
+  // Bailing out here leaves the statically rendered cards exactly as the server
+  // sent them: every article still visible, every link still followable.
+  if (!grid || !search || !category || !sortField || !sortDirection || !count || !emptyState) return;
+
   const cards = [...grid.querySelectorAll('.post-card')];
   if (!cards.length) return;
 
@@ -69,7 +78,7 @@
   [...new Set(cards.map((card) => card.dataset.category))]
     .sort(collator.compare)
     .forEach((categoryName) => category.add(new Option(categoryName, categoryName)));
-  category.options[0].textContent = labels.allCategories;
+  if (category.options.length) category.options[0].textContent = labels.allCategories;
 
   const renderPagination = (pageCount) => {
     pagination.replaceChildren();
@@ -102,8 +111,8 @@
     const field = sortField.value;
 
     const sortedCards = [...cards].sort((firstCard, secondCard) => {
-      if (field === 'date') return firstCard.dataset.date.localeCompare(secondCard.dataset.date) * direction;
-      return collator.compare(firstCard.dataset[field], secondCard.dataset[field]) * direction;
+      if (field === 'date') return (firstCard.dataset.date || '').localeCompare(secondCard.dataset.date || '') * direction;
+      return collator.compare(firstCard.dataset[field] || '', secondCard.dataset[field] || '') * direction;
     });
 
     const matchingCards = sortedCards.filter((card) => {
@@ -128,8 +137,19 @@
     renderPagination(pageCount);
   };
 
-  [search, category, sortField, sortDirection].forEach((control) =>
-    control.addEventListener(control === search ? 'input' : 'change', () => updateArchive(true))
+  // Each keystroke re-sorts every card and, once the full-text corpus has
+  // landed, scans the whole archive's prose for the query — typing a six-letter
+  // word ran that six times over. A short debounce collapses a burst of typing
+  // into a single pass; the dropdowns fire one event per choice, so they stay
+  // immediate.
+  let searchTimer = 0;
+  search.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => updateArchive(true), 150);
+  });
+
+  [category, sortField, sortDirection].forEach((control) =>
+    control.addEventListener('change', () => updateArchive(true))
   );
 
   // Warm the corpus on the first keystroke and re-run once it lands, so an early
@@ -147,6 +167,16 @@
     archive.querySelector('.section-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  // A shared link — or a result from the sitelinks searchbox Google builds from
+  // the site's SearchAction — arrives as ?q=… . The archive's search runs
+  // entirely in the browser, so nothing read that parameter and the visitor
+  // landed on an unfiltered list wondering where their query went.
+  const initialQuery = new URLSearchParams(window.location.search).get('q');
+  if (initialQuery) search.value = initialQuery;
+
   updateArchive();
+  // Titles and categories match immediately; the full-text corpus refines the
+  // result as soon as it lands.
+  if (initialQuery) loadCorpus().then(() => updateArchive(true));
   archive.classList.add('is-ready');
 })();

@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
   <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="/assets/css/admin-studio.css">
 </head>
 <body>
@@ -54,6 +54,17 @@
         </nav>
       </div>
       <div id="studio-queue" class="studio-queue" aria-live="polite"></div>
+      <!-- Core Web Vitals as real visitors measured them, at the 75th
+           percentile Google grades on. Sits under the moderation queue rather
+           than on its own page because it is something to glance at, not
+           something to work in. -->
+      <section class="studio-vitals" aria-labelledby="studio-vitals-heading">
+        <div class="studio-vitals__heading">
+          <h2 id="studio-vitals-heading">Field performance</h2>
+          <p>The 75th percentile of what real visitors measured over the last 28 days — the same statistic Search Console ranks on.</p>
+        </div>
+        <div id="studio-vitals-body" aria-live="polite"></div>
+      </section>
     </main>
   </div>
   <script type="module" src="/assets/js/admin-studio.js"></script>

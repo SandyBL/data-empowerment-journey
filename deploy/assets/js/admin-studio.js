@@ -5,7 +5,10 @@ import {
   handleAuthCallback,
   login,
   logout,
-} from "https://esm.sh/@netlify/identity@1.2.0";
+  // Vendored from the @netlify/identity dependency rather than fetched from a
+  // CDN: the sign-in form below submits a password, so the origin serving the
+  // auth code has to be the same origin the operator already trusts.
+} from "/assets/js/vendor/netlify-identity.js";
 
 // Confession moderation is gated by sign-in alone, exactly like the Blog
 // Content Studio: an authorized Netlify Identity account is the whole
@@ -182,7 +185,10 @@ async function loadQueue() {
 
 async function enterStudio(user) {
   showShell(user);
+  // Deliberately not awaited together: the moderation queue is the reason
+  // anyone opens this page, and a slow percentile query should not delay it.
   await loadQueue();
+  loadVitals();
 }
 
 loginForm.addEventListener("submit", async (event) => {
@@ -203,6 +209,107 @@ loginForm.addEventListener("submit", async (event) => {
     loginButton.textContent = "Sign in securely";
   }
 });
+
+// Core Web Vitals collected by assets/js/web-vitals.js. Milliseconds for every
+// metric except CLS, which is a unitless ratio.
+const VITALS_UNITS = { LCP: "ms", INP: "ms", FCP: "ms", TTFB: "ms", CLS: "" };
+const VITALS_ORDER = ["LCP", "INP", "CLS", "FCP", "TTFB"];
+
+function formatVital(metric, value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "—";
+  if (metric === "CLS") return number.toFixed(3);
+  return number >= 1000 ? `${(number / 1000).toFixed(2)} s` : `${Math.round(number)} ms`;
+}
+
+// The same thresholds the browser applied when it recorded the sample, repeated
+// here because the panel shows a percentile rather than any single measurement.
+const VITALS_THRESHOLDS = { LCP: [2500, 4000], INP: [200, 500], CLS: [0.1, 0.25], FCP: [1800, 3000], TTFB: [800, 1800] };
+
+function rateVital(metric, value) {
+  const thresholds = VITALS_THRESHOLDS[metric];
+  if (!thresholds) return "good";
+  return value <= thresholds[0] ? "good" : value <= thresholds[1] ? "needs-improvement" : "poor";
+}
+
+function createVitalCard(metric, row) {
+  const p75 = Number(row.p75);
+  const card = document.createElement("div");
+  card.className = `studio-vitals__card studio-vitals__card--${rateVital(metric, p75)}`;
+
+  const name = document.createElement("span");
+  name.className = "studio-vitals__metric";
+  name.textContent = metric;
+
+  const value = document.createElement("span");
+  value.className = "studio-vitals__value";
+  value.textContent = formatVital(metric, p75);
+
+  const samples = document.createElement("span");
+  samples.className = "studio-vitals__samples";
+  const good = Number(row.good_percent);
+  samples.textContent = Number.isFinite(good)
+    ? `${row.samples} samples · ${good}% good`
+    : `${row.samples} samples`;
+
+  card.append(name, value, samples);
+  return card;
+}
+
+async function loadVitals() {
+  const body = document.querySelector("#studio-vitals-body");
+  if (!body) return;
+
+  const message = (text) => {
+    const state = document.createElement("p");
+    state.className = "studio-vitals__empty";
+    state.textContent = text;
+    body.replaceChildren(state);
+  };
+
+  message("Loading field data…");
+
+  try {
+    const response = await fetch("/api/admin/vitals", { credentials: "same-origin" });
+    if (!response.ok) throw new Error("unavailable");
+    const payload = await response.json();
+    const rows = new Map((payload.metrics || []).map((row) => [row.metric, row]));
+
+    if (!rows.size) {
+      message("No field data yet. Measurements appear here once visitors have loaded pages since this was switched on.");
+      return;
+    }
+
+    const grid = document.createElement("div");
+    grid.className = "studio-vitals__grid";
+    for (const metric of VITALS_ORDER) {
+      if (rows.has(metric)) grid.append(createVitalCard(metric, rows.get(metric)));
+    }
+    body.replaceChildren(grid);
+
+    const slowest = (payload.slowestPages || []).slice(0, 5);
+    if (!slowest.length) return;
+
+    const section = document.createElement("div");
+    section.className = "studio-vitals__slowest";
+    const heading = document.createElement("h3");
+    heading.textContent = "Slowest pages to paint";
+    const list = document.createElement("ol");
+    for (const page of slowest) {
+      const item = document.createElement("li");
+      const code = document.createElement("code");
+      code.textContent = page.path;
+      item.append(code, document.createTextNode(` — ${formatVital("LCP", page.p75)}`));
+      list.append(item);
+    }
+    section.append(heading, list);
+    body.append(section);
+  } catch {
+    // A panel that cannot load is not a reason to interrupt moderation, so this
+    // says so quietly and leaves the queue above it alone.
+    message("Field data is unavailable right now.");
+  }
+}
 
 async function signOut() {
   try {

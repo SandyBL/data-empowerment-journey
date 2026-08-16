@@ -4,7 +4,10 @@ import {
   getUser,
   handleAuthCallback,
   login,
-} from "https://esm.sh/@netlify/identity@1.2.0";
+  // Vendored from the @netlify/identity dependency rather than fetched from a
+  // CDN: the sign-in form below submits a password, so the origin serving the
+  // auth code has to be the same origin the editor already trusts.
+} from "/assets/js/vendor/netlify-identity.js";
 
 // Decap CMS renders itself into a #nc-root element it appends to the body, so
 // it needs the page to itself. This page therefore does nothing except sign the

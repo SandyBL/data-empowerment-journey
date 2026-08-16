@@ -49,6 +49,7 @@ export const content = {
     assessmentLead: "Complete the Maturity Scorecard to identify your current strengths, gaps, and most valuable governance priorities.",
     assessmentButton: "Open the Maturity Scorecard",
     failure: "We could not register your confession. Please try again.",
+    tooMany: "That is several confessions in a short time. Please wait a few minutes before sending another.",
     footer: "Practical data governance, culture, and enablement.",
     copyright: "All rights reserved.",
     defaultStories: [
@@ -112,6 +113,7 @@ export const content = {
     assessmentLead: "Completa el Scorecard de Madurez para identificar tus fortalezas, brechas y prioridades de gobierno más valiosas.",
     assessmentButton: "Abrir el Scorecard de Madurez",
     failure: "No pudimos registrar tu confesión. Inténtalo de nuevo.",
+    tooMany: "Son varias confesiones en poco tiempo. Espera unos minutos antes de enviar otra.",
     footer: "Gobierno, cultura y habilitación de datos de forma práctica.",
     copyright: "Todos los derechos reservados.",
     defaultStories: [
@@ -175,6 +177,7 @@ export const content = {
     assessmentLead: "Conclua o Scorecard de Maturidade para identificar seus pontos fortes, lacunas e prioridades de governança mais valiosas.",
     assessmentButton: "Abrir o Scorecard de Maturidade",
     failure: "Não foi possível registrar sua confissão. Tente novamente.",
+    tooMany: "São várias confissões em pouco tempo. Aguarde alguns minutos antes de enviar outra.",
     footer: "Governança, cultura e capacitação de dados de forma prática.",
     copyright: "Todos os direitos reservados.",
     defaultStories: [

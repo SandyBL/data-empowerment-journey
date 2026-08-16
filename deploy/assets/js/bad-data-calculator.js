@@ -11,8 +11,20 @@
 
     if (!calculator || !downloadButton) return;
 
-    const html2canvasUrl = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-    const jsPdfUrl = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    // The PDF renderers are the only third-party code this page executes, and
+    // they are injected at click time rather than linked in the head, so nothing
+    // in the markup can pin them. The hashes do it instead: a tampered or
+    // swapped file fails the integrity check and the download reports an error
+    // rather than running whatever the CDN returned. Bump these together with
+    // the URL whenever either library is upgraded.
+    const html2canvasScript = {
+        url: 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+        integrity: 'sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H'
+    };
+    const jsPdfScript = {
+        url: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+        integrity: 'sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk'
+    };
     const languageSettings = {
         en: {
             locale: 'en-US',
@@ -202,7 +214,8 @@
         }
 
         const script = frame.contentDocument.createElement('script');
-        script.src = source;
+        script.src = source.url;
+        script.integrity = source.integrity;
         script.crossOrigin = 'anonymous';
         script.referrerPolicy = 'no-referrer';
         script.addEventListener('load', resolve, { once: true });
@@ -240,8 +253,8 @@
             await frameLoaded;
             await waitForFrameAssets(frame);
             const frameDocument = frame.contentDocument;
-            await loadFrameScript(frame, html2canvasUrl, () => typeof frame.contentWindow.html2canvas === 'function');
-            await loadFrameScript(frame, jsPdfUrl, () => typeof frame.contentWindow.jspdf?.jsPDF === 'function');
+            await loadFrameScript(frame, html2canvasScript, () => typeof frame.contentWindow.html2canvas === 'function');
+            await loadFrameScript(frame, jsPdfScript, () => typeof frame.contentWindow.jspdf?.jsPDF === 'function');
 
             const pages = [...frameDocument.querySelectorAll('.page')];
             if (pages.length !== 3) throw new Error('Unexpected report page count');

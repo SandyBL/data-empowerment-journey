@@ -22,9 +22,10 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
- * Source HTML that a human edits. Fully generated pages are regenerated on every
- * build and are not checked; the three blog indexes are, because only their
- * marker regions are generated and the rest is hand-maintained.
+ * Source HTML that a human edits, checked strictly: an undefined class here
+ * fails the build. Fully generated pages are regenerated on every build and are
+ * not checked; the three blog indexes are, because only their marker regions
+ * are generated and the rest is hand-maintained.
  */
 const HTML_SOURCES = [
   'src/home.html',
@@ -33,6 +34,30 @@ const HTML_SOURCES = [
   'en/blog/index.html',
   'es/blog/index.html',
   'pt/blog/index.html',
+  'admin/index.html',
+];
+
+/**
+ * Pages that are reported but never fail the build.
+ *
+ * The nine simulators are self-contained: each one carries its own markup, its
+ * own script and, in most cases, the Tailwind Play CDN, which compiles classes
+ * in the browser and cannot be verified from here. Two of them were moved off
+ * the CDN without their utility classes coming with them, so enforcing this
+ * list today would block every deploy over pre-existing markup rather than over
+ * anything the current change touched. Reporting keeps the problem visible in
+ * the build log; promote a page into HTML_SOURCES once it reads clean.
+ */
+const ADVISORY_SOURCES = [
+  'simulators/en/data-governance-day-to-day/index.html',
+  'simulators/en/data-literacy/index.html',
+  'simulators/en/data-ownership-conflict/index.html',
+  'simulators/es/data-governance-day-to-day/index.html',
+  'simulators/es/data-literacy/index.html',
+  'simulators/es/data-ownership-conflict/index.html',
+  'simulators/pt/data-governance-day-to-day/index.html',
+  'simulators/pt/data-literacy/index.html',
+  'simulators/pt/data-ownership-conflict/index.html',
 ];
 
 /** Directories scanned for class names referenced from JavaScript or generators. */
@@ -57,6 +82,9 @@ const IGNORED_CLASSES = new Set([
   // rewrites by attribute rather than by class name.
   'language-resource-download',
   'language-scorecard-link',
+  // Names the footer region on the simulator pages. The navigation inside it
+  // carries the styling; the wrapper is there so the markup reads.
+  'simulator-site-footer',
 ]);
 
 /** Files loaded from a CDN framework cannot be verified locally. */
@@ -84,6 +112,10 @@ const usedClasses = (html) => {
   const attributePattern = /\bclass\s*=\s*"([^"]*)"/g;
   let match;
   while ((match = attributePattern.exec(html)) !== null) {
+    // A class attribute assembled in JavaScript (`class="${ok ? 'a' : 'b'}"`)
+    // is not markup; splitting it on whitespace yields quoted fragments and
+    // ternary operators that no stylesheet will ever define.
+    if (match[1].includes('${')) continue;
     const line = html.slice(0, match.index).split('\n').length;
     for (const token of match[1].split(/\s+/)) {
       if (!token) continue;
@@ -133,6 +165,14 @@ const collectStylesheets = async (html, htmlFile) => {
     if (CDN_STYLESHEET.test(href)) continue;
     sheets.push(resolveHref(href, htmlFile));
   }
+  // Tailwind's Play CDN arrives as a <script>, not a stylesheet link. Looking
+  // only at link tags meant a page built entirely on the Play CDN was measured
+  // against the hand-written subset, and every Tailwind utility on it read as
+  // an undefined class.
+  const scriptPattern = /<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi;
+  while ((match = scriptPattern.exec(html)) !== null) {
+    if (CDN_FRAMEWORK.test(match[1])) usesCdnFramework = true;
+  }
   return { sheets, usesCdnFramework };
 };
 
@@ -179,38 +219,117 @@ const checkFile = async (htmlFile, extraSheets, hookSource) => {
   return { file: htmlFile, missing };
 };
 
+/**
+ * Everything a class name could plausibly be written in: hand-edited markup, the
+ * generator templates that assemble the rest, the scripts that toggle classes at
+ * runtime, and the article prose the CMS turns into HTML. Stylesheets are
+ * excluded on purpose -- a class defined in a second stylesheet is still not a
+ * class anybody uses.
+ */
+const USAGE_ROOTS = [
+  'src', 'scripts', 'assets/js', 'assets/templates', 'admin', 'simulators', 'content',
+  'netlify/functions', 'thank-you.html', '404.html',
+  'en/blog/index.html', 'es/blog/index.html', 'pt/blog/index.html',
+];
+const USAGE_EXTENSIONS = /\.(html|js|mjs|cjs|mts|md|json|yml)$/i;
+
+const collectUsageCorpus = async () => {
+  const parts = [];
+  const visit = async (target) => {
+    const info = await stat(target).catch(() => null);
+    if (!info) return;
+    if (info.isFile()) {
+      if (USAGE_EXTENSIONS.test(target)) parts.push(await readIfPresent(target));
+      return;
+    }
+    for (const entry of await readdir(target).catch(() => [])) {
+      if (entry === 'node_modules') continue;
+      await visit(path.join(target, entry));
+    }
+  };
+  for (const root of USAGE_ROOTS) await visit(path.join(ROOT, root));
+  return parts.join('\n');
+};
+
+/**
+ * The other direction: rules that exist in the hand-written Tailwind subset but
+ * that nothing references any more.
+ *
+ * Checking only used-to-defined lets the stylesheet grow forever -- a class
+ * survives every refactor that removed its last consumer, because nothing ever
+ * asks the question. This is reported, never enforced: a rule can legitimately
+ * be kept ahead of the markup that will use it, and no dead CSS is worth a
+ * failed deploy.
+ */
+const unusedDefinitions = async () => {
+  const stylesheet = await readIfPresent(path.join(ROOT, 'assets/styles.css'));
+  const corpus = await collectUsageCorpus();
+  const unused = [];
+  for (const name of [...definedClasses(stylesheet)].sort()) {
+    // `definedClasses` also matches the decimal part of values like `0.375rem`,
+    // so anything that does not start like an identifier is not a class at all.
+    if (!/^[a-zA-Z]/.test(name)) continue;
+    if (isExternal(name)) continue;
+    if (IGNORED_CLASSES.has(name)) continue;
+    const token = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (new RegExp(`(?<![\\w-])${token}(?![\\w-])`).test(corpus)) continue;
+    unused.push(name);
+  }
+  return unused;
+};
+
 export const checkClassCoverage = async () => {
   // Generated pages pull in blog.css / confession-wall.css without a link tag in
   // the source HTML, so treat every stylesheet under assets/css as available.
   const extraSheets = await generatedStylesheets();
   const hookSource = await collectHookSource();
-  const results = [];
+  const enforced = [];
   for (const htmlFile of HTML_SOURCES) {
-    results.push(await checkFile(htmlFile, extraSheets, hookSource));
+    enforced.push(await checkFile(htmlFile, extraSheets, hookSource));
   }
-  return results;
+  const advisory = [];
+  for (const htmlFile of ADVISORY_SOURCES) {
+    advisory.push(await checkFile(htmlFile, extraSheets, hookSource));
+  }
+  return { enforced, advisory, unused: await unusedDefinitions() };
 };
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 if (isMain) {
-  const results = await checkClassCoverage();
-  let failures = 0;
-  for (const result of results) {
+  const { enforced, advisory, unused } = await checkClassCoverage();
+
+  const report = (result, { detailed }) => {
     if (result.skipped) {
       console.log(`- ${result.file}: skipped (${result.skipped})`);
-      continue;
+      return 0;
     }
     if (result.missing.length === 0) {
       console.log(`- ${result.file}: ok`);
-      continue;
+      return 0;
     }
-    failures += result.missing.length;
     console.log(`- ${result.file}: ${result.missing.length} undefined class(es)`);
-    for (const { token, line } of result.missing) {
-      console.log(`    ${result.file}:${line}  .${token}`);
+    if (detailed) {
+      for (const { token, line } of result.missing) {
+        console.log(`    ${result.file}:${line}  .${token}`);
+      }
     }
+    return result.missing.length;
+  };
+
+  let failures = 0;
+  for (const result of enforced) failures += report(result, { detailed: true });
+
+  const advisoryTotal = advisory.reduce((total, result) => total + report(result, { detailed: false }), 0);
+  if (advisoryTotal > 0) {
+    console.log(`\nadvisory: ${advisoryTotal} undefined class(es) on self-contained simulator pages (not enforced)`);
   }
+
+  if (unused.length > 0) {
+    console.log(`\nadvisory: ${unused.length} rule(s) in assets/styles.css that nothing references`);
+    for (const name of unused) console.log(`    .${name}`);
+  }
+
   if (failures > 0) {
     console.error(`\nclass coverage: ${failures} class(es) used in markup but never defined in CSS`);
     process.exit(1);

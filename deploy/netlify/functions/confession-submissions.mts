@@ -3,67 +3,47 @@ import { and, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { confessionSubmissions } from "../../db/schema.js";
 
+// Reads the published Confession Wall. Writing is a separate function
+// (confession-submit.mts) on this same path, because the two need rate limits
+// an order of magnitude apart: reading is what every visitor does on page load,
+// posting is what a spam script would do thousands of times. Netlify routes on
+// method as well as path, so each side gets the limit that fits it.
+
 const supportedLocales = new Set(["en", "es", "pt"]);
 
-const cleanText = (value: unknown, maxLength: number) =>
-  typeof value === "string" ? value.trim().slice(0, maxLength) : "";
-
 export default async (request: Request) => {
-  if (request.method === "GET") {
-    const locale = new URL(request.url).searchParams.get("locale")?.toLowerCase() ?? "";
+  const locale = new URL(request.url).searchParams.get("locale")?.toLowerCase() ?? "";
 
-    if (!supportedLocales.has(locale)) {
-      return Response.json({ error: "Invalid locale" }, { status: 400 });
-    }
-
-    const submissions = await db
-      .select({
-        id: confessionSubmissions.id,
-        role: confessionSubmissions.role,
-        category: confessionSubmissions.category,
-        title: confessionSubmissions.title,
-        story: confessionSubmissions.story,
-        expertComment: confessionSubmissions.expertComment,
-        publishedAt: confessionSubmissions.publishedAt,
-      })
-      .from(confessionSubmissions)
-      .where(and(eq(confessionSubmissions.locale, locale), eq(confessionSubmissions.status, "published")))
-      .orderBy(desc(confessionSubmissions.publishedAt));
-
-    return Response.json({ submissions });
+  if (!supportedLocales.has(locale)) {
+    return Response.json({ error: "Invalid locale" }, { status: 400 });
   }
 
-  if (request.method !== "POST") {
-    return Response.json({ error: "Method not allowed" }, { status: 405 });
-  }
+  const submissions = await db
+    .select({
+      id: confessionSubmissions.id,
+      role: confessionSubmissions.role,
+      category: confessionSubmissions.category,
+      title: confessionSubmissions.title,
+      story: confessionSubmissions.story,
+      expertComment: confessionSubmissions.expertComment,
+      publishedAt: confessionSubmissions.publishedAt,
+    })
+    .from(confessionSubmissions)
+    .where(and(eq(confessionSubmissions.locale, locale), eq(confessionSubmissions.status, "published")))
+    .orderBy(desc(confessionSubmissions.publishedAt));
 
-  try {
-    const payload = await request.json();
-    const locale = cleanText(payload.locale, 2).toLowerCase();
-    const role = cleanText(payload.role, 160);
-    const category = cleanText(payload.category, 80);
-    const title = cleanText(payload.title, 180);
-    const story = cleanText(payload.story, 5000);
-
-    if (!supportedLocales.has(locale) || !role || !title || story.length < 20) {
-      return Response.json({ error: "Invalid submission" }, { status: 400 });
-    }
-
-    await db.insert(confessionSubmissions).values({
-      locale,
-      role,
-      category: category || null,
-      title,
-      story,
-    });
-
-    return Response.json({ accepted: true }, { status: 201 });
-  } catch {
-    return Response.json({ error: "Unable to save submission" }, { status: 500 });
-  }
+  return Response.json({ submissions });
 };
 
 export const config: Config = {
   path: "/api/confessions",
-  method: ["GET", "POST"],
+  method: ["GET"],
+  // Generous enough that a shared office or mobile-carrier address never trips
+  // it — the page makes one request per visit — while still capping the
+  // database queries a single address can force.
+  rateLimit: {
+    windowSize: 60,
+    windowLimit: 60,
+    aggregateBy: "ip",
+  },
 };
