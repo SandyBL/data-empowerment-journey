@@ -89,6 +89,43 @@ const PAGE_METADATA = {
   },
 };
 
+const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+
+/**
+ * Copy for the latest-articles block. It is written here rather than in
+ * src/home.html because the cards themselves are generated, and splitting the
+ * heading from the thing it heads is how the two drift apart.
+ */
+const JOURNAL_COPY = {
+  en: {
+    kicker: 'From the journal',
+    heading: 'Latest thinking on data governance',
+    lead: 'New writing on governance, culture, literacy, and responsible AI — practical enough to use on Monday.',
+    minRead: 'min read',
+    read: 'Read article',
+    all: 'Read every article',
+  },
+  es: {
+    kicker: 'Desde el journal',
+    heading: 'Lo último sobre gobierno de datos',
+    lead: 'Nuevos artículos sobre gobierno de datos, cultura, alfabetización e IA responsable: ideas prácticas que puedes aplicar desde el primer día.',
+    minRead: 'min de lectura',
+    read: 'Leer artículo',
+    all: 'Ver todos los artículos',
+  },
+  pt: {
+    kicker: 'Do journal',
+    heading: 'O mais recente sobre governança de dados',
+    lead: 'Novos artigos sobre governança de dados, cultura, alfabetização e IA responsável: ideias práticas que você pode aplicar desde o primeiro dia.',
+    minRead: 'min de leitura',
+    read: 'Ler artigo',
+    all: 'Ver todos os artigos',
+  },
+};
+
+/** How many cards the block shows. Three fills one row at every breakpoint. */
+const JOURNAL_CARDS = 3;
+
 const escapeAttribute = (text) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -223,8 +260,70 @@ const renderSchema = (graph, lang) => {
     </script>`;
 };
 
+/**
+ * The "from the journal" block, rendered into <!--BUILD:LATEST-->.
+ *
+ * The homepage carried thirty-one links and not one of them reached an article:
+ * every route into the blog stopped at the language's index page, so an article
+ * was three clicks from the site's only strongly-linked page and Google left a
+ * good part of the archive at "discovered — currently not indexed". These cards
+ * are plain server-rendered anchors, so they count as links to a crawler that
+ * runs no JavaScript, and they change whenever an article is published — which
+ * is also what the homepage's derived sitemap lastmod now reports.
+ *
+ * Returns an empty string when a language has no articles rather than an empty
+ * shell, so the section simply does not exist instead of being visibly bare.
+ */
+export const renderLatestArticles = (articles, lang) => {
+  const copy = JOURNAL_COPY[lang];
+  const localized = (articles || [])
+    .filter((article) => article.lang === lang)
+    .sort((first, second) => second.date.localeCompare(first.date))
+    .slice(0, JOURNAL_CARDS);
+  if (!localized.length) return '';
+
+  const formatDate = (isoDate) =>
+    new Intl.DateTimeFormat(DATE_LOCALE[lang], { year: 'numeric', month: 'long', day: 'numeric' }).format(
+      new Date(`${isoDate}T12:00:00Z`)
+    );
+
+  const cards = localized
+    .map((article) => {
+      const href = `/${lang}/blog/${article.slug}/`;
+      return `                <article class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col">
+                    <div class="p-8 flex-grow">
+                        <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">${escapeAttribute(article.category)}</p>
+                        <h3 class="text-xl font-extrabold text-deepblue leading-tight mb-3"><a href="${href}">${escapeAttribute(article.title)}</a></h3>
+                        <p class="text-slate-600 leading-relaxed">${escapeAttribute(article.summary)}</p>
+                    </div>
+                    <div class="px-8 pb-8">
+                        <p class="text-slate-500 text-xs font-semibold mb-4"><time datetime="${article.date}">${formatDate(article.date)}</time> · ${article.readingTime} ${copy.minRead}</p>
+                        <a href="${href}" class="inline-flex items-center gap-2 text-deepblue text-sm font-bold">${copy.read}<i class="fa-solid fa-arrow-right text-emeraldgreen" aria-hidden="true"></i></a>
+                    </div>
+                </article>`;
+    })
+    .join('\n');
+
+  return `<section id="journal" class="scroll-mt-20 py-20 bg-white border-t border-slate-200" aria-labelledby="journal-heading">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">${copy.kicker}</p>
+                <h2 id="journal-heading" class="text-3xl font-extrabold text-deepblue tracking-tight">${copy.heading}</h2>
+                <div class="w-16 h-1 bg-emeraldgreen mx-auto my-5 rounded-full"></div>
+                <p class="text-slate-600 font-light leading-relaxed">${copy.lead}</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+${cards}
+            </div>
+            <div class="text-center">
+                <a href="/${lang}/blog/" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-deepblue text-white text-sm font-bold hover:bg-deepblue/90 transition-all">${copy.all}<i class="fa-solid fa-arrow-right text-emeraldgreen" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>`;
+};
+
 /** Renders the master template into the finished page for one language. */
-export const renderHomePage = (template, schemaGraph, lang) => {
+export const renderHomePage = (template, schemaGraph, lang, articles = []) => {
   const metadata = PAGE_METADATA[lang];
   if (!metadata) throw new Error(`No homepage metadata for language "${lang}"`);
 
@@ -234,6 +333,9 @@ export const renderHomePage = (template, schemaGraph, lang) => {
   return page
     .replace('<!--BUILD:METADATA-->', renderMetadata(lang))
     .replace('<!--BUILD:SCHEMA-->', renderSchema(schemaGraph, lang))
+    // A function replacement, not a string: an article title containing "$&"
+    // or "$'" would otherwise be read as a replacement pattern.
+    .replace('<!--BUILD:LATEST-->', () => renderLatestArticles(articles, lang))
     .replace(/__HTML_LANG__/g, HTML_LANG[lang])
     .replace(/__LANG__/g, lang)
     // Stamped at build time rather than written into the template: a literal

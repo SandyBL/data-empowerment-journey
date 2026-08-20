@@ -59,6 +59,19 @@ a { color: inherit; }
 .listing-intro h1 { max-width: 800px; margin: 18px 0 0; font-family: var(--serif); font-size: clamp(3.4rem, 8vw, 7.7rem); font-weight: 400; line-height: .85; letter-spacing: -.055em; }
 .listing-intro p { max-width: 440px; margin: 0 0 8px; color: var(--ink-soft); font-size: 1.08rem; line-height: 1.8; }
 .listing-intro em { color: var(--coral); font-weight: 400; }
+
+/* Category hubs. The nav appears on the blog index and on every hub, so a
+   reader — and a crawler following links rather than the sitemap — can reach
+   any category from either. `.blog-kicker` becomes an anchor on an article page
+   whose category has a hub, hence the reset here rather than on a new class. */
+.category-nav { padding: 6px 0 4px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 22px; }
+.category-nav-label { color: var(--ink-soft); font-size: .65rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.category-nav-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.category-nav-links a { padding: 7px 15px; color: var(--ink-soft); font-size: .74rem; font-weight: 700; letter-spacing: .04em; text-decoration: none; background: rgba(255, 254, 249, .72); border: 1px solid var(--line); border-radius: 999px; transition: color .18s ease, border-color .18s ease, background .18s ease; }
+.category-nav-links a:hover { color: var(--ink); border-color: var(--mint-dark); background: var(--white); }
+.category-nav-links a[aria-current='page'] { color: var(--white); background: var(--deepblue); border-color: var(--deepblue); }
+a.blog-kicker { text-decoration: none; }
+a.blog-kicker:hover { color: var(--coral); }
 .hero-post { overflow: hidden; background: linear-gradient(to bottom right, var(--deepblue), var(--slatecool), var(--slatecool)); color: #fff; border-radius: 4px 30px 4px 4px; box-shadow: var(--shadow); }
 .hero-post-content { padding: clamp(30px, 5vw, 54px); display: flex; flex-direction: column; justify-content: center; }
 .post-category { color: var(--mint); font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }

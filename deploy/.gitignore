@@ -24,8 +24,12 @@ node_modules/
 /en/blog/*/
 /es/blog/*/
 /pt/blog/*/
+# (the three patterns above also cover <lang>/blog/category/, the category hubs)
 /llms.txt
 /llms-full.txt
 /sitemap.xml
 /_redirects
+# Written only by a non-production build (see renderHeaders): it carries the
+# site-wide noindex that keeps deploy previews and branch deploys out of search.
+/_headers
 /assets/search/

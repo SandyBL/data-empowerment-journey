@@ -5,12 +5,26 @@ import { parseFrontMatter, renderMarkdown, readingTimeMinutes, escapeHtml } from
 import { renderHomePage, HOME_PATH } from './lib/home-pages.mjs';
 import { renderLlmsIndex, renderLlmsFull } from './lib/llms.mjs';
 import { renderArticleSchema } from './lib/article-schema.mjs';
-import { resolveCategory } from './lib/categories.mjs';
+import { CATEGORY_LABELS, resolveCategory } from './lib/categories.mjs';
 import { renderConfessionWalls } from './lib/confession-wall.mjs';
 import { renderBlogIndexSchema } from './lib/blog-index-schema.mjs';
 import { checkClassCoverage } from './check-class-coverage.mjs';
 import { checkAssetIntegrity } from './check-asset-integrity.mjs';
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
+
+/**
+ * Whether this build is the one that answers on datagovjourney.com.
+ *
+ * Netlify sets CONTEXT to "production" only for the deploy that serves the
+ * production domain; deploy previews and branch deploys get their own value and
+ * their own hostname. Two things below depend on the difference: the production
+ * build canonicalises the netlify.app hostnames onto the custom domain, and
+ * every other build ships a site-wide noindex so a preview URL cannot compete
+ * with the page it is previewing. Both are wrong if applied to the other
+ * context — redirecting a preview away sends a reviewer to production, and
+ * noindexing production removes the site from search.
+ */
+const IS_PRODUCTION_DEPLOY = process.env.CONTEXT === 'production';
 
 const LANGUAGES = ['en', 'es', 'pt'];
 const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
@@ -102,16 +116,36 @@ const LABELS = {
 };
 
 /**
- * The date the hand-maintained pages were last materially revised.
+ * Dates for the sitemap entries that have no front matter to read one from.
  *
- * Every sitemap entry needs a <lastmod>, and articles supply their own from the
- * front matter. The static pages have no such field, and file timestamps are
- * useless here because a fresh checkout stamps every file with the build time —
- * which would announce that the whole site changed on every deploy and teach
- * crawlers to ignore the signal. So this is a constant: bump it when the copy on
- * those pages actually changes.
+ * Every sitemap entry needs a <lastmod>, and articles supply their own. The
+ * static pages have no such field, and file timestamps are useless here because
+ * a fresh checkout stamps every file with the build time — which would announce
+ * that the whole site changed on every deploy and teach crawlers to ignore the
+ * signal.
+ *
+ * There used to be one constant covering all of them, which meant every static
+ * page claimed the same revision date and none of them moved unless somebody
+ * remembered to bump it by hand. A lastmod nobody maintains is worse than no
+ * lastmod: Google learns the value is noise and stops using it to schedule
+ * recrawls, which is precisely the signal a small site cannot afford to lose.
+ *
+ * So each group now takes its date from whatever actually changes it:
+ *
+ *   homepages       derived — they carry the latest-articles block, so they
+ *                   genuinely change whenever an article is published
+ *   blog indexes    derived — newest article in that language (see renderSitemap)
+ *   category pages  derived — newest article in that category and language
+ *   confession walls  the constant below: the seeded stories are compiled from
+ *                   assets/js/confession-wall-content.js, and published
+ *                   submissions hydrate client-side without changing the HTML
+ *   simulators      the constant below: nine hand-maintained single-file pages
+ *
+ * The two constants that remain are the two that genuinely have no derivable
+ * source. Bump them when the copy on those pages actually changes.
  */
-const STATIC_LAST_MODIFIED = '2026-08-08';
+const CONFESSION_WALL_LAST_MODIFIED = '2026-08-08';
+const SIMULATOR_LAST_MODIFIED = '2026-08-08';
 
 /**
  * Non-article URLs that belong in the sitemap.
@@ -125,7 +159,8 @@ const STATIC_ROUTES = [
     url: HOME_PATH[lang],
     priority: lang === 'es' ? '1.0' : '0.9',
     changefreq: 'weekly',
-    lastmod: STATIC_LAST_MODIFIED,
+    // Derived in renderSitemap from the newest article on the site.
+    lastmod: null,
     alternates: [
       ...LANGUAGES.map((other) => ({ hreflang: other, url: HOME_PATH[other] })),
       { hreflang: 'x-default', url: HOME_PATH.en },
@@ -136,7 +171,8 @@ const STATIC_ROUTES = [
       url: `/${lang}/${section}/`,
       priority: section === 'blog' ? '0.8' : '0.7',
       changefreq: 'weekly',
-      lastmod: STATIC_LAST_MODIFIED,
+      // Blog indexes are derived in renderSitemap; the walls take the constant.
+      lastmod: section === 'blog' ? null : CONFESSION_WALL_LAST_MODIFIED,
       alternates: [
         ...LANGUAGES.map((other) => ({ hreflang: other, url: `/${other}/${section}/` })),
         { hreflang: 'x-default', url: `/en/${section}/` },
@@ -148,7 +184,7 @@ const STATIC_ROUTES = [
       url: `/simulators/${lang}/${simulator}/`,
       priority: '0.8',
       changefreq: 'monthly',
-      lastmod: STATIC_LAST_MODIFIED,
+      lastmod: SIMULATOR_LAST_MODIFIED,
       alternates: [
         ...LANGUAGES.map((other) => ({ hreflang: other, url: `/simulators/${other}/${simulator}/` })),
         { hreflang: 'x-default', url: `/simulators/en/${simulator}/` },
@@ -166,6 +202,235 @@ const formatDate = (isoDate, lang) =>
   );
 
 const articlePath = (lang, slug) => `/${lang}/blog/${slug}/`;
+const categoryPath = (lang, key) => `/${lang}/blog/category/${key}/`;
+
+/**
+ * How many articles a category needs, in every language, before it gets a page.
+ *
+ * A category hub earns its place by being a second route into articles that
+ * otherwise hang off one listing page. A hub over one or two articles is not
+ * that: it is a near-empty page whose only content is a link to a page the
+ * reader could already reach, which is the shape Google files under "crawled -
+ * currently not indexed". Requiring the threshold in *every* language rather
+ * than in any one of them also keeps the hreflang cluster complete, so the
+ * three hubs for a category always point at each other.
+ */
+const CATEGORY_PAGE_MINIMUM = 3;
+
+/** Copy the category hubs need that the article and listing pages do not. */
+const CATEGORY_COPY = {
+  en: {
+    skip: 'Skip to the articles',
+    kicker: 'Category',
+    lead: (label) =>
+      `Everything we have published on ${label}, newest first — written for the people who have to make it work day to day.`,
+    metaTitle: (label) => `${label} — Articles | Data Governance Journey`,
+    metaDescription: (label) =>
+      `Every Data Governance Journey article on ${label}: practical guidance on turning the principles into decisions, routines, and outcomes.`,
+    count: (total) => `${total} ${total === 1 ? 'article' : 'articles'}`,
+    browse: 'Browse by category',
+  },
+  es: {
+    skip: 'Saltar a los artículos',
+    kicker: 'Categoría',
+    lead: (label) =>
+      `Todo lo que hemos publicado sobre ${label}, empezando por lo más reciente y escrito para quienes tienen que aplicarlo cada día.`,
+    metaTitle: (label) => `${label} — Artículos | Data Governance Journey`,
+    metaDescription: (label) =>
+      `Todos los artículos de Data Governance Journey sobre ${label}: guía práctica para convertir los principios en decisiones, rutinas y resultados.`,
+    count: (total) => `${total} ${total === 1 ? 'artículo' : 'artículos'}`,
+    browse: 'Explorar por categoría',
+  },
+  pt: {
+    skip: 'Ir para os artigos',
+    kicker: 'Categoria',
+    lead: (label) =>
+      `Tudo o que publicamos sobre ${label}, do mais recente ao mais antigo, escrito para quem precisa aplicar isso no dia a dia.`,
+    metaTitle: (label) => `${label} — Artigos | Data Governance Journey`,
+    metaDescription: (label) =>
+      `Todos os artigos da Data Governance Journey sobre ${label}: orientação prática para transformar os princípios em decisões, rotinas e resultados.`,
+    count: (total) => `${total} ${total === 1 ? 'artigo' : 'artigos'}`,
+    browse: 'Navegar por categoria',
+  },
+};
+
+/**
+ * The category hubs this build should publish, one entry per language.
+ *
+ * Returns an empty list rather than a partial one when nothing clears
+ * CATEGORY_PAGE_MINIMUM, so a site with a shallow taxonomy simply has no hubs
+ * instead of a scattering of one-link pages.
+ */
+function collectCategoryPages(articles) {
+  const grouped = new Map();
+  for (const article of articles) {
+    if (!article.categoryKey) continue;
+    if (!grouped.has(article.categoryKey)) grouped.set(article.categoryKey, new Map());
+    const languages = grouped.get(article.categoryKey);
+    if (!languages.has(article.lang)) languages.set(article.lang, []);
+    languages.get(article.lang).push(article);
+  }
+
+  const pages = [];
+  for (const key of Object.keys(CATEGORY_LABELS)) {
+    const languages = grouped.get(key);
+    if (!languages) continue;
+    if (!LANGUAGES.every((lang) => (languages.get(lang) || []).length >= CATEGORY_PAGE_MINIMUM)) continue;
+    for (const lang of LANGUAGES) {
+      pages.push({
+        lang,
+        key,
+        label: CATEGORY_LABELS[key][lang],
+        url: categoryPath(lang, key),
+        articles: [...languages.get(lang)].sort((first, second) => second.date.localeCompare(first.date)),
+      });
+    }
+  }
+  return pages;
+}
+
+/**
+ * The row of category links shown on the blog index and on every hub.
+ *
+ * This is the inbound half of the hub: without it the only crawlable route to
+ * a category page would be the sitemap and the chip on an article, and a page
+ * whose only referrer is the sitemap is exactly the "discovered - currently not
+ * indexed" case. Rendered as nothing at all when no category qualifies.
+ */
+function renderCategoryNav(lang, categoryPages, currentKey) {
+  const localized = categoryPages.filter((page) => page.lang === lang);
+  if (!localized.length) return '';
+  const labels = LABELS[lang];
+  const copy = CATEGORY_COPY[lang];
+  const links = [
+    `<a href="/${lang}/blog/"${currentKey ? '' : ' aria-current="page"'}>${labels.allArticles}</a>`,
+    ...localized.map(
+      (page) =>
+        `<a href="${page.url}"${page.key === currentKey ? ' aria-current="page"' : ''}>${escapeHtml(page.label)}</a>`
+    ),
+  ].join('');
+  return `<nav class="category-nav blog-shell" aria-label="${copy.browse}"><span class="category-nav-label">${copy.browse}</span><div class="category-nav-links">${links}</div></nav>`;
+}
+
+function renderCategoryPage(page, categoryPages) {
+  const { lang, label } = page;
+  const labels = LABELS[lang];
+  const copy = CATEGORY_COPY[lang];
+  const canonical = `${SITE_ORIGIN}${page.url}`;
+  const description = copy.metaDescription(label);
+
+  const alternates = [
+    ...LANGUAGES.map(
+      (other) =>
+        `<link rel="alternate" hreflang="${other}" href="${SITE_ORIGIN}${categoryPath(other, page.key)}">`
+    ),
+    `<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${categoryPath('en', page.key)}">`,
+  ].join('');
+
+  const languageNav = LANGUAGES.map(
+    (other) =>
+      `<a href="${categoryPath(other, page.key)}"${other === lang ? ' aria-current="page"' : ''}>${other.toUpperCase()}</a>`
+  ).join('');
+
+  const breadcrumb = [
+    { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[lang]}` },
+    { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${lang}/blog/` },
+    { name: label, item: canonical },
+  ];
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': `${canonical}#page`,
+        url: canonical,
+        name: `${label} — Data Governance Journey`,
+        description,
+        inLanguage: HTML_LANG[lang],
+        isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
+        breadcrumb: { '@id': `${canonical}#breadcrumb` },
+        mainEntity: { '@id': `${canonical}#articles` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonical}#breadcrumb`,
+        itemListElement: breadcrumb.map((step, position) => ({
+          '@type': 'ListItem',
+          position: position + 1,
+          name: step.name,
+          item: step.item,
+        })),
+      },
+      {
+        '@type': 'ItemList',
+        '@id': `${canonical}#articles`,
+        itemListOrder: 'https://schema.org/ItemListOrderDescending',
+        numberOfItems: page.articles.length,
+        itemListElement: page.articles.map((article, position) => ({
+          '@type': 'ListItem',
+          position: position + 1,
+          url: `${SITE_ORIGIN}${articlePath(lang, article.slug)}`,
+          name: article.title,
+        })),
+      },
+    ],
+  };
+
+  return `<!doctype html>
+<html lang="${HTML_LANG[lang]}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(copy.metaTitle(label))}</title>
+  <meta name="description" content="${escapeHtml(description)}">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="${canonical}">
+  ${alternates}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${escapeHtml(copy.metaTitle(label))}">
+  <meta property="og:description" content="${escapeHtml(description)}">
+  <meta property="og:url" content="${canonical}">
+  <meta property="og:site_name" content="Data Governance Journey">
+  <meta property="og:locale" content="${OG_LOCALE[lang]}">
+  <meta property="og:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
+  <meta property="og:image:width" content="${OG_IMAGE.width}">
+  <meta property="og:image:height" content="${OG_IMAGE.height}">
+  <meta property="og:image:alt" content="${escapeHtml(OG_IMAGE.alt)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(copy.metaTitle(label))}">
+  <meta name="twitter:description" content="${escapeHtml(description)}">
+  <meta name="twitter:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
+  <meta name="twitter:image:alt" content="${escapeHtml(OG_IMAGE.alt)}">
+  <link rel="preload" href="/assets/fonts/dm-serif-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts-dm.css">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#003366">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/site-brand.css">
+  <script type="application/ld+json">${JSON.stringify(schema)}</script>
+</head>
+<body data-lang="${lang}">
+  <a class="skip-link" href="#articles">${copy.skip}</a>
+  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[lang]}"><img src="${imageCdn(LOGO.url, 80, 78)}" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${lang}/blog/">${labels.allArticles}</a><div class="language-nav" role="navigation" aria-label="${labels.languageNav}">${languageNav}</div></div></nav></header>
+  <main id="articles" tabindex="-1">
+    <section class="listing-intro blog-shell"><div>${renderBreadcrumbNav(breadcrumb, labels)}<span class="blog-kicker">${copy.kicker}</span><h1>${escapeHtml(label)}</h1></div><p>${escapeHtml(copy.lead(label))}</p></section>
+    ${renderCategoryNav(lang, categoryPages, page.key)}
+    <section class="blog-shell"><div class="section-heading"><h2>${escapeHtml(label)}</h2><span>${copy.count(page.articles.length)}</span></div>
+      <div class="post-grid">${page.articles.map((article) => renderArchiveCard(article)).join('')}</div>
+    </section>
+    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
+  </main>
+  <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
+  <script src="/assets/js/web-vitals.js" defer></script>
+</body>
+</html>
+`;
+}
+
 
 /**
  * Accepts an old slug however an editor supplies it — bare, as a full path, or
@@ -355,7 +620,7 @@ function renderRelated(article, articles, labels) {
     </section>`;
 }
 
-function renderArticlePage(article, translations, articles) {
+function renderArticlePage(article, translations, articles, categoryHubs) {
   const labels = LABELS[article.lang];
   const canonical = `${SITE_ORIGIN}${articlePath(article.lang, article.slug)}`;
   const description = article.summary || article.title;
@@ -368,9 +633,17 @@ function renderArticlePage(article, translations, articles) {
     return `<a href="${href}"${current}>${lang.toUpperCase()}</a>`;
   }).join('');
 
+  // The category step is only in the trail when there is a page behind it.
+  // Google asks that a breadcrumb describe a route the reader can actually
+  // take, and renderBreadcrumbNav renders every non-final step as a link, so a
+  // step for a category with no hub would be a link to nowhere.
+  const hasCategoryHub = categoryHubs.has(article.categoryKey);
   const breadcrumb = [
     { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[article.lang]}` },
     { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${article.lang}/blog/` },
+    ...(hasCategoryHub
+      ? [{ name: article.category, item: `${SITE_ORIGIN}${categoryPath(article.lang, article.categoryKey)}` }]
+      : []),
     { name: article.title, item: canonical },
   ];
 
@@ -430,7 +703,7 @@ function renderArticlePage(article, translations, articles) {
   <main id="article" tabindex="-1">
     <header class="article-hero blog-shell">
       ${renderBreadcrumbNav(breadcrumb, labels)}
-      <span class="blog-kicker">${escapeHtml(article.category)}</span>
+      ${hasCategoryHub ? `<a class="blog-kicker" href="${categoryPath(article.lang, article.categoryKey)}">${escapeHtml(article.category)}</a>` : `<span class="blog-kicker">${escapeHtml(article.category)}</span>`}
       <h1>${escapeHtml(article.title)}</h1>
       <p class="article-deck">${escapeHtml(article.summary)}</p>
       <div class="article-byline"><span>${labels.by} <strong>${escapeHtml(article.author)}</strong></span><time datetime="${article.date}">${formatDate(article.date, article.lang)}</time><span>${article.readingTime} ${labels.minRead}</span></div>
@@ -499,7 +772,7 @@ function replaceBetweenMarkers(source, marker, replacement, filePath) {
  * filter — the one article an editor has just published being the one the page
  * could not find.
  */
-async function updateBlogIndexes(articles) {
+async function updateBlogIndexes(articles, categoryPages) {
   for (const lang of LANGUAGES) {
     const indexPath = path.join(projectDirectory, lang, 'blog', 'index.html');
     const localized = articles
@@ -518,6 +791,12 @@ async function updateBlogIndexes(articles) {
       source,
       'BLOG_ARCHIVE',
       localized.map((article) => renderArchiveCard(article)).join(''),
+      indexPath
+    );
+    source = replaceBetweenMarkers(
+      source,
+      'BLOG_CATEGORIES',
+      renderCategoryNav(lang, categoryPages, ''),
       indexPath
     );
     source = replaceBetweenMarkers(
@@ -580,31 +859,69 @@ async function writeSearchIndexes(articles) {
   }
 }
 
-function renderSitemap(articles, translationMap) {
+function renderSitemap(articles, translationMap, categoryPages) {
   const entries = [];
 
   const escapeUrl = (url) => `${SITE_ORIGIN}${url}`.replace(/&/g, '&amp;');
 
-  // A blog index changes whenever an article is published under it, so its own
-  // newest article is a truer lastmod than the hand-maintained constant.
-  const newestArticleDate = new Map();
+  // A page that lists articles changes whenever one of the articles it lists
+  // changes, so its own newest revision date is a truer lastmod than any
+  // hand-maintained constant. `updated` rather than `date`: republishing an
+  // article is exactly the event a listing page needs to report.
+  const newestRevision = new Map();
+  const noteRevision = (route, revision) => {
+    if (revision > (newestRevision.get(route) || '')) newestRevision.set(route, revision);
+  };
   for (const article of articles) {
-    const route = `/${article.lang}/blog/`;
-    if (article.date > (newestArticleDate.get(route) || '')) newestArticleDate.set(route, article.date);
+    noteRevision(`/${article.lang}/blog/`, article.updated);
+    noteRevision(categoryPath(article.lang, article.categoryKey), article.updated);
+    // The homepages carry the latest-articles block, so any article revision
+    // changes all three of them.
+    for (const lang of LANGUAGES) noteRevision(HOME_PATH[lang], article.updated);
   }
 
   for (const route of STATIC_ROUTES) {
+    // A route with `lastmod: null` declares that its date is derived. Falling
+    // back to the build date would republish it on every deploy, so an
+    // underived route is a bug worth failing on rather than papering over.
+    const lastmod = route.lastmod ?? newestRevision.get(route.url);
+    if (!lastmod) throw new Error(`No lastmod could be derived for the sitemap entry ${route.url}`);
     entries.push(
       [
         '  <url>',
         `    <loc>${escapeUrl(route.url)}</loc>`,
-        `    <lastmod>${newestArticleDate.get(route.url) || route.lastmod}</lastmod>`,
+        `    <lastmod>${lastmod}</lastmod>`,
         ...route.alternates.map(
           (alternate) =>
             `    <xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${escapeUrl(alternate.url)}"/>`
         ),
         `    <changefreq>${route.changefreq}</changefreq>`,
         `    <priority>${route.priority}</priority>`,
+        '  </url>',
+      ].join('\n')
+    );
+  }
+
+  for (const page of categoryPages) {
+    const alternates = [
+      ...LANGUAGES.map(
+        (other) =>
+          `    <xhtml:link rel="alternate" hreflang="${other}" href="${escapeUrl(categoryPath(other, page.key))}"/>`
+      ),
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeUrl(categoryPath('en', page.key))}"/>`,
+    ];
+    const lastmod = newestRevision.get(page.url);
+    if (!lastmod) throw new Error(`No lastmod could be derived for the sitemap entry ${page.url}`);
+    entries.push(
+      [
+        '  <url>',
+        `    <loc>${escapeUrl(page.url)}</loc>`,
+        `    <lastmod>${lastmod}</lastmod>`,
+        ...alternates,
+        '    <changefreq>weekly</changefreq>',
+        // Below the blog index (0.8) and above an individual article (0.7): a
+        // hub is a route to the articles, not a destination that outranks them.
+        '    <priority>0.75</priority>',
         '  </url>',
       ].join('\n')
     );
@@ -624,7 +941,12 @@ function renderSitemap(articles, translationMap) {
       [
         '  <url>',
         `    <loc>${SITE_ORIGIN}${articlePath(article.lang, article.slug)}</loc>`,
-        `    <lastmod>${article.date}</lastmod>`,
+        // `updated`, not `date`. These disagreed for as long as an article had
+        // been revised, and the sitemap was the one reporting the stale figure:
+        // the page's own article:modified_time and JSON-LD dateModified already
+        // carried `updated`, so editing an article changed everything Google
+        // reads on the page and nothing it uses to decide whether to refetch it.
+        `    <lastmod>${article.updated}</lastmod>`,
         ...alternates,
         '    <changefreq>monthly</changefreq>',
         '    <priority>0.7</priority>',
@@ -675,8 +997,18 @@ function collectRenames(articles) {
   return renames;
 }
 
-/** Rewrites the legacy query-string article URLs to their static equivalents. */
-function renderRedirects(articles, renames) {
+/**
+ * Rewrites the legacy query-string article URLs to their static equivalents,
+ * and collapses every other address that serves a page we already publish.
+ *
+ * `canonicalRoutes` is every directory-style URL the sitemap declares. Each one
+ * is reachable at a second address — `/en/blog/` and `/en/blog/index.html` are
+ * the same bytes — and Search Console files the second copy under "alternate
+ * page with proper canonical tag". Netlify's pretty_urls setting is supposed to
+ * collapse those, but it is not doing so on this site, so the rules are emitted
+ * explicitly rather than trusted to a toggle.
+ */
+function renderRedirects(articles, renames, canonicalRoutes) {
   const lines = [
     '# Canonical host: force HTTPS on the apex domain.',
     'http://datagovjourney.com/* https://datagovjourney.com/:splat 301!',
@@ -694,8 +1026,43 @@ function renderRedirects(articles, renames) {
     '# "/es/" never existed as a page, but it is the obvious guess once /en/ and /pt/ do.',
     '/es/  /  301!',
     '',
-    '# Legacy client-rendered article URLs now have their own static pages.',
   ];
+
+  // Netlify keeps serving the site from its own hostnames alongside the custom
+  // domain, and those copies answer 200 with a canonical tag pointing at
+  // datagovjourney.com. Google fetches them, believes the canonical, and files
+  // every URL as a duplicate — 39 of them, which is most of what the coverage
+  // report was reporting. A 301 removes the copy instead of arguing with it.
+  //
+  // Production only. A deploy preview lives on its own netlify.app hostname
+  // too, and redirecting that away would send a reviewer to the live site
+  // rather than to the build they are reviewing; previews get the noindex
+  // header from renderHeaders() instead.
+  if (IS_PRODUCTION_DEPLOY) {
+    lines.push(
+      '# Netlify\'s own hostnames serve a complete duplicate of the site.',
+      'https://dejourney.netlify.app/* https://datagovjourney.com/:splat 301!',
+      'https://main--dejourney.netlify.app/* https://datagovjourney.com/:splat 301!',
+      ''
+    );
+  }
+
+  // The directory URL is the canonical one everywhere on this site: it is what
+  // the sitemap lists, what every canonical tag says and what every internal
+  // link points at. No loop: Netlify resolves "/en/blog/" to the index.html
+  // behind it as a file lookup, which does not re-enter the redirect engine.
+  lines.push('# Explicit-filename twins of the directory URLs above.');
+  for (const route of canonicalRoutes) {
+    lines.push(`${route}index.html ${route} 301!`);
+  }
+  lines.push(
+    '',
+    '# The contact form posts to the extensionless address, so that is the one',
+    '# the page is published at.',
+    '/thank-you.html /thank-you 301!',
+    '',
+    '# Legacy client-rendered article URLs now have their own static pages.'
+  );
   for (const article of articles) {
     lines.push(`/${article.lang}/blog/article.html post=${article.slug} ${articlePath(article.lang, article.slug)} 301!`);
   }
@@ -717,12 +1084,37 @@ function renderRedirects(articles, renames) {
 }
 
 /**
+ * The `_headers` file, or null when this build should not ship one.
+ *
+ * Only non-production builds get a file, and its only job is to keep the
+ * preview out of the index. Netlify gives every deploy preview and branch
+ * deploy a public hostname that serves the whole site, canonical tags included;
+ * Google crawls those, trusts the canonical, and records another duplicate of
+ * a page it has already seen. X-Robots-Tag stops that at the source, and unlike
+ * a robots.txt rule it still lets the crawler fetch the page and read the
+ * instruction.
+ *
+ * The site-wide headers stay in netlify.toml. This file exists only for the
+ * one header whose value depends on which deploy is being built, which
+ * netlify.toml cannot express.
+ */
+function renderHeaders() {
+  if (IS_PRODUCTION_DEPLOY) return null;
+  return `# Generated by scripts/generate-blog-index.mjs for a non-production deploy
+# (CONTEXT=${process.env.CONTEXT || 'unset'}). The production build writes no
+# _headers file at all, so this can never reach datagovjourney.com.
+/*
+  X-Robots-Tag: noindex, nofollow
+`;
+}
+
+/**
  * Writes one single-language homepage per language from the shared master.
  *
  * These files are build output: edit src/home.html, not index.html, en/index.html
  * or pt/index.html, which every deploy overwrites.
  */
-async function writeHomePages() {
+async function writeHomePages(articles) {
   const template = await readFile(path.join(projectDirectory, 'src/home.html'), 'utf8');
   const schemaGraph = JSON.parse(await readFile(path.join(projectDirectory, 'src/home-schema.json'), 'utf8'));
 
@@ -730,7 +1122,11 @@ async function writeHomePages() {
     const route = HOME_PATH[lang];
     const outputDirectory = path.join(projectDirectory, route === '/' ? '.' : route.slice(1, -1));
     await mkdir(outputDirectory, { recursive: true });
-    await writeFile(path.join(outputDirectory, 'index.html'), renderHomePage(template, schemaGraph, lang), 'utf8');
+    await writeFile(
+      path.join(outputDirectory, 'index.html'),
+      renderHomePage(template, schemaGraph, lang, articles),
+      'utf8'
+    );
   }
 }
 
@@ -800,8 +1196,10 @@ async function main() {
   const articles = await loadArticles();
   const translationMap = buildTranslationMap(articles);
   const renames = collectRenames(articles);
+  const categoryPages = collectCategoryPages(articles);
+  const categoryHubs = new Set(categoryPages.map((page) => page.key));
 
-  await writeHomePages();
+  await writeHomePages(articles);
   const confessionWalls = await renderConfessionWalls(projectDirectory);
 
   const generatedDirectories = new Set();
@@ -810,10 +1208,41 @@ async function main() {
     await mkdir(outputDirectory, { recursive: true });
     await writeFile(
       path.join(outputDirectory, 'index.html'),
-      renderArticlePage(article, translationMap.get(article.translationKey), articles),
+      renderArticlePage(article, translationMap.get(article.translationKey), articles, categoryHubs),
       'utf8'
     );
     generatedDirectories.add(`${article.lang}/${article.slug}`);
+  }
+
+  // The hubs live under <lang>/blog/category/, which is inside the directory the
+  // pruning pass below sweeps, so the container is registered as generated and
+  // its own contents are pruned separately. A category that drops below
+  // CATEGORY_PAGE_MINIMUM — or is renamed — therefore stops being published
+  // rather than lingering as an orphan the sitemap no longer lists.
+  for (const lang of LANGUAGES) {
+    const categoryDirectory = path.join(projectDirectory, lang, 'blog', 'category');
+    const localized = categoryPages.filter((page) => page.lang === lang);
+    generatedDirectories.add(`${lang}/category`);
+
+    if (!localized.length) {
+      await rm(categoryDirectory, { recursive: true, force: true });
+      continue;
+    }
+    await mkdir(categoryDirectory, { recursive: true });
+    for (const page of localized) {
+      await mkdir(path.join(categoryDirectory, page.key), { recursive: true });
+      await writeFile(
+        path.join(categoryDirectory, page.key, 'index.html'),
+        renderCategoryPage(page, categoryPages),
+        'utf8'
+      );
+    }
+    const published = new Set(localized.map((page) => page.key));
+    for (const entry of await readdir(categoryDirectory, { withFileTypes: true })) {
+      if (entry.isDirectory() && !published.has(entry.name)) {
+        await rm(path.join(categoryDirectory, entry.name), { recursive: true, force: true });
+      }
+    }
   }
 
   // Remove article directories whose Markdown source no longer exists.
@@ -828,11 +1257,33 @@ async function main() {
     }
   }
 
-  await updateBlogIndexes(articles);
+  await updateBlogIndexes(articles, categoryPages);
   await writeSearchIndexes(articles);
   await writeLlmsFiles(articles);
-  await writeFile(path.join(projectDirectory, 'sitemap.xml'), renderSitemap(articles, translationMap), 'utf8');
-  await writeFile(path.join(projectDirectory, '_redirects'), renderRedirects(articles, renames), 'utf8');
+
+  // Every directory-style URL the site publishes, which is also every URL that
+  // has an index.html twin for renderRedirects to collapse.
+  const canonicalRoutes = [
+    ...STATIC_ROUTES.map((route) => route.url),
+    ...categoryPages.map((page) => page.url),
+    ...articles.map((article) => articlePath(article.lang, article.slug)),
+  ];
+
+  await writeFile(
+    path.join(projectDirectory, 'sitemap.xml'),
+    renderSitemap(articles, translationMap, categoryPages),
+    'utf8'
+  );
+  await writeFile(
+    path.join(projectDirectory, '_redirects'),
+    renderRedirects(articles, renames, canonicalRoutes),
+    'utf8'
+  );
+
+  const headers = renderHeaders();
+  if (headers) await writeFile(path.join(projectDirectory, '_headers'), headers, 'utf8');
+  // A previous local run may have left one behind; production must never ship it.
+  else await rm(path.join(projectDirectory, '_headers'), { force: true });
 
   await verifyAssetIntegrity();
 
@@ -849,7 +1300,8 @@ async function main() {
   }
 
   console.log(
-    `Generated ${LANGUAGES.length} homepages, ${confessionWalls} confession walls, ${articles.length} static article pages, sitemap, and redirects.`
+    `Generated ${LANGUAGES.length} homepages, ${confessionWalls} confession walls, ` +
+      `${articles.length} static article pages, ${categoryPages.length} category pages, sitemap, and redirects.`
   );
 }
 
