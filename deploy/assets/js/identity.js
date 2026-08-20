@@ -11,6 +11,7 @@ if (hasIdentityCallback) {
     const errorMessage = document.querySelector('#identity-modal-error');
     const submitButton = document.querySelector('#identity-submit-button');
     const successPanel = document.querySelector('#identity-modal-success');
+    const adminLink = document.querySelector('#identity-admin-link');
 
     modal.hidden = false;
     document.body.classList.add('identity-modal-open');
@@ -87,6 +88,15 @@ if (hasIdentityCallback) {
 
             form.reset();
             form.hidden = true;
+            // The href is set here rather than written into src/home.html. The
+            // Content Studio sits behind Netlify Identity and is served with
+            // X-Robots-Tag: noindex, so a literal link to it in the homepage
+            // markup spent crawl budget on every one of the three homepages to
+            // reach a page Google is instructed to drop — and the destination
+            // is only reachable by the one person who has just set a password
+            // anyway. Assigned before the panel is revealed, so the button is a
+            // real link by the time anybody can see or focus it.
+            adminLink.href = '/admin/';
             successPanel.hidden = false;
         } catch (error) {
             if (error instanceof identity.MissingIdentityError) {
