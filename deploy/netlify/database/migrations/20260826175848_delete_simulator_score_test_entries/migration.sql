@@ -1,0 +1,17 @@
+-- Removes the diagnostic rows from the global simulator leaderboard.
+--
+-- Three rows on the Data Governance board were written by connectivity checks
+-- while the board was being wired up, not by anyone playing: all three carry the
+-- display name below, and their scores (1, 1 and 0 out of 100) are what a run
+-- that answered nothing produces. They sat on a public top ten alongside the
+-- first genuine submission, so the board read as mostly empty scaffolding.
+--
+-- Matched on the marker name rather than on ids. The ids happen to be 1-3 today,
+-- but ids are per-database-branch, and a predicate that names the test data
+-- cannot delete a real player's row if this runs against a branch where the
+-- numbering differs. A player typing that exact phrase would also be removed;
+-- that is the intended reading of it.
+--
+-- Data-only, so there is no schema change and no snapshot alongside it: the
+-- schema this leaves behind is still the one 20260826143330 describes.
+DELETE FROM "simulator_scores" WHERE "player_name" = 'Diagnostic test entry';
