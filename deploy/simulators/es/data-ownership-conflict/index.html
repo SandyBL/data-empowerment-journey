@@ -1282,7 +1282,14 @@
       let pointsEarned = 0;
       if (isCorrect) {
         gameState.streak += 1;
-        pointsEarned = 100 + (gameState.streak > 1 ? (gameState.streak - 1) * 20 : 0);
+        // 100 puntos fijos por acierto. La racha es solo un estimulo visual y no
+        // suma puntos: este ranking es una unica bolsa global compartida con las
+        // versiones en ingles y portugues, la pantalla de resultados dice
+        // "x / 1000 pts" y los niveles se cortan en 400 y 700. Con bonus de
+        // racha una partida perfecta llegaba a 1900, lo que desbordaba las tres
+        // cosas y hacia que la API rechazara toda puntuacion mayor que 1000 --
+        // es decir, justo los mejores jugadores no podian publicar su resultado.
+        pointsEarned = 100;
         gameState.score += pointsEarned;
         playSound('correct');
       } else {

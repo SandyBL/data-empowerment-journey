@@ -1282,7 +1282,14 @@
       let pointsEarned = 0;
       if (isCorrect) {
         gameState.streak += 1;
-        pointsEarned = 100 + (gameState.streak > 1 ? (gameState.streak - 1) * 20 : 0);
+        // 100 pontos fixos por acerto. A sequencia e apenas um estimulo visual e
+        // nao soma pontos: este ranking e um unico conjunto global compartilhado
+        // com as versoes em ingles e espanhol, a tela de resultados diz
+        // "x / 1000 pts" e as faixas quebram em 400 e 700. Com bonus de
+        // sequencia uma partida perfeita chegava a 1900, o que estourava as tres
+        // coisas e fazia a API rejeitar qualquer pontuacao acima de 1000 -- ou
+        // seja, justamente os melhores jogadores nao conseguiam publicar.
+        pointsEarned = 100;
         gameState.score += pointsEarned;
         playSound('correct');
       } else {

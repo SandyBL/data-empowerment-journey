@@ -16,13 +16,21 @@ import { simulatorScores } from "../../db/schema.js";
 // rules here in step with the client-side checks in
 // assets/js/simulator-leaderboard.js — the client's are a courtesy, these are
 // the real ones.
+//
+// The bounds below are a contract with nine pages, and a simulator that starts
+// producing a score outside its bound locks its best players out of the board
+// permanently: they press Publish, get a 400, and no amount of retrying helps.
+// That is not hypothetical — the Spanish and Portuguese ownership pages added a
+// streak bonus that put a perfect run at 1900 against a bound of 1000, and
+// because rejections were returned silently, the only trace was players
+// reporting that saving did not work. Every rejection is now logged.
 
 const SIMULATORS = new Map<string, { maxScore: number; maxExtraScore: number | null }>([
   // Weighted maturity index, one decimal.
   ["data-governance-day-to-day", { maxScore: 100, maxExtraScore: null }],
   // Optimal choices out of 15, plus the data asset value ties are ranked on.
   ["data-literacy", { maxScore: 15, maxExtraScore: 100_000_000 }],
-  // Points out of 1000.
+  // Points out of 1000: ten scenarios, a flat 100 each, in all three languages.
   ["data-ownership-conflict", { maxScore: 1000, maxExtraScore: null }],
 ]);
 
@@ -62,35 +70,60 @@ const topScores = (simulator: string) =>
     .orderBy(desc(simulatorScores.score), desc(simulatorScores.extraScore), asc(simulatorScores.createdAt))
     .limit(TOP_N);
 
+/**
+ * Refuses a submission, and says so in the log.
+ *
+ * A rejection is a player who finished a run, pressed Publish and cannot
+ * succeed by trying again, so it is a fault worth seeing from this side rather
+ * than only in somebody's browser console. The display name is deliberately
+ * left out of the line: it is the one part of the payload a person typed.
+ */
+const reject = (reason: string, detail: Record<string, unknown>) => {
+  console.warn("Leaderboard submission rejected:", reason, JSON.stringify(detail));
+  // retryable tells the client whether a second attempt could ever succeed.
+  return Response.json({ error: reason, retryable: false }, { status: 400 });
+};
+
 export default async (request: Request) => {
+  let payload: Record<string, unknown>;
+
   try {
-    const payload = await request.json();
-    const simulator = typeof payload?.simulator === "string" ? payload.simulator : "";
-    const rules = SIMULATORS.get(simulator);
-    const locale = typeof payload?.locale === "string" ? payload.locale.toLowerCase() : "";
-    const playerName = cleanName(payload?.name);
-    const score = Number(payload?.score);
-    const hasExtra = payload?.extraScore !== undefined && payload?.extraScore !== null;
-    const extraScore = hasExtra ? Number(payload.extraScore) : null;
+    payload = await request.json();
+  } catch {
+    return reject("Malformed body", {});
+  }
 
-    if (!rules || !LOCALES.has(locale) || !playerName) {
-      return Response.json({ error: "Invalid submission" }, { status: 400 });
-    }
+  const simulator = typeof payload?.simulator === "string" ? payload.simulator : "";
+  const rules = SIMULATORS.get(simulator);
+  const locale = typeof payload?.locale === "string" ? payload.locale.toLowerCase() : "";
+  const playerName = cleanName(payload?.name);
+  const score = Number(payload?.score);
+  const hasExtra = payload?.extraScore !== undefined && payload?.extraScore !== null;
+  const extraScore = hasExtra ? Number(payload.extraScore) : null;
 
-    if (!Number.isFinite(score) || score < 0 || score > rules.maxScore) {
-      return Response.json({ error: "Invalid score" }, { status: 400 });
-    }
+  if (!rules) return reject("Unknown simulator", { simulator });
+  if (!LOCALES.has(locale)) return reject("Unknown locale", { simulator, locale });
+  if (!playerName) return reject("Missing display name", { simulator, locale });
 
-    if (
-      extraScore !== null &&
-      (rules.maxExtraScore === null ||
-        !Number.isFinite(extraScore) ||
-        extraScore < 0 ||
-        extraScore > rules.maxExtraScore)
-    ) {
-      return Response.json({ error: "Invalid score" }, { status: 400 });
-    }
+  if (!Number.isFinite(score) || score < 0 || score > rules.maxScore) {
+    return reject("Score outside the simulator's range", { simulator, score, maxScore: rules.maxScore });
+  }
 
+  if (
+    extraScore !== null &&
+    (rules.maxExtraScore === null ||
+      !Number.isFinite(extraScore) ||
+      extraScore < 0 ||
+      extraScore > rules.maxExtraScore)
+  ) {
+    return reject("Extra score outside the simulator's range", {
+      simulator,
+      extraScore,
+      maxExtraScore: rules.maxExtraScore,
+    });
+  }
+
+  try {
     await db.insert(simulatorScores).values({
       simulator,
       locale,
@@ -98,20 +131,31 @@ export default async (request: Request) => {
       score,
       extraScore,
     });
-
-    // The refreshed board comes back with the write. The page needs it to show
-    // the player their new rank, and fetching it in a second request would race
-    // the row that was just inserted.
-    const scores = await topScores(simulator);
-
-    return Response.json({ accepted: true, scores }, { status: 201, headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     // Logged rather than swallowed: without this, schema drift or a lost
     // database connection is indistinguishable from a malformed body, and the
-    // only symptom anyone sees is a board that quietly stops growing.
+    // only symptom anyone sees is a board that quietly stops growing. 503
+    // rather than 500 because the client retries this one.
     console.error("Leaderboard submission failed", error);
-    return Response.json({ error: "Unable to save score" }, { status: 500 });
+    return Response.json({ error: "Unable to save score", retryable: true }, { status: 503 });
   }
+
+  // The row is committed from here on, so nothing below may report a failure.
+  // The refreshed board comes back with the write because the page needs it to
+  // show the player their new rank, and fetching it in a second request would
+  // race the row that was just inserted — but if that read fails, the score is
+  // still saved, and answering "could not be saved" would send the player into
+  // a retry that lands a duplicate row on the board. An empty list instead
+  // tells the client to fetch the board on its own.
+  let scores: Awaited<ReturnType<typeof topScores>> = [];
+
+  try {
+    scores = await topScores(simulator);
+  } catch (error) {
+    console.error("Leaderboard read failed after a successful save", error);
+  }
+
+  return Response.json({ accepted: true, scores }, { status: 201, headers: { "Cache-Control": "no-store" } });
 };
 
 export const config: Config = {

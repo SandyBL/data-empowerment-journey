@@ -24,6 +24,76 @@
   // length; enforcing it here only saves the round trip.
   var MAX_NAME_LENGTH = 60;
 
+  // Waits before the second and third attempt. A publish happens once, at the
+  // end of a run that took ten minutes to play, and the alternative to waiting
+  // two seconds is telling the player their result is gone — so a cold function,
+  // a rate limit or a database that is briefly unreachable is worth retrying
+  // rather than handing back to them as a button to press again. Kept short
+  // enough that the page never looks stuck behind its "Saving…" label.
+  var RETRY_DELAYS_MS = [700, 2100];
+
+  /**
+   * Whether a second attempt at the identical request could plausibly succeed.
+   *
+   * A 4xx other than these is the server saying the body itself is wrong, which
+   * is the one case where retrying is guaranteed to fail — the caller is told so
+   * instead, so it never invites the player into a loop it knows cannot end.
+   */
+  function isRetryableStatus(status) {
+    return status === 408 || status === 425 || status === 429 || status >= 500;
+  }
+
+  function wait(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  /**
+   * One request to the leaderboard API, retried on the failures a retry can fix.
+   *
+   * Resolves to { data: <parsed body>, error: null }, or { data: null, error:
+   * "unavailable" } once the attempts are used up, or { data: null, error:
+   * "rejected" } if the server refused the body outright. Never rejects.
+   */
+  function requestJson(url, options) {
+    var attempt = 0;
+
+    function run() {
+      return fetch(url, options)
+        .then(function (response) {
+          if (response.ok) {
+            return response.json().then(function (data) {
+              return { data: data, error: null };
+            });
+          }
+          if (isRetryableStatus(response.status)) {
+            if (attempt < RETRY_DELAYS_MS.length) return again(new Error("HTTP " + response.status));
+            console.warn("Leaderboard unavailable after " + (attempt + 1) + " attempts: HTTP " + response.status);
+            return { data: null, error: "unavailable" };
+          }
+          console.warn("Leaderboard refused the request: HTTP " + response.status);
+          return { data: null, error: "rejected" };
+        })
+        .catch(function (error) {
+          // A network error, or a body that did not parse. Both are worth one
+          // more try; neither tells us anything about the request itself.
+          if (attempt < RETRY_DELAYS_MS.length) return again(error);
+          console.warn("Leaderboard unavailable", error);
+          return { data: null, error: "unavailable" };
+        });
+    }
+
+    function again(error) {
+      var delay = RETRY_DELAYS_MS[attempt];
+      attempt += 1;
+      console.warn("Leaderboard request failed, retrying in " + delay + "ms", error);
+      return wait(delay).then(run);
+    }
+
+    return run();
+  }
+
   /**
    * Reads the top of one simulator's board.
    *
@@ -34,18 +104,11 @@
     var url = ENDPOINT + "?simulator=" + encodeURIComponent(simulator);
     if (limit) url += "&limit=" + encodeURIComponent(limit);
 
-    return fetch(url, { headers: { Accept: "application/json" } })
-      .then(function (response) {
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        return response.json();
-      })
-      .then(function (data) {
-        return { scores: Array.isArray(data.scores) ? data.scores : [], error: null };
-      })
-      .catch(function (error) {
-        console.warn("Leaderboard unavailable", error);
-        return { scores: [], error: "unavailable" };
-      });
+    return requestJson(url, { headers: { Accept: "application/json" } }).then(function (result) {
+      if (result.error) return { scores: [], error: result.error };
+      var data = result.data || {};
+      return { scores: Array.isArray(data.scores) ? data.scores : [], error: null };
+    });
   }
 
   /**
@@ -71,22 +134,25 @@
       body.extraScore = entry.extraScore;
     }
 
-    return fetch(ENDPOINT, {
+    return requestJson(ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    })
-      .then(function (response) {
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        return response.json();
-      })
-      .then(function (data) {
-        return { accepted: true, scores: Array.isArray(data.scores) ? data.scores : [], error: null };
-      })
-      .catch(function (error) {
-        console.warn("Leaderboard submission failed", error);
-        return { accepted: false, scores: [], error: "unavailable" };
+    }).then(function (result) {
+      if (result.error) return { accepted: false, scores: [], error: result.error };
+
+      var data = result.data || {};
+      var scores = Array.isArray(data.scores) ? data.scores : [];
+      if (scores.length) return { accepted: true, scores: scores, error: null };
+
+      // The score is saved — the row the player just created would be in this
+      // list, so an empty one means the write succeeded but could not also
+      // return the refreshed board. Read it separately rather than leaving them
+      // looking at an empty table underneath their own successful publish.
+      return load(entry.simulator, 10).then(function (board) {
+        return { accepted: true, scores: board.scores, error: null };
       });
+    });
   }
 
   /**
