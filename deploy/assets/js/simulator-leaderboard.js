@@ -5,7 +5,7 @@
  * own scoring scale and their own markup, and they are duplicated across three
  * languages — nine pages in total. What they genuinely share is the trip to
  * /api/simulator-scores, so that is all this file holds: read the board, publish
- * a run, and the two text helpers every one of those render paths needs.
+ * a run, time a run, and the text helpers every one of those render paths needs.
  *
  * Deliberately a classic script rather than a module, because the callers are
  * inline <script> blocks with onclick handlers that cannot import anything.
@@ -115,7 +115,8 @@
    * Publishes a finished run and returns the refreshed board.
    *
    * `entry.extraScore` is optional and only meaningful for the boards that rank
-   * ties on a second figure. Resolves to
+   * ties on a second figure; `entry.durationMs` is the timed length of the run,
+   * also optional, and is what equal scores are ranked on. Resolves to
    * { accepted: bool, scores: [...], error: null|"..." }; never rejects.
    */
   function submit(entry) {
@@ -132,6 +133,11 @@
     };
     if (entry.extraScore !== undefined && entry.extraScore !== null) {
       body.extraScore = entry.extraScore;
+    }
+    // Omitted rather than sent as null when the caller has no reading — a run
+    // whose clock never started must not claim to have taken zero time.
+    if (typeof entry.durationMs === "number" && isFinite(entry.durationMs) && entry.durationMs >= 0) {
+      body.durationMs = Math.round(entry.durationMs);
     }
 
     return requestJson(ENDPOINT, {
@@ -156,6 +162,76 @@
   }
 
   /**
+   * How long a run took, as the boards rank ties on it.
+   *
+   * Uses performance.now() where it exists because it is monotonic: a run is
+   * timed across ten to fifteen minutes of somebody's afternoon, and Date.now()
+   * moves when the clock is corrected or the machine comes back from sleep,
+   * which is exactly how a run ends up reporting a negative or absurd duration.
+   *
+   * stop() freezes the reading, so a page can stop the clock on the last answer
+   * and still read the same value later when the player presses Publish.
+   * elapsedMs() returns null until the clock is started, which is what tells
+   * submit() to leave the duration out of the payload entirely.
+   */
+  function createStopwatch() {
+    var startedAt = null;
+    var stoppedMs = null;
+
+    function now() {
+      return typeof performance !== "undefined" && performance && typeof performance.now === "function"
+        ? performance.now()
+        : Date.now();
+    }
+
+    return {
+      start: function () {
+        startedAt = now();
+        stoppedMs = null;
+      },
+      stop: function () {
+        if (startedAt !== null && stoppedMs === null) {
+          stoppedMs = Math.max(0, Math.round(now() - startedAt));
+        }
+        return stoppedMs;
+      },
+      reset: function () {
+        startedAt = null;
+        stoppedMs = null;
+      },
+      /** Frozen duration once stopped, live duration while running, else null. */
+      elapsedMs: function () {
+        if (stoppedMs !== null) return stoppedMs;
+        if (startedAt === null) return null;
+        return Math.max(0, Math.round(now() - startedAt));
+      },
+    };
+  }
+
+  /**
+   * Milliseconds to the m:ss the boards display, or h:mm:ss past an hour.
+   *
+   * Returns the em dash for anything unusable, which covers the rows published
+   * before the boards were timed and the board that does not time itself — those
+   * rows still have a name and a score to show.
+   */
+  function formatDuration(ms) {
+    var value = Number(ms);
+    if (ms === null || ms === undefined || !isFinite(value) || value < 0) return "—";
+
+    var totalSeconds = Math.round(value / 1000);
+    var seconds = totalSeconds % 60;
+    var minutes = Math.floor(totalSeconds / 60) % 60;
+    var hours = Math.floor(totalSeconds / 3600);
+
+    function pad(number) {
+      return number < 10 ? "0" + number : String(number);
+    }
+
+    return hours > 0 ? hours + ":" + pad(minutes) + ":" + pad(seconds) : minutes + ":" + pad(seconds);
+  }
+
+  /**
    * The names on the board are typed by other people, so every render path has
    * to escape them. The server strips angle brackets on the way in as well —
    * two layers, because there are nine pages doing the rendering and only one
@@ -177,6 +253,8 @@
   window.SimulatorLeaderboard = {
     load: load,
     submit: submit,
+    createStopwatch: createStopwatch,
+    formatDuration: formatDuration,
     escapeHtml: escapeHtml,
     formatDate: formatDate,
     MAX_NAME_LENGTH: MAX_NAME_LENGTH,

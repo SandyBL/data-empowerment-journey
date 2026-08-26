@@ -13,6 +13,10 @@ import { simulatorScores } from "../../db/schema.js";
 // profile or tier label is not returned because it is not stored — it is
 // derived from the score by the page, so every visitor reads the table in the
 // language they opened it in.
+//
+// Equal scores are ranked fastest first, which is the whole reason durationMs
+// comes back with each row: the boards that time themselves display it in a
+// Time column so the order of two rows on the same score explains itself.
 
 const SIMULATORS = new Set(["data-governance-day-to-day", "data-literacy", "data-ownership-conflict"]);
 
@@ -37,14 +41,22 @@ export default async (request: Request) => {
         name: simulatorScores.playerName,
         score: simulatorScores.score,
         extraScore: simulatorScores.extraScore,
+        durationMs: simulatorScores.durationMs,
         locale: simulatorScores.locale,
         createdAt: simulatorScores.createdAt,
       })
       .from(simulatorScores)
       .where(eq(simulatorScores.simulator, simulator))
-      // Ties break on the secondary figure where a board has one, then on who
-      // got there first, so a rank never reshuffles under a later equal score.
-      .orderBy(desc(simulatorScores.score), desc(simulatorScores.extraScore), asc(simulatorScores.createdAt))
+      // Ties break on how long the run took (fastest first, and ASC leaves the
+      // untimed rows last), then on the secondary figure where a board has one,
+      // then on who got there first, so a rank never reshuffles under a later
+      // equal score.
+      .orderBy(
+        desc(simulatorScores.score),
+        asc(simulatorScores.durationMs),
+        desc(simulatorScores.extraScore),
+        asc(simulatorScores.createdAt),
+      )
       .limit(limit);
 
     return Response.json(
