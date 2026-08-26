@@ -196,7 +196,14 @@ const renderMetadata = (lang) => {
   const canonical = `${SITE_ORIGIN}${HOME_PATH[lang]}`;
   const alternates = Object.entries(HOME_PATH)
     .map(([other, route]) => `    <link rel="alternate" hreflang="${other}" href="${SITE_ORIGIN}${route}">`)
-    .concat(`    <link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}/en/">`)
+    // x-default is the address for a visitor none of the other three match, and
+    // that is now literally true of "/": netlify/edge-functions/
+    // language-negotiation.ts reads Accept-Language there and only sends the
+    // visitor elsewhere when it recognises their language, so an unmatched one
+    // stays. It used to name "/en/", which claimed a fallback the server never
+    // performed — hreflang describing behaviour the site does not have is the
+    // one thing Google's localisation guidance asks you not to ship.
+    .concat(`    <link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${HOME_PATH.es}">`)
     .join('\n');
   const alternateLocales = Object.keys(OG_LOCALE)
     .filter((other) => other !== lang)
