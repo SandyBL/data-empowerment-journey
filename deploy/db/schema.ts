@@ -14,6 +14,48 @@ export const confessionSubmissions = pgTable("confession_submissions", {
 });
 
 /**
+ * Global simulator leaderboard.
+ *
+ * The three simulators used to keep their rankings in localStorage, which meant
+ * every visitor saw a board containing only themselves and a few hardcoded
+ * example names. One table serves all three: `simulator` says which board a row
+ * belongs to, and each board is a single worldwide pool rather than one per
+ * language, so a visitor in Lisbon is ranked against a visitor in Madrid.
+ *
+ * Only what the board displays is stored: the display name the player typed,
+ * their score, and the one secondary figure the Data Literacy board ranks ties
+ * on. The profile or tier label is deliberately NOT stored -- it is a pure
+ * function of the score, so each page derives it and shows it in its own
+ * language instead of leaking the submitter's language into everyone's table.
+ *
+ * `score` scales differ per simulator (0-100 for governance, 0-15 for literacy,
+ * 0-1000 for ownership) and are validated per simulator in the write function.
+ */
+export const simulatorScores = pgTable(
+  "simulator_scores",
+  {
+    id: serial().primaryKey(),
+    // Slug of the simulator, matching its URL segment.
+    simulator: varchar({ length: 40 }).notNull(),
+    // Language the run was played in. Kept for analytics only: it does not
+    // partition the board.
+    locale: varchar({ length: 2 }).notNull(),
+    // Free text the player typed, e.g. "Maria Silva - CDO". Never an email.
+    playerName: varchar("player_name", { length: 60 }).notNull(),
+    score: doublePrecision().notNull(),
+    // Second ranking figure where the simulator has one (Data Literacy's data
+    // asset value). Null for the boards that rank on score alone.
+    extraScore: doublePrecision("extra_score"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    // Every read is "the top N rows of one board", so simulator then score is
+    // the index that answers it; Postgres walks it backwards for DESC.
+    index("simulator_scores_simulator_score_idx").on(table.simulator, table.score),
+  ],
+);
+
+/**
  * Core Web Vitals as real visitors experienced them.
  *
  * Lab tools measure one machine on one connection; this is the distribution
