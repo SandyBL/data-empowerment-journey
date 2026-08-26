@@ -12,6 +12,10 @@ import { simulatorScores } from "../../db/schema.js";
 // Together with the rate limit that is the whole defence, and it is
 // proportionate — the prize for cheating here is a row in a table of job titles.
 //
+// The run duration is treated differently from the score: it decides ties, not
+// rank, so a client that sends a nonsensical one loses its tie breaker instead
+// of its publish. See cleanDuration below.
+//
 // Reads live in simulator-scores.mts on this same path. Keep the name and score
 // rules here in step with the client-side checks in
 // assets/js/simulator-leaderboard.js — the client's are a courtesy, these are
@@ -40,6 +44,33 @@ const MAX_NAME_LENGTH = 60;
 const TOP_N = 10;
 
 /**
+ * Ceiling on a reported run duration: twelve hours.
+ *
+ * The clock in the browser runs from the first question to the last answer, and
+ * a tab left open over lunch reports a duration measured in hours. That is not a
+ * forgery, it is just noise, so it is clamped rather than refused — a value over
+ * the ceiling only has to sort behind every plausible run, and it already does.
+ * Refusing it would cost the player their publish over something that has no
+ * bearing on their score.
+ */
+const MAX_DURATION_MS = 12 * 60 * 60 * 1000;
+
+/**
+ * A reported duration, or null if there is nothing trustworthy to store.
+ *
+ * Unlike the score, an unusable duration is never a reason to reject: it is a
+ * tie breaker, and a run with no duration still ranks correctly on score. So a
+ * missing, negative, infinite or non-numeric value becomes null (ranked last
+ * among equal scores) and an implausibly large one is clamped.
+ */
+const cleanDuration = (value: unknown) => {
+  if (value === undefined || value === null) return null;
+  const duration = Number(value);
+  if (!Number.isFinite(duration) || duration < 0) return null;
+  return Math.min(Math.round(duration), MAX_DURATION_MS);
+};
+
+/**
  * A display name is one line of text. Control characters, angle brackets and
  * runs of whitespace are collapsed rather than escaped: this board is rendered
  * by three different simulators across nine pages, and a name that cannot carry
@@ -62,12 +93,20 @@ const topScores = (simulator: string) =>
       name: simulatorScores.playerName,
       score: simulatorScores.score,
       extraScore: simulatorScores.extraScore,
+      durationMs: simulatorScores.durationMs,
       locale: simulatorScores.locale,
       createdAt: simulatorScores.createdAt,
     })
     .from(simulatorScores)
     .where(eq(simulatorScores.simulator, simulator))
-    .orderBy(desc(simulatorScores.score), desc(simulatorScores.extraScore), asc(simulatorScores.createdAt))
+    // Same ordering as the read function in simulator-scores.mts, and it has to
+    // stay the same: this is the board the player sees their own new rank in.
+    .orderBy(
+      desc(simulatorScores.score),
+      asc(simulatorScores.durationMs),
+      desc(simulatorScores.extraScore),
+      asc(simulatorScores.createdAt),
+    )
     .limit(TOP_N);
 
 /**
@@ -100,6 +139,7 @@ export default async (request: Request) => {
   const score = Number(payload?.score);
   const hasExtra = payload?.extraScore !== undefined && payload?.extraScore !== null;
   const extraScore = hasExtra ? Number(payload.extraScore) : null;
+  const durationMs = cleanDuration(payload?.durationMs);
 
   if (!rules) return reject("Unknown simulator", { simulator });
   if (!LOCALES.has(locale)) return reject("Unknown locale", { simulator, locale });
@@ -130,6 +170,7 @@ export default async (request: Request) => {
       playerName,
       score,
       extraScore,
+      durationMs,
     });
   } catch (error) {
     // Logged rather than swallowed: without this, schema drift or a lost

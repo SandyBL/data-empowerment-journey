@@ -1,4 +1,4 @@
-import { doublePrecision, index, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { doublePrecision, index, integer, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 export const confessionSubmissions = pgTable("confession_submissions", {
   id: serial().primaryKey(),
@@ -23,10 +23,11 @@ export const confessionSubmissions = pgTable("confession_submissions", {
  * language, so a visitor in Lisbon is ranked against a visitor in Madrid.
  *
  * Only what the board displays is stored: the display name the player typed,
- * their score, and the one secondary figure the Data Literacy board ranks ties
- * on. The profile or tier label is deliberately NOT stored -- it is a pure
- * function of the score, so each page derives it and shows it in its own
- * language instead of leaking the submitter's language into everyone's table.
+ * their score, how long the run took, and the one secondary figure the Data
+ * Literacy board ranks ties on. The profile or tier label is deliberately NOT
+ * stored -- it is a pure function of the score, so each page derives it and
+ * shows it in its own language instead of leaking the submitter's language into
+ * everyone's table.
  *
  * `score` scales differ per simulator (0-100 for governance, 0-15 for literacy,
  * 0-1000 for ownership) and are validated per simulator in the write function.
@@ -46,11 +47,23 @@ export const simulatorScores = pgTable(
     // Second ranking figure where the simulator has one (Data Literacy's data
     // asset value). Null for the boards that rank on score alone.
     extraScore: doublePrecision("extra_score"),
+    // Wall-clock milliseconds the run took, from the first question appearing to
+    // the last answer being recorded. Ties on score are ranked on this, so a
+    // perfect run answered quickly outranks a perfect run answered slowly.
+    //
+    // Nullable, and deliberately so: rows published before the boards were timed
+    // have no honest value to put here, and the Data Governance board does not
+    // time itself at all. `ORDER BY duration_ms ASC` puts NULLs last in
+    // Postgres, which is the reading we want -- an untimed run never outranks a
+    // timed one on the same score.
+    durationMs: integer("duration_ms"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [
     // Every read is "the top N rows of one board", so simulator then score is
-    // the index that answers it; Postgres walks it backwards for DESC.
+    // the index that answers it; Postgres walks it backwards for DESC. The tie
+    // breakers are left out on purpose: they only ever reorder rows that already
+    // share a score, which is a handful of rows out of the ten being returned.
     index("simulator_scores_simulator_score_idx").on(table.simulator, table.score),
   ],
 );
