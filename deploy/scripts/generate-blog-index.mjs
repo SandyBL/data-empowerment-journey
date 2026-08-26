@@ -163,7 +163,10 @@ const STATIC_ROUTES = [
     lastmod: null,
     alternates: [
       ...LANGUAGES.map((other) => ({ hreflang: other, url: HOME_PATH[other] })),
-      { hreflang: 'x-default', url: HOME_PATH.en },
+      // "/" rather than "/en/": it is the address that negotiates, so it is the
+      // address for a visitor whose language none of the three match. Kept in
+      // step with the head of the page itself — see scripts/lib/home-pages.mjs.
+      { hreflang: 'x-default', url: HOME_PATH.es },
     ],
   })),
   ...['blog', 'confession-wall'].flatMap((section) =>
@@ -425,6 +428,7 @@ function renderCategoryPage(page, categoryPages) {
     <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
   </main>
   <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
+  <script type="module" src="/assets/js/language-switch.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>
@@ -721,6 +725,7 @@ ${bodyHtml}
     <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[article.lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[article.lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
   </main>
   <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
+  <script type="module" src="/assets/js/language-switch.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>

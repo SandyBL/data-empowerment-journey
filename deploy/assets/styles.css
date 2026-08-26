@@ -1048,6 +1048,17 @@ body.mobile-navigation-open { overflow: hidden; }
     padding: 2rem;
 }
 
+/*
+ * All three deliverable cards carry the orange top rule, the lifted background
+ * and the orange icon that used to belong to the middle one alone. They are a
+ * set of equals — a report, a chart, a shortlist of actions — so singling one
+ * out read as an inconsistency rather than as emphasis. None of this treatment
+ * depends on a card's position in the grid, which is why the
+ * .maturity-deliverable-featured modifier is gone rather than reassigned.
+ *
+ * border-top comes after the border shorthand deliberately: the shorthand sets
+ * all four sides, so the accent has to be restated afterwards to survive.
+ */
 .maturity-deliverable {
     position: relative;
     display: flex;
@@ -1056,20 +1067,22 @@ body.mobile-navigation-open { overflow: hidden; }
     padding: 1.5rem;
     overflow: hidden;
     border: 1px solid rgb(255 255 255 / 0.14);
+    border-top: 3px solid var(--dejourney-orange);
     border-radius: 1.35rem;
-    background-color: rgb(255 255 255 / 0.075);
+    background-color: rgb(255 255 255 / 0.12);
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
 
 .maturity-deliverable:hover {
     transform: translateY(-4px);
+    /* border-color is a shorthand for all four sides, so on its own it would
+       repaint the orange top rule cyan for as long as the pointer is over the
+       card. The accent identifies the card rather than its resting state. */
     border-color: rgb(101 183 199 / 0.55);
-    background-color: rgb(255 255 255 / 0.11);
-}
-
-.maturity-deliverable-featured {
-    border-top: 3px solid var(--dejourney-orange);
-    background-color: rgb(255 255 255 / 0.12);
+    border-top-color: var(--dejourney-orange);
+    /* Lighter than the 0.12 the card now rests at. The old 0.11 was a lift from
+       the old 0.075 resting value; against 0.12 it would darken on hover. */
+    background-color: rgb(255 255 255 / 0.155);
 }
 
 .maturity-deliverable-number {
@@ -1089,14 +1102,8 @@ body.mobile-navigation-open { overflow: hidden; }
     height: 2.75rem;
     margin-bottom: auto;
     place-items: center;
-    border: 1px solid rgb(101 183 199 / 0.35);
+    border: 1px solid rgb(233 93 36 / 0.5);
     border-radius: 0.85rem;
-    background-color: rgb(101 183 199 / 0.12);
-    color: #8fd9e7;
-}
-
-.maturity-deliverable-featured .maturity-deliverable-icon {
-    border-color: rgb(233 93 36 / 0.5);
     background-color: rgb(233 93 36 / 0.14);
     color: #ff9c73;
 }

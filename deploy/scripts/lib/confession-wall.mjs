@@ -355,6 +355,7 @@ ${filters}
   </div>
   <div id="wall-toast" class="wall-toast" role="status" aria-live="polite"></div>
   <script type="module" src="/assets/js/confession-wall.js"></script>
+  <script type="module" src="/assets/js/language-switch.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>
