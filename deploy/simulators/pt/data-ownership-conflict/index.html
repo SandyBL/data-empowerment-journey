@@ -1116,6 +1116,12 @@
     </div>
   </div>
 
+  <!-- Private company spaces. Runs before the leaderboard script and
+       resolves, from the space cookie alone, whether this browser is inside a
+       client's space; if it is, the board on this page becomes that company's
+       board and a banner names it. A public visitor loads this file, learns
+       there is no seat, and nothing about the page changes. -->
+  <script src="/assets/js/workspace-context.js"></script>
   <script src="/assets/js/simulator-leaderboard.js"></script>
   <script>
     // --- BASE DE DADOS DE CENÁRIOS (DAMA FRAMEWORK) ---
@@ -1485,6 +1491,10 @@
       const result = await window.SimulatorLeaderboard.submit({
         simulator: SIMULATOR_SLUG,
         locale: SIMULATOR_LOCALE,
+        // One entry per scenario, in order, so the report can say which of
+        // the ten ownership disputes the room actually got wrong rather
+        // than only how many.
+        breakdown: window.SimulatorLeaderboard.categoryBreakdown(gameState.userAnswers, 'scenario'),
         name: gameState.playerName,
         score: gameState.score,
         durationMs: runTimer.elapsedMs()

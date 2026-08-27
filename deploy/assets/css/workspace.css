@@ -1,0 +1,641 @@
+/*
+ * Private company spaces: the strip on the simulators, the code gate, the space
+ * hub and the facilitator report.
+ *
+ * One stylesheet for all four because they are one feature and a participant
+ * moves between them in a single session — a hub that looked like a different
+ * product from the strip above the simulator would undo the thing being sold,
+ * which is that for a fortnight these simulators feel like the company's own.
+ *
+ * Loaded two ways. The hub links it in <head>, because the whole page is built
+ * from it. The nine simulator pages do not link it at all: workspace-context.js
+ * injects the link only after the server has confirmed a seat, so a public
+ * visitor — which is almost all traffic — pays nothing for a feature they are
+ * not in.
+ *
+ * --workspace-accent is set on <html> from the client's own accent colour, and
+ * is deliberately the only thing a client can change. Everything below either
+ * uses it against a background dark enough to keep the text contrast, or does
+ * not use it at all: a client with a pale yellow brand colour must not be able
+ * to produce an unreadable page for their own staff.
+ */
+
+:root {
+  --workspace-navy: #003366;
+  --workspace-ink: #0f172a;
+  --workspace-muted: #4a5b6b;
+  --workspace-line: #dce7ea;
+  --workspace-surface: #ffffff;
+  --workspace-page: #f5f8fa;
+  --workspace-accent: #65b7c7;
+  --workspace-focus: #0b4a5c;
+}
+
+/* ---------------------------------------------------------------------------
+ * The strip under the simulator header.
+ * ------------------------------------------------------------------------- */
+
+.workspace-banner {
+  background: #04223f;
+  border-bottom: 2px solid var(--workspace-accent);
+  color: #ffffff;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.workspace-banner-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+}
+
+.workspace-banner-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: #ffffff;
+  object-fit: contain;
+  /* A client logo is whatever aspect ratio they have. Contain rather than cover
+     so a wide wordmark is letterboxed instead of cropped through the middle. */
+  padding: 2px;
+}
+
+.workspace-banner-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.workspace-banner-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b9dce4;
+}
+
+.workspace-banner-name {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.workspace-banner-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-left: auto;
+  font-size: 0.8125rem;
+}
+
+.workspace-banner-until {
+  color: #cfe9f1;
+}
+
+.workspace-banner-link,
+.workspace-banner-leave {
+  color: #ffffff;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.workspace-banner-leave {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.workspace-banner-leave[disabled] {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.workspace-banner-link:focus-visible,
+.workspace-banner-leave:focus-visible {
+  outline: 3px solid #65b7c7;
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * The space page: gate, hub and report.
+ * ------------------------------------------------------------------------- */
+
+body.workspace-page {
+  margin: 0;
+  background: var(--workspace-page);
+  color: var(--workspace-ink);
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.55;
+}
+
+.workspace-page *,
+.workspace-page *::before,
+.workspace-page *::after {
+  box-sizing: border-box;
+}
+
+.workspace-page :focus-visible {
+  outline: 3px solid var(--workspace-focus);
+  outline-offset: 2px;
+}
+
+.workspace-shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+.workspace-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--workspace-navy);
+  color: #ffffff;
+  border-bottom: 3px solid var(--workspace-accent);
+}
+
+.workspace-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-weight: 700;
+}
+
+.workspace-topbar__brand img {
+  width: 32px;
+  height: 32px;
+}
+
+.workspace-topbar__client {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-left: auto;
+  font-size: 0.875rem;
+}
+
+.workspace-topbar__client img {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: #ffffff;
+  object-fit: contain;
+  padding: 2px;
+}
+
+/* --- Gate ---------------------------------------------------------------- */
+
+.workspace-gate {
+  max-width: 32rem;
+  margin: 3rem auto;
+  padding: 1.75rem;
+  background: var(--workspace-surface);
+  border: 1px solid var(--workspace-line);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgb(15 23 42 / 0.08);
+}
+
+.workspace-gate__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--workspace-muted);
+}
+
+.workspace-gate h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--workspace-navy);
+}
+
+.workspace-gate p {
+  margin: 0 0 1rem;
+  color: var(--workspace-muted);
+}
+
+.workspace-field {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.workspace-field span {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.workspace-field input,
+.workspace-field select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  color: var(--workspace-ink);
+  background: #ffffff;
+  border: 1px solid #9fb3bd;
+  border-radius: 8px;
+}
+
+.workspace-field input[data-code="true"] {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.workspace-field small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--workspace-muted);
+  font-size: 0.75rem;
+}
+
+.workspace-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6875rem 1.25rem;
+  font: inherit;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--workspace-navy);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.workspace-button:hover {
+  background: #002347;
+}
+
+.workspace-button[disabled] {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+.workspace-button--ghost {
+  color: var(--workspace-navy);
+  background: transparent;
+  border: 1px solid var(--workspace-navy);
+}
+
+.workspace-button--ghost:hover {
+  background: #eaf3f6;
+}
+
+.workspace-error,
+.workspace-notice {
+  margin: 0.75rem 0 0;
+  padding: 0.625rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.workspace-error {
+  color: #7f1d1d;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.workspace-notice {
+  color: #0b3a4a;
+  background: #eaf6f9;
+  border: 1px solid #bfe0e9;
+}
+
+.workspace-error:empty,
+.workspace-notice:empty {
+  display: none;
+}
+
+/* --- Hub ----------------------------------------------------------------- */
+
+.workspace-hub__heading {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.workspace-hub__heading h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--workspace-navy);
+}
+
+.workspace-hub__heading p {
+  margin: 0;
+  color: var(--workspace-muted);
+}
+
+.workspace-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.workspace-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.6875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--workspace-navy);
+  background: #ffffff;
+  border: 1px solid var(--workspace-line);
+  border-radius: 999px;
+}
+
+.workspace-pill--accent {
+  color: #ffffff;
+  background: #04223f;
+  border-color: #04223f;
+}
+
+.workspace-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.workspace-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.125rem;
+  background: var(--workspace-surface);
+  border: 1px solid var(--workspace-line);
+  border-top: 4px solid var(--workspace-accent);
+  border-radius: 12px;
+}
+
+.workspace-card h2,
+.workspace-card h3 {
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--workspace-navy);
+}
+
+.workspace-card p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--workspace-muted);
+}
+
+.workspace-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.workspace-card__stat {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--workspace-muted);
+}
+
+/* --- Report -------------------------------------------------------------- */
+
+.workspace-report {
+  margin-top: 2rem;
+}
+
+.workspace-report__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.workspace-report__heading h2 {
+  margin: 0;
+  font-size: 1.375rem;
+  color: var(--workspace-navy);
+}
+
+.workspace-report__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.workspace-summary {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.workspace-metric {
+  padding: 0.875rem 1rem;
+  background: var(--workspace-surface);
+  border: 1px solid var(--workspace-line);
+  border-radius: 12px;
+}
+
+.workspace-metric strong {
+  display: block;
+  font-size: 1.625rem;
+  line-height: 1.1;
+  color: var(--workspace-navy);
+}
+
+.workspace-metric span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--workspace-muted);
+}
+
+.workspace-panel {
+  padding: 1.125rem;
+  margin-bottom: 1rem;
+  background: var(--workspace-surface);
+  border: 1px solid var(--workspace-line);
+  border-radius: 12px;
+}
+
+.workspace-panel h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.0625rem;
+  color: var(--workspace-navy);
+}
+
+.workspace-panel h4 {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--workspace-muted);
+}
+
+/*
+ * Dimension bars. A number and a bar, not a chart library: the report is one of
+ * the few pages a client is likely to print, and three hundred kilobytes of
+ * charting to draw five horizontal bars would be the slowest thing on it.
+ */
+.workspace-bars {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.workspace-bar {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.workspace-bar__label {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.workspace-bar__track {
+  height: 0.625rem;
+  background: #e6edf0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.workspace-bar__fill {
+  display: block;
+  height: 100%;
+  background: var(--workspace-navy);
+  border-radius: 999px;
+}
+
+/* Weakest dimension in the set: the one sentence the report exists to produce. */
+.workspace-bar--weak .workspace-bar__fill {
+  background: #b3401a;
+}
+
+.workspace-bar--weak .workspace-bar__label {
+  color: #8a3113;
+}
+
+.workspace-bar__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.workspace-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.workspace-table th,
+.workspace-table td {
+  padding: 0.5rem 0.625rem;
+  text-align: left;
+  border-bottom: 1px solid var(--workspace-line);
+}
+
+.workspace-table th {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--workspace-muted);
+}
+
+.workspace-table td[data-numeric="true"],
+.workspace-table th[data-numeric="true"] {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.workspace-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--workspace-muted);
+  background: var(--workspace-surface);
+  border: 1px dashed var(--workspace-line);
+  border-radius: 12px;
+}
+
+.workspace-footnote {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--workspace-muted);
+}
+
+/*
+ * Print. A sponsor's first instinct with this report is to put it in front of
+ * their leadership, and the honest format for that is the page itself: the
+ * screen furniture comes off, the panels stop floating, and the bars keep their
+ * fills because a printed bar chart with no bars says nothing.
+ */
+@media print {
+  body.workspace-page {
+    background: #ffffff;
+  }
+
+  .workspace-topbar,
+  .workspace-report__actions,
+  .workspace-gate,
+  .workspace-banner,
+  [data-print="hide"] {
+    display: none !important;
+  }
+
+  .workspace-shell {
+    max-width: none;
+    padding: 0;
+  }
+
+  .workspace-panel,
+  .workspace-metric,
+  .workspace-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border-color: #94a3b8;
+  }
+
+  .workspace-bar__fill {
+    background: #334155 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .workspace-bar--weak .workspace-bar__fill {
+    background: #7f1d1d !important;
+  }
+}
+
+@media (max-width: 40rem) {
+  .workspace-banner-meta {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .workspace-bar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .workspace-bar__track {
+    grid-column: 1 / -1;
+  }
+}

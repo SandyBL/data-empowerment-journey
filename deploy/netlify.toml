@@ -95,8 +95,37 @@
   status = 404
   force = true
 
+# Private company spaces. /w/<slug>/ is the address a facilitator hands to a
+# room, and it is served by the single page at /workspace/index.html, which
+# reads the slug back out of the path. A rewrite (status 200) rather than a
+# redirect, so the URL in the address bar stays the one that was handed out and
+# the page can tell which space it is meant to open.
+#
+# The slug is not validated here. It cannot be: the list of spaces lives in the
+# database, and a rule in this file would have to be edited for every client.
+# The page asks /api/workspace/session which space this is, and an unknown slug
+# comes back as "we do not recognise this space address" — which is also exactly
+# what an expired one has to look like from outside.
+[[redirects]]
+  from = "/w/*"
+  to = "/workspace/index.html"
+  status = 200
+
 [[headers]]
   for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# A client's space is not a public page. The gate itself carries a noindex meta
+# tag, but the header covers the /w/ prefix too, where no file exists to carry
+# one.
+[[headers]]
+  for = "/workspace/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/w/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 

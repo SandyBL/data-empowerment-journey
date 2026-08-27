@@ -294,6 +294,190 @@ button { cursor: pointer; }
 
 .studio-vitals__empty { padding: 1.6rem; border: 1px dashed #bfd1d6; border-radius: 1.1rem; color: #64748b; font-size: 0.8rem; }
 
+/* ---------------------------------------------------------------------------
+ * Private spaces console (/admin/spaces/)
+ *
+ * Shares the shell, the header and the sign-in card with the other two
+ * consoles, and adds the panels this one needs. The .studio-field rules above
+ * were written for the dark sign-in card, so the light panels here restate the
+ * label and input colours rather than fork a second field component.
+ * ------------------------------------------------------------------------ */
+
+.spaces-panel {
+  margin-top: 2rem;
+  padding: 1.8rem;
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgb(15 23 42 / 0.05);
+}
+
+.spaces-panel__head { margin-bottom: 1.2rem; }
+.spaces-panel__head h2 { margin: 0; color: var(--deepblue); font-size: 1.1rem; font-weight: 900; }
+.spaces-panel__head p { margin: 0.45rem 0 0; max-width: 60ch; color: #64748b; font-size: 0.82rem; line-height: 1.6; }
+
+.spaces-panel .studio-field { margin-top: 0; }
+.spaces-panel .studio-field label { color: var(--deepblue); }
+.spaces-panel .studio-field input,
+.spaces-panel .studio-field select,
+.spaces-form .studio-field input,
+.spaces-form .studio-field select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: #ffffff;
+  color: var(--slatecool);
+  font-size: 0.85rem;
+}
+
+.spaces-panel .studio-field input[type="color"] { padding: 0.25rem; height: 2.6rem; }
+.spaces-panel .studio-field small,
+.spaces-form .studio-field small { display: block; margin-top: 0.35rem; color: #94a3b8; font-size: 0.7rem; line-height: 1.5; }
+.spaces-panel .studio-error,
+.spaces-card .studio-error { color: #b3261e; }
+.spaces-panel .studio-state { padding: 2.4rem 1.5rem; }
+
+.spaces-form__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.spaces-checkbox {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin-top: 1.1rem;
+  color: #475569;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.spaces-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1.2rem; }
+.spaces-actions .studio-error { min-height: 0; margin: 0; }
+
+.spaces-button {
+  padding: 0.7rem 1.2rem;
+  border: 1px solid transparent;
+  border-radius: 0.7rem;
+  background: var(--deepblue);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.spaces-button:hover { background: var(--dejourney-teal); }
+.spaces-button:disabled { opacity: 0.55; cursor: not-allowed; }
+.spaces-button--ghost { border-color: var(--line); background: #ffffff; color: var(--deepblue); }
+.spaces-button--ghost:hover { border-color: var(--dejourney-cyan); background: #f4fbfc; }
+
+/* Destructive actions are the orange in the brand palette rather than a red of
+   their own: it is already the accent that means "this is the consequential
+   one" everywhere else on the site. */
+.spaces-danger { background: var(--dejourney-orange); }
+.spaces-danger:hover { background: #c9471a; }
+
+/* The one panel that ever contains a secret. Loud on purpose: it is the single
+   moment a code can be read, and a quiet panel is one a facilitator scrolls
+   past before copying it. */
+.spaces-codes {
+  margin-top: 2rem;
+  padding: 1.5rem 1.8rem;
+  border: 2px solid var(--dejourney-orange);
+  border-radius: 1.4rem;
+  background: #fff8f4;
+}
+
+.spaces-codes__head { display: flex; gap: 1rem; align-items: center; justify-content: space-between; }
+.spaces-codes__head h2 { margin: 0; color: #a8380f; font-size: 1rem; font-weight: 900; }
+.spaces-codes p { margin: 0.5rem 0 1rem; color: #7c4a33; font-size: 0.8rem; line-height: 1.6; }
+.spaces-codes h3 { margin: 0 0 0.7rem; color: var(--deepblue); font-size: 0.82rem; font-weight: 800; }
+
+.spaces-codes__row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.6rem 0;
+  border-top: 1px solid #f6ddd0;
+  color: #7c4a33;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.spaces-code {
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--deepblue);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  user-select: all;
+}
+
+.spaces-list { display: grid; gap: 1.2rem; }
+
+.spaces-card {
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: 1.2rem;
+  background: #fcfdfe;
+}
+
+.spaces-card__head { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; }
+.spaces-card__title h3 { margin: 0; color: var(--deepblue); font-size: 1rem; font-weight: 900; }
+.spaces-card__title p { margin: 0.2rem 0 0; color: #64748b; font-size: 0.76rem; }
+
+.spaces-card__meta { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.9rem; color: #64748b; font-size: 0.74rem; }
+.spaces-card__meta a { color: var(--dejourney-teal); font-weight: 700; }
+
+.spaces-card__stats { display: flex; gap: 1.6rem; margin-top: 1rem; }
+.spaces-card__stats strong { display: block; color: var(--deepblue); font-size: 1.3rem; font-weight: 900; }
+.spaces-card__stats span { color: #94a3b8; font-size: 0.7rem; }
+
+.spaces-card__actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.2rem; }
+
+.spaces-status {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.spaces-status--active { background: #e7f8ee; color: #1a7f4b; }
+.spaces-status--suspended { background: #fdeceb; color: #a8380f; }
+.spaces-status--expired { background: #eef2f6; color: #64748b; }
+
+.spaces-filters { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.spaces-filters .studio-field { min-width: 14rem; }
+
+/* A board can hold hundreds of rows, so the table scrolls sideways on a narrow
+   screen instead of collapsing into cards: this is a moderation list, read by
+   scanning a column, not a layout to be read one record at a time. */
+.spaces-table__wrap { overflow-x: auto; }
+
+.spaces-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; }
+.spaces-table th {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 2px solid var(--line);
+  color: var(--deepblue);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.spaces-table td { padding: 0.6rem 0.7rem; border-bottom: 1px solid #eef3f5; color: #475569; vertical-align: top; }
+.spaces-table tbody tr:hover { background: #f6fbfc; }
+.spaces-table__breakdown { max-width: 22rem; color: #94a3b8; font-size: 0.7rem; }
+
 @media (max-width: 850px) {
   .studio-heading { grid-template-columns: 1fr; }
   .studio-submission { grid-template-columns: 1fr; }
@@ -307,4 +491,10 @@ button { cursor: pointer; }
   .studio-review__actions { flex-direction: column-reverse; }
   .studio-reject,
   .studio-publish { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .spaces-panel { padding: 1.2rem; }
+  .spaces-card__head { flex-direction: column; }
+  .spaces-card__actions .spaces-button { width: 100%; }
 }

@@ -928,6 +928,12 @@
     </main>
     </div>
 
+    <!-- Private company spaces. Runs before the leaderboard script and
+         resolves, from the space cookie alone, whether this browser is inside a
+         client's space; if it is, the board on this page becomes that company's
+         board and a banner names it. A public visitor loads this file, learns
+         there is no seat, and nothing about the page changes. -->
+    <script src="/assets/js/workspace-context.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
     <script>
         let currentScenarioIndex = 0;
@@ -1950,7 +1956,7 @@
             const label = button ? button.querySelector('span') : null;
             const originalLabel = label ? label.innerText : '';
 
-            const { totalOptimal } = calculateDetailedResults();
+            const { categories, totalOptimal } = calculateDetailedResults();
 
             if (button) button.disabled = true;
             if (label) label.innerText = "Saving…";
@@ -1958,6 +1964,11 @@
             const result = await window.SimulatorLeaderboard.submit({
                 simulator: SIMULATOR_SLUG,
                 locale: SIMULATOR_LOCALE,
+                // The five categories the results screen already draws as a radar,
+                // sent as optimal-choices-out-of-total per category. Stored only for
+                // runs published inside a private space, where it becomes the
+                // "weakest dimensions first" table in the facilitator report.
+                breakdown: window.SimulatorLeaderboard.categoryBreakdown(categories),
                 name: name,
                 score: totalOptimal,
                 extraScore: metrics.assetValue,

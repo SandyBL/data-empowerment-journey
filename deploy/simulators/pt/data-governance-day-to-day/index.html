@@ -422,6 +422,12 @@
     </main>
     </div>
 
+<!-- Private company spaces. Runs before the leaderboard script and
+     resolves, from the space cookie alone, whether this browser is inside a
+     client's space; if it is, the board on this page becomes that company's
+     board and a banner names it. A public visitor loads this file, learns
+     there is no seat, and nothing about the page changes. -->
+<script src="/assets/js/workspace-context.js"></script>
 <script src="/assets/js/simulator-leaderboard.js"></script>
 <script>
     // System Initialization & Audio
@@ -1023,6 +1029,17 @@
         const result = await window.SimulatorLeaderboard.submit({
             simulator: SIMULATOR_SLUG,
             locale: SIMULATOR_LOCALE,
+            // The five governance metrics as they stood at the end of the
+            // quarter. Listed one by one rather than passing state.metrics
+            // wholesale, because that object also carries the remaining budget,
+            // which is money and not a 0-100 dimension.
+            breakdown: window.SimulatorLeaderboard.categoryBreakdown({
+              efficiency: state.metrics.efficiency,
+              trust: state.metrics.trust,
+              accountability: state.metrics.accountability,
+              security: state.metrics.security,
+              context: state.metrics.context
+            }),
             name: nameInput,
             score: finalS
         });
