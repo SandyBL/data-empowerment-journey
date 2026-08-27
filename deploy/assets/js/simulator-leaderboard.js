@@ -14,6 +14,15 @@
  * database that is briefly unreachable must not take the player's own score
  * report down with it — every call resolves to a result carrying an `error`
  * flag, and the pages fall back to a message in the table body.
+ *
+ * There are two kinds of board behind that one endpoint. A visitor with no
+ * private-space seat reads and writes the public board, exactly as before. A
+ * participant inside a licensed company space reads and writes that company's
+ * board instead, and this file's only part in that is to wait for
+ * workspace-context.js to have settled the question and to pass the slug along
+ * so the server can refuse a stale one. Which board a request lands on is
+ * decided from the cookie, server-side; the slug below is a cross-check, never
+ * an instruction, so a page cannot ask for a space it has no seat in.
  */
 (function () {
   "use strict";
@@ -23,6 +32,37 @@
   // Matches the column width in db/schema.ts. The server truncates at the same
   // length; enforcing it here only saves the round trip.
   var MAX_NAME_LENGTH = 60;
+
+  /**
+   * Resolves once the private-space lookup has settled, or immediately when
+   * there is no lookup to wait for.
+   *
+   * Read at call time rather than captured at load time, so the eight of the
+   * nine pages that place this script before workspace-context.js work exactly
+   * like the one that does not. A page with no space context at all -- which is
+   * every page of the site until one is licensed -- takes the resolved branch
+   * and behaves as it always did.
+   */
+  function workspaceReady() {
+    var workspace = window.SimulatorWorkspace;
+    if (!workspace || !workspace.ready || typeof workspace.ready.then !== "function") {
+      return Promise.resolve(null);
+    }
+    return workspace.ready.then(
+      function (state) {
+        return state;
+      },
+      function () {
+        return null;
+      }
+    );
+  }
+
+  /** The space slug to send with a request, or null on the public board. */
+  function workspaceSlug() {
+    var workspace = window.SimulatorWorkspace;
+    return workspace && typeof workspace.slug === "function" ? workspace.slug() : null;
+  }
 
   // Waits before the second and third attempt. A publish happens once, at the
   // end of a run that took ten minutes to play, and the alternative to waiting
@@ -73,7 +113,7 @@
             return { data: null, error: "unavailable" };
           }
           console.warn("Leaderboard refused the request: HTTP " + response.status);
-          return { data: null, error: "rejected" };
+          return { data: null, error: "rejected", status: response.status };
         })
         .catch(function (error) {
           // A network error, or a body that did not parse. Both are worth one
@@ -101,13 +141,26 @@
    * Never rejects.
    */
   function load(simulator, limit) {
-    var url = ENDPOINT + "?simulator=" + encodeURIComponent(simulator);
-    if (limit) url += "&limit=" + encodeURIComponent(limit);
+    return workspaceReady().then(function () {
+      var url = ENDPOINT + "?simulator=" + encodeURIComponent(simulator);
+      if (limit) url += "&limit=" + encodeURIComponent(limit);
+      var slug = workspaceSlug();
+      if (slug) url += "&space=" + encodeURIComponent(slug);
 
-    return requestJson(url, { headers: { Accept: "application/json" } }).then(function (result) {
-      if (result.error) return { scores: [], error: result.error };
-      var data = result.data || {};
-      return { scores: Array.isArray(data.scores) ? data.scores : [], error: null };
+      return requestJson(url, { headers: { Accept: "application/json" }, credentials: "same-origin" }).then(
+        function (result) {
+          if (result.error) {
+            // 403 on a read means the seat this page was rendered under has
+            // ended -- a licence that lapsed, or a facilitator who suspended the
+            // space mid-session. Named separately from a generic refusal so a
+            // page can say so instead of implying the board is broken.
+            var reason = result.status === 403 ? "space-ended" : result.error;
+            return { scores: [], error: reason, space: slug };
+          }
+          var data = result.data || {};
+          return { scores: Array.isArray(data.scores) ? data.scores : [], error: null, space: data.space || null };
+        }
+      );
     });
   }
 
@@ -116,8 +169,12 @@
    *
    * `entry.extraScore` is optional and only meaningful for the boards that rank
    * ties on a second figure; `entry.durationMs` is the timed length of the run,
-   * also optional, and is what equal scores are ranked on. Resolves to
-   * { accepted: bool, scores: [...], error: null|"..." }; never rejects.
+   * also optional, and is what equal scores are ranked on. `entry.breakdown` is
+   * the per-dimension result, `{ key: 0-100 }`, and is stored only for runs
+   * published inside a private space -- it is what the facilitator report is
+   * built from, and it is the one part of a run the public board has no use for.
+   * Resolves to { accepted: bool, scores: [...], error: null|"..." }; never
+   * rejects.
    */
   function submit(entry) {
     var name = String(entry.name || "").trim().slice(0, MAX_NAME_LENGTH);
@@ -139,26 +196,43 @@
     if (typeof entry.durationMs === "number" && isFinite(entry.durationMs) && entry.durationMs >= 0) {
       body.durationMs = Math.round(entry.durationMs);
     }
+    if (entry.breakdown && typeof entry.breakdown === "object") {
+      body.breakdown = entry.breakdown;
+    }
 
-    return requestJson(ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    }).then(function (result) {
-      if (result.error) return { accepted: false, scores: [], error: result.error };
+    return workspaceReady()
+      .then(function () {
+        var slug = workspaceSlug();
+        if (slug) body.space = slug;
 
-      var data = result.data || {};
-      var scores = Array.isArray(data.scores) ? data.scores : [];
-      if (scores.length) return { accepted: true, scores: scores, error: null };
+        return requestJson(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+          credentials: "same-origin",
+        });
+      })
+      .then(function (result) {
+        if (result.error) {
+          // Same distinction as on the read, and it matters more here: the player
+          // has just finished a run, and "your access to this space has ended" is
+          // a sentence a facilitator can act on where "could not save" is not.
+          var reason = result.status === 403 ? "space-ended" : result.error;
+          return { accepted: false, scores: [], error: reason };
+        }
 
-      // The score is saved — the row the player just created would be in this
-      // list, so an empty one means the write succeeded but could not also
-      // return the refreshed board. Read it separately rather than leaving them
-      // looking at an empty table underneath their own successful publish.
-      return load(entry.simulator, 10).then(function (board) {
-        return { accepted: true, scores: board.scores, error: null };
+        var data = result.data || {};
+        var scores = Array.isArray(data.scores) ? data.scores : [];
+        if (scores.length) return { accepted: true, scores: scores, error: null };
+
+        // The score is saved — the row the player just created would be in this
+        // list, so an empty one means the write succeeded but could not also
+        // return the refreshed board. Read it separately rather than leaving them
+        // looking at an empty table underneath their own successful publish.
+        return load(entry.simulator, 10).then(function (board) {
+          return { accepted: true, scores: board.scores, error: null };
+        });
       });
-    });
   }
 
   /**
@@ -250,6 +324,97 @@
     return isNaN(date.getTime()) ? "" : date.toISOString().split("T")[0];
   }
 
+  /**
+   * Bounds on a breakdown, matching the server's. Kept in step with
+   * netlify/functions/simulator-score-submit.mts, which is where they are
+   * enforced -- these only save a round trip.
+   */
+  var MAX_BREAKDOWN_KEYS = 12;
+
+  /** A dimension key the server will accept, or "" if nothing usable is left. */
+  function breakdownKey(value) {
+    var key = String(value === undefined || value === null ? "" : value)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 40);
+    return /^[a-z]/.test(key) ? key : "";
+  }
+
+  function percentage(value) {
+    var number = Number(value);
+    if (!isFinite(number)) return null;
+    return Math.round(Math.min(100, Math.max(0, number)) * 10) / 10;
+  }
+
+  /**
+   * The per-dimension breakdown a private space's report is built from.
+   *
+   * The three simulators already compute this — they have to, to draw their own
+   * results screen — but each holds it in its own shape: Data Literacy counts
+   * optimal choices per category, Data Governance carries five 0-100 metrics,
+   * Data Ownership has a correct/incorrect verdict per scenario. Rather than
+   * teach nine pages a common format, this accepts all of those shapes and
+   * returns the one the API stores:
+   *
+   *   { governance: 80, bias: 40, ... }               numbers, already 0-100
+   *   { governance: { correct: 2, total: 3 }, ... }    counts
+   *   { governance: { score: 8, max: 10 }, ... }       a score out of a maximum
+   *   [{ isCorrect: true }, { isCorrect: false }]      one entry per question
+   *
+   * Keys are the simulators' internal identifiers and never their translated
+   * labels, because a room that played in three languages has to aggregate into
+   * one report. Returns null when there is nothing usable, which is the value
+   * that makes submit() leave the field out entirely.
+   */
+  function categoryBreakdown(source, prefix) {
+    if (!source || typeof source !== "object") return null;
+
+    var breakdown = {};
+    var count = 0;
+
+    function add(key, value) {
+      if (count >= MAX_BREAKDOWN_KEYS) return;
+      var cleanKey = breakdownKey(key);
+      var percent = percentage(value);
+      if (!cleanKey || percent === null) return;
+      if (!Object.prototype.hasOwnProperty.call(breakdown, cleanKey)) count += 1;
+      breakdown[cleanKey] = percent;
+    }
+
+    if (Array.isArray(source)) {
+      // One entry per question, in order. The index is the identity: "the room
+      // got scenario 4 wrong" is a sentence a facilitator can use, and the
+      // scenarios do not move between languages.
+      for (var index = 0; index < source.length; index += 1) {
+        var answer = source[index];
+        var correct = answer === true || (answer && (answer.isCorrect === true || answer.correct === true));
+        add((prefix || "q") + "-" + (index + 1), correct ? 100 : 0);
+      }
+      return count ? breakdown : null;
+    }
+
+    for (var key in source) {
+      if (!Object.prototype.hasOwnProperty.call(source, key)) continue;
+      var entry = source[key];
+
+      if (typeof entry === "number") {
+        add(key, entry);
+        continue;
+      }
+      if (!entry || typeof entry !== "object") continue;
+
+      var total = Number(entry.total !== undefined ? entry.total : entry.max);
+      var achieved = Number(
+        entry.correct !== undefined ? entry.correct : entry.score !== undefined ? entry.score : entry.value
+      );
+      if (isFinite(total) && total > 0 && isFinite(achieved)) add(key, (achieved / total) * 100);
+      else if (isFinite(achieved)) add(key, achieved);
+    }
+
+    return count ? breakdown : null;
+  }
+
   window.SimulatorLeaderboard = {
     load: load,
     submit: submit,
@@ -257,6 +422,7 @@
     formatDuration: formatDuration,
     escapeHtml: escapeHtml,
     formatDate: formatDate,
+    categoryBreakdown: categoryBreakdown,
     MAX_NAME_LENGTH: MAX_NAME_LENGTH,
   };
 })();

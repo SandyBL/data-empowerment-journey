@@ -1,4 +1,15 @@
-import { doublePrecision, index, integer, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  doublePrecision,
+  index,
+  integer,
+  jsonb,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  uniqueIndex,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const confessionSubmissions = pgTable("confession_submissions", {
   id: serial().primaryKey(),
@@ -14,13 +25,128 @@ export const confessionSubmissions = pgTable("confession_submissions", {
 });
 
 /**
- * Global simulator leaderboard.
+ * A private simulator space sold to one company.
+ *
+ * The three simulators are free and public, and stay that way. What a company
+ * buys is this: a space of their own where the same simulators run, the
+ * leaderboard contains their people and nobody else's, the session carries their
+ * name, and a facilitator report at the end says what the room actually
+ * struggled with. Access lasts exactly as long as `expiresAt` says it does.
+ *
+ * Two codes rather than one. `accessCodeHash` is the code a facilitator reads
+ * out to the room, and it grants a seat. `sponsorCodeHash` is the one handed to
+ * the client sponsor, and it grants a seat plus the report -- so the person
+ * paying can read the aggregate without every participant seeing how the room
+ * scored as a whole. Both are stored as SHA-256 of the normalised code and never
+ * kept in the clear: a code cannot be recovered from this table, only replaced,
+ * which is why the admin console shows a new code exactly once.
+ *
+ * `status` is the kill switch. `expiresAt` is the licence, and it is the normal
+ * way access ends; setting status to "suspended" is what ends it early, and it
+ * takes effect on the next request because every entry point re-reads this row
+ * rather than trusting anything the browser is holding.
+ */
+export const workspaces = pgTable(
+  "workspaces",
+  {
+    id: serial().primaryKey(),
+    // URL segment, e.g. "acme-q1-2026" in /w/acme-q1-2026/. Lowercase, dashed.
+    slug: varchar({ length: 40 }).notNull(),
+    // Legal or trading name of the client, for your own records.
+    company: varchar({ length: 120 }).notNull(),
+    // What participants see in the header, e.g. "ACME Data Governance Week".
+    displayName: varchar("display_name", { length: 120 }).notNull(),
+    accessCodeHash: varchar("access_code_hash", { length: 64 }).notNull(),
+    // Nullable: a space can be sold without a sponsor seat.
+    sponsorCodeHash: varchar("sponsor_code_hash", { length: 64 }),
+    // "active" | "suspended".
+    status: varchar({ length: 20 }).notNull().default("active"),
+    // Language the space hub opens in. Participants can still switch, because
+    // the simulators exist in all three and a room is rarely monolingual.
+    locale: varchar({ length: 2 }).notNull().default("en"),
+    // Optional client branding. A URL rather than an upload: a logo already
+    // lives on the client's own site, and copying it here would make this table
+    // responsible for storing files.
+    logoUrl: varchar("logo_url", { length: 300 }),
+    // A single hex accent, applied as a CSS custom property. Deliberately one
+    // colour and not a theme: enough for the space to read as theirs, not enough
+    // for a broken value to make a page unreadable.
+    accentColor: varchar("accent_color", { length: 20 }),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull().defaultNow(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    // The slug is the address, so two spaces cannot share one. Enforced here
+    // rather than in the function that creates them: a uniqueness rule that
+    // lives in application code is a rule that holds until two requests arrive
+    // at the same moment.
+    uniqueIndex("workspaces_slug_idx").on(table.slug),
+  ],
+);
+
+/**
+ * One seat in a space: a browser that entered a valid code.
+ *
+ * Sessions are opaque random tokens, hashed here the way the access codes are.
+ * That is a deliberate choice over a signed cookie: a signed token needs a
+ * signing secret to exist before anything works, cannot be revoked before it
+ * expires, and tells you nothing about who is in the room. A row per seat costs
+ * one indexed lookup per request and buys instant revocation, an honest count of
+ * how many people actually joined, and a per-participant handle that the
+ * leaderboard can attribute a run to.
+ *
+ * `role` is "participant" or "sponsor" -- see the two codes on `workspaces`.
+ *
+ * `participantLabel` is optional and free text, exactly like the display name on
+ * the leaderboard: it is what somebody typed to be recognised by their
+ * colleagues, and it is never an email.
+ */
+export const workspaceSessions = pgTable(
+  "workspace_sessions",
+  {
+    id: serial().primaryKey(),
+    workspaceId: integer("workspace_id")
+      .notNull()
+      .references(() => workspaces.id, { onDelete: "cascade" }),
+    // SHA-256 of the token in the cookie. Reading this table hands out nothing.
+    tokenHash: varchar("token_hash", { length: 64 }).notNull(),
+    participantLabel: varchar("participant_label", { length: 60 }),
+    role: varchar({ length: 20 }).notNull().default("participant"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    // Updated when a seat publishes a run, not on every read: the point of it is
+    // "did this seat do anything", and a write on every page load would make the
+    // leaderboard a write endpoint.
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
+    // Never later than the space's own expiry, and capped to it on creation.
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    // Set when a code is regenerated or a space is suspended, so one seat can be
+    // ended without deleting the run it published.
+    revokedAt: timestamp("revoked_at", { withTimezone: true }),
+  },
+  (table) => [
+    // Every request that carries a space cookie resolves it through this, so it
+    // is both the uniqueness rule and the only index that matters here.
+    uniqueIndex("workspace_sessions_token_hash_idx").on(table.tokenHash),
+    index("workspace_sessions_workspace_idx").on(table.workspaceId),
+  ],
+);
+
+/**
+ * Simulator leaderboards, public and private.
  *
  * The three simulators used to keep their rankings in localStorage, which meant
  * every visitor saw a board containing only themselves and a few hardcoded
  * example names. One table serves all three: `simulator` says which board a row
- * belongs to, and each board is a single worldwide pool rather than one per
- * language, so a visitor in Lisbon is ranked against a visitor in Madrid.
+ * belongs to, and the public board is a single worldwide pool rather than one
+ * per language, so a visitor in Lisbon is ranked against a visitor in Madrid.
+ *
+ * `workspaceId` is the second axis. NULL means the public board -- the one every
+ * visitor plays and the only one that existed before private spaces -- and a
+ * value means the row belongs to one company's space and is visible only inside
+ * it. Nullable rather than defaulted precisely because NULL already meant
+ * "public" for every row written before this column existed, so no row had to be
+ * rewritten and no board changed shape.
  *
  * Only what the board displays is stored: the display name the player typed,
  * their score, how long the run took, and the one secondary figure the Data
@@ -57,13 +183,50 @@ export const simulatorScores = pgTable(
     // Postgres, which is the reading we want -- an untimed run never outranks a
     // timed one on the same score.
     durationMs: integer("duration_ms"),
+    // The private board this run belongs to, or NULL for the public one. See the
+    // note above: NULL is not a missing value here, it is the public pool.
+    workspaceId: integer("workspace_id").references(() => workspaces.id, { onDelete: "cascade" }),
+    // Which seat in that space published the run. Kept so the facilitator report
+    // can count people rather than runs, and so a replay can be attributed to
+    // the browser that already published one. Set to NULL rather than deleted
+    // with the seat, because the run still happened.
+    workspaceSessionId: integer("workspace_session_id").references(() => workspaceSessions.id, {
+      onDelete: "set null",
+    }),
+    // Per-dimension result of the run, as `{ "<stable-key>": 0-100 }`.
+    //
+    // This is what turns a private space into something worth paying for: a
+    // score alone says a room did well or badly, and this says which of the five
+    // dimensions it did badly at, which is the sentence a facilitator actually
+    // needs. The keys are the simulators' own internal identifiers rather than
+    // their labels, so the same key means the same dimension whether the run was
+    // played in English, Spanish or Portuguese.
+    //
+    // Nullable and unvalidated against a fixed list on purpose: a simulator that
+    // grows a sixth dimension must not start failing to publish. Shape, size and
+    // range are bounded in the write function; meaning is not.
+    breakdown: jsonb(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [
-    // Every read is "the top N rows of one board", so simulator then score is
-    // the index that answers it; Postgres walks it backwards for DESC. The tie
-    // breakers are left out on purpose: they only ever reorder rows that already
-    // share a score, which is a handful of rows out of the ten being returned.
+    // Every read is "the top N rows of one board", and a board is now a space
+    // plus a simulator, so the space has to lead: without it the public board
+    // and every private one share the same index prefix and each read filters
+    // rows it cannot show. NULL is an ordinary indexable value in a Postgres
+    // btree, so this one index answers the public board too.
+    //
+    // The tie breakers are left out on purpose: they only ever reorder rows that
+    // already share a score, which is a handful of rows out of the ten being
+    // returned.
+    index("simulator_scores_workspace_simulator_score_idx").on(
+      table.workspaceId,
+      table.simulator,
+      table.score,
+    ),
+    // Kept alongside it, and not replaced by it. The composite above cannot
+    // answer "this simulator across every space", which is the shape of every
+    // question the admin console and the cross-space analytics ask, because
+    // `simulator` is not its leading column.
     index("simulator_scores_simulator_score_idx").on(table.simulator, table.score),
   ],
 );

@@ -1,9 +1,17 @@
 import type { Config } from "@netlify/functions";
-import { asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { simulatorScores } from "../../db/schema.js";
+import { simulatorScores, workspaceSessions } from "../../db/schema.js";
+import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 
-// Publishes one finished simulator run to the global leaderboard.
+// Publishes one finished simulator run to a leaderboard.
+//
+// Which leaderboard is not the client's decision. A browser holding a valid
+// space cookie publishes to that company's private board; everyone else
+// publishes to the public one. The page may name the space it thinks it is in
+// and a mismatch is refused outright, because the alternative — falling back to
+// the public board when a licence lapses mid-run — would put a named employee
+// of a client on a worldwide table they never agreed to appear on.
 //
 // Scores are computed in the browser, so this endpoint cannot verify that a
 // score was really earned — it can only refuse one the simulator could not have
@@ -14,7 +22,8 @@ import { simulatorScores } from "../../db/schema.js";
 //
 // The run duration is treated differently from the score: it decides ties, not
 // rank, so a client that sends a nonsensical one loses its tie breaker instead
-// of its publish. See cleanDuration below.
+// of its publish. See cleanDuration below. The per-dimension breakdown is
+// treated the same way — see cleanBreakdown.
 //
 // Reads live in simulator-scores.mts on this same path. Keep the name and score
 // rules here in step with the client-side checks in
@@ -56,6 +65,12 @@ const TOP_N = 10;
 const MAX_DURATION_MS = 12 * 60 * 60 * 1000;
 
 /**
+ * Bounds on the per-dimension breakdown. Five dimensions is what the simulators
+ * report today; twelve leaves room for one to grow without a deploy here.
+ */
+const MAX_BREAKDOWN_KEYS = 12;
+
+/**
  * A reported duration, or null if there is nothing trustworthy to store.
  *
  * Unlike the score, an unusable duration is never a reason to reject: it is a
@@ -86,7 +101,43 @@ const cleanName = (value: unknown) =>
         .slice(0, MAX_NAME_LENGTH)
     : "";
 
-const topScores = (simulator: string) =>
+/**
+ * The per-dimension breakdown, as `{ "<stable-key>": 0-100 }`, or null.
+ *
+ * This is what the facilitator report is built from: a score says a room did
+ * badly, and this says it did badly at stewardship and fine at everything else.
+ * The keys are the simulators' own internal identifiers, never their translated
+ * labels, so the same dimension aggregates across a room that played in three
+ * languages.
+ *
+ * Bounded but not enumerated. Shape is enforced here — a plain object, a capped
+ * number of short identifier-shaped keys, each value a percentage — while the
+ * meaning of a key is left to the simulator that sent it, so a simulator that
+ * grows a sixth dimension does not have to wait for this file to be redeployed
+ * before it can report it.
+ *
+ * Never a reason to refuse a publish. Like the duration, a malformed breakdown
+ * costs the run its detail, not its place on the board: the alternative is a
+ * player who finished a workshop exercise and cannot save it because of a
+ * secondary field nobody looks at until the report is generated.
+ */
+const cleanBreakdown = (value: unknown) => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+
+  const cleaned: Record<string, number> = {};
+
+  for (const [key, raw] of Object.entries(value as Record<string, unknown>)) {
+    if (Object.keys(cleaned).length >= MAX_BREAKDOWN_KEYS) break;
+    if (!/^[a-z][a-z0-9_-]{0,39}$/i.test(key)) continue;
+    const percentage = Number(raw);
+    if (!Number.isFinite(percentage)) continue;
+    cleaned[key.toLowerCase()] = Math.round(Math.min(100, Math.max(0, percentage)) * 10) / 10;
+  }
+
+  return Object.keys(cleaned).length ? cleaned : null;
+};
+
+const topScores = (simulator: string, workspaceId: number | null) =>
   db
     .select({
       id: simulatorScores.id,
@@ -98,7 +149,16 @@ const topScores = (simulator: string) =>
       createdAt: simulatorScores.createdAt,
     })
     .from(simulatorScores)
-    .where(eq(simulatorScores.simulator, simulator))
+    .where(
+      and(
+        eq(simulatorScores.simulator, simulator),
+        // The same board the row was just written to, so the player sees their
+        // own new rank and not a table they are absent from.
+        workspaceId === null
+          ? isNull(simulatorScores.workspaceId)
+          : eq(simulatorScores.workspaceId, workspaceId),
+      ),
+    )
     // Same ordering as the read function in simulator-scores.mts, and it has to
     // stay the same: this is the board the player sees their own new rank in.
     .orderBy(
@@ -140,6 +200,8 @@ export default async (request: Request) => {
   const hasExtra = payload?.extraScore !== undefined && payload?.extraScore !== null;
   const extraScore = hasExtra ? Number(payload.extraScore) : null;
   const durationMs = cleanDuration(payload?.durationMs);
+  const breakdown = cleanBreakdown(payload?.breakdown);
+  const requestedSpace = normalizeSlug(payload?.space);
 
   if (!rules) return reject("Unknown simulator", { simulator });
   if (!LOCALES.has(locale)) return reject("Unknown locale", { simulator, locale });
@@ -163,6 +225,31 @@ export default async (request: Request) => {
     });
   }
 
+  let session: Awaited<ReturnType<typeof resolveSession>> = null;
+
+  try {
+    session = await resolveSession(request);
+  } catch (error) {
+    // A database hiccup while resolving the seat must not silently publish a
+    // client's employee to the public board, so this is a retryable failure and
+    // not a fallback.
+    console.error("Workspace resolution failed during submission", error);
+    return Response.json({ error: "Unable to save score", retryable: true }, { status: 503 });
+  }
+
+  if (requestedSpace && requestedSpace !== session?.space.slug) {
+    console.warn(
+      "Leaderboard submission rejected: space no longer available",
+      JSON.stringify({ simulator, requestedSpace }),
+    );
+    return Response.json(
+      { error: "Your access to this space has ended", reason: "no-seat", retryable: false },
+      { status: 403 },
+    );
+  }
+
+  const workspaceId = session?.space.id ?? null;
+
   try {
     await db.insert(simulatorScores).values({
       simulator,
@@ -171,6 +258,13 @@ export default async (request: Request) => {
       score,
       extraScore,
       durationMs,
+      workspaceId,
+      workspaceSessionId: session?.seat.id ?? null,
+      // Kept for private runs only. The public board has nothing that reads a
+      // breakdown, and the per-dimension detail of a stranger's run is data this
+      // table would be storing for no reason — which is a poor look on a site
+      // about data governance. Inside a space it is the report.
+      breakdown: session ? breakdown : null,
     });
   } catch (error) {
     // Logged rather than swallowed: without this, schema drift or a lost
@@ -182,6 +276,18 @@ export default async (request: Request) => {
   }
 
   // The row is committed from here on, so nothing below may report a failure.
+  if (session) {
+    try {
+      await db
+        .update(workspaceSessions)
+        .set({ lastSeenAt: new Date() })
+        .where(eq(workspaceSessions.id, session.seat.id));
+    } catch (error) {
+      // Only affects the "active seats" figure on the facilitator report.
+      console.error("Seat activity stamp failed after a successful save", error);
+    }
+  }
+
   // The refreshed board comes back with the write because the page needs it to
   // show the player their new rank, and fetching it in a second request would
   // race the row that was just inserted — but if that read fails, the score is
@@ -191,23 +297,31 @@ export default async (request: Request) => {
   let scores: Awaited<ReturnType<typeof topScores>> = [];
 
   try {
-    scores = await topScores(simulator);
+    scores = await topScores(simulator, workspaceId);
   } catch (error) {
     console.error("Leaderboard read failed after a successful save", error);
   }
 
-  return Response.json({ accepted: true, scores }, { status: 201, headers: { "Cache-Control": "no-store" } });
+  return Response.json(
+    { accepted: true, scores, space: session?.space.slug ?? null },
+    { status: 201, headers: { "Cache-Control": "no-store" } },
+  );
 };
 
 export const config: Config = {
   path: "/api/simulator-scores",
   method: ["POST"],
-  // A run takes minutes to play. Ten in ten minutes covers someone replaying to
-  // improve their rank and stays far below what makes stuffing the board worth
-  // the trouble.
+  // A run takes minutes to play, so ten per address per ten minutes was ample
+  // for one visitor at home — and wrong for the case this feature exists for. A
+  // workshop is thirty people on one office network finishing an exercise within
+  // a few minutes of each other, and under the old limit the last twenty of them
+  // would have been told their score could not be saved, in front of the client
+  // who paid for the session. Ninety per ten minutes carries a large room
+  // replaying an exercise, and stuffing a board at that rate still buys nothing
+  // but rows in a table of job titles.
   rateLimit: {
     windowSize: 600,
-    windowLimit: 10,
+    windowLimit: 90,
     aggregateBy: "ip",
   },
 };

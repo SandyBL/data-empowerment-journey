@@ -35,6 +35,8 @@ const HTML_SOURCES = [
   'es/blog/index.html',
   'pt/blog/index.html',
   'admin/index.html',
+  'admin/spaces/index.html',
+  'workspace/index.html',
 ];
 
 /**
