@@ -33,3 +33,9 @@ node_modules/
 # site-wide noindex that keeps deploy previews and branch deploys out of search.
 /_headers
 /assets/search/
+# The standard simulator wording, lifted out of the nine pages by
+# scripts/extract-simulator-text.mjs so the admin console has something to show
+# an operator next to their rewrite. A read-only copy of text that lives in those
+# pages: committing it would be a second version of every scenario with nothing
+# forcing the two to agree.
+/assets/data/

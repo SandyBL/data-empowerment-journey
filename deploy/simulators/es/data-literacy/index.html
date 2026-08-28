@@ -935,6 +935,7 @@
          board and a banner names it. A public visitor loads this file, learns
          there is no seat, and nothing about the page changes. -->
     <script src="/assets/js/workspace-context.js"></script>
+    <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
     <script>
         let currentScenarioIndex = 0;
@@ -2021,7 +2022,12 @@
             startRunTimer();
         }
 
+        // The company's own wording first, where a private space has any, then the
+        // page starts exactly as it always did. A public visitor, and a private one
+        // whose space plays the standard scenarios, waits for nothing: the lookup
+        // has already resolved by the time this runs. See assets/js/scenario-text.js.
         window.onload = function () {
+          window.SimulatorScenarioText.hydrate(scenarios, function () {
             buildMilestoneBadges();
             renderMetrics();
             updateCategoryTracker();
@@ -2029,6 +2035,7 @@
             startRunTimer();
             renderLeaderboard();
             loadLeaderboard();
+          });
         };
     </script>
 

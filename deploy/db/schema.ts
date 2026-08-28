@@ -265,3 +265,68 @@ export const webVitals = pgTable(
   ],
 );
 
+
+/**
+ * The wording one company had rewritten, for one simulator, in one language.
+ *
+ * A private space is the same three simulators everybody else plays. What a
+ * consulting engagement usually needs on top of that is smaller than a new
+ * simulator and bigger than a logo: the scenarios have to sound like the client
+ * -- their systems, their team names, the incident they actually had last
+ * quarter -- or a room spends the first two minutes arguing that "this is not
+ * how it works here" instead of deciding who owns the metric.
+ *
+ * So this table stores text and only text. `overrides` is
+ * `{ "<scenario id>": { "<field path>": "<replacement>" } }`, and the field
+ * paths it may contain are whitelisted in netlify/lib/scenario-fields.mjs:
+ * titles, descriptions, option wording, lessons. Never an `impact`, never
+ * `optimalChoice`, never `correctRole`, never the number of scenarios. That
+ * boundary is the reason a private run is still comparable to a public one --
+ * the score bounds in simulator-score-submit.mts hold, and the facilitator
+ * report still groups on the same dimension keys -- and it is enforced when the
+ * admin console saves rather than trusted here.
+ *
+ * A missing row means the standard wording, which is why overriding is a row
+ * per (space, simulator, language) rather than a column on `workspaces`: nine
+ * sets exist per space, an engagement usually rewrites one or two of them, and
+ * the ones nobody touched must stay byte-for-byte the shipped text so a fix to a
+ * scenario reaches every space that did not override it.
+ *
+ * Deliberately jsonb rather than a row per field. The document is only ever read
+ * whole -- one simulator page asks for exactly one of these and applies all of
+ * it -- and a row per field would turn one indexed read into a hundred and give
+ * the console a hundred writes to reconcile on every save.
+ */
+export const workspaceScenarioText = pgTable(
+  "workspace_scenario_text",
+  {
+    id: serial().primaryKey(),
+    workspaceId: integer("workspace_id")
+      .notNull()
+      .references(() => workspaces.id, { onDelete: "cascade" }),
+    // Slug of the simulator, matching its URL segment and `simulator_scores`.
+    simulator: varchar({ length: 40 }).notNull(),
+    // Which of the three translations this rewrites. A space that runs a
+    // bilingual room overrides two rows and gets two rewritten simulators.
+    locale: varchar({ length: 2 }).notNull(),
+    // `{ "<scenario id>": { "<field path>": "<text>" } }`. Sanitised, bounded
+    // and whitelisted on write; see netlify/lib/scenario-text.ts.
+    overrides: jsonb().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    // Shown in the console next to each customised set, because "which of these
+    // nine did I already do" is the question an engagement actually asks.
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    // One set per space, simulator and language. Enforced here rather than in
+    // the console's save handler: a uniqueness rule in application code is a
+    // rule that holds until two saves arrive at the same moment, and the
+    // duplicate that slips through would be a space where which wording a
+    // participant sees depends on row order.
+    uniqueIndex("workspace_scenario_text_space_simulator_locale_idx").on(
+      table.workspaceId,
+      table.simulator,
+      table.locale,
+    ),
+  ],
+);

@@ -478,6 +478,80 @@ button { cursor: pointer; }
 .spaces-table tbody tr:hover { background: #f6fbfc; }
 .spaces-table__breakdown { max-width: 22rem; color: #94a3b8; font-size: 0.7rem; }
 
+/* Scenario wording: one company's rewrite of a simulator's text.
+   Reading-first rather than form-first. The operator's real work here is
+   comparing a shipped sentence with the one they are writing to replace it, so
+   the standard wording is set in the same measure as the box below it and the
+   two sit close enough to read as a pair. */
+.wording-summary { margin-bottom: 1.2rem; }
+.wording-summary .studio-state { margin: 0; }
+.wording-summary__list { display: grid; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.wording-summary__list li { color: #64748b; font-size: 0.76rem; }
+.wording-summary__list strong { color: var(--deepblue); font-weight: 800; }
+
+.wording-editor { display: grid; gap: 1rem; }
+.wording-editor .studio-state { margin: 0; }
+
+.wording-scenario {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fbfdfe;
+}
+
+.wording-scenario__head { display: flex; gap: 0.8rem; align-items: baseline; justify-content: space-between; }
+.wording-scenario__head h3 { margin: 0 0 0.9rem; color: var(--deepblue); font-size: 0.84rem; font-weight: 900; }
+
+.wording-scenario__badge {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #e7f8ee;
+  color: #1a7f4b;
+  font-size: 0.66rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.wording-field { margin-bottom: 1rem; }
+.wording-field:last-child { margin-bottom: 0; }
+
+.wording-field__label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* The sentence as it ships. Quoted with a rule down the left so it reads as
+   something being replaced rather than as help text. */
+.wording-field__standard {
+  margin: 0 0 0.4rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid #d7e6ea;
+  color: #64748b;
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.wording-field__input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--deepblue);
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.wording-field__input:focus-visible { outline: 2px solid var(--dejourney-cyan); outline-offset: 1px; }
+.wording-field__note { margin: 0.3rem 0 0; color: #94a3b8; font-size: 0.68rem; }
+
 @media (max-width: 850px) {
   .studio-heading { grid-template-columns: 1fr; }
   .studio-submission { grid-template-columns: 1fr; }
@@ -497,4 +571,6 @@ button { cursor: pointer; }
   .spaces-panel { padding: 1.2rem; }
   .spaces-card__head { flex-direction: column; }
   .spaces-card__actions .spaces-button { width: 100%; }
+  .wording-scenario { padding: 0.9rem; }
+  .wording-scenario__head { flex-direction: column; align-items: flex-start; }
 }

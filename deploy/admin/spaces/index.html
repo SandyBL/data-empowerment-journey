@@ -142,6 +142,49 @@
         <div class="spaces-list" id="spaces-list" aria-live="polite"></div>
       </section>
 
+      <!-- Rewriting a simulator's text for one company, so the exercise reads
+           like their own Tuesday rather than a case study. Only the wording:
+           the number of scenarios, the options, which one is right and every
+           number a decision moves come from the page, not from here, which is
+           what keeps a private score comparable to a public one and the
+           facilitator report grouping on the same dimensions. -->
+      <section class="spaces-panel" aria-labelledby="wording-heading">
+        <div class="spaces-panel__head">
+          <h2 id="wording-heading">Scenario wording</h2>
+          <p>Reword a simulator for one company — their systems, their teams, their vocabulary. Leave a field empty and that sentence stays as it ships. Scoring is untouched, so a private run is still comparable to the public board.</p>
+        </div>
+        <div class="spaces-filters">
+          <div class="studio-field">
+            <label for="wording-space">Space</label>
+            <select id="wording-space"></select>
+          </div>
+          <div class="studio-field">
+            <label for="wording-simulator">Simulator</label>
+            <select id="wording-simulator">
+              <option value="data-governance-day-to-day">Data Governance Day-to-Day</option>
+              <option value="data-literacy">Data Literacy</option>
+              <option value="data-ownership-conflict">Data Ownership Conflict</option>
+            </select>
+          </div>
+          <div class="studio-field">
+            <label for="wording-locale">Language</label>
+            <select id="wording-locale">
+              <option value="en" selected>English</option>
+              <option value="es">Español</option>
+              <option value="pt">Português</option>
+            </select>
+          </div>
+          <button class="spaces-button spaces-button--ghost" id="wording-open" type="button">Open this set</button>
+        </div>
+        <div class="wording-summary" id="wording-summary" aria-live="polite"></div>
+        <div class="wording-editor" id="wording-editor" aria-live="polite"></div>
+        <div class="spaces-actions">
+          <button class="spaces-button" id="wording-save" type="button" disabled>Save wording</button>
+          <button class="spaces-button spaces-danger" id="wording-revert" type="button" disabled>Revert whole set to standard</button>
+          <p class="studio-error" id="wording-error" role="alert"></p>
+        </div>
+      </section>
+
       <!-- Row-level moderation, over the public board as well as the private
            ones. A leaderboard that takes free text from anonymous visitors
            needs a delete, and a client is entitled to ask for a name to come
