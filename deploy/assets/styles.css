@@ -1412,13 +1412,28 @@ body.mobile-navigation-open { overflow: hidden; }
     box-shadow: 0 14px 36px rgb(0 51 102 / 0.08);
 }
 
+/*
+ * The confession wall's own section, between the simulators and the downloadable
+ * resources. Near-white with a faint warm wash in the corner, which picks up the
+ * card's confidential-file colouring and keeps it distinct from the deep blue
+ * above it and the slate below without shouting.
+ */
+.confession-wall-section {
+    background:
+        radial-gradient(circle at 14% 0%, rgb(233 93 36 / 0.06), transparent 22rem),
+        #ffffff;
+}
+
 .confession-wall-resource {
     position: relative;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: clamp(1.25rem, 3vw, 2.5rem);
     align-items: center;
-    margin: 2rem 0 3rem;
+    /* Its section supplies the vertical rhythm now that the card is the only
+       thing in it; the old margins were spacing it away from the resource grid
+       it used to sit between. */
+    margin: 0;
     padding: clamp(1.5rem, 4vw, 2.5rem);
     overflow: hidden;
     border: 1px solid rgb(159 63 57 / 0.28);
@@ -1488,7 +1503,7 @@ body.mobile-navigation-open { overflow: hidden; }
     text-transform: uppercase;
 }
 
-.confession-wall-resource h3 {
+.confession-wall-resource h2 {
     margin-bottom: 0.65rem;
     color: var(--deepblue);
     font-size: clamp(1.35rem, 3vw, 1.9rem);
@@ -1597,6 +1612,114 @@ body.mobile-navigation-open { overflow: hidden; }
     border-color: rgb(80 200 120 / 0.42);
     background-color: rgb(80 200 120 / 0.13);
     color: #207a42;
+}
+
+/*
+ * The shortcut out of the printable maturity template and into the online
+ * scorecard, inside the resource card that offers the template.
+ *
+ * The card around it is white with a muted deep-blue download button, so this
+ * needs to read as a different offer rather than as more of the card's body
+ * copy: a warm tinted surface, its own border and rounding, and a filled
+ * button. The button borrows --orange-ink
+ * from the scorecard section's own CTA, which is where it leads -- same action,
+ * same colour -- and that also keeps it from competing with the deep-blue
+ * download directly beneath it.
+ */
+.scorecard-nudge {
+    margin-top: 1.75rem;
+    padding: 1.35rem;
+    border: 1px solid rgb(194 84 25 / 0.3);
+    border-radius: 1.1rem;
+    background:
+        radial-gradient(circle at 92% 8%, rgb(194 84 25 / 0.1), transparent 12rem),
+        linear-gradient(135deg, #fff7ed, #fffdfa 70%, #f4f9fa);
+}
+
+.scorecard-nudge > * + * { margin-top: 0.7rem; }
+
+.scorecard-nudge__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    background-color: rgb(194 84 25 / 0.12);
+    /*
+     * Not --orange-ink: that token is measured against white, and on this chip's
+     * warm tint it drops to 3.7:1 -- under the 4.5:1 WCAG 1.4.3 minimum for text
+     * this small. Darkened until it clears on the chip (4.8:1).
+     */
+    color: #a8460f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.scorecard-nudge__eyebrow i { font-size: 0.62rem; }
+
+.scorecard-nudge__title {
+    color: var(--deepblue);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+}
+
+.scorecard-nudge__text {
+    color: #475569;
+    font-size: 0.875rem;
+    line-height: 1.65;
+}
+
+/*
+ * Full width and 3rem tall so it is unmistakably a button on a phone, where the
+ * card is a single column and a tap target under 44px is a miss waiting to
+ * happen.
+ */
+.scorecard-nudge__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    min-height: 3rem;
+    margin-top: 1.1rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 0.85rem;
+    background-color: var(--orange-ink);
+    box-shadow: 0 12px 26px rgb(194 84 25 / 0.28);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-align: center;
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.scorecard-nudge__cta:hover {
+    transform: translateY(-2px);
+    background-color: #a8460f;
+    box-shadow: 0 16px 32px rgb(194 84 25 / 0.34);
+}
+
+.scorecard-nudge__cta-arrow { transition: transform 180ms ease; }
+.scorecard-nudge__cta:hover .scorecard-nudge__cta-arrow { transform: translateX(3px); }
+
+.scorecard-nudge__note {
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scorecard-nudge__cta,
+    .scorecard-nudge__cta-arrow { transition: none; }
+    .scorecard-nudge__cta:hover { transform: none; }
+    .scorecard-nudge__cta:hover .scorecard-nudge__cta-arrow { transform: none; }
 }
 
 .templates-section {
