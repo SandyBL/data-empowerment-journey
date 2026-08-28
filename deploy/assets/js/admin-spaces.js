@@ -11,7 +11,8 @@ import {
 } from "/assets/js/vendor/netlify-identity.js";
 
 // The private-spaces console. Talks to /api/admin/workspaces for the spaces
-// themselves and /api/admin/workspace-scores for individual leaderboard rows.
+// themselves, /api/admin/workspace-scores for individual leaderboard rows, and
+// /api/admin/scenario-text for a company's own wording of a simulator.
 //
 // Both endpoints re-check Netlify Identity on every request, so nothing here is
 // a security boundary — this file decides what is easy to do, not what is
@@ -24,11 +25,23 @@ import {
 //     deleting a space takes its leaderboard with it, and there is no undo
 //     anywhere in this feature.
 //
-// Keep in sync with netlify/functions/admin-workspaces.mts and
-// netlify/functions/admin-workspace-scores.mts.
+// Keep in sync with netlify/functions/admin-workspaces.mts,
+// netlify/functions/admin-workspace-scores.mts and
+// netlify/functions/admin-scenario-text.mts.
 
 const SPACES_ENDPOINT = "/api/admin/workspaces";
 const ROWS_ENDPOINT = "/api/admin/workspace-scores";
+const WORDING_ENDPOINT = "/api/admin/scenario-text";
+
+/**
+ * Where the standard wording is read from.
+ *
+ * Extracted from the nine simulator pages at build time by
+ * scripts/extract-simulator-text.mjs, which is also where the list of fields
+ * comes from -- so the console offers exactly the fields the page it is aimed at
+ * actually has, in every language, and never a box that quietly does nothing.
+ */
+const STANDARD_TEXT = "/assets/data/simulator-text";
 
 const SIMULATOR_NAMES = {
   "data-governance-day-to-day": "Data Governance Day-to-Day",
@@ -53,6 +66,15 @@ const simulatorSelect = document.querySelector("#rows-simulator");
 const rowsBody = document.querySelector("#spaces-rows");
 const rowsError = document.querySelector("#rows-error");
 const deleteRowsButton = document.querySelector("#rows-delete");
+const wordingSpace = document.querySelector("#wording-space");
+const wordingSimulator = document.querySelector("#wording-simulator");
+const wordingLocale = document.querySelector("#wording-locale");
+const wordingOpenButton = document.querySelector("#wording-open");
+const wordingSummary = document.querySelector("#wording-summary");
+const wordingEditor = document.querySelector("#wording-editor");
+const wordingSaveButton = document.querySelector("#wording-save");
+const wordingRevertButton = document.querySelector("#wording-revert");
+const wordingError = document.querySelector("#wording-error");
 
 function showLogin() {
   loginView.hidden = false;
@@ -395,6 +417,20 @@ async function loadSpaces() {
     }
     boardSelect.value = [...boardSelect.options].some((option) => option.value === previous) ? previous : "public";
 
+    // The wording picker offers spaces only. There is deliberately no "public"
+    // entry: reworded scenarios are something a company buys, and the nine
+    // public pages always play the wording they ship with.
+    const previousSpace = wordingSpace.value;
+    wordingSpace.replaceChildren();
+    for (const space of payload.spaces) {
+      const option = element("option", null, `${space.displayName} (/w/${space.slug}/)`);
+      option.value = String(space.id);
+      wordingSpace.append(option);
+    }
+    if ([...wordingSpace.options].some((option) => option.value === previousSpace)) {
+      wordingSpace.value = previousSpace;
+    }
+
     if (!payload.spaces.length) {
       state(list, "No spaces yet. The form above opens the first one.");
       return;
@@ -544,6 +580,255 @@ simulatorSelect.addEventListener("change", loadRows);
 document.querySelector("#rows-refresh").addEventListener("click", loadRows);
 
 /* -------------------------------------------------------------------------
+ * Scenario wording
+ * ---------------------------------------------------------------------- */
+
+/**
+ * The set currently open in the editor, or null.
+ *
+ * Held rather than re-read from the form on save, so switching the filters while
+ * a set is open cannot save one company's wording into another's. The Save
+ * button writes to whatever was opened, which is what the fields on screen
+ * belong to.
+ */
+let wordingSet = null;
+
+/** The standard wording, cached per set: it is a static file that changes on deploy. */
+const standardCache = new Map();
+
+/**
+ * The shipped wording and field list for one simulator in one language.
+ *
+ * A plain fetch rather than api(): this is a static asset, not an endpoint, so a
+ * 401 here would mean something is wrong with the CDN rather than with the
+ * operator's session.
+ */
+async function loadStandard(simulator, locale) {
+  const key = `${locale}/${simulator}`;
+  if (standardCache.has(key)) return standardCache.get(key);
+
+  const response = await fetch(`${STANDARD_TEXT}/${key}.json`, { headers: { Accept: "application/json" } });
+  if (!response.ok) {
+    throw new Error("The standard wording for that simulator is not available. Deploy the site and try again.");
+  }
+
+  const payload = await response.json();
+  standardCache.set(key, payload);
+  return payload;
+}
+
+/** "3 of 9 sets reworded" plus which ones, so the state of a space is one glance. */
+async function loadWordingSummary() {
+  try {
+    const payload = await api(WORDING_ENDPOINT);
+    const spaceId = wordingSpace.value;
+    const mine = payload.sets.filter((set) => String(set.workspaceId) === spaceId);
+
+    if (!spaceId) {
+      state(wordingSummary, "Open a space to see which sets it has reworded.");
+      return;
+    }
+
+    if (!mine.length) {
+      state(wordingSummary, "Every simulator in this space plays the standard wording.");
+      return;
+    }
+
+    const list = element("ul", "wording-summary__list");
+    for (const set of mine) {
+      const item = element("li");
+      item.append(element("strong", null, `${SIMULATOR_NAMES[set.simulator] || set.simulator} · ${set.locale.toUpperCase()}`));
+      item.append(element("span", null, ` ${set.fields} field${set.fields === 1 ? "" : "s"}, last saved ${formatDate(set.updatedAt, stampFormat)}`));
+      list.append(item);
+    }
+    wordingSummary.replaceChildren(list);
+  } catch (error) {
+    state(wordingSummary, error.message);
+  }
+}
+
+/**
+ * One field: what the simulator says today, and a box for what it should say.
+ *
+ * The shipped sentence is shown in full above the box rather than as
+ * placeholder text, because an operator rewriting a paragraph needs to read it
+ * while they type, and a placeholder disappears at the first keystroke. An empty
+ * box means "leave this one alone", which is also how a rewrite is taken back.
+ */
+function createWordingField(scenarioId, spec, standard, override) {
+  const wrap = element("div", "wording-field");
+  const id = `wording-${scenarioId}-${spec.path.replace(/\./g, "-")}`;
+
+  const label = element("label", "wording-field__label", spec.label);
+  label.htmlFor = id;
+  wrap.append(label);
+
+  wrap.append(element("p", "wording-field__standard", standard));
+
+  const input = spec.long ? element("textarea", "wording-field__input") : element("input", "wording-field__input");
+  if (!spec.long) input.type = "text";
+  else input.rows = Math.min(6, Math.max(2, Math.ceil(standard.length / 90)));
+  input.id = id;
+  input.maxLength = spec.max;
+  input.value = override || "";
+  input.dataset.scenario = String(scenarioId);
+  input.dataset.path = spec.path;
+  input.placeholder = "Leave empty to keep the standard wording";
+  if (spec.html) {
+    input.setAttribute("aria-describedby", `${id}-html`);
+    wrap.append(input);
+    const note = element("p", "wording-field__note", "Rendered as HTML — <strong>, <em>, <u> and <br> are kept, everything else is removed.");
+    note.id = `${id}-html`;
+    wrap.append(note);
+    return wrap;
+  }
+
+  wrap.append(input);
+  return wrap;
+}
+
+/** Draws the whole set: one block per scenario, one box per editable sentence. */
+function renderWordingEditor(standard, overrides) {
+  const editor = document.createDocumentFragment();
+
+  standard.scenarios.forEach((scenario, index) => {
+    const saved = overrides[String(scenario.id)] || {};
+    const block = element("section", "wording-scenario");
+
+    const head = element("div", "wording-scenario__head");
+    head.append(element("h3", null, `Scenario ${index + 1} of ${standard.count}`));
+
+    const changed = standard.fields.filter((spec) => saved[spec.path]).length;
+    if (changed) head.append(element("span", "wording-scenario__badge", `${changed} reworded`));
+    block.append(head);
+
+    for (const spec of standard.fields) {
+      // A field the page does not have in this language gets no box, rather than
+      // a box whose contents would never be read by anything.
+      const shipped = scenario.fields[spec.path];
+      if (!shipped) continue;
+      block.append(createWordingField(scenario.id, spec, shipped, saved[spec.path]));
+    }
+
+    editor.append(block);
+  });
+
+  wordingEditor.replaceChildren(editor);
+}
+
+/** Loads whichever set the filters name and puts it on screen. */
+async function openWordingSet() {
+  const workspaceId = Number(wordingSpace.value);
+  const simulator = wordingSimulator.value;
+  const locale = wordingLocale.value;
+
+  wordingError.textContent = "";
+  wordingSet = null;
+  wordingSaveButton.disabled = true;
+  wordingRevertButton.disabled = true;
+
+  if (!workspaceId) {
+    state(wordingEditor, "Create a space first: wording belongs to one company, never to the public simulators.");
+    return;
+  }
+
+  state(wordingEditor, "Loading the wording…");
+
+  try {
+    const [standard, saved] = await Promise.all([
+      loadStandard(simulator, locale),
+      api(`${WORDING_ENDPOINT}?workspaceId=${workspaceId}&simulator=${encodeURIComponent(simulator)}&locale=${encodeURIComponent(locale)}`),
+    ]);
+
+    wordingSet = { workspaceId, simulator, locale };
+    renderWordingEditor(standard, saved.overrides || {});
+    wordingSaveButton.disabled = false;
+    wordingRevertButton.disabled = saved.fields === 0;
+    wordingError.textContent = saved.fields
+      ? `${saved.fields} field${saved.fields === 1 ? "" : "s"} reworded, last saved ${formatDate(saved.updatedAt, stampFormat)}.`
+      : "This set plays the standard wording.";
+  } catch (error) {
+    state(wordingEditor, error.message);
+  }
+}
+
+/** Every box that has something in it, as the document the endpoint stores. */
+function collectWording() {
+  const overrides = {};
+  for (const input of wordingEditor.querySelectorAll(".wording-field__input")) {
+    const value = input.value.trim();
+    if (!value) continue;
+    const scenario = input.dataset.scenario;
+    if (!overrides[scenario]) overrides[scenario] = {};
+    overrides[scenario][input.dataset.path] = value;
+  }
+  return overrides;
+}
+
+wordingSaveButton.addEventListener("click", async () => {
+  if (!wordingSet) return;
+
+  const overrides = collectWording();
+  wordingError.textContent = "";
+  wordingSaveButton.disabled = true;
+  wordingSaveButton.textContent = "Saving…";
+
+  try {
+    const payload = await api(WORDING_ENDPOINT, {
+      method: "PUT",
+      body: JSON.stringify({ ...wordingSet, overrides }),
+    });
+
+    // The saved count is reported rather than assumed. The endpoint drops
+    // anything that is not a wording field, so a number that is not the one the
+    // operator expected is the only visible sign that something was dropped.
+    wordingError.textContent = payload.reverted
+      ? "Every box was empty, so this set is back to the standard wording."
+      : `Saved. ${payload.saved.fields} field${payload.saved.fields === 1 ? "" : "s"} reworded.`;
+    wordingRevertButton.disabled = Boolean(payload.reverted);
+    await loadWordingSummary();
+  } catch (error) {
+    wordingError.textContent = error.message;
+  } finally {
+    wordingSaveButton.disabled = false;
+    wordingSaveButton.textContent = "Save wording";
+  }
+});
+
+wordingRevertButton.addEventListener("click", async () => {
+  if (!wordingSet) return;
+  const name = SIMULATOR_NAMES[wordingSet.simulator] || wordingSet.simulator;
+  if (!window.confirm(`Put ${name} (${wordingSet.locale.toUpperCase()}) back to the standard wording for this space? The rewrite is deleted.`)) return;
+
+  wordingError.textContent = "";
+  wordingRevertButton.disabled = true;
+
+  try {
+    await api(WORDING_ENDPOINT, { method: "DELETE", body: JSON.stringify(wordingSet) });
+    wordingError.textContent = "Back to the standard wording.";
+    await Promise.all([openWordingSet(), loadWordingSummary()]);
+  } catch (error) {
+    wordingError.textContent = error.message;
+    wordingRevertButton.disabled = false;
+  }
+});
+
+wordingOpenButton.addEventListener("click", openWordingSet);
+
+// Changing a filter closes the editor rather than reloading it, so nothing typed
+// into one company's set is ever on screen under another company's name.
+for (const control of [wordingSpace, wordingSimulator, wordingLocale]) {
+  control.addEventListener("change", () => {
+    wordingSet = null;
+    wordingSaveButton.disabled = true;
+    wordingRevertButton.disabled = true;
+    wordingError.textContent = "";
+    state(wordingEditor, "Press “Open this set” to load this wording.");
+    if (control === wordingSpace) loadWordingSummary();
+  });
+}
+
+/* -------------------------------------------------------------------------
  * Session
  * ---------------------------------------------------------------------- */
 
@@ -563,6 +848,8 @@ async function enterConsole(user) {
   document.querySelector("#spaces-user-email").textContent = user.email || "Authenticated administrator";
   await loadSpaces();
   await loadRows();
+  await loadWordingSummary();
+  state(wordingEditor, "Pick a space, a simulator and a language, then press “Open this set”.");
 }
 
 loginForm.addEventListener("submit", async (event) => {

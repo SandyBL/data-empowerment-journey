@@ -227,6 +227,20 @@
     Cache-Control = "public, max-age=3600, must-revalidate"
     Content-Type = "application/json; charset=utf-8"
 
+# The standard simulator wording, read by the admin console so an operator can
+# see the sentence they are rewriting. Same treatment as the search index above:
+# regenerated on every deploy, so it must revalidate rather than sit in a cache
+# for a day. Noindex because it is a data file, not a page -- and it is public
+# only in the sense that /assets/ is: it holds the questions the nine simulators
+# ask and, deliberately, none of the answers, so a participant who finds it
+# learns nothing the simulator was not about to tell them anyway.
+[[headers]]
+  for = "/assets/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+    X-Robots-Tag = "noindex"
+    Content-Type = "application/json; charset=utf-8"
+
 [[headers]]
   for = "/assets/playbooks/*"
   [headers.values]

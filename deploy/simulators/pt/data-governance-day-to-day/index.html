@@ -428,6 +428,7 @@
      board and a banner names it. A public visitor loads this file, learns
      there is no seat, and nothing about the page changes. -->
 <script src="/assets/js/workspace-context.js"></script>
+<script src="/assets/js/scenario-text.js"></script>
 <script src="/assets/js/simulator-leaderboard.js"></script>
 <script>
     // System Initialization & Audio
@@ -820,6 +821,16 @@
     }
 
     function startGame() {
+        // A private space's own wording lands before the first scenario is drawn.
+        // By the time somebody has typed a name and pressed start, the lookup that
+        // carries it has long since resolved, so this waits for nothing in practice
+        // -- and if it somehow has not, the exercise starts in the standard wording
+        // rather than not starting. See assets/js/scenario-text.js.
+        if (!window.SimulatorScenarioText.isReady(SCENARIOS)) {
+          window.SimulatorScenarioText.hydrate(SCENARIOS, function () { startGame(); });
+          return;
+        }
+
         playSound('start');
         document.getElementById('welcome-screen').classList.add('hidden');
         document.getElementById('scenario-screen').classList.remove('hidden');

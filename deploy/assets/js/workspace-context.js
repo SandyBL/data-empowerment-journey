@@ -67,7 +67,23 @@
     },
   };
 
-  var state = { joined: false, role: null, space: null, label: null, expiresAt: null };
+  var state = {
+    joined: false,
+    role: null,
+    space: null,
+    label: null,
+    expiresAt: null,
+    /**
+     * The company's own wording for this page, or null for the shipped text.
+     *
+     * Null rather than an empty object, so assets/js/scenario-text.js can tell
+     * "this space plays the standard scenarios" -- which is every space until
+     * somebody reworded one in the admin console -- from "this space has a
+     * rewrite that happens to be empty", and skip its work entirely in the first
+     * case.
+     */
+    scenarioText: null,
+  };
   var applied = false;
 
   function locale() {
@@ -79,6 +95,22 @@
 
   function copy() {
     return COPY[locale()] || COPY.en;
+  }
+
+  /**
+   * Which simulator this page is, from its own address.
+   *
+   * The nine pages live at /simulators/<language>/<slug>/, so the page does not
+   * have to declare what it is. Read from the path rather than passed in from
+   * each page for the same reason the strip's wording is held here: a per-page
+   * copy is a per-page chance for one of the nine to be wrong.
+   *
+   * Empty on any other page -- the space hub, the gate -- which is what stops
+   * those from asking for scenario wording they have no scenarios to apply.
+   */
+  function simulatorSlug() {
+    var match = /\/simulators\/(?:en|es|pt)\/([a-z0-9-]+)\//.exec(window.location.pathname);
+    return match ? match[1] : "";
   }
 
   /** A slug as the server would normalise it, so a bad ?space= never reaches the API. */
@@ -286,7 +318,20 @@
   function bootstrap() {
     var params = new URLSearchParams(window.location.search);
     var requested = normalizeSlug(params.get("space"));
-    var url = SESSION_ENDPOINT + (requested ? "?slug=" + encodeURIComponent(requested) : "");
+
+    // Which page is asking, so a seated browser gets its company's wording back
+    // on this same request. Rides along here rather than in a second fetch
+    // because the first scenario renders as soon as the page boots, and a
+    // separate round trip would be a visible wait before it.
+    var query = [];
+    if (requested) query.push("slug=" + encodeURIComponent(requested));
+    var simulator = simulatorSlug();
+    if (simulator) {
+      query.push("simulator=" + encodeURIComponent(simulator));
+      query.push("locale=" + encodeURIComponent(locale()));
+    }
+
+    var url = SESSION_ENDPOINT + (query.length ? "?" + query.join("&") : "");
 
     return fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" })
       .then(function (response) {
@@ -300,6 +345,7 @@
             space: data.space,
             label: data.label || null,
             expiresAt: data.expiresAt || null,
+            scenarioText: data.scenarioText && typeof data.scenarioText === "object" ? data.scenarioText : null,
           };
           apply();
           return state;
@@ -340,6 +386,10 @@
     },
     space: function () {
       return state.space;
+    },
+    /** This space's rewritten wording for this page, or null for the shipped text. */
+    scenarioText: function () {
+      return state.scenarioText;
     },
   };
 })();

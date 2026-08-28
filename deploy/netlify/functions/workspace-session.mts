@@ -10,6 +10,7 @@ import {
   resolveSession,
   spaceClosedReason,
 } from "../lib/workspace-access.js";
+import { isLocale, isSimulator, loadScenarioText } from "../lib/scenario-text.js";
 
 // "Which space is this browser in, and what may it see?"
 //
@@ -26,6 +27,15 @@ import {
 // DELETE is "leave this space". It revokes the seat rather than only dropping
 // the cookie, so a shared laptop in a training room cannot be walked back into
 // the space with the browser's back button.
+//
+// A simulator page also passes `simulator` and `locale`, and a seated browser
+// gets back the wording its company had rewritten for exactly that page. That
+// rides along here rather than in an endpoint of its own for two reasons: the
+// page is already making this request on load, so custom wording costs a seated
+// participant no extra round trip and no extra wait before the first scenario
+// renders; and a public visitor -- who is the overwhelming majority of traffic
+// and never has a seat -- pays nothing at all, because the extra query only runs
+// after a live seat has been resolved.
 
 const spaceFacade = async (slug: string) => {
   const space = await findSpaceBySlug(slug);
@@ -34,7 +44,12 @@ const spaceFacade = async (slug: string) => {
 };
 
 export default async (request: Request) => {
-  const slug = normalizeSlug(new URL(request.url).searchParams.get("slug"));
+  const params = new URL(request.url).searchParams;
+  const slug = normalizeSlug(params.get("slug"));
+  // Which page is asking. Validated against the three slugs and three languages
+  // rather than trusted, because it selects a row.
+  const simulator = params.get("simulator") ?? "";
+  const locale = params.get("locale") ?? "";
 
   try {
     const session = await resolveSession(request);
@@ -70,6 +85,15 @@ export default async (request: Request) => {
         );
       }
 
+      // Only when the page said which simulator it is, and only for a live
+      // seat. Left out of the response entirely when this space plays the
+      // shipped wording, which is the normal case: absent means "the standard
+      // text", and the page can tell that apart from an empty rewrite.
+      const text =
+        isSimulator(simulator) && isLocale(locale)
+          ? await loadScenarioText(session.space.id, simulator, locale)
+          : null;
+
       return Response.json(
         {
           joined: true,
@@ -77,6 +101,7 @@ export default async (request: Request) => {
           label: session.seat.participantLabel,
           expiresAt: session.seat.expiresAt,
           space: publicSpace(session.space),
+          ...(text ? { scenarioText: text.overrides } : {}),
         },
         { headers: { "Cache-Control": "no-store" } },
       );
