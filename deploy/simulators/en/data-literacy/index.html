@@ -155,7 +155,7 @@
                 <button id="tabCatalogBtn" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
                     <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
                     <span>Glossary</span>
-                </button>
+                        </button>
             </div>
 
             <!-- Mobile Menu Toggle -->
@@ -690,8 +690,14 @@
                         </div>
                     </div>
 
+                    <!-- simulator-bridge.js renders the personalised Scorecard invitation
+                         here and then hides the generic CTA below. If that script fails to
+                         load, the slot stays empty and the original CTA is what the visitor
+                         sees, so the results screen is never left without a next step. -->
+                    <div id="simBridgeSlot"></div>
+
                     <!-- CALL TO ACTION SECTION -->
-                    <div class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
+                    <div data-sim-bridge-replaces class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
                         <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl"></div>
                         <h3 class="text-lg md:text-xl font-bold text-white mb-2">
                             Struggling with Data Literacy in your company? Let's build your framework.
@@ -704,11 +710,16 @@
                                 <span>Get Your Customized Framework</span>
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
-                            <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
-                                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                                <span>Restart Simulation</span>
-                            </button>
                         </div>
+                    </div>
+
+                    <!-- Outside the CTA above on purpose: that block gets hidden once the
+                         bridge renders, and restarting the simulation has to stay available. -->
+                    <div class="flex items-center justify-center my-8">
+                        <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                            <span>Restart Simulation</span>
+                        </button>
                     </div>
 
                 </div>
@@ -936,6 +947,7 @@
     <script src="/assets/js/workspace-context.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
+    <script src="/assets/js/simulator-bridge.js"></script>
     <script>
         let currentScenarioIndex = 0;
         let soundEnabled = true;
@@ -1898,6 +1910,24 @@
             renderRadarChart(categories);
             renderLeaderboard();
             lucide.createIcons();
+
+            // categories is already {key: {correct, total}}, which the bridge
+            // normalises directly. The band is passed rather than derived so this
+            // block cannot disagree with the profile title rendered above.
+            if (window.SimulatorBridge) {
+                window.SimulatorBridge.render({
+                    simulator: 'data-literacy',
+                    locale: 'en',
+                    band: totalOptimal >= 13 ? 'champion'
+                        : (totalOptimal >= 10 ? 'strategist'
+                        : (totalOptimal >= 6 ? 'tactical' : 'hoarder')),
+                    bandLabel: rankTitle,
+                    simulatorLabel: 'Data Literacy',
+                    score: totalOptimal,
+                    total: scenarios.length,
+                    dimensions: categories
+                });
+            }
         }
 
         // The profile is a pure function of the score, which is why the board

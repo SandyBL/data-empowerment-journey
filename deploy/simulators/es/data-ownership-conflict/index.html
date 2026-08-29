@@ -998,7 +998,13 @@
         </div>
 
         <!-- Llamado a la Acción (CTA) -->
-        <div class="cta-box">
+        <!-- simulator-bridge.js renderiza aquí la invitación personalizada al
+             Scorecard y luego oculta el CTA genérico de abajo. Si ese script no
+             carga, el hueco queda vacío y el visitante ve el CTA original, así que
+             la pantalla de resultados nunca se queda sin un paso siguiente. -->
+        <div id="simBridgeSlot"></div>
+
+        <div class="cta-box" data-sim-bridge-replaces>
           <h3 class="cta-heading">¿Cansado de la confusión sobre la propiedad de los datos en tu empresa?</h3>
           <p class="cta-subtext">
             Mide la madurez analítica de tu organización y descubre exactamente qué pasos seguir para estructurar tu modelo de gobernanza.
@@ -1007,8 +1013,13 @@
             <a href="https://datagovjourney.com/#contacto" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
               Obtener Diagnóstico de Madurez de Datos
             </a>
-            <button class="btn-secondary" onclick="resetGame()">Intentar de Nuevo</button>
           </div>
+        </div>
+
+        <!-- Fuera del CTA de arriba a propósito: ese bloque se oculta cuando el
+             puente se renderiza, y volver a jugar tiene que seguir disponible. -->
+        <div class="cta-buttons">
+          <button class="btn-secondary" onclick="resetGame()">Intentar de Nuevo</button>
         </div>
       </div>
     </section>
@@ -1124,6 +1135,7 @@
   <script src="/assets/js/workspace-context.js"></script>
   <script src="/assets/js/scenario-text.js"></script>
   <script src="/assets/js/simulator-leaderboard.js"></script>
+  <script src="/assets/js/simulator-bridge.js"></script>
   <script>
     // --- BASE DE DATOS DE ESCENARIOS (DAMA FRAMEWORK) ---
     const scenarios = [
@@ -1465,6 +1477,24 @@
 
       renderLeaderboard();
       renderReview();
+
+      // Se pasa la banda ya calculada arriba en lugar de recalcularla, para que
+      // el puente nunca contradiga la etiqueta de nivel que acaba de aparecer en
+      // pantalla; el arreglo de respuestas es lo que se mapea a los pilares.
+      if (window.SimulatorBridge) {
+        const correctCount = gameState.userAnswers.filter(a => a.isCorrect).length;
+        window.SimulatorBridge.render({
+          simulator: 'data-ownership-conflict',
+          locale: 'es',
+          band: score <= 400 ? 'rookie' : (score <= 700 ? 'practitioner' : 'master'),
+          bandLabel: tierTitle,
+          simulatorLabel: 'Conflicto de Propiedad de Datos',
+          score: score,
+          correct: correctCount,
+          total: gameState.userAnswers.length,
+          answers: gameState.userAnswers
+        });
+      }
     }
 
     // --- TABLA DE CLASIFICACIÓN GLOBAL (/api/simulator-scores) ---

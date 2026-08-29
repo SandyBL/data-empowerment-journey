@@ -1649,6 +1649,13 @@
         </div>
     </section>
 
+    <!-- Loaded for contactPrefill only: this page renders no simulator results,
+         but it is the other end of the ?ctx= handshake and reuses the module's
+         simulator and pillar names rather than keeping a second copy of them.
+         Ahead of the inline block below, and without defer, because that block
+         calls into it synchronously on load. -->
+    <script src="/assets/js/simulator-bridge.js"></script>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
         const inputPlaceholders = {
@@ -1973,11 +1980,37 @@
             });
         }
 
+        // A visitor arriving from a finished simulator lands here with
+        // ?ctx=<simulator>.<band>.<pillar> on the URL, put there by the secondary
+        // link in the results block that simulator-bridge.js renders. Both halves
+        // of that handshake are parsed by the same module, so the simulator names
+        // and pillar names in the message can only be spelled one way.
+        //
+        // This runs on load rather than on a click, because unlike the private-space
+        // offer above there is no button on this page to hang it off -- the visitor
+        // arrived already committed, and the form should be waiting filled in.
+        function initializeSimulatorContext() {
+            const params = new URLSearchParams(window.location.search);
+            const context = params.get('ctx');
+            if (!context || !window.SimulatorBridge) return;
+
+            const prefill = window.SimulatorBridge.contactPrefill(context, pageLanguage);
+            if (!prefill) return;
+
+            const message = document.getElementById('form-message');
+            const subject = document.querySelector('#contact-form input[name="subject"]');
+            // Same rule as initializeOfferPrefill: never overwrite typing. Reloading
+            // a page mid-sentence must not cost the visitor their message.
+            if (message && !message.value.trim()) message.value = prefill.message;
+            if (subject) subject.value = prefill.subject;
+        }
+
         applyPageLanguage(pageLanguage);
         initializeNavigationMenus();
         initializeDesktopScrollSpy();
         initializeContactValidation();
         initializeOfferPrefill();
+        initializeSimulatorContext();
     </script>
     <script type="module" src="/assets/js/language-switch.js"></script>
     <script src="/assets/js/bad-data-calculator.js" defer></script>

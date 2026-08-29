@@ -155,7 +155,7 @@
                 <button id="tabCatalogBtn" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
                     <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
                     <span>Glosario</span>
-                </button>
+                        </button>
             </div>
 
             <!-- Mobile Menu Toggle -->
@@ -691,8 +691,14 @@
                         </div>
                     </div>
 
+                    <!-- simulator-bridge.js renderiza aquí la invitación personalizada al
+                         Scorecard y luego oculta el CTA genérico de abajo. Si ese script no
+                         carga, el hueco queda vacío y el visitante ve el CTA original, así
+                         que la pantalla de resultados nunca se queda sin un paso siguiente. -->
+                    <div id="simBridgeSlot"></div>
+
                     <!-- CALL TO ACTION SECTION -->
-                    <div class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
+                    <div data-sim-bridge-replaces class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
                         <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl"></div>
                         <h3 class="text-lg md:text-xl font-bold text-white mb-2">
                             ¿Luchando con la Alfabetización de Datos en su empresa? Construyamos su marco de trabajo.
@@ -705,11 +711,17 @@
                                 <span>Obtenga su Marco Personalizado</span>
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
-                            <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
-                                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                                <span>Reiniciar Simulación</span>
-                            </button>
                         </div>
+                    </div>
+
+                    <!-- Fuera del CTA de arriba a propósito: ese bloque se oculta cuando
+                         el puente se renderiza, y reiniciar la simulación tiene que seguir
+                         disponible. -->
+                    <div class="flex items-center justify-center my-8">
+                        <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                            <span>Reiniciar Simulación</span>
+                        </button>
                     </div>
 
                 </div>
@@ -937,6 +949,7 @@
     <script src="/assets/js/workspace-context.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
+    <script src="/assets/js/simulator-bridge.js"></script>
     <script>
         let currentScenarioIndex = 0;
         let soundEnabled = true;
@@ -1898,6 +1911,24 @@
             renderRadarChart(categories);
             renderLeaderboard();
             lucide.createIcons();
+
+            // categories ya es {clave: {correct, total}}, que el puente normaliza
+            // directamente. La banda se pasa en lugar de recalcularse para que este
+            // bloque no pueda contradecir el título de perfil de arriba.
+            if (window.SimulatorBridge) {
+                window.SimulatorBridge.render({
+                    simulator: 'data-literacy',
+                    locale: 'es',
+                    band: totalOptimal >= 13 ? 'champion'
+                        : (totalOptimal >= 10 ? 'strategist'
+                        : (totalOptimal >= 6 ? 'tactical' : 'hoarder')),
+                    bandLabel: rankTitle,
+                    simulatorLabel: 'Alfabetización de Datos',
+                    score: totalOptimal,
+                    total: scenarios.length,
+                    dimensions: categories
+                });
+            }
         }
 
         // El perfil es una función pura del puntaje, y por eso la tabla global

@@ -349,8 +349,14 @@
                     </div>
                 </div>
 
+                <!-- simulator-bridge.js renderiza aqui o convite personalizado ao
+                     Scorecard e depois esconde o banner genérico abaixo. Se esse
+                     script não carregar, o espaço fica vazio e o visitante vê o
+                     banner original. -->
+                <div id="simBridgeSlot"></div>
+
                 <!-- CTA Banner -->
-                <a href="https://datagovjourney.com/pt/#contacto" target="_blank" rel="noopener noreferrer" class="block w-full bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white rounded-xl p-6 text-center transition transform hover:-translate-y-1 shadow-lg mb-6 group">
+                <a data-sim-bridge-replaces href="https://datagovjourney.com/pt/#contacto" target="_blank" rel="noopener noreferrer" class="block w-full bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white rounded-xl p-6 text-center transition transform hover:-translate-y-1 shadow-lg mb-6 group">
                     <h4 class="text-lg font-bold mb-1 flex justify-center items-center gap-2">
                         Com dificuldades com as melhores práticas de Governança de Dados no dia a dia?
                     </h4>
@@ -430,6 +436,7 @@
 <script src="/assets/js/workspace-context.js"></script>
 <script src="/assets/js/scenario-text.js"></script>
 <script src="/assets/js/simulator-leaderboard.js"></script>
+<script src="/assets/js/simulator-bridge.js"></script>
 <script>
     // System Initialization & Audio
     let synth = null;
@@ -996,6 +1003,31 @@
         document.getElementById('final-circle').style.stroke = color;
 
         renderLeaderboard();
+
+        // Esta página usa 85/65 onde as versões en e es usam 75/50, e a faixa é
+        // passada em vez de recalculada exatamente por isso: a ponte precisa
+        // concordar com o perfil que acabou de aparecer nesta tela, não com o de
+        // outro idioma.
+        if (window.SimulatorBridge) {
+            window.SimulatorBridge.render({
+                simulator: 'data-governance-day-to-day',
+                locale: 'pt',
+                band: finalS >= 85 ? 'leader' : (finalS >= 65 ? 'reactive' : 'firefighter'),
+                bandLabel: title,
+                simulatorLabel: 'Governança de Dados no Dia a Dia',
+                score: Number(finalS),
+                // Apenas os cinco eixos de 0-100. state.metrics também carrega o
+                // orçamento restante, que é dinheiro e não uma dimensão de
+                // maturidade, e não tem pilar do Scorecard para onde mapear.
+                dimensions: {
+                    efficiency: state.metrics.efficiency,
+                    trust: state.metrics.trust,
+                    accountability: state.metrics.accountability,
+                    security: state.metrics.security,
+                    context: state.metrics.context
+                }
+            });
+        }
     }
 
     function triggerConfetti() {
