@@ -155,7 +155,7 @@
                 <button id="tabCatalogBtn" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
                     <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
                     <span>Glossário</span>
-                </button>
+                        </button>
             </div>
 
             <!-- Botão de Menu Móvel -->
@@ -690,8 +690,14 @@
                         </div>
                     </div>
 
+                    <!-- simulator-bridge.js renderiza aqui o convite personalizado ao
+                         Scorecard e depois esconde o CTA genérico abaixo. Se esse script não
+                         carregar, o espaço fica vazio e o visitante vê o CTA original, então
+                         a tela de resultados nunca fica sem um próximo passo. -->
+                    <div id="simBridgeSlot"></div>
+
                     <!-- SEÇÃO DE CHAMADA PARA AÇÃO (CTA) -->
-                    <div class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
+                    <div data-sim-bridge-replaces class="p-6 bg-gradient-to-br from-navy-900 to-slate-900 rounded-2xl border border-cyan-500/50 my-8 shadow-2xl relative overflow-hidden">
                         <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl"></div>
                         <h3 class="text-lg md:text-xl font-bold text-white mb-2">
                             Com dificuldades com Alfabetização de Dados na sua empresa? Vamos construir seu framework.
@@ -704,11 +710,17 @@
                                 <span>Obtenha seu Framework Personalizado</span>
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
-                            <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
-                                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                                <span>Reiniciar Simulação</span>
-                            </button>
                         </div>
+                    </div>
+
+                    <!-- Fora do CTA acima de propósito: aquele bloco é escondido quando a
+                         ponte renderiza, e reiniciar a simulação precisa continuar
+                         disponível. -->
+                    <div class="flex items-center justify-center my-8">
+                        <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                            <span>Reiniciar Simulação</span>
+                        </button>
                     </div>
 
                 </div>
@@ -936,6 +948,7 @@
     <script src="/assets/js/workspace-context.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
+    <script src="/assets/js/simulator-bridge.js"></script>
     <script>
         let currentScenarioIndex = 0;
         let soundEnabled = true;
@@ -1898,6 +1911,24 @@
             renderRadarChart(categories);
             renderLeaderboard();
             lucide.createIcons();
+
+            // categories já é {chave: {correct, total}}, que a ponte normaliza
+            // diretamente. A faixa é passada em vez de recalculada para que este
+            // bloco não possa contradizer o título de perfil acima.
+            if (window.SimulatorBridge) {
+                window.SimulatorBridge.render({
+                    simulator: 'data-literacy',
+                    locale: 'pt',
+                    band: totalOptimal >= 13 ? 'champion'
+                        : (totalOptimal >= 10 ? 'strategist'
+                        : (totalOptimal >= 6 ? 'tactical' : 'hoarder')),
+                    bandLabel: rankTitle,
+                    simulatorLabel: 'Letramento em Dados',
+                    score: totalOptimal,
+                    total: scenarios.length,
+                    dimensions: categories
+                });
+            }
         }
 
         // O perfil é uma função pura da pontuação, e por isso o ranking guarda

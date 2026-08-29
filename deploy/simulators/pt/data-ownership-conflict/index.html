@@ -998,7 +998,13 @@
         </div>
 
         <!-- Chamada para Ação (CTA) -->
-        <div class="cta-box">
+        <!-- simulator-bridge.js renderiza aqui o convite personalizado ao
+             Scorecard e depois esconde o CTA genérico abaixo. Se esse script não
+             carregar, o espaço fica vazio e o visitante vê o CTA original, então a
+             tela de resultados nunca fica sem um próximo passo. -->
+        <div id="simBridgeSlot"></div>
+
+        <div class="cta-box" data-sim-bridge-replaces>
           <h3 class="cta-heading">Cansado da confusão sobre quem é o dono dos dados na sua empresa?</h3>
           <p class="cta-subtext">
             Preencha o formulário para saber a maturidade de dados da sua empresa e obter um diagnóstico completo.
@@ -1007,8 +1013,13 @@
             <a href="https://datagovjourney.com/pt/#contacto" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
               Obter Diagnóstico de Maturidade de Dados
             </a>
-            <button class="btn-secondary" onclick="resetGame()">Tentar Novamente</button>
           </div>
+        </div>
+
+        <!-- Fora do CTA acima de propósito: aquele bloco é escondido quando a
+             ponte renderiza, e jogar de novo precisa continuar disponível. -->
+        <div class="cta-buttons">
+          <button class="btn-secondary" onclick="resetGame()">Tentar Novamente</button>
         </div>
       </div>
     </section>
@@ -1124,6 +1135,7 @@
   <script src="/assets/js/workspace-context.js"></script>
   <script src="/assets/js/scenario-text.js"></script>
   <script src="/assets/js/simulator-leaderboard.js"></script>
+  <script src="/assets/js/simulator-bridge.js"></script>
   <script>
     // --- BASE DE DADOS DE CENÁRIOS (DAMA FRAMEWORK) ---
     const scenarios = [
@@ -1465,6 +1477,24 @@
 
       renderLeaderboard();
       renderReview();
+
+      // A faixa calculada acima é passada em vez de recalculada, para que a ponte
+      // nunca contradiga o rótulo de nível que acabou de aparecer na tela; o array
+      // de respostas é o que se mapeia para os pilares.
+      if (window.SimulatorBridge) {
+        const correctCount = gameState.userAnswers.filter(a => a.isCorrect).length;
+        window.SimulatorBridge.render({
+          simulator: 'data-ownership-conflict',
+          locale: 'pt',
+          band: score <= 400 ? 'rookie' : (score <= 700 ? 'practitioner' : 'master'),
+          bandLabel: tierTitle,
+          simulatorLabel: 'Conflito de Propriedade de Dados',
+          score: score,
+          correct: correctCount,
+          total: gameState.userAnswers.length,
+          answers: gameState.userAnswers
+        });
+      }
     }
 
     // --- RANKING GLOBAL (/api/simulator-scores) ---

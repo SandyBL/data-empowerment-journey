@@ -580,8 +580,13 @@
           </div>
         </div>
 
+        <!-- simulator-bridge.js renders the personalised Scorecard invitation here
+             and then hides the generic banner below. If that script fails to load,
+             the slot stays empty and the banner is what the visitor sees. -->
+        <div id="simBridgeSlot"></div>
+
         <!-- CALL TO ACTION BANNER -->
-        <div class="p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+        <div data-sim-bridge-replaces class="p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
           <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
           
           <div class="space-y-1 text-center sm:text-left">
@@ -750,6 +755,7 @@
   <script src="/assets/js/workspace-context.js"></script>
   <script src="/assets/js/scenario-text.js"></script>
   <script src="/assets/js/simulator-leaderboard.js"></script>
+  <script src="/assets/js/simulator-bridge.js"></script>
   <script>
     const SCENARIOS = [
       {
@@ -1432,6 +1438,32 @@
       setSafeText('summary-metric-budget', `$${m.budget.toLocaleString()}`);
 
       renderLeaderboard();
+
+      // finalScore is a toFixed string, so it is coerced once here rather than
+      // relying on the loose comparisons above. The band is derived from the same
+      // 75/50 thresholds this page just used for the badge and the profile title,
+      // so the bridge cannot disagree with either.
+      if (window.SimulatorBridge) {
+        const indexValue = Number(finalScore);
+        window.SimulatorBridge.render({
+          simulator: 'data-governance-day-to-day',
+          locale: 'en',
+          band: indexValue >= 75 ? 'leader' : (indexValue >= 50 ? 'reactive' : 'firefighter'),
+          bandLabel: ratingTitle,
+          simulatorLabel: 'Data Governance Day-to-Day',
+          score: indexValue,
+          // The five 0-100 governance axes only. state.metrics also carries the
+          // remaining budget, which is money rather than a maturity dimension and
+          // has no Scorecard pillar to map onto.
+          dimensions: {
+            efficiency: m.efficiency,
+            trust: m.trust,
+            accountability: m.accountability,
+            security: m.security,
+            context: m.context
+          }
+        });
+      }
     }
 
     async function savePlayerScore() {

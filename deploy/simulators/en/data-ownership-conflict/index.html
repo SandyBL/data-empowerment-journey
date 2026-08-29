@@ -239,7 +239,13 @@
                     </div>
 
                     <p class="text-xs text-slate-400">
-                        Takes ~3 minutes • Benchmark your data maturity score against industry peers
+                        <!-- Was "Benchmark your data maturity score against industry peers".
+                             Nothing here or on the Scorecard compares a visitor against
+                             industry data, and the results block now sends people to the
+                             Scorecard on the strength of claims like this one, so it had to
+                             say something true. The global leaderboard is the real
+                             comparison this page offers. -->
+                        Takes ~3 minutes • Compare your score on the global leaderboard
                     </p>
                 </div>
             </div>
@@ -495,8 +501,14 @@
                 </div>
             </div>
 
+            <!-- simulator-bridge.js renders the personalised Scorecard invitation
+                 here and then hides the generic CTA below. If that script fails to
+                 load, the slot stays empty and the original CTA is what the visitor
+                 sees, so the results screen is never left without a next step. -->
+            <div id="simBridgeSlot"></div>
+
             <!-- Call to Action Box (Data Empowerment Journey) -->
-            <div class="gradient-header text-white rounded-2xl p-8 shadow-xl border border-teal-800 space-y-6 relative overflow-hidden text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+            <div data-sim-bridge-replaces class="gradient-header text-white rounded-2xl p-8 shadow-xl border border-teal-800 space-y-6 relative overflow-hidden text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-3 max-w-xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-900/90 text-teal-200 text-xs font-bold uppercase tracking-wider border border-teal-700">
                         <i class="fa-solid fa-chart-line text-brand-orange"></i> Data Maturity Diagnostic
@@ -514,10 +526,15 @@
                         <span>Get Your Company's Diagnostic</span>
                         <i class="fa-solid fa-square-poll-vertical"></i>
                     </a>
-                    <button onclick="resetGame()" class="px-6 py-3 rounded-xl bg-teal-800/80 hover:bg-teal-700 text-teal-100 font-semibold text-center text-sm border border-teal-600/50 transition">
-                        <i class="fa-solid fa-rotate-right mr-1"></i> Try Simulator Again
-                    </button>
                 </div>
+            </div>
+
+            <!-- Outside the CTA above on purpose: that block gets hidden once the
+                 bridge renders, and replaying the simulator has to stay available. -->
+            <div class="text-center">
+                <button onclick="resetGame()" class="px-6 py-3 rounded-xl bg-teal-800/80 hover:bg-teal-700 text-teal-100 font-semibold text-center text-sm border border-teal-600/50 transition">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Try Simulator Again
+                </button>
             </div>
 
         </section>
@@ -648,6 +665,7 @@
     <script src="/assets/js/workspace-context.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
+    <script src="/assets/js/simulator-bridge.js"></script>
     <script>
         // PRE-LOADED 10 DAMA GOVERNANCE SCENARIOS
         const SCENARIOS = [
@@ -1053,6 +1071,24 @@
             renderTakeaways(currentState.score);
             renderFullLeaderboard();
             renderAnswerReview();
+
+            // The band key is passed rather than derived so the bridge can never
+            // contradict the tier badge rendered a few lines above; the answer
+            // array is what it maps onto Scorecard pillars.
+            if (window.SimulatorBridge) {
+                const correctCount = currentState.userAnswers.filter(a => a.isCorrect).length;
+                window.SimulatorBridge.render({
+                    simulator: 'data-ownership-conflict',
+                    locale: 'en',
+                    band: currentState.score <= 400 ? 'rookie' : (currentState.score <= 700 ? 'practitioner' : 'master'),
+                    bandLabel: tierTitle,
+                    simulatorLabel: 'Data Ownership Conflict',
+                    score: currentState.score,
+                    correct: correctCount,
+                    total: currentState.userAnswers.length,
+                    answers: currentState.userAnswers
+                });
+            }
         }
 
         // RENDER TAKEAWAYS & TIPS BASED ON TIER
