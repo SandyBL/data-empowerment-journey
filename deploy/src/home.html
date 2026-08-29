@@ -1453,7 +1453,12 @@
         </div>
     </section>
 
-            <div class="contact-form-heading text-center mb-8">
+            <!-- id + scroll-mt-24: where a simulator results screen sends someone
+                 who has decided to write to us. #contacto is the top of this
+                 section, three choice cards and two other blocks above the form;
+                 this lands them on the form's own heading with the sticky header
+                 clear of it. See CONTACT_ANCHOR in assets/js/simulator-bridge.js. -->
+            <div id="contact-form-start" class="contact-form-heading text-center mb-8 scroll-mt-24">
                 <div class="contact-option-icon" aria-hidden="true"><i class="fa-solid fa-message"></i></div>
                 <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
                     <span data-lang-content="es">Contacto directo</span>
@@ -1997,12 +2002,70 @@
             const prefill = window.SimulatorBridge.contactPrefill(context, pageLanguage);
             if (!prefill) return;
 
+            const name = document.getElementById('form-name');
             const message = document.getElementById('form-message');
             const subject = document.querySelector('#contact-form input[name="subject"]');
             // Same rule as initializeOfferPrefill: never overwrite typing. Reloading
             // a page mid-sentence must not cost the visitor their message.
             if (message && !message.value.trim()) message.value = prefill.message;
             if (subject) subject.value = prefill.subject;
+            // The name they published their score under. Only present when they
+            // actually published, and it is deliberately not treated as final:
+            // "Ana G. (Analytics Lead)" is a leaderboard handle, and the visitor
+            // can edit the field like any other.
+            if (name && prefill.name && !name.value.trim()) name.value = prefill.name;
+
+            scrollToContactForm();
+        }
+
+        // Put the visitor at the contact form rather than trusting the URL hash
+        // to do it.
+        //
+        // The link they followed carries #contact-form-start, and in a still
+        // page the browser would honour it on its own. This page is not still on
+        // arrival: fonts settle, the hero image decodes and the reveal
+        // animations change the height of several sections above the contact
+        // hub. Any of those landing after the browser's one-shot hash jump
+        // leaves the computed offset stale, and a stale offset near the top of a
+        // long page reads as "it sent me to the header" -- which is exactly what
+        // it did. Scrolling explicitly, then again once loading has finished,
+        // makes the landing spot independent of that timing.
+        //
+        // The fallbacks matter too: an older cached copy of this page has no
+        // #contact-form-start in it, and on that copy the form heading is not a
+        // target at all. Aiming at the form and then the section keeps such a
+        // visitor somewhere sensible instead of at the top.
+        function scrollToContactForm() {
+            const target = document.getElementById('contact-form-start')
+                || document.getElementById('contact-form')
+                || document.getElementById('contacto');
+            if (!target) return;
+
+            // Instant, not smooth. The body carries scroll-smooth, and animating
+            // the whole height of this page is slow enough to be mistaken for the
+            // link having been ignored -- and it fights a visitor who starts
+            // scrolling themselves. The class comes off for the length of the
+            // jump rather than passing behavior:'instant', which older browsers
+            // reject as an invalid enum value and throw on.
+            let landed = null;
+            const jump = () => {
+                const smooth = document.body.classList.contains('scroll-smooth');
+                if (smooth) document.body.classList.remove('scroll-smooth');
+                target.scrollIntoView({ block: 'start' });
+                if (smooth) document.body.classList.add('scroll-smooth');
+                landed = window.scrollY;
+            };
+
+            requestAnimationFrame(jump);
+
+            if (document.readyState !== 'complete') {
+                window.addEventListener('load', () => requestAnimationFrame(() => {
+                    // Only correct the position if the visitor has not taken over
+                    // scrolling in the meantime. Re-aiming under someone who has
+                    // started reading is worse than being a few pixels off.
+                    if (landed === null || Math.abs(window.scrollY - landed) < 4) jump();
+                }), { once: true });
+            }
         }
 
         applyPageLanguage(pageLanguage);

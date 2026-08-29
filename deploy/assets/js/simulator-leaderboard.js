@@ -221,6 +221,19 @@
           return { accepted: false, scores: [], error: reason };
         }
 
+        // The name has been published, so the contact form on the homepage can
+        // greet them by it instead of asking for it a second time. Here rather
+        // than on each page because this is the one line all nine publish
+        // buttons run through, and only once the write has actually been
+        // accepted -- a name that failed to save is not a name they published.
+        if (window.SimulatorBridge && typeof window.SimulatorBridge.rememberPlayerName === "function") {
+          try {
+            window.SimulatorBridge.rememberPlayerName(entry.simulator, name);
+          } catch (error) {
+            /* Never let a bookkeeping detail break a successful publish. */
+          }
+        }
+
         var data = result.data || {};
         var scores = Array.isArray(data.scores) ? data.scores : [];
         if (scores.length) return { accepted: true, scores: scores, error: null };
