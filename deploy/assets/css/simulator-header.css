@@ -264,6 +264,16 @@ select:focus-visible {
 }
 
 @media (max-width: 640px) {
+  /*
+   * A phone header is a logo and two or three icon-only controls, and none of
+   * them needs 5rem of room. The header is sticky on every simulator, so each
+   * pixel it holds is a pixel the game below never gets back -- which is why
+   * this is a height reduction rather than only a padding one.
+   */
+  .simulator-site-header-inner {
+    min-height: 3.25rem;
+  }
+
   .simulator-product-copy {
     display: none;
   }
@@ -421,5 +431,49 @@ select:focus-visible {
   .simulator-breadcrumb ol {
     padding-right: 1.5rem;
     padding-left: 1.5rem;
+  }
+}
+
+/*
+ * Deferred site footer.
+ *
+ * Every simulator lays its page out as a full-height flex column, so the
+ * cross-language and cross-simulator footer nav sat pinned to the bottom of the
+ * viewport from the moment the page opened -- it looked fixed, and on a phone it
+ * spent a strip of a small screen on navigation nobody is looking for while they
+ * are mid-game. It now stays out of the way until the visitor asks to move down
+ * the page -- a scroll, a swipe, a wheel turn or a Tab press -- which is the
+ * point at which they are plausibly looking for a way onward.
+ *
+ * The collapsed class is applied by assets/js/simulator-footer-reveal.js rather
+ * than sitting in the markup on purpose: with no JavaScript, and for anything
+ * reading the page without running it, the footer is simply present. Hiding
+ * navigation is only safe when the thing that hides it can also be relied on to
+ * bring it back.
+ */
+.simulator-site-footer,
+.simulator-locale-nav {
+  transition: opacity 220ms ease;
+}
+
+.simulator-site-footer--collapsed,
+.simulator-locale-nav--collapsed {
+  display: none;
+}
+
+.simulator-site-footer--revealing,
+.simulator-locale-nav--revealing {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .simulator-site-footer,
+  .simulator-locale-nav {
+    transition: none;
+  }
+
+  .simulator-site-footer--revealing,
+  .simulator-locale-nav--revealing {
+    opacity: 1;
   }
 }

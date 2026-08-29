@@ -70,9 +70,33 @@
   };
 
   /* Where the quiet secondary link goes. The homepage reads ?ctx= and prefills
-   * the contact textarea from it; see initializeOfferPrefill in src/home.html. */
+   * the contact textarea from it; see initializeOfferPrefill in src/home.html.
+   *
+   * Only used as a fallback for the absolute-URL case. Normal links are built
+   * root-relative so they stay on whatever origin served the simulator: an
+   * absolute link off a preview or staging host lands on production, where the
+   * visitor's localStorage -- and with it the name they just published -- does
+   * not exist. Getting the origin wrong broke both halves of this feature at
+   * once, so the origin is no longer guessed. */
   var SITE_ROOT = "https://datagovjourney.com";
   var CONTACT_PATHS = { es: "/", en: "/en/", pt: "/pt/" };
+
+  /*
+   * The heading directly above the contact form, not the top of the contact
+   * section.
+   *
+   * #contacto is the whole section: it opens with three choice cards, the
+   * consultant block and the newsletter block, and the form is several screens
+   * below all of it. Someone arriving from a results screen has already decided
+   * to write -- landing them at the top of the section and asking them to scroll
+   * past everything they did not click is the wrong place to put them.
+   *
+   * The heading rather than the form itself, because #contact-form starts at the
+   * first input: anchoring there scrolls "Tell us what you need to solve" off
+   * the top of the screen and the visitor lands on a bare field. The heading
+   * block carries scroll-mt-24 so the site's sticky header does not cover it.
+   */
+  var CONTACT_ANCHOR = "#contact-form-start";
 
   var PILLAR_ORDER = ["foundations", "metadata", "security", "quality", "culture"];
 
@@ -850,6 +874,16 @@
    */
   function writeLastRun(ctx, pillarKey) {
     try {
+      /* A name already published for this same simulator survives a re-render.
+       * Several pages call render() again when the leaderboard refreshes, and
+       * without this the second call would quietly wipe the name back out. A
+       * record for a different simulator is not carried over: that name belongs
+       * to a run this one is replacing. */
+      var previous = readLastRun();
+      var carriedName = previous && previous.simulator === ctx.simulator
+        ? previous.playerName || null
+        : null;
+
       window.localStorage.setItem(LAST_RUN_KEY, JSON.stringify({
         simulator: ctx.simulator,
         locale: ctx.locale,
@@ -857,11 +891,45 @@
         bandLabel: ctx.bandLabel || null,
         simulatorLabel: ctx.simulatorLabel || null,
         score: typeof ctx.score === "number" ? ctx.score : null,
-        pillar: pillarKey || null
+        pillar: pillarKey || null,
+        playerName: carriedName
       }));
     } catch (error) {
       /* Private browsing. The contact link still works, it just arrives with the
        * generic labels from SIMULATOR_LABELS instead of this page's own. */
+    }
+  }
+
+  /*
+   * Record the name the visitor published their score under.
+   *
+   * Called from assets/js/simulator-leaderboard.js the instant a publish is
+   * accepted, which is the only point all nine pages share. Doing it there
+   * rather than on each page is what makes this work everywhere at once: the
+   * field is called something different on almost every page, and three of them
+   * ask for the name before the run rather than after.
+   *
+   * It merges into the record render() has already written instead of replacing
+   * it, and only when that record describes the same simulator. So a name
+   * cannot outlive the run it belongs to -- the next render() rewrites the
+   * record with no name in it -- and a name published on one simulator cannot
+   * be attached to a contact link from another.
+   */
+  function rememberPlayerName(simulator, name) {
+    /* Same cap as MAX_NAME_LENGTH in simulator-leaderboard.js, which has
+     * already trimmed and cut this string; belt and braces for a direct call. */
+    var clean = String(name || "").trim().slice(0, 60);
+    if (!clean) return;
+
+    var stored = readLastRun();
+    if (!stored || stored.simulator !== simulator) return;
+
+    stored.playerName = clean;
+
+    try {
+      window.localStorage.setItem(LAST_RUN_KEY, JSON.stringify(stored));
+    } catch (error) {
+      /* Private browsing. The contact form just arrives without a name. */
     }
   }
 
@@ -931,7 +999,14 @@
   function buildContactUrl(locale, ctx, pillarKey) {
     var path = CONTACT_PATHS[locale] || CONTACT_PATHS.es;
     var value = [ctx.simulator, ctx.band || "na", pillarKey || "na"].join(".");
-    return SITE_ROOT + path + "?ctx=" + encodeURIComponent(value) + "#contacto";
+    var query = "?ctx=" + encodeURIComponent(value) + CONTACT_ANCHOR;
+
+    /* file:// has no usable origin, so an absolute URL is the only thing that
+     * works when someone opens a page straight off disk. */
+    if (window.location && window.location.protocol === "file:") {
+      return SITE_ROOT + path + query;
+    }
+    return path + query;
   }
 
   /*
@@ -947,8 +1022,12 @@
     var css = [
       ".sim-bridge{--sb-deepblue:#003366;--sb-teal:#095b73;--sb-cyan:#65b7c7;--sb-orange:#e95d24;--sb-emerald:#50c878;",
       "background:linear-gradient(135deg,var(--sb-deepblue) 0%,var(--sb-teal) 100%);color:#f8fafc;border-radius:16px;",
-      "padding:1.75rem;margin:0 0 1.5rem;text-align:left;box-shadow:0 10px 30px rgba(0,51,102,.25);",
-      "font-family:inherit;line-height:1.6;}",
+      "padding:1.25rem;margin:0 0 1.5rem;text-align:left;box-shadow:0 10px 30px rgba(0,51,102,.25);",
+      "font-family:inherit;line-height:1.6;overflow-wrap:break-word;}",
+      /* 1.75rem of padding either side costs 56px of a 360px phone. Full
+         padding is restored once there is room for it. */
+      "@media(min-width:640px){.sim-bridge{padding:1.75rem;}}",
+      ".sim-bridge *{box-sizing:border-box;}",
 
       ".sim-bridge__eyebrow{margin:0 0 .6rem;font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--sb-cyan);}",
       ".sim-bridge__headline{margin:0 0 .75rem;font-size:1.3rem;font-weight:800;line-height:1.3;color:#fff;}",
@@ -957,19 +1036,71 @@
       ".sim-bridge__lean{margin:0 0 1rem;padding:.7rem .9rem;font-size:.88rem;color:#f4e4d8;",
       "border-left:3px solid var(--sb-orange);background:rgba(233,93,36,.12);border-radius:0 8px 8px 0;}",
 
-      ".sim-bridge__meter{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:.4rem;}",
-      "@media(min-width:640px){.sim-bridge__meter{grid-template-columns:repeat(5,1fr);gap:.5rem;}}",
-      ".sim-bridge__pillar{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:.55rem .6rem;}",
-      ".sim-bridge__pillar-name{display:block;font-size:.7rem;font-weight:700;color:#fff;margin-bottom:.35rem;line-height:1.25;}",
-      ".sim-bridge__track{height:4px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden;}",
-      ".sim-bridge__fill{display:block;height:100%;border-radius:999px;background:var(--sb-emerald);}",
+      /*
+       * The five-pillar coverage meter.
+       *
+       * Two layouts, and the bars have to line up in both.
+       *
+       * Narrow: one pillar per row. The name takes the full width, and the
+       * track sits under it starting at exactly the same left edge, with the
+       * percentage beside it rather than on a third line. Laying the pillar out
+       * as a two-column grid instead of a stack of blocks is what guarantees
+       * that shared left edge -- the bar cannot drift away from the title it
+       * belongs to, whatever the name does.
+       *
+       * Wide: five across. Here the pillar has to be a flex column with the
+       * track pushed to the bottom by margin-top:auto. Without it each bar sat
+       * directly beneath its own name, and the names are not the same number of
+       * lines -- "Fundamentos" is one, "Metadatos y Catalogo" and "Seguridad de
+       * Datos" are two -- so the five bars landed at three different heights and
+       * stopped reading as one chart. Pinning them to the bottom of the box puts
+       * them on a single line no matter how the labels wrap.
+       *
+       * The switch is at 720px rather than 640px because five columns inside
+       * this block leaves each pillar about 85px of text at 640px, which is
+       * narrower than the longer labels want. A phone held sideways is the
+       * common way to land in that range, and the stacked layout is the better
+       * answer there.
+       */
+      ".sim-bridge__meter{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:.4rem;}",
+      ".sim-bridge__pillar{min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:.5rem;",
+      "background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:.55rem .6rem;}",
+      /* Spans both columns, so the track below it starts at the name's own left
+         edge. The track and the note then auto-place into the second row -- and
+         a pillar with no track (nothing measured) puts its status text in the
+         first column instead, which is where it should be. */
+      ".sim-bridge__pillar-name{grid-column:1 / -1;display:block;font-size:.7rem;font-weight:700;color:#fff;",
+      "margin-bottom:.35rem;line-height:1.25;overflow-wrap:anywhere;}",
+      /*
+       * The track and the fill are both spans, and a span is inline by
+       * default -- which silently discarded height and overflow, and turned
+       * the block-level fill inside it into a block-in-inline split. The
+       * result on a phone was a bar drawn against the pillar box instead of
+       * inside its track. Both need an explicit display:block, and the fill
+       * needs max-width so a rounding artefact cannot push it past 100%.
+       */
+      ".sim-bridge__track{display:block;width:100%;height:6px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden;}",
+      ".sim-bridge__fill{display:block;height:100%;max-width:100%;border-radius:999px;background:var(--sb-emerald);}",
       ".sim-bridge__pillar--weak .sim-bridge__fill{background:#f0b429;}",
       ".sim-bridge__pillar--weak{border-color:rgba(240,180,41,.55);background:rgba(240,180,41,.12);}",
       ".sim-bridge__pillar--blank{border-style:dashed;border-color:rgba(255,255,255,.3);background:transparent;}",
       ".sim-bridge__pillar--prior{border-color:rgba(101,183,199,.45);}",
       ".sim-bridge__pillar--prior .sim-bridge__fill{background:var(--sb-cyan);opacity:.75;}",
       ".sim-bridge__pillar--blank .sim-bridge__pillar-name{color:#a8c4cd;}",
-      ".sim-bridge__pillar-note{display:block;font-size:.62rem;color:#a8c4cd;margin-top:.3rem;}",
+      ".sim-bridge__pillar-note{display:block;font-size:.62rem;color:#a8c4cd;}",
+
+      "@media(min-width:720px){.sim-bridge__meter{grid-template-columns:repeat(5,minmax(0,1fr));gap:.5rem;}",
+      /* align-items back to stretch: the narrow layout centres its grid items
+         vertically, and the same declaration in a column flex box would centre
+         the label and the bar horizontally instead. */
+      ".sim-bridge__pillar{display:flex;flex-direction:column;align-items:stretch;}",
+      ".sim-bridge__pillar-name{margin-bottom:.45rem;}",
+      ".sim-bridge__pillar-note{margin-top:.3rem;}",
+      /* Whichever of the two is the last thing in the box gets pushed down, so
+         the bars -- and the notes under them -- share one baseline across all
+         five columns however many lines the labels take. */
+      ".sim-bridge__track{margin-top:auto;}",
+      ".sim-bridge__pillar--blank .sim-bridge__pillar-note{margin-top:auto;}}",
 
       ".sim-bridge__cta{display:inline-block;background:var(--sb-orange);color:#fff;font-weight:800;font-size:.98rem;",
       "padding:.85rem 1.6rem;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(233,93,36,.35);",
@@ -1231,6 +1362,11 @@
         bandLabel: trusted && trusted.bandLabel ? trusted.bandLabel : null,
         pillarLabel: pillar && copy.pillars[pillar] ? copy.pillars[pillar] : null
       }),
+      /* The name they published the score under, so the contact form does not
+       * ask a visitor who has just typed their name to type it again. Null
+       * whenever they did not publish, played a different simulator last, or
+       * have storage turned off, and the field is then left alone. */
+      name: (trusted && trusted.playerName) || null,
       simulator: simulator,
       band: band,
       pillar: pillar
@@ -1240,6 +1376,7 @@
   window.SimulatorBridge = {
     render: render,
     contactPrefill: contactPrefill,
+    rememberPlayerName: rememberPlayerName,
     /* Exposed for reasoning about the mapping without replaying a whole game --
      * the pillar scores are the part most likely to need checking after a
      * scenario is reworded or a metric is rebalanced. */
