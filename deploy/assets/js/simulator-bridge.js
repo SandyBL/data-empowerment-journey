@@ -272,14 +272,14 @@
       eyebrow: function (covered) {
         return covered + " of 5 Scorecard pillars showed up in this run";
       },
-      eyebrowComplete: "5 of 5 Scorecard pillars measured across your runs",
+      eyebrowComplete: "5 of 5 Scorecard pillars measured across runs in this browser",
       meterLabel: "Scorecard pillar coverage from this simulator",
       cta: "Measure all five pillars",
       note: "Free. A few minutes. You get your DAMA level 1 to 5, a five-pillar radar chart and three quick wins on your lowest pillar.",
       altPrefix: "Rather talk it through first?",
       altLink: "Send me your result and a question",
       returning: function (pillar) {
-        return "You measured " + pillar + " in an earlier simulator, so you have now touched all five. The Scorecard is what turns those separate readings into one organisational baseline.";
+        return "In this browser, another simulator already measured " + pillar + ", so all five pillars now have a reading. The Scorecard is what turns those separate readings into one organisational baseline.";
       }
     },
 
@@ -403,14 +403,14 @@
       eyebrow: function (covered) {
         return covered + " de los 5 pilares del Scorecard aparecieron en esta partida";
       },
-      eyebrowComplete: "5 de 5 pilares del Scorecard medidos entre tus partidas",
+      eyebrowComplete: "5 de 5 pilares del Scorecard medidos entre las partidas de este navegador",
       meterLabel: "Cobertura de los pilares del Scorecard en este simulador",
       cta: "Medir los cinco pilares",
       note: "Gratis. Unos minutos. Recibes tu nivel DAMA del 1 al 5, un gráfico radar de los cinco pilares y tres quick wins sobre tu pilar más bajo.",
       altPrefix: "¿Prefieres comentarlo antes?",
       altLink: "Envíame tu resultado y una pregunta",
       returning: function (pillar) {
-        return "Ya mediste " + pillar + " en un simulador anterior, así que has tocado los cinco. El Scorecard es lo que convierte esas lecturas sueltas en una línea base de tu organización.";
+        return "En este navegador, otro simulador ya midió " + pillar + ", así que ya hay una lectura de los cinco pilares. El Scorecard es lo que convierte esas lecturas sueltas en una línea base de tu organización.";
       }
     },
 
@@ -527,14 +527,14 @@
       eyebrow: function (covered) {
         return covered + " dos 5 pilares do Scorecard apareceram nesta partida";
       },
-      eyebrowComplete: "5 de 5 pilares do Scorecard medidos nas suas partidas",
+      eyebrowComplete: "5 de 5 pilares do Scorecard medidos nas partidas deste navegador",
       meterLabel: "Cobertura dos pilares do Scorecard neste simulador",
       cta: "Medir os cinco pilares",
       note: "Gratuito. Alguns minutos. Você recebe seu nível DAMA de 1 a 5, um gráfico radar dos cinco pilares e três quick wins sobre o seu pilar mais baixo.",
       altPrefix: "Prefere conversar antes?",
       altLink: "Me envie seu resultado e uma pergunta",
       returning: function (pillar) {
-        return "Você já mediu " + pillar + " em um simulador anterior, então já passou pelos cinco. O Scorecard é o que transforma essas leituras separadas em uma linha de base da sua organização.";
+        return "Neste navegador, outro simulador já mediu " + pillar + ", então já existe uma leitura dos cinco pilares. O Scorecard é o que transforma essas leituras separadas em uma linha de base da sua organização.";
       }
     },
 
@@ -944,17 +944,45 @@
     }
   }
 
+  /*
+   * Merge this run's readings into the store.
+   *
+   * A pillar the page declares blank in UNMEASURED never enters the store, even
+   * if the weight map above happens to produce a number for it. Today the two
+   * lists agree -- no simulator scores a pillar it calls blank -- and that
+   * agreement is the only reason the "another simulator already measured this"
+   * sentence is true: five stored pillars are unreachable from a single
+   * simulator, so the sentence cannot fire until a second one has been played.
+   * Add a weight for a declared-blank pillar without also taking it out of
+   * UNMEASURED, though, and a first-ever run would store five while displaying
+   * four -- and a first-time visitor would be told about an earlier run that
+   * never happened. Filtering here rather than at the call site makes that
+   * guarantee structural: it holds for whatever calls this next, and it does not
+   * depend on two lists in different parts of the file staying in step.
+   *
+   * The filtered set is built before the storage call so the private-browsing
+   * fallback returns the same shape it would have written, rather than the raw
+   * scores it was handed.
+   */
   function writeCoverage(scores, simulator) {
+    var declared = UNMEASURED[simulator] || [];
+    var fresh = {};
+    for (var key in scores) {
+      if (!Object.prototype.hasOwnProperty.call(scores, key)) continue;
+      if (declared.indexOf(key) !== -1) continue;
+      fresh[key] = { pct: Math.round(scores[key].pct), simulator: simulator };
+    }
+
     try {
       var store = readCoverage();
-      for (var key in scores) {
-        if (!Object.prototype.hasOwnProperty.call(scores, key)) continue;
-        store[key] = { pct: Math.round(scores[key].pct), simulator: simulator };
+      for (var merged in fresh) {
+        if (!Object.prototype.hasOwnProperty.call(fresh, merged)) continue;
+        store[merged] = fresh[merged];
       }
       window.localStorage.setItem(COVERAGE_KEY, JSON.stringify(store));
       return store;
     } catch (error) {
-      return scores;
+      return fresh;
     }
   }
 
@@ -1131,8 +1159,8 @@
    * `prior` carries pillar readings from the visitor's earlier runs, so a pillar
    * this simulator cannot see still shows its real number if another simulator
    * measured it. Without that, a returning visitor was told "5 of 5 pillars
-   * measured across your runs" directly above a chip stamped "not measured
-   * here", which reads as a bug rather than as progress.
+   * measured across runs in this browser" directly above a chip stamped "not
+   * measured here", which reads as a bug rather than as progress.
    */
   function renderMeter(copy, scores, weakKey, unmeasured, prior) {
     var items = [];

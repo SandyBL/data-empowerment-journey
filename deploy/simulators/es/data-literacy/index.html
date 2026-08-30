@@ -148,13 +148,13 @@
 
             <!-- Tab Switcher -->
             <div class="flex gap-1 bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs" role="tablist" aria-label="Secciones del simulador">
-                <button id="tabSimulationBtn" type="button" role="tab" aria-selected="true" aria-controls="tabSimulationView" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
-                    <i data-lucide="play" class="w-3.5 h-3.5 text-cyan-400"></i>
-                    <span>Simulación</span>
+                <button id="tabSimulationBtn" title="Simulación" type="button" role="tab" aria-selected="true" aria-controls="tabSimulationView" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
+                    <i data-lucide="play" class="w-4 h-4 text-cyan-400"></i>
+                    <span class="simulator-tab-label">Simulación</span>
                 </button>
-                <button id="tabCatalogBtn" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
-                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                    <span>Glosario</span>
+                <button id="tabCatalogBtn" title="Glosario" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span class="simulator-tab-label">Glosario</span>
                         </button>
             </div>
 
@@ -1066,7 +1066,7 @@
                 topic: "Sesgo de Confirmación y Selección Selectiva",
                 category: "bias",
                 icon: "eye",
-                text: "Un director selecciona 3 gráficos de crecimiento de ingresos para la juntaDirectiva mientras oculta métricas que muestran una caída drástica en la retención de clientes.",
+                text: "Un director selecciona 3 gráficos de crecimiento de ingresos para la junta directiva mientras oculta métricas que muestran una caída drástica en la retención de clientes.",
                 optimalChoice: "C",
                 optionA: {
                     title: "Aprobar la Presentación Tal Como Está",
