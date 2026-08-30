@@ -65,6 +65,19 @@ select:focus-visible {
   width: 2.75rem !important;
   height: 2.75rem !important;
   flex: 0 0 auto;
+  /*
+   * Both stylesheets a simulator can be built on -- the hand-written Tailwind
+   * subset and the Play CDN's preflight -- reset every image to
+   * `max-width: 100%`, and a max-width beats a width no matter how many
+   * `!important`s the width carries. The brand block is a shrinkable flex item
+   * with `min-width: 0`, so on a crowded header the block narrowed past 2.75rem
+   * and took the logo down with it: the mark shrank toward nothing and read as
+   * simply missing. `flex: 0 0 auto` was never enough on its own, because the
+   * logo was not being shrunk as a flex item -- it was being clamped by its
+   * parent's width. Opting out of that clamp keeps the mark at its declared
+   * size and lets the brand wordmark beside it absorb the squeeze instead.
+   */
+  max-width: none;
   padding: 0 !important;
   border: 4px solid rgb(255 255 255 / 0.18) !important;
   border-radius: 1.5rem !important;
@@ -97,6 +110,29 @@ select:focus-visible {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
+}
+
+/*
+ * Label of an icon-only header tab.
+ *
+ * The Data Literacy header is the only one of the nine carrying a tab switcher
+ * as well as a brand block, a title, a sound toggle and a home link, and the two
+ * spelled-out tab labels were the widest thing in it that nothing else needed:
+ * on a crowded row they pushed the brand block narrow enough that the logo went
+ * with it. Dropping the labels to icons buys that room back without the header
+ * growing a second line or a taller row.
+ *
+ * The words stay in the DOM rather than being deleted. They are what names each
+ * button for a screen reader, and each button also carries a `title` so a
+ * sighted visitor can hover an icon they do not recognise.
+ */
+.simulator-tab-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .simulator-brand-name {
@@ -198,6 +234,42 @@ select:focus-visible {
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
+}
+
+/*
+ * Icon-only tab switcher (Data Literacy is the only header with one).
+ *
+ * Which tab is open has to be readable from the pill, because there is no longer
+ * a word to tint: the two icons are the whole control. The generic
+ * `.simulator-site-header button` rule above paints every header button the same
+ * light grey with `!important`, which left both pills identical and the
+ * `text-white` / `text-slate-400` pair in the markup with no effect at all --
+ * survivable while the labels were spelled out, not survivable now. So the open
+ * tab is a filled white pill on the dark switcher track and the closed one is
+ * bare, and the icons take their colour from the pill they sit in rather than
+ * from the hard-coded cyan, which would have landed at about 1.9:1 on white.
+ *
+ * Driven off `aria-selected`, which switchMainTab() already keeps in step for
+ * screen readers, so the visible state and the announced state cannot drift.
+ */
+.simulator-site-header [role="tablist"] button {
+  background-color: transparent !important;
+  color: #b9dce4 !important;
+  box-shadow: none;
+}
+
+.simulator-site-header [role="tablist"] button:hover {
+  background-color: rgb(101 183 199 / 0.22) !important;
+  color: #ffffff !important;
+}
+
+.simulator-site-header [role="tablist"] button[aria-selected="true"] {
+  background-color: #ffffff !important;
+  color: #003366 !important;
+}
+
+.simulator-site-header [role="tablist"] button i {
+  color: inherit !important;
 }
 
 @media (min-width: 640px) {

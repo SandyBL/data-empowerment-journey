@@ -148,13 +148,13 @@
 
             <!-- Tab Switcher -->
             <div class="flex gap-1 bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs" role="tablist" aria-label="Simulator sections">
-                <button id="tabSimulationBtn" type="button" role="tab" aria-selected="true" aria-controls="tabSimulationView" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
-                    <i data-lucide="play" class="w-3.5 h-3.5 text-cyan-400"></i>
-                    <span>Simulation</span>
+                <button id="tabSimulationBtn" title="Simulation" type="button" role="tab" aria-selected="true" aria-controls="tabSimulationView" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
+                    <i data-lucide="play" class="w-4 h-4 text-cyan-400"></i>
+                    <span class="simulator-tab-label">Simulation</span>
                 </button>
-                <button id="tabCatalogBtn" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
-                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                    <span>Glossary</span>
+                <button id="tabCatalogBtn" title="Glossary" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span class="simulator-tab-label">Glossary</span>
                         </button>
             </div>
 
