@@ -2182,6 +2182,22 @@ body.mobile-navigation-open { overflow: hidden; }
     }
 }
 
+/*
+ * The section nav carries six items once Contact is in it, which leaves only a
+ * few pixels of slack in the 1180-1279px band where the desktop bar first
+ * appears. Tightening the pill padding there keeps every label on one line
+ * instead of letting the bar wrap or push into the language switcher.
+ */
+@media (min-width: 1180px) and (max-width: 1279px) {
+    .desktop-section-nav { gap: 0; }
+
+    .desktop-section-nav > a,
+    .desktop-resources-trigger {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
 body.identity-modal-open {
     overflow: hidden;
 }
