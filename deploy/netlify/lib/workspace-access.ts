@@ -1,6 +1,7 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { workspaceSessions, workspaces } from "../../db/schema.js";
+import { spaceTheme } from "./workspace-brand.js";
 
 /**
  * Everything the private-space endpoints agree on.
@@ -272,6 +273,11 @@ export const publicSpace = (space: SpaceRow) => ({
   locale: space.locale,
   logoUrl: space.logoUrl,
   accentColor: space.accentColor,
+  // The accent turned into a band colour and a legible ink, so the simulator
+  // header and the printed report can be painted in the client's colour without
+  // each page deciding for itself whether white text survives it. Null for a
+  // space that set no accent, which keeps the shipped navy. See workspace-brand.
+  theme: spaceTheme(space.accentColor),
   startsAt: space.startsAt,
   expiresAt: space.expiresAt,
 });

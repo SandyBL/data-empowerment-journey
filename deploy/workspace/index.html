@@ -26,6 +26,32 @@
     </div>
   </header>
 
+  <!--
+    The masthead of the printed report, and only of the printed report.
+    display:none on screen, because on screen the client's logo and name are
+    already in the top bar above; this exists for the one thing that top bar
+    cannot do, which is be the first thing on a PDF a sponsor forwards to their
+    leadership. Painted in the space's own colour (see the --workspace-brand-*
+    note in assets/css/workspace.css).
+
+    The logo sits on a white plate on purpose. A company's accent colour is very
+    often the colour of their own logo, so a mark dropped straight onto the band
+    would be a mark nobody can make out.
+
+    Populated by renderClientBadge() in assets/js/workspace-hub.js, which is what
+    sets data-ready -- an unpopulated masthead must never reach a printer.
+  -->
+  <div class="workspace-print-header" id="space-print-header">
+    <span class="workspace-print-header__plate">
+      <img id="space-print-logo" alt="" width="120" height="120" decoding="async" referrerpolicy="no-referrer">
+    </span>
+    <span class="workspace-print-header__copy">
+      <span class="workspace-print-header__eyebrow" data-copy="gateEyebrow">Private space</span>
+      <strong class="workspace-print-header__name" id="space-print-name"></strong>
+    </span>
+    <span class="workspace-print-header__meta" id="space-print-meta"></span>
+  </div>
+
   <main class="workspace-shell">
     <p class="workspace-state" id="space-loading" data-copy="loading">Checking your access…</p>
 
@@ -61,8 +87,11 @@
       </form>
     </section>
 
-    <!-- The hub: what a participant lands on for the rest of the engagement. -->
-    <section id="space-hub" hidden aria-labelledby="space-hub-title">
+    <!-- The hub: what a participant lands on for the rest of the engagement.
+         data-print="hide" because a sponsor prints this page to get the report:
+         a card inviting somebody to open a simulator is a control, and a control
+         on a page nobody can click is a page of wasted paper. -->
+    <section id="space-hub" hidden data-print="hide" aria-labelledby="space-hub-title">
       <div class="workspace-hub__heading">
         <h1 id="space-hub-title"></h1>
         <p id="space-hub-lead" data-copy="hubLead">Your organisation's simulators and leaderboards. The first run you finish of each simulator is saved automatically under your name — replays after that are practice — and the scores stay inside this space.</p>

@@ -509,6 +509,10 @@ const view = {
   client: document.querySelector("#space-client"),
   clientLogo: document.querySelector("#space-client-logo"),
   clientName: document.querySelector("#space-client-name"),
+  printHeader: document.querySelector("#space-print-header"),
+  printLogo: document.querySelector("#space-print-logo"),
+  printName: document.querySelector("#space-print-name"),
+  printMeta: document.querySelector("#space-print-meta"),
 };
 
 /** The slug from /w/<slug>/, or from ?space= when the page is opened directly. */
@@ -616,6 +620,45 @@ function reasonMessage(reason) {
   );
 }
 
+/**
+ * Paints the page in the space's own colour.
+ *
+ * `theme` is derived from the accent server-side (netlify/lib/workspace-brand.ts)
+ * rather than here, because the simulator pages need the same three values and
+ * their copy of this logic would be a second place for it to drift. Absent for a
+ * space that set no accent, which is the case the stylesheet's defaults are.
+ */
+function applyTheme(theme) {
+  if (!theme) return;
+  const root = document.documentElement.style;
+  root.setProperty("--workspace-brand-bg", theme.background);
+  root.setProperty("--workspace-brand-ink-rgb", theme.inkRgb);
+  root.setProperty("--workspace-brand-line", theme.line);
+}
+
+/**
+ * The masthead that only exists on the printed report.
+ *
+ * Filled in as soon as a space is known rather than when the report renders: a
+ * sponsor can reach for their browser's own print command, and the report is not
+ * the only thing on this page that could be printed.
+ */
+function renderPrintHeader(space) {
+  if (!view.printHeader) return;
+  view.printName.textContent = space.displayName || space.company || "";
+  view.printMeta.textContent = `${words().generated} ${formatDate(new Date().toISOString())}`;
+
+  if (space.logoUrl) {
+    view.printLogo.src = space.logoUrl;
+    // Empty alt: the company name is spelled out beside it, and a printed page
+    // has no place for a second copy of it as fallback text.
+    view.printLogo.alt = "";
+    view.printHeader.setAttribute("data-logo", "true");
+  }
+
+  view.printHeader.setAttribute("data-ready", "true");
+}
+
 function renderClientBadge(space) {
   if (!space) return;
   view.clientName.textContent = space.company || space.displayName || "";
@@ -627,6 +670,8 @@ function renderClientBadge(space) {
   if (space.accentColor) {
     document.documentElement.style.setProperty("--workspace-accent", space.accentColor);
   }
+  applyTheme(space.theme);
+  renderPrintHeader(space);
   view.client.hidden = false;
 }
 

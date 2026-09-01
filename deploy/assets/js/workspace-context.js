@@ -292,6 +292,11 @@
    * about what any individual button does. The "main website" link is the one
    * thing deliberately left behind: inside a client's space, the way out is
    * their hub, not our marketing site.
+   *
+   * A page whose header carried nothing but that link -- the Portuguese
+   * day-to-day simulator, now that its edition badge is gone -- is left alone
+   * entirely, because an empty flex child still costs the strip one gap of
+   * whitespace before the language switch.
    */
   function adoptHeaderActions(host) {
     var actions = document.querySelector(".simulator-header-actions");
@@ -299,6 +304,8 @@
 
     var home = actions.querySelector(".simulator-home-link");
     if (home && home.parentNode) home.parentNode.removeChild(home);
+
+    if (!actions.children.length) return;
 
     actions.classList.add("workspace-banner-actions");
     host.appendChild(actions);
@@ -356,6 +363,25 @@
         // explanation of where their space went.
         window.location.href = slug ? "/w/" + encodeURIComponent(slug) + "/" : "/";
       });
+  }
+
+  /**
+   * Paints the strip -- which is the whole header inside a space -- in the
+   * company's own colour.
+   *
+   * The three values are derived from the accent by the server rather than here
+   * (netlify/lib/workspace-brand.ts): whether white or near-black reads on a
+   * client's colour is measured, not guessed, and the space hub needs the same
+   * answer for the masthead on its printed report. Absent for a space that set no
+   * accent, and the stylesheet's defaults are then the navy this strip has always
+   * been.
+   */
+  function applyTheme(theme) {
+    if (!theme) return;
+    var root = document.documentElement.style;
+    root.setProperty("--workspace-brand-bg", theme.background);
+    root.setProperty("--workspace-brand-ink-rgb", theme.inkRgb);
+    root.setProperty("--workspace-brand-line", theme.line);
   }
 
   /** The strip under the site header. */
@@ -438,6 +464,7 @@
     if (state.space.accentColor) {
       document.documentElement.style.setProperty("--workspace-accent", state.space.accentColor);
     }
+    applyTheme(state.space.theme);
 
     var run = function () {
       renderBanner();
