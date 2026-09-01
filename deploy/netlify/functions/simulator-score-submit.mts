@@ -25,6 +25,14 @@ import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 // of its publish. See cleanDuration below. The per-dimension breakdown is
 // treated the same way — see cleanBreakdown.
 //
+// Inside a private space only one run per person per simulator is recorded: the
+// first one they finish. A board a client paid for is worth what they can believe
+// about it, and five rows from the same participant -- four of them practice --
+// is not a leaderboard, it is a log. See firstAttemptTaken below for how a person
+// is identified, and the partial unique index in db/schema.ts for why a check
+// here is not the whole rule. The public board is unaffected: there is no
+// identity out there to enforce anything against.
+//
 // Reads live in simulator-scores.mts on this same path. Keep the name and score
 // rules here in step with the client-side checks in
 // assets/js/simulator-leaderboard.js — the client's are a courtesy, these are
@@ -170,6 +178,95 @@ const topScores = (simulator: string, workspaceId: number | null) =>
     .limit(TOP_N);
 
 /**
+ * Whether a database error is Postgres saying "that row already exists".
+ *
+ * 23505 is the unique-violation class, and the only unique index a submission
+ * can collide with is the one-attempt-per-person index. Read off the error
+ * rather than inferred from the message, which is localised and version
+ * dependent, and read defensively -- drizzle wraps the driver error, so the
+ * cause is checked too.
+ */
+const isUniqueViolation = (error: unknown): boolean => {
+  for (let current: unknown = error, depth = 0; current && depth < 4; depth += 1) {
+    if (typeof current === "object" && (current as { code?: unknown }).code === "23505") return true;
+    current = (current as { cause?: unknown }).cause;
+  }
+  return false;
+};
+
+/**
+ * The run this person has already recorded on this board, or null.
+ *
+ * Identity is the seat's participant key, which is a hash of the space and the
+ * name they typed at the gate -- so somebody who comes back tomorrow, on a new
+ * seat in a new browser, is still the same person here. That is a weak identity
+ * by design, and the same one the hub already uses to say which simulators
+ * somebody has played: two people who type the same name in the same space count
+ * as one, which is a real limitation of a room that recognises each other by
+ * name, and the reason the gate asks for it rather than offering it.
+ *
+ * A seat with no key -- every seat opened before the name was required -- cannot
+ * be held to the rule, so it keeps the old behaviour rather than being refused
+ * outright. Refusing would lock a live workshop out of a board mid-session over
+ * a column that was added after they joined.
+ */
+const firstAttemptTaken = async (workspaceId: number, simulator: string, participantKey: string) => {
+  const [existing] = await db
+    .select({
+      score: simulatorScores.score,
+      createdAt: simulatorScores.createdAt,
+    })
+    .from(simulatorScores)
+    .where(
+      and(
+        eq(simulatorScores.workspaceId, workspaceId),
+        eq(simulatorScores.simulator, simulator),
+        eq(simulatorScores.participantKey, participantKey),
+      ),
+    )
+    .limit(1);
+
+  return existing ?? null;
+};
+
+/**
+ * Tells a participant their first attempt is the one that counts.
+ *
+ * 409 rather than 400: the body is perfectly good, and the reason a retry cannot
+ * help is the state of the board rather than anything wrong with the run. The
+ * recorded score goes back with it so the page can say which run is standing
+ * instead of only that this one is not, and the refreshed board goes back too --
+ * a replay still deserves to see where the score it already has ranks.
+ *
+ * `reason` is what the client switches on; see assets/js/simulator-leaderboard.js.
+ */
+const refuseReplay = async (
+  simulator: string,
+  workspaceId: number,
+  recorded: { score: number; createdAt: Date },
+) => {
+  let scores: Awaited<ReturnType<typeof topScores>> = [];
+
+  try {
+    scores = await topScores(simulator, workspaceId);
+  } catch (error) {
+    console.error("Leaderboard read failed while refusing a replay", error);
+  }
+
+  return Response.json(
+    {
+      accepted: false,
+      error: "Only your first attempt is recorded in this space",
+      reason: "already-recorded",
+      recorded: { score: recorded.score, recordedAt: recorded.createdAt },
+      scores,
+      retryable: false,
+    },
+    { status: 409, headers: { "Cache-Control": "no-store" } },
+  );
+};
+
+/**
  * Refuses a submission, and says so in the log.
  *
  * A rejection is a player who finished a run, pressed Publish and cannot
@@ -249,6 +346,23 @@ export default async (request: Request) => {
   }
 
   const workspaceId = session?.space.id ?? null;
+  // Null on the public board, and null for a seat that predates the name
+  // requirement. Both mean "no person to hold to one attempt", which is why the
+  // column is nullable and the unique index is partial.
+  const participantKey = session?.seat.participantKey ?? null;
+
+  if (workspaceId !== null && participantKey) {
+    try {
+      const recorded = await firstAttemptTaken(workspaceId, simulator, participantKey);
+      if (recorded) return await refuseReplay(simulator, workspaceId, recorded);
+    } catch (error) {
+      // A failed check must not become a published second attempt, and it must
+      // not become a lost first one either -- so this is retryable, and the
+      // unique index is what decides the case where the check never ran.
+      console.error("First-attempt check failed", error);
+      return Response.json({ error: "Unable to save score", retryable: true }, { status: 503 });
+    }
+  }
 
   try {
     await db.insert(simulatorScores).values({
@@ -260,6 +374,9 @@ export default async (request: Request) => {
       durationMs,
       workspaceId,
       workspaceSessionId: session?.seat.id ?? null,
+      // The person, not the seat: this is what the one-attempt rule is enforced
+      // on, and what a run published from tomorrow's seat is matched against.
+      participantKey,
       // Kept for private runs only. The public board has nothing that reads a
       // breakdown, and the per-dimension detail of a stranger's run is data this
       // table would be storing for no reason — which is a poor look on a site
@@ -267,6 +384,22 @@ export default async (request: Request) => {
       breakdown: session ? breakdown : null,
     });
   } catch (error) {
+    // The one-attempt rule, arriving from the index rather than from the check
+    // above. This is the case the check cannot see: two runs by the same person
+    // in flight at once -- a results screen saving itself while the old publish
+    // button is pressed in a second tab -- where both checks find an empty board
+    // and only one insert can win. The loser is a replay, and is answered as
+    // one, so nobody is told "could not be saved" about a board that holds their
+    // score.
+    if (isUniqueViolation(error) && workspaceId !== null && participantKey) {
+      try {
+        const recorded = await firstAttemptTaken(workspaceId, simulator, participantKey);
+        if (recorded) return await refuseReplay(simulator, workspaceId, recorded);
+      } catch (readError) {
+        console.error("First-attempt read failed after a unique violation", readError);
+      }
+    }
+
     // Logged rather than swallowed: without this, schema drift or a lost
     // database connection is indistinguishable from a malformed body, and the
     // only symptom anyone sees is a board that quietly stops growing. 503
