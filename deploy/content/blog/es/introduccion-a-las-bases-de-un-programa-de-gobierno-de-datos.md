@@ -90,4 +90,4 @@ Estructurar el gobierno de datos no se trata de alcanzar la perfección de inmed
 
 ¿En qué nivel de madurez se encuentra su empresa? Realice nuestro diagnóstico rápido para evaluar su estado actual y obtener una hoja de ruta personalizada.
 
-👉 **[Evalúe su Nivel de Madurez de Datos con DeJourney](https://datagovjourney.com/#scorecard)**
+👉 **[Evalúe su Nivel de Madurez de Datos](https://datagovjourney.com/#scorecard)**
