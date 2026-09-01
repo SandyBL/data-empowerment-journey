@@ -2,6 +2,8 @@ import type { Config } from "@netlify/functions";
 import {
   cleanLine,
   findSpaceBySlug,
+  foldParticipantName,
+  hintCookie,
   matchCode,
   normalizeSlug,
   openSeat,
@@ -27,6 +29,22 @@ import {
 
 const MAX_LABEL_LENGTH = 60;
 
+/**
+ * Shortest name that opens a seat, measured after folding.
+ *
+ * The name used to be optional garnish for the leaderboard. It is now the thread
+ * that ties a participant's two sittings together, so it has to be asked for
+ * rather than offered: a room that joins anonymously on Monday has no way to be
+ * shown its outstanding simulators on Tuesday, and there is nothing the server
+ * can do about it afterwards.
+ *
+ * Two characters, not one, because a single letter is a keystroke rather than a
+ * name and would quietly merge everyone in the room who pressed the same one.
+ * This is the floor of a weak identity, not a validation of real names -- short
+ * names exist, and it is not this endpoint's business to argue with one.
+ */
+const MIN_FOLDED_NAME_LENGTH = 2;
+
 export default async (request: Request) => {
   let payload: Record<string, unknown>;
 
@@ -41,6 +59,15 @@ export default async (request: Request) => {
   const label = cleanLine(payload?.label, MAX_LABEL_LENGTH);
 
   if (!slug) return Response.json({ error: "Missing space" }, { status: 400 });
+
+  // Checked before the code so somebody who left the field blank is told that,
+  // rather than being sent back to re-read a code that was already correct.
+  if (foldParticipantName(label).length < MIN_FOLDED_NAME_LENGTH) {
+    return Response.json(
+      { error: "Please enter the name you want to play under", reason: "missing-name" },
+      { status: 400 },
+    );
+  }
 
   try {
     const space = await findSpaceBySlug(slug);
@@ -66,15 +93,18 @@ export default async (request: Request) => {
 
     const { token, expiresAt } = await openSeat(space, role, label);
 
+    // Two cookies, so two Set-Cookie lines, which a plain object cannot express:
+    // the seat itself (HttpOnly, the actual credential) and the readable hint
+    // that lets a simulator page hide the public header before its first paint.
+    // The hint is issued here and only here, because this is the only moment at
+    // which the server knows a browser has just entered a space.
+    const headers = new Headers({ "Cache-Control": "no-store" });
+    headers.append("Set-Cookie", sessionCookie(token, expiresAt));
+    headers.append("Set-Cookie", hintCookie(expiresAt));
+
     return Response.json(
-      { joined: true, role, label: label || null, expiresAt, space: publicSpace(space) },
-      {
-        status: 201,
-        headers: {
-          "Set-Cookie": sessionCookie(token, expiresAt),
-          "Cache-Control": "no-store",
-        },
-      },
+      { joined: true, role, label, expiresAt, space: publicSpace(space) },
+      { status: 201, headers },
     );
   } catch (error) {
     console.error("Workspace join failed", error);

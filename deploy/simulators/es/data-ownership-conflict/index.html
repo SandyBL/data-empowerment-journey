@@ -988,6 +988,28 @@
     .simulator-explainer a:hover { text-decoration: none; }
   </style>
   <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <!-- Private-space chrome, settled before the first paint. The rules it
+       switches on live with the header styles in
+       /assets/css/simulator-header.css, which this page already links above. -->
+  <script>
+    /* A participant arriving from their space hub carries ?space=, and one
+       coming back to this page carries the dgj_space_hint cookie. The hint holds
+       no token and grants nothing -- the seat itself is an HttpOnly cookie this
+       script cannot read and the server re-checks on every request -- it exists
+       only so the Data Governance Journey header does not paint for a third of a
+       second inside a client's own space. assets/js/workspace-context.js removes
+       the attribute again the moment the server says there is no seat. */
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("space") || /(?:^|;\s*)dgj_space_hint=1/.test(document.cookie)) {
+          document.documentElement.setAttribute("data-workspace-pending", "true");
+        }
+      } catch (error) {
+        /* Anything that fails here simply keeps the public header. */
+      }
+    })();
+  </script>
 </head>
 <body>
     <a class="skip-link" href="#simulator-main">Saltar al simulador</a>
@@ -1045,7 +1067,7 @@
       <div class="card welcome-card">
         <h1 class="welcome-title">¿Quién es el dueño de esto?</h1>
         <p class="welcome-tagline">
-          Acaba con las disputas internas de territorio. Pon a prueba tus conocimientos sobre quién es realmente el dueño de las tareas de datos: <strong>Dueño del Negocio</strong>, <strong>Data Steward</strong> o <strong>TI / Tecnología</strong>.
+          Acaba con las disputas internas de territorio. Pon a prueba tus conocimientos sobre quién es realmente el dueño de las tareas de datos: <strong>Dueño del Negocio</strong>, <strong>Data Steward / Product Owner</strong> o <strong>TI / Data Team</strong>.
         </p>
 
         <div class="roles-preview">
@@ -1054,11 +1076,11 @@
             <div class="role-preview-desc">Define la lógica comercial, asume los riesgos del negocio, fija presupuestos y aprueba reglas de dominio.</div>
           </div>
           <div class="role-preview-box">
-            <div class="role-preview-header">🛡️ Data Steward</div>
+            <div class="role-preview-header">🛡️ Data Steward / Product Owner</div>
             <div class="role-preview-desc">Mantiene la higiene de datos a diario, define reglas de calidad y conecta el contexto de negocio con metadatos.</div>
           </div>
           <div class="role-preview-box">
-            <div class="role-preview-header">💻 TI / Tecnología</div>
+            <div class="role-preview-header">💻 TI / Data Team</div>
             <div class="role-preview-desc">Construye la infraestructura, automatiza pipelines de datos, administra la seguridad y garantiza el tiempo de actividad.</div>
           </div>
         </div>
@@ -1106,15 +1128,20 @@
             <span class="choice-subtitle">Lógica Comercial y Riesgo</span>
           </button>
 
+          <!--
+            El argumento de makeChoice() es la clave de respuesta con la que se
+            puntúa la partida y con la que se guardan los resultados publicados,
+            así que no cambia; solo cambia la etiqueta que se lee en pantalla.
+          -->
           <button class="choice-btn" onclick="makeChoice('Data Steward')">
             <span class="choice-icon">🛡️</span>
-            <span class="choice-title">Data Steward</span>
+            <span class="choice-title">Data Steward / Product Owner</span>
             <span class="choice-subtitle">Calidad e Higiene Diaria</span>
           </button>
 
           <button class="choice-btn" onclick="makeChoice('IT / Tech')">
             <span class="choice-icon">💻</span>
-            <span class="choice-title">TI / Tecnología</span>
+            <span class="choice-title">TI / Data Team</span>
             <span class="choice-subtitle">Infraestructura y Código</span>
           </button>
         </div>
@@ -1211,8 +1238,8 @@
     -->
     <section class="simulator-explainer" aria-labelledby="about-this-simulator">
       <h2 id="about-this-simulator">Sobre este simulador</h2>
-        <p>"¿Quién es el dueño de esto?" es un simulador gratuito de diez escenarios sobre la discusión que todo programa de gobierno de datos acaba teniendo: cuando algo sale mal con un dataset, ¿de quién era la tarea? Cada escenario describe una situación concreta —cambia la definición de una métrica, un pipeline pierde filas, hay que aplicar una regla de retención— y te pide asignarla al Dueño de Negocio, al Data Steward o a TI.</p>
-        <p>Los tres roles vienen del marco DAMA de gobierno de datos: fáciles de enunciar y difíciles de aplicar. El Dueño de Negocio tiene las definiciones del dominio, las reglas de negocio, las métricas de ingresos y la aprobación final del riesgo. El Data Steward mantiene la higiene del dato, el perfilado de calidad, los metadatos del catálogo y las reglas que cruzan áreas. TI ejecuta los pipelines, el almacenamiento, el hosting, la seguridad y los respaldos. Casi todas las disputas reales ocurren porque la tarea parece de quien la detectó primero.</p>
+        <p>"¿Quién es el dueño de esto?" es un simulador gratuito de diez escenarios sobre la discusión que todo programa de gobierno de datos acaba teniendo: cuando algo sale mal con un dataset, ¿de quién era la tarea? Cada escenario describe una situación concreta —cambia la definición de una métrica, un pipeline pierde filas, hay que aplicar una regla de retención— y te pide asignarla al Dueño de Negocio, al Data Steward / Product Owner o al TI / Data Team.</p>
+        <p>Los tres roles vienen del marco DAMA de gobierno de datos: fáciles de enunciar y difíciles de aplicar. El Dueño de Negocio tiene las definiciones del dominio, las reglas de negocio, las métricas de ingresos y la aprobación final del riesgo. El Data Steward / Product Owner mantiene la higiene del dato, el perfilado de calidad, los metadatos del catálogo y las reglas que cruzan áreas. El TI / Data Team ejecuta los pipelines, el almacenamiento, el hosting, la seguridad y los respaldos. Casi todas las disputas reales ocurren porque la tarea parece de quien la detectó primero.</p>
         <p>El ejercicio dura unos tres minutos y no requiere cuenta. Está deliberadamente construido como un RACI: la pregunta no es quién hace el trabajo, sino quién responde por el resultado, que es la distinción que termina las guerras de territorio en vez de reiniciarlas.</p>
 
       <h3>Qué vas a practicar</h3>
@@ -1290,12 +1317,12 @@
               <td>Definición de KPIs, presupuestos, aprobaciones de acceso a proveedores y cumplimiento legal del dominio.</td>
             </tr>
             <tr>
-              <td><strong>🛡️ Data Steward</strong><br><em>(Custodio de Datos)</em></td>
+              <td><strong>🛡️ Data Steward / Product Owner</strong><br><em>(Custodio de Datos)</em></td>
               <td>Calidad de Datos y Operación Diaria</td>
               <td>Documentación del catálogo de datos, reglas de validación, investigaciones de causa raíz y diccionario de términos.</td>
             </tr>
             <tr>
-              <td><strong>💻 TI / Tecnología</strong><br><em>(IT / Tech)</em></td>
+              <td><strong>💻 TI / Data Team</strong><br><em>(Infraestructura y Tecnología)</em></td>
               <td>Infraestructura y Automatización</td>
               <td>Pipelines de extracción (ETL/ELT), scripts SQL, respaldos, seguridad de red y mantenimiento del Data Warehouse.</td>
             </tr>
@@ -1327,19 +1354,19 @@
         id: 2,
         title: "Escribir un script SQL automatizado para fusionar correos electrónicos duplicados directamente en la base de datos.",
         correct: "IT / Tech",
-        explanation: "TI / Tecnología ejecuta el código, la optimización de consultas y la manipulación de la infraestructura técnica donde residen los datos."
+        explanation: "TI / Data Team ejecuta el código, la optimización de consultas y la manipulación de la infraestructura técnica donde residen los datos."
       },
       {
         id: 3,
         title: "Crear reglas de perfilado de calidad de datos y monitorear registros con formato incorrecto en el CRM.",
         correct: "Data Steward",
-        explanation: "Los Data Stewards supervisan la calidad operativa diaria, establecen los umbrales de validez de los datos y monitorean la higiene de la información."
+        explanation: "Los Data Stewards / Product Owners supervisan la calidad operativa diaria, establecen los umbrales de validez de los datos y monitorean la higiene de la información."
       },
       {
         id: 4,
         title: "Configurar reglas de firewall en la base de datos y gestionar las credenciales de acceso a los servidores.",
         correct: "IT / Tech",
-        explanation: "TI / Tecnología administra la seguridad de infraestructura, arquitecturas de red y protocolos de autenticación de sistemas."
+        explanation: "TI / Data Team administra la seguridad de infraestructura, arquitecturas de red y protocolos de autenticación de sistemas."
       },
       {
         id: 5,
@@ -1351,19 +1378,19 @@
         id: 6,
         title: "Investigar por qué el 15% de las ventas registradas en la región Norte carecen de código postal.",
         correct: "Data Steward",
-        explanation: "Los Data Stewards investigan las anomalías operativas y las causas raíz de la degradación de datos en los flujos de proceso."
+        explanation: "Los Data Stewards / Product Owners investigan las anomalías operativas y las causas raíz de la degradación de datos en los flujos de proceso."
       },
       {
         id: 7,
         title: "Seleccionar, comprar y configurar la arquitectura de un nuevo Data Warehouse en la nube.",
         correct: "IT / Tech",
-        explanation: "TI / Tecnología evalúa, dimensiona e implementa la infraestructura física/nube y las plataformas tecnológicas."
+        explanation: "TI / Data Team evalúa, dimensiona e implementa la infraestructura física/nube y las plataformas tecnológicas."
       },
       {
         id: 8,
         title: "Documentar la descripción funcional de los campos y metadatos de negocio en el Catálogo de Datos.",
         correct: "Data Steward",
-        explanation: "Los Data Stewards sirven como puente entre el lenguaje operativo del negocio y la estructura técnica del catálogo de datos."
+        explanation: "Los Data Stewards / Product Owners sirven como puente entre el lenguaje operativo del negocio y la estructura técnica del catálogo de datos."
       },
       {
         id: 9,
@@ -1375,7 +1402,7 @@
         id: 10,
         title: "Configurar las copias de seguridad (backups) diarias y los planes de recuperación ante desastres para los servidores analíticos.",
         correct: "IT / Tech",
-        explanation: "TI / Tecnología garantiza la continuidad operativa, el almacenamiento seguro de copias de respaldo y la disponibilidad de los sistemas."
+        explanation: "TI / Data Team garantiza la continuidad operativa, el almacenamiento seguro de copias de respaldo y la disponibilidad de los sistemas."
       }
     ];
 
@@ -1590,8 +1617,8 @@
     function translateRole(roleKey) {
       switch(roleKey) {
         case 'Business Owner': return 'Dueño del Negocio';
-        case 'Data Steward': return 'Data Steward';
-        case 'IT / Tech': return 'TI / Tecnología';
+        case 'Data Steward': return 'Data Steward / Product Owner';
+        case 'IT / Tech': return 'TI / Data Team';
         default: return roleKey;
       }
     }
@@ -1626,14 +1653,14 @@
         tips = [
           "<strong>Detén la delegación indebida en TI:</strong> El equipo de TI no debe definir el significado de métricas de negocio ni autorizar acceso a clientes.",
           "<strong>Implementa una Matriz RACI básica:</strong> Clarifica por escrito quién Aprueba (Business) y quién Ejecuta (TI).",
-          "<strong>Designa Data Stewards en áreas clave:</strong> Asigna al menos un Steward funcional en Finanzas y Marketing."
+          "<strong>Designa Data Stewards / Product Owners en áreas clave:</strong> Asigna al menos un Steward funcional en Finanzas y Marketing."
         ];
       } else if (score <= 700) {
         tierTitle = "⚡ Practicante de Gobernanza";
-        tierDesc = "Cuentas con una buena base teórica, pero los límites operativos entre los Data Stewards y los Dueños del Negocio aún presentan zonas grises en tu día a día.";
+        tierDesc = "Cuentas con una buena base teórica, pero los límites operativos entre los Data Stewards / Product Owners y los Dueños del Negocio aún presentan zonas grises en tu día a día.";
         tips = [
           "<strong>Documenta las reglas de calidad de datos:</strong> Pasa de resolver incidentes reactivamente a formalizar catálogos de metadatos.",
-          "<strong>Empodera a los Data Stewards:</strong> Otorga a los Stewards autoridad para hacer cumplir estándares con los equipos de operaciones.",
+          "<strong>Empodera a los Data Stewards / Product Owners:</strong> Otorga a los Stewards autoridad para hacer cumplir estándares con los equipos de operaciones.",
           "<strong>Separa presupuesto de ejecución técnica:</strong> Asegúrate de que las inversiones en proyectos analíticos sean aprobadas por el Dueño del Negocio."
         ];
       } else {

@@ -123,6 +123,87 @@
   outline-offset: 2px;
 }
 
+/*
+ * The strip is the only header inside a space, so it carries what the public
+ * header used to.
+ *
+ * Two things are moved or rebuilt into it by assets/js/workspace-context.js: the
+ * page's own controls (sound, RACI guide, leaderboard -- whatever that simulator
+ * put in its header) and the language switch, which normally lives in the footer
+ * nav that is hidden here too. Everything else about the public chrome is gone
+ * on purpose; these two are the parts a participant would miss mid-exercise.
+ */
+.workspace-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/*
+ * A floor for the controls moved out of the public header, and nothing more.
+ *
+ * Written inside :where() so it carries no specificity at all: every one of the
+ * nine pages styles these buttons itself -- Tailwind utilities on seven, a local
+ * .btn-icon rule on the two that have been moved off the CDN -- and all of it
+ * still wins here. What is left is the case this exists for: a control whose own
+ * styling depends on a stylesheet that page does not load, which would otherwise
+ * arrive in the strip as a bare unpadded word.
+ */
+:where(.workspace-banner-actions button) {
+  min-height: 2.25rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1;
+}
+
+.workspace-banner-langs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.workspace-banner-lang {
+  border-radius: 4px;
+  color: #cfe9f1;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.4rem;
+  text-decoration: none;
+}
+
+.workspace-banner-lang:hover {
+  background: rgb(255 255 255 / 0.14);
+  color: #ffffff;
+}
+
+/* The language being played, marked with the client's own accent rather than a
+   generic highlight -- it is the one piece of state in the strip. */
+.workspace-banner-lang--current {
+  background: var(--workspace-accent);
+  color: #04223f;
+}
+
+.workspace-banner-lang:focus-visible {
+  outline: 3px solid #65b7c7;
+  outline-offset: 2px;
+}
+
+/*
+ * The leaderboard name field, once it has been filled in from the seat.
+ *
+ * Read-only rather than hidden (see fillNameFields in
+ * assets/js/workspace-context.js), so this has to look settled rather than
+ * broken: a field somebody is meant to leave alone, not one that failed to
+ * accept their typing.
+ */
+input[data-workspace-name="true"] {
+  cursor: default;
+  opacity: 0.85;
+}
+
 /* ---------------------------------------------------------------------------
  * The space page: gate, hub and report.
  * ------------------------------------------------------------------------- */
@@ -407,6 +488,38 @@ body.workspace-page {
 .workspace-card__stat {
   font-size: 0.75rem;
   font-weight: 600;
+  color: var(--workspace-muted);
+}
+
+/*
+ * "Played" / "Not played yet" on each card.
+ *
+ * Deliberately quiet: this is a status line, not a scoreboard, and a participant
+ * who has finished one of three should read the difference at a glance without
+ * the page looking like a checklist that is telling them off. The done state
+ * borrows the space's own accent so a client's colour carries the good news.
+ */
+/* Qualified with the element and the card, because `.workspace-card p` above is
+   more specific than a lone class and would otherwise win both the size and the
+   colour -- which would silently cost the done state its accent. */
+.workspace-card p.workspace-card__status {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--workspace-muted);
+}
+
+.workspace-card p.workspace-card__status--done {
+  color: var(--workspace-accent);
+}
+
+/* The best-score tail, which is detail rather than status. */
+.workspace-card__status-detail {
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
   color: var(--workspace-muted);
 }
 

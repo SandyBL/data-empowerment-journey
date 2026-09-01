@@ -48,6 +48,8 @@
       report: "Facilitator report",
       leave: "Leave space",
       leaving: "Leaving…",
+      language: "Language",
+      seatedName: "This is the name you entered when you joined this space.",
     },
     es: {
       label: "Espacio privado",
@@ -56,6 +58,8 @@
       report: "Informe del facilitador",
       leave: "Salir del espacio",
       leaving: "Saliendo…",
+      language: "Idioma",
+      seatedName: "Este es el nombre que escribiste al entrar en este espacio.",
     },
     pt: {
       label: "Espaço privado",
@@ -64,6 +68,8 @@
       report: "Relatório do facilitador",
       leave: "Sair do espaço",
       leaving: "Saindo…",
+      language: "Idioma",
+      seatedName: "Este é o nome que você digitou ao entrar neste espaço.",
     },
   };
 
@@ -198,6 +204,140 @@
     }
   }
 
+  /**
+   * The inputs the nine pages use to ask for a leaderboard name.
+   *
+   * Three different ids across nine files, because the pages were written
+   * separately -- and one page carries the same id twice, once per screen, which
+   * is why this is a querySelectorAll and not a getElementById. All three are
+   * listed here rather than normalised in the pages: this is the only reader that
+   * cares, and renaming an id in nine hand-written files to save two selectors is
+   * a change with nine chances to break a page's own script.
+   */
+  var NAME_FIELDS = "input#playerNameInput, input#player-name-input, input#player-name";
+
+  /**
+   * Fills the leaderboard name in from the seat, and stops it being edited.
+   *
+   * A participant already typed their name to get into the space, and being
+   * asked for it again by the exercise is both a repeat and a way for one person
+   * to appear on their company's board under two names -- which now matters more
+   * than it used to, because the name is what carries their progress from one
+   * simulator to the next.
+   *
+   * The pages read `.value` at the moment they need it and never earlier, so
+   * filling the field is enough: not one of the nine needs editing for this to
+   * work. Read-only rather than hidden, so somebody who wonders what they will
+   * be published as can see the answer.
+   *
+   * A seat with no name -- a sponsor who skipped the field, or a seat opened
+   * before the name was required -- leaves the field alone and editable, which
+   * is exactly the public behaviour.
+   */
+  function fillNameFields() {
+    if (!state.label) return;
+    var inputs = document.querySelectorAll(NAME_FIELDS);
+
+    for (var index = 0; index < inputs.length; index += 1) {
+      var input = inputs[index];
+      if (input.value === state.label && input.readOnly) continue;
+      // maxlength caps typing, not assignment, and the write path clamps to 60
+      // anyway (assets/js/simulator-leaderboard.js), so a long seat name is
+      // carried whole rather than cut to the page's own 30.
+      input.value = state.label;
+      input.readOnly = true;
+      input.setAttribute("data-workspace-name", "true");
+      input.title = copy().seatedName;
+    }
+  }
+
+  /**
+   * Keeps the name filled in on the pages that rebuild their own form.
+   *
+   * The Data Governance page holds two copies of the name field and re-renders
+   * the block it lives in when a run ends, and the other two reveal theirs on a
+   * screen that does not exist at load. An observer is the only thing that
+   * covers all three without nine page edits; it does nothing on a public page,
+   * because it is only ever started for a seated browser.
+   */
+  function watchNameFields() {
+    if (!state.label || typeof MutationObserver !== "function") return;
+    var pending = false;
+
+    var observer = new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      // Coalesced: a page re-rendering a panel fires this dozens of times in one
+      // frame, and refilling one input is not worth doing dozens of times.
+      window.setTimeout(function () {
+        pending = false;
+        fillNameFields();
+      }, 50);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  /**
+   * Moves the page's own header buttons into the strip.
+   *
+   * The public header is hidden inside a space (see the data-workspace rules in
+   * assets/css/simulator-header.css), and on several of these pages it is not
+   * only branding: it carries the sound toggle, the RACI guide, the leaderboard
+   * button. Hiding it without this would take a working control off the screen
+   * mid-exercise.
+   *
+   * Moved rather than rebuilt, so the handlers -- inline onclick attributes on
+   * most of these pages -- come with them and this file needs to know nothing
+   * about what any individual button does. The "main website" link is the one
+   * thing deliberately left behind: inside a client's space, the way out is
+   * their hub, not our marketing site.
+   */
+  function adoptHeaderActions(host) {
+    var actions = document.querySelector(".simulator-header-actions");
+    if (!actions) return;
+
+    var home = actions.querySelector(".simulator-home-link");
+    if (home && home.parentNode) home.parentNode.removeChild(home);
+
+    actions.classList.add("workspace-banner-actions");
+    host.appendChild(actions);
+  }
+
+  /**
+   * The language switch, rebuilt in the strip.
+   *
+   * The footer nav that normally carries it is hidden along with the rest of the
+   * public chrome, and a room is rarely monolingual -- the space has a language
+   * but the three simulators exist in all of them, so losing the switch would
+   * cost a participant the version they can actually read. The seat is a cookie
+   * rather than a query string, so it survives the hop.
+   */
+  function renderLanguageSwitch(host) {
+    var match = /\/simulators\/(en|es|pt)\/([a-z0-9-]+)\//.exec(window.location.pathname);
+    if (!match) return;
+
+    var current = match[1];
+    var slug = match[2];
+    var codes = ["en", "es", "pt"];
+    var nav = element("nav", "workspace-banner-langs");
+    nav.setAttribute("aria-label", copy().language);
+
+    for (var index = 0; index < codes.length; index += 1) {
+      var code = codes[index];
+      var link = element("a", "workspace-banner-lang", code.toUpperCase());
+      link.href = "/simulators/" + code + "/" + slug + "/";
+      link.setAttribute("hreflang", code);
+      if (code === current) {
+        link.setAttribute("aria-current", "page");
+        link.className += " workspace-banner-lang--current";
+      }
+      nav.appendChild(link);
+    }
+
+    host.appendChild(nav);
+  }
+
   /** Ends this seat and returns to the space gate. */
   function leave(button) {
     var words = copy();
@@ -273,7 +413,11 @@
     });
     meta.appendChild(leaveButton);
 
+    renderLanguageSwitch(meta);
     inner.appendChild(meta);
+    // Last, so the page's own controls sit at the end of the strip rather than
+    // between the company's name and the way back to their hub.
+    adoptHeaderActions(inner);
     banner.appendChild(inner);
 
     if (header && header.nextSibling) host.insertBefore(banner, header.nextSibling);
@@ -287,6 +431,10 @@
 
     ensureStylesheet();
     document.documentElement.setAttribute("data-workspace", state.space.slug);
+    // The head script's guess has been confirmed, so the guess can go: one
+    // attribute means "seated" from here on, and nothing has to reason about
+    // which of the two is the real one.
+    document.documentElement.removeAttribute("data-workspace-pending");
     if (state.space.accentColor) {
       document.documentElement.style.setProperty("--workspace-accent", state.space.accentColor);
     }
@@ -294,11 +442,32 @@
     var run = function () {
       renderBanner();
       relabelBoard(state.space.company || state.space.displayName || "");
+      fillNameFields();
+      watchNameFields();
       document.dispatchEvent(new CustomEvent("workspace:ready", { detail: { space: state.space, role: state.role } }));
     };
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
     else run();
+  }
+
+  /**
+   * Puts the public chrome back when this browser turns out not to be seated.
+   *
+   * The head script hides the header on a hint -- a `?space=` in the link or the
+   * `dgj_space_hint` cookie -- and a hint can be wrong: a seat lapses, a space is
+   * suspended, somebody keeps a bookmark. This is the correction, and it runs on
+   * the answer from the server rather than on anything the browser believes.
+   *
+   * The stale hint is dropped with it, so the next load of any simulator does not
+   * hide a header it is only going to have to put back. Deleting it needs no
+   * Secure flag, which also means this works over plain http in local dev.
+   */
+  function releasePendingChrome(dropHint) {
+    document.documentElement.removeAttribute("data-workspace-pending");
+    if (dropHint && /(?:^|;\s*)dgj_space_hint=/.test(document.cookie)) {
+      document.cookie = "dgj_space_hint=; Path=/; Max-Age=0; SameSite=Lax";
+    }
   }
 
   /**
@@ -354,14 +523,27 @@
         // Named a space, holds no seat in it: the gate is the next step, and it
         // is where the wording explaining any of this lives.
         if (requested && data && data.reason !== "other-space") {
+          // Deliberately without releasePendingChrome(): this page is navigating
+          // away, and unhiding a header on the way out is a flash of our brand
+          // between a client's hub and their own gate.
           redirectToGate(requested);
+          return state;
         }
 
+        // The hint is only dropped when the server has actually said there is no
+        // seat anywhere. "Seated in another space" is not that: the browser does
+        // hold a seat, so the next simulator it opens inside its own space should
+        // still hide the public header before the first paint.
+        releasePendingChrome(!data || data.reason !== "other-space");
         return state;
       })
       .catch(function (error) {
-        // A public page with a failed lookup is just a public page.
+        // A public page with a failed lookup is just a public page. The header
+        // comes back, but the hint stays: a request that never arrived is no
+        // evidence about the seat, and throwing the hint away on a blip would
+        // cost a seated participant the pre-paint hide until they next rejoin.
         console.warn("Workspace context unavailable", error);
+        releasePendingChrome(false);
         return state;
       });
   }

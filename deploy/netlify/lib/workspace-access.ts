@@ -22,6 +22,26 @@ import { workspaceSessions, workspaces } from "../../db/schema.js";
 /** Name of the cookie that carries a seat. Shared with assets/js/workspace-context.js. */
 export const SPACE_COOKIE = "dgj_space";
 
+/**
+ * Name of the companion cookie that says "this browser is probably in a space".
+ *
+ * The seat cookie is HttpOnly, which is right, and it means a simulator page
+ * cannot know it is being opened from inside a private space until the answer
+ * comes back from /api/workspace/session -- one round trip after the public
+ * header, breadcrumb and Data Governance Journey footer have already painted.
+ * For a client whose whole point is seeing their own logo, that flash is the
+ * defect.
+ *
+ * So this cookie exists purely so the inline snippet in each simulator's <head>
+ * can hide the public chrome synchronously, before the first paint. It holds the
+ * literal string "1" and nothing else: no token, no space slug, no name. It
+ * grants nothing, proves nothing, and if it is stale or forged the only
+ * consequence is that a page hides its own header for one round trip and then
+ * puts it back when the server says there is no seat. Readable by script by
+ * design -- that is the entire feature.
+ */
+export const SPACE_HINT_COOKIE = "dgj_space_hint";
+
 /** The three boards. Kept here so every workspace endpoint validates the same set. */
 export const SIMULATOR_SLUGS = [
   "data-governance-day-to-day",
@@ -167,6 +187,63 @@ export const sessionCookie = (token: string, expiresAt: Date) => {
 export const clearedSessionCookie = () =>
   `${SPACE_COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
 
+/**
+ * The Set-Cookie value for the pre-paint hint. Deliberately not HttpOnly.
+ *
+ * Set with the same lifetime as the seat so it lapses together with the thing it
+ * hints at, rather than leaving a browser hiding public chrome for a space it
+ * left months ago.
+ */
+export const hintCookie = (expiresAt: Date) => {
+  const maxAge = Math.max(0, Math.floor((expiresAt.getTime() - Date.now()) / 1000));
+  return `${SPACE_HINT_COOKIE}=1; Path=/; Max-Age=${maxAge}; Secure; SameSite=Lax`;
+};
+
+/** The Set-Cookie value that drops the pre-paint hint. */
+export const clearedHintCookie = () =>
+  `${SPACE_HINT_COOKIE}=; Path=/; Max-Age=0; Secure; SameSite=Lax`;
+
+/**
+ * The name somebody typed, folded down to the identity it stands for.
+ *
+ * Case and spacing are noise: "Ana Silva", "ana silva" and " Ana  Silva " are
+ * one person coming back, and a room reading names off a leaderboard will type
+ * all three across two mornings. Accents are folded for the same reason, because
+ * "Joao" on a laptop keyboard and "João" on a phone are the same participant and
+ * treating them as strangers would silently lose their finished runs.
+ *
+ * Punctuation is stripped rather than kept so that trailing full stops and
+ * stray commas do not fork an identity. What survives is letters, digits and
+ * single spaces -- enough that two genuinely different people in a room still
+ * differ, which is the whole basis of this being usable.
+ */
+export const foldParticipantName = (value: unknown) =>
+  typeof value === "string"
+    ? value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim()
+    : "";
+
+/**
+ * The identity a name stands for inside one space, as a hash.
+ *
+ * Scoped to the space so the same name in two different clients' spaces is two
+ * unrelated people, and hashed so this column cannot be read back into a list of
+ * who attended a workshop -- the display name is already stored in the clear on
+ * the runs the participant chose to publish, and this adds no second copy of it
+ * that a dump would reveal.
+ *
+ * Returns null for a name that folds to nothing, so a seat without a usable name
+ * has no identity rather than sharing one with every other such seat.
+ */
+export const participantKeyFor = async (spaceId: number, label: unknown) => {
+  const folded = foldParticipantName(label);
+  return folded ? await sha256Hex(`${spaceId}:${folded}`) : null;
+};
+
 /** Whether a space is inside its licence window and not switched off. */
 export const spaceIsOpen = (space: SpaceRow, now = new Date()) =>
   space.status === "active" &&
@@ -262,6 +339,9 @@ export const openSeat = async (
       workspaceId: space.id,
       tokenHash: await sha256Hex(token),
       participantLabel: participantLabel || null,
+      // Computed here rather than by the caller so that every seat in the
+      // database agrees on what counts as the same person.
+      participantKey: await participantKeyFor(space.id, participantLabel),
       role,
       expiresAt,
     })

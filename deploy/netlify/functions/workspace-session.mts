@@ -1,8 +1,9 @@
 import type { Config } from "@netlify/functions";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { workspaceSessions } from "../../db/schema.js";
+import { simulatorScores, workspaceSessions } from "../../db/schema.js";
 import {
+  clearedHintCookie,
   clearedSessionCookie,
   findSpaceBySlug,
   normalizeSlug,
@@ -28,6 +29,13 @@ import { isLocale, isSimulator, loadScenarioText } from "../lib/scenario-text.js
 // the cookie, so a shared laptop in a training room cannot be walked back into
 // the space with the browser's back button.
 //
+// The hub passes `progress=1` and gets back which simulators this person has
+// already finished -- "this person", not "this browser", which is the point. A
+// room almost never plays all three in one sitting: somebody finishes one before
+// lunch, the seat lapses overnight, and they come back to a browser that has
+// forgotten everything. Joining through the name they typed means the hub can
+// show them the two they still owe instead of three identical cards.
+//
 // A simulator page also passes `simulator` and `locale`, and a seated browser
 // gets back the wording its company had rewritten for exactly that page. That
 // rides along here rather than in an endpoint of its own for two reasons: the
@@ -36,6 +44,66 @@ import { isLocale, isSimulator, loadScenarioText } from "../lib/scenario-text.js
 // renders; and a public visitor -- who is the overwhelming majority of traffic
 // and never has a seat -- pays nothing at all, because the extra query only runs
 // after a live seat has been resolved.
+
+/**
+ * Ceiling on the runs one progress lookup reads.
+ *
+ * This is one person in one space across the life of a licence, so a handful of
+ * rows in practice. The cap is only here so that a space where somebody has
+ * replayed a simulator two hundred times cannot turn a hub page load into a
+ * large read; the roll-up below is by simulator, and the extra rows would not
+ * change the answer.
+ */
+const MAX_PROGRESS_ROWS = 200;
+
+/**
+ * Which simulators this participant has finished, best score and last attempt.
+ *
+ * Joined through the participant key rather than the seat, so a run published
+ * yesterday under the same name counts today. A seat that predates the key --
+ * anything that joined before the name was required -- has no identity to join
+ * on, so it falls back to its own runs: the person still sees the truth about
+ * this sitting, which is exactly what they saw before this existed.
+ */
+const readProgress = async (spaceId: number, seatId: number, participantKey: string | null) => {
+  const runs = await db
+    .select({
+      simulator: simulatorScores.simulator,
+      score: simulatorScores.score,
+      createdAt: simulatorScores.createdAt,
+    })
+    .from(simulatorScores)
+    .innerJoin(workspaceSessions, eq(simulatorScores.workspaceSessionId, workspaceSessions.id))
+    .where(
+      and(
+        eq(simulatorScores.workspaceId, spaceId),
+        participantKey
+          ? eq(workspaceSessions.participantKey, participantKey)
+          : eq(workspaceSessions.id, seatId),
+      ),
+    )
+    .limit(MAX_PROGRESS_ROWS);
+
+  const perSimulator = new Map<string, { simulator: string; runs: number; bestScore: number; lastPlayedAt: Date }>();
+
+  for (const run of runs) {
+    const entry = perSimulator.get(run.simulator);
+    if (!entry) {
+      perSimulator.set(run.simulator, {
+        simulator: run.simulator,
+        runs: 1,
+        bestScore: run.score,
+        lastPlayedAt: run.createdAt,
+      });
+      continue;
+    }
+    entry.runs += 1;
+    if (run.score > entry.bestScore) entry.bestScore = run.score;
+    if (run.createdAt > entry.lastPlayedAt) entry.lastPlayedAt = run.createdAt;
+  }
+
+  return [...perSimulator.values()];
+};
 
 const spaceFacade = async (slug: string) => {
   const space = await findSpaceBySlug(slug);
@@ -62,10 +130,16 @@ export default async (request: Request) => {
           .where(eq(workspaceSessions.id, session.seat.id));
       }
 
-      return Response.json(
-        { joined: false },
-        { headers: { "Set-Cookie": clearedSessionCookie(), "Cache-Control": "no-store" } },
-      );
+      // Both cookies go, and the readable hint goes too: a browser that has
+      // left the space must stop hiding the public header on the next simulator
+      // it opens. The page-side code drops the same cookie defensively when the
+      // server says there is no seat, but a browser that leaves and never opens
+      // another simulator would otherwise carry a stale hint until it lapsed.
+      const headers = new Headers({ "Cache-Control": "no-store" });
+      headers.append("Set-Cookie", clearedSessionCookie());
+      headers.append("Set-Cookie", clearedHintCookie());
+
+      return Response.json({ joined: false }, { headers });
     }
 
     if (session) {
@@ -94,6 +168,14 @@ export default async (request: Request) => {
           ? await loadScenarioText(session.space.id, simulator, locale)
           : null;
 
+      // Only for the page that asked. The nine simulator pages call this on
+      // every load and have no use for it, and a participant's progress is not
+      // something to read out of the database three times per exercise.
+      const progress =
+        params.get("progress") === "1"
+          ? await readProgress(session.space.id, session.seat.id, session.seat.participantKey)
+          : null;
+
       return Response.json(
         {
           joined: true,
@@ -102,6 +184,7 @@ export default async (request: Request) => {
           expiresAt: session.seat.expiresAt,
           space: publicSpace(session.space),
           ...(text ? { scenarioText: text.overrides } : {}),
+          ...(progress ? { progress } : {}),
         },
         { headers: { "Cache-Control": "no-store" } },
       );

@@ -1,0 +1,2 @@
+ALTER TABLE "workspace_sessions" ADD COLUMN "participant_key" varchar(64);--> statement-breakpoint
+CREATE INDEX "workspace_sessions_workspace_participant_idx" ON "workspace_sessions" ("workspace_id","participant_key");

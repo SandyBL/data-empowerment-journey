@@ -120,6 +120,28 @@
         }
     </style>
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <!-- Private-space chrome, settled before the first paint. The rules it
+       switches on live with the header styles in
+       /assets/css/simulator-header.css, which this page already links above. -->
+  <script>
+    /* A participant arriving from their space hub carries ?space=, and one
+       coming back to this page carries the dgj_space_hint cookie. The hint holds
+       no token and grants nothing -- the seat itself is an HttpOnly cookie this
+       script cannot read and the server re-checks on every request -- it exists
+       only so the Data Governance Journey header does not paint for a third of a
+       second inside a client's own space. assets/js/workspace-context.js removes
+       the attribute again the moment the server says there is no seat. */
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("space") || /(?:^|;\s*)dgj_space_hint=1/.test(document.cookie)) {
+          document.documentElement.setAttribute("data-workspace-pending", "true");
+        }
+      } catch (error) {
+        /* Anything that fails here simply keeps the public header. */
+      }
+    })();
+  </script>
 </head>
 <body class="h-full bg-navy-950 font-sans text-slate-100 antialiased flex flex-col overflow-x-hidden selection:bg-cyan-500 selection:text-slate-950">
     <a class="skip-link" href="#simulator-main">Saltar al simulador</a>
