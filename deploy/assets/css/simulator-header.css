@@ -205,16 +205,35 @@ select:focus-visible {
 }
 
 .simulator-site-header button:hover,
-.workspace-banner-actions button:hover,
 .simulator-home-link:hover {
   background-color: rgb(101 183 199 / 0.2) !important;
   color: #003366 !important;
 }
 
+/*
+ * The same hover, kept opaque inside a private space.
+ *
+ * The rule above fades the button to a 20% wash, which reads as a highlight on
+ * the fixed navy of the public header. The strip behind these buttons is now the
+ * client's own colour, and on a pale one that wash left the control all but
+ * invisible at the moment somebody pointed at it. Opaque white keeps the
+ * pressable shape on every colour a client can pick.
+ */
+.workspace-banner-actions button:hover {
+  background-color: #ffffff !important;
+  color: #003366 !important;
+}
+
 .simulator-site-header button:focus-visible,
-.workspace-banner-actions button:focus-visible,
 .simulator-home-link:focus-visible {
   outline: 2px solid #65b7c7;
+  outline-offset: 2px;
+}
+
+/* Cyan on a cyan header is not a focus ring, so inside a space the ring is the
+   ink the strip already picked for its own text. */
+.workspace-banner-actions button:focus-visible {
+  outline: 2px solid rgb(var(--workspace-brand-ink-rgb, 255 255 255));
   outline-offset: 2px;
 }
 
@@ -278,6 +297,29 @@ select:focus-visible {
 .workspace-banner-actions [role="tablist"] button[aria-selected="true"] {
   background-color: #ffffff !important;
   color: #003366 !important;
+}
+
+/*
+ * The same switcher, on a client's colour rather than on the fixed navy.
+ *
+ * The three rules above are written against a dark navy background and hard-code
+ * a pale blue, a white and a navy to suit it. Inside a space the strip is the
+ * company's own colour, so each of them is redirected at the ink that colour was
+ * measured against: the closed tab is that ink held back, the open one is a
+ * filled pill of it with the band colour showing through the icon.
+ */
+.workspace-banner-actions [role="tablist"] button {
+  color: rgb(var(--workspace-brand-ink-rgb, 255 255 255) / 0.8) !important;
+}
+
+.workspace-banner-actions [role="tablist"] button:hover {
+  background-color: rgb(var(--workspace-brand-ink-rgb, 255 255 255) / 0.22) !important;
+  color: rgb(var(--workspace-brand-ink-rgb, 255 255 255)) !important;
+}
+
+.workspace-banner-actions [role="tablist"] button[aria-selected="true"] {
+  background-color: rgb(var(--workspace-brand-ink-rgb, 255 255 255)) !important;
+  color: var(--workspace-brand-bg, #04223f) !important;
 }
 
 .simulator-site-header [role="tablist"] button i,

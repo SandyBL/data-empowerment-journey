@@ -18,6 +18,15 @@
  * uses it against a background dark enough to keep the text contrast, or does
  * not use it at all: a client with a pale yellow brand colour must not be able
  * to produce an unreadable page for their own staff.
+ *
+ * The header inside a space and the masthead of the printed report are the two
+ * exceptions, and they are exceptions with a guard rail. They are painted from
+ * --workspace-brand-bg and --workspace-brand-ink-rgb, which are not the raw
+ * accent: they are derived from it server-side by netlify/lib/workspace-brand.ts,
+ * which picks the ink that measurably reads on that colour and nudges the colour
+ * itself if neither ink clears 5:1. So the header really is the company's colour,
+ * and it is still legible when the company's colour is pale yellow. The defaults
+ * below are what a space with no accent keeps: the navy this strip always had.
  */
 
 :root {
@@ -29,6 +38,9 @@
   --workspace-page: #f5f8fa;
   --workspace-accent: #65b7c7;
   --workspace-focus: #0b4a5c;
+  --workspace-brand-bg: #04223f;
+  --workspace-brand-ink-rgb: 255 255 255;
+  --workspace-brand-line: var(--workspace-accent);
 }
 
 /* ---------------------------------------------------------------------------
@@ -36,9 +48,9 @@
  * ------------------------------------------------------------------------- */
 
 .workspace-banner {
-  background: #04223f;
-  border-bottom: 2px solid var(--workspace-accent);
-  color: #ffffff;
+  background: var(--workspace-brand-bg);
+  border-bottom: 2px solid var(--workspace-brand-line);
+  color: rgb(var(--workspace-brand-ink-rgb));
   font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
@@ -75,7 +87,14 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #b9dce4;
+  /*
+   * Held back from the ink rather than given a colour of its own, and held back
+   * only slightly: this is 10px uppercase text over a colour the client chose, so
+   * it is the string in the strip with the least contrast to spare. The band
+   * itself is guaranteed 5:1 against this ink (netlify/lib/workspace-brand.ts),
+   * which leaves roughly 4.5:1 here.
+   */
+  color: rgb(var(--workspace-brand-ink-rgb) / 0.9);
 }
 
 .workspace-banner-name {
@@ -94,12 +113,12 @@
 }
 
 .workspace-banner-until {
-  color: #cfe9f1;
+  color: rgb(var(--workspace-brand-ink-rgb) / 0.9);
 }
 
 .workspace-banner-link,
 .workspace-banner-leave {
-  color: #ffffff;
+  color: rgb(var(--workspace-brand-ink-rgb));
   font: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -117,9 +136,11 @@
   opacity: 0.7;
 }
 
+/* The ring is the ink rather than the brand cyan: the strip is the client's own
+   colour now, and a cyan ring on a cyan header is not a focus indicator. */
 .workspace-banner-link:focus-visible,
 .workspace-banner-leave:focus-visible {
-  outline: 3px solid #65b7c7;
+  outline: 3px solid rgb(var(--workspace-brand-ink-rgb));
   outline-offset: 2px;
 }
 
@@ -158,6 +179,26 @@
   line-height: 1;
 }
 
+/*
+ * The two spelled-out controls on the Ownership simulator become icons here.
+ *
+ * That page is the only one of the nine whose header buttons carry their wording
+ * -- "Som: LIGADO", "Guia RACI de Dados" -- and it can afford to, because its own
+ * header has nothing else in it. The strip does: a logo, the company's name, an
+ * expiry date, two or three links, the leave button and a language switch, all
+ * before these arrive. Roughly 300px of labels was the difference between one row
+ * and two, so the Ownership strip stood a line taller than the same strip on the
+ * other two simulators.
+ *
+ * The wording is dropped rather than the buttons shrunk, which is what the page
+ * itself already does below 640px and what the other two simulators do at every
+ * width. Nothing is lost to a screen reader: both buttons name themselves with
+ * aria-label, and the sound toggle keeps that label in step with its own state.
+ */
+.workspace-banner-actions .btn-icon-label {
+  display: none;
+}
+
 .workspace-banner-langs {
   display: flex;
   align-items: center;
@@ -166,7 +207,7 @@
 
 .workspace-banner-lang {
   border-radius: 4px;
-  color: #cfe9f1;
+  color: rgb(var(--workspace-brand-ink-rgb) / 0.9);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -175,19 +216,27 @@
 }
 
 .workspace-banner-lang:hover {
-  background: rgb(255 255 255 / 0.14);
-  color: #ffffff;
+  background: rgb(var(--workspace-brand-ink-rgb) / 0.16);
+  color: rgb(var(--workspace-brand-ink-rgb));
 }
 
-/* The language being played, marked with the client's own accent rather than a
-   generic highlight -- it is the one piece of state in the strip. */
+/*
+ * The language being played: the one piece of state in the strip, so it stays a
+ * filled pill.
+ *
+ * It used to be filled with the client's accent, which was a highlight while the
+ * strip was navy and is invisible now that the strip is that same accent. So the
+ * fill and the strip swap places -- the pill takes the ink and the text takes the
+ * band colour -- which reads as marked on any colour a client can choose,
+ * including their own.
+ */
 .workspace-banner-lang--current {
-  background: var(--workspace-accent);
-  color: #04223f;
+  background: rgb(var(--workspace-brand-ink-rgb));
+  color: var(--workspace-brand-bg);
 }
 
 .workspace-banner-lang:focus-visible {
-  outline: 3px solid #65b7c7;
+  outline: 3px solid rgb(var(--workspace-brand-ink-rgb));
   outline-offset: 2px;
 }
 
@@ -862,15 +911,106 @@ body.workspace-page {
   margin-top: 0.375rem;
 }
 
+/* ---------------------------------------------------------------------------
+ * The masthead of the printed report.
+ *
+ * Off the screen entirely -- see the comment on the markup in
+ * workspace/index.html for why it is print-only, and why the logo gets a white
+ * plate. The layout lives out here rather than inside @media print so that the
+ * one thing the print block has to say about it is that it becomes visible.
+ * ------------------------------------------------------------------------- */
+
+.workspace-print-header {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.5rem;
+  background: var(--workspace-brand-bg);
+  color: rgb(var(--workspace-brand-ink-rgb));
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.workspace-print-header__plate {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0.3rem;
+  border-radius: 0.4rem;
+  /* The plate is the point: white, always, whatever the band behind it is. */
+  background: #ffffff;
+}
+
+/* A space with no logo would otherwise print an empty white square. */
+.workspace-print-header:not([data-logo="true"]) .workspace-print-header__plate {
+  display: none;
+}
+
+.workspace-print-header__plate img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.workspace-print-header__copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.workspace-print-header__eyebrow {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--workspace-brand-ink-rgb) / 0.9);
+}
+
+.workspace-print-header__name {
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.workspace-print-header__meta {
+  margin-left: auto;
+  padding-left: 1rem;
+  font-size: 0.75rem;
+  text-align: right;
+  color: rgb(var(--workspace-brand-ink-rgb) / 0.9);
+}
+
 /*
  * Print. A sponsor's first instinct with this report is to put it in front of
  * their leadership, and the honest format for that is the page itself: the
  * screen furniture comes off, the panels stop floating, and the bars keep their
  * fills because a printed bar chart with no bars says nothing.
+ *
+ * What it gains over the screen is the masthead above: the client's logo on
+ * their own colour, at the top of page one, because a PDF that leaves the page
+ * carries no top bar to say whose report it is.
  */
 @media print {
   body.workspace-page {
     background: #ffffff;
+  }
+
+  /* data-ready is set once a space has actually resolved, so a masthead with no
+     company in it cannot be printed. */
+  .workspace-print-header[data-ready="true"] {
+    display: flex;
+    /* Browsers drop backgrounds when printing unless asked; a band printed
+       white is a masthead with a logo floating in nothing. */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    break-inside: avoid;
+    break-after: avoid;
   }
 
   .workspace-topbar,
