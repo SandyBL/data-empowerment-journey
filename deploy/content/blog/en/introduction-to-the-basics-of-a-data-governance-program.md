@@ -89,4 +89,4 @@ Building a data governance foundation isn't about achieving perfection overnight
 
 Where does your organization stand on the data governance maturity spectrum? Take our quick diagnostic assessment to benchmark your current state and receive a personalized roadmap.
 
-👉 **[Evaluate Your Data Maturity Level with DeJourney](https://datagovjourney.com/en/#scorecard)**
+👉 **[Evaluate Your Data Maturity Level](https://datagovjourney.com/en/#scorecard)**
