@@ -189,7 +189,14 @@ select:focus-visible {
   color: #d9f2f7 !important;
 }
 
+/* `.workspace-banner-actions button` appears alongside the header selectors
+   throughout this section rather than being restyled separately: inside a private
+   space assets/js/workspace-context.js moves these very buttons out of the hidden
+   header and into the client strip, and a control that changes colour because it
+   moved would read as a different control. The strip is the same dark navy family
+   as the header, so the same treatment holds. */
 .simulator-site-header button,
+.workspace-banner-actions button,
 .simulator-home-link {
   border-color: rgb(101 183 199 / 0.38) !important;
   background-color: #f1f5f9 !important;
@@ -198,12 +205,14 @@ select:focus-visible {
 }
 
 .simulator-site-header button:hover,
+.workspace-banner-actions button:hover,
 .simulator-home-link:hover {
   background-color: rgb(101 183 199 / 0.2) !important;
   color: #003366 !important;
 }
 
 .simulator-site-header button:focus-visible,
+.workspace-banner-actions button:focus-visible,
 .simulator-home-link:focus-visible {
   outline: 2px solid #65b7c7;
   outline-offset: 2px;
@@ -252,23 +261,27 @@ select:focus-visible {
  * Driven off `aria-selected`, which switchMainTab() already keeps in step for
  * screen readers, so the visible state and the announced state cannot drift.
  */
-.simulator-site-header [role="tablist"] button {
+.simulator-site-header [role="tablist"] button,
+.workspace-banner-actions [role="tablist"] button {
   background-color: transparent !important;
   color: #b9dce4 !important;
   box-shadow: none;
 }
 
-.simulator-site-header [role="tablist"] button:hover {
+.simulator-site-header [role="tablist"] button:hover,
+.workspace-banner-actions [role="tablist"] button:hover {
   background-color: rgb(101 183 199 / 0.22) !important;
   color: #ffffff !important;
 }
 
-.simulator-site-header [role="tablist"] button[aria-selected="true"] {
+.simulator-site-header [role="tablist"] button[aria-selected="true"],
+.workspace-banner-actions [role="tablist"] button[aria-selected="true"] {
   background-color: #ffffff !important;
   color: #003366 !important;
 }
 
-.simulator-site-header [role="tablist"] button i {
+.simulator-site-header [role="tablist"] button i,
+.workspace-banner-actions [role="tablist"] button i {
   color: inherit !important;
 }
 
@@ -548,4 +561,67 @@ select:focus-visible {
   .simulator-locale-nav--revealing {
     opacity: 1;
   }
+}
+
+/* ---------------------------------------------------------------------------
+ * Inside a private space, the public chrome comes off.
+ *
+ * A participant who licensed a space arrives from their own hub -- their logo,
+ * their colour, their company's name -- and the simulator underneath used to
+ * reintroduce the Data Governance Journey header, the breadcrumb back to our
+ * marketing site, the SEO explainer and the site footer. The exercise read as a
+ * visit to somebody else's product with a client strip bolted on top.
+ *
+ * So the public chrome is hidden for a seated browser and only for a seated
+ * browser. Hidden rather than removed from the markup: the same nine files serve
+ * every public visitor, where that chrome is the navigation and the only thing a
+ * crawler can read (see the explainer's own comment), and this feature must not
+ * cost them either.
+ *
+ * Two attributes, because there are two moments to cover:
+ *
+ *   * `data-workspace` is set by assets/js/workspace-context.js once the server
+ *     has confirmed the seat. That is the authoritative one, and it arrives
+ *     after a round trip.
+ *   * `data-workspace-pending` is set synchronously in each page's <head> from
+ *     the `?space=` link the hub generates or the non-secret `dgj_space_hint`
+ *     cookie, and removed again the moment the server says there is no seat. It
+ *     exists so the DG logo does not paint for a third of a second before being
+ *     taken away -- a flash of somebody else's brand is exactly the thing this
+ *     feature is meant to remove.
+ *
+ * These rules live in this file rather than in workspace.css because this one is
+ * already in the <head> of all nine pages. workspace.css is fetched only after
+ * the seat is confirmed, which would be too late to prevent the flash.
+ *
+ * `!important` for the same reason the rules above it use it: the Tailwind CDN
+ * injects its utilities after this file on several of these pages, and a
+ * `display:flex` utility on a header would otherwise win.
+ */
+/* Class only, no tag names: the same block is a <header> on seven of these
+   pages and the markup is hand-written per page, so a selector that also
+   depended on the element would be one rewrite away from silently not hiding
+   anything. */
+html[data-workspace] .simulator-site-header,
+html[data-workspace-pending] .simulator-site-header,
+html[data-workspace] .simulator-breadcrumb,
+html[data-workspace-pending] .simulator-breadcrumb,
+html[data-workspace] .simulator-site-footer,
+html[data-workspace-pending] .simulator-site-footer,
+html[data-workspace] .simulator-public-footer,
+html[data-workspace-pending] .simulator-public-footer,
+html[data-workspace] .simulator-locale-nav,
+html[data-workspace-pending] .simulator-locale-nav,
+html[data-workspace] .simulator-explainer,
+html[data-workspace-pending] .simulator-explainer {
+  display: none !important;
+}
+
+/* The strip is the whole header now, so it takes over the sticky slot the
+   public header had. Same z-index for the same reason: these pages open modals
+   at z-50 and the strip must not sit above one. */
+html[data-workspace] .workspace-banner {
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }

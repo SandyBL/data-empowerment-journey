@@ -80,8 +80,10 @@ const COPY = {
       "Your facilitator will give you the code for this session. It only opens this company's simulators and leaderboard.",
     codeLabel: "Access code",
     codeHint: "Dashes and capitals do not matter.",
-    nameLabel: "Your name on the leaderboard (optional)",
-    nameHint: "Shown to your colleagues in this space only. Never an email address.",
+    nameLabel: "Your name",
+    nameHint:
+      "Type the same name each time you come back, so this space remembers which simulators you have already played. Shown to colleagues in this space only, and never an email address.",
+    missingName: "Please enter your name, so this space can remember your progress.",
     joinButton: "Enter the space",
     joining: "Checking…",
     hubLead:
@@ -96,6 +98,13 @@ const COPY = {
     participantSeat: "Participant",
     leaderIs: "Leading in this space:",
     noRunsYet: "No runs published in this space yet.",
+    statusDone: "Played",
+    statusPending: "Not played yet",
+    playAgain: "Play again",
+    yourBest: "Your best",
+    progressNone: "Nothing published under this name yet. Start with whichever simulator you like.",
+    progressSome: "You have played {done} of {total}. Come back to this page with the same name to finish the rest.",
+    progressAll: "You have played all {total} simulators in this space.",
     switchSpace: "You are seated in a different space. Leave it to enter this one.",
     leaveAndSwitch: "Leave the other space",
     badCode: "That code is not right for this space. Check it with your facilitator.",
@@ -110,6 +119,7 @@ const COPY = {
     people: "People",
     simulatorsPlayed: "Simulators played",
     seatsOpened: "Seats opened",
+    peopleJoined: "People who joined",
     averageScore: "Average score",
     bestScore: "Best score",
     medianTime: "Median time",
@@ -148,8 +158,10 @@ const COPY = {
       "Tu facilitador te dará el código de esta sesión. Solo abre los simuladores y la clasificación de esta empresa.",
     codeLabel: "Código de acceso",
     codeHint: "Los guiones y las mayúsculas no importan.",
-    nameLabel: "Tu nombre en la clasificación (opcional)",
-    nameHint: "Visible solo para tus colegas de este espacio. Nunca un correo electrónico.",
+    nameLabel: "Tu nombre",
+    nameHint:
+      "Escribe el mismo nombre cada vez que vuelvas, así este espacio recuerda qué simuladores ya jugaste. Visible solo para tus colegas de este espacio, y nunca un correo electrónico.",
+    missingName: "Escribe tu nombre para que este espacio pueda recordar tu progreso.",
     joinButton: "Entrar al espacio",
     joining: "Comprobando…",
     hubLead:
@@ -164,6 +176,13 @@ const COPY = {
     participantSeat: "Participante",
     leaderIs: "Lidera este espacio:",
     noRunsYet: "Todavía no hay partidas publicadas en este espacio.",
+    statusDone: "Jugado",
+    statusPending: "Aún sin jugar",
+    playAgain: "Jugar otra vez",
+    yourBest: "Tu mejor puntuación",
+    progressNone: "Todavía no hay nada publicado con este nombre. Empieza por el simulador que prefieras.",
+    progressSome: "Has jugado {done} de {total}. Vuelve a esta página con el mismo nombre para completar el resto.",
+    progressAll: "Has jugado los {total} simuladores de este espacio.",
     switchSpace: "Estás en otro espacio. Sal de él para entrar en este.",
     leaveAndSwitch: "Salir del otro espacio",
     badCode: "Ese código no corresponde a este espacio. Confírmalo con tu facilitador.",
@@ -178,6 +197,7 @@ const COPY = {
     people: "Personas",
     simulatorsPlayed: "Simuladores jugados",
     seatsOpened: "Accesos abiertos",
+    peopleJoined: "Personas que entraron",
     averageScore: "Puntuación media",
     bestScore: "Mejor puntuación",
     medianTime: "Tiempo mediano",
@@ -216,8 +236,10 @@ const COPY = {
       "O seu facilitador dará o código desta sessão. Ele abre apenas os simuladores e o ranking desta empresa.",
     codeLabel: "Código de acesso",
     codeHint: "Hífens e maiúsculas não importam.",
-    nameLabel: "O seu nome no ranking (opcional)",
-    nameHint: "Visível apenas para os colegas deste espaço. Nunca um e-mail.",
+    nameLabel: "O seu nome",
+    nameHint:
+      "Escreva o mesmo nome sempre que voltar, para que este espaço lembre quais simuladores você já jogou. Visível apenas para os colegas deste espaço, e nunca um e-mail.",
+    missingName: "Escreva o seu nome para que este espaço possa lembrar o seu progresso.",
     joinButton: "Entrar no espaço",
     joining: "A verificar…",
     hubLead:
@@ -232,6 +254,13 @@ const COPY = {
     participantSeat: "Participante",
     leaderIs: "Lidera este espaço:",
     noRunsYet: "Ainda não há partidas publicadas neste espaço.",
+    statusDone: "Jogado",
+    statusPending: "Ainda não jogado",
+    playAgain: "Jogar novamente",
+    yourBest: "A sua melhor pontuação",
+    progressNone: "Ainda não há nada publicado com este nome. Comece pelo simulador que preferir.",
+    progressSome: "Você jogou {done} de {total}. Volte a esta página com o mesmo nome para concluir os restantes.",
+    progressAll: "Você jogou todos os {total} simuladores deste espaço.",
     switchSpace: "Está noutro espaço. Saia dele para entrar neste.",
     leaveAndSwitch: "Sair do outro espaço",
     badCode: "Esse código não corresponde a este espaço. Confirme com o seu facilitador.",
@@ -246,6 +275,7 @@ const COPY = {
     people: "Pessoas",
     simulatorsPlayed: "Simuladores jogados",
     seatsOpened: "Acessos abertos",
+    peopleJoined: "Pessoas que entraram",
     averageScore: "Pontuação média",
     bestScore: "Melhor pontuação",
     medianTime: "Tempo mediano",
@@ -331,6 +361,13 @@ function applyCopy() {
   }
 }
 
+/** A copy string with {placeholders} filled in. Missing keys are left alone. */
+function fill(template, values) {
+  return String(template || "").replace(/\{(\w+)\}/g, (match, key) =>
+    Object.prototype.hasOwnProperty.call(values, key) ? String(values[key]) : match,
+  );
+}
+
 function element(tag, className, text) {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -384,6 +421,7 @@ function reasonMessage(reason) {
   return (
     {
       "bad-code": dictionary.badCode,
+      "missing-name": dictionary.missingName,
       "not-found": dictionary.notFound,
       expired: dictionary.expired,
       "not-started": dictionary.notStarted,
@@ -436,6 +474,23 @@ async function join(event) {
   event.preventDefault();
   const dictionary = words();
   view.gateError.textContent = "";
+
+  // Checked here as well as on the server, because the name is now the thing
+  // that makes a second sitting possible and finding that out after a round trip
+  // is a worse way to learn it. The rule is the server's rule: what matters is
+  // what survives folding, so a field holding only punctuation is empty.
+  if (
+    view.label.value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, " ")
+      .trim().length < 2
+  ) {
+    view.gateError.textContent = dictionary.missingName;
+    view.label.focus();
+    return;
+  }
+
   view.joinButton.disabled = true;
   view.joinButton.textContent = dictionary.joining;
 
@@ -483,17 +538,36 @@ async function join(event) {
  * outside the space can see. It is fetched per card and failure is silent —
  * a card with no leader line is still a card that opens the simulator.
  */
-function renderCards(space) {
+function renderCards(space, progress) {
   const dictionary = words();
   view.hubCards.replaceChildren();
+
+  const played = new Map((progress || []).map((entry) => [entry.simulator, entry]));
 
   for (const simulator of SIMULATORS) {
     const card = element("article", "workspace-card");
     card.append(element("h2", null, simulator.name[locale] || simulator.name.en));
     card.append(element("p", null, simulator.summary[locale] || simulator.summary.en));
 
+    // Done or still owed, for this person rather than for this browser. A run is
+    // one sitting from start to finish -- there is no half-finished attempt to
+    // resume -- so what a returning participant needs is not a saved position
+    // but an honest answer to "which of these three do I still have to do".
+    const mine = played.get(simulator.slug);
+    const status = element(
+      "p",
+      `workspace-card__status${mine ? " workspace-card__status--done" : ""}`,
+      mine ? dictionary.statusDone : dictionary.statusPending,
+    );
+    if (mine) {
+      status.append(
+        element("span", "workspace-card__status-detail", ` · ${dictionary.yourBest} ${mine.bestScore}/${simulator.maxScore}`),
+      );
+    }
+    card.append(status);
+
     const foot = element("div", "workspace-card__foot");
-    const open = element("a", "workspace-button", dictionary.open);
+    const open = element("a", "workspace-button", mine ? dictionary.playAgain : dictionary.open);
     // The space is carried in the link so a participant who lost their seat is
     // sent back to this gate rather than into a public leaderboard.
     open.href = `/simulators/${locale}/${simulator.slug}/?space=${encodeURIComponent(space.slug)}`;
@@ -540,6 +614,42 @@ function renderMeta(state) {
   if (until) view.hubMeta.append(element("span", "workspace-pill", `${dictionary.accessUntil} ${until}`));
 }
 
+/**
+ * This participant's finished simulators, or an empty list.
+ *
+ * Asked for separately only when the caller has not already been handed it: the
+ * page load asks the session endpoint for `progress=1` and pays nothing extra,
+ * while somebody who has just typed a code arrives here without it and is worth
+ * one small request -- a returning participant who rejoins under the same name
+ * has progress from yesterday, and showing them three untouched cards would be
+ * the exact confusion this is meant to remove.
+ */
+async function fetchProgress() {
+  try {
+    const response = await fetch(`${SESSION_ENDPOINT}?progress=1`, {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return Array.isArray(data.progress) ? data.progress : [];
+  } catch (error) {
+    // A hub with no status pills is still a working hub.
+    console.warn("Progress unavailable", error);
+    return [];
+  }
+}
+
+/** The one-line summary under the cards: nothing yet, some, or all three. */
+function progressSentence(progress) {
+  const dictionary = words();
+  const done = progress.length;
+  const total = SIMULATORS.length;
+  if (!done) return dictionary.progressNone;
+  if (done >= total) return fill(dictionary.progressAll, { done, total });
+  return fill(dictionary.progressSome, { done, total });
+}
+
 async function enterHub(state) {
   if (state.space.locale && COPY[state.space.locale]) locale = state.space.locale;
   applyCopy();
@@ -547,8 +657,10 @@ async function enterHub(state) {
 
   view.hubTitle.textContent = state.space.displayName || state.space.company;
   renderMeta(state);
-  renderCards(state.space);
-  view.hubFoot.textContent = "";
+
+  const progress = Array.isArray(state.progress) ? state.progress : await fetchProgress();
+  renderCards(state.space, progress);
+  view.hubFoot.textContent = progressSentence(progress);
   show(view.hub);
 
   if (state.role === "sponsor") await renderReport();
@@ -649,6 +761,7 @@ async function renderReport() {
       metric(data.totals.runs, dictionary.runs),
       metric(data.totals.participants, dictionary.people),
       metric(data.totals.simulatorsPlayed, dictionary.simulatorsPlayed),
+      metric(data.seats.people ?? data.seats.total, dictionary.peopleJoined),
       metric(data.seats.total, dictionary.seatsOpened),
     );
 
@@ -687,8 +800,10 @@ view.reportCsv.addEventListener("click", () => {
 const slug = readSlug();
 
 try {
+  // progress=1 on the very first request, so a returning participant's cards are
+  // right on first paint rather than after a second round trip.
   const response = await fetch(
-    slug ? `${SESSION_ENDPOINT}?slug=${encodeURIComponent(slug)}` : SESSION_ENDPOINT,
+    slug ? `${SESSION_ENDPOINT}?progress=1&slug=${encodeURIComponent(slug)}` : `${SESSION_ENDPOINT}?progress=1`,
     { credentials: "same-origin", headers: { Accept: "application/json" } },
   );
   const data = await response.json();

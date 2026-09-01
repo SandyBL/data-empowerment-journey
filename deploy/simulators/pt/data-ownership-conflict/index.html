@@ -988,6 +988,28 @@
     .simulator-explainer a:hover { text-decoration: none; }
   </style>
   <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <!-- Private-space chrome, settled before the first paint. The rules it
+       switches on live with the header styles in
+       /assets/css/simulator-header.css, which this page already links above. -->
+  <script>
+    /* A participant arriving from their space hub carries ?space=, and one
+       coming back to this page carries the dgj_space_hint cookie. The hint holds
+       no token and grants nothing -- the seat itself is an HttpOnly cookie this
+       script cannot read and the server re-checks on every request -- it exists
+       only so the Data Governance Journey header does not paint for a third of a
+       second inside a client's own space. assets/js/workspace-context.js removes
+       the attribute again the moment the server says there is no seat. */
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("space") || /(?:^|;\s*)dgj_space_hint=1/.test(document.cookie)) {
+          document.documentElement.setAttribute("data-workspace-pending", "true");
+        }
+      } catch (error) {
+        /* Anything that fails here simply keeps the public header. */
+      }
+    })();
+  </script>
 </head>
 <body>
     <a class="skip-link" href="#simulator-main">Ir para o simulador</a>
@@ -1045,7 +1067,7 @@
       <div class="card welcome-card">
         <h1 class="welcome-title">Quem é o Dono Disso?</h1>
         <p class="welcome-tagline">
-          Acabe com as disputas internas de território. Teste seus conhecimentos sobre quem é realmente o dono das tarefas de dados: <strong>Dono do Negócio</strong>, <strong>Data Steward</strong> ou <strong>TI / Tecnologia</strong>.
+          Acabe com as disputas internas de território. Teste seus conhecimentos sobre quem é realmente o dono das tarefas de dados: <strong>Dono do Negócio</strong>, <strong>Data Steward / Product Owner</strong> ou <strong>TI / Data Team</strong>.
         </p>
 
         <div class="roles-preview">
@@ -1054,11 +1076,11 @@
             <div class="role-preview-desc">Define a lógica comercial, assume os riscos do negócio, fixa orçamentos e aprova regras de domínio.</div>
           </div>
           <div class="role-preview-box">
-            <div class="role-preview-header">🛡️ Data Steward</div>
+            <div class="role-preview-header">🛡️ Data Steward / Product Owner</div>
             <div class="role-preview-desc">Mantém a higiene dos dados no dia a dia, define regras de qualidade e conecta o contexto de negócios aos metadados.</div>
           </div>
           <div class="role-preview-box">
-            <div class="role-preview-header">💻 TI / Tecnologia</div>
+            <div class="role-preview-header">💻 TI / Data Team</div>
             <div class="role-preview-desc">Constrói a infraestrutura, automatiza pipelines de dados, gerencia a segurança e garante a estabilidade técnica.</div>
           </div>
         </div>
@@ -1106,15 +1128,20 @@
             <span class="choice-subtitle">Lógica de Negócios e Risco</span>
           </button>
 
+          <!--
+            O argumento de makeChoice() é a chave de resposta com que a partida é
+            pontuada e com que os resultados publicados são gravados, por isso não
+            muda; muda apenas o rótulo que se lê no ecrã.
+          -->
           <button class="choice-btn" onclick="makeChoice('Data Steward')">
             <span class="choice-icon">🛡️</span>
-            <span class="choice-title">Data Steward</span>
+            <span class="choice-title">Data Steward / Product Owner</span>
             <span class="choice-subtitle">Qualidade e Higiene Diária</span>
           </button>
 
           <button class="choice-btn" onclick="makeChoice('IT / Tech')">
             <span class="choice-icon">💻</span>
-            <span class="choice-title">TI / Tecnologia</span>
+            <span class="choice-title">TI / Data Team</span>
             <span class="choice-subtitle">Infraestrutura e Código</span>
           </button>
         </div>
@@ -1211,8 +1238,8 @@
     -->
     <section class="simulator-explainer" aria-labelledby="about-this-simulator">
       <h2 id="about-this-simulator">Sobre este simulador</h2>
-        <p>"Quem é o Dono Disso?" é um simulador gratuito de dez cenários sobre a discussão que todo programa de governança de dados acaba tendo: quando algo dá errado com um dataset, de quem era a tarefa? Cada cenário descreve uma situação concreta — a definição de uma métrica muda, um pipeline perde linhas, uma regra de retenção precisa ser aplicada — e pede que você a atribua ao Dono de Negócio, ao Data Steward ou à TI.</p>
-        <p>Os três papéis vêm do framework DAMA de governança de dados: fáceis de enunciar e difíceis de aplicar. O Dono de Negócio detém as definições do domínio, as regras de negócio, as métricas de receita e a aprovação final do risco. O Data Steward mantém a higiene do dado, o perfilamento de qualidade, os metadados do catálogo e as regras que cruzam áreas. A TI executa os pipelines, o armazenamento, a hospedagem, a segurança e os backups. Quase toda disputa real acontece porque a tarefa parece ser de quem a percebeu primeiro.</p>
+        <p>"Quem é o Dono Disso?" é um simulador gratuito de dez cenários sobre a discussão que todo programa de governança de dados acaba tendo: quando algo dá errado com um dataset, de quem era a tarefa? Cada cenário descreve uma situação concreta — a definição de uma métrica muda, um pipeline perde linhas, uma regra de retenção precisa ser aplicada — e pede que você a atribua ao Dono de Negócio, ao Data Steward / Product Owner ou ao TI / Data Team.</p>
+        <p>Os três papéis vêm do framework DAMA de governança de dados: fáceis de enunciar e difíceis de aplicar. O Dono de Negócio detém as definições do domínio, as regras de negócio, as métricas de receita e a aprovação final do risco. O Data Steward / Product Owner mantém a higiene do dado, o perfilamento de qualidade, os metadados do catálogo e as regras que cruzam áreas. O TI / Data Team executa os pipelines, o armazenamento, a hospedagem, a segurança e os backups. Quase toda disputa real acontece porque a tarefa parece ser de quem a percebeu primeiro.</p>
         <p>O exercício leva cerca de três minutos e não exige conta. Ele é deliberadamente moldado como um RACI: a pergunta não é quem faz o trabalho, e sim quem responde pelo resultado — a distinção que encerra guerras de território em vez de reiniciá-las.</p>
 
       <h3>O que você vai praticar</h3>
@@ -1290,12 +1317,12 @@
               <td>Definição de KPIs, orçamentos, aprovações de acesso a terceiros/parceiros e conformidade legal do domínio.</td>
             </tr>
             <tr>
-              <td><strong>🛡️ Data Steward</strong><br><em>(Custodiante / Guardião)</em></td>
+              <td><strong>🛡️ Data Steward / Product Owner</strong><br><em>(Custodiante / Guardião)</em></td>
               <td>Qualidade de Dados e Operação Diária</td>
               <td>Documentação do catálogo de dados, regras de validação, investigação de causas-raiz e dicionário de termos.</td>
             </tr>
             <tr>
-              <td><strong>💻 TI / Tecnologia</strong><br><em>(IT / Tech)</em></td>
+              <td><strong>💻 TI / Data Team</strong><br><em>(Infraestrutura e Tecnologia)</em></td>
               <td>Infraestrutura e Automação</td>
               <td>Pipelines de extração (ETL/ELT), scripts SQL, backups, segurança de rede e manutenção do Data Warehouse.</td>
             </tr>
@@ -1321,25 +1348,25 @@
         id: 1,
         title: "Definir o que significa oficialmente 'Cliente Ativo' para os relatórios de desempenho do negócio.",
         correct: "Business Owner",
-        explanation: "O Dono do Negócio define a lógica comercial e as regras dos indicadores de desempenho (KPIs). A TI ou os Data Stewards não devem inventar as métricas comerciais da empresa."
+        explanation: "O Dono do Negócio define a lógica comercial e as regras dos indicadores de desempenho (KPIs). O TI / Data Team ou os Data Stewards / Product Owners não devem inventar as métricas comerciais da empresa."
       },
       {
         id: 2,
         title: "Escrever um script SQL automatizado para mesclar endereços de e-mail duplicados diretamente no banco de dados.",
         correct: "IT / Tech",
-        explanation: "A área de TI / Tecnologia executa o código, a otimização de consultas e a manipulação técnica do banco de dados."
+        explanation: "O TI / Data Team executa o código, a otimização de consultas e a manipulação técnica do banco de dados."
       },
       {
         id: 3,
         title: "Criar regras de perfilamento de qualidade de dados e monitorar registros com formato incorreto no CRM.",
         correct: "Data Steward",
-        explanation: "Os Data Stewards gerenciam a qualidade operacional diária, estabelecem padrões de validação e monitoram a higiene dos dados."
+        explanation: "Os Data Stewards / Product Owners gerenciam a qualidade operacional diária, estabelecem padrões de validação e monitoram a higiene dos dados."
       },
       {
         id: 4,
         title: "Configurar regras de firewall no banco de dados e conceder permissões de acesso aos servidores.",
         correct: "IT / Tech",
-        explanation: "A área de TI / Tecnologia gerencia a infraestrutura de segurança, protocolos de rede e permissões de acesso ao sistema."
+        explanation: "O TI / Data Team gerencia a infraestrutura de segurança, protocolos de rede e permissões de acesso ao sistema."
       },
       {
         id: 5,
@@ -1351,19 +1378,19 @@
         id: 6,
         title: "Investigar por que 15% dos registros de vendas na região Sul estão sem o código postal (CEP).",
         correct: "Data Steward",
-        explanation: "Os Data Stewards investigam causas-raiz de problemas de dados e falhas em fluxos de processos operacionais."
+        explanation: "Os Data Stewards / Product Owners investigam causas-raiz de problemas de dados e falhas em fluxos de processos operacionais."
       },
       {
         id: 7,
         title: "Comprar, dimensionar e configurar a arquitetura de um novo Data Warehouse em nuvem para a empresa.",
         correct: "IT / Tech",
-        explanation: "A área de TI / Tecnologia cuida da infraestrutura de hospedagem, plataformas técnicas e arquitetura de software."
+        explanation: "O TI / Data Team cuida da infraestrutura de hospedagem, plataformas técnicas e arquitetura de software."
       },
       {
         id: 8,
         title: "Documentar metadados de negócios e descrições funcionais de colunas no Catálogo de Dados.",
         correct: "Data Steward",
-        explanation: "Os Data Stewards servem como ponte entre o contexto de negócios e os metadados técnicos no catálogo."
+        explanation: "Os Data Stewards / Product Owners servem como ponte entre o contexto de negócios e os metadados técnicos no catálogo."
       },
       {
         id: 9,
@@ -1375,7 +1402,7 @@
         id: 10,
         title: "Configurar backups diários automatizados e planos de recuperação de desastres para os servidores de analytics.",
         correct: "IT / Tech",
-        explanation: "A área de TI / Tecnologia garante a estabilidade dos sistemas, armazenamento de backups e a continuidade dos serviços."
+        explanation: "O TI / Data Team garante a estabilidade dos sistemas, armazenamento de backups e a continuidade dos serviços."
       }
     ];
 
@@ -1590,8 +1617,8 @@
     function translateRole(roleKey) {
       switch(roleKey) {
         case 'Business Owner': return 'Dono do Negócio';
-        case 'Data Steward': return 'Data Steward';
-        case 'IT / Tech': return 'TI / Tecnologia';
+        case 'Data Steward': return 'Data Steward / Product Owner';
+        case 'IT / Tech': return 'TI / Data Team';
         default: return roleKey;
       }
     }
@@ -1626,14 +1653,14 @@
         tips = [
           "<strong>Pare de repassar decisões de negócio para a TI:</strong> A equipe de TI não deve definir o significado das métricas comerciais nem autorizar acessos.",
           "<strong>Crie uma Matriz RACI básica:</strong> Formalize por escrito quem Aprova (Negócio) e quem Executa (TI).",
-          "<strong>Nomeie Data Stewards em áreas-chave:</strong> Defina pelo menos um Steward funcional em Finanças e Vendas."
+          "<strong>Nomeie Data Stewards / Product Owners em áreas-chave:</strong> Defina pelo menos um Steward funcional em Finanças e Vendas."
         ];
       } else if (score <= 700) {
         tierTitle = "⚡ Praticante de Governança";
-        tierDesc = "Boa base teórica! No entanto, as linhas de fronteira entre Data Stewards e o Negócio ainda são um pouco nebulosas nas operações diárias.";
+        tierDesc = "Boa base teórica! No entanto, as linhas de fronteira entre Data Stewards / Product Owners e o Negócio ainda são um pouco nebulosas nas operações diárias.";
         tips = [
           "<strong>Documente as regras de qualidade:</strong> Passe da resolução reativa de problemas para a formalização de um catálogo de metadados.",
-          "<strong>Empodere os Data Stewards:</strong> Dê autoridade aos Stewards para aplicar padrões de qualidade junto às equipes operacionais.",
+          "<strong>Empodere os Data Stewards / Product Owners:</strong> Dê autoridade aos Stewards para aplicar padrões de qualidade junto às equipes operacionais.",
           "<strong>Separe orçamento da execução técnica:</strong> Garanta que investimentos em projetos de dados sejam aprovados pelos Donos do Negócio."
         ];
       } else {

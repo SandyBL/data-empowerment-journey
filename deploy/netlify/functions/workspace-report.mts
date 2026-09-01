@@ -92,6 +92,20 @@ const csvCell = (value: unknown) => {
   return `"${guarded.replace(/"/g, '""')}"`;
 };
 
+/**
+ * Which person a run belongs to, most reliable handle first.
+ *
+ * The participant key is the one that survives a room coming back the next
+ * morning: two seats opened a day apart under the same name are one person, and
+ * counting them as two used to inflate every headcount in this report by however
+ * many people rejoined. The seat is the fallback for runs published before the
+ * name was required, and the display name is the last resort for a run whose
+ * seat row is gone -- both of which keep the count honest for old data rather
+ * than collapsing it to one.
+ */
+const runIdentity = (run: { participantKey: string | null; sessionId: number | null; name: string }) =>
+  run.participantKey ? `pk:${run.participantKey}` : run.sessionId !== null ? `seat:${run.sessionId}` : `name:${run.name}`;
+
 export default async (request: Request) => {
   const session = await resolveSession(request);
 
@@ -116,9 +130,13 @@ export default async (request: Request) => {
         locale: simulatorScores.locale,
         breakdown: simulatorScores.breakdown,
         sessionId: simulatorScores.workspaceSessionId,
+        // Left, not inner: a run whose seat row was deleted is still a run this
+        // room published, and dropping it would quietly understate the report.
+        participantKey: workspaceSessions.participantKey,
         createdAt: simulatorScores.createdAt,
       })
       .from(simulatorScores)
+      .leftJoin(workspaceSessions, eq(simulatorScores.workspaceSessionId, workspaceSessions.id))
       .where(eq(simulatorScores.workspaceId, session.space.id))
       .orderBy(desc(simulatorScores.createdAt))
       .limit(MAX_ROWS + 1);
@@ -191,6 +209,7 @@ export default async (request: Request) => {
         id: workspaceSessions.id,
         role: workspaceSessions.role,
         label: workspaceSessions.participantLabel,
+        participantKey: workspaceSessions.participantKey,
         createdAt: workspaceSessions.createdAt,
         lastSeenAt: workspaceSessions.lastSeenAt,
         revokedAt: workspaceSessions.revokedAt,
@@ -238,10 +257,10 @@ export default async (request: Request) => {
       }
 
       bucket.runs += 1;
-      // A run published before seats were recorded, or by a seat since deleted,
-      // still counts as a person: falling back to the display name keeps the
-      // headcount honest rather than collapsing every such run into one.
-      bucket.participants.add(run.sessionId ?? `name:${run.name}`);
+      // People, not seats: somebody who played this simulator twice across two
+      // sittings is one participant here, which is what a facilitator counting
+      // heads in the room expects to read.
+      bucket.participants.add(runIdentity(run));
       bucket.scores.push(run.score);
       if (run.durationMs !== null) bucket.durations.push(run.durationMs);
       if (run.createdAt < bucket.firstRunAt) bucket.firstRunAt = run.createdAt;
@@ -294,7 +313,14 @@ export default async (request: Request) => {
       }))
       .sort((a, b) => b.runs - a.runs);
 
-    const participants = new Set(runs.map((run) => run.sessionId ?? `name:${run.name}`));
+    const participants = new Set(runs.map(runIdentity));
+
+    // Distinct people who joined, as opposed to distinct browsers that joined.
+    // Both numbers are reported because they answer different questions: `total`
+    // is how many times the space was entered, `people` is how big the room was.
+    // A seat with no key counts as its own person, since there is nothing to say
+    // it was anybody already counted.
+    const people = new Set(seats.map((seat) => (seat.participantKey ? `pk:${seat.participantKey}` : `seat:${seat.id}`)));
 
     return Response.json(
       {
@@ -303,6 +329,7 @@ export default async (request: Request) => {
         maxRows: MAX_ROWS,
         seats: {
           total: seats.length,
+          people: people.size,
           participants: seats.filter((seat) => seat.role === "participant").length,
           sponsors: seats.filter((seat) => seat.role === "sponsor").length,
           revoked: seats.filter((seat) => seat.revokedAt !== null).length,

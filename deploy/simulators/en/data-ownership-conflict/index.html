@@ -121,6 +121,28 @@
         }
     </style>
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <!-- Private-space chrome, settled before the first paint. The rules it
+       switches on live with the header styles in
+       /assets/css/simulator-header.css, which this page already links above. -->
+  <script>
+    /* A participant arriving from their space hub carries ?space=, and one
+       coming back to this page carries the dgj_space_hint cookie. The hint holds
+       no token and grants nothing -- the seat itself is an HttpOnly cookie this
+       script cannot read and the server re-checks on every request -- it exists
+       only so the Data Governance Journey header does not paint for a third of a
+       second inside a client's own space. assets/js/workspace-context.js removes
+       the attribute again the moment the server says there is no seat. */
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("space") || /(?:^|;\s*)dgj_space_hint=1/.test(document.cookie)) {
+          document.documentElement.setAttribute("data-workspace-pending", "true");
+        }
+      } catch (error) {
+        /* Anything that fails here simply keeps the public header. */
+      }
+    })();
+  </script>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brand-orange selection:text-white">
     <a class="skip-link" href="#simulator-main">Skip to simulator</a>
@@ -206,13 +228,13 @@
                         </div>
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-teal/40 transition">
                             <div class="flex items-center gap-2 font-bold text-brand-navy text-sm mb-1">
-                                <span class="text-lg">🛡️</span> Data Steward
+                                <span class="text-lg">🛡️</span> Data Steward / Product Owner
                             </div>
                             <p class="text-xs text-slate-500">Maintains data hygiene, quality profiling, catalog metadata & cross-functional rules.</p>
                         </div>
                         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-brand-teal/40 transition">
                             <div class="flex items-center gap-2 font-bold text-brand-navy text-sm mb-1">
-                                <span class="text-lg">💻</span> IT / Tech
+                                <span class="text-lg">💻</span> IT / Data Team
                             </div>
                             <p class="text-xs text-slate-500">Executes SQL pipelines, storage infrastructure, cloud hosting, security & backups.</p>
                         </div>
@@ -340,14 +362,20 @@
                         </div>
                     </button>
 
-                    <!-- Data Steward Button -->
+                    <!--
+                      Data Steward button. The string passed to submitAnswer() is
+                      the answer key the whole scoring path is written against
+                      (and the key the RACI legend, the feedback modal and the
+                      review screen look up), so it stays "Data Steward" while the
+                      heading below carries the client-facing wording.
+                    -->
                     <button onclick="submitAnswer('Data Steward')" class="role-btn group relative p-5 rounded-2xl bg-slate-50 hover:bg-teal-50/50 border-2 border-slate-200 hover:border-brand-teal text-left transition duration-200 flex flex-col justify-between shadow-sm hover:shadow-md">
                         <div class="flex items-center justify-between w-full mb-3">
                             <span class="text-3xl p-2 bg-white rounded-xl shadow-xs group-hover:scale-110 transition transform">🛡️</span>
                             <span class="text-[11px] font-bold text-slate-400 group-hover:text-brand-teal uppercase tracking-wider">Quality Lead</span>
                         </div>
                         <div>
-                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">Data Steward</h3>
+                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">Data Steward / Product Owner</h3>
                             <p class="text-xs text-slate-500 mt-1">Bridges tech & business; enforces hygiene, definitions & profiling.</p>
                         </div>
                     </button>
@@ -359,7 +387,7 @@
                             <span class="text-[11px] font-bold text-slate-400 group-hover:text-brand-teal uppercase tracking-wider">Engineering</span>
                         </div>
                         <div>
-                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">IT / Tech</h3>
+                            <h3 class="font-bold text-brand-navy text-lg group-hover:text-brand-teal transition">IT / Data Team</h3>
                             <p class="text-xs text-slate-500 mt-1">Builds pipelines, configures databases, hosting, security & backups.</p>
                         </div>
                     </button>
@@ -560,8 +588,8 @@
     -->
     <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
       <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-900">About this simulator</h2>
-        <p class="mb-4 leading-relaxed">"Who Owns This?" is a free, ten-scenario simulator about the argument every data governance programme eventually has: when something goes wrong with a dataset, whose job was it? Each scenario describes a concrete task — a metric definition changes, a pipeline drops rows, a retention rule needs enforcing — and asks you to assign it to the Business Owner, the Data Steward, or IT.</p>
-        <p class="mb-4 leading-relaxed">The three roles are drawn from the DAMA data governance framework and are easy to state and hard to apply. The Business Owner holds domain definitions, business rules, revenue metrics, and final risk sign-off. The Data Steward maintains data hygiene, quality profiling, catalog metadata, and the rules that cross departments. IT executes the pipelines, storage, hosting, security, and backups. Most real disputes happen because a task looks like it belongs to whoever noticed it first.</p>
+        <p class="mb-4 leading-relaxed">"Who Owns This?" is a free, ten-scenario simulator about the argument every data governance programme eventually has: when something goes wrong with a dataset, whose job was it? Each scenario describes a concrete task — a metric definition changes, a pipeline drops rows, a retention rule needs enforcing — and asks you to assign it to the Business Owner, the Data Steward / Product Owner, or the IT / Data Team.</p>
+        <p class="mb-4 leading-relaxed">The three roles are drawn from the DAMA data governance framework and are easy to state and hard to apply. The Business Owner holds domain definitions, business rules, revenue metrics, and final risk sign-off. The Data Steward / Product Owner maintains data hygiene, quality profiling, catalog metadata, and the rules that cross departments. The IT / Data Team executes the pipelines, storage, hosting, security, and backups. Most real disputes happen because a task looks like it belongs to whoever noticed it first.</p>
         <p class="mb-4 leading-relaxed">The exercise takes about three minutes and needs no account. It is deliberately RACI-shaped: the question is not who does the work but who is accountable for the outcome — which is the distinction that ends turf wars rather than restarting them.</p>
 
       <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">What you practise</h3>
@@ -601,7 +629,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-brand-navy text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+    <footer class="simulator-public-footer bg-brand-navy text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-2">
                 <span class="font-bold text-white">The Data Empowerment Journey</span>
@@ -642,7 +670,7 @@
 
                 <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-100 space-y-1">
                     <h4 class="font-bold text-amber-900 flex items-center gap-2">
-                        <span>🛡️ Data Steward (Responsible / Consulted)</span>
+                        <span>🛡️ Data Steward / Product Owner (Responsible / Consulted)</span>
                     </h4>
                     <p class="text-xs text-slate-600">
                         Operational domain experts who manage data quality profiling, document metadata catalog definitions, resolve operational duplicate records, and enforce hygiene workflows daily.
@@ -651,7 +679,7 @@
 
                 <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-100 space-y-1">
                     <h4 class="font-bold text-blue-900 flex items-center gap-2">
-                        <span>💻 IT / Tech (Infrastructure Enabler)</span>
+                        <span>💻 IT / Data Team (Infrastructure Enabler)</span>
                     </h4>
                     <p class="text-xs text-slate-600">
                         Technical custodians responsible for writing ETL pipelines, building cloud warehouses, setting firewall security, maintaining backup protocols, and ensuring uptime.
@@ -676,6 +704,31 @@
     <script src="/assets/js/simulator-leaderboard.js"></script>
     <script src="/assets/js/simulator-bridge.js"></script>
     <script>
+        /*
+         * How the three roles are written on screen.
+         *
+         * The keys are the answer keys: they are what the buttons submit, what
+         * every scenario's `correctRole` holds, and what the saved breakdown is
+         * scored against, so they cannot be renamed without invalidating results
+         * already published to a leaderboard. The values are what a player reads.
+         *
+         * Splitting the two is what lets the wording follow a client's own naming
+         * -- most organisations that have adopted a data product model call this
+         * person a Product Owner, and being told they picked "Data Steward" when
+         * the button they pressed said something else is a needless stumble in the
+         * middle of an exercise about exactly this vocabulary.
+         *
+         * An unknown key falls through unchanged, so a new role could be added to
+         * the scenarios without silently rendering as an empty string.
+         */
+        const ROLE_LABELS = {
+            "Business Owner": "Business Owner",
+            "Data Steward": "Data Steward / Product Owner",
+            "IT / Tech": "IT / Data Team"
+        };
+
+        const roleLabel = (key) => ROLE_LABELS[key] || key;
+
         // PRE-LOADED 10 DAMA GOVERNANCE SCENARIOS
         const SCENARIOS = [
             {
@@ -697,7 +750,7 @@
                 task: "Creating data quality profiling rules and monitoring dirty data in the CRM.",
                 category: "Data Hygiene & Quality",
                 correctRole: "Data Steward",
-                explanation: "Data Stewards maintain data hygiene, operational quality standards, and definitions daily across business operations."
+                explanation: "Data Stewards / Product Owners maintain data hygiene, operational quality standards, and definitions daily across business operations."
             },
             {
                 id: 4,
@@ -718,7 +771,7 @@
                 task: "Investigating why 15% of regional sales entries are missing postal codes.",
                 category: "Root-Cause Data Resolution",
                 correctRole: "Data Steward",
-                explanation: "Data Stewards investigate operational root-cause data issues across business workflows and work with users to fix data entry habits."
+                explanation: "Data Stewards / Product Owners investigate operational root-cause data issues across business workflows and work with users to fix data entry habits."
             },
             {
                 id: 7,
@@ -732,7 +785,7 @@
                 task: "Documenting business metadata and column descriptions in the Data Catalog.",
                 category: "Data Governance Metadata",
                 correctRole: "Data Steward",
-                explanation: "Data Stewards bridge business context and technical metadata by maintaining definitions and attributes in the Data Catalog."
+                explanation: "Data Stewards / Product Owners bridge business context and technical metadata by maintaining definitions and attributes in the Data Catalog."
             },
             {
                 id: 9,
@@ -1016,7 +1069,7 @@
                 points.className = "text-xs font-bold uppercase tracking-wider text-rose-500";
             }
 
-            roleBadge.innerText = `Correct Owner: ${correctRole}`;
+            roleBadge.innerText = `Correct Owner: ${roleLabel(correctRole)}`;
             explanationText.innerText = explanation;
 
             if (currentState.currentScenarioIndex === 9) {
@@ -1116,7 +1169,7 @@
                         desc: "Document explicit Responsibilities and Accountabilities for all critical reporting metrics."
                     },
                     {
-                        title: "3. Nominate Data Stewards",
+                        title: "3. Nominate Data Stewards / Product Owners",
                         desc: "Appoint operational subject matter experts in sales and marketing to enforce daily data entry hygiene."
                     }
                 ];
@@ -1124,7 +1177,7 @@
                 tips = [
                     {
                         title: "1. Clarify Steward vs. Business Roles",
-                        desc: "Business Owners approve metric logic & budgets; Data Stewards implement profiling rules and maintain metadata catalogs."
+                        desc: "Business Owners approve metric logic & budgets; Data Stewards / Product Owners implement profiling rules and maintain metadata catalogs."
                     },
                     {
                         title: "2. Automate Catalog Documentation",
@@ -1143,7 +1196,7 @@
                     },
                     {
                         title: "2. Incentivize Steward Stewardship",
-                        desc: "Tie data quality KPIs to annual performance benchmarks for domain Data Stewards."
+                        desc: "Tie data quality KPIs to annual performance benchmarks for domain Data Stewards / Product Owners."
                     },
                     {
                         title: "3. Share Best Practices Enterprise-Wide",
@@ -1295,8 +1348,8 @@
                         </span>
                     </div>
                     <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-                        <span class="text-slate-500">Your choice: <strong class="${ans.isCorrect ? 'text-emerald-700' : 'text-rose-600 line-through'}">${ans.selectedRole}</strong></span>
-                        ${!ans.isCorrect ? `<span class="text-slate-500">• Correct: <strong class="text-brand-teal">${ans.correctRole}</strong></span>` : ''}
+                        <span class="text-slate-500">Your choice: <strong class="${ans.isCorrect ? 'text-emerald-700' : 'text-rose-600 line-through'}">${roleLabel(ans.selectedRole)}</strong></span>
+                        ${!ans.isCorrect ? `<span class="text-slate-500">• Correct: <strong class="text-brand-teal">${roleLabel(ans.correctRole)}</strong></span>` : ''}
                     </div>
                     <p class="text-[11px] text-slate-500 italic bg-slate-50 p-2 rounded border border-slate-100">
                         ${ans.explanation}

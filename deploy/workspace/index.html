@@ -29,9 +29,11 @@
   <main class="workspace-shell">
     <p class="workspace-state" id="space-loading" data-copy="loading">Checking your access…</p>
 
-    <!-- The code gate. One field for the code and one optional field for the
-         name the room will recognise on the leaderboard, because a board full of
-         "Anonymous" is no use to a facilitator running a competition. -->
+    <!-- The code gate. Two required fields: the code, and the name the room will
+         recognise on the leaderboard. The name was optional while it only fed a
+         board -- a board full of "Anonymous" being no use to a facilitator
+         running a competition -- and is required now that it is also how somebody
+         who comes back tomorrow is shown the simulators they have yet to play. -->
     <section class="workspace-gate" id="space-gate" hidden aria-labelledby="space-gate-title">
       <p class="workspace-gate__eyebrow" data-copy="gateEyebrow">Private space</p>
       <h1 id="space-gate-title" data-copy="gateTitle">Enter your access code</h1>
@@ -42,10 +44,17 @@
           <input id="space-code" name="code" type="text" data-code="true" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
           <small data-copy="codeHint">Dashes and capitals do not matter.</small>
         </label>
+        <!--
+          The name is required now, and it is required for a reason worth stating
+          on the form itself: it is how somebody who plays one simulator today
+          gets shown the two they still owe tomorrow. autocomplete="name" so the
+          browser offers the same spelling on the second visit, which is the case
+          this whole field exists to serve.
+        -->
         <label class="workspace-field">
-          <span data-copy="nameLabel">Your name on the leaderboard (optional)</span>
-          <input id="space-label" name="label" type="text" maxlength="60" autocomplete="off">
-          <small data-copy="nameHint">Shown to your colleagues in this space only. Never an email address.</small>
+          <span data-copy="nameLabel">Your name</span>
+          <input id="space-label" name="label" type="text" maxlength="60" minlength="2" autocomplete="name" required>
+          <small data-copy="nameHint">Type the same name each time you come back, so this space remembers which simulators you have already played. Shown to colleagues in this space only, and never an email address.</small>
         </label>
         <button class="workspace-button" id="space-join" type="submit" data-copy="joinButton">Enter the space</button>
         <p class="workspace-error" id="space-gate-error" role="alert"></p>

@@ -98,9 +98,32 @@ export const workspaces = pgTable(
  *
  * `role` is "participant" or "sponsor" -- see the two codes on `workspaces`.
  *
- * `participantLabel` is optional and free text, exactly like the display name on
- * the leaderboard: it is what somebody typed to be recognised by their
- * colleagues, and it is never an email.
+ * `participantLabel` is free text, exactly like the display name on the
+ * leaderboard: it is what somebody typed to be recognised by their colleagues,
+ * and it is never an email.
+ *
+ * `participantKey` is that same name turned into an identity, and it is what
+ * makes a workshop that spans two sittings work. A room rarely plays all three
+ * simulators in one go: somebody finishes one, closes the laptop, and comes back
+ * the next morning to a browser whose seat has expired. Before this column the
+ * only handle on a person was the seat itself, so the second visit was a
+ * stranger -- a new row, a second head in the count, and no way for the hub to
+ * say which two exercises were still outstanding.
+ *
+ * So the name is a weak identity, and deliberately a weak one. It is not a
+ * credential: the access code is what opens the space, and this only decides
+ * which pile of finished runs a seat is joined to once it is already inside. Two
+ * people who type the same name in the same space are treated as one person,
+ * which is a real limitation and an acceptable one for a facilitated room where
+ * names are read off a leaderboard -- and the reason the gate now asks for the
+ * name rather than offering it.
+ *
+ * Stored as a hash of the space id and the folded name rather than the name
+ * itself, so this column cannot be read back into a list of who attended, and
+ * indexed with the space because every lookup is "this person, in this space".
+ * Null for a seat opened without a name, which is every seat that existed before
+ * the field was required; those keep the old behaviour of counting as one person
+ * each.
  */
 export const workspaceSessions = pgTable(
   "workspace_sessions",
@@ -112,6 +135,9 @@ export const workspaceSessions = pgTable(
     // SHA-256 of the token in the cookie. Reading this table hands out nothing.
     tokenHash: varchar("token_hash", { length: 64 }).notNull(),
     participantLabel: varchar("participant_label", { length: 60 }),
+    // SHA-256 of `<workspace id>:<folded name>`. See the note above: an identity
+    // for continuity, never an authorisation.
+    participantKey: varchar("participant_key", { length: 64 }),
     role: varchar({ length: 20 }).notNull().default("participant"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     // Updated when a seat publishes a run, not on every read: the point of it is
@@ -129,6 +155,11 @@ export const workspaceSessions = pgTable(
     // is both the uniqueness rule and the only index that matters here.
     uniqueIndex("workspace_sessions_token_hash_idx").on(table.tokenHash),
     index("workspace_sessions_workspace_idx").on(table.workspaceId),
+    // "Every seat this person has held in this space", which is the question the
+    // hub asks to mark a simulator done and the report asks to count people
+    // rather than seats. Not unique: a returning participant opens a new seat
+    // each time, and that history is worth keeping.
+    index("workspace_sessions_workspace_participant_idx").on(table.workspaceId, table.participantKey),
   ],
 );
 
