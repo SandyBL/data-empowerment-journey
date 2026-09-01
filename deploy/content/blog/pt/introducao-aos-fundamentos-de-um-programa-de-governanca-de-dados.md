@@ -89,4 +89,4 @@ Estruturar a governança de dados não significa atingir a perfeição de um dia
 
 Em que nível de maturidade se encontra a sua organização? Faça o nosso diagnóstico rápido para avaliar o seu estado atual e obter um plano de ação personalizado.
 
-👉 **[Avalie o Seu Nível de Maturidade de Dados com a DeJourney](https://datagovjourney.com/pt/#scorecard)**
+👉 **[Avalie o Seu Nível de Maturidade de Dados](https://datagovjourney.com/pt/#scorecard)**
