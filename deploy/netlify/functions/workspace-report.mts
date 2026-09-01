@@ -8,10 +8,18 @@ import { publicSpace, resolveSession } from "../lib/workspace-access.js";
 // playing the public simulators can give a client.
 //
 // A public leaderboard answers "who won". This answers the question a Head of
-// Data actually has after a workshop — where is this room weak, how many of
-// them finished, and did the second attempt go better than the first — and it
-// answers it from the runs their own people published, inside their own space,
-// and nobody else's.
+// Data actually has after a workshop — where is this room weak, how many of them
+// finished, and how far apart the strongest and the weakest are — and it answers
+// it from the runs their own people published, inside their own space, and nobody
+// else's.
+//
+// Every figure below is now one run per person per simulator: a space records the
+// first attempt somebody finishes and refuses the rest, so an average is an
+// average of first attempts rather than of however many tries each person felt
+// like publishing. That is what makes a weak dimension here worth acting on. The
+// "runs" and "people" counts are kept apart all the same — they diverge across
+// simulators, and a room where twelve people played one exercise and three played
+// all three is a fact a facilitator should be able to see.
 //
 // Sponsor seats only. The participant code and the sponsor code are different
 // codes precisely so that the room can compete on the board without every

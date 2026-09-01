@@ -569,9 +569,33 @@
     space: function () {
       return state.space;
     },
+    /**
+     * Which simulator this page is, as the API names it, or "" off a simulator.
+     *
+     * Exported for assets/js/workspace-auto-publish.js, which has to ask the
+     * space whether this person already has a recorded run of this exercise
+     * before it saves another. Read from the path here rather than derived a
+     * second time there, so there is one regex to be wrong about it.
+     */
+    simulator: function () {
+      return simulatorSlug();
+    },
     /** This space's rewritten wording for this page, or null for the shipped text. */
     scenarioText: function () {
       return state.scenarioText;
+    },
+    /**
+     * Puts the seat's name back on the page's leaderboard field, now.
+     *
+     * The observer below refills that field on a 50ms delay, which is right for
+     * a page re-rendering a panel and wrong for the one caller that needs the
+     * name to be correct on the very next line:
+     * assets/js/workspace-auto-publish.js, saving a run the moment it ends. One
+     * of the nine pages clears the field after a publish, so a replay published
+     * without this would be saved under an empty name.
+     */
+    applyName: function () {
+      fillNameFields();
     },
   };
 })();

@@ -204,6 +204,85 @@ input[data-workspace-name="true"] {
   opacity: 0.85;
 }
 
+/*
+ * The automatic-save panel, in place of the publish form.
+ *
+ * Inside a space a finished run is recorded without being asked, so the button
+ * that used to offer the choice is hidden and this stands where it was (see
+ * assets/js/workspace-auto-publish.js). It has to read as a statement of fact on
+ * nine pages that look nothing alike -- three are dark slate, three are white,
+ * three are somewhere in between -- so it carries the space's own navy and
+ * accent rather than trying to borrow whatever the page around it is using. The
+ * strip at the top of the page already established that palette as "this is your
+ * company's space talking", which is exactly what this is.
+ */
+.workspace-autosave {
+  background: #04223f;
+  border: 1px solid var(--workspace-accent);
+  border-left: 4px solid var(--workspace-accent);
+  border-radius: 0.75rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.45;
+  padding: 0.75rem 1rem;
+  /* Wide enough to read as a panel, never wider than the column it replaces:
+     the form it stands in for sits in a flex row on four of the nine pages. */
+  max-width: 34rem;
+  width: 100%;
+}
+
+.workspace-autosave-label {
+  color: #b9dce4;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Margin reset included on purpose: this lands inside nine pages' own
+   stylesheets, several of which set a bottom margin on every paragraph. */
+.workspace-autosave-text {
+  font-size: 0.8125rem;
+  margin: 0;
+}
+
+/* The one state worth colouring differently. A run that did not save is the
+   only thing on this panel a participant has to act on. */
+.workspace-autosave[data-state="failed"] {
+  border-color: #f7b267;
+  border-left-color: #f7b267;
+}
+
+.workspace-autosave[data-state="failed"] .workspace-autosave-label {
+  color: #f7b267;
+}
+
+.workspace-autosave-retry {
+  background: var(--workspace-accent);
+  border: 0;
+  border-radius: 0.5rem;
+  color: #04223f;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 0.15rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.workspace-autosave-retry[hidden] {
+  display: none;
+}
+
+.workspace-autosave-retry:focus-visible {
+  outline: 3px solid #65b7c7;
+  outline-offset: 2px;
+}
+
 /* ---------------------------------------------------------------------------
  * The space page: gate, hub and report.
  * ------------------------------------------------------------------------- */

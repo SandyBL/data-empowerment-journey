@@ -87,7 +87,7 @@ const COPY = {
     joinButton: "Enter the space",
     joining: "Checking…",
     hubLead:
-      "Your organisation's simulators and leaderboards. Scores published here stay inside this space.",
+      "Your organisation's simulators and leaderboards. The first run you finish of each simulator is saved automatically under your name — replays after that are practice — and the scores stay inside this space.",
     reportTitle: "Facilitator report",
     printButton: "Print or save as PDF",
     csvButton: "Download CSV",
@@ -100,8 +100,10 @@ const COPY = {
     noRunsYet: "No runs published in this space yet.",
     statusDone: "Played",
     statusPending: "Not played yet",
-    playAgain: "Play again",
-    yourBest: "Your best",
+    // A replay is practice: the space keeps the first run each person
+    // finishes, so the label has to stop implying the score can be improved.
+    playAgain: "Replay for practice",
+    yourScore: "Your recorded score",
     progressNone: "Nothing published under this name yet. Start with whichever simulator you like.",
     progressSome: "You have played {done} of {total}. Come back to this page with the same name to finish the rest.",
     progressAll: "You have played all {total} simulators in this space.",
@@ -165,7 +167,7 @@ const COPY = {
     joinButton: "Entrar al espacio",
     joining: "Comprobando…",
     hubLead:
-      "Los simuladores y las clasificaciones de tu organización. Las puntuaciones publicadas aquí no salen de este espacio.",
+      "Los simuladores y las clasificaciones de tu organización. La primera partida que termines de cada simulador se guarda automáticamente con tu nombre —las repeticiones son práctica— y las puntuaciones no salen de este espacio.",
     reportTitle: "Informe del facilitador",
     printButton: "Imprimir o guardar en PDF",
     csvButton: "Descargar CSV",
@@ -178,8 +180,8 @@ const COPY = {
     noRunsYet: "Todavía no hay partidas publicadas en este espacio.",
     statusDone: "Jugado",
     statusPending: "Aún sin jugar",
-    playAgain: "Jugar otra vez",
-    yourBest: "Tu mejor puntuación",
+    playAgain: "Repetir para practicar",
+    yourScore: "Tu puntuación registrada",
     progressNone: "Todavía no hay nada publicado con este nombre. Empieza por el simulador que prefieras.",
     progressSome: "Has jugado {done} de {total}. Vuelve a esta página con el mismo nombre para completar el resto.",
     progressAll: "Has jugado los {total} simuladores de este espacio.",
@@ -243,7 +245,7 @@ const COPY = {
     joinButton: "Entrar no espaço",
     joining: "A verificar…",
     hubLead:
-      "Os simuladores e rankings da sua organização. As pontuações publicadas aqui não saem deste espaço.",
+      "Os simuladores e rankings da sua organização. A primeira partida que terminar de cada simulador é registada automaticamente com o seu nome — as repetições são treino — e as pontuações não saem deste espaço.",
     reportTitle: "Relatório do facilitador",
     printButton: "Imprimir ou guardar em PDF",
     csvButton: "Descarregar CSV",
@@ -256,8 +258,8 @@ const COPY = {
     noRunsYet: "Ainda não há partidas publicadas neste espaço.",
     statusDone: "Jogado",
     statusPending: "Ainda não jogado",
-    playAgain: "Jogar novamente",
-    yourBest: "A sua melhor pontuação",
+    playAgain: "Repetir para treinar",
+    yourScore: "A sua pontuação registada",
     progressNone: "Ainda não há nada publicado com este nome. Comece pelo simulador que preferir.",
     progressSome: "Você jogou {done} de {total}. Volte a esta página com o mesmo nome para concluir os restantes.",
     progressAll: "Você jogou todos os {total} simuladores deste espaço.",
@@ -561,7 +563,7 @@ function renderCards(space, progress) {
     );
     if (mine) {
       status.append(
-        element("span", "workspace-card__status-detail", ` · ${dictionary.yourBest} ${mine.bestScore}/${simulator.maxScore}`),
+        element("span", "workspace-card__status-detail", ` · ${dictionary.yourScore} ${mine.bestScore}/${simulator.maxScore}`),
       );
     }
     card.append(status);

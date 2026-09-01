@@ -36,6 +36,11 @@ import { isLocale, isSimulator, loadScenarioText } from "../lib/scenario-text.js
 // forgotten everything. Joining through the name they typed means the hub can
 // show them the two they still owe instead of three identical cards.
 //
+// A simulator page asks the same question once, at the end of a run, because a
+// space records only each person's first attempt: the results screen has to know
+// whether it is about to save one or is looking at a replay. See
+// assets/js/workspace-auto-publish.js.
+//
 // A simulator page also passes `simulator` and `locale`, and a seated browser
 // gets back the wording its company had rewritten for exactly that page. That
 // rides along here rather than in an endpoint of its own for two reasons: the
@@ -59,11 +64,17 @@ const MAX_PROGRESS_ROWS = 200;
 /**
  * Which simulators this participant has finished, best score and last attempt.
  *
- * Joined through the participant key rather than the seat, so a run published
- * yesterday under the same name counts today. A seat that predates the key --
- * anything that joined before the name was required -- has no identity to join
- * on, so it falls back to its own runs: the person still sees the truth about
- * this sitting, which is exactly what they saw before this existed.
+ * Matched on the participant key rather than the seat, so a run published
+ * yesterday under the same name counts today. Read from the run's own key and no
+ * longer joined through the seat that wrote it: that is the same key the
+ * one-attempt-per-person rule is enforced on, and reading progress through a
+ * second route is how a hub comes to say "not played yet" about an exercise the
+ * board will refuse to record again. One identity, one answer.
+ *
+ * A seat that predates the key -- anything that joined before the name was
+ * required -- has no identity to match on, so it falls back to its own runs: the
+ * person still sees the truth about this sitting, which is exactly what they saw
+ * before this existed, and it is the same fallback the write path uses.
  */
 const readProgress = async (spaceId: number, seatId: number, participantKey: string | null) => {
   const runs = await db
@@ -73,13 +84,12 @@ const readProgress = async (spaceId: number, seatId: number, participantKey: str
       createdAt: simulatorScores.createdAt,
     })
     .from(simulatorScores)
-    .innerJoin(workspaceSessions, eq(simulatorScores.workspaceSessionId, workspaceSessions.id))
     .where(
       and(
         eq(simulatorScores.workspaceId, spaceId),
         participantKey
-          ? eq(workspaceSessions.participantKey, participantKey)
-          : eq(workspaceSessions.id, seatId),
+          ? eq(simulatorScores.participantKey, participantKey)
+          : eq(simulatorScores.workspaceSessionId, seatId),
       ),
     )
     .limit(MAX_PROGRESS_ROWS);
@@ -168,9 +178,10 @@ export default async (request: Request) => {
           ? await loadScenarioText(session.space.id, simulator, locale)
           : null;
 
-      // Only for the page that asked. The nine simulator pages call this on
-      // every load and have no use for it, and a participant's progress is not
-      // something to read out of the database three times per exercise.
+      // Only for the callers that ask: the hub on load, and a simulator page
+      // once at the end of a run. Nine pages reading a participant's progress on
+      // every page load would be three reads per exercise for an answer that
+      // only matters at the moment a score would be written.
       const progress =
         params.get("progress") === "1"
           ? await readProgress(session.space.id, session.seat.id, session.seat.participantKey)

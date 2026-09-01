@@ -34,6 +34,17 @@
   var MAX_NAME_LENGTH = 60;
 
   /**
+   * Dispatched on the document after every publish attempt, as
+   * `{ simulator, accepted, error }`.
+   *
+   * The listener that matters is assets/js/workspace-auto-publish.js, which
+   * saves a run automatically inside a private space and needs to know whether
+   * it worked. Public pages fire it too and nothing listens, which is the
+   * cheapest way to keep one publish path rather than two.
+   */
+  var PUBLISH_EVENT = "simulator:score-published";
+
+  /**
    * Resolves once the private-space lookup has settled, or immediately when
    * there is no lookup to wait for.
    *
@@ -112,8 +123,19 @@
             console.warn("Leaderboard unavailable after " + (attempt + 1) + " attempts: HTTP " + response.status);
             return { data: null, error: "unavailable" };
           }
-          console.warn("Leaderboard refused the request: HTTP " + response.status);
-          return { data: null, error: "rejected", status: response.status };
+          // The body is read on a refusal and not on a retryable failure,
+          // because a refusal is the one case where the server has something to
+          // say: a 409 carries the score this person already has on this board.
+          // `data` stays null so no caller can mistake a refusal for a success.
+          return response
+            .json()
+            .catch(function () {
+              return null;
+            })
+            .then(function (body) {
+              console.warn("Leaderboard refused the request: HTTP " + response.status);
+              return { data: null, error: "rejected", status: response.status, body: body };
+            });
         })
         .catch(function (error) {
           // A network error, or a body that did not parse. Both are worth one
@@ -165,6 +187,38 @@
   }
 
   /**
+   * Announces the outcome of a publish on the document.
+   *
+   * The nine publish functions return nothing and each updates its own screen,
+   * so there was no way for anything else on the page to learn that a run had
+   * been recorded. assets/js/workspace-auto-publish.js needs exactly that: it
+   * drives a page's own publish function inside a private space and has to
+   * report to the participant whether their score is on the board. An event is
+   * what lets it do so without a second edit to all nine pages.
+   *
+   * Fired for every publish, public or private, accepted or not, and wrapped:
+   * a listener that throws must not turn a saved score into a failed one.
+   */
+  function announce(entry, outcome) {
+    try {
+      document.dispatchEvent(
+        new CustomEvent(PUBLISH_EVENT, {
+          detail: {
+            simulator: entry.simulator,
+            accepted: outcome.accepted === true,
+            error: outcome.error || null,
+            // The run already on the board when this one was refused as a
+            // replay, `{ score, recordedAt }`, and null in every other case.
+            recorded: outcome.recorded || null,
+          },
+        })
+      );
+    } catch (error) {
+      console.warn("Could not announce the publish", error);
+    }
+  }
+
+  /**
    * Publishes a finished run and returns the refreshed board.
    *
    * `entry.extraScore` is optional and only meaningful for the boards that rank
@@ -174,9 +228,19 @@
    * published inside a private space -- it is what the facilitator report is
    * built from, and it is the one part of a run the public board has no use for.
    * Resolves to { accepted: bool, scores: [...], error: null|"..." }; never
-   * rejects.
+   * rejects. One error is worth knowing about by name: "already-recorded" means
+   * the space keeps only each person's first attempt and this was a replay, so
+   * the run is not on the board and nothing went wrong -- `recorded` then holds
+   * the score that is.
    */
   function submit(entry) {
+    return publish(entry).then(function (outcome) {
+      announce(entry, outcome);
+      return outcome;
+    });
+  }
+
+  function publish(entry) {
     var name = String(entry.name || "").trim().slice(0, MAX_NAME_LENGTH);
     if (!name) {
       return Promise.resolve({ accepted: false, scores: [], error: "name-required" });
@@ -214,6 +278,24 @@
       })
       .then(function (result) {
         if (result.error) {
+          var body = result.body || {};
+
+          // Not a failure: inside a private space only the first run each person
+          // finishes is recorded, and this one is a replay. Distinct from every
+          // other refusal because nothing went wrong and nothing is missing from
+          // the board -- so it must never be shown as "could not be saved". The
+          // recorded score comes back with it so the page can say which run is
+          // standing, and so does the board, which a replay still deserves to
+          // see. See netlify/functions/simulator-score-submit.mts.
+          if (result.status === 409 && body.reason === "already-recorded") {
+            return {
+              accepted: false,
+              scores: Array.isArray(body.scores) ? body.scores : [],
+              error: "already-recorded",
+              recorded: body.recorded || null,
+            };
+          }
+
           // Same distinction as on the read, and it matters more here: the player
           // has just finished a run, and "your access to this space has ended" is
           // a sentence a facilitator can act on where "could not save" is not.
@@ -437,5 +519,6 @@
     formatDate: formatDate,
     categoryBreakdown: categoryBreakdown,
     MAX_NAME_LENGTH: MAX_NAME_LENGTH,
+    PUBLISH_EVENT: PUBLISH_EVENT,
   };
 })();

@@ -970,6 +970,7 @@
     <script src="/assets/js/workspace-context.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
+    <script src="/assets/js/workspace-auto-publish.js"></script>
     <script src="/assets/js/simulator-bridge.js"></script>
     <script>
         let currentScenarioIndex = 0;
@@ -1950,6 +1951,16 @@
                     total: scenarios.length,
                     dimensions: categories
                 });
+            }
+
+            // Inside a private space the run is not the player's to withhold: it is
+            // saved the moment these results appear, under the name on their seat,
+            // because a board the client paid for cannot be a list of everybody's
+            // luckiest attempt. A public visitor is unaffected -- finish() does nothing
+            // for a browser with no seat, and the publish form above stays exactly as it
+            // was. See assets/js/workspace-auto-publish.js.
+            if (window.SimulatorAutoPublish) {
+                window.SimulatorAutoPublish.finish(submitLeaderboardScore);
             }
         }
 

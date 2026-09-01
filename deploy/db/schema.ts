@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   doublePrecision,
   index,
@@ -224,6 +225,25 @@ export const simulatorScores = pgTable(
     workspaceSessionId: integer("workspace_session_id").references(() => workspaceSessions.id, {
       onDelete: "set null",
     }),
+    // The person a private run belongs to: the same SHA-256 of
+    // `<space id>:<folded name>` the seat carries, copied onto the row at write
+    // time. This is what makes one attempt per person enforceable.
+    //
+    // Copied rather than read through `workspaceSessionId` for two reasons. That
+    // column is set to NULL when a seat is deleted, and a run whose seat has gone
+    // would otherwise stop counting as an attempt -- so the rule would quietly
+    // let a replay through. And a person who comes back tomorrow publishes from a
+    // new seat, so the seat is the wrong grain to enforce anything about a person
+    // in the first place.
+    //
+    // NULL on the public board, which has no identities: a typed name is not a
+    // person there, and treating it as one would let anybody take a name out of
+    // circulation. Also NULL for a private run published by a seat that predates
+    // the name requirement, and for the later of two historical runs by the same
+    // person -- see the migration that added this column. A NULL is invisible to
+    // the unique index below, which is the intended reading: unenforceable, not
+    // permitted.
+    participantKey: varchar("participant_key", { length: 64 }),
     // Per-dimension result of the run, as `{ "<stable-key>": 0-100 }`.
     //
     // This is what turns a private space into something worth paying for: a
@@ -259,6 +279,24 @@ export const simulatorScores = pgTable(
     // question the admin console and the cross-space analytics ask, because
     // `simulator` is not its leading column.
     index("simulator_scores_simulator_score_idx").on(table.simulator, table.score),
+    // One attempt per person per simulator, inside a space.
+    //
+    // The rule the private boards are worth anything because of: a participant
+    // publishes their first finished run and that is the score their colleagues
+    // and the facilitator see. It is enforced here, in the database, rather than
+    // only in the endpoint, because a check followed by an insert is two
+    // statements with a gap between them -- and the gap is exactly what a results
+    // screen saving itself while somebody presses the old publish button in a
+    // second tab lands in.
+    //
+    // Partial, so the public board keeps working as it always has: unlimited
+    // rows, no identity, no uniqueness. A private run with no participant key is
+    // excluded on the same terms -- Postgres treats NULLs as distinct in a unique
+    // index anyway, and saying so in the predicate keeps the index to the rows the
+    // rule can actually apply to.
+    uniqueIndex("simulator_scores_space_simulator_participant_idx")
+      .on(table.workspaceId, table.simulator, table.participantKey)
+      .where(sql`"workspace_id" is not null and "participant_key" is not null`),
   ],
 );
 
