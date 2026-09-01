@@ -514,6 +514,7 @@
             <span class="text-[11px] font-mono text-slate-400 block mb-1">Puntaje Final</span>
             <span id="summary-final-score" class="text-3xl font-extrabold text-blue-400 font-mono">85.5</span>
             <span class="text-[10px] text-slate-500 block mt-1">de 100 índice máx.</span>
+            <span class="text-[10px] text-slate-500 block mt-1">El trimestre duró <span id="summary-run-time" class="font-mono text-slate-300">—</span></span>
           </div>
         </div>
 
@@ -1205,6 +1206,28 @@
       });
     };
 
+    /*
+     * Cuánto duró el trimestre.
+     *
+     * La tabla de clasificación siempre ha tenido esta columna y este simulador
+     * nunca envió nada, así que cada fila del Día a Día mostraba "—" y el
+     * informe del facilitador no tenía tiempo mediano que enseñar. Se mide desde
+     * la primera decisión y no desde la carga de la página: el primer escenario
+     * ya está en pantalla al renderizar, así que un reloj arrancado al cargar
+     * mide cuánto tiempo alguien dejó la pestaña abierta, no cuánto duró la
+     * partida.
+     *
+     * Degrada en lugar de fallar si el script compartido no llegó: una partida
+     * sin cronómetro es una pérdida menor que una partida que no arranca.
+     */
+    const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
+      start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+    };
+
+    function formatRunTime(ms) {
+      return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
+    }
+
     function renderStepper() {
       const dotsContainer = document.getElementById('stepper-dots');
       if (!dotsContainer) return;
@@ -1266,6 +1289,10 @@
     function handleSelectOption(slotKey) {
       if (state.hasChosen) return;
       state.hasChosen = true;
+
+      // La partida empieza en la primera decisión, y esto solo se dispara en el
+      // escenario uno.
+      if (state.currentScenarioIdx === 0) runTimer.start();
 
       // Map slot button letter (A, B, C) to randomized shuffled option
       const slotIndex = slotKey === 'A' ? 0 : slotKey === 'B' ? 1 : 2;
@@ -1438,6 +1465,11 @@
 
       setSafeText('summary-final-score', finalScore);
 
+      // Se detiene en la última decisión y no al publicar: leer el resumen no
+      // forma parte de la partida.
+      runTimer.stop();
+      setSafeText('summary-run-time', formatRunTime(runTimer.elapsedMs()));
+
       // Determine Profile Rating. El título sale del mismo helper con el que se
       // dibuja la tabla global, así que una fila nunca contradice al resumen.
       const ratingTitle = profileForScore(finalScore);
@@ -1530,6 +1562,7 @@
         }),
         name: playerName,
         score: score,
+        durationMs: runTimer.elapsedMs()
       });
 
       if (!result.accepted) {
@@ -1623,6 +1656,9 @@
         audioEnabled: state.audioEnabled,
         history: []
       };
+
+      runTimer.reset();
+      setSafeText('summary-run-time', "—");
 
       document.getElementById('simulation-summary-card').classList.add('hidden');
       document.getElementById('active-scenario-card').classList.remove('hidden');

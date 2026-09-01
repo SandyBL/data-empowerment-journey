@@ -514,6 +514,7 @@
             <span class="text-[11px] font-mono text-slate-400 block mb-1">Final Score</span>
             <span id="summary-final-score" class="text-3xl font-extrabold text-blue-400 font-mono">85.5</span>
             <span class="text-[10px] text-slate-500 block mt-1">out of 100 max index</span>
+            <span class="text-[10px] text-slate-500 block mt-1">Quarter took <span id="summary-run-time" class="font-mono text-slate-300">—</span></span>
           </div>
         </div>
 
@@ -1205,6 +1206,27 @@
       });
     };
 
+    /*
+     * How long the quarter took.
+     *
+     * The leaderboard has always had a column for this and this simulator has
+     * always sent nothing, so every Day-to-Day row read "—" and the facilitator
+     * report had no median time to show for it. Timed from the first decision
+     * rather than from page load: the first scenario is on screen the moment the
+     * page renders, so a clock started at load measures how long somebody left
+     * the tab open before engaging, not how long the run took.
+     *
+     * Degrades rather than throws if the shared leaderboard script did not
+     * arrive: an untimed run is a smaller loss than a run that refuses to start.
+     */
+    const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
+      start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+    };
+
+    function formatRunTime(ms) {
+      return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
+    }
+
     function renderStepper() {
       const dotsContainer = document.getElementById('stepper-dots');
       if (!dotsContainer) return;
@@ -1266,6 +1288,10 @@
     function handleSelectOption(slotKey) {
       if (state.hasChosen) return;
       state.hasChosen = true;
+
+      // The run begins at the first decision. start() is idempotent from the
+      // player's point of view here because it only fires on scenario one.
+      if (state.currentScenarioIdx === 0) runTimer.start();
 
       // Map slot button letter (A, B, C) to randomized shuffled option
       const slotIndex = slotKey === 'A' ? 0 : slotKey === 'B' ? 1 : 2;
@@ -1438,6 +1464,11 @@
 
       setSafeText('summary-final-score', finalScore);
 
+      // Stopped on the last decision, not when Publish is pressed: reading the
+      // debrief is not part of the run, and it asks nothing of the player.
+      runTimer.stop();
+      setSafeText('summary-run-time', formatRunTime(runTimer.elapsedMs()));
+
       // Determine Profile Rating. The title comes from the same helper the
       // leaderboard renders with, so a row can never disagree with the summary.
       const ratingTitle = profileForScore(finalScore);
@@ -1530,6 +1561,7 @@
         }),
         name: playerName,
         score: score,
+        durationMs: runTimer.elapsedMs()
       });
 
       if (!result.accepted) {
@@ -1623,6 +1655,9 @@
         audioEnabled: state.audioEnabled,
         history: []
       };
+
+      runTimer.reset();
+      setSafeText('summary-run-time', "—");
 
       document.getElementById('simulation-summary-card').classList.add('hidden');
       document.getElementById('active-scenario-card').classList.remove('hidden');

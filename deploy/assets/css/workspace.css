@@ -775,6 +775,94 @@ body.workspace-page {
 }
 
 /*
+ * The executive summary panel. Same furniture as the per-simulator panels, one
+ * shade heavier: it is the first thing on the report and the part a sponsor
+ * forwards on its own, so it should read as the headline rather than as the
+ * first of four equal sections.
+ */
+.workspace-panel--executive {
+  background: #ffffff;
+  border-color: var(--workspace-navy);
+  border-top-width: 3px;
+}
+
+.workspace-panel--executive .workspace-metric {
+  background: #ffffff;
+}
+
+/*
+ * The room's verdict, in the same words its players read on their own results
+ * screens. The bold half is the profile, the rest is what that profile means.
+ */
+.workspace-verdict {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  background: #eef4f7;
+  border-left: 3px solid var(--workspace-navy);
+  border-radius: 0 8px 8px 0;
+}
+
+.workspace-verdict strong {
+  color: var(--workspace-navy);
+}
+
+/* A finding written as a sentence rather than as a caption under a number. */
+.workspace-lead {
+  margin: 0.875rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/*
+ * Holding up / needs work, side by side. The two columns are the same split the
+ * simulators' own results screens draw, so a sponsor reading the room's report
+ * and a participant reading their own are looking at the same idea of good.
+ */
+.workspace-split {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  margin-top: 1.25rem;
+}
+
+.workspace-split__column h5 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--workspace-muted);
+}
+
+.workspace-split__list {
+  margin: 0;
+  padding-left: 1.125rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.workspace-split__empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--workspace-muted);
+}
+
+/* The caveats: coverage, spread, and how much weight the figures carry. */
+.workspace-notes {
+  margin: 1.25rem 0 0;
+  padding-left: 1.125rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--workspace-muted);
+}
+
+.workspace-notes li + li {
+  margin-top: 0.375rem;
+}
+
+/*
  * Print. A sponsor's first instinct with this report is to put it in front of
  * their leadership, and the honest format for that is the page itself: the
  * screen furniture comes off, the panels stop floating, and the bars keep their
@@ -800,10 +888,24 @@ body.workspace-page {
 
   .workspace-panel,
   .workspace-metric,
-  .workspace-card {
+  .workspace-card,
+  .workspace-verdict,
+  .workspace-split {
     break-inside: avoid;
     box-shadow: none;
     border-color: #94a3b8;
+  }
+
+  /* The verdict is a quote block on screen and has to survive losing colour. */
+  .workspace-verdict {
+    background: #f1f5f9 !important;
+    border-left-color: #334155;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .workspace-panel--executive {
+    border-color: #334155;
   }
 
   .workspace-bar__fill {

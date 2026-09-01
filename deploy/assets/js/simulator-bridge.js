@@ -22,11 +22,24 @@
  *
  * The pages own two things this file deliberately does not:
  *   - the band key, because each page displays its own profile label from its
- *     own thresholds (pt/data-governance-day-to-day uses 85/65 where en and es
- *     use 75/50) and the bridge must never contradict the sentence the visitor
- *     just read three inches higher up the screen;
+ *     own thresholds and the bridge must never contradict the sentence the
+ *     visitor just read three inches higher up the screen. All nine pages now
+ *     band alike -- pt/data-governance-day-to-day banded at 85/65 against
+ *     en and es at 75/50 until the facilitator report needed one room profile
+ *     that did not depend on which language the room happened to play in;
  *   - the slot element, so a page that fails to load this script keeps whatever
  *     CTA it had before rather than rendering an empty gap.
+ *
+ * The pillar tables below are a MIRROR, not the original.
+ *
+ * assets/js/simulator-analysis.mjs is canonical: it holds the same weights, the
+ * same scenario mapping, the same tiebreak order and the labels for all of them,
+ * and it is imported by both the facilitator report page and the report endpoint
+ * that writes the CSV. This file cannot import it -- it is a classic <script> on
+ * nine pages with a synchronous render() that runs before a module would have
+ * resolved -- so it keeps its own copy. Change one, change the other; the
+ * numbers are the same numbers and a divergence would put one pillar reading on
+ * a player's results screen and a different one in their sponsor's report.
  */
 (function () {
   "use strict";
@@ -113,6 +126,9 @@
 
   /*
    * Which pillar each simulator dimension reports on, and how much of it.
+   *
+   * Mirror of PILLAR_WEIGHTS in assets/js/simulator-analysis.mjs -- see the
+   * header of this file for why the copy exists.
    *
    * Mapped by reading what actually moves each dimension rather than by matching
    * names. The weights exist because the mapping is not one-to-one -- the

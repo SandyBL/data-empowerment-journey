@@ -326,6 +326,7 @@
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
                             <span class="text-4xl font-bold text-slate-800" id="final-score-text">0</span>
                             <span class="text-xs text-slate-500 font-semibold uppercase">Índice Final</span>
+                            <span class="text-[10px] text-slate-400 font-mono mt-1" id="summary-run-time">—</span>
                         </div>
                     </div>
                     
@@ -779,11 +780,26 @@
     }
 
     function calculateScore() {
-        // Average of the 5 core governance pillars ensures 50.0 starting point
-        let baseAvg = (state.metrics.efficiency + state.metrics.trust + state.metrics.accountability + state.metrics.security + state.metrics.context) / 5;
-        // Apply budget preservation weight (20% of final score behavior, calculated as bonus/penalty)
-        let budgetFactor = (state.metrics.budget / 50000); // 1.0 at start
-        let finalScore = (baseAvg * 0.8) + (baseAvg * 0.2 * budgetFactor);
+        // Média simples dos cinco eixos de governança, igual às versões en e es,
+        // e é por isso que a partida começa exatamente em 50,0.
+        //
+        // Esta página multiplicava a média por (0,8 + 0,2 * orçamento/50000).
+        // Como o orçamento só desce ao longo do trimestre, esse fator era 1,0 no
+        // início e menor a partir daí: a mesma partida pontuava até 20% abaixo
+        // em português do que em inglês. Isso tornava as pontuações de idiomas
+        // diferentes incomparáveis -- e o ranking global e o relatório do
+        // facilitador juntam as três numa média só.
+        //
+        // O orçamento continua a contar, apenas não duas vezes: cada decisão
+        // cara já paga o seu preço nos cinco eixos, e o orçamento restante fica
+        // na tela como o limite dentro do qual o trimestre foi jogado.
+        const finalScore = (
+            state.metrics.efficiency +
+            state.metrics.trust +
+            state.metrics.accountability +
+            state.metrics.security +
+            state.metrics.context
+        ) / 5;
         state.score = clamp(finalScore, 0, 100);
         return state.score.toFixed(1);
     }
@@ -850,6 +866,27 @@
         el.style.animation = 'floatUp 2s forwards';
     }
 
+    /*
+     * Quanto tempo durou o trimestre.
+     *
+     * O ranking sempre teve esta coluna e este simulador nunca enviou nada, por
+     * isso todas as linhas do Dia a Dia mostravam "—" e o relatório do
+     * facilitador não tinha tempo mediano para apresentar. Medido a partir da
+     * primeira decisão e não do carregamento da página: o primeiro cenário já
+     * está na tela, por isso um relógio iniciado ao carregar mede quanto tempo
+     * alguém deixou a aba aberta e não quanto durou a partida.
+     *
+     * Degrada em vez de falhar se o script compartilhado não chegou: uma partida
+     * sem cronômetro é uma perda menor do que uma partida que não arranca.
+     */
+    const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
+      start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+    };
+
+    function formatRunTime(ms) {
+      return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
+    }
+
     function startGame() {
         // A private space's own wording lands before the first scenario is drawn.
         // By the time somebody has typed a name and pressed start, the lookup that
@@ -913,6 +950,9 @@
 
     function handleOptionSelection(opt, scen) {
         playSound('click');
+
+        // A partida começa na primeira decisão, e isto só dispara no cenário um.
+        if (state.currentScenarioIndex === 0) runTimer.start();
         
         // Hide options
         document.getElementById('options-container').classList.add('hidden');
@@ -984,7 +1024,12 @@
         document.getElementById('progress-bar').style.width = `100%`;
         
         let finalS = calculateScore();
-        
+
+        // Parado na última decisão e não na publicação: ler o resumo não faz
+        // parte da partida.
+        runTimer.stop();
+        setSafeText('summary-run-time', formatRunTime(runTimer.elapsedMs()));
+
         // Counter Animation for Score
         let currentS = 0;
         let interval = setInterval(() => {
@@ -1006,11 +1051,11 @@
         let desc = "";
         let color = "";
         
-        if(finalS >= 85) {
+        if(finalS >= 75) {
             title = "Líder de Governança Estruturado";
             desc = "Excelente! Você equilibrou perfeitamente a agilidade com as regras de governança estruturada da DAMA, construindo uma arquitetura resiliente dentro do orçamento.";
             color = "#22c55e"; // green
-        } else if (finalS >= 65) {
+        } else if (finalS >= 50) {
             title = "Operador de Dados Reativo";
             desc = "Bom esforço. Você salvou projetos no curto prazo, mas dependeu de comunicação manual ou excedeu um pouco o orçamento. Tente focar mais na automação de regras sistêmicas.";
             color = "#eab308"; // yellow
@@ -1027,15 +1072,18 @@
 
         renderLeaderboard();
 
-        // Esta página usa 85/65 onde as versões en e es usam 75/50, e a faixa é
-        // passada em vez de recalculada exatamente por isso: a ponte precisa
-        // concordar com o perfil que acabou de aparecer nesta tela, não com o de
-        // outro idioma.
+        // As faixas são 75/50, iguais às das versões en e es. Esta página usava
+        // 85/65, o que significava que a mesma partida recebia perfis
+        // diferentes em idiomas diferentes -- e o relatório do facilitador
+        // precisa de indicar um perfil da sala sem perguntar em que idioma a
+        // sala jogou. A faixa continua a ser passada em vez de recalculada pela
+        // ponte: ela tem de concordar com o perfil que acabou de aparecer nesta
+        // tela, e é esta página que decide o que ali está escrito.
         if (window.SimulatorBridge) {
             window.SimulatorBridge.render({
                 simulator: 'data-governance-day-to-day',
                 locale: 'pt',
-                band: finalS >= 85 ? 'leader' : (finalS >= 65 ? 'reactive' : 'firefighter'),
+                band: finalS >= 75 ? 'leader' : (finalS >= 50 ? 'reactive' : 'firefighter'),
                 bandLabel: title,
                 simulatorLabel: 'Governança de Dados no Dia a Dia',
                 score: Number(finalS),
@@ -1083,6 +1131,8 @@
         // A linha publicada continua no ranking global; apenas o destaque local
         // deixa de fazer sentido para a próxima partida.
         playerRowKey = null;
+        runTimer.reset();
+        setSafeText('summary-run-time', "—");
         startGame();
     }
 
@@ -1117,7 +1167,8 @@
               context: state.metrics.context
             }),
             name: nameInput,
-            score: finalS
+            score: finalS,
+            durationMs: runTimer.elapsedMs()
         });
 
         if (!result.accepted) {
