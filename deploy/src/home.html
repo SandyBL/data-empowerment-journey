@@ -447,7 +447,7 @@
                     <p class="simulator-offer__eyebrow"><i class="fa-solid fa-building-lock" aria-hidden="true"></i><span data-lang-content="es">Para empresas</span><span data-lang-content="en">For companies</span><span data-lang-content="pt">Para empresas</span></p>
                     <h3 class="simulator-offer__title" id="simulator-offer-title"><span data-lang-content="es">Convierte estos simuladores en el espacio privado de tu equipo</span><span data-lang-content="en">Turn these simulators into your team's private space</span><span data-lang-content="pt">Transforme estes simuladores no espaço privado da sua equipe</span></h3>
                     <p class="simulator-offer__lead"><span data-lang-content="es">Si vas a dirigir un taller o un programa de formación, puedo abrir un espacio privado para tu organización: los mismos simuladores, con tu marca, con el texto de las preguntas reescrito para tu empresa, y una clasificación que nadie fuera de tu empresa puede ver.</span><span data-lang-content="en">If you are running a workshop or a training programme, I can open a private space for your organisation: the same simulators, with your branding, with the wording of the questions rewritten for your company, and a leaderboard nobody outside your company can see.</span><span data-lang-content="pt">Se você vai conduzir um workshop ou um programa de treinamento, posso abrir um espaço privado para a sua organização: os mesmos simuladores, com a sua marca, com o texto das perguntas reescrito para a sua empresa, e um ranking que ninguém fora da sua empresa vê.</span></p>
-                    <a class="simulator-offer__cta" href="#contacto" data-offer-prefill><span data-lang-content="es">Solicitar un espacio privado</span><span data-lang-content="en">Request a private space</span><span data-lang-content="pt">Solicitar um espaço privado</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    <a class="simulator-offer__cta" href="#contact-form-start" data-offer-prefill><span data-lang-content="es">Solicitar un espacio privado</span><span data-lang-content="en">Request a private space</span><span data-lang-content="pt">Solicitar um espaço privado</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                     <p class="simulator-offer__note"><span data-lang-content="es">Los espacios privados se habilitan como parte de un servicio de consultoría, taller o formación. Cuéntame las fechas y el tamaño del grupo, y te envío los códigos de acceso.</span><span data-lang-content="en">Private spaces are set up as part of a consulting, workshop or training engagement. Tell me your dates and the size of the group, and I will send your access codes.</span><span data-lang-content="pt">Os espaços privados são liberados como parte de um trabalho de consultoria, workshop ou treinamento. Conte-me as datas e o tamanho do grupo, e eu envio os códigos de acesso.</span></p>
                 </div>
                 <div class="simulator-offer__compare">
@@ -2179,11 +2179,15 @@
                     message.value = offerMessages[pageLanguage] || offerMessages.es;
                 }
                 if (subject) subject.value = 'Espacio privado de simuladores';
-                // preventScroll keeps the caret move from cancelling the jump to
-                // #contacto, which lands on the section heading rather than on
-                // the textarea halfway down the card.
+                // preventScroll keeps the caret move from cancelling the jump,
+                // which is then performed by scrollToContactForm rather than by
+                // the href. The href reads #contact-form-start so the link still
+                // reaches the form without this script, but on a page whose
+                // sections are still settling the browser's one-shot hash jump
+                // lands short; see the comment on scrollToContactForm.
                 message.focus({ preventScroll: true });
                 message.setSelectionRange(message.value.length, message.value.length);
+                scrollToContactForm();
             });
         }
 

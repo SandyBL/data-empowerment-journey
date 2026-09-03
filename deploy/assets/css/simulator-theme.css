@@ -1,0 +1,1450 @@
+/*
+ * One visual system for the nine simulator pages.
+ *
+ * The three simulators were written separately and then duplicated across three
+ * languages, and the result was five different designs sharing one header: the
+ * Day-to-Day pages were dark slate with a #2563eb blue, Data Literacy dark navy
+ * with a #06b6d4 cyan, the English "Who Owns This?" a light page with its own
+ * teal-and-orange Tailwind config, and the Spanish and Portuguese copies of that
+ * one a hand-written stylesheet with a third set of colour names. Three
+ * typefaces, three icon libraries and four card radii between them. A visitor
+ * moving from the homepage into a simulator, or between two simulators, had no
+ * reason to believe they were still on the same site.
+ *
+ * This file is the single answer to "what does a simulator look like". It is
+ * loaded by all nine pages, straight after simulator-header.css, and it holds:
+ *
+ *   1. the design tokens, copied from the values the rest of the site already
+ *      uses (assets/styles.css :root, and the .simulators-section block that
+ *      the homepage frames these very simulators in);
+ *   2. the dark teal console the app itself sits on;
+ *   3. the .sim-* component classes the nine pages share -- cards, panels,
+ *      option buttons, meters, badges, buttons, tables, the welcome screen;
+ *   4. the small number of overrides needed to bring the pages that still carry
+ *      their own inline <style> block onto the same surface.
+ *
+ * The direction is not invented here. The homepage's own simulators section
+ * (assets/styles.css) is a dark teal gradient with a 42px grid overlay and
+ * white-glass cards at 1.5rem radius. That is the surface a visitor clicks
+ * "Open simulator" from, so it is the surface the simulator opens onto.
+ *
+ * Everything is a custom property rather than a literal so that a private
+ * space can re-point the accent -- assets/js/workspace-context.js already sets
+ * --workspace-accent on <html>, and --sim-accent follows it when it is there.
+ */
+
+:root {
+  /* ---------------------------------------------------------------------
+   * Brand, verbatim from assets/styles.css. Repeated rather than imported
+   * because that stylesheet is the hand-written Tailwind subset for the
+   * marketing pages and none of the nine simulators links it; an @import
+   * would pull 78 KB onto every simulator to read seven colours.
+   * ------------------------------------------------------------------- */
+  --sim-deepblue: #003366;
+  --sim-teal: #095b73;
+  --sim-cyan: #65b7c7;
+  --sim-orange: #e95d24;
+  --sim-emerald: #50c878;
+  --sim-mist: #ebf2f2;
+
+  /* ---------------------------------------------------------------------
+   * The console.
+   *
+   * The same 145deg teal gradient, the same radial cyan glow at 12% 18% and
+   * the same 42px grid as .simulators-section on the homepage, so the
+   * simulator reads as a continuation of the card the visitor clicked rather
+   * than a new place -- but pitched two steps darker than the marketing band.
+   *
+   * That is not a style preference. The homepage section is a short strip
+   * carrying a headline and three cards; a simulator is forty minutes of
+   * reading scenario text, and its panels have to sit on this ground while
+   * still passing 4.5:1 for body copy. On the homepage's own lighter stops the
+   * muted body tone measures 4.2:1 -- fine for one marketing paragraph, not
+   * something to reproduce across nine interactive pages. Darkening the ground
+   * buys the whole neutral ramp roughly two steps of headroom, which is what
+   * lets muted text stay visibly muted instead of creeping toward white to
+   * survive the background.
+   * ------------------------------------------------------------------- */
+  --sim-console-base: #04141c;
+  --sim-console: radial-gradient(circle at 12% 18%, rgb(101 183 199 / 0.16), transparent 24rem),
+    linear-gradient(145deg, #041e29 0%, #073b4c 58%, #05222e 100%);
+  --sim-grid-size: 42px;
+  --sim-grid-opacity: 0.14;
+
+  /* ---------------------------------------------------------------------
+   * Surfaces.
+   *
+   * Panels recess into the console rather than floating above it as white
+   * glass: a deep teal wash, a hairline a few steps lighter than the fill, an
+   * inset top highlight for the lit edge, and a 12px blur behind it. Depth
+   * still comes from the highlight and the shadow, so a card still reads as a
+   * card -- it is just cut into the surface instead of laid on top of it.
+   *
+   * Recessed is also what the existing markup already asks for. Between them
+   * the nine pages carry 86 `bg-slate-900`, 37 `bg-slate-900/90` and 163
+   * `bg-slate-800` panels, all written against a dark ground; re-pointing
+   * those at a light wash would have inverted every one of them and put dark
+   * ink on pale panels floating over a dark page.
+   *
+   * These values deliberately equal what the re-pointed Tailwind ramps in
+   * assets/js/simulator-tailwind-config.js produce, so a card built from
+   * `bg-slate-900/90 border-slate-800` and a card built from `.sim-card` are
+   * the same card.
+   *
+   * --sim-panel is the surface *inside* a card -- a scenario blockquote, a
+   * meter tray, a table head -- and goes darker still, because two washes of
+   * the same tone flatten the depth the card just established.
+   * ------------------------------------------------------------------- */
+  --sim-surface: rgb(7 42 56 / 0.88);
+  --sim-surface-hover: rgb(13 61 78 / 0.92);
+  --sim-panel: rgb(4 30 41 / 0.7);
+  --sim-panel-strong: rgb(4 20 28 / 0.78);
+  --sim-panel-raised: #0d3d4e;
+  --sim-border: #1d5566;
+  --sim-border-strong: rgb(101 183 199 / 0.45);
+  --sim-highlight: inset 0 1px 0 rgb(255 255 255 / 0.08);
+  --sim-blur: blur(12px);
+
+  /* Ink. Four steps, and every one of them measures at least 4.9:1 against
+     --sim-panel-raised (#0d3d4e), the lightest ground any body copy sits on.
+     They are the same four values as text-slate-100/300/400/500 in the shared
+     Tailwind config, so hand-written CSS and utility classes agree. */
+  --sim-ink: #f2fafc;
+  --sim-ink-muted: #c3dde4;
+  --sim-ink-dim: #9dc2cc;
+  --sim-ink-faint: #7fa8b4;
+
+  /* Accent. Follows a private space's colour when one is set. */
+  --sim-accent: var(--workspace-accent, #65b7c7);
+  --sim-accent-strong: #095b73;
+  --sim-accent-soft: rgb(101 183 199 / 0.14);
+  --sim-accent-line: rgb(101 183 199 / 0.38);
+
+  /* Outcome colours. Emerald and orange are the brand's own; the red is a
+     warmed brand-adjacent red rather than a stock #ef4444, which read as a
+     browser error next to this palette. */
+  --sim-good: #50c878;
+  --sim-warn: #e9b03c;
+  --sim-bad: #ef9384;
+
+  /* ---------------------------------------------------------------------
+   * Categorical series, for the metric meters and the radar chart.
+   *
+   * Six hues that have to stay apart at the width of a 6px meter while still
+   * reading as one family on a teal ground, so every one of them is pulled
+   * toward the brand's own saturation rather than taken at full strength.
+   * Each measures at least 5.4:1 on --sim-panel, which is what lets them
+   * carry the figure as well as the bar.
+   * ------------------------------------------------------------------- */
+  --sim-series-1: #65b7c7; /* cyan    -- brand */
+  --sim-series-2: #50c878; /* emerald -- brand */
+  --sim-series-3: #b3a4e0; /* lilac */
+  --sim-series-4: #ef9384; /* coral */
+  --sim-series-5: #c79ae0; /* orchid */
+  --sim-series-6: #e9b03c; /* gold */
+
+  /* Geometry. 1.5rem is .simulator-card's radius on the homepage; the control
+     radius is the one step down that keeps a button inside a card looking
+     like it belongs to it. */
+  --sim-radius-card: 1.5rem;
+  --sim-radius-panel: 1rem;
+  --sim-radius-control: 0.75rem;
+  --sim-radius-pill: 9999px;
+
+  --sim-shadow-card: 0 24px 48px rgb(2 22 33 / 0.28);
+  --sim-shadow-raised: 0 12px 28px rgb(2 22 33 / 0.22);
+  --sim-shadow-accent: 0 12px 28px rgb(101 183 199 / 0.24);
+
+  --sim-font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sim-transition: 220ms ease;
+}
+
+/* ---------------------------------------------------------------------------
+ * Focus indicator on the console.
+ *
+ * simulator-header.css points --simulator-focus-ring at #22d3ee for the pages
+ * whose body carries bg-navy-950 or bg-slate-950. Those class names no longer
+ * describe anything -- every page is the same console now -- and #22d3ee was
+ * never a brand colour. White is what assets/styles.css already uses for the
+ * dark sections of the marketing site, and it measures 12.6:1 here against the
+ * 3:1 that WCAG 1.4.11 asks of a focus indicator.
+ * ------------------------------------------------------------------------- */
+html[data-sim-theme="dark"] {
+  --simulator-focus-ring: #ffffff;
+  --focus-ring: #ffffff;
+}
+
+/* ---------------------------------------------------------------------------
+ * The page.
+ *
+ * Full-bleed console rather than a dark panel floating in a light page: the
+ * header above it is #003366, the breadcrumb #04223f and the footer nav a dark
+ * slate, so a light page background would have put a bright band between two
+ * pieces of dark chrome. The homepage frames its simulators the same way -- one
+ * full-width dark teal section.
+ *
+ * background-attachment is fixed so the gradient does not restart partway down
+ * a long results page; the grid overlay is a fixed pseudo-element for the same
+ * reason, and because a repeating 42px pattern inside a scrolling container is
+ * a repaint on every frame.
+ * ------------------------------------------------------------------------- */
+html[data-sim-theme="dark"],
+html[data-sim-theme="dark"] body {
+  background-color: var(--sim-console-base);
+  color: var(--sim-ink);
+  font-family: var(--sim-font);
+}
+
+html[data-sim-theme="dark"] body {
+  position: relative;
+  background-image: var(--sim-console);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+html[data-sim-theme="dark"] body::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  opacity: var(--sim-grid-opacity);
+  background-image: linear-gradient(rgb(255 255 255 / 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.18) 1px, transparent 1px);
+  background-size: var(--sim-grid-size) var(--sim-grid-size);
+  content: "";
+  pointer-events: none;
+}
+
+/* Everything the page itself renders sits above the grid. The header, footer
+   and breadcrumb are given the same lift so a sticky header still covers the
+   content scrolling under it. */
+html[data-sim-theme="dark"] body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * Numeric labels.
+ *
+ * Six of the nine pages asked for JetBrains Mono in their Tailwind config and
+ * no page has ever served it -- there is no such file in assets/fonts -- so
+ * every `font-mono` score, timer and percentage rendered in whatever monospace
+ * the visitor's operating system happens to have. That is a fourth typeface on
+ * the page, and a different one per visitor.
+ *
+ * What those labels actually needed was figures that do not jump width as they
+ * count, which Plus Jakarta Sans provides directly.
+ */
+html[data-sim-theme="dark"] .font-mono,
+.sim-figure {
+  font-family: var(--sim-font);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.01em;
+}
+
+/* ---------------------------------------------------------------------------
+ * Cards and panels.
+ * ------------------------------------------------------------------------- */
+
+.sim-card {
+  position: relative;
+  border: 1px solid var(--sim-border);
+  border-radius: var(--sim-radius-card);
+  background: var(--sim-surface);
+  box-shadow: var(--sim-highlight), var(--sim-shadow-card);
+  backdrop-filter: var(--sim-blur);
+}
+
+/* A card that is the page's centre of attention -- the live scenario, the
+   results summary -- takes the cyan hairline instead of the white one, which
+   is the same distinction .simulator-offer draws on the homepage. */
+.sim-card--accent {
+  border-color: var(--sim-border-strong);
+  background: radial-gradient(circle at 88% 6%, rgb(101 183 199 / 0.14), transparent 18rem), var(--sim-surface);
+}
+
+.sim-panel {
+  border: 1px solid rgb(101 183 199 / 0.16);
+  border-radius: var(--sim-radius-panel);
+  background: var(--sim-panel);
+}
+
+.sim-panel--strong {
+  background: var(--sim-panel-strong);
+}
+
+/* The two verdict trays on the debrief -- what went well, what to watch. The
+   hairline carries the verdict so the heading inside does not have to shout
+   it, which is why these are the only two panels allowed a coloured edge. */
+.sim-panel--good {
+  border-color: rgb(80 200 120 / 0.3);
+  background: var(--sim-panel-strong);
+}
+
+.sim-panel--warn {
+  border-color: rgb(233 176 60 / 0.3);
+  background: var(--sim-panel-strong);
+}
+
+/* An inset note: the scenario narrative, a debrief quote. Reads as recessed
+   rather than raised, so it does not compete with the card holding it. */
+.sim-quote {
+  border: 1px solid rgb(101 183 199 / 0.12);
+  border-left: 3px solid var(--sim-accent);
+  border-radius: var(--sim-radius-control);
+  background: var(--sim-panel-strong);
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / 0.2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Option buttons -- the one control every simulator is built around.
+ *
+ * Full-width stacked rows rather than a three-across grid. The grid was what
+ * Data Literacy used, and a 40-word option in Portuguese either overflowed its
+ * column or forced all three to the height of the longest; a row grows
+ * downward and reads the same on a phone.
+ * ------------------------------------------------------------------------- */
+
+.sim-option {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid rgb(101 183 199 / 0.2);
+  border-radius: var(--sim-radius-control);
+  background: var(--sim-panel);
+  color: var(--sim-ink-muted);
+  font-family: var(--sim-font);
+  text-align: left;
+  transition: border-color var(--sim-transition), background-color var(--sim-transition), transform var(--sim-transition);
+}
+
+button.sim-option:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--sim-border-strong);
+  background: var(--sim-surface-hover);
+}
+
+.sim-option:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+/* The A/B/C key. One shape and one colour for all three: the three different
+   tints Day-to-Day gave them implied a ranking that the scoring does not have,
+   and a visitor reading amber-then-cyan-then-blue looks for a meaning in it. */
+.sim-option__key {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--sim-accent-line);
+  border-radius: 0.625rem;
+  background: var(--sim-accent-soft);
+  color: var(--sim-accent);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  transition: background-color var(--sim-transition), color var(--sim-transition);
+}
+
+button.sim-option:hover:not(:disabled) .sim-option__key {
+  background: var(--sim-accent);
+  color: #04141c;
+}
+
+.sim-option__body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/*
+ * Column variant. "Who Owns This?" asks the player to pick one of three
+ * standing roles rather than one of three paragraphs, so those read as a
+ * three-across row of cards; everything else about the control -- border,
+ * radius, ground, hover lift, key tile -- is the row above, so the two are
+ * visibly the same button doing two jobs.
+ */
+.sim-option--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 1.25rem;
+}
+
+.sim-option--stacked .sim-option__key {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--sim-radius-control);
+  font-size: 1.125rem;
+}
+
+.sim-option--stacked .sim-option__body {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/* The role's short function label, above the name. */
+.sim-option__meta {
+  display: block;
+  margin-bottom: 0.375rem;
+  color: var(--sim-ink-faint);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color var(--sim-transition);
+}
+
+button.sim-option:hover:not(:disabled) .sim-option__meta {
+  color: var(--sim-accent);
+}
+
+/* Three role cards across, one under the other on a phone. */
+.sim-option-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .sim-option-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.sim-option__title {
+  margin: 0 0 0.25rem;
+  color: var(--sim-ink);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.sim-option__text {
+  margin: 0;
+  color: var(--sim-ink-muted);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+/* Post-answer states. Both keep the row legible rather than washing it in a
+   flat green or red, because the debrief underneath is what the player is
+   reading and the row is only there to say which one they picked. */
+.sim-option--correct {
+  border-color: rgb(80 200 120 / 0.55);
+  background: rgb(80 200 120 / 0.12);
+}
+
+.sim-option--correct .sim-option__key {
+  border-color: rgb(80 200 120 / 0.55);
+  background: var(--sim-good);
+  color: #04141c;
+}
+
+.sim-option--incorrect {
+  border-color: rgb(239 147 132 / 0.5);
+  background: rgb(239 147 132 / 0.1);
+}
+
+.sim-option--incorrect .sim-option__key {
+  border-color: rgb(239 147 132 / 0.5);
+  background: var(--sim-bad);
+  color: #2a1310;
+}
+
+.sim-option--selected {
+  border-color: var(--sim-accent);
+  background: var(--sim-accent-soft);
+}
+
+/*
+ * The per-answer review list. Each row is the same control the player clicked
+ * during the round, in its post-answer state, with the scenario number in the
+ * key tile -- so "here is what you picked" looks like what they picked. The
+ * English page had built this as an undecorated divided stack and the Spanish
+ * and Portuguese ones as bordered rows with a coloured left edge; both are
+ * this row now.
+ */
+/* Title on the left, verdict on the right, stacking on a narrow phone. */
+.sim-option__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+}
+
+.sim-option__verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.sim-option--correct .sim-option__verdict {
+  color: var(--sim-good);
+}
+
+.sim-option--incorrect .sim-option__verdict {
+  color: var(--sim-bad);
+}
+
+/* The struck-through wrong answer, and the right one beside it. */
+.sim-option__answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.375rem;
+  color: var(--sim-ink-faint);
+  font-size: 0.75rem;
+}
+
+.sim-option__answers strong {
+  color: var(--sim-ink-muted);
+  font-weight: 800;
+}
+
+.sim-option--incorrect .sim-option__answers .sim-option__answer-wrong {
+  color: var(--sim-bad);
+  text-decoration: line-through;
+}
+
+.sim-option__answers .sim-option__answer-right {
+  color: var(--sim-good);
+}
+
+/* The one-paragraph explanation, indented under the row it explains. */
+.sim-option__note {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.5rem;
+  background: var(--sim-panel-strong);
+  color: var(--sim-ink-faint);
+  font-size: 0.6875rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* The list itself. */
+.sim-review-list {
+  display: grid;
+  gap: 0.625rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Buttons.
+ * ------------------------------------------------------------------------- */
+
+.sim-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--sim-radius-control);
+  font-family: var(--sim-font);
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color var(--sim-transition), border-color var(--sim-transition), transform var(--sim-transition),
+    box-shadow var(--sim-transition);
+}
+
+.sim-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.sim-btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+  transform: none;
+}
+
+/* Orange for the one action that moves the run forward. It is the only warm
+   colour on the console, which is what makes it the obvious next step without
+   needing to be the largest thing on screen. */
+.sim-btn--primary {
+  background: var(--sim-orange);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgb(233 93 36 / 0.28);
+}
+
+.sim-btn--primary:hover:not(:disabled) {
+  background: #f2703c;
+}
+
+.sim-btn--accent {
+  background: var(--sim-accent);
+  color: #04141c;
+  box-shadow: var(--sim-shadow-accent);
+}
+
+.sim-btn--accent:hover:not(:disabled) {
+  background: #7cc6d4;
+}
+
+.sim-btn--ghost {
+  border-color: var(--sim-border);
+  background: var(--sim-surface);
+  color: var(--sim-ink);
+}
+
+.sim-btn--ghost:hover:not(:disabled) {
+  border-color: var(--sim-border-strong);
+  background: var(--sim-surface-hover);
+}
+
+.sim-btn--quiet {
+  padding: 0.5rem 0.875rem;
+  background: transparent;
+  color: var(--sim-ink-muted);
+  font-size: 0.8125rem;
+}
+
+.sim-btn--quiet:hover:not(:disabled) {
+  color: var(--sim-ink);
+}
+
+/* An accent-tinted secondary. Sits next to a --accent button when both are
+   real actions and only one of them is the expected one. */
+.sim-btn--soft {
+  border-color: var(--sim-accent-line);
+  background: var(--sim-accent-soft);
+  color: var(--sim-accent);
+}
+
+.sim-btn--soft:hover:not(:disabled) {
+  border-color: var(--sim-border-strong);
+  background: rgb(101 183 199 / 0.2);
+}
+
+/* ---------------------------------------------------------------------------
+ * Button sizes. Three, where the nine pages previously had eleven padding
+ * pairs and eight type sizes between them.
+ * ------------------------------------------------------------------------- */
+
+.sim-btn--sm {
+  padding: 0.4rem 0.75rem;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+}
+
+.sim-btn--lg {
+  padding: 0.95rem 1.75rem;
+  font-size: 1rem;
+}
+
+/* Square, for a button whose whole label is its icon. */
+.sim-btn--icon {
+  width: 2.375rem;
+  height: 2.375rem;
+  padding: 0;
+}
+
+/* The one full-width call to action a screen is allowed, capped so it does not
+   stretch to the full width of a desktop card. */
+/*
+ * Fills its container. The seven utility-framework pages said `w-full`; the two
+ * hand-written ones had no such class and reached for an inline width instead,
+ * which is why the same "next scenario" button was a different shape on them.
+ */
+.sim-btn--block {
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+ * Toggles -- the tab strip and the catalogue's category filter.
+ *
+ * Both were written as two complete utility strings, one for on and one for
+ * off, duplicated between the markup and the click handler that swaps them;
+ * four copies of each state per page. They are one class and one modifier now,
+ * so the handler only adds or removes --on.
+ * ------------------------------------------------------------------------- */
+
+.sim-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--sim-radius-control);
+  background: transparent;
+  color: var(--sim-ink-dim);
+  font-family: var(--sim-font);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: background-color var(--sim-transition), border-color var(--sim-transition), color var(--sim-transition);
+}
+
+.sim-toggle:hover:not(.sim-toggle--on) {
+  background: var(--sim-panel);
+  color: var(--sim-ink);
+}
+
+.sim-toggle--on {
+  border-color: var(--sim-accent-line);
+  background: var(--sim-accent-soft);
+  color: var(--sim-accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Badges and eyebrows.
+ * ------------------------------------------------------------------------- */
+
+.sim-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--sim-accent-line);
+  border-radius: var(--sim-radius-pill);
+  background: var(--sim-accent-soft);
+  color: var(--sim-accent);
+  font-family: var(--sim-font);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sim-badge--neutral {
+  border-color: rgb(101 183 199 / 0.22);
+  background: var(--sim-panel);
+  color: var(--sim-ink-dim);
+}
+
+/* The brand orange, reserved for the one badge that labels an action the
+   visitor is meant to take away with them rather than a state of the app. */
+.sim-badge--cta {
+  border-color: rgb(233 93 36 / 0.3);
+  background: rgb(233 93 36 / 0.12);
+  color: #f2926c;
+}
+
+.sim-badge--good {
+  border-color: rgb(80 200 120 / 0.45);
+  background: rgb(80 200 120 / 0.12);
+  color: var(--sim-good);
+}
+
+.sim-badge--warn {
+  border-color: rgb(233 176 60 / 0.45);
+  background: rgb(233 176 60 / 0.12);
+  color: var(--sim-warn);
+}
+
+.sim-badge--bad {
+  border-color: rgb(239 147 132 / 0.45);
+  background: rgb(239 147 132 / 0.12);
+  color: var(--sim-bad);
+}
+
+.sim-eyebrow {
+  color: var(--sim-accent);
+  font-family: var(--sim-font);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/*
+ * Eyebrow colours. The label above a heading was written forty different ways
+ * across the nine pages -- eleven type sizes, four weights, three tracking
+ * steps and every hue Tailwind ships. There is one size and one weight now,
+ * and colour is the only thing that varies, because colour is the only thing
+ * that was ever carrying meaning: accent for a section, dim for a field label
+ * or a table head, good/warn for a verdict.
+ */
+.sim-eyebrow--muted {
+  color: var(--sim-ink-muted);
+}
+
+.sim-eyebrow--dim {
+  color: var(--sim-ink-dim);
+}
+
+.sim-eyebrow--good {
+  color: var(--sim-good);
+}
+
+.sim-eyebrow--warn {
+  color: var(--sim-warn);
+}
+
+.sim-eyebrow--bad {
+  color: var(--sim-bad);
+}
+
+/* An icon tile, the same 1rem-radius square the homepage cards use. */
+.sim-icon-tile {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--sim-radius-panel);
+  background: var(--sim-accent);
+  color: #04141c;
+  font-size: 1.05rem;
+  box-shadow: var(--sim-shadow-accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Meters.
+ *
+ * One shape for every indicator on every page: a label row with the figure on
+ * the right, and a 6px track under it. Day-to-Day drew six of these with six
+ * different bar colours, Data Literacy five, "Who Owns This?" one in orange --
+ * the series tokens now supply the hue and nothing else varies.
+ * ------------------------------------------------------------------------- */
+
+.sim-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid rgb(101 183 199 / 0.16);
+  border-radius: var(--sim-radius-control);
+  background: var(--sim-panel);
+}
+
+.sim-meter__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+}
+
+.sim-meter__label {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--sim-ink-dim);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sim-meter__dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  flex: 0 0 auto;
+  border-radius: var(--sim-radius-pill);
+  background: var(--sim-meter-color, var(--sim-accent));
+}
+
+.sim-meter__value {
+  flex: 0 0 auto;
+  color: var(--sim-ink);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.sim-meter__track {
+  width: 100%;
+  height: 0.375rem;
+  overflow: hidden;
+  border-radius: var(--sim-radius-pill);
+  background: rgb(3 16 22 / 0.75);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+.sim-meter__fill {
+  height: 100%;
+  border-radius: var(--sim-radius-pill);
+  background: var(--sim-meter-color, var(--sim-accent));
+  transition: width 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sim-meter--1 { --sim-meter-color: var(--sim-series-1); }
+.sim-meter--2 { --sim-meter-color: var(--sim-series-2); }
+.sim-meter--3 { --sim-meter-color: var(--sim-series-3); }
+.sim-meter--4 { --sim-meter-color: var(--sim-series-4); }
+.sim-meter--5 { --sim-meter-color: var(--sim-series-5); }
+.sim-meter--6 { --sim-meter-color: var(--sim-series-6); }
+
+/* ---------------------------------------------------------------------------
+ * Progress.
+ * ------------------------------------------------------------------------- */
+
+.sim-progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sim-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.sim-step {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--sim-radius-pill);
+  background: rgb(101 183 199 / 0.28);
+  transition: background-color var(--sim-transition), transform var(--sim-transition), box-shadow var(--sim-transition);
+}
+
+.sim-step--done {
+  background: var(--sim-accent);
+}
+
+.sim-step--current {
+  transform: scale(1.35);
+  background: var(--sim-orange);
+  box-shadow: 0 0 0 4px rgb(233 93 36 / 0.22);
+}
+
+.sim-progress__count {
+  color: var(--sim-ink-dim);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------------------
+ * Leaderboard table. One design, rendered by nine pages.
+ * ------------------------------------------------------------------------- */
+
+.sim-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgb(101 183 199 / 0.16);
+  border-radius: var(--sim-radius-panel);
+  background: var(--sim-panel);
+}
+
+.sim-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sim-font);
+  font-size: 0.8125rem;
+}
+
+.sim-table thead th {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid rgb(101 183 199 / 0.2);
+  background: var(--sim-panel-strong);
+  color: var(--sim-ink-faint);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sim-table tbody td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid rgb(101 183 199 / 0.12);
+  color: var(--sim-ink-muted);
+  vertical-align: middle;
+}
+
+.sim-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.sim-table tbody tr:hover td {
+  background: rgb(101 183 199 / 0.07);
+}
+
+.sim-table__rank {
+  color: var(--sim-ink-faint);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.sim-table__name {
+  color: var(--sim-ink);
+  font-weight: 700;
+}
+
+.sim-table__score {
+  color: var(--sim-accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  text-align: right;
+}
+
+.sim-table__meta {
+  color: var(--sim-ink-faint);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.sim-table__empty {
+  padding: 1.25rem 0.75rem;
+  color: var(--sim-ink-faint);
+  text-align: center;
+}
+
+/* The player's own row, so they can find themselves on a board of twenty. */
+.sim-table tbody tr.sim-table__row--you td {
+  background: var(--sim-accent-soft);
+}
+
+.sim-table tbody tr.sim-table__row--you .sim-table__name {
+  color: var(--sim-accent);
+}
+
+/* Top three. A tint rather than a medal, because the first three rows are next
+   to each other and three saturated colours in a row fight the score column. */
+.sim-table__rank--1 { color: var(--sim-series-6); }
+.sim-table__rank--2 { color: var(--sim-ink-dim); }
+.sim-table__rank--3 { color: var(--sim-orange); }
+
+/* A header cell over a right-aligned column has to be told so explicitly: the
+   thead rule carries element selectors and outranks the column class alone. */
+.sim-table thead th.sim-table__score,
+.sim-table thead th.sim-table__meta {
+  text-align: right;
+}
+
+/* "(You)" beside the player's own name. The row tint says it too, but the tint
+   is easy to miss on one of the top three rows, where the rank is coloured. */
+.sim-table__you {
+  color: var(--sim-accent);
+  font-weight: 800;
+}
+
+/* ---------------------------------------------------------------------------
+ * Welcome screen.
+ *
+ * Rendered as an overlay by assets/js/simulator-welcome.js on the pages that
+ * dropped the visitor straight into a running simulation, and used directly as
+ * markup by the three "Who Owns This?" pages, which already had a welcome
+ * screen of their own. Same classes either way, so the two routes produce the
+ * same screen.
+ * ------------------------------------------------------------------------- */
+
+.sim-welcome {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: flex;
+  overflow-y: auto;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgb(2 12 18 / 0.86);
+  backdrop-filter: blur(6px);
+}
+
+.sim-welcome[hidden] {
+  display: none;
+}
+
+/* The page behind the overlay must not scroll while it is open. */
+html.sim-welcome-open,
+html.sim-welcome-open body {
+  overflow: hidden;
+}
+
+.sim-welcome__dialog {
+  width: 100%;
+  max-width: 40rem;
+  margin: auto;
+  padding: 1.75rem;
+  /* Centred, because four of the nine welcome screens already were and they are
+     the ones a visitor meets first. The name field inside keeps its own
+     left alignment -- see .sim-welcome__start. */
+  text-align: center;
+  border: 1px solid var(--sim-border-strong);
+  border-radius: var(--sim-radius-card);
+  background: radial-gradient(circle at 88% 6%, rgb(101 183 199 / 0.14), transparent 18rem),
+    linear-gradient(145deg, #062c3a 0%, #0a4256 100%);
+  box-shadow: var(--sim-highlight), var(--sim-shadow-card);
+}
+
+/* "Who Owns This?" previews its three roles on the welcome screen as a
+   three-across row, which does not fit the 40rem reading measure. */
+.sim-welcome__dialog--wide {
+  max-width: 56rem;
+}
+
+.sim-welcome__title {
+  margin: 0.75rem 0 0.6rem;
+  color: var(--sim-ink);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.sim-welcome__lead {
+  margin: 0 0 1.25rem;
+  color: var(--sim-ink-muted);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.sim-welcome__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  justify-content: center;
+  list-style: none;
+}
+
+/*
+ * The name field, the start button and the footnote, as one block.
+ *
+ * Five simulators ask for a name in a modal overlay and four ask on a screen
+ * inside the page, and the in-page screens are centre-aligned -- so the same
+ * three elements were a left-aligned column on some pages and a centred label
+ * floating over its own input on others. Grouping them and giving the group its
+ * own measure and alignment means starting a simulator looks the same in both
+ * places.
+ */
+.sim-welcome__start {
+  max-width: 28rem;
+  margin: 1.5rem auto 0;
+  text-align: left;
+}
+
+.sim-welcome__field {
+  margin-bottom: 1rem;
+}
+
+.sim-welcome__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--sim-ink-dim);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sim-input {
+  width: 100%;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid rgb(101 183 199 / 0.3);
+  border-radius: var(--sim-radius-control);
+  background: var(--sim-panel-strong);
+  color: var(--sim-ink);
+  font-family: var(--sim-font);
+  font-size: 0.875rem;
+}
+
+.sim-input::placeholder {
+  color: var(--sim-ink-faint);
+}
+
+.sim-input:hover {
+  border-color: var(--sim-accent-line);
+}
+
+.sim-welcome__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.sim-welcome__actions .sim-btn--primary {
+  flex: 1 1 14rem;
+}
+
+.sim-welcome__note {
+  margin: 0.875rem 0 0;
+  color: var(--sim-ink-faint);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Inside a private space the seat already carries the participant's name and
+   workspace-context.js fills every name field on the page, so asking again is
+   asking a question the page can already answer. */
+html[data-workspace] .sim-welcome__field,
+html[data-workspace-pending] .sim-welcome__field {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * The SEO explainer, which every simulator carries below the app.
+ *
+ * It was a white card with slate body copy on all nine pages -- fine under the
+ * one light simulator, a bright sheet stapled under the two dark ones. On one
+ * console it is one card.
+ * ------------------------------------------------------------------------- */
+
+.simulator-explainer {
+  border-color: var(--sim-border) !important;
+  background: var(--sim-surface) !important;
+  box-shadow: var(--sim-highlight), var(--sim-shadow-card) !important;
+  color: var(--sim-ink-muted) !important;
+  backdrop-filter: var(--sim-blur);
+}
+
+.simulator-explainer h2,
+.simulator-explainer h3,
+.simulator-explainer h4 {
+  color: var(--sim-ink) !important;
+}
+
+.simulator-explainer strong {
+  color: var(--sim-ink);
+}
+
+.simulator-explainer a {
+  color: var(--sim-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--sim-accent-line);
+  text-underline-offset: 0.2em;
+}
+
+.simulator-explainer a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------------------------------------------------------------------------
+ * Modals. Two pages open one -- the DAMA matrix and the RACI cheatsheet -- and
+ * they were a dark slate panel and a white one.
+ * ------------------------------------------------------------------------- */
+
+.sim-modal {
+  position: fixed;
+  z-index: 70;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(2 12 18 / 0.84);
+  backdrop-filter: blur(6px);
+}
+
+.sim-modal[hidden],
+.sim-modal.hidden {
+  display: none;
+}
+
+.sim-modal__dialog {
+  width: 100%;
+  max-width: 42rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  border: 1px solid var(--sim-border-strong);
+  border-radius: var(--sim-radius-card);
+  background: linear-gradient(145deg, #062c3a 0%, #0a4256 100%);
+  box-shadow: var(--sim-highlight), var(--sim-shadow-card);
+  color: var(--sim-ink-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Motion, once, for all nine pages.
+ *
+ * Three pages had grown their own keyframes for the same two moments -- a card
+ * arriving and a value changing. floatUpFade, popIn, pulseGlow and float are
+ * replaced by these; the names are kept where markup already referenced them.
+ * ------------------------------------------------------------------------- */
+
+@keyframes simRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes simDelta {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  22% {
+    opacity: 1;
+    transform: none;
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+.sim-rise,
+.animate-pop {
+  animation: simRise 260ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.delta-indicator {
+  animation: simDelta 1.8s ease-out forwards;
+}
+
+/* Staggered arrival for a grid of cards on the results screen. */
+.sim-rise-1 { animation-delay: 40ms; }
+.sim-rise-2 { animation-delay: 80ms; }
+.sim-rise-3 { animation-delay: 120ms; }
+.sim-rise-4 { animation-delay: 160ms; }
+.sim-rise-5 { animation-delay: 200ms; }
+.sim-rise-6 { animation-delay: 240ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sim-rise,
+  .animate-pop,
+  .delta-indicator,
+  .sim-option,
+  .sim-btn,
+  .sim-meter__fill,
+  .sim-step {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .sim-option:hover,
+  .sim-btn:hover {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Scrollbars. All three simulators styled these, to three different widths and
+ * three different thumbs.
+ * ------------------------------------------------------------------------- */
+
+html[data-sim-theme="dark"] * {
+  scrollbar-color: rgb(101 183 199 / 0.5) rgb(3 16 22 / 0.6);
+  scrollbar-width: thin;
+}
+
+html[data-sim-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html[data-sim-theme="dark"] ::-webkit-scrollbar-track {
+  background: rgb(3 16 22 / 0.6);
+}
+
+html[data-sim-theme="dark"] ::-webkit-scrollbar-thumb {
+  border-radius: var(--sim-radius-pill);
+  background: rgb(101 183 199 / 0.5);
+}
+
+html[data-sim-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgb(101 183 199 / 0.75);
+}
+
+/* ---------------------------------------------------------------------------
+ * Legacy hooks.
+ *
+ * Class names the nine pages still carry in markup, re-pointed at the tokens
+ * rather than renamed in nine hand-written files. Each one existed on at least
+ * one page with a different value; this is what stops the same class name
+ * meaning two different things depending on which simulator you opened.
+ * ------------------------------------------------------------------------- */
+
+/*
+ * The Portuguese Day-to-Day page was the light-theme outlier -- a #f8fafc page
+ * with a #1e293b sidebar -- and it carried its whole design in a private
+ * <style> block rather than in Tailwind utilities. These are the hooks that
+ * block defined which still have markup behind them, re-pointed at the console
+ * rather than deleted, so the page converts without its markup being rewritten.
+ *
+ * `.modal` in particular is load-bearing: it is what keeps the DAMA reference
+ * dialog hidden until openModal() adds `.active`.
+ */
+html[data-sim-theme="dark"] .sidebar {
+  border-right: 1px solid var(--sim-border);
+  background: var(--sim-panel-strong);
+  color: var(--sim-ink);
+}
+
+/* The option rows on that page. Same geometry as .sim-option, which is what
+   the other eight pages use, so the two are the same control. */
+html[data-sim-theme="dark"] .btn-option {
+  border-left: 4px solid transparent;
+  transition: transform var(--sim-transition), border-color var(--sim-transition), background-color var(--sim-transition);
+}
+
+html[data-sim-theme="dark"] .btn-option:hover {
+  transform: translateY(-2px);
+  border-left-color: var(--sim-accent);
+  background: var(--sim-surface-hover);
+  box-shadow: var(--sim-shadow-raised);
+}
+
+html[data-sim-theme="dark"] .modal {
+  display: none;
+  background: rgb(2 12 18 / 0.84);
+  backdrop-filter: blur(6px);
+}
+
+html[data-sim-theme="dark"] .modal.active {
+  display: flex;
+  animation: simRise 240ms ease both;
+}
+
+html[data-sim-theme="dark"] .glass-panel {
+  border: 1px solid var(--sim-border);
+  background: var(--sim-surface);
+  box-shadow: var(--sim-highlight);
+  backdrop-filter: var(--sim-blur);
+}
+
+html[data-sim-theme="dark"] .glass-panel-interactive {
+  transition: border-color var(--sim-transition), background-color var(--sim-transition), transform var(--sim-transition);
+}
+
+html[data-sim-theme="dark"] .glass-panel-interactive:hover {
+  transform: translateY(-2px);
+  border-color: var(--sim-border-strong);
+  background: var(--sim-surface-hover);
+}
+
+html[data-sim-theme="dark"] .bg-grid-pattern {
+  background-image: none;
+}
+
+html[data-sim-theme="dark"] .gradient-header {
+  background: linear-gradient(135deg, #04222e 0%, #095b73 100%);
+}
+
+html[data-sim-theme="dark"] .gradient-accent {
+  background: linear-gradient(135deg, var(--sim-orange) 0%, #f2803c 100%);
+}
+
+html[data-sim-theme="dark"] .metric-card-glow {
+  box-shadow: var(--sim-highlight);
+}
+
+html[data-sim-theme="dark"] .glow-hover:hover,
+html[data-sim-theme="dark"] .pulse-accent,
+html[data-sim-theme="dark"] .animate-pulse-glow {
+  animation: none;
+  box-shadow: var(--sim-shadow-accent);
+}

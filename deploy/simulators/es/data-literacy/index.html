@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<html lang="es" class="h-full bg-slate-950 text-slate-100" data-sim-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,93 +33,28 @@
     <style>
         /* First-paint colours, so the page does not flash white before the
            Tailwind CDN has compiled and injected the utility styles. */
-        html { background-color: #080d1a; color: #f1f5f9; }
+        html { background-color: #04141c; color: #f2fafc; }
     </style>
     <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
-    <!-- Lucide Icons. Pinned: "@latest" silently ships a new major to a live page. -->
-    <script src="https://unpkg.com/lucide@1.31.0/dist/umd/lucide.min.js" integrity="sha384-/ApD3KXMqTmTxEJjuldaZDgdJj7/Hox2LRuKqV3rC7Bu/wE4obLaJRjF1rLHNP57" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- FontAwesome. One icon set across all nine simulator pages: it
+         replaces the Lucide sprite this page loaded and the hand-written
+         inline SVG on the Day-to-Day pages, which between them gave the
+         three simulators three icon vocabularies at three stroke weights.
+         FontAwesome wins the tie because the Portuguese Day-to-Day page and
+         the English "Who Owns This?" already served it. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
     <!-- Chart.js for Radar Visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js" integrity="sha384-hfkuqrKeWFmnTMWN31VWyoe8xgdTADD11kgxmdpx2uyE6j5Az5uZq6u6AKYYmAOw" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Google Fonts -->
     <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/fonts.css">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                    },
-                    colors: {
-                        navy: {
-                            800: '#1e293b',
-                            900: '#0f172a',
-                            950: '#080d1a',
-                        },
-                        cyan: {
-                            400: '#22d3ee',
-                            500: '#06b6d4',
-                            600: '#0891b2',
-                            900: '#164e63',
-                        }
-                    },
-                    animation: {
-                        'pulse-glow': 'pulseGlow 2s infinite ease-in-out',
-                        'float': 'float 3s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        pulseGlow: {
-                            '0%, 100%': { boxShadow: '0 0 15px rgba(6, 182, 212, 0.3)' },
-                            '50%': { boxShadow: '0 0 30px rgba(6, 182, 212, 0.6)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-5px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
-        }
-        .bg-grid-pattern {
-            background-image: radial-gradient(rgba(6, 182, 212, 0.12) 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glass-panel-interactive {
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-panel-interactive:hover {
-            border-color: rgba(6, 182, 212, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.18);
-        }
-        .metric-card-glow {
-            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-        }
-    </style>
+    <!-- The shared simulator theme: one Tailwind palette, one typeface, one
+         set of radii and shadows for all nine simulator pages. Must load after
+         the CDN script above and before the first paint of any utility class. -->
+    <script src="/assets/js/simulator-tailwind-config.js"></script>
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
+    <link rel="stylesheet" href="/assets/css/simulator-theme.css">
   <!-- Private-space chrome, settled before the first paint. The rules it
        switches on live with the header styles in
        /assets/css/simulator-header.css, which this page already links above. -->
@@ -146,51 +81,52 @@
 <body class="h-full bg-navy-950 font-sans text-slate-100 antialiased flex flex-col overflow-x-hidden selection:bg-cyan-500 selection:text-slate-950">
     <a class="skip-link" href="#simulator-main">Saltar al simulador</a>
 
-    <header class="simulator-site-header simulator-site-header-inner flex items-center justify-between">
-        <div class="simulator-brand-block">
-            <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
-            <div class="simulator-brand-copy">
-                <span class="simulator-brand-name">Data Governance Journey</span>
+    <header class="simulator-site-header">
+        <div class="simulator-site-header-inner">
+            <div class="simulator-brand-block">
+                <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
+                <div class="simulator-brand-copy">
+                    <span class="simulator-brand-name">Data Governance Journey</span>
+                </div>
             </div>
-        </div>
 
-        <div class="simulator-product-copy">
-            <div class="simulator-title-row">
-                <h1 class="simulator-title">Simulador de Alfabetización de Datos</h1>
-                <span class="simulator-badge px-2 py-0.5 text-[10px] uppercase font-mono font-bold tracking-wider border rounded-full">v3.1 Edición Ejecutiva</span>
+            <div class="simulator-product-copy">
+                <div class="simulator-title-row">
+                    <h1 class="simulator-title">Simulador de Alfabetización de Datos</h1>
+                </div>
+                <p class="simulator-subtitle">Centro de Mando Estratégico y Cultura Organizacional de Datos</p>
             </div>
-            <p class="simulator-subtitle text-xs hidden sm:block">Centro de Mando Estratégico y Cultura Organizacional de Datos</p>
-        </div>
 
-        <div class="simulator-header-actions flex items-center space-x-3">
-            <!-- Audio Toggle -->
-            <button id="soundToggleBtn" onclick="toggleSound()" aria-pressed="true" aria-label="Activar o desactivar el sonido" class="p-2 text-slate-400 hover:text-cyan-400 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 rounded-lg transition" title="Alternar Sonido">
-                <i id="soundIcon" data-lucide="volume-2" class="w-4 h-4"></i>
-            </button>
-
-            <!-- Tab Switcher -->
-            <div class="flex gap-1 bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs" role="tablist" aria-label="Secciones del simulador">
-                <button id="tabSimulationBtn" title="Simulación" type="button" role="tab" aria-selected="true" aria-controls="tabSimulationView" onclick="switchMainTab('simulation')" class="px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5">
-                    <i data-lucide="play" class="w-4 h-4 text-cyan-400"></i>
-                    <span class="simulator-tab-label">Simulación</span>
+            <div class="simulator-header-actions">
+                <!-- Audio Toggle -->
+                <button id="soundToggleBtn" onclick="toggleSound()" aria-pressed="true" aria-label="Activar o desactivar el sonido" class="sim-btn sim-btn--ghost sim-btn--icon" title="Alternar Sonido">
+                    <i id="soundIcon" class="fas fa-volume-high fa-fw text-sm"></i>
                 </button>
-                <button id="tabCatalogBtn" title="Glosario" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5">
-                    <i data-lucide="book-open" class="w-4 h-4"></i>
-                    <span class="simulator-tab-label">Glosario</span>
-                        </button>
+
+                <!-- Tab Switcher -->
+                <div class="sim-panel sim-panel--strong flex gap-1 p-1" role="tablist" aria-label="Secciones del simulador">
+                    <button id="tabSimulationBtn" title="Simulación" type="button" role="tab" aria-selected="true" aria-controls="tabSimulationView" onclick="switchMainTab('simulation')" class="sim-toggle sim-toggle--on">
+                        <i class="fas fa-play fa-fw text-sm text-cyan-400"></i>
+                        <span class="simulator-tab-label">Simulación</span>
+                    </button>
+                    <button id="tabCatalogBtn" title="Glosario" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="tabCatalogView" onclick="switchMainTab('catalog')" class="sim-toggle">
+                        <i class="fas fa-book-open fa-fw text-sm"></i>
+                        <span class="simulator-tab-label">Glosario</span>
+                            </button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="mobileSidebarToggle" onclick="toggleMobileSidebar()" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el panel de métricas" class="sim-btn sim-btn--ghost sim-btn--icon lg:hidden">
+                    <i class="fas fa-chart-line fa-fw text-base"></i>
+                </button>
+
+                <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+                    </svg>
+                    <span>Sitio principal</span>
+                </a>
             </div>
-
-            <!-- Mobile Menu Toggle -->
-            <button id="mobileSidebarToggle" onclick="toggleMobileSidebar()" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el panel de métricas" class="lg:hidden p-2 text-slate-300 hover:text-white bg-slate-800 rounded-lg border border-slate-700">
-                <i data-lucide="line-chart" class="w-5 h-5"></i>
-            </button>
-
-            <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
-                </svg>
-                <span>Sitio principal</span>
-            </a>
         </div>
     </header>
     <nav class="simulator-breadcrumb" aria-label="Ruta de navegación">
@@ -210,7 +146,7 @@
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-30 w-80 md:w-96 bg-navy-900 border-r border-slate-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 h-full">
             <div class="p-5 border-b border-slate-800/80 bg-slate-900/50 flex items-center justify-between">
                 <div>
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold">Rastreador de Activos</h2>
+                    <h2 class="sim-eyebrow">Rastreador de Activos</h2>
                     <p class="text-sm font-semibold text-slate-200 mt-0.5">Métricas de Capital de Datos en Tiempo Real</p>
                 </div>
                 <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" title="Sistema Activo"></div>
@@ -222,7 +158,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
-                                <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+                                <i class="fas fa-dollar-sign fa-fw text-sm"></i>
                             </div>
                             <span class="text-xs font-medium text-slate-300">Valor de Activos de Datos</span>
                         </div>
@@ -248,7 +184,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
-                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                <i class="fas fa-arrow-trend-up fa-fw text-sm"></i>
                             </div>
                             <span class="text-xs font-medium text-slate-300">ROI de Información</span>
                         </div>
@@ -274,7 +210,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                <i class="fas fa-triangle-exclamation fa-fw text-sm"></i>
                             </div>
                             <span class="text-xs font-medium text-slate-300">Fricción y Desperdicio</span>
                         </div>
@@ -300,7 +236,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-2">
                             <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg">
-                                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                                <i class="fas fa-graduation-cap fa-fw text-sm"></i>
                             </div>
                             <span class="text-xs font-medium text-slate-300">Puntuación de Alfabetización</span>
                         </div>
@@ -322,7 +258,7 @@
                 </div>
 
                 <!-- Scenario Progress Badges -->
-                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+                <div class="sim-panel p-4">
                     <div class="text-[11px] font-mono uppercase text-slate-400 mb-3 flex justify-between">
                         <span>Progreso del Escenario</span>
                         <span id="scenarioProgressCount">1 / 15</span>
@@ -336,7 +272,7 @@
             <div class="p-4 border-t border-slate-800/80 bg-slate-950 text-xs text-slate-500 flex justify-between items-center">
                 <span>Simulador de Alfabetización</span>
                 <span class="flex items-center gap-1 text-cyan-400">
-                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Control Cognitivo
+                    <i class="fas fa-shield-halved fa-fw text-xs"></i> Control Cognitivo
                 </span>
             </div>
         </aside>
@@ -350,21 +286,21 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-5 rounded-2xl border border-slate-800">
                     <div class="flex items-center space-x-3">
                         <div id="scenarioIconContainer" class="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/30">
-                            <i id="scenarioIcon" data-lucide="brain" class="w-6 h-6"></i>
+                            <i id="scenarioIcon" class="fas fa-brain fa-fw text-lg"></i>
                         </div>
                         <div>
                             <div class="flex items-center space-x-2">
-                                <span class="text-xs font-mono font-semibold uppercase text-cyan-400 tracking-wider">Escenario Estratégico</span>
+                                <span class="sim-eyebrow">Escenario Estratégico</span>
                                 <span id="scenarioStepBadge" class="px-2 py-0.5 text-[10px] bg-slate-800 text-slate-300 rounded font-mono">Fase 1 de 15</span>
                             </div>
                             <h2 id="scenarioTopic" class="text-lg md:text-xl font-bold text-white mt-0.5">Cargando tema...</h2>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 text-xs font-mono text-slate-400 bg-slate-950/60 px-3 py-2 rounded-xl border border-slate-800">
-                        <i data-lucide="timer" class="w-4 h-4 text-cyan-400"></i>
+                    <div class="sim-panel sim-panel--strong flex items-center gap-2 px-3 py-2 text-xs text-slate-400">
+                        <i class="fas fa-stopwatch fa-fw text-sm text-cyan-400"></i>
                         <span id="runTimerDisplay" class="tabular-nums text-slate-300">0:00</span>
                         <span class="text-slate-700">|</span>
-                        <i data-lucide="compass" class="w-4 h-4 text-cyan-400"></i>
+                        <i class="fas fa-compass fa-fw text-sm text-cyan-400"></i>
                         <span>Impacto de Decisión: Alto</span>
                     </div>
                 </div>
@@ -373,19 +309,19 @@
                 <div id="scenarioCard" class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden transition-all duration-500">
                     
                     <!-- Category Point Tracker (Neutral, no hints on correctness) -->
-                    <div class="mb-6 p-4 bg-slate-950/80 rounded-2xl border border-slate-800/90 shadow-inner">
+                    <div class="sim-panel sim-panel--strong mb-6 p-4">
                         <div class="flex items-center justify-between mb-2.5">
-                            <span class="text-[11px] font-mono uppercase text-cyan-400 font-bold tracking-wider flex items-center gap-1.5">
-                                <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i> Puntos de Competencia por Categoría
+                            <span class="sim-eyebrow flex items-center gap-1.5">
+                                <i class="fas fa-layer-group fa-fw text-sm text-cyan-400"></i> Puntos de Competencia por Categoría
                             </span>
                             <span class="text-[10px] font-mono text-slate-400">Puntuación en Tiempo Real</span>
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-mono">
                             <!-- Gobernanza -->
-                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <div class="sim-panel p-2.5 flex flex-col justify-between">
                                 <div class="flex items-center justify-between text-[10px] mb-1">
                                     <span class="truncate text-cyan-300 font-semibold flex items-center gap-1">
-                                        <i data-lucide="database" class="w-3 h-3 text-cyan-400"></i> Gobernanza
+                                        <i class="fas fa-database fa-fw text-[0.7rem] text-cyan-400"></i> Gobernanza
                                     </span>
                                     <span id="catScore-governance" class="font-bold text-white">0/3 pts</span>
                                 </div>
@@ -394,10 +330,10 @@
                                 </div>
                             </div>
                             <!-- Sesgos -->
-                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <div class="sim-panel p-2.5 flex flex-col justify-between">
                                 <div class="flex items-center justify-between text-[10px] mb-1">
                                     <span class="truncate text-rose-300 font-semibold flex items-center gap-1">
-                                        <i data-lucide="filter" class="w-3 h-3 text-rose-400"></i> Sesgos
+                                        <i class="fas fa-filter fa-fw text-[0.7rem] text-rose-400"></i> Sesgos
                                     </span>
                                     <span id="catScore-bias" class="font-bold text-white">0/3 pts</span>
                                 </div>
@@ -406,10 +342,10 @@
                                 </div>
                             </div>
                             <!-- IA & Seguridad -->
-                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <div class="sim-panel p-2.5 flex flex-col justify-between">
                                 <div class="flex items-center justify-between text-[10px] mb-1">
                                     <span class="truncate text-purple-300 font-semibold flex items-center gap-1">
-                                        <i data-lucide="bot" class="w-3 h-3 text-purple-400"></i> IA y Sec.
+                                        <i class="fas fa-robot fa-fw text-[0.7rem] text-purple-400"></i> IA y Sec.
                                     </span>
                                     <span id="catScore-ai" class="font-bold text-white">0/3 pts</span>
                                 </div>
@@ -418,10 +354,10 @@
                                 </div>
                             </div>
                             <!-- Causa Raíz -->
-                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <div class="sim-panel p-2.5 flex flex-col justify-between">
                                 <div class="flex items-center justify-between text-[10px] mb-1">
                                     <span class="truncate text-amber-300 font-semibold flex items-center gap-1">
-                                        <i data-lucide="search-code" class="w-3 h-3 text-amber-400"></i> Causa Raíz
+                                        <i class="fas fa-magnifying-glass-chart fa-fw text-[0.7rem] text-amber-400"></i> Causa Raíz
                                     </span>
                                     <span id="catScore-analytics" class="font-bold text-white">0/3 pts</span>
                                 </div>
@@ -430,10 +366,10 @@
                                 </div>
                             </div>
                             <!-- Cultura -->
-                            <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-800 flex flex-col justify-between col-span-2 sm:col-span-1">
+                            <div class="sim-panel p-2.5 flex flex-col justify-between col-span-2 sm:col-span-1">
                                 <div class="flex items-center justify-between text-[10px] mb-1">
                                     <span class="truncate text-emerald-300 font-semibold flex items-center gap-1">
-                                        <i data-lucide="users" class="w-3 h-3 text-emerald-400"></i> Cultura
+                                        <i class="fas fa-users fa-fw text-[0.7rem] text-emerald-400"></i> Cultura
                                     </span>
                                     <span id="catScore-culture" class="font-bold text-white">0/3 pts</span>
                                 </div>
@@ -448,7 +384,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center space-x-2">
                             <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                            <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">Desafío Corporativo y Contexto</h3>
+                            <h3 class="sim-eyebrow sim-eyebrow--dim">Desafío Corporativo y Contexto</h3>
                         </div>
                         <p id="scenarioText" class="text-slate-200 text-base md:text-lg leading-relaxed font-normal">
                             Cargando descripción del escenario...
@@ -459,91 +395,60 @@
 
                     <!-- Strategic Options Container -->
                     <div id="optionsContainer" class="space-y-4">
-                        <p class="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold mb-3">Seleccione su Enfoque (3 Opciones)</p>
+                        <p class="sim-eyebrow mb-3">Seleccione su Enfoque (3 Opciones)</p>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Option A -->
-                            <button id="btnOptionA" onclick="handleChoice('A')" class="glass-panel glass-panel-interactive p-4 rounded-2xl border border-slate-800 text-left group flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-200">
-                                <div>
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="px-2.5 py-1 bg-slate-800 text-slate-200 font-mono text-xs font-bold rounded-lg group-hover:bg-cyan-500 group-hover:text-slate-950 transition">Opción A</span>
-                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
-                                    </div>
-                                    <p id="textOptionA" class="text-xs md:text-sm text-slate-200 font-medium leading-normal mb-4">
-                                        Descripción de la Opción A...
-                                    </p>
-                                </div>
-                                <div id="previewA" class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                                    <span>Enfoque 1</span>
-                                    <span class="text-slate-400 font-semibold">Análisis Táctico</span>
-                                </div>
-                            </button>
-
-                            <!-- Option B -->
-                            <button id="btnOptionB" onclick="handleChoice('B')" class="glass-panel glass-panel-interactive p-4 rounded-2xl border border-slate-800 text-left group flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-200">
-                                <div>
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="px-2.5 py-1 bg-slate-800 text-slate-200 font-mono text-xs font-bold rounded-lg group-hover:bg-cyan-500 group-hover:text-slate-950 transition">Opción B</span>
-                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
-                                    </div>
-                                    <p id="textOptionB" class="text-xs md:text-sm text-slate-200 font-medium leading-normal mb-4">
-                                        Descripción de la Opción B...
-                                    </p>
-                                </div>
-                                <div id="previewB" class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                                    <span>Enfoque 2</span>
-                                    <span class="text-slate-400 font-semibold">Vista Operativa</span>
-                                </div>
-                            </button>
-
-                            <!-- Option C -->
-                            <button id="btnOptionC" onclick="handleChoice('C')" class="glass-panel glass-panel-interactive p-4 rounded-2xl border border-slate-800 text-left group flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-200">
-                                <div>
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="px-2.5 py-1 bg-slate-800 text-slate-200 font-mono text-xs font-bold rounded-lg group-hover:bg-cyan-500 group-hover:text-slate-950 transition">Opción C</span>
-                                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition"></i>
-                                    </div>
-                                    <p id="textOptionC" class="text-xs md:text-sm text-slate-200 font-medium leading-normal mb-4">
-                                        Descripción de la Opción C...
-                                    </p>
-                                </div>
-                                <div id="previewC" class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                                    <span>Enfoque 3</span>
-                                    <span class="text-slate-400 font-semibold">Acción Estratégica</span>
-                                </div>
-                            </button>
-                        </div>
+                        <button id="btnOptionA" onclick="handleChoice('A')" class="sim-option">
+                            <span class="sim-option__key">A</span>
+                            <span class="sim-option__body">
+                                <p id="textOptionA" class="sim-option__title">Descripción de la Opción A...</p>
+                                <p id="previewA" class="sim-option__text">Enfoque 1 &mdash; Análisis Táctico</p>
+                            </span>
+                        </button>
+                        <button id="btnOptionB" onclick="handleChoice('B')" class="sim-option">
+                            <span class="sim-option__key">B</span>
+                            <span class="sim-option__body">
+                                <p id="textOptionB" class="sim-option__title">Descripción de la Opción B...</p>
+                                <p id="previewB" class="sim-option__text">Enfoque 2 &mdash; Vista Operativa</p>
+                            </span>
+                        </button>
+                        <button id="btnOptionC" onclick="handleChoice('C')" class="sim-option">
+                            <span class="sim-option__key">C</span>
+                            <span class="sim-option__body">
+                                <p id="textOptionC" class="sim-option__title">Descripción de la Opción C...</p>
+                                <p id="previewC" class="sim-option__text">Enfoque 3 &mdash; Acción Estratégica</p>
+                            </span>
+                        </button>
                     </div>
 
                     <!-- Debrief Educational Card -->
-                    <div id="debriefCard" class="hidden mt-6 bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-6 relative overflow-hidden">
+                    <div id="debriefCard" class="hidden mt-6 sim-card sim-card--accent p-6 overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-500"></div>
                         <div class="flex items-center space-x-2 text-cyan-400 mb-2">
-                            <i data-lucide="book-open-check" class="w-5 h-5"></i>
-                            <span class="font-mono text-xs uppercase font-bold tracking-wider">Informe de Desglose de Inteligencia y Alfabetización</span>
+                            <i class="fas fa-book-open-reader fa-fw text-base"></i>
+                            <span class="sim-eyebrow">Informe de Desglose de Inteligencia y Alfabetización</span>
                         </div>
                         <h4 id="debriefChoiceTitle" class="text-base font-bold text-white mb-2">Análisis del Enfoque Seleccionado</h4>
                         
                         <!-- Literacy Lesson -->
-                        <div id="debriefLessonText" class="text-slate-300 text-sm leading-relaxed mb-6 bg-slate-950/60 p-4 rounded-xl border border-slate-800 font-sans">
+                        <div id="debriefLessonText" class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed">
                             La lección se cargará aquí...
                         </div>
 
                         <!-- Metric Impact Grid -->
                         <div id="impactGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 font-mono text-xs">
-                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="sim-panel sim-panel--strong p-3">
                                 <span class="text-slate-500 block text-[10px]">Delta de Activo</span>
                                 <span id="debriefAsset" class="font-bold text-emerald-400">+$0</span>
                             </div>
-                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="sim-panel sim-panel--strong p-3">
                                 <span class="text-slate-500 block text-[10px]">Delta de ROI</span>
                                 <span id="debriefRoi" class="font-bold text-cyan-400">+0%</span>
                             </div>
-                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="sim-panel sim-panel--strong p-3">
                                 <span class="text-slate-500 block text-[10px]">Delta de Fricción</span>
                                 <span id="debriefFriction" class="font-bold text-rose-400">-0%</span>
                             </div>
-                            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="sim-panel sim-panel--strong p-3">
                                 <span class="text-slate-500 block text-[10px]">Delta Alfabetización</span>
                                 <span id="debriefLiteracy" class="font-bold text-purple-400">+0 pts</span>
                             </div>
@@ -551,9 +456,9 @@
 
                         <!-- Advance Button -->
                         <div class="flex justify-end">
-                            <button id="nextPhaseBtn" onclick="advanceScenario()" class="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm rounded-xl transition-all shadow-lg shadow-cyan-500/20 flex items-center space-x-2">
+                            <button id="nextPhaseBtn" onclick="advanceScenario()" class="sim-btn sim-btn--accent">
                                 <span id="nextPhaseText">Siguiente Fase de Simulación</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                <i class="fas fa-arrow-right fa-fw text-sm"></i>
                             </button>
                         </div>
                     </div>
@@ -563,13 +468,13 @@
                 <div class="glass-panel p-5 rounded-2xl border border-slate-800">
                     <div class="flex items-center justify-between mb-3">
                         <div class="flex items-center space-x-2">
-                            <i data-lucide="history" class="w-4 h-4 text-cyan-400"></i>
-                            <h3 class="text-xs font-mono uppercase tracking-wider font-semibold text-slate-300">Registro de Auditoría de Decisiones Ejecutivas</h3>
+                            <i class="fas fa-clock-rotate-left fa-fw text-sm text-cyan-400"></i>
+                            <h3 class="sim-eyebrow sim-eyebrow--muted">Registro de Auditoría de Decisiones Ejecutivas</h3>
                         </div>
                         <span id="auditCount" class="text-[11px] font-mono text-slate-500">0 decisiones registradas</span>
                     </div>
                     <div id="auditLogList" class="space-y-2 text-xs font-mono text-slate-400 max-h-48 overflow-y-auto">
-                        <div class="p-3 bg-slate-950/50 rounded-lg border border-slate-800/60 text-center text-slate-500">
+                        <div class="sim-panel sim-panel--strong p-3 text-center text-slate-500">
                             No hay decisiones registradas aún. Evalúe el Escenario 1.
                         </div>
                     </div>
@@ -579,17 +484,17 @@
             <div id="finalSummaryView" class="hidden w-full max-w-4xl space-y-6">
                 <div class="glass-panel p-5 sm:p-8 rounded-3xl border border-cyan-500/40 text-center relative overflow-hidden">
                     <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-2xl border border-cyan-500/30 mb-4 inline-flex items-center justify-center">
-                        <i data-lucide="award" class="w-10 h-10"></i>
+                        <i class="fas fa-award fa-fw text-3xl"></i>
                     </div>
                     
-                    <span class="text-xs font-mono uppercase tracking-widest text-cyan-400 block mb-1">Evaluación de Alfabetización de Datos Completada</span>
+                    <span class="sim-eyebrow block mb-1">Evaluación de Alfabetización de Datos Completada</span>
                     <h2 class="text-2xl md:text-3xl font-black text-white mb-2">Perfil Ejecutivo en Alfabetización y Cultura de Datos</h2>
                     <p class="text-slate-400 text-sm max-w-xl mx-auto mb-6">
                         Sus decisiones estratégicas en los 15 escenarios fueron analizadas según marcos de capacidad analítica y principios de cultura organizacional de datos.
                     </p>
 
                     <!-- Assigned Executive Profile Card -->
-                    <div class="max-w-md mx-auto p-6 bg-slate-900/90 rounded-2xl border border-slate-800 mb-8 shadow-xl">
+                    <div class="sim-card max-w-md mx-auto p-6 mb-8">
                         <span class="text-[11px] font-mono uppercase text-slate-500 block mb-1">Perfil Ejecutivo Asignado</span>
                         <h3 id="finalRankTitle" class="text-xl md:text-2xl font-extrabold text-cyan-300 tracking-tight">Estratega Alfabetizado de Datos</h3>
                         <p id="finalRankDesc" class="text-xs text-slate-400 mt-2 leading-relaxed">
@@ -603,19 +508,19 @@
 
                     <!-- Final Metric Cards Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8 text-left">
-                        <div class="p-3 sm:p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                        <div class="sim-card p-3 sm:p-4">
                             <span class="text-xs text-slate-400 font-mono">Valor Final de Activos</span>
                             <div id="finalValAsset" class="text-lg sm:text-xl font-bold font-mono text-emerald-400 mt-1">$0</div>
                         </div>
-                        <div class="p-3 sm:p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                        <div class="sim-card p-3 sm:p-4">
                             <span class="text-xs text-slate-400 font-mono">ROI de Información</span>
                             <div id="finalValRoi" class="text-lg sm:text-xl font-bold font-mono text-cyan-400 mt-1">0%</div>
                         </div>
-                        <div class="p-3 sm:p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                        <div class="sim-card p-3 sm:p-4">
                             <span class="text-xs text-slate-400 font-mono">Fricción y Desperdicio</span>
                             <div id="finalValFriction" class="text-lg sm:text-xl font-bold font-mono text-rose-400 mt-1">0%</div>
                         </div>
-                        <div class="p-3 sm:p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
+                        <div class="sim-card p-3 sm:p-4">
                             <span class="text-xs text-slate-400 font-mono">Puntuación de Alfabetización</span>
                             <div id="finalValLiteracy" class="text-lg sm:text-xl font-bold font-mono text-purple-400 mt-1">0%</div>
                         </div>
@@ -624,9 +529,9 @@
                     <!-- Dynamic Strengths and Weaknesses Breakdown -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-8">
                         <!-- Strengths -->
-                        <div class="p-5 bg-slate-950/70 rounded-2xl border border-emerald-500/30">
-                            <h4 class="text-xs font-mono uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-2 font-bold">
-                                <i data-lucide="check-circle-2" class="w-4 h-4"></i> Fortalezas Estratégicas
+                        <div class="sim-panel sim-panel--good p-5">
+                            <h4 class="sim-eyebrow sim-eyebrow--good mb-3 flex items-center gap-2">
+                                <i class="fas fa-circle-check fa-fw text-sm"></i> Fortalezas Estratégicas
                             </h4>
                             <ul id="finalStrengthsList" class="text-xs text-slate-300 space-y-2 font-sans">
                                 <!-- Filled dynamically -->
@@ -634,9 +539,9 @@
                         </div>
 
                         <!-- Vulnerabilities & Weaknesses -->
-                        <div class="p-5 bg-slate-950/70 rounded-2xl border border-amber-500/30">
-                            <h4 class="text-xs font-mono uppercase tracking-wider text-amber-400 mb-3 flex items-center gap-2 font-bold">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i> Vulnerabilidades y Oportunidades de Crecimiento
+                        <div class="sim-panel sim-panel--warn p-5">
+                            <h4 class="sim-eyebrow sim-eyebrow--warn mb-3 flex items-center gap-2">
+                                <i class="fas fa-triangle-exclamation fa-fw text-sm"></i> Vulnerabilidades y Oportunidades de Crecimiento
                             </h4>
                             <ul id="finalWeaknessesList" class="text-xs text-slate-300 space-y-2 font-sans">
                                 <!-- Filled dynamically -->
@@ -646,16 +551,16 @@
 
                     <!-- Radar Chart and Executive Conclusion -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-8">
-                        <div class="p-5 bg-slate-950/60 rounded-2xl border border-slate-800 flex flex-col justify-center items-center">
-                            <h4 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 w-full text-left">Desglose de Competencias (Radar)</h4>
+                        <div class="sim-panel sim-panel--strong p-5 flex flex-col justify-center items-center">
+                            <h4 class="sim-eyebrow sim-eyebrow--dim mb-3 w-full text-left">Desglose de Competencias (Radar)</h4>
                             <div class="w-full max-w-xs h-56">
                                 <canvas id="radarChart"></canvas>
                             </div>
                         </div>
-                        <div class="p-5 bg-slate-950/60 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div class="sim-panel sim-panel--strong p-5 flex flex-col justify-between">
                             <div>
-                                <h4 class="text-xs font-mono uppercase tracking-wider text-cyan-400 mb-3 flex items-center gap-2 font-bold">
-                                    <i data-lucide="key" class="w-4 h-4"></i> Conclusión Ejecutiva Clave
+                                <h4 class="sim-eyebrow mb-3 flex items-center gap-2">
+                                    <i class="fas fa-key fa-fw text-sm"></i> Conclusión Ejecutiva Clave
                                 </h4>
                                 <p class="text-slate-200 text-sm leading-relaxed mb-3 font-normal">
                                     La alfabetización de datos y la cultura analítica no son meramente habilidades técnicas; forman la base para transformar los datos corporativos en el activo estratégico más valioso de su empresa.
@@ -671,12 +576,12 @@
                     </div>
 
                     <!-- LEADERBOARD SECTION -->
-                    <div class="p-4 sm:p-6 bg-slate-950/80 rounded-2xl border border-slate-800 text-left mb-8">
+                    <div class="sim-card p-4 sm:p-6 text-left mb-8">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                             <div>
                                 <div class="flex items-center space-x-2 text-cyan-400 mb-1">
-                                    <i data-lucide="trophy" class="w-5 h-5"></i>
-                                    <span class="text-xs font-mono uppercase tracking-wider font-bold">Clasificación de Alfabetización</span>
+                                    <i class="fas fa-trophy fa-fw text-base"></i>
+                                    <span class="sim-eyebrow">Clasificación de Alfabetización</span>
                                 </div>
                                 <h3 class="text-lg font-bold text-white">Tabla de Clasificación Ejecutiva en Cultura de Datos</h3>
                                 <p class="text-xs text-slate-400">Registre su puntuación en la tabla global y compare su desempeño con otros líderes. A igual puntaje, gana quien responde más rápido.</p>
@@ -685,28 +590,28 @@
                             <!-- Name Input Form -->
                             <div id="leaderboardInputForm" class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                                 <label for="playerNameInput" class="sr-only">Tu nombre o cargo para la tabla de clasificación</label>
-                                <input type="text" id="playerNameInput" placeholder="Su Nombre / Cargo" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-cyan-500 font-sans min-w-[200px]" maxlength="30">
-                                <button onclick="submitLeaderboardScore()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 whitespace-nowrap">
-                                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                                <input type="text" id="playerNameInput" placeholder="Su Nombre / Cargo" class="sim-input min-w-[200px]" maxlength="30">
+                                <button onclick="submitLeaderboardScore()" class="sim-btn sim-btn--accent sim-btn--sm whitespace-nowrap">
+                                    <i class="fas fa-paper-plane fa-fw text-xs"></i>
                                     <span>Guardar en Clasificación</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Leaderboard Table -->
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs font-mono">
+                        <div class="sim-table-wrap">
+                            <table class="sim-table">
                                 <thead>
-                                    <tr class="border-b border-slate-800 text-slate-400 uppercase text-[10px]">
-                                        <th class="py-2.5 px-3"># Posición</th>
-                                        <th class="py-2.5 px-3">Ejecutivo</th>
-                                        <th class="py-2.5 px-3">Perfil Asignado</th>
-                                        <th class="py-2.5 px-3 text-right">Opciones Óptimas</th>
-                                        <th class="py-2.5 px-3 text-right">Tiempo</th>
-                                        <th class="py-2.5 px-3 text-right">Valor de Activos</th>
+                                    <tr>
+                                        <th># Posición</th>
+                                        <th>Ejecutivo</th>
+                                        <th>Perfil Asignado</th>
+                                        <th class="sim-table__score">Opciones Óptimas</th>
+                                        <th class="sim-table__meta">Tiempo</th>
+                                        <th class="sim-table__meta">Valor de Activos</th>
                                     </tr>
                                 </thead>
-                                <tbody id="leaderboardTableBody" class="divide-y divide-slate-800/60 text-slate-300">
+                                <tbody id="leaderboardTableBody">
                                     <!-- Populated via JavaScript -->
                                 </tbody>
                             </table>
@@ -729,9 +634,9 @@
                             Transformar la cultura organizacional de datos requiere gobernanza estructurada, programas de alfabetización a medida y alineación de plataformas.
                         </p>
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="/#contact-form-start" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-sm rounded-xl transition shadow-lg shadow-cyan-500/25 flex items-center justify-center space-x-2">
+                            <a href="/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg w-full sm:w-auto">
                                 <span>Obtenga su Marco Personalizado</span>
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                                <i class="fas fa-arrow-up-right-from-square fa-fw text-sm"></i>
                             </a>
                         </div>
                     </div>
@@ -740,8 +645,8 @@
                          el puente se renderiza, y reiniciar la simulación tiene que seguir
                          disponible. -->
                     <div class="flex items-center justify-center my-8">
-                        <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-xl border border-slate-700 transition flex items-center justify-center space-x-2">
-                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        <button onclick="resetSimulation()" class="sim-btn sim-btn--ghost w-full sm:w-auto">
+                            <i class="fas fa-rotate-left fa-fw text-sm"></i>
                             <span>Reiniciar Simulación</span>
                         </button>
                     </div>
@@ -754,26 +659,26 @@
                 <div class="glass-panel p-6 rounded-2xl border border-slate-800">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <span class="text-xs font-mono font-semibold uppercase text-cyan-400 tracking-wider">Base de Conocimiento</span>
+                            <span class="sim-eyebrow">Base de Conocimiento</span>
                             <h2 class="text-xl font-bold text-white mt-1">Glosario de Alfabetización y Cultura de Datos</h2>
                             <p class="text-xs text-slate-400 mt-1">Consulte conceptos clave, sesgos cognitivos, gobernanza e inteligencia artificial.</p>
                         </div>
                         <!-- Search Box -->
                         <div class="relative min-w-[240px]">
-                            <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <i class="fas fa-magnifying-glass fa-fw text-sm text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
                             <label for="catalogSearchInput" class="sr-only">Buscar en el glosario</label>
-                            <input type="text" id="catalogSearchInput" onkeyup="filterCatalogSearch()" placeholder="Buscar concepto..." class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs pl-9 pr-3 py-2 rounded-xl focus:outline-none focus:border-cyan-500 font-sans">
+                            <input type="text" id="catalogSearchInput" onkeyup="filterCatalogSearch()" placeholder="Buscar concepto..." class="sim-input pl-9">
                         </div>
                     </div>
 
                     <!-- Category Filter Buttons -->
                     <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800 text-xs" role="group" aria-label="Filtrar el glosario por categoría">
-                        <button id="catBtn-all" type="button" aria-pressed="true" onclick="filterCatalogCategory('all')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold border border-cyan-400 transition">Todos</button>
-                        <button id="catBtn-governance" type="button" aria-pressed="false" onclick="filterCatalogCategory('governance')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Gobernanza</button>
-                        <button id="catBtn-bias" type="button" aria-pressed="false" onclick="filterCatalogCategory('bias')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Sesgos Cognitivos</button>
-                        <button id="catBtn-ai" type="button" aria-pressed="false" onclick="filterCatalogCategory('ai')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">IA y Seguridad</button>
-                        <button id="catBtn-analytics" type="button" aria-pressed="false" onclick="filterCatalogCategory('analytics')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Causa Raíz y Analítica</button>
-                        <button id="catBtn-culture" type="button" aria-pressed="false" onclick="filterCatalogCategory('culture')" class="catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition">Cultura y Personas</button>
+                        <button id="catBtn-all" type="button" aria-pressed="true" onclick="filterCatalogCategory('all')" class="catalog-cat-btn sim-toggle sim-toggle--on">Todos</button>
+                        <button id="catBtn-governance" type="button" aria-pressed="false" onclick="filterCatalogCategory('governance')" class="catalog-cat-btn sim-toggle">Gobernanza</button>
+                        <button id="catBtn-bias" type="button" aria-pressed="false" onclick="filterCatalogCategory('bias')" class="catalog-cat-btn sim-toggle">Sesgos Cognitivos</button>
+                        <button id="catBtn-ai" type="button" aria-pressed="false" onclick="filterCatalogCategory('ai')" class="catalog-cat-btn sim-toggle">IA y Seguridad</button>
+                        <button id="catBtn-analytics" type="button" aria-pressed="false" onclick="filterCatalogCategory('analytics')" class="catalog-cat-btn sim-toggle">Causa Raíz y Analítica</button>
+                        <button id="catBtn-culture" type="button" aria-pressed="false" onclick="filterCatalogCategory('culture')" class="catalog-cat-btn sim-toggle">Cultura y Personas</button>
                     </div>
                 </div>
 
@@ -783,7 +688,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="bias">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
-                                <i data-lucide="filter" class="w-4 h-4"></i>
+                                <i class="fas fa-filter fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Sesgo de Supervivencia</h3>
@@ -799,7 +704,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="bias">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
-                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                <i class="fas fa-eye fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Sesgo de Confirmación</h3>
@@ -815,7 +720,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="bias">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
-                                <i data-lucide="anchor" class="w-4 h-4"></i>
+                                <i class="fas fa-anchor fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Sesgo de Primera Conclusión (Anclaje)</h3>
@@ -831,7 +736,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="governance">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
-                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                                <i class="fas fa-book-open fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Glosario de Negocio</h3>
@@ -847,7 +752,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="governance">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
-                                <i data-lucide="git-commit" class="w-4 h-4"></i>
+                                <i class="fas fa-code-commit fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Linaje de Datos</h3>
@@ -863,7 +768,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="culture">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
-                                <i data-lucide="users" class="w-4 h-4"></i>
+                                <i class="fas fa-users fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Personas de Datos</h3>
@@ -879,7 +784,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="ai">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-purple-500/10 text-purple-400 rounded-lg">
-                                <i data-lucide="bot" class="w-4 h-4"></i>
+                                <i class="fas fa-robot fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">RAG y Supervisión Humana (HITL)</h3>
@@ -895,7 +800,7 @@
                     <div class="catalog-card glass-panel p-5 rounded-2xl border border-slate-800" data-category="analytics">
                         <div class="flex items-center space-x-3 mb-2">
                             <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
-                                <i data-lucide="search-code" class="w-4 h-4"></i>
+                                <i class="fas fa-magnifying-glass-chart fa-fw text-sm"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Análisis de Causa Raíz (5 Porqués)</h3>
@@ -994,7 +899,7 @@
                 id: 1,
                 topic: "Datos como Activo vs. Pasivo y Pantanos de Datos",
                 category: "governance",
-                icon: "database",
+                icon: "fa-database",
                 text: "El departamento de Ventas quiere almacenar todos los textos de interacciones casuales sin formato, PDF crudos y registros sin indexar 'por si acaso', sin plan de limpieza, metadatos o políticas de retención.",
                 optimalChoice: "A",
                 optionA: {
@@ -1017,7 +922,7 @@
                 id: 2,
                 topic: "Glosario de Negocio y Fuente Única de Verdad",
                 category: "governance",
-                icon: "book-open",
+                icon: "fa-book-open",
                 text: "Producto define 'Usuario Cancelado' como alguien sin iniciar sesión por 30 días. Finanzas lo define como alguien que canceló su suscripción paga. Los informes para el CEO muestran números contradictorios.",
                 optimalChoice: "C",
                 optionA: {
@@ -1040,7 +945,7 @@
                 id: 3,
                 topic: "Custodia de Datos y Propiedad por Dominio",
                 category: "governance",
-                icon: "shield-check",
+                icon: "fa-shield-halved",
                 text: "Cuando ocurren errores en los paneles de RRHH, la dirección culpa a TI. TI responde que solo mantiene servidores y que las reglas de datos de empleados pertenecen a RRHH.",
                 optimalChoice: "B",
                 optionA: {
@@ -1065,7 +970,7 @@
                 id: 4,
                 topic: "Sesgo de Supervivencia en Analítica de Producto",
                 category: "bias",
-                icon: "filter",
+                icon: "fa-filter",
                 text: "Producto analiza solo a los usuarios activos diarios y concluye que el nuevo flujo de pago es un éxito absoluto, ignorando al 80% de usuarios registrados que abandonaron la plataforma.",
                 optimalChoice: "A",
                 optionA: {
@@ -1088,7 +993,7 @@
                 id: 5,
                 topic: "Sesgo de Confirmación y Selección Selectiva",
                 category: "bias",
-                icon: "eye",
+                icon: "fa-eye",
                 text: "Un director selecciona 3 gráficos de crecimiento de ingresos para la junta directiva mientras oculta métricas que muestran una caída drástica en la retención de clientes.",
                 optimalChoice: "C",
                 optionA: {
@@ -1111,7 +1016,7 @@
                 id: 6,
                 topic: "Sesgo de Selección y Muestreo No Representativo",
                 category: "bias",
-                icon: "pie-chart",
+                icon: "fa-chart-pie",
                 text: "Una encuesta de precios para niveles de suscripción se realiza exclusivamente mediante ventanas emergentes en escritorio durante horas de oficina, excluyendo a usuarios móviles.",
                 optimalChoice: "A",
                 optionA: {
@@ -1136,7 +1041,7 @@
                 id: 7,
                 topic: "Linaje de Datos y Análisis de Impacto Posterior",
                 category: "ai",
-                icon: "git-commit",
+                icon: "fa-code-commit",
                 text: "Un analista renombra una columna en su herramienta local para limpiar un gráfico, sin saber que esa columna alimenta 5 tableros ejecutivos y un flujo de IA.",
                 optimalChoice: "C",
                 optionA: {
@@ -1159,7 +1064,7 @@
                 id: 8,
                 topic: "IA Generativa, Alucinaciones y Verificación Humana (HITL)",
                 category: "ai",
-                icon: "bot",
+                icon: "fa-robot",
                 text: "Los ejecutivos presionan para conectar un LLM comercial sin guía directamente a canales de soporte al cliente sin supervisión humana para responder consultas contractuales.",
                 optimalChoice: "B",
                 optionA: {
@@ -1182,7 +1087,7 @@
                 id: 9,
                 topic: "Privacidad de Datos en IA y Filtración de Prompts",
                 category: "ai",
-                icon: "shield-alert",
+                icon: "fa-shield",
                 text: "Los analistas pegan datos personales sensibles de clientes y código propietario en herramientas públicas de IA en línea para redactar informes más rápido.",
                 optimalChoice: "A",
                 optionA: {
@@ -1207,7 +1112,7 @@
                 id: 10,
                 topic: "Análisis de Causa Raíz (Metodología de los 5 Porqués)",
                 category: "analytics",
-                icon: "search-code",
+                icon: "fa-magnifying-glass-chart",
                 text: "El tablero de ventas muestra un pico repentino de cancelaciones el fin de semana. El equipo sugiere alterar los filtros para suavizar la anomalía.",
                 optimalChoice: "C",
                 optionA: {
@@ -1230,7 +1135,7 @@
                 id: 11,
                 topic: "Contexto de Negocio en la Interpretación de Datos",
                 category: "analytics",
-                icon: "compass",
+                icon: "fa-compass",
                 text: "Los datos muestran un aumento masivo de ventas de abrigos de invierno en regiones tropicales en pleno verano. El equipo técnico asume que el algoritmo descubrió una nueva tendencia.",
                 optimalChoice: "A",
                 optionA: {
@@ -1253,7 +1158,7 @@
                 id: 12,
                 topic: "Árboles de Decisión y Valor Monetario Esperado (EMV)",
                 category: "analytics",
-                icon: "git-fork",
+                icon: "fa-code-fork",
                 text: "El equipo debe decidir entre lanzar un nuevo producto (60% probabilidad de $100k ganancia, 40% de $20k pérdida) u optimizar uno existente (100% de $30k ganancia). La dirección prefiere la intuición.",
                 optimalChoice: "B",
                 optionA: {
@@ -1278,7 +1183,7 @@
                 id: 13,
                 topic: "Costo de Datos Sucios y Calidad en el Origen",
                 category: "culture",
-                icon: "sparkles",
+                icon: "fa-wand-magic-sparkles",
                 text: "Marketing va a lanzar una campaña costosa usando una base de datos no verificada donde el 25% de correos contienen errores tipográficos, campos vacíos o duplicados.",
                 optimalChoice: "C",
                 optionA: {
@@ -1301,7 +1206,7 @@
                 id: 14,
                 topic: "Gestión de Personas de Datos en Equipos Ejecutivos",
                 category: "culture",
-                icon: "users",
+                icon: "fa-users",
                 text: "Al presentar una nueva plataforma analítica, enfrenta al 'Escéptico de Datos' (confía en su intuición) y al 'Soñador de Datos' (espera que la IA resuelva todo mágicamente).",
                 optimalChoice: "B",
                 optionA: {
@@ -1324,7 +1229,7 @@
                 id: 15,
                 topic: "Sesgo de Primera Conclusión y Anclaje Bajo Presión",
                 category: "culture",
-                icon: "anchor",
+                icon: "fa-anchor",
                 text: "Durante una caída inesperada en las ventas mensuales, un informe inicial culpa al servicio al cliente. La dirección quiere despedir al gerente del departamento inmediatamente.",
                 optimalChoice: "A",
                 optionA: {
@@ -1361,9 +1266,8 @@
             soundEnabled = !soundEnabled;
             const icon = document.getElementById('soundIcon');
             if (icon) {
-                icon.setAttribute('data-lucide', soundEnabled ? 'volume-2' : 'volume-x');
+                icon.className = 'fas fa-fw text-sm ' + (soundEnabled ? 'fa-volume-high' : 'fa-volume-xmark');
                 document.getElementById('soundToggleBtn')?.setAttribute('aria-pressed', String(soundEnabled));
-                lucide.createIcons();
             }
         }
 
@@ -1469,7 +1373,7 @@
 
             const scenarioIcon = document.getElementById('scenarioIcon');
             if (scenarioIcon) {
-                scenarioIcon.setAttribute('data-lucide', sc.icon || 'brain');
+                scenarioIcon.className = 'fas fa-fw text-lg ' + (sc.icon || 'fa-brain');
             }
 
             // Neutral option buttons
@@ -1495,7 +1399,6 @@
                 }
             });
 
-            lucide.createIcons();
         }
 
         function advanceScenario() {
@@ -1526,7 +1429,9 @@
                 div.innerHTML = `
                     <div class="flex items-center space-x-2 truncate">
                         <span class="font-bold text-xs uppercase ${item.isOptimal ? 'text-emerald-400' : 'text-rose-400'}">
-                            ${item.isOptimal ? '✓ Óptima' : '⚠ Parcial'}
+                            ${item.isOptimal
+                                ? '<i class="fas fa-check fa-fw" aria-hidden="true"></i> Óptima'
+                                : '<i class="fas fa-triangle-exclamation fa-fw" aria-hidden="true"></i> Parcial'}
                         </span>
                         <span class="truncate text-slate-200">Fase ${item.scenarioIndex + 1}: ${item.topic}</span>
                     </div>
@@ -1587,10 +1492,10 @@
                     datasets: [{
                         label: 'Competencia (%)',
                         data: dataScores,
-                        backgroundColor: 'rgba(6, 182, 212, 0.25)',
-                        borderColor: '#06b6d4',
-                        pointBackgroundColor: '#22d3ee',
-                        pointBorderColor: '#fff',
+                        backgroundColor: 'rgba(101, 183, 199, 0.25)',
+                        borderColor: '#65b7c7',
+                        pointBackgroundColor: '#8ccfda',
+                        pointBorderColor: '#04141c',
                         borderWidth: 2
                     }]
                 },
@@ -1599,10 +1504,10 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            angleLines: { color: 'rgba(101, 183, 199, 0.22)' },
+                            grid: { color: 'rgba(101, 183, 199, 0.22)' },
                             pointLabels: {
-                                color: '#94a3b8',
+                                color: '#9dc2cc',
                                 font: { size: 9, family: 'Plus Jakarta Sans' }
                             },
                             ticks: { display: false, beginAtZero: true, max: 100 }
@@ -1624,13 +1529,13 @@
             if (tab === 'simulation') {
                 simView.classList.remove('hidden');
                 catView.classList.add('hidden');
-                simBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5";
-                catBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5";
+                simBtn.className = "sim-toggle sim-toggle--on";
+                catBtn.className = "sim-toggle";
             } else {
                 simView.classList.add('hidden');
                 catView.classList.remove('hidden');
-                catBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-white bg-slate-800 flex items-center space-x-1.5";
-                simBtn.className = "px-3 py-1.5 rounded-lg font-medium transition text-slate-400 hover:text-slate-200 flex items-center space-x-1.5";
+                catBtn.className = "sim-toggle sim-toggle--on";
+                simBtn.className = "sim-toggle";
             }
 
             // The tint is what a sighted visitor reads; these are what everyone
@@ -1672,12 +1577,12 @@
         function filterCatalogCategory(cat) {
             const buttons = document.querySelectorAll('.catalog-cat-btn');
             buttons.forEach(btn => {
-                btn.className = "catalog-cat-btn px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 transition";
+                btn.className = "catalog-cat-btn sim-toggle";
             });
 
             const activeBtn = document.getElementById(`catBtn-${cat}`);
             if (activeBtn) {
-                activeBtn.className = "catalog-cat-btn px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold border border-cyan-400 transition";
+                activeBtn.className = "catalog-cat-btn sim-toggle sim-toggle--on";
             }
 
             // Which category is showing is carried by the tint alone otherwise.
@@ -1915,11 +1820,11 @@
 
                 if (pct >= 60) {
                     hasStrengths = true;
-                    li.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5"></i> <span><strong>${cat.label}:</strong> ${Math.round(pct)}% precisión (${cat.correct}/${cat.total}). Fuerte alineación con mejores prácticas.</span>`;
+                    li.innerHTML = `<i class="fas fa-check fa-fw text-xs text-emerald-400 shrink-0 mt-0.5"></i> <span><strong>${cat.label}:</strong> ${Math.round(pct)}% precisión (${cat.correct}/${cat.total}). Fuerte alineación con mejores prácticas.</span>`;
                     strengthsList.appendChild(li);
                 } else {
                     hasWeaknesses = true;
-                    li.innerHTML = `<i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5"></i> <span><strong>${cat.label}:</strong> ${Math.round(pct)}% precisión (${cat.correct}/${cat.total}). Área clave de desarrollo.</span>`;
+                    li.innerHTML = `<i class="fas fa-circle-exclamation fa-fw text-xs text-amber-400 shrink-0 mt-0.5"></i> <span><strong>${cat.label}:</strong> ${Math.round(pct)}% precisión (${cat.correct}/${cat.total}). Área clave de desarrollo.</span>`;
                     weaknessesList.appendChild(li);
                 }
             });
@@ -1933,7 +1838,6 @@
 
             renderRadarChart(categories);
             renderLeaderboard();
-            lucide.createIcons();
 
             // categories ya es {clave: {correct, total}}, que el puente normaliza
             // directamente. La banda se pasa en lugar de recalcularse para que este
@@ -1993,22 +1897,25 @@
                     ready: "Todavía no hay puntuaciones publicadas: completa una partida y sé el primero.",
                     unavailable: "La tabla de posiciones global no está disponible ahora. Tus resultados de arriba no se ven afectados."
                 };
-                tbody.innerHTML = `<tr><td colspan="6" class="py-4 px-3 text-center text-slate-500">${messages[leaderboardStatus]}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="sim-table__empty">${messages[leaderboardStatus]}</td></tr>`;
                 return;
             }
 
             leaderboardData.forEach((entry, idx) => {
                 const tr = document.createElement('tr');
-                tr.className = idx % 2 === 0 ? 'bg-slate-900/40' : 'bg-slate-950/40';
                 const isPlayer = publishedRowId !== null && publishedRowId === entry.id;
+                if (isPlayer) tr.className = 'sim-table__row--you';
                 const asset = Number(entry.extraScore || 0);
+                const rank = idx < 3
+                    ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
+                    : `#${idx + 1}`;
                 tr.innerHTML = `
-                    <td class="py-2.5 px-3 font-bold ${idx === 0 ? 'text-amber-400' : 'text-slate-400'}">#${idx + 1}</td>
-                    <td class="py-2.5 px-3 font-semibold text-white">${window.SimulatorLeaderboard.escapeHtml(entry.name)}${isPlayer ? ' <span class="text-cyan-400">(Tú)</span>' : ''}</td>
-                    <td class="py-2.5 px-3 text-slate-400">${window.SimulatorLeaderboard.escapeHtml(profileForScore(Number(entry.score)))}</td>
-                    <td class="py-2.5 px-3 text-right font-bold text-cyan-400">${Number(entry.score)}/15</td>
-                    <td class="py-2.5 px-3 text-right text-slate-300 tabular-nums">${formatRunTime(entry.durationMs)}</td>
-                    <td class="py-2.5 px-3 text-right font-mono text-emerald-400">$${asset.toLocaleString()}</td>
+                    <td class="sim-table__rank${idx < 3 ? ' sim-table__rank--' + (idx + 1) : ''}">${rank}</td>
+                    <td class="sim-table__name">${window.SimulatorLeaderboard.escapeHtml(entry.name)}${isPlayer ? ' <span class="sim-table__you">(Tú)</span>' : ''}</td>
+                    <td>${window.SimulatorLeaderboard.escapeHtml(profileForScore(Number(entry.score)))}</td>
+                    <td class="sim-table__score">${Number(entry.score)}/15</td>
+                    <td class="sim-table__meta">${formatRunTime(entry.durationMs)}</td>
+                    <td class="sim-table__meta">$${asset.toLocaleString()}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -2113,5 +2020,37 @@
 </footer>
 <script type="module" src="/assets/js/language-switch.js"></script>
 <script src="/assets/js/simulator-footer-reveal.js" defer></script>
+<!--
+  The shared welcome overlay. Behaviour lives in
+  /assets/js/simulator-welcome.js; the wording lives here so that it stays
+  translated and stays visible to scripts/extract-simulator-text.mjs.
+-->
+<div class="sim-welcome" data-sim-welcome data-sim-welcome-target="#playerNameInput" hidden>
+  <div class="sim-welcome__dialog" role="dialog" aria-modal="true" aria-labelledby="sim-welcome-title">
+    <p class="sim-eyebrow">15 escenarios ejecutivos</p>
+    <h2 id="sim-welcome-title" class="sim-welcome__title">Eres quien tiene que decidir qué significan los datos.</h2>
+    <p class="sim-welcome__lead">Quince escenarios te ponen en la sala donde un número se está leyendo mal &mdash; una muestra sesgada, una métrica de vanidad, un tablero en el que nadie confía. Tus decisiones mueven el valor de los activos, el ROI de la información y la fricción diaria.</p>
+    <ul class="sim-welcome__facts">
+      <li class="sim-badge sim-badge--neutral">~15 minutos</li>
+      <li class="sim-badge sim-badge--neutral">Sin registro</li>
+      <li class="sim-badge sim-badge--neutral">Se calcula en tu navegador</li>
+    </ul>
+    <p class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed"><strong>Tu objetivo:</strong> subir los tres indicadores de alfabetización sin gastar una credibilidad que no puedes recuperar.</p>
+    <div class="sim-welcome__start">
+      <div class="sim-welcome__field">
+        <label class="sim-welcome__label" for="sim-welcome-name">Tu nombre o cargo, para la clasificación</label>
+        <input type="text" id="sim-welcome-name" class="sim-input" placeholder="Tu Nombre / Cargo" maxlength="30" autocomplete="off">
+      </div>
+      <div class="sim-welcome__actions">
+        <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" data-sim-welcome-start>
+          <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar la simulación
+        </button>
+        <button type="button" class="sim-btn sim-btn--quiet" data-sim-welcome-skip>Solo quiero mirar</button>
+      </div>
+      <p class="sim-welcome__note">Opcional. No se envía nada a ningún sitio salvo que decidas publicar tu puntaje al final.</p>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/simulator-welcome.js" defer></script>
 </body>
 </html>

@@ -37,18 +37,21 @@ const HTML_SOURCES = [
   'admin/index.html',
   'admin/spaces/index.html',
   'workspace/index.html',
+  'simulators/es/data-ownership-conflict/index.html',
+  'simulators/pt/data-ownership-conflict/index.html',
 ];
 
 /**
  * Pages that are reported but never fail the build.
  *
- * The nine simulators are self-contained: each one carries its own markup, its
- * own script and, in most cases, the Tailwind Play CDN, which compiles classes
- * in the browser and cannot be verified from here. Two of them were moved off
- * the CDN without their utility classes coming with them, so enforcing this
- * list today would block every deploy over pre-existing markup rather than over
- * anything the current change touched. Reporting keeps the problem visible in
- * the build log; promote a page into HTML_SOURCES once it reads clean.
+ * These seven load the Tailwind Play CDN, which compiles utility classes in the
+ * browser from a config this script cannot evaluate, so `checkFile` skips them
+ * outright rather than measuring their markup against the hand-written subset
+ * and calling every Tailwind utility undefined. They stay on this list for the
+ * day one of them stops loading the CDN: the run will start reporting real
+ * findings for it, and it can be promoted into HTML_SOURCES once it reads clean
+ * -- which is how the two Spanish and Portuguese "Who Owns This?" pages, the
+ * only two that were already CDN-free, got there.
  */
 const ADVISORY_SOURCES = [
   'simulators/en/data-governance-day-to-day/index.html',
@@ -56,10 +59,8 @@ const ADVISORY_SOURCES = [
   'simulators/en/data-ownership-conflict/index.html',
   'simulators/es/data-governance-day-to-day/index.html',
   'simulators/es/data-literacy/index.html',
-  'simulators/es/data-ownership-conflict/index.html',
   'simulators/pt/data-governance-day-to-day/index.html',
   'simulators/pt/data-literacy/index.html',
-  'simulators/pt/data-ownership-conflict/index.html',
 ];
 
 /** Directories scanned for class names referenced from JavaScript or generators. */
@@ -67,6 +68,14 @@ const HOOK_SOURCES = ['assets/js', 'scripts', 'scripts/lib'];
 
 /** Class prefixes that come from a stylesheet we cannot read (CDN icon fonts). */
 const EXTERNAL_PREFIXES = ['fa-'];
+
+/**
+ * FontAwesome's style-family classes. They live in the same CDN sheet as the
+ * fa-* glyph names above but carry no hyphen, so the prefix test cannot see
+ * them. Matched exactly rather than by prefix, so a real class that merely
+ * begins with "fa" is still checked.
+ */
+const EXTERNAL_CLASSES = new Set(['fas', 'far', 'fab', 'fal', 'fad', 'fat', 'fa']);
 
 /**
  * Semantic wrapper classes that intentionally carry no styling. They exist to
@@ -84,9 +93,6 @@ const IGNORED_CLASSES = new Set([
   // rewrites by attribute rather than by class name.
   'language-resource-download',
   'language-scorecard-link',
-  // Names the footer region on the simulator pages. The navigation inside it
-  // carries the styling; the wrapper is there so the markup reads.
-  'simulator-site-footer',
 ]);
 
 /** Files loaded from a CDN framework cannot be verified locally. */
@@ -148,7 +154,8 @@ const collectHookSource = async () => {
 const isHook = (token, hookSource) =>
   new RegExp(`(?<![\\w-])${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w-])`).test(hookSource);
 
-const isExternal = (token) => EXTERNAL_PREFIXES.some((prefix) => token.startsWith(prefix));
+const isExternal = (token) =>
+  EXTERNAL_CLASSES.has(token) || EXTERNAL_PREFIXES.some((prefix) => token.startsWith(prefix));
 
 const resolveHref = (href, htmlFile) =>
   href.startsWith('/')
