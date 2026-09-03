@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-sim-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,47 +29,24 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Simulador do Dia a Dia da Governança de Dados (DAMA-DMBOK)","url":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/","description":"Simulador interativo gratuito: resolva 10 dilemas reais de governança de dados em cinco dimensões do DAMA-DMBOK e veja como suas decisões afetam maturidade, confiança e orçamento.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"pt-BR","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Papéis e responsabilidades","Gestão de qualidade de dados","Metadados e linhagem","Catálogo e descoberta de dados","Dados mestres e de referência","Ciclo de vida e retenção","FinOps e governança da analítica"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://datagovjourney.com/pt/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/pt/#simulators"},{"@type":"ListItem","position":3,"name":"Simulador do Dia a Dia da Governança de Dados (DAMA-DMBOK)","item":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/"}],"@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#faq","inLanguage":"pt-BR","isPartOf":{"@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#app"},"mainEntity":[{"@type":"Question","name":"Preciso conhecer o DAMA-DMBOK para usar?","acceptedAnswer":{"@type":"Answer","text":"Não. Cada cenário é escrito em linguagem operacional e a análise após cada decisão nomeia o princípio do DMBOK envolvido. Muita gente usa o simulador como primeira introdução ao framework, não como prova sobre ele."}},{"@type":"Question","name":"Existe uma única resposta certa em cada cenário?","acceptedAnswer":{"@type":"Answer","text":"Não. Todas as opções são decisões que alguma organização real já tomou. A pontuação reflete o que cada opção custa e entrega nos cinco indicadores, então uma decisão defensável sob pressão de orçamento pode pontuar bem mesmo não sendo a resposta de manual."}},{"@type":"Question","name":"É gratuito e coleta meus dados?","acceptedAnswer":{"@type":"Answer","text":"É gratuito e não exige conta. Suas decisões são pontuadas no seu navegador e nunca saem dele. Publicar no ranking é opcional e é a única coisa enviada para nós: o nome que você digitar e sua pontuação final, que passam a aparecer no mesmo ranking global que todos os outros jogadores veem."}},{"@type":"Question","name":"O que significa a pontuação final?","acceptedAnswer":{"@type":"Answer","text":"É um índice ponderado de maturidade sobre Eficiência, Confiança, Responsabilidade, Segurança e Contexto, mais o orçamento restante. É uma leitura do seu estilo de decisão, não uma certificação nem um diagnóstico da sua organização."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/images/dg-logo.png","width":400,"height":388}}]}</script>
+    <style>
+        /* First-paint colours, so the page does not flash white before the rest
+           of the console has loaded. */
+        html { background-color: #04141c; color: #f2fafc; }
+    </style>
     <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
+    <!-- The shared simulator theme: one Tailwind palette, one typeface, one
+         set of radii and shadows for all nine simulator pages. Must load after
+         the CDN script above and before the first paint of any utility class. -->
+    <script src="/assets/js/simulator-tailwind-config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha384-c6Uo4N9c3SOEigMVzP6IshUG1wQ5uMp3xeoQFiHWAQ86joWdgyajkvopySyKy/Z6" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" integrity="sha384-HAH79XdRvHr6axVGh4xQWVCp14kcd32bNk4Xu0sHDHtFQ42n6BAM8ykvB47dGz6D" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/assets/css/fonts-inter.css">
-    <!-- The shared site header renders in Plus Jakarta Sans; the body copy on this page is Inter. -->
+    <!-- One typeface for the header, the app and the explainer below it. -->
+    <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/fonts.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; overflow-x: hidden; }
-        .sidebar { background-color: #1e293b; color: #f8fafc; }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
-        .metric-bar-bg { background-color: #334155; overflow: hidden; }
-        .metric-bar-fill { transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease; }
-        
-        .floating-delta {
-            position: absolute; right: 0; top: -20px; font-weight: bold; font-size: 0.85rem;
-            opacity: 0; transform: translateY(10px); animation: floatUp 2s forwards; z-index: 10;
-        }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(10px); }
-            80% { opacity: 1; transform: translateY(-15px); }
-            100% { opacity: 0; transform: translateY(-20px); }
-        }
-
-        .btn-option { transition: all 0.2s ease; border-left: 4px solid transparent; }
-        .btn-option:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-left-color: #2563eb; }
-        
-        /* Compact layout styles */
-        .compact-metric-label { font-size: 0.70rem; line-height: 1; margin-bottom: 2px; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .compact-metric-val { font-size: 0.85rem; font-weight: 700; color: #fff; }
-        
-        .modal { display: none; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
-        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Leaderboard table styles */
-        .leaderboard-row:nth-child(even) { background-color: #f1f5f9; }
-        .leaderboard-row.highlight { background-color: #dbeafe; border-left: 4px solid #2563eb; }
-    </style>
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
+    <link rel="stylesheet" href="/assets/css/simulator-theme.css">
   <!-- Private-space chrome, settled before the first paint. The rules it
        switches on live with the header styles in
        /assets/css/simulator-header.css, which this page already links above. -->
@@ -98,32 +75,32 @@
 
     <!-- Modal DAMA-DMBOK Guia -->
     <div id="dama-modal" class="modal fixed inset-0 z-50 items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
-            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition">
+        <div class="sim-card max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="sim-btn sim-btn--quiet absolute top-4 right-4">
                 <i class="fas fa-times text-xl"></i>
             </button>
-            <h2 class="text-2xl font-bold text-slate-800 mb-2 border-b pb-2"><i class="fas fa-book text-blue-600 mr-2"></i>Áreas de Conhecimento DAMA-DMBOK</h2>
-            <p class="text-sm text-slate-600 mb-4">A Estrutura DAMA (Data Management Association) define 11 áreas centrais de gerenciamento de dados. Este simulador testa suas decisões operacionais em relação a estes princípios.</p>
+            <h2 class="text-2xl font-bold text-slate-200 mb-2 border-b pb-2"><i class="fas fa-book text-cyan-400 mr-2"></i>Áreas de Conhecimento DAMA-DMBOK</h2>
+            <p class="text-sm text-slate-400 mb-4">A Estrutura DAMA (Data Management Association) define 11 áreas centrais de gerenciamento de dados. Este simulador testa suas decisões operacionais em relação a estes princípios.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">1. Governança de Dados:</strong> Planejamento, supervisão e controle do gerenciamento de dados.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">2. Arquitetura de Dados:</strong> A estrutura geral dos dados e os recursos relacionados a eles.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">3. Modelagem e Design:</strong> Análise e design para criação e manutenção de dados.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">4. Armazenamento e Operações:</strong> Implantação e gerenciamento de bancos de dados físicos.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">5. Segurança de Dados:</strong> Garantia de privacidade, confidencialidade e acesso adequado.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">6. Integração e Interoperabilidade:</strong> Movimentação e consolidação de dados.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">7. Gerenciamento de Documentos:</strong> Controle sobre dados armazenados em formatos não estruturados.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">8. Dados Mestres e Referência:</strong> Gerenciamento de dados compartilhados para reduzir redundâncias.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">9. Data Warehousing & BI:</strong> Gerenciamento de dados analíticos para relatórios.</div>
-                <div class="p-3 bg-slate-50 rounded border"><strong class="text-blue-700">10. Metadados:</strong> Informações sobre os dados (contexto, linhagem, definições).</div>
-                <div class="p-3 bg-slate-50 rounded border md:col-span-2"><strong class="text-blue-700">11. Qualidade de Dados:</strong> Garantir que os dados sejam adequados para uso, medindo e melhorando sua condição.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">1. Governança de Dados:</strong> Planejamento, supervisão e controle do gerenciamento de dados.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">2. Arquitetura de Dados:</strong> A estrutura geral dos dados e os recursos relacionados a eles.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">3. Modelagem e Design:</strong> Análise e design para criação e manutenção de dados.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">4. Armazenamento e Operações:</strong> Implantação e gerenciamento de bancos de dados físicos.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">5. Segurança de Dados:</strong> Garantia de privacidade, confidencialidade e acesso adequado.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">6. Integração e Interoperabilidade:</strong> Movimentação e consolidação de dados.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">7. Gerenciamento de Documentos:</strong> Controle sobre dados armazenados em formatos não estruturados.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">8. Dados Mestres e Referência:</strong> Gerenciamento de dados compartilhados para reduzir redundâncias.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">9. Data Warehousing & BI:</strong> Gerenciamento de dados analíticos para relatórios.</div>
+                <div class="sim-panel p-3"><strong class="text-cyan-400">10. Metadados:</strong> Informações sobre os dados (contexto, linhagem, definições).</div>
+                <div class="sim-panel p-3 md:col-span-2"><strong class="text-cyan-400">11. Qualidade de Dados:</strong> Garantir que os dados sejam adequados para uso, medindo e melhorando sua condição.</div>
             </div>
-            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Entendido</button>
+            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="sim-btn sim-btn--accent w-full mt-6">Entendido</button>
         </div>
     </div>
 
     <!-- Header -->
-    <header class="simulator-site-header shrink-0">
-        <div class="simulator-site-header-inner flex justify-between items-center">
+    <header class="simulator-site-header">
+        <div class="simulator-site-header-inner">
         <div class="simulator-brand-block">
             <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
             <div class="simulator-brand-copy">
@@ -133,12 +110,12 @@
 
         <div class="simulator-product-copy">
             <div class="simulator-title-row">
-                <h2 class="simulator-title">Simulador de Liderança de Dados</h2>
+                <h1 class="simulator-title">DataGov OS</h1>
             </div>
-            <p class="simulator-subtitle text-sm">Tome decisões baseadas no DAMA-DMBOK</p>
+            <p class="simulator-subtitle">Simulador de Governança de Dados Empresarial (10 Desafios)</p>
         </div>
 
-        <div class="simulator-header-actions flex items-center space-x-2 sm:space-x-3">
+        <div class="simulator-header-actions">
             <a href="/pt/" class="simulator-home-link" aria-label="Voltar ao site principal">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
@@ -181,76 +158,118 @@
             <p class="text-lg font-bold flex items-center gap-2">
                 <i class="fas fa-network-wired text-blue-400"></i> DAMA Simulator
             </p>
-            <button onclick="openModal()" aria-label="Abrir a referência DAMA-DMBOK" class="text-slate-400 hover:text-white" title="Referência DAMA-DMBOK">
+            <button onclick="openModal()" aria-label="Abrir a referência DAMA-DMBOK" class="sim-btn sim-btn--quiet" title="Referência DAMA-DMBOK">
                 <i class="fas fa-info-circle text-lg"></i>
             </button>
         </div>
         
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 mb-4 text-center">
-            <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Índice Ponderado de Madurez</p>
+        <div class="sim-panel p-4 mb-4 text-center">
+            <p class="sim-eyebrow sim-eyebrow--dim mb-1">Índice Ponderado de Madurez</p>
             <div class="text-4xl font-bold text-white flex justify-center items-baseline gap-1">
                 <span id="overall-score">50.0</span><span class="text-sm text-slate-400">/100</span>
             </div>
         </div>
 
-        <h2 class="text-xs uppercase tracking-widest text-slate-400 mb-3 font-semibold">Indicadores Operacionais</h2>
+        <h2 class="sim-eyebrow sim-eyebrow--dim mb-3">Indicadores Operacionais</h2>
         
         <!-- COMPACT METRICS GRID (Side by side) -->
         <div class="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-2 gap-2 mb-4">
-            <!-- Efficiency -->
-            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="compact-metric-label"><i class="fas fa-bolt text-yellow-400 mr-1"></i>Eficiência</span>
-                    <span class="compact-metric-val" id="val-efficiency">50%</span>
-                </div>
-                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-efficiency" class="metric-bar-fill h-full rounded-full bg-yellow-400" style="width: 50%;"></div></div>
-                <div id="delta-efficiency"></div>
+          <div class="sim-meter sim-meter--1">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-bolt fa-fw" aria-hidden="true"></i>
+                Eficiência
+              </span>
+              <span class="sim-meter__value">
+                <span id="val-efficiency">50%</span>
+                <span id="delta-efficiency" class="hidden font-bold text-[10px]"></span>
+              </span>
             </div>
-            <!-- Trust -->
-            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="compact-metric-label"><i class="fas fa-shield-check text-green-400 mr-1"></i>Confiança</span>
-                    <span class="compact-metric-val" id="val-trust">50%</span>
-                </div>
-                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-trust" class="metric-bar-fill h-full rounded-full bg-green-400" style="width: 50%;"></div></div>
-                <div id="delta-trust"></div>
+            <div class="sim-meter__track">
+              <div id="bar-efficiency" class="sim-meter__fill" style="width: 50%"></div>
             </div>
-            <!-- Accountability -->
-            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="compact-metric-label"><i class="fas fa-users-cog text-blue-400 mr-1"></i>Resp.</span>
-                    <span class="compact-metric-val" id="val-accountability">50%</span>
-                </div>
-                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-accountability" class="metric-bar-fill h-full rounded-full bg-blue-400" style="width: 50%;"></div></div>
-                <div id="delta-accountability"></div>
+          </div>
+          <div class="sim-meter sim-meter--2">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i>
+                Confiança
+              </span>
+              <span class="sim-meter__value">
+                <span id="val-trust">50%</span>
+                <span id="delta-trust" class="hidden font-bold text-[10px]"></span>
+              </span>
             </div>
-            <!-- Security -->
-            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="compact-metric-label"><i class="fas fa-lock text-red-400 mr-1"></i>Segurança</span>
-                    <span class="compact-metric-val" id="val-security">50%</span>
-                </div>
-                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-security" class="metric-bar-fill h-full rounded-full bg-red-400" style="width: 50%;"></div></div>
-                <div id="delta-security"></div>
+            <div class="sim-meter__track">
+              <div id="bar-trust" class="sim-meter__fill" style="width: 50%"></div>
             </div>
-            <!-- Context -->
-            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="compact-metric-label"><i class="fas fa-book-open text-purple-400 mr-1"></i>Contexto</span>
-                    <span class="compact-metric-val" id="val-context">50%</span>
-                </div>
-                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-context" class="metric-bar-fill h-full rounded-full bg-purple-400" style="width: 50%;"></div></div>
-                <div id="delta-context"></div>
+          </div>
+          <div class="sim-meter sim-meter--3">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-users-gear fa-fw" aria-hidden="true"></i>
+                Resp.
+              </span>
+              <span class="sim-meter__value">
+                <span id="val-accountability">50%</span>
+                <span id="delta-accountability" class="hidden font-bold text-[10px]"></span>
+              </span>
             </div>
-            <!-- Budget -->
-            <div class="bg-slate-800/50 p-2 rounded border border-slate-700 relative">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="compact-metric-label"><i class="fas fa-wallet text-emerald-400 mr-1"></i>Orçamento</span>
-                    <span class="compact-metric-val text-emerald-400" id="val-budget">$50k</span>
-                </div>
-                <div class="metric-bar-bg h-1.5 rounded-full w-full"><div id="bar-budget" class="metric-bar-fill h-full rounded-full bg-emerald-400" style="width: 100%;"></div></div>
-                <div id="delta-budget"></div>
+            <div class="sim-meter__track">
+              <div id="bar-accountability" class="sim-meter__fill" style="width: 50%"></div>
             </div>
+          </div>
+          <div class="sim-meter sim-meter--4">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-lock fa-fw" aria-hidden="true"></i>
+                Segurança
+              </span>
+              <span class="sim-meter__value">
+                <span id="val-security">50%</span>
+                <span id="delta-security" class="hidden font-bold text-[10px]"></span>
+              </span>
+            </div>
+            <div class="sim-meter__track">
+              <div id="bar-security" class="sim-meter__fill" style="width: 50%"></div>
+            </div>
+          </div>
+          <div class="sim-meter sim-meter--5">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+                Contexto
+              </span>
+              <span class="sim-meter__value">
+                <span id="val-context">50%</span>
+                <span id="delta-context" class="hidden font-bold text-[10px]"></span>
+              </span>
+            </div>
+            <div class="sim-meter__track">
+              <div id="bar-context" class="sim-meter__fill" style="width: 50%"></div>
+            </div>
+          </div>
+          <div class="sim-meter sim-meter--6">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-wallet fa-fw" aria-hidden="true"></i>
+                Orçamento
+              </span>
+              <span class="sim-meter__value">
+                <span id="val-budget">$50k</span>
+                <span id="delta-budget" class="hidden font-bold text-[10px]"></span>
+              </span>
+            </div>
+            <div class="sim-meter__track">
+              <div id="bar-budget" class="sim-meter__fill" style="width: 100%"></div>
+            </div>
+          </div>
         </div>
 
         <div class="mt-auto pt-4 border-t border-slate-700">
@@ -265,62 +284,70 @@
     </div>
 
     <!-- Main Content Area -->
-    <div class="flex-1 min-h-0 bg-slate-50 flex flex-col relative overflow-y-auto">
+    <div class="flex-1 min-h-0 bg-slate-800 flex flex-col relative overflow-y-auto">
         
         <!-- Dynamic Content Container -->
         <main class="flex-1 p-4 sm:p-8 max-w-5xl mx-auto w-full flex flex-col" id="main-container" tabindex="-1">
             
             <!-- Welcome Screen -->
-            <div id="welcome-screen" class="glass-panel p-5 sm:p-8 rounded-2xl shadow-xl text-center my-auto">
-                <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                    <i class="fas fa-sitemap text-3xl text-blue-600"></i>
+            <div id="welcome-screen" class="sim-welcome__dialog my-auto">
+                <div class="w-20 h-20 bg-cyan-500/15 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                    <i class="fas fa-sitemap text-3xl text-cyan-400"></i>
                 </div>
-                <h1 class="text-3xl font-bold text-slate-800 mb-4">Bem-vindo ao Simulador Diário de Governança de Dados</h1>
-                <p class="text-slate-600 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
-                    Você acaba de assumir como <strong class="text-slate-800">Líder de Dados</strong>. Suas decisões operacionais diárias moldarão a maturidade, a cultura e a eficiência dos dados da empresa. Avalie as compensações entre agilidade, custo, segurança e governança sustentável usando as diretrizes estruturais da DAMA.
+                <h2 class="sim-welcome__title">Bem-vindo ao Simulador Diário de Governança de Dados</h2>
+                <p class="sim-welcome__lead max-w-2xl mx-auto">
+                    Você acaba de assumir como <strong class="text-slate-200">Líder de Dados</strong>. Suas decisões operacionais diárias moldarão a maturidade, a cultura e a eficiência dos dados da empresa. Avalie as compensações entre agilidade, custo, segurança e governança sustentável usando as diretrizes estruturais da DAMA.
                 </p>
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 text-sm text-blue-800 inline-block text-left">
+                <div class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed inline-block text-left">
                     <p><strong><i class="fas fa-bullseye mr-2"></i>Seu Objetivo:</strong> Maximizar as métricas de saúde da plataforma terminando com a maior pontuação possível. As decisões mais fáceis raramente são as corretas.</p>
                 </div>
-                <br>
-                <button onclick="startGame()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center mx-auto gap-2">
-                    <i class="fas fa-play"></i> Iniciar Simulação
-                </button>
+                <div class="sim-welcome__start">
+                    <div class="sim-welcome__field">
+                        <label class="sim-welcome__label" for="sim-welcome-name">Seu nome ou cargo, para o ranking</label>
+                        <input type="text" id="sim-welcome-name" class="sim-input" placeholder="Ex. Maria Silva - CDO" maxlength="30" autocomplete="off">
+                    </div>
+                    <div class="sim-welcome__actions">
+                        <button type="button" onclick="startGame()" class="sim-btn sim-btn--primary sim-btn--lg">
+                            <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar a simulação
+                        </button>
+                    </div>
+                    <p class="sim-welcome__note">Opcional. Nada é enviado a nenhum lugar a menos que você escolha publicar sua pontuação no final.</p>
+                </div>
             </div>
 
             <!-- Scenario Screen (Hidden initially) -->
             <div id="scenario-screen" class="hidden flex-col h-full">
-                <div class="mb-6 flex items-center text-sm font-semibold text-blue-600 uppercase tracking-wide">
+                <div class="sim-eyebrow mb-6 flex items-center">
                     <i class="fas fa-bolt mr-2"></i> <span id="scen-topic">Tópico</span>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-slate-800 mb-4 leading-tight" id="scen-text">Texto do Cenário...</h2>
+                <h2 class="text-2xl font-bold text-slate-200 mb-4 leading-tight" id="scen-text">Texto do Cenário...</h2>
                 
                 <div id="options-container" class="space-y-4 mt-6">
                     <!-- Options injected via JS -->
                 </div>
 
                 <!-- Debrief Card (Hidden initially) -->
-                <div id="debrief-card" class="hidden mt-8 glass-panel border-l-4 border-l-blue-600 rounded-xl p-4 sm:p-6 shadow-lg bg-white relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-blue-50 px-3 py-1 rounded-bl-lg border-b border-l border-blue-100 text-xs font-bold text-blue-700">
+                <div id="debrief-card" class="hidden mt-8 sim-card sim-card--accent p-4 sm:p-6 overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-cyan-500/10 px-3 py-1 rounded-bl-lg border-b border-l border-cyan-500/25 text-xs font-bold text-cyan-400">
                         Análise de Governança
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
-                        <i class="fas fa-clipboard-check text-blue-500"></i> Resultado Operacional
+                    <h3 class="text-xl font-bold text-slate-200 mb-2 flex items-center gap-2">
+                        <i class="fas fa-clipboard-check text-cyan-400"></i> Resultado Operacional
                     </h3>
                     
                     <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4 mt-4" id="debrief-impacts">
                         <!-- Impacts injected via JS -->
                     </div>
 
-                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4">
-                        <h4 class="font-bold text-slate-700 text-sm mb-1 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fas fa-graduation-cap text-blue-600"></i> Princípio DAMA-DMBOK
+                    <div class="sim-panel p-4 mt-4">
+                        <h4 class="sim-eyebrow sim-eyebrow--muted mb-1 flex items-center gap-2">
+                            <i class="fas fa-graduation-cap text-cyan-400"></i> Princípio DAMA-DMBOK
                         </h4>
-                        <p class="text-slate-600 text-sm leading-relaxed" id="debrief-lesson">A lição vai aqui.</p>
+                        <p class="text-slate-400 text-sm leading-relaxed" id="debrief-lesson">A lição vai aqui.</p>
                     </div>
 
-                    <button onclick="nextScenario()" class="mt-6 w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                    <button onclick="nextScenario()" class="sim-btn sim-btn--accent sim-btn--block mt-6">
                         Próximo Desafio <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -328,57 +355,57 @@
 
             <!-- Final Summary Screen (Hidden initially) -->
             <div id="summary-screen" class="hidden glass-panel p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-4xl mx-auto my-auto relative">
-                <div class="text-center border-b border-slate-200 pb-6 mb-6">
-                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Simulação Concluída</h2>
+                <div class="text-center border-b border-slate-800 pb-6 mb-6">
+                    <h2 class="text-3xl font-bold text-slate-200 mb-2">Simulação Concluída</h2>
                     <p class="text-slate-500">Relatório Final de Avaliação da Maturidade dos Dados</p>
                 </div>
                 
                 <div class="flex flex-col md:flex-row gap-8 items-center justify-center mb-8">
                     <div class="text-center relative">
                         <svg class="w-40 h-40 transform -rotate-90">
-                            <circle cx="80" cy="80" r="70" stroke="#e2e8f0" stroke-width="12" fill="none" />
-                            <circle id="final-circle" cx="80" cy="80" r="70" stroke="#2563eb" stroke-width="12" fill="none" stroke-dasharray="439.8" stroke-dashoffset="439.8" class="transition-all duration-1500 ease-out" />
+                            <circle cx="80" cy="80" r="70" stroke="#1d5566" stroke-width="12" fill="none" />
+                            <circle id="final-circle" cx="80" cy="80" r="70" stroke="#65b7c7" stroke-width="12" fill="none" stroke-dasharray="439.8" stroke-dashoffset="439.8" class="transition-all duration-1500 ease-out" />
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span class="text-4xl font-bold text-slate-800" id="final-score-text">0</span>
+                            <span class="text-4xl font-bold text-slate-200" id="final-score-text">0</span>
                             <span class="text-xs text-slate-500 font-semibold uppercase">Índice Final</span>
                             <span class="text-[10px] text-slate-400 font-mono mt-1" id="summary-run-time">—</span>
                         </div>
                     </div>
                     
-                    <div class="flex-1 bg-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 w-full">
-                        <h3 class="text-xl font-bold text-slate-800 mb-2" id="profile-title">Perfil</h3>
-                        <p class="text-slate-600 mb-4 text-sm leading-relaxed" id="profile-desc">Descrição do perfil.</p>
-                        <div class="text-sm font-semibold text-slate-700 bg-white p-3 rounded border shadow-sm">
-                            <i class="fas fa-lightbulb text-yellow-500 mr-2"></i> Conclusão Principal: <span class="font-normal text-slate-600">A Governança de Dados não tem a ver com burocracia; trata-se de construir fluxos de trabalho sustentáveis, seguros e previsíveis.</span>
+                    <div class="sim-card p-4 sm:p-6 flex-1 w-full">
+                        <h3 class="text-xl font-bold text-slate-200 mb-2" id="profile-title">Perfil</h3>
+                        <p class="text-slate-400 mb-4 text-sm leading-relaxed" id="profile-desc">Descrição do perfil.</p>
+                        <div class="sim-panel p-3 text-sm font-semibold text-slate-300">
+                            <i class="fas fa-lightbulb text-amber-400 mr-2"></i> Conclusão Principal: <span class="font-normal text-slate-400">A Governança de Dados não tem a ver com burocracia; trata-se de construir fluxos de trabalho sustentáveis, seguros e previsíveis.</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Global Leaderboard Section -->
-                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-8">
+                <div class="sim-card overflow-hidden mb-8">
                     <div class="bg-slate-800 text-white p-3 flex justify-between items-center">
-                        <h3 class="font-bold"><i class="fas fa-trophy text-yellow-400 mr-2"></i> Tabela de Classificação Global</h3>
+                        <h3 class="font-bold"><i class="fas fa-trophy text-amber-400 mr-2"></i> Tabela de Classificação Global</h3>
                     </div>
                     
-                    <div class="p-4 bg-slate-50 border-b border-slate-200" id="leaderboard-form-container">
-                        <p class="text-sm text-slate-600 mb-2 font-medium">Salve sua pontuação no ranking:</p>
+                    <div class="p-4 bg-slate-800 border-b border-slate-800" id="leaderboard-form-container">
+                        <p class="text-sm text-slate-400 mb-2 font-medium">Salve sua pontuação no ranking:</p>
                         <div class="flex flex-col sm:flex-row gap-2">
                             <label for="player-name" class="sr-only">Seu nome ou cargo para o ranking</label>
-                            <input type="text" id="player-name" placeholder="Seu Nome ou Cargo" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                            <button onclick="saveScore()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow">
+                            <input type="text" id="player-name" placeholder="Seu Nome ou Cargo" class="flex-1 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            <button onclick="saveScore()" class="sim-btn sim-btn--accent sim-btn--sm">
                                 Salvar no Ranking
                             </button>
                         </div>
                     </div>
 
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-100 text-slate-600 font-semibold border-b">
+                    <div class="sim-table-wrap">
+                        <table class="sim-table">
+                            <thead>
                                 <tr>
-                                    <th class="p-3 w-16 text-center">Pos</th>
-                                    <th class="p-3">Jogador</th>
-                                    <th class="p-3 text-right">Índice</th>
+                                    <th>Pos</th>
+                                    <th>Jogador</th>
+                                    <th class="sim-table__score">Índice</th>
                                 </tr>
                             </thead>
                             <tbody id="leaderboard-body">
@@ -395,18 +422,29 @@
                 <div id="simBridgeSlot"></div>
 
                 <!-- CTA Banner -->
-                <a data-sim-bridge-replaces href="/pt/#contact-form-start" target="_blank" rel="noopener noreferrer" class="block w-full bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white rounded-xl p-6 text-center transition transform hover:-translate-y-1 shadow-lg mb-6 group">
-                    <h4 class="text-lg font-bold mb-1 flex justify-center items-center gap-2">
-                        Com dificuldades com as melhores práticas de Governança de Dados no dia a dia?
-                    </h4>
-                    <p class="text-blue-200 text-sm font-medium mb-3">Vamos construir seu framework.</p>
-                    <span class="inline-block bg-white text-blue-800 font-bold px-6 py-2 rounded-full text-sm group-hover:bg-blue-50 transition shadow">
-                        Fale Conosco <i class="fas fa-external-link-alt ml-1"></i>
-                    </span>
-                </a>
+                <div data-sim-bridge-replaces class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden mb-6">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <div class="space-y-1 text-center sm:text-left">
+                        <span class="sim-badge">
+                            Consultoria Especializada em Dados
+                        </span>
+                        <h3 class="text-lg lg:text-xl font-bold text-white">
+                            Com dificuldades com as melhores práticas de Governança de Dados no dia a dia?
+                        </h3>
+                        <p class="text-xs text-slate-300 max-w-xl">
+                            Vamos construir um framework de governança de dados personalizado, escalável e automatizado para a arquitetura e os objetivos de negócio da sua empresa.
+                        </p>
+                    </div>
+
+                    <a href="/pt/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg shrink-0">
+                        <span>Vamos construir seu framework</span>
+                        <i class="fas fa-arrow-up-right-from-square fa-fw text-sm" aria-hidden="true"></i>
+                    </a>
+                </div>
 
                 <div class="text-center">
-                    <button onclick="resetGame()" class="text-slate-500 hover:text-slate-800 font-medium text-sm transition flex items-center justify-center mx-auto gap-2">
+                    <button onclick="resetGame()" class="sim-btn sim-btn--ghost mx-auto">
                         <i class="fas fa-redo"></i> Jogar Novamente
                     </button>
                 </div>
@@ -422,13 +460,13 @@
       placeholders and no explanation of what the simulator teaches. This section
       is the page saying, in plain HTML, what the exercise is and what it covers.
     -->
-    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
-      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-900">Sobre este simulador</h2>
+    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-300 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
+      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-100">Sobre este simulador</h2>
         <p class="mb-4 leading-relaxed">O Simulador do Dia a Dia da Governança de Dados é um exercício gratuito, no navegador, que coloca você na cadeira de quem precisa resolver dez incidentes de governança em sequência — os que chegam por Slack, não como projeto. O Marketing quer mudar a fórmula de "Cliente Ativo" porque os números não batem com os de Vendas. Uma tabela obsoleta custa milhares por mês em nuvem. Cientistas de dados recém-chegados levam semanas para achar datasets que já existem. Cada incidente oferece três respostas plausíveis e nenhuma é de graça.</p>
         <p class="mb-4 leading-relaxed">Cada escolha move cinco indicadores DAMA-DMBOK — Eficiência, Confiança, Responsabilidade, Segurança e Contexto — e consome um orçamento fixo. O ponto é o trade-off: a correção mais rápida costuma custar responsabilidade, e a mais rigorosa costuma custar orçamento e capital político. Ao final, o simulador avalia o padrão das suas decisões, não uma resposta isolada, e explica em qual princípio do DMBOK cada uma se apoiava.</p>
         <p class="mb-4 leading-relaxed">Leva cerca de dez minutos e não exige cadastro. Suas decisões são pontuadas no seu navegador e ficam lá. O ranking é a única exceção: se você escolher publicar seu resultado, o nome que digitar e sua pontuação são salvos para que todos os outros jogadores possam vê-los.</p>
 
-      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">O que você vai praticar</h3>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">O que você vai praticar</h3>
         <ul class="mb-4 list-disc space-y-2 pl-6 leading-relaxed">
           <li><strong>Papéis e responsabilidades</strong>: quando uma disputa precisa de um data steward com nome definido em vez de mais uma reunião.</li>
           <li><strong>Gestão de qualidade de dados</strong>: filtrar o dado ruim no relatório ou corrigi-lo na origem.</li>
@@ -439,25 +477,25 @@
           <li><strong>FinOps e governança da analítica</strong>: cotas de consulta, atribuição de custo e quem paga por um join ineficiente.</li>
         </ul>
 
-      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Perguntas sobre este simulador</h3>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Perguntas sobre este simulador</h3>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-900 mb-1">Preciso conhecer o DAMA-DMBOK para usar?</h4>
+          <h4 class="font-semibold text-slate-100 mb-1">Preciso conhecer o DAMA-DMBOK para usar?</h4>
           <p class="leading-relaxed">Não. Cada cenário é escrito em linguagem operacional e a análise após cada decisão nomeia o princípio do DMBOK envolvido. Muita gente usa o simulador como primeira introdução ao framework, não como prova sobre ele.</p>
         </div>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-900 mb-1">Existe uma única resposta certa em cada cenário?</h4>
+          <h4 class="font-semibold text-slate-100 mb-1">Existe uma única resposta certa em cada cenário?</h4>
           <p class="leading-relaxed">Não. Todas as opções são decisões que alguma organização real já tomou. A pontuação reflete o que cada opção custa e entrega nos cinco indicadores, então uma decisão defensável sob pressão de orçamento pode pontuar bem mesmo não sendo a resposta de manual.</p>
         </div>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-900 mb-1">É gratuito e coleta meus dados?</h4>
+          <h4 class="font-semibold text-slate-100 mb-1">É gratuito e coleta meus dados?</h4>
           <p class="leading-relaxed">É gratuito e não exige conta. Suas decisões são pontuadas no seu navegador e nunca saem dele. Publicar no ranking é opcional e é a única coisa enviada para nós: o nome que você digitar e sua pontuação final, que passam a aparecer no mesmo ranking global que todos os outros jogadores veem.</p>
         </div>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-900 mb-1">O que significa a pontuação final?</h4>
+          <h4 class="font-semibold text-slate-100 mb-1">O que significa a pontuação final?</h4>
           <p class="leading-relaxed">É um índice ponderado de maturidade sobre Eficiência, Confiança, Responsabilidade, Segurança e Contexto, mais o orçamento restante. É uma leitura do seu estilo de decisão, não uma certificação nem um diagnóstico da sua organização.</p>
         </div>
 
-      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Leituras relacionadas</h3>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Leituras relacionadas</h3>
         <ul class="list-disc space-y-2 pl-6">
           <li><a class="underline hover:no-underline" href="/simulators/pt/data-ownership-conflict/">Quem é o Dono Disso? Simulador de Conflitos de Propriedade de Dados</a></li>
           <li><a class="underline hover:no-underline" href="/simulators/pt/data-literacy/">Simulador de Alfabetização de Dados</a></li>
@@ -776,13 +814,6 @@
         if (el) el.style.width = percentage + '%'; 
     }
     
-    function setSafeColor(id, value) {
-        const el = document.getElementById(id);
-        if(!el) return;
-        el.className = 'metric-bar-fill h-full rounded-full ' + 
-            (value < 30 ? 'bg-red-500' : value < 70 ? 'bg-yellow-400' : 'bg-green-500');
-    }
-
     // Shuffle Array for randomized options
     function shuffleArray(array) {
         let curId = array.length;
@@ -844,13 +875,6 @@
         let bPct = clamp((state.metrics.budget / 50000) * 100, 0, 100);
         setSafeWidth('bar-budget', bPct);
 
-        // Update Colors based on health
-        setSafeColor('bar-efficiency', state.metrics.efficiency);
-        setSafeColor('bar-trust', state.metrics.trust);
-        setSafeColor('bar-accountability', state.metrics.accountability);
-        setSafeColor('bar-security', state.metrics.security);
-        setSafeColor('bar-context', state.metrics.context);
-
         // Show floating deltas if provided
         if(deltas) {
             showFloatingDelta('delta-efficiency', deltas.eff);
@@ -860,27 +884,24 @@
             showFloatingDelta('delta-context', deltas.ctx);
             
             if(deltas.budget !== 0) {
-                const el = document.getElementById('delta-budget');
-                if(el) {
-                    el.innerText = deltas.budget > 0 ? `+$${deltas.budget}` : `-$${Math.abs(deltas.budget)}`;
-                    el.style.color = deltas.budget > 0 ? '#4ade80' : '#f87171';
-                    el.style.animation = 'none';
-                    void el.offsetWidth; // trigger reflow
-                    el.style.animation = 'floatUp 2s forwards';
-                }
+                const sign = deltas.budget > 0 ? '+' : '-';
+                showFloatingDelta('delta-budget', deltas.budget,
+                    `${sign}$${Math.abs(deltas.budget)}`);
             }
         }
     }
 
-    function showFloatingDelta(id, val) {
+    function showFloatingDelta(id, val, text) {
         if(!val || val === 0) return;
         const el = document.getElementById(id);
         if(!el) return;
-        el.innerText = val > 0 ? `+${val}%` : `${val}%`;
-        el.style.color = val > 0 ? '#4ade80' : '#f87171';
-        el.style.animation = 'none';
-        void el.offsetWidth; // trigger reflow
-        el.style.animation = 'floatUp 2s forwards';
+        el.innerText = text || (val > 0 ? `+${val}%` : `${val}%`);
+        // Re-adding the class is what restarts the animation; setting it while
+        // it is already applied does nothing.
+        el.className = 'hidden font-bold text-[10px]';
+        void el.offsetWidth;
+        el.className = `font-bold text-[10px] delta-indicator ${val > 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+        setTimeout(() => { el.className = 'hidden font-bold text-[10px]'; }, 1800);
     }
 
     /*
@@ -915,6 +936,15 @@
           return;
         }
 
+        // The name given on the welcome screen pre-fills the leaderboard form,
+        // so nobody is asked for it twice. Empty is a valid answer: the form at
+        // the end is still there for anyone who decides to be listed later.
+        const welcomeName = document.getElementById('sim-welcome-name');
+        const publishField = document.getElementById('player-name');
+        if (welcomeName && publishField && publishField.value.trim() === '') {
+            publishField.value = welcomeName.value.trim();
+        }
+
         playSound('start');
         document.getElementById('welcome-screen').classList.add('hidden');
         document.getElementById('scenario-screen').classList.remove('hidden');
@@ -946,19 +976,18 @@
         // Shuffle options for this render so order is unpredictable
         let randomizedOptions = shuffleArray([...scen.options]);
 
-        randomizedOptions.forEach((opt) => {
+        randomizedOptions.forEach((opt, idx) => {
             const btn = document.createElement('button');
-            btn.className = 'btn-option w-full text-left bg-white border border-slate-200 p-5 rounded-xl hover:bg-slate-50 relative group';
-            
-            // NOTE: Impacts/Points/Costs are intentionally hidden from the button to force qualitative decision making
+            btn.className = 'sim-option';
+
+            // NOTE: Impactos/pontos/custos ficam de fora do botão de propósito,
+            // para forçar uma decisão qualitativa.
             btn.innerHTML = `
-                <div class="flex items-start">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-slate-800 text-lg mb-1">${opt.title}</h4>
-                        <p class="text-slate-600 text-sm leading-relaxed">${opt.desc}</p>
-                    </div>
-                    <i class="fas fa-chevron-right text-slate-300 group-hover:text-blue-500 mt-2 transition"></i>
-                </div>
+                <span class="sim-option__key">${'ABC'[idx]}</span>
+                <span class="sim-option__body">
+                    <h4 class="sim-option__title">${opt.title}</h4>
+                    <p class="sim-option__text">${opt.desc}</p>
+                </span>
             `;
             btn.onclick = () => handleOptionSelection(opt, scen);
             container.appendChild(btn);
@@ -989,11 +1018,11 @@
         debriefImpacts.innerHTML = '';
         
         const metricsList = [
-            { key: 'eff', icon: 'fa-bolt', color: 'text-yellow-600', bg: 'bg-yellow-50', label: 'Efic' },
-            { key: 'trust', icon: 'fa-shield-check', color: 'text-green-600', bg: 'bg-green-50', label: 'Conf' },
-            { key: 'acc', icon: 'fa-users-cog', color: 'text-blue-600', bg: 'bg-blue-50', label: 'Resp' },
-            { key: 'sec', icon: 'fa-lock', color: 'text-red-600', bg: 'bg-red-50', label: 'Seg' },
-            { key: 'ctx', icon: 'fa-book-open', color: 'text-purple-600', bg: 'bg-purple-50', label: 'Cont' }
+            { key: 'eff', icon: 'fa-bolt', color: 'text-amber-400', bg: 'bg-amber-500/10', label: 'Efic' },
+            { key: 'trust', icon: 'fa-shield-check', color: 'text-emerald-400', bg: 'bg-emerald-500/10', label: 'Conf' },
+            { key: 'acc', icon: 'fa-users-cog', color: 'text-cyan-400', bg: 'bg-cyan-500/10', label: 'Resp' },
+            { key: 'sec', icon: 'fa-lock', color: 'text-rose-400', bg: 'bg-rose-500/10', label: 'Seg' },
+            { key: 'ctx', icon: 'fa-book-open', color: 'text-purple-400', bg: 'bg-purple-500/10', label: 'Cont' }
         ];
 
         metricsList.forEach(m => {
@@ -1001,9 +1030,9 @@
             if(val !== 0) {
                 const sign = val > 0 ? '+' : '';
                 debriefImpacts.innerHTML += `
-                    <div class="${m.bg} p-2 rounded border border-slate-100 flex flex-col items-center justify-center text-center">
+                    <div class="${m.bg} p-2 rounded border border-slate-800 flex flex-col items-center justify-center text-center">
                         <i class="fas ${m.icon} ${m.color} mb-1 text-sm"></i>
-                        <span class="font-bold text-xs text-slate-800">${sign}${val}%</span>
+                        <span class="font-bold text-xs text-slate-200">${sign}${val}%</span>
                         <span class="text-[0.6rem] text-slate-500 uppercase">${m.label}</span>
                     </div>
                 `;
@@ -1012,12 +1041,12 @@
 
         if(opt.impact.budget !== 0) {
             const bSign = opt.impact.budget > 0 ? '+' : '';
-            const bColor = opt.impact.budget > 0 ? 'text-emerald-600' : 'text-red-600';
-            const bBg = opt.impact.budget > 0 ? 'bg-emerald-50' : 'bg-red-50';
+            const bColor = opt.impact.budget > 0 ? 'text-emerald-400' : 'text-rose-400';
+            const bBg = opt.impact.budget > 0 ? 'bg-emerald-500/10' : 'bg-rose-500/10';
             debriefImpacts.innerHTML += `
-                <div class="${bBg} p-2 rounded border border-slate-100 flex flex-col items-center justify-center text-center">
+                <div class="${bBg} p-2 rounded border border-slate-800 flex flex-col items-center justify-center text-center">
                     <i class="fas fa-wallet ${bColor} mb-1 text-sm"></i>
-                    <span class="font-bold text-xs text-slate-800">${bSign}$${Math.abs(opt.impact.budget)}</span>
+                    <span class="font-bold text-xs text-slate-200">${bSign}$${Math.abs(opt.impact.budget)}</span>
                     <span class="text-[0.6rem] text-slate-500 uppercase">Orçam</span>
                 </div>
             `;
@@ -1071,15 +1100,15 @@
         if(finalS >= 75) {
             title = "Líder de Governança Estruturado";
             desc = "Excelente! Você equilibrou perfeitamente a agilidade com as regras de governança estruturada da DAMA, construindo uma arquitetura resiliente dentro do orçamento.";
-            color = "#22c55e"; // green
+            color = "#50c878"; // --sim-good
         } else if (finalS >= 50) {
             title = "Operador de Dados Reativo";
             desc = "Bom esforço. Você salvou projetos no curto prazo, mas dependeu de comunicação manual ou excedeu um pouco o orçamento. Tente focar mais na automação de regras sistêmicas.";
-            color = "#eab308"; // yellow
+            color = "#e9b03c"; // --sim-warn
         } else {
             title = "Bombeiro em Silos";
             desc = "Cuidado. Suas decisões causaram gargalos, quebraram a confiança nos dados, introduziram riscos de segurança ou estouraram o orçamento operacional severamente. A plataforma está instável.";
-            color = "#ef4444"; // red
+            color = "#ef9384"; // --sim-bad
         }
 
         document.getElementById('profile-title').innerText = title;
@@ -1130,7 +1159,7 @@
 
     function triggerConfetti() {
         if(state.score > 70) {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#2563eb', '#4ade80', '#fbbf24'] });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#65b7c7', '#50c878', '#e9b03c'] });
         }
     }
 
@@ -1231,26 +1260,23 @@
                 ready: 'Nenhuma pontuação publicada ainda — termine uma partida e seja o primeiro.',
                 unavailable: 'O ranking global está indisponível agora. Sua pontuação acima não é afetada.'
             };
-            tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-500">${messages[leaderboardStatus]}</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" class="sim-table__empty">${messages[leaderboardStatus]}</td></tr>`;
             return;
         }
 
         leaderboard.forEach((entry, index) => {
-            let rankIcon = `<span class="font-bold text-slate-500">${index + 1}</span>`;
-            if (index === 0) rankIcon = `🥇`;
-            else if (index === 1) rankIcon = `🥈`;
-            else if (index === 2) rankIcon = `🥉`;
+            const rank = index < 3
+                ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
+                : `${index + 1}`;
 
             const score = Number(entry.score).toFixed(1);
             const isPlayer = playerRowKey !== null && playerRowKey === entry.name + '|' + score;
-            const rowClass = isPlayer ? 'leaderboard-row highlight' : 'leaderboard-row';
-            const nameBold = isPlayer ? 'font-bold text-blue-800' : 'text-slate-700';
 
             tbody.innerHTML += `
-                <tr class="${rowClass} border-b">
-                    <td class="p-3 text-center">${rankIcon}</td>
-                    <td class="p-3 ${nameBold}">${window.SimulatorLeaderboard.escapeHtml(entry.name)} ${isPlayer ? '(Você)' : ''}</td>
-                    <td class="p-3 text-right font-mono font-bold text-slate-800">${score}</td>
+                <tr${isPlayer ? ' class="sim-table__row--you"' : ''}>
+                    <td class="sim-table__rank${index < 3 ? ' sim-table__rank--' + (index + 1) : ''}">${rank}</td>
+                    <td class="sim-table__name">${window.SimulatorLeaderboard.escapeHtml(entry.name)}${isPlayer ? ' <span class="sim-table__you">(Você)</span>' : ''}</td>
+                    <td class="sim-table__score">${score}</td>
                 </tr>
             `;
         });

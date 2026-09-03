@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<html lang="en" class="h-full bg-slate-950 text-slate-100" data-sim-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,72 +34,27 @@
   <style>
     /* First-paint colours, so the page does not flash white before the
        Tailwind CDN has compiled and injected the utility styles. */
-    html { background-color: #020617; color: #f1f5f9; }
+    html { background-color: #04141c; color: #f2fafc; }
   </style>
   <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
   <!-- Tone.js for Web Audio sound effects -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha384-c6Uo4N9c3SOEigMVzP6IshUG1wQ5uMp3xeoQFiHWAQ86joWdgyajkvopySyKy/Z6" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
-  <!-- Google Fonts -->
-  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/fonts-inter.css">
-    <!-- The shared site header renders in Plus Jakarta Sans; the body copy on this page is Inter. -->
-    <link rel="stylesheet" href="/assets/css/fonts.css">
+  <!-- One typeface for the header, the app and the explainer below it. -->
+  <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css">
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              900: '#1e3a8a',
-            },
-          }
-        }
-      }
-    }
-  </script>
+  <!-- The shared simulator theme: one Tailwind palette, one typeface, one
+       set of radii and shadows for all nine simulator pages. Must load after
+       the CDN script above and before the first paint of any utility class. -->
+  <script src="/assets/js/simulator-tailwind-config.js"></script>
 
-  <style>
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
-
-    @keyframes floatUpFade {
-      0% { opacity: 0; transform: translateY(8px) scale(0.9); }
-      20% { opacity: 1; transform: translateY(0) scale(1.05); }
-      80% { opacity: 1; transform: translateY(-12px) scale(1); }
-      100% { opacity: 0; transform: translateY(-20px) scale(0.85); }
-    }
-    .delta-indicator {
-      animation: floatUpFade 1.8s ease-out forwards;
-    }
-
-    .glow-hover:hover {
-      box-shadow: 0 0 25px -5px rgba(37, 99, 235, 0.35);
-    }
-  </style>
   <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <link rel="stylesheet" href="/assets/css/simulator-theme.css">
+  <!-- One icon set. The inline heroicon SVGs this page used to carry are
+       now FontAwesome glyphs, the same set the other eight simulator
+       pages serve. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
   <!-- Private-space chrome, settled before the first paint. The rules it
        switches on live with the header styles in
        /assets/css/simulator-header.css, which this page already links above. -->
@@ -127,8 +82,8 @@
     <a class="skip-link" href="#simulator-main">Skip to simulator</a>
 
   <!-- Main Navigation Header -->
-  <header class="simulator-site-header shrink-0">
-    <div class="simulator-site-header-inner flex items-center justify-between">
+  <header class="simulator-site-header">
+    <div class="simulator-site-header-inner">
       <div class="simulator-brand-block">
         <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
         <div class="simulator-brand-copy">
@@ -139,32 +94,24 @@
       <div class="simulator-product-copy">
         <div class="simulator-title-row">
           <h1 class="simulator-title">DataGov OS</h1>
-          <span class="simulator-badge px-2 py-0.5 text-xs font-semibold border rounded-full">DAMA-DMBOK Edition</span>
         </div>
-        <p class="simulator-subtitle text-xs">Enterprise Data Governance Simulator (10 Challenges)</p>
+        <p class="simulator-subtitle">Enterprise Data Governance Simulator (10 Challenges)</p>
       </div>
 
-      <!-- Header Utilities -->
-      <div class="simulator-header-actions flex items-center space-x-2 sm:space-x-3">
-        <button id="audio-toggle-btn" onclick="toggleAudio()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
-          <svg id="audio-icon-on" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
-          </svg>
-          <span id="audio-label" class="hidden sm:inline">Sound On</span>
+      <div class="simulator-header-actions">
+        <button id="audio-toggle-btn" onclick="toggleAudio()" class="sim-btn sim-btn--ghost sim-btn--sm">
+          <i id="audio-icon-on" class="fas fa-volume-high fa-fw text-sm text-emerald-400"></i>
+          <span id="audio-label" class="simulator-action-label">Sound On</span>
         </button>
 
-        <button onclick="openDamaMatrixModal()" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-300 text-xs font-medium flex items-center space-x-2 transition">
-          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-          </svg>
-          <span class="hidden sm:inline">DAMA Framework</span>
+        <button onclick="openDamaMatrixModal()" class="sim-btn sim-btn--ghost sim-btn--sm">
+          <i class="fas fa-book-open fa-fw text-sm text-blue-400"></i>
+          <span class="simulator-action-label">DAMA Framework</span>
         </button>
 
-        <button onclick="resetSimulation()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium flex items-center space-x-1.5 transition">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span>Reset</span>
+        <button onclick="resetSimulation()" class="sim-btn sim-btn--ghost sim-btn--sm">
+          <i class="fas fa-rotate-right fa-fw text-sm"></i>
+          <span class="simulator-action-label">Reset</span>
         </button>
 
         <a href="/en/" class="simulator-home-link" aria-label="Return to main website">
@@ -191,11 +138,11 @@
     <aside class="lg:col-span-4 flex flex-col space-y-5">
       
       <!-- Governance Health Index Card -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+      <div class="sim-card p-5 overflow-hidden">
         <div class="absolute -right-6 -top-6 w-24 h-24 bg-blue-600/10 rounded-full blur-xl pointer-events-none"></div>
         
         <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-3">
-          <span class="text-xs uppercase font-mono tracking-wider text-slate-400 font-semibold">Governance Health Index</span>
+          <span class="sim-eyebrow sim-eyebrow--dim">Governance Health Index</span>
           <span id="health-status-badge" class="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
             Phase 1: Operational Baseline
           </span>
@@ -211,12 +158,10 @@
       </div>
 
       <!-- Key Metrics List -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col justify-between space-y-3">
+      <div class="sim-card p-4 flex-1 flex flex-col justify-between space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-slate-800 pb-2">
           <h2 class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
-            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
+            <i class="fas fa-chart-column fa-fw text-sm text-blue-400"></i>
             <span>Platform Operational Indicators</span>
           </h2>
           <span class="text-[10px] text-slate-500 font-mono">DAMA Metrics (Live)</span>
@@ -224,105 +169,100 @@
 
         <!-- Single-Row Compact Grid for 6 Metrics -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-          <!-- Metric 1: Process Efficiency -->
-          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-1 text-[11px]">
-              <div class="flex items-center space-x-1 truncate">
-                <div class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></div>
-                <span class="font-medium text-slate-300 truncate">Efficiency</span>
-              </div>
-              <div class="flex items-center space-x-1 font-mono shrink-0">
-                <span id="metric-efficiency-val" class="text-white font-bold text-xs">50%</span>
+          <div class="sim-meter sim-meter--1">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-bolt fa-fw" aria-hidden="true"></i>
+                Efficiency
+              </span>
+              <span class="sim-meter__value">
+                <span id="metric-efficiency-val">50%</span>
                 <span id="delta-efficiency" class="hidden font-bold text-[10px]"></span>
-              </div>
+              </span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-              <div id="bar-efficiency" class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            <div class="sim-meter__track">
+              <div id="bar-efficiency" class="sim-meter__fill" style="width: 50%"></div>
             </div>
           </div>
-
-          <!-- Metric 2: Data Trust & Quality -->
-          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-1 text-[11px]">
-              <div class="flex items-center space-x-1 truncate">
-                <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></div>
-                <span class="font-medium text-slate-300 truncate">Trust</span>
-              </div>
-              <div class="flex items-center space-x-1 font-mono shrink-0">
-                <span id="metric-trust-val" class="text-white font-bold text-xs">50%</span>
+          <div class="sim-meter sim-meter--2">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i>
+                Trust
+              </span>
+              <span class="sim-meter__value">
+                <span id="metric-trust-val">50%</span>
                 <span id="delta-trust" class="hidden font-bold text-[10px]"></span>
-              </div>
+              </span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-              <div id="bar-trust" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            <div class="sim-meter__track">
+              <div id="bar-trust" class="sim-meter__fill" style="width: 50%"></div>
             </div>
           </div>
-
-          <!-- Metric 3: Team Accountability -->
-          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-1 text-[11px]">
-              <div class="flex items-center space-x-1 truncate">
-                <div class="w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0"></div>
-                <span class="font-medium text-slate-300 truncate">Accountability</span>
-              </div>
-              <div class="flex items-center space-x-1 font-mono shrink-0">
-                <span id="metric-accountability-val" class="text-white font-bold text-xs">50%</span>
+          <div class="sim-meter sim-meter--3">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-users-gear fa-fw" aria-hidden="true"></i>
+                Accountability
+              </span>
+              <span class="sim-meter__value">
+                <span id="metric-accountability-val">50%</span>
                 <span id="delta-accountability" class="hidden font-bold text-[10px]"></span>
-              </div>
+              </span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-              <div id="bar-accountability" class="h-full bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            <div class="sim-meter__track">
+              <div id="bar-accountability" class="sim-meter__fill" style="width: 50%"></div>
             </div>
           </div>
-
-          <!-- Metric 4: Security & Privacy -->
-          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-1 text-[11px]">
-              <div class="flex items-center space-x-1 truncate">
-                <div class="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0"></div>
-                <span class="font-medium text-slate-300 truncate">Security</span>
-              </div>
-              <div class="flex items-center space-x-1 font-mono shrink-0">
-                <span id="metric-security-val" class="text-white font-bold text-xs">50%</span>
+          <div class="sim-meter sim-meter--4">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-lock fa-fw" aria-hidden="true"></i>
+                Security
+              </span>
+              <span class="sim-meter__value">
+                <span id="metric-security-val">50%</span>
                 <span id="delta-security" class="hidden font-bold text-[10px]"></span>
-              </div>
+              </span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-              <div id="bar-security" class="h-full bg-gradient-to-r from-rose-600 to-rose-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            <div class="sim-meter__track">
+              <div id="bar-security" class="sim-meter__fill" style="width: 50%"></div>
             </div>
           </div>
-
-          <!-- Metric 5: Data Context -->
-          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-1 text-[11px]">
-              <div class="flex items-center space-x-1 truncate">
-                <div class="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0"></div>
-                <span class="font-medium text-slate-300 truncate">Context</span>
-              </div>
-              <div class="flex items-center space-x-1 font-mono shrink-0">
-                <span id="metric-context-val" class="text-white font-bold text-xs">50%</span>
+          <div class="sim-meter sim-meter--5">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+                Context
+              </span>
+              <span class="sim-meter__value">
+                <span id="metric-context-val">50%</span>
                 <span id="delta-context" class="hidden font-bold text-[10px]"></span>
-              </div>
+              </span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-              <div id="bar-context" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-700 ease-out" style="width: 50%"></div>
+            <div class="sim-meter__track">
+              <div id="bar-context" class="sim-meter__fill" style="width: 50%"></div>
             </div>
           </div>
-
-          <!-- Metric 6: Operational Budget -->
-          <div class="relative group p-2 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-1 text-[11px]">
-              <div class="flex items-center space-x-1 truncate">
-                <div class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></div>
-                <span class="font-medium text-slate-300 truncate">Budget</span>
-              </div>
-              <div class="flex items-center space-x-1 font-mono shrink-0">
-                <span id="metric-budget-val" class="text-amber-400 font-bold text-xs">$100k</span>
+          <div class="sim-meter sim-meter--6">
+            <div class="sim-meter__head">
+              <span class="sim-meter__label">
+                <span class="sim-meter__dot"></span>
+                <i class="fas fa-wallet fa-fw" aria-hidden="true"></i>
+                Budget
+              </span>
+              <span class="sim-meter__value">
+                <span id="metric-budget-val">$50k</span>
                 <span id="delta-budget" class="hidden font-bold text-[10px]"></span>
-              </div>
+              </span>
             </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-              <div id="bar-budget" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full transition-all duration-700 ease-out" style="width: 100%"></div>
+            <div class="sim-meter__track">
+              <div id="bar-budget" class="sim-meter__fill" style="width: 100%"></div>
             </div>
           </div>
         </div>
@@ -334,9 +274,9 @@
     <main id="simulator-main" class="lg:col-span-8 flex flex-col space-y-6" tabindex="-1">
 
       <!-- Progress Stepper Bar -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
+      <div class="sim-card p-4 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center space-x-3">
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Progress</span>
+          <span class="sim-eyebrow sim-eyebrow--dim">Progress</span>
           <div class="flex items-center space-x-1" id="stepper-dots">
             <!-- Dynamically generated via JS for 10 steps -->
           </div>
@@ -347,7 +287,7 @@
       </div>
 
       <!-- Active Scenario Card -->
-      <div id="active-scenario-card" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 lg:p-7 shadow-xl flex-1 flex flex-col justify-between relative">
+      <div id="active-scenario-card" class="sim-card p-5 lg:p-7 flex-1 flex flex-col justify-between">
         <!-- Scenario Header & Dynamic Metadata -->
         <div>
           <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
@@ -366,7 +306,7 @@
             Metric Definition Conflict: The 'Active Customer' Formula
           </h2>
 
-          <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60 mb-5">
+          <div class="sim-panel p-4 mb-5">
             <p id="scenario-description" class="text-sm lg:text-base text-slate-300 leading-relaxed">
               "The Marketing team requests a change to the 'Active Customer' formula in the Data Warehouse because their numbers don't match Sales..."
             </p>
@@ -375,57 +315,33 @@
 
         <!-- OPTIONS SECTION (Visible during active choice state) -->
         <div id="choices-container" class="space-y-3.5 my-2">
-          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Select Strategic Approach (3 Options):</p>
+          <p class="sim-eyebrow sim-eyebrow--dim mb-2">Select Strategic Approach (3 Options):</p>
           
           <!-- Option A Button -->
-          <button onclick="handleSelectOption('A')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
-            <div class="flex items-start space-x-3.5">
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-                A
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center justify-between mb-1">
-                  <h3 id="option-a-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Option A</h3>
-                </div>
-                <p id="option-a-text" class="text-xs text-slate-400 leading-relaxed">
-                  Option description...
-                </p>
-              </div>
-            </div>
+          <button onclick="handleSelectOption('A')" class="sim-option">
+            <span class="sim-option__key">A</span>
+            <span class="sim-option__body">
+              <h3 id="option-a-label" class="sim-option__title">Option A</h3>
+              <p id="option-a-text" class="sim-option__text">Option description...</p>
+            </span>
           </button>
 
           <!-- Option B Button -->
-          <button onclick="handleSelectOption('B')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
-            <div class="flex items-start space-x-3.5">
-              <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-cyan-500 group-hover:text-slate-950 transition">
-                B
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center justify-between mb-1">
-                  <h3 id="option-b-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Option B</h3>
-                </div>
-                <p id="option-b-text" class="text-xs text-slate-400 leading-relaxed">
-                  Option description...
-                </p>
-              </div>
-            </div>
+          <button onclick="handleSelectOption('B')" class="sim-option">
+            <span class="sim-option__key">B</span>
+            <span class="sim-option__body">
+              <h3 id="option-b-label" class="sim-option__title">Option B</h3>
+              <p id="option-b-text" class="sim-option__text">Option description...</p>
+            </span>
           </button>
 
           <!-- Option C Button -->
-          <button onclick="handleSelectOption('C')" class="w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 hover:border-slate-700 transition group relative overflow-hidden glow-hover">
-            <div class="flex items-start space-x-3.5">
-              <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm shrink-0 group-hover:bg-blue-600 group-hover:text-white transition">
-                C
-              </div>
-              <div class="flex-1">
-                <div class="flex items-center justify-between mb-1">
-                  <h3 id="option-c-label" class="text-sm font-semibold text-slate-200 group-hover:text-blue-400 transition">Option C</h3>
-                </div>
-                <p id="option-c-text" class="text-xs text-slate-400 leading-relaxed">
-                  Option description...
-                </p>
-              </div>
-            </div>
+          <button onclick="handleSelectOption('C')" class="sim-option">
+            <span class="sim-option__key">C</span>
+            <span class="sim-option__body">
+              <h3 id="option-c-label" class="sim-option__title">Option C</h3>
+              <p id="option-c-text" class="sim-option__text">Option description...</p>
+            </span>
           </button>
         </div>
 
@@ -433,15 +349,11 @@
         <div id="debrief-container" class="hidden space-y-4 my-2">
           <div class="p-5 rounded-xl border border-blue-500/30 bg-blue-950/20 relative overflow-hidden">
             <div class="absolute top-0 right-0 p-4 opacity-10">
-              <svg class="w-24 h-24 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-              </svg>
+              <i class="fas fa-circle-info fa-fw text-8xl text-blue-400"></i>
             </div>
 
-            <div class="flex items-center space-x-2 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
+            <div class="sim-eyebrow flex items-center gap-2 mb-2">
+              <i class="fas fa-circle-check fa-fw text-sm"></i>
               <span>Governance Analysis & Strategic Impact</span>
             </div>
 
@@ -454,8 +366,8 @@
               <!-- Dynamically populated -->
             </div>
 
-            <div class="bg-slate-900/80 p-4 rounded-lg border border-slate-800 mb-3">
-              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-1 flex items-center space-x-1.5">
+            <div class="sim-panel p-4 mb-3">
+              <h4 class="sim-eyebrow sim-eyebrow--muted mb-1 flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>Core DAMA-DMBOK Principle</span>
               </h4>
@@ -470,26 +382,22 @@
           </div>
 
           <!-- Advance Button -->
-          <button id="next-btn" onclick="advanceScenario()" class="w-full py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 flex items-center justify-center space-x-2 transition">
+          <button id="next-btn" onclick="advanceScenario()" class="sim-btn sim-btn--accent sim-btn--block">
             <span>Next Challenge</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-            </svg>
+            <i class="fas fa-arrow-right fa-fw text-sm"></i>
           </button>
         </div>
 
       </div>
 
       <!-- FINAL SIMULATION SUMMARY CARD (Hidden until end) -->
-      <div id="simulation-summary-card" class="hidden bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl space-y-6">
+      <div id="simulation-summary-card" class="hidden sim-card p-4 sm:p-6 lg:p-8 space-y-6">
         
         <div class="text-center max-w-2xl mx-auto space-y-2">
           <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-400 mb-1">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-            </svg>
+            <i class="fas fa-award fa-fw text-xl"></i>
           </div>
-          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-widest">
+          <span class="sim-badge">
             Simulation Completed (10 Challenges)
           </span>
           <h2 class="text-2xl lg:text-3xl font-extrabold text-white">Governance Evaluation Report</h2>
@@ -510,7 +418,7 @@
             </p>
           </div>
 
-          <div class="shrink-0 text-center bg-slate-900/80 px-6 py-4 rounded-xl border border-slate-700/50 min-w-[160px]">
+          <div class="sim-panel shrink-0 text-center px-6 py-4 min-w-[160px]">
             <span class="text-[11px] font-mono text-slate-400 block mb-1">Final Score</span>
             <span id="summary-final-score" class="text-3xl font-extrabold text-blue-400 font-mono">85.5</span>
             <span class="text-[10px] text-slate-500 block mt-1">out of 100 max index</span>
@@ -520,27 +428,27 @@
 
         <!-- Metrics Summary Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+          <div class="sim-panel p-3 text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">Efficiency</span>
             <span id="summary-metric-eff" class="text-lg font-bold text-cyan-400 font-mono">75%</span>
           </div>
-          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+          <div class="sim-panel p-3 text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">Trust</span>
             <span id="summary-metric-trust" class="text-lg font-bold text-emerald-400 font-mono">85%</span>
           </div>
-          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+          <div class="sim-panel p-3 text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">Accountability</span>
             <span id="summary-metric-acc" class="text-lg font-bold text-indigo-400 font-mono">90%</span>
           </div>
-          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+          <div class="sim-panel p-3 text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">Security</span>
             <span id="summary-metric-sec" class="text-lg font-bold text-rose-400 font-mono">80%</span>
           </div>
-          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+          <div class="sim-panel p-3 text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">Context</span>
             <span id="summary-metric-ctx" class="text-lg font-bold text-purple-400 font-mono">85%</span>
           </div>
-          <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-800 text-center">
+          <div class="sim-panel p-3 text-center">
             <span class="text-[10px] text-slate-400 block mb-0.5">Remaining Budget</span>
             <span id="summary-metric-budget" class="text-lg font-bold text-amber-400 font-mono">$45,000</span>
           </div>
@@ -548,10 +456,8 @@
 
         <!-- Key Conclusion -->
         <div class="p-4 rounded-xl bg-blue-950/20 border border-blue-500/20 space-y-1.5">
-          <h3 class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center space-x-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+          <h3 class="sim-eyebrow flex items-center gap-2">
+            <i class="fas fa-circle-info fa-fw text-sm"></i>
             <span>DAMA-DMBOK Executive Key Conclusion</span>
           </h3>
           <p class="text-xs lg:text-sm text-slate-200 leading-relaxed font-medium">
@@ -560,43 +466,41 @@
         </div>
 
         <!-- LEADERBOARD SUBMISSION FORM -->
-        <div id="leaderboard-submission-form" class="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div id="leaderboard-submission-form" class="sim-panel p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div class="w-full sm:w-auto flex-1">
             <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
               Save your name to the Global Leaderboard:
             </label>
-            <input type="text" id="player-name-input" placeholder="e.g. Maria Silva - CDO" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+            <input type="text" id="player-name-input" placeholder="e.g. Maria Silva - CDO" class="sim-input">
           </div>
-          <button id="save-score-btn" onclick="savePlayerScore()" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="sim-btn sim-btn--accent sim-btn--sm w-full sm:w-auto shrink-0">
+            <i class="fas fa-check fa-fw text-sm"></i>
             <span>Save to Ranking</span>
           </button>
         </div>
 
         <!-- GLOBAL LEADERBOARD TABLE -->
-        <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+        <div class="sim-card p-5 space-y-3">
           <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-slate-800 pb-2">
             <h3 class="text-xs font-bold text-white flex items-center space-x-2">
-              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-              </svg>
+              <i class="fas fa-wand-magic-sparkles fa-fw text-sm text-amber-400"></i>
               <span>Global Leaderboard</span>
             </h3>
             <span class="text-[10px] text-slate-500 font-mono">Player Rankings</span>
           </div>
 
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-300">
-              <thead class="text-[10px] uppercase font-mono bg-slate-800/50 text-slate-400">
+          <div class="sim-table-wrap">
+            <table class="sim-table">
+              <thead>
                 <tr>
-                  <th class="py-2 px-3">#</th>
-                  <th class="py-2 px-3">Player</th>
-                  <th class="py-2 px-3 text-right">Score</th>
-                  <th class="py-2 px-3">Evaluated Profile</th>
-                  <th class="py-2 px-3 text-right">Date</th>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th class="sim-table__score">Score</th>
+                  <th>Evaluated Profile</th>
+                  <th class="sim-table__meta">Date</th>
                 </tr>
               </thead>
-              <tbody id="leaderboard-table-body" class="divide-y divide-slate-800/60 font-mono text-[11px]">
+              <tbody id="leaderboard-table-body">
                 <!-- Dynamically inserted via JS -->
               </tbody>
             </table>
@@ -613,7 +517,7 @@
           <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
           
           <div class="space-y-1 text-center sm:text-left">
-            <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full">
+            <span class="sim-badge">
               Specialized Data Advisory
             </span>
             <h3 class="text-lg lg:text-xl font-bold text-white">
@@ -624,27 +528,21 @@
             </p>
           </div>
 
-          <a href="/en/#contact-form-start" target="_blank" rel="noopener noreferrer" class="shrink-0 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 flex items-center space-x-2 transition transform hover:-translate-y-0.5">
+          <a href="/en/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg shrink-0">
             <span>Let's build your framework</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-            </svg>
+            <i class="fas fa-arrow-up-right-from-square fa-fw text-sm"></i>
           </a>
         </div>
 
         <!-- Action Footer Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <button onclick="openDamaMatrixModal()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center justify-center space-x-2 transition">
-            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-            </svg>
+          <button onclick="openDamaMatrixModal()" class="sim-btn sim-btn--ghost sim-btn--sm w-full sm:w-auto">
+            <i class="fas fa-book-open fa-fw text-sm text-blue-400"></i>
             <span>Review DAMA Knowledge Areas</span>
           </button>
 
-          <button onclick="resetSimulation()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
+          <button onclick="resetSimulation()" class="sim-btn sim-btn--ghost w-full sm:w-auto">
+            <i class="fas fa-rotate-right fa-fw text-sm"></i>
             <span>Restart Simulation</span>
           </button>
         </div>
@@ -708,7 +606,7 @@
 
   <!-- MODAL: DAMA-DMBOK Knowledge Areas Reference -->
   <div id="dama-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="sim-card max-w-3xl w-full max-h-[85vh] flex flex-col overflow-hidden">
       <!-- Modal Header -->
       <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
         <div class="flex items-center space-x-2">
@@ -720,10 +618,8 @@
             <p class="text-xs text-slate-400">Core Areas for Enterprise Data Governance</p>
           </div>
         </div>
-        <button onclick="closeDamaMatrixModal()" aria-label="Close the DAMA-DMBOK matrix" class="text-slate-400 hover:text-white transition">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
+        <button onclick="closeDamaMatrixModal()" aria-label="Close the DAMA-DMBOK matrix" class="sim-btn sim-btn--quiet">
+          <i class="fas fa-xmark fa-fw text-lg"></i>
         </button>
       </div>
 
@@ -734,27 +630,27 @@
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+          <div class="sim-panel p-3.5 space-y-1">
             <span class="font-bold text-blue-400 block text-xs">1. Data Governance</span>
             <p class="text-slate-400">Planning, oversight, and control over data management and strategy.</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+          <div class="sim-panel p-3.5 space-y-1">
             <span class="font-bold text-blue-400 block text-xs">2. Data Security & Privacy</span>
             <p class="text-slate-400">Ensuring confidentiality, access control, regulatory compliance (GDPR/CCPA), and encryption.</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+          <div class="sim-panel p-3.5 space-y-1">
             <span class="font-bold text-blue-400 block text-xs">3. Metadata & Context</span>
             <p class="text-slate-400">Business glossaries, data catalogs, technical definitions, and end-to-end lineage.</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+          <div class="sim-panel p-3.5 space-y-1">
             <span class="font-bold text-blue-400 block text-xs">4. Data Quality</span>
             <p class="text-slate-400">Defining, measuring, monitoring, and improving data fitness for use.</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+          <div class="sim-panel p-3.5 space-y-1">
             <span class="font-bold text-blue-400 block text-xs">5. Master & Reference Data</span>
             <p class="text-slate-400">Single customer/entity records, identity resolution, and enterprise taxonomies.</p>
           </div>
-          <div class="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-1">
+          <div class="sim-panel p-3.5 space-y-1">
             <span class="font-bold text-blue-400 block text-xs">6. Data Architecture</span>
             <p class="text-slate-400">Structural design, semantic layers, and FinOps cloud cost management.</p>
           </div>
@@ -762,7 +658,7 @@
       </div>
 
       <div class="px-6 py-3 bg-slate-900/90 border-t border-slate-800 flex justify-end">
-        <button onclick="closeDamaMatrixModal()" aria-label="Close the DAMA-DMBOK matrix" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white transition">
+        <button onclick="closeDamaMatrixModal()" aria-label="Close the DAMA-DMBOK matrix" class="sim-btn sim-btn--ghost sim-btn--sm">
           Close Reference
         </button>
       </div>
@@ -1582,7 +1478,7 @@
 
       document.getElementById('leaderboard-submission-form').innerHTML = `
         <div class="w-full text-center py-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-          ✓ Your score has been successfully recorded in the Global Leaderboard!
+          <i class="fas fa-check fa-fw" aria-hidden="true"></i> Your score has been successfully recorded in the Global Leaderboard!
         </div>
       `;
       playSoundEffect('success');
@@ -1608,7 +1504,7 @@
           unavailable: "The global leaderboard is unavailable right now. Your own score above is unaffected."
         };
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="5" class="py-4 px-3 text-center text-slate-500">${messages[leaderboardStatus]}</td>`;
+        tr.innerHTML = `<td colspan="5" class="sim-table__empty">${messages[leaderboardStatus]}</td>`;
         tbody.appendChild(tr);
         return;
       }
@@ -1617,16 +1513,18 @@
         const tr = document.createElement('tr');
         const score = Number(entry.score).toFixed(1);
         const isPlayer = playerRowKey !== null && playerRowKey === entry.name + '|' + score;
-        tr.className = isPlayer ? "bg-blue-500/10 transition" : "hover:bg-slate-800/40 transition";
+        if (isPlayer) tr.className = 'sim-table__row--you';
 
-        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}`;
+        const rank = idx < 3
+          ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
+          : `${idx + 1}`;
 
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-bold text-slate-400">${medal}</td>
-          <td class="py-2.5 px-3 font-semibold text-white">${escapeHtml(entry.name)}${isPlayer ? ' <span class="text-blue-300">(You)</span>' : ''}</td>
-          <td class="py-2.5 px-3 text-right font-bold text-blue-400">${score}</td>
-          <td class="py-2.5 px-3 text-slate-400">${escapeHtml(profileForScore(score))}</td>
-          <td class="py-2.5 px-3 text-right text-slate-500">${window.SimulatorLeaderboard.formatDate(entry.createdAt)}</td>
+          <td class="sim-table__rank${idx < 3 ? ' sim-table__rank--' + (idx + 1) : ''}">${rank}</td>
+          <td class="sim-table__name">${escapeHtml(entry.name)}${isPlayer ? ' <span class="sim-table__you">(You)</span>' : ''}</td>
+          <td class="sim-table__score">${score}</td>
+          <td>${escapeHtml(profileForScore(score))}</td>
+          <td class="sim-table__meta">${window.SimulatorLeaderboard.formatDate(entry.createdAt)}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -1670,10 +1568,10 @@
             <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
               Save your name to the Global Leaderboard:
             </label>
-            <input type="text" id="player-name-input" placeholder="e.g. Maria Silva - CDO" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+            <input type="text" id="player-name-input" placeholder="e.g. Maria Silva - CDO" class="sim-input">
           </div>
-          <button id="save-score-btn" onclick="savePlayerScore()" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="sim-btn sim-btn--accent sim-btn--sm w-full sm:w-auto shrink-0">
+            <i class="fas fa-check fa-fw text-sm"></i>
             <span>Save to Ranking</span>
           </button>
         `;
@@ -1703,5 +1601,37 @@
 </footer>
 <script type="module" src="/assets/js/language-switch.js"></script>
 <script src="/assets/js/simulator-footer-reveal.js" defer></script>
+<!--
+  The shared welcome overlay. Behaviour lives in
+  /assets/js/simulator-welcome.js; the wording lives here so that it stays
+  translated and stays visible to scripts/extract-simulator-text.mjs.
+-->
+<div class="sim-welcome" data-sim-welcome data-sim-welcome-target="#player-name-input" hidden>
+  <div class="sim-welcome__dialog" role="dialog" aria-modal="true" aria-labelledby="sim-welcome-title">
+    <p class="sim-eyebrow">DAMA-DMBOK &middot; 10 incidents</p>
+    <h2 id="sim-welcome-title" class="sim-welcome__title">You have just taken over as Data Lead.</h2>
+    <p class="sim-welcome__lead">Ten governance incidents arrive one after another &mdash; the kind that show up as a Slack message rather than as a project. Each one offers three plausible responses, and none of them is free.</p>
+    <ul class="sim-welcome__facts">
+      <li class="sim-badge sim-badge--neutral">~10 minutes</li>
+      <li class="sim-badge sim-badge--neutral">No sign-up</li>
+      <li class="sim-badge sim-badge--neutral">Scored in your browser</li>
+    </ul>
+    <p class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed"><strong>Your goal:</strong> finish with the five DAMA-DMBOK health indicators as high as you can. The easiest decision is rarely the right one.</p>
+    <div class="sim-welcome__start">
+      <div class="sim-welcome__field">
+        <label class="sim-welcome__label" for="sim-welcome-name">Your name or title, for the leaderboard</label>
+        <input type="text" id="sim-welcome-name" class="sim-input" placeholder="e.g. Maria Silva - CDO" maxlength="30" autocomplete="off">
+      </div>
+      <div class="sim-welcome__actions">
+        <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" data-sim-welcome-start>
+          <i class="fas fa-play fa-fw" aria-hidden="true"></i> Start the simulation
+        </button>
+        <button type="button" class="sim-btn sim-btn--quiet" data-sim-welcome-skip>Just look around</button>
+      </div>
+      <p class="sim-welcome__note">Optional. Nothing is sent anywhere unless you choose to publish your score at the end.</p>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/simulator-welcome.js" defer></script>
 </body>
 </html>

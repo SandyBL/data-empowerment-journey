@@ -35,6 +35,7 @@ select:focus-visible {
   position: sticky;
   top: 0;
   z-index: 50;
+  flex: 0 0 auto;
   border-bottom: 1px solid rgb(101 183 199 / 0.38) !important;
   background: #003366 !important;
   color: #ffffff;
@@ -42,16 +43,24 @@ select:focus-visible {
   backdrop-filter: blur(12px);
 }
 
+/*
+ * The header row.
+ *
+ * The flexbox lives here rather than in `flex items-center justify-between` on
+ * nine header elements, because two of the nine simulators are hand-written CSS
+ * with no utility framework to supply those classes -- which is how they ended
+ * up with a local `.header-container` whose own padding stacked on this
+ * min-height and made those two headers visibly taller than the other seven.
+ */
 .simulator-site-header-inner {
+  display: flex;
   width: 100%;
   max-width: 80rem;
   min-height: 5rem;
   margin: 0 auto;
   padding: 0 1rem;
-}
-
-.simulator-site-header.simulator-site-header-inner {
-  max-width: none;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .simulator-brand-block {
@@ -110,6 +119,7 @@ select:focus-visible {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
+  gap: 0.5rem;
 }
 
 /*
@@ -132,6 +142,19 @@ select:focus-visible {
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/*
+ * Wording beside a header action's icon.
+ *
+ * Each simulator hid this its own way: Tailwind's `hidden sm:inline` on one,
+ * `hidden md:inline` on another, a local media query on a third page's own class
+ * -- and one label that was never hidden at all, which is why the English
+ * Day-to-Day header wrapped where the others did not. One class, one
+ * breakpoint, so a sound toggle is the same width on all nine pages.
+ */
+.simulator-action-label {
   white-space: nowrap;
 }
 
@@ -181,12 +204,13 @@ select:focus-visible {
 .simulator-subtitle {
   margin-top: 0.2rem;
   color: #b9dce4 !important;
-}
-
-.simulator-badge {
-  border-color: rgb(101 183 199 / 0.42) !important;
-  background: rgb(9 91 115 / 0.72) !important;
-  color: #d9f2f7 !important;
+  /* Size and weight live here, not on the pages. Three of the nine simulators
+     used to say text-xs and one said text-sm, which is why the subtitles never
+     lined up across simulators. */
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.35 !important;
 }
 
 /* `.workspace-banner-actions button` appears alongside the header selectors
@@ -350,6 +374,10 @@ select:focus-visible {
   .simulator-title {
     font-size: 1.05rem !important;
   }
+
+  .simulator-header-actions {
+    gap: 0.75rem;
+  }
 }
 
 @media (max-width: 760px) {
@@ -362,8 +390,7 @@ select:focus-visible {
   }
 
   .simulator-brand-name,
-  .simulator-subtitle,
-  .simulator-badge {
+  .simulator-subtitle {
     display: none !important;
   }
 
@@ -384,9 +411,12 @@ select:focus-visible {
 }
 
 @media (max-width: 900px) {
-  .simulator-product-copy .simulator-subtitle,
-  .simulator-product-copy .simulator-badge {
+  .simulator-product-copy .simulator-subtitle {
     display: none !important;
+  }
+
+  .simulator-action-label {
+    display: none;
   }
 }
 
@@ -650,8 +680,6 @@ html[data-workspace] .simulator-breadcrumb,
 html[data-workspace-pending] .simulator-breadcrumb,
 html[data-workspace] .simulator-site-footer,
 html[data-workspace-pending] .simulator-site-footer,
-html[data-workspace] .simulator-public-footer,
-html[data-workspace-pending] .simulator-public-footer,
 html[data-workspace] .simulator-locale-nav,
 html[data-workspace-pending] .simulator-locale-nav,
 html[data-workspace] .simulator-explainer,

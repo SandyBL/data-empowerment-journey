@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-sim-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,30 +29,63 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos","url":"https://datagovjourney.com/simulators/es/data-ownership-conflict/","description":"Simulador gratuito basado en RACI: decide si el dueño de negocio, el data steward o TI es responsable de cada tarea de datos según el marco DAMA de gobierno de datos.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"es","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Separar responsabilidad de ejecución","Propiedad de negocio sobre las definiciones","Stewardship entre áreas","Los límites del mandato de TI","Rutas de escalamiento"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://datagovjourney.com/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/#simulators"},{"@type":"ListItem","position":3,"name":"¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos","item":"https://datagovjourney.com/simulators/es/data-ownership-conflict/"}],"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#faq","inLanguage":"es","isPartOf":{"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#app"},"mainEntity":[{"@type":"Question","name":"¿Cuál es la diferencia entre un data owner y un data steward?","acceptedAnswer":{"@type":"Answer","text":"El data owner rinde cuentas: decide qué significa el dato, aprueba sus reglas de negocio y firma el riesgo de usarlo. El data steward es responsable de mantenerlo apto para el uso diario: perfilar la calidad, mantener el glosario y el catálogo, y conciliar reglas entre áreas. La propiedad es un derecho de decisión; el stewardship es un trabajo continuo."}},{"@type":"Question","name":"¿Dónde encaja TI en la propiedad del dato?","acceptedAnswer":{"@type":"Answer","text":"TI es dueña de la capa de ejecución: pipelines, almacenamiento, infraestructura, control de acceso y respaldos. No es dueña del significado de negocio. Cuando una métrica está mal porque su definición está mal, eso es una pregunta de propiedad, no un ticket de ingeniería: justamente la confusión sobre la que se construyó este simulador."}},{"@type":"Question","name":"¿Necesito una matriz RACI formal antes de empezar?","acceptedAnswer":{"@type":"Answer","text":"No. El simulador sirve para descubrir cuál es tu RACI implícito. Muchos equipos lo resuelven juntos y descubren que no coinciden en escenarios que daban por cerrados, lo cual suele ser más útil que la puntuación."}},{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No hay cuenta y no pedimos correo. Los diez escenarios se puntúan por completo en tu navegador; lo único que sale de ahí es la entrada de la tabla de posiciones, y solo si pulsas Publicar: el nombre que escribiste, tu puntaje final y el tiempo que tardaste en responder pasan a aparecer en la misma tabla global que ve el resto de jugadores."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/images/dg-logo.png","width":400,"height":388}}]}</script>
+  <style>
+      /* First-paint colours, so the page does not flash white before the rest
+         of the console has loaded. */
+      html { background-color: #04141c; color: #f2fafc; }
+  </style>
   <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css">
   
   <style>
+    /*
+     * These names are the same nineteen this page has always used; only the
+     * values moved. They now resolve to the shared console tokens in
+     * /assets/css/simulator-theme.css, which is what converts this page --
+     * the one simulator written in hand-rolled CSS rather than Tailwind --
+     * onto the same surface as the other eight without rewriting the six
+     * hundred lines of rules below that reference them.
+     *
+     * Two names had to split. --dark-navy-teal was doing duty as both a dark
+     * background (the header, the tier banner) and as heading ink on a white
+     * card; on the console those are opposite ends of the ramp, so the ink
+     * role moved to --heading-ink. --light-bg was both the page ground and the
+     * inset-panel fill, and only the panel meaning survives -- the page ground
+     * is the console gradient now, which simulator-theme.css paints on <body>.
+     */
     :root {
-      --primary-teal: #0E4B59;
-      --dark-navy-teal: #082F38;
-      --accent-orange: #E05A2B;
-      --accent-orange-hover: #c84c21;
-      --light-bg: #F4F7F6;
-      --card-bg: #FFFFFF;
-      --text-main: #1E293B;
-      --text-muted: #64748B;
-      --border-color: #E2E8F0;
-      --success-green: #10B981;
-      --success-light: #ECFDF5;
-      --error-red: #EF4444;
-      --error-light: #FEF2F2;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
-      --shadow-md: 0 10px 25px -5px rgba(8, 47, 56, 0.08), 0 8px 10px -6px rgba(8, 47, 56, 0.04);
-      --shadow-lg: 0 20px 30px -10px rgba(8, 47, 56, 0.15);
+      /* Accent: brand --dejourney-cyan, and the deep teal behind it. */
+      --primary-teal: #65b7c7;
+      --accent-deep: #095b73;
+      /* Dark grounds. */
+      --dark-navy-teal: #04222e;
+      /* Brand orange, the single call-to-action colour on the console. */
+      --accent-orange: #e95d24;
+      --accent-orange-hover: #c25419;
+      /* Surfaces: an inset panel, and the card it sits in. */
+      --light-bg: #0d3d4e;
+      --card-bg: rgb(7 42 56 / 0.88);
+      /* Ink. --heading-ink is the former --dark-navy-teal text role. */
+      --heading-ink: #f2fafc;
+      --text-main: #e2f0f4;
+      --text-muted: #9dc2cc;
+      --border-color: #1d5566;
+      /* States: brand emerald, and a warmed coral in place of a stock red,
+         which read as a browser error against this palette. */
+      --success-green: #50c878;
+      --success-light: rgb(80 200 120 / 0.12);
+      --error-red: #ef9384;
+      --error-light: rgb(239 147 132 / 0.12);
+      --highlight-soft: rgb(101 183 199 / 0.14);
+      --amber: #e9b03c;
+      /* Geometry: 1.5rem is .simulator-card on the homepage, 0.75rem the one
+         step down that keeps a control looking like it belongs to its card. */
+      --radius-lg: 1.5rem;
+      --radius-md: 0.75rem;
+      --radius-sm: 0.5rem;
+      --shadow-sm: 0 2px 6px rgb(2 22 33 / 0.3);
+      --shadow-md: 0 24px 48px rgb(2 22 33 / 0.28);
+      --shadow-lg: 0 28px 56px rgb(2 22 33 / 0.4);
     }
 
     * {
@@ -63,7 +96,8 @@
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--light-bg);
+      /* The ground is the console gradient painted on <body> by
+         /assets/css/simulator-theme.css; no background-color here. */
       color: var(--text-main);
       line-height: 1.6;
       min-height: 100vh;
@@ -71,100 +105,8 @@
       flex-direction: column;
     }
 
-    header {
-      background-color: var(--dark-navy-teal);
-      color: white;
-      padding: 1rem 1.5rem;
-      box-shadow: var(--shadow-md);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand-section {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-logo-img {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent-orange);
-      background-color: #ffffff;
-    }
-
-    .brand-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .brand-name {
-      font-weight: 800;
-      font-size: 1.1rem;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-    }
-
-    .brand-subtitle-badge {
-      display: inline-block;
-      background: rgba(224, 90, 43, 0.2);
-      color: #FF9D7D;
-      border: 1px solid rgba(224, 90, 43, 0.4);
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-weight: 600;
-      margin-top: 2px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .btn-icon {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-icon:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
     /* The emoji and the wording are addressed separately so the phone header can
        keep the first and drop the second; see the max-width: 768px block. */
-    .btn-icon-glyph {
-      line-height: 1;
-    }
-
-    .btn-icon-label {
-      white-space: nowrap;
-    }
-
     main {
       flex: 1;
       max-width: 900px;
@@ -198,28 +140,6 @@
     }
 
     /* PANTALLA DE BIENVENIDA */
-    .welcome-card {
-      text-align: center;
-      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-    }
-
-    .welcome-title {
-      font-size: 2.2rem;
-      color: var(--dark-navy-teal);
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-      line-height: 1.25;
-    }
-
-    .welcome-tagline {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
     .roles-preview {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -250,58 +170,6 @@
       color: var(--text-muted);
     }
 
-    .form-group {
-      max-width: 420px;
-      margin: 0 auto 1.5rem auto;
-      text-align: left;
-    }
-
-    .form-label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
-      color: var(--dark-navy-teal);
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      font-family: inherit;
-      font-size: 1rem;
-      transition: border-color 0.2s;
-    }
-
-    /* The border tint alone is not a focus indicator: it changes only hue and
-       is easy to miss. WCAG 2.4.7 wants the ring, so keep both. */
-    .form-input:focus-visible {
-      outline: 3px solid var(--primary-teal);
-      outline-offset: 2px;
-      border-color: var(--primary-teal);
-    }
-
-    .btn-primary {
-      background-color: var(--accent-orange);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(224, 90, 43, 0.3);
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent-orange-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(224, 90, 43, 0.4);
-    }
 
     /* PANTALLA DE JUEGO */
     .game-header {
@@ -332,7 +200,7 @@
       background: rgba(255, 255, 255, 0.15);
       padding: 2px 10px;
       border-radius: 12px;
-      color: #FFD166;
+      color: var(--amber);
     }
 
     .progress-bar-container {
@@ -366,52 +234,9 @@
     .scenario-text {
       font-size: 1.35rem;
       font-weight: 700;
-      color: var(--dark-navy-teal);
+      color: var(--heading-ink);
       margin-bottom: 2rem;
       line-height: 1.4;
-    }
-
-    .choices-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
-    }
-
-    .choice-btn {
-      background: #FFFFFF;
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.25rem 1rem;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    .choice-btn:hover {
-      border-color: var(--primary-teal);
-      background-color: #F8FAFC;
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .choice-icon {
-      font-size: 2rem;
-    }
-
-    .choice-title {
-      font-weight: 700;
-      color: var(--text-main);
-      font-size: 1rem;
-    }
-
-    .choice-subtitle {
-      font-size: 0.75rem;
-      color: var(--text-muted);
     }
 
     /* MODAL DE RETROALIMENTACIÓN */
@@ -421,8 +246,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(8, 47, 56, 0.7);
-      backdrop-filter: blur(4px);
+      background: rgb(2 12 18 / 0.84);
+      backdrop-filter: blur(6px);
       display: none;
       justify-content: center;
       align-items: center;
@@ -534,7 +359,7 @@
 
     .tier-badge-card {
       text-align: center;
-      background: linear-gradient(135deg, var(--dark-navy-teal) 0%, var(--primary-teal) 100%);
+      background: linear-gradient(135deg, var(--dark-navy-teal) 0%, var(--accent-deep) 100%);
       color: white;
     }
 
@@ -549,7 +374,7 @@
     .tier-name {
       font-size: 2rem;
       font-weight: 800;
-      color: #FFD166;
+      color: var(--amber);
       margin-bottom: 0.5rem;
     }
 
@@ -569,7 +394,7 @@
 
     .section-title {
       font-size: 1.2rem;
-      color: var(--dark-navy-teal);
+      color: var(--heading-ink);
       font-weight: 700;
       margin-bottom: 1rem;
       display: flex;
@@ -593,7 +418,7 @@
 
     .tip-icon {
       background: var(--primary-teal);
-      color: white;
+      color: #04141c;
       width: 24px;
       height: 24px;
       border-radius: 50%;
@@ -608,57 +433,23 @@
 
     /* TABLA DE CLASIFICACIÓN */
     /*
-     * The leaderboard is five columns wide -- position, player, score, time,
-     * rank -- and a phone leaves it roughly 260px to live in. A table refuses
-     * to render narrower than its min-content width, so without this wrapper it
-     * pushed the document itself wider than the viewport: the results screen
-     * came out wider than the header and had to be zoomed out to read. The
-     * overflow now stays inside the card, where the table scrolls sideways on
-     * its own and the page does not.
+     * The RACI matrix is three prose columns wide and a phone leaves it roughly
+     * 260px to live in. A table refuses to render narrower than its min-content
+     * width, so without this wrapper it pushed the document itself wider than
+     * the viewport: the modal came out wider than the header and had to be
+     * zoomed out to read. The overflow now stays inside the panel, where the
+     * table scrolls sideways on its own and the page does not. (The leaderboard
+     * had the same problem and is now on the shared .sim-table-wrap, which
+     * carries the same overflow rule.)
      */
     .table-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
 
-    .leaderboard-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 0.5rem;
-    }
-
-    .leaderboard-table th, 
-    .leaderboard-table td {
-      padding: 0.75rem 1rem;
-      text-align: left;
-    }
-
-    .leaderboard-table th {
-      background: var(--light-bg);
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 2px solid var(--border-color);
-    }
-
-    .leaderboard-table tr {
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .leaderboard-table tr.current-user {
-      background-color: #FEF3C7;
-      font-weight: 700;
-    }
-
-    .rank-cell {
-      font-weight: 700;
-      width: 50px;
-    }
-
     /* SECCIÓN CALL TO ACTION (CTA) */
     .cta-box {
-      background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+      background: linear-gradient(135deg, rgb(233 93 36 / 0.16) 0%, rgb(233 93 36 / 0.07) 100%);
       border: 2px dashed var(--accent-orange);
       border-radius: var(--radius-lg);
       padding: 2rem;
@@ -668,7 +459,7 @@
 
     .cta-heading {
       font-size: 1.3rem;
-      color: var(--dark-navy-teal);
+      color: var(--heading-ink);
       font-weight: 800;
       margin-bottom: 0.5rem;
     }
@@ -689,48 +480,12 @@
       flex-wrap: wrap;
     }
 
-    .btn-secondary {
-      background: white;
-      color: var(--primary-teal);
-      border: 2px solid var(--primary-teal);
-      padding: 0.85rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-secondary:hover {
-      background: var(--light-bg);
-    }
-
-    /* REVISIÓN DE ESCENARIOS */
-    .review-item {
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
-      margin-bottom: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .review-item.is-correct {
-      border-left: 4px solid var(--success-green);
-    }
-
-    .review-item.is-incorrect {
-      border-left: 4px solid var(--error-red);
-    }
-
     /* MODAL GUÍA DE MATRIZ RACI */
     .raci-modal {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgb(2 12 18 / 0.84);
       z-index: 2000;
       justify-content: center;
       align-items: center;
@@ -778,46 +533,17 @@
 
     .raci-table th {
       background: var(--light-bg);
-      color: var(--dark-navy-teal);
+      color: var(--heading-ink);
     }
 
     /* DISEÑO ADAPTATIVO (RESPONSIVE) */
     @media (max-width: 768px) {
-      .welcome-title {
-        font-size: 1.75rem;
-      }
-
-      .roles-preview, .choices-grid {
+      .roles-preview {
         grid-template-columns: minmax(0, 1fr);
       }
 
       .card {
         padding: 1.5rem;
-      }
-
-      /*
-       * One row, not a column. Stacking the brand above the controls turned a
-       * sticky header into roughly 120px of permanently occupied screen on a
-       * phone, and the controls then wrapped again among themselves so the home
-       * link sat alone on a third line. Icon-only buttons (see .btn-icon-label
-       * below) make the single row fit with room to spare.
-       */
-      .header-container {
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .header-actions {
-        flex: 0 0 auto;
-        flex-wrap: nowrap;
-        gap: 6px;
-      }
-
-      /* Vertical only: .simulator-site-header-inner already contributes 1rem
-         either side, which lines the logo up with the cards in <main>. */
-      header {
-        padding: 0.55rem 0;
       }
 
       .final-score-display {
@@ -827,11 +553,6 @@
       main {
         margin: 1.5rem auto;
         padding: 0 1rem;
-      }
-
-      .btn-icon {
-        font-size: 0.8rem;
-        padding: 7px 10px;
       }
 
       /*
@@ -857,24 +578,9 @@
         font-size: 0.85rem;
       }
 
-      .leaderboard-table th,
-      .leaderboard-table td {
-        padding: 0.6rem 0.7rem;
-        font-size: 0.85rem;
-      }
-
       /* The verdict mark stays on the right where it is scannable; it is the
          scenario text beside it that has to give way, and a flex item only does
          that once it is allowed under its own min-content width. */
-      .review-item {
-        padding: 0.85rem 1rem;
-        gap: 0.75rem;
-      }
-
-      .review-item > div:first-child {
-        min-width: 0;
-      }
-
       .cta-box {
         padding: 1.5rem 1.25rem;
       }
@@ -891,22 +597,6 @@
       .raci-table td {
         padding: 6px 8px;
         font-size: 0.78rem;
-      }
-    }
-
-    /*
-     * Icon-only header controls. 640px is where the shared header stylesheet
-     * also drops the simulator title, so this is the width at which the row
-     * genuinely runs out of space -- above it the wording still fits and is
-     * still worth showing. aria-label on each button carries the meaning.
-     */
-    @media (max-width: 640px) {
-      .btn-icon-label {
-        display: none;
-      }
-
-      .btn-icon-glyph {
-        font-size: 1rem;
       }
     }
 
@@ -950,9 +640,9 @@
       margin: 4rem auto;
       padding: 1.5rem;
       background-color: var(--card-bg);
-      border: 1px solid #e2e8f0;
-      border-radius: 1rem;
-      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
       color: var(--text-main);
     }
 
@@ -963,7 +653,7 @@
     .simulator-explainer h2,
     .simulator-explainer h3,
     .simulator-explainer h4 {
-      color: #0f172a;
+      color: var(--heading-ink);
       font-weight: 700;
     }
 
@@ -988,6 +678,11 @@
     .simulator-explainer a:hover { text-decoration: none; }
   </style>
   <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <link rel="stylesheet" href="/assets/css/simulator-theme.css">
+  <!-- One icon set across the nine simulator pages. The emoji this page
+       used to carry rendered as a different picture on every operating
+       system and could not take the brand colours; these glyphs do. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
   <!-- Private-space chrome, settled before the first paint. The rules it
        switches on live with the header styles in
        /assets/css/simulator-header.css, which this page already links above. -->
@@ -1016,33 +711,27 @@
 
   <!-- ENCABEZADO DE LA MARCA -->
   <header class="simulator-site-header">
-    <div class="header-container simulator-site-header-inner">
-      <div class="brand-section simulator-brand-block">
-        <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="brand-logo-img simulator-brand-logo" width="40" height="40" decoding="async">
-        <div class="brand-info simulator-brand-copy">
-          <span class="brand-name simulator-brand-name">Data Governance Journey</span>
+    <div class="simulator-site-header-inner">
+      <div class="simulator-brand-block">
+        <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
+        <div class="simulator-brand-copy">
+          <span class="simulator-brand-name">Data Governance Journey</span>
         </div>
       </div>
       <div class="simulator-product-copy">
         <div class="simulator-title-row">
-          <span class="brand-subtitle-badge simulator-badge simulator-title">Simulador de Matriz de Conflictos de Roles</span>
+          <h1 class="simulator-title">¿Quién es el dueño de esto?</h1>
         </div>
+        <p class="simulator-subtitle">Simulador de Matriz de Conflictos de Roles</p>
       </div>
-      <div class="header-actions simulator-header-actions">
-        <!--
-          The emoji and the wording are separate spans so a phone can keep the
-          emoji and drop the words: three full-width labels are what pushed the
-          home link onto a second line and made the sticky header twice as tall
-          as it needed to be. aria-label carries the meaning either way, so the
-          icon-only state is not a guessing game for a screen reader.
-        -->
-        <button class="btn-icon" onclick="toggleSound()" id="soundToggleBtn" aria-label="Sonido activado" title="Activar/Desactivar Sonido">
-          <span class="btn-icon-glyph" id="soundToggleGlyph" aria-hidden="true">🔊</span>
-          <span class="btn-icon-label" id="soundToggleLabel">Sonido: ON</span>
+      <div class="simulator-header-actions">
+        <button class="sim-btn sim-btn--ghost sim-btn--sm" onclick="toggleSound()" id="soundToggleBtn" aria-label="Sonido activado" title="Activar/Desactivar Sonido">
+          <i class="fas fa-volume-high fa-fw" id="soundToggleGlyph" aria-hidden="true"></i>
+          <span class="simulator-action-label" id="soundToggleLabel">Sonido: ON</span>
         </button>
-        <button class="btn-icon" onclick="openRaciModal()" aria-label="Guía RACI de Datos" title="Guía RACI de Datos">
-          <span class="btn-icon-glyph" aria-hidden="true">📖</span>
-          <span class="btn-icon-label">Guía RACI de Datos</span>
+        <button class="sim-btn sim-btn--ghost sim-btn--sm" onclick="openRaciModal()" aria-label="Guía RACI de Datos" title="Guía RACI de Datos">
+          <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+          <span class="simulator-action-label">Guía RACI de Datos</span>
         </button>
         <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1064,34 +753,39 @@
   <main id="simulator-main" tabindex="-1">
     <!-- 1. PANTALLA DE BIENVENIDA -->
     <section id="welcome-screen" class="screen active">
-      <div class="card welcome-card">
-        <h1 class="welcome-title">¿Quién es el dueño de esto?</h1>
-        <p class="welcome-tagline">
+      <div class="sim-welcome__dialog sim-welcome__dialog--wide">
+        <h2 class="sim-welcome__title">¿Quién es el dueño de esto?</h2>
+        <p class="sim-welcome__lead">
           Acaba con las disputas internas de territorio. Pon a prueba tus conocimientos sobre quién es realmente el dueño de las tareas de datos: <strong>Dueño del Negocio</strong>, <strong>Data Steward / Product Owner</strong> o <strong>TI / Data Team</strong>.
         </p>
 
         <div class="roles-preview">
           <div class="role-preview-box">
-            <div class="role-preview-header">👔 Dueño del Negocio</div>
+            <div class="role-preview-header"><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i>Dueño del Negocio</div>
             <div class="role-preview-desc">Define la lógica comercial, asume los riesgos del negocio, fija presupuestos y aprueba reglas de dominio.</div>
           </div>
           <div class="role-preview-box">
-            <div class="role-preview-header">🛡️ Data Steward / Product Owner</div>
+            <div class="role-preview-header"><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i>Data Steward / Product Owner</div>
             <div class="role-preview-desc">Mantiene la higiene de datos a diario, define reglas de calidad y conecta el contexto de negocio con metadatos.</div>
           </div>
           <div class="role-preview-box">
-            <div class="role-preview-header">💻 TI / Data Team</div>
+            <div class="role-preview-header"><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i>TI / Data Team</div>
             <div class="role-preview-desc">Construye la infraestructura, automatiza pipelines de datos, administra la seguridad y garantiza el tiempo de actividad.</div>
           </div>
         </div>
 
-        <form id="start-form" onsubmit="startGame(event)">
-          <div class="form-group">
-            <label for="player-name" class="form-label">Tu Nombre o Nombre de tu Equipo:</label>
-            <input type="text" id="player-name" class="form-input" placeholder="Ej. Ana García (Líder de Analytics)" required>
+        <div class="sim-welcome__start">
+          <div class="sim-welcome__field">
+            <label class="sim-welcome__label" for="player-name">Tu nombre o cargo, para la clasificación</label>
+            <input type="text" id="player-name" class="sim-input" placeholder="Ej. Ana García (Líder de Analytics)" maxlength="30" autocomplete="off">
           </div>
-          <button type="submit" class="btn-primary">Iniciar Desafío (10 Escenarios)</button>
-        </form>
+          <div class="sim-welcome__actions">
+            <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" onclick="startGame()">
+              <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar la simulación
+            </button>
+          </div>
+          <p class="sim-welcome__note">Opcional. No se envía nada a ningún sitio salvo que decidas publicar tu puntaje al final.</p>
+        </div>
       </div>
     </section>
 
@@ -1100,16 +794,16 @@
       <div class="game-header">
         <div class="game-stats">
           <div class="stat-badge">
-            📌 Escenario: <span id="current-scenario-num" class="stat-value">1 de 10</span>
+            <i class="fas fa-thumbtack fa-fw" aria-hidden="true"></i> Escenario: <span id="current-scenario-num" class="stat-value">1 de 10</span>
           </div>
           <div class="stat-badge">
-            🔥 Racha: <span id="current-streak" class="stat-value">0</span>
+            <i class="fas fa-fire fa-fw" aria-hidden="true"></i> Racha: <span id="current-streak" class="stat-value">0</span>
           </div>
           <div class="stat-badge">
-            ⭐ Puntaje: <span id="current-score" class="stat-value">0</span>
+            <i class="fas fa-star fa-fw" aria-hidden="true"></i> Puntaje: <span id="current-score" class="stat-value">0</span>
           </div>
           <div class="stat-badge">
-            ⏱️ Tiempo: <span id="current-time" class="stat-value">0:00</span>
+            <i class="fas fa-stopwatch fa-fw" aria-hidden="true"></i> Tiempo: <span id="current-time" class="stat-value">0:00</span>
           </div>
         </div>
         <div class="progress-bar-container">
@@ -1121,11 +815,13 @@
         <div class="scenario-number-tag">Conflictos de Gobernanza de Datos</div>
         <h2 id="scenario-title" class="scenario-text">Cargando escenario...</h2>
 
-        <div class="choices-grid">
-          <button class="choice-btn" onclick="makeChoice('Business Owner')">
-            <span class="choice-icon">👔</span>
-            <span class="choice-title">Dueño del Negocio</span>
-            <span class="choice-subtitle">Lógica Comercial y Riesgo</span>
+        <div class="sim-option-grid">
+          <button class="sim-option sim-option--stacked" onclick="makeChoice('Business Owner')">
+            <span class="sim-option__key"><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i></span>
+            <span class="sim-option__body">
+              <span class="sim-option__title">Dueño del Negocio</span>
+              <span class="sim-option__text">Lógica Comercial y Riesgo</span>
+            </span>
           </button>
 
           <!--
@@ -1133,16 +829,20 @@
             puntúa la partida y con la que se guardan los resultados publicados,
             así que no cambia; solo cambia la etiqueta que se lee en pantalla.
           -->
-          <button class="choice-btn" onclick="makeChoice('Data Steward')">
-            <span class="choice-icon">🛡️</span>
-            <span class="choice-title">Data Steward / Product Owner</span>
-            <span class="choice-subtitle">Calidad e Higiene Diaria</span>
+          <button class="sim-option sim-option--stacked" onclick="makeChoice('Data Steward')">
+            <span class="sim-option__key"><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i></span>
+            <span class="sim-option__body">
+              <span class="sim-option__title">Data Steward / Product Owner</span>
+              <span class="sim-option__text">Calidad e Higiene Diaria</span>
+            </span>
           </button>
 
-          <button class="choice-btn" onclick="makeChoice('IT / Tech')">
-            <span class="choice-icon">💻</span>
-            <span class="choice-title">TI / Data Team</span>
-            <span class="choice-subtitle">Infraestructura y Código</span>
+          <button class="sim-option sim-option--stacked" onclick="makeChoice('IT / Tech')">
+            <span class="sim-option__key"><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i></span>
+            <span class="sim-option__body">
+              <span class="sim-option__title">TI / Data Team</span>
+              <span class="sim-option__text">Infraestructura y Código</span>
+            </span>
           </button>
         </div>
       </div>
@@ -1154,15 +854,15 @@
         <!-- Nivel / Medalla -->
         <div class="card tier-badge-card">
           <div class="tier-title-label">Tu Nivel de Madurez de Gobernanza</div>
-          <div id="res-tier-name" class="tier-name">Evaluando...</div>
+          <div id="res-tier-name" class="tier-name"><i id="res-tier-icon" class="fas fa-trophy fa-fw" aria-hidden="true"></i> <span id="res-tier-text">Evaluando...</span></div>
           <div id="res-final-score" class="final-score-display">0 pts</div>
-          <div class="tier-title-label" style="margin-top: -0.5rem;">⏱ Tiempo total: <span id="res-final-time">0:00</span> — a igual puntaje, gana quien responde más rápido</div>
+          <div class="tier-title-label" style="margin-top: -0.5rem;"><i class="fas fa-stopwatch fa-fw" aria-hidden="true"></i> Tiempo total: <span id="res-final-time">0:00</span> — a igual puntaje, gana quien responde más rápido</div>
           <p id="res-tier-desc" class="tier-description">Análisis de rendimiento...</p>
         </div>
 
         <!-- Recomendaciones Clave -->
         <div class="card">
-          <h3 class="section-title">💡 Recomendaciones Estratégicas para tu Empresa</h3>
+          <h3 class="section-title"><i class="fas fa-lightbulb fa-fw" aria-hidden="true"></i> Recomendaciones Estratégicas para tu Empresa</h3>
           <ul id="res-tips-list" class="tips-list">
             <!-- Dinámico -->
           </ul>
@@ -1170,15 +870,15 @@
 
         <!-- Tabla de Clasificación Global -->
         <div class="card">
-          <h3 class="section-title">🏆 Tabla de Clasificación Global</h3>
-          <div class="table-scroll">
-            <table class="leaderboard-table">
+          <h3 class="section-title"><i class="fas fa-trophy fa-fw" aria-hidden="true"></i> Tabla de Clasificación Global</h3>
+          <div class="sim-table-wrap">
+            <table class="sim-table">
               <thead>
                 <tr>
                   <th>Pos.</th>
                   <th>Jugador</th>
-                  <th>Puntaje</th>
-                  <th>Tiempo</th>
+                  <th class="sim-table__score">Puntaje</th>
+                  <th class="sim-table__meta">Tiempo</th>
                   <th>Rango</th>
                 </tr>
               </thead>
@@ -1187,15 +887,15 @@
               </tbody>
             </table>
           </div>
-          <button id="publish-score-btn" class="btn-secondary" style="margin-top: 1rem;" onclick="publishScore()">
+          <button id="publish-score-btn" class="sim-btn sim-btn--accent sim-btn--sm" style="margin-top: 1rem;" onclick="publishScore()">
             <span id="publish-score-label">Publicar mi puntaje</span>
           </button>
         </div>
 
         <!-- Revisión de Respuestas -->
         <div class="card">
-          <h3 class="section-title">🔍 Resumen de Escenarios Evaluados</h3>
-          <div id="review-list">
+          <h3 class="section-title"><i class="fas fa-magnifying-glass fa-fw" aria-hidden="true"></i> Resumen de Escenarios Evaluados</h3>
+          <div id="review-list" class="sim-review-list">
             <!-- Dinámico -->
           </div>
         </div>
@@ -1213,7 +913,7 @@
             Mide la madurez analítica de tu organización y descubre exactamente qué pasos seguir para estructurar tu modelo de gobernanza.
           </p>
           <div class="cta-buttons">
-            <a href="/#contact-form-start" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">
+            <a href="/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg" style="text-decoration: none;">
               Obtener Diagnóstico de Madurez de Datos
             </a>
           </div>
@@ -1222,7 +922,7 @@
         <!-- Fuera del CTA de arriba a propósito: ese bloque se oculta cuando el
              puente se renderiza, y volver a jugar tiene que seguir disponible. -->
         <div class="cta-buttons">
-          <button class="btn-secondary" onclick="resetGame()">Intentar de Nuevo</button>
+          <button class="sim-btn sim-btn--ghost" onclick="resetGame()">Intentar de Nuevo</button>
         </div>
       </div>
     </section>
@@ -1286,17 +986,17 @@
       </div>
       <div class="feedback-explanation">
         <p id="feedback-text">Explicación técnica...</p>
-        <span class="dama-framework-tag">📐 Estándar DAMA-DMBOK</span>
+        <span class="dama-framework-tag"><i class="fas fa-ruler-combined fa-fw" aria-hidden="true"></i> Estándar DAMA-DMBOK</span>
       </div>
-      <button class="btn-primary" style="width: 100%; max-width: none;" onclick="nextScenario()">Siguiente Escenario ➔</button>
+      <button class="sim-btn sim-btn--accent sim-btn--block" onclick="nextScenario()">Siguiente Escenario <i class="fas fa-arrow-right fa-fw" aria-hidden="true"></i></button>
     </div>
   </div>
 
   <!-- MODAL GUÍA RÁPIDA RACI -->
   <div id="raci-modal" class="raci-modal">
     <div class="raci-modal-content">
-      <button class="close-modal" onclick="closeRaciModal()">✕</button>
-      <h2 style="color: var(--dark-navy-teal); margin-bottom: 0.5rem;">Guía de Roles DAMA (Matriz RACI)</h2>
+      <button class="close-modal" onclick="closeRaciModal()"><i class="fas fa-xmark fa-fw" aria-hidden="true"></i></button>
+      <h2 style="color: var(--heading-ink); margin-bottom: 0.5rem;">Guía de Roles DAMA (Matriz RACI)</h2>
       <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
         Criterios estándar de la industria para evitar superposiciones y cuellos de botella entre equipos de negocio y tecnología.
       </p>
@@ -1312,17 +1012,17 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>👔 Dueño del Negocio</strong><br><em>(Business Owner)</em></td>
+              <td><strong><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i> Dueño del Negocio</strong><br><em>(Business Owner)</em></td>
               <td>Decisiones de Negocio y Riesgos</td>
               <td>Definición de KPIs, presupuestos, aprobaciones de acceso a proveedores y cumplimiento legal del dominio.</td>
             </tr>
             <tr>
-              <td><strong>🛡️ Data Steward / Product Owner</strong><br><em>(Custodio de Datos)</em></td>
+              <td><strong><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i> Data Steward / Product Owner</strong><br><em>(Custodio de Datos)</em></td>
               <td>Calidad de Datos y Operación Diaria</td>
               <td>Documentación del catálogo de datos, reglas de validación, investigaciones de causa raíz y diccionario de términos.</td>
             </tr>
             <tr>
-              <td><strong>💻 TI / Data Team</strong><br><em>(Infraestructura y Tecnología)</em></td>
+              <td><strong><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i> TI / Data Team</strong><br><em>(Infraestructura y Tecnología)</em></td>
               <td>Infraestructura y Automatización</td>
               <td>Pipelines de extracción (ETL/ELT), scripts SQL, respaldos, seguridad de red y mantenimiento del Data Warehouse.</td>
             </tr>
@@ -1509,7 +1209,8 @@
     function toggleSound() {
       gameState.soundEnabled = !gameState.soundEnabled;
       const on = gameState.soundEnabled;
-      document.getElementById('soundToggleGlyph').textContent = on ? '🔊' : '🔇';
+      document.getElementById('soundToggleGlyph').className =
+        'fas fa-fw ' + (on ? 'fa-volume-high' : 'fa-volume-xmark');
       document.getElementById('soundToggleLabel').textContent = on ? 'Sonido: ON' : 'Sonido: OFF';
       document.getElementById('soundToggleBtn').setAttribute('aria-label', on ? 'Sonido activado' : 'Sonido desactivado');
     }
@@ -1522,22 +1223,19 @@
     }
 
     // --- INICIO DE JUEGO ---
-    function startGame(e) {
-      e.preventDefault();
+    function startGame() {
       // A private space's own wording lands before the first scenario is drawn.
       // By the time somebody has typed a name and pressed start, the lookup that
       // carries it has long since resolved, so this waits for nothing in practice
       // -- and if it somehow has not, the exercise starts in the standard wording
       // rather than not starting. See assets/js/scenario-text.js.
       if (!window.SimulatorScenarioText.isReady(scenarios)) {
-        window.SimulatorScenarioText.hydrate(scenarios, function () { startGame(e); });
+        window.SimulatorScenarioText.hydrate(scenarios, startGame);
         return;
       }
 
       const nameInput = document.getElementById('player-name').value.trim();
-      if (!nameInput) return;
-
-      gameState.playerName = nameInput;
+      gameState.playerName = nameInput !== '' ? nameInput : 'Líder Anónimo';
       gameState.currentScenarioIndex = 0;
       gameState.score = 0;
       gameState.streak = 0;
@@ -1605,10 +1303,10 @@
 
       if (isCorrect) {
         badge.className = "feedback-badge correct";
-        badge.innerHTML = `✓ ¡Correcto! (+${pointsEarned} pts)`;
+        badge.innerHTML = `<i class="fas fa-check fa-fw" aria-hidden="true"></i> ¡Correcto! (+${pointsEarned} pts)`;
       } else {
         badge.className = "feedback-badge incorrect";
-        badge.innerHTML = `✕ Incorrecto (El responsable es: ${translateRole(scenario.correct)})`;
+        badge.innerHTML = `<i class="fas fa-xmark fa-fw" aria-hidden="true"></i> Incorrecto (El responsable es: ${translateRole(scenario.correct)})`;
       }
 
       text.innerHTML = `<strong>${translateRole(scenario.correct)}:</strong> ${scenario.explanation}`;
@@ -1645,11 +1343,13 @@
     function renderResults() {
       const score = gameState.score;
       let tierTitle = "";
+      let tierIcon = "";
       let tierDesc = "";
       let tips = [];
 
       if (score <= 400) {
-        tierTitle = "🌱 Novato de la Propiedad";
+        tierTitle = "Novato de la Propiedad";
+        tierIcon = "fa-seedling";
         tierDesc = "Existe una alta fricción organizacional en tu estructura actual. Probablemente tu equipo trata al área de TI como 'conserjes de datos' encargados de corregir errores de negocio.";
         tips = [
           "<strong>Detén la delegación indebida en TI:</strong> El equipo de TI no debe definir el significado de métricas de negocio ni autorizar acceso a clientes.",
@@ -1657,7 +1357,8 @@
           "<strong>Designa Data Stewards / Product Owners en áreas clave:</strong> Asigna al menos un Steward funcional en Finanzas y Marketing."
         ];
       } else if (score <= 700) {
-        tierTitle = "⚡ Practicante de Gobernanza";
+        tierTitle = "Practicante de Gobernanza";
+        tierIcon = "fa-bolt";
         tierDesc = "Cuentas con una buena base teórica, pero los límites operativos entre los Data Stewards / Product Owners y los Dueños del Negocio aún presentan zonas grises en tu día a día.";
         tips = [
           "<strong>Documenta las reglas de calidad de datos:</strong> Pasa de resolver incidentes reactivamente a formalizar catálogos de metadatos.",
@@ -1665,7 +1366,8 @@
           "<strong>Separa presupuesto de ejecución técnica:</strong> Asegúrate de que las inversiones en proyectos analíticos sean aprobadas por el Dueño del Negocio."
         ];
       } else {
-        tierTitle = "🏆 Maestro en Propiedad de Datos";
+        tierTitle = "Maestro en Propiedad de Datos";
+        tierIcon = "fa-trophy";
         tierDesc = "¡Nivel Experto! Comprendes con precisión la separación estratégica entre decisiones de negocio, gestión de calidad e infraestructura técnica.";
         tips = [
           "<strong>Escala el modelo a toda la organización:</strong> Formaliza tu marco de trabajo basándote en el estándar DAMA-DMBOK.",
@@ -1674,7 +1376,8 @@
         ];
       }
 
-      document.getElementById('res-tier-name').textContent = tierTitle;
+      document.getElementById('res-tier-icon').className = 'fas fa-fw ' + tierIcon;
+      document.getElementById('res-tier-text').textContent = tierTitle;
       document.getElementById('res-final-score').textContent = `${score} / 1000 pts`;
       const finalTime = document.getElementById('res-final-time');
       if (finalTime) finalTime.textContent = formatRunTime(runTimer.elapsedMs());
@@ -1791,18 +1494,21 @@
           ready: "Todavía no hay puntajes publicados: completa una partida y sé el primero.",
           unavailable: "La tabla de posiciones global no está disponible ahora. Tu puntaje no se ve afectado."
         };
-        tbody.innerHTML = `<tr><td colspan="5">${messages[leaderboardStatus]}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="sim-table__empty">${messages[leaderboardStatus]}</td></tr>`;
         return;
       }
 
       tbody.innerHTML = leaderboardData.map((entry, index) => {
         const isUser = publishedRowKey !== null && publishedRowKey === rowKey(entry.name, entry.score);
+        const rank = index < 3
+          ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
+          : `#${index + 1}`;
         return `
-          <tr class="${isUser ? 'current-user' : ''}">
-            <td class="rank-cell">#${index + 1}</td>
-            <td>${escapeHtml(entry.name)} ${isUser ? '👈 (Tú)' : ''}</td>
-            <td><strong>${Number(entry.score)} pts</strong></td>
-            <td>${formatRunTime(entry.durationMs)}</td>
+          <tr${isUser ? ' class="sim-table__row--you"' : ''}>
+            <td class="sim-table__rank${index < 3 ? ' sim-table__rank--' + (index + 1) : ''}">${rank}</td>
+            <td class="sim-table__name">${escapeHtml(entry.name)}${isUser ? ' <span class="sim-table__you">(Tú)</span>' : ''}</td>
+            <td class="sim-table__score">${Number(entry.score)} pts</td>
+            <td class="sim-table__meta">${formatRunTime(entry.durationMs)}</td>
             <td>${tierForScore(entry.score)}</td>
           </tr>
         `;
@@ -1812,18 +1518,25 @@
     function renderReview() {
       const container = document.getElementById('review-list');
       container.innerHTML = gameState.userAnswers.map((ans, idx) => `
-        <div class="review-item ${ans.isCorrect ? 'is-correct' : 'is-incorrect'}">
-          <div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">ESCENARIO ${idx + 1}</div>
-            <div style="font-weight: 700; color: var(--dark-navy-teal); margin: 2px 0;">${escapeHtml(ans.title)}</div>
-            <div style="font-size: 0.85rem; color: var(--text-main);">
-              Tu respuesta: <strong>${translateRole(ans.selectedRole)}</strong> | 
-              Correcto: <strong>${translateRole(ans.correctRole)}</strong>
-            </div>
-          </div>
-          <div style="font-size: 1.2rem;">
-            ${ans.isCorrect ? '✅' : '❌'}
-          </div>
+        <div class="sim-option ${ans.isCorrect ? 'sim-option--correct' : 'sim-option--incorrect'}">
+          <span class="sim-option__key">${idx + 1}</span>
+          <span class="sim-option__body">
+            <span class="sim-option__row">
+              <span>
+                <span class="sim-eyebrow sim-eyebrow--dim">ESCENARIO ${idx + 1}</span>
+                <span class="sim-option__title">${escapeHtml(ans.title)}</span>
+              </span>
+              <span class="sim-option__verdict">
+                ${ans.isCorrect
+                  ? '<i class="fas fa-circle-check fa-fw" aria-hidden="true"></i> Correcto'
+                  : '<i class="fas fa-circle-xmark fa-fw" aria-hidden="true"></i> Fallado'}
+              </span>
+            </span>
+            <span class="sim-option__answers">
+              <span>Tu respuesta: <strong class="${ans.isCorrect ? 'sim-option__answer-right' : 'sim-option__answer-wrong'}">${translateRole(ans.selectedRole)}</strong></span>
+              ${!ans.isCorrect ? `<span>Correcto: <strong class="sim-option__answer-right">${translateRole(ans.correctRole)}</strong></span>` : ''}
+            </span>
+          </span>
         </div>
       `).join('');
     }
