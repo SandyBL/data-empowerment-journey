@@ -246,26 +246,42 @@
   [headers.values]
     Cache-Control = "public, max-age=2592000"
 
+# The first-party stylesheets and scripts. These filenames never change -- there
+# is no fingerprinting step in the build -- so an hour of max-age meant an hour
+# in which a browser would keep running the previous deploy's CSS and JS while
+# happily reloading the HTML that expects the new ones. That is not only a
+# testing annoyance (a fix looks absent on a deploy preview whose URL stays the
+# same across deploys, because the assets come from the browser cache and the
+# page does not); it is a real state for a visitor who is mid-session when a
+# deploy lands.
+#
+# max-age=0 with must-revalidate keeps the copy in the browser cache and asks
+# before using it. Netlify answers with a 304 and an ETag when nothing changed,
+# so the cost is one conditional request per file rather than a re-download, and
+# a deploy takes effect on the next page load instead of within the hour.
+# Fingerprinted filenames would beat both, but they need a build step to rewrite
+# every reference, and these pages are hand-written.
 [[headers]]
   for = "/assets/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=3600, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/assets/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=3600, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # The three assets that sit at the root of /assets/ rather than in one of its
 # subdirectories. Every Cache-Control rule above is scoped to a subdirectory, so
 # these matched none of them and were served with max-age=0 — including
 # styles.css, the largest stylesheet on the site, which every page links and
-# every navigation therefore revalidated. They take the same revalidating hour
-# as the CSS and JS directories.
+# every navigation therefore revalidated. styles.css takes the same treatment as
+# the CSS and JS directories above; the two logos keep the month the rest of the
+# imagery has, since a change to either would come with a new filename.
 [[headers]]
   for = "/assets/styles.css"
   [headers.values]
-    Cache-Control = "public, max-age=3600, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/assets/dg-logo.png"

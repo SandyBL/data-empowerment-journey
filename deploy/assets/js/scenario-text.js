@@ -105,34 +105,15 @@
   };
 
   /**
-   * The three pages whose scenarios are not shaped like their English original.
+   * The pages whose scenarios are not shaped like their English original.
    *
-   * The Portuguese Data Governance page keeps its options in an array, and both
-   * translated Data Ownership pages call the task `title` and have no category.
-   * See SCENARIO_FIELD_VARIANTS in netlify/lib/scenario-fields.mjs for why those
-   * pages are described rather than made uniform.
+   * Empty: the Portuguese Data Governance page and both translated Data
+   * Ownership pages used to be here, and were rebuilt from the English page
+   * they translate. Kept as the mirror of SCENARIO_FIELD_VARIANTS in
+   * netlify/lib/scenario-fields.mjs, which the build compares this file
+   * against, so the next divergence is described in both places or not at all.
    */
-  var VARIANT_PATHS = {
-    "data-governance-day-to-day": {
-      pt: [
-        "topic",
-        "text",
-        "options.0.title",
-        "options.1.title",
-        "options.2.title",
-        "options.0.desc",
-        "options.1.desc",
-        "options.2.desc",
-        "options.0.lesson",
-        "options.1.lesson",
-        "options.2.lesson",
-      ],
-    },
-    "data-ownership-conflict": {
-      es: ["title", "explanation"],
-      pt: ["title", "explanation"],
-    },
-  };
+  var VARIANT_PATHS = {};
 
   /**
    * Which page this is, from its own address.
@@ -162,10 +143,11 @@
   /**
    * Which key a scenario is stored under.
    *
-   * Its own `id` where it has one, its position where it does not -- the
-   * Portuguese Data Governance page numbers nothing. scripts/extract-simulator-text.mjs
-   * derives the key exactly the same way, which is what makes an override typed
-   * against a scenario in the console land on that same scenario here.
+   * Its own `id` where it has one, its position where it does not -- all nine
+   * pages number their scenarios today, and the fallback is for the page that
+   * stops. scripts/extract-simulator-text.mjs derives the key exactly the same
+   * way, which is what makes an override typed against a scenario in the
+   * console land on that same scenario here.
    */
   function scenarioKey(scenario, index) {
     var id = scenario && scenario.id;

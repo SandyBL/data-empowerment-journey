@@ -121,88 +121,6 @@
     <!-- MAIN CONTENT AREA -->
     <main id="simulator-main" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full" tabindex="-1">
 
-        <!-- ================= WELCOME SCREEN ================= -->
-        <section id="welcomeScreen" class="animate-pop space-y-8">
-            <div class="sim-welcome__dialog sim-welcome__dialog--wide relative overflow-hidden">
-                <!-- Background decorative elements -->
-                <div class="absolute -right-12 -top-12 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-12 -bottom-12 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-                <div class="relative z-10 max-w-3xl mx-auto space-y-6">
-                    <div class="sim-badge">
-                        <i class="fas fa-shield-halved fa-fw text-brand-orange"></i> Enterprise Governance Challenge
-                    </div>
-
-                    <h2 class="sim-welcome__title">
-                        Who Owns This? <br>
-                        <span class="text-brand-orange">The Data Ownership Conflict Simulator</span>
-                    </h2>
-
-                    <p class="sim-welcome__lead max-w-2xl mx-auto">
-                        End internal corporate turf wars. Test your knowledge on who actually owns real-world data tasks according to the international <strong>DAMA Data Governance framework</strong>.
-                    </p>
-
-                    <!-- Role Quick Summary Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-4 text-left">
-                        <div class="sim-panel p-4 hover:border-brand-accent/40 transition">
-                            <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
-                                <i class="fas fa-user-tie fa-fw text-base text-brand-accent" aria-hidden="true"></i> Business Owner
-                            </div>
-                            <p class="text-xs text-slate-500">Owns domain definitions, logic, business rules, revenue metrics & final risk sign-off.</p>
-                        </div>
-                        <div class="sim-panel p-4 hover:border-brand-accent/40 transition">
-                            <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
-                                <i class="fas fa-shield-halved fa-fw text-base text-brand-accent" aria-hidden="true"></i> Data Steward / Product Owner
-                            </div>
-                            <p class="text-xs text-slate-500">Maintains data hygiene, quality profiling, catalog metadata & cross-functional rules.</p>
-                        </div>
-                        <div class="sim-panel p-4 hover:border-brand-accent/40 transition">
-                            <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
-                                <i class="fas fa-laptop-code fa-fw text-base text-brand-accent" aria-hidden="true"></i> IT / Data Team
-                            </div>
-                            <p class="text-xs text-slate-500">Executes SQL pipelines, storage infrastructure, cloud hosting, security & backups.</p>
-                        </div>
-                    </div>
-
-                    <div class="sim-welcome__start">
-                        <div class="sim-welcome__field">
-                            <label class="sim-welcome__label" for="playerNameInput">Your name or title, for the leaderboard</label>
-                            <input type="text" id="playerNameInput" class="sim-input" placeholder="e.g. Alex Chen (Data Lead)" maxlength="30" autocomplete="off">
-                        </div>
-                        <div class="sim-welcome__actions">
-                            <button type="button" onclick="startGame()" class="sim-btn sim-btn--primary sim-btn--lg">
-                                <i class="fas fa-play fa-fw" aria-hidden="true"></i> Start the simulation
-                            </button>
-                        </div>
-                        <p class="sim-welcome__note">Optional. Nothing is sent anywhere unless you choose to publish your score at the end.</p>
-                    </div>
-
-                    <p class="sim-welcome__note">
-                        <!-- Was "Benchmark your data maturity score against industry peers".
-                             Nothing here or on the Scorecard compares a visitor against
-                             industry data, and the results block now sends people to the
-                             Scorecard on the strength of claims like this one, so it had to
-                             say something true. The global leaderboard is the real
-                             comparison this page offers. -->
-                        Takes ~3 minutes • Compare your score on the global leaderboard
-                    </p>
-                </div>
-            </div>
-
-            <!-- Recent Leaderboard Teaser -->
-            <div class="sim-card p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-bold text-brand-text text-lg flex items-center gap-2">
-                        <i class="fas fa-trophy fa-fw text-amber-400"></i> Top Governance Champions
-                    </h3>
-                    <span class="text-xs font-semibold text-slate-500">Global Leaderboard</span>
-                </div>
-                <div id="welcomeLeaderboard" class="divide-y divide-slate-800">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-        </section>
-
         <!-- ================= GAMEPLAY SCREEN ================= -->
         <section id="gameplayScreen" class="hidden space-y-6">
             
@@ -846,9 +764,18 @@
 
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
-            renderWelcomeLeaderboard();
             loadLeaderboard();
+            // The welcome dialog is the only way into the game, so if its script
+            // never arrived -- it is deferred, and has therefore already run by
+            // now if it ran at all -- the run has to start without it.
+            if (!window.SimulatorWelcome) startGame();
         });
+
+        // Otherwise the run starts when the dialog closes, however it closed: the
+        // start button, "just look around", Escape or a click on the backdrop.
+        // The dialog holds the only name field on the page, so startGame() reads
+        // whatever was typed there.
+        document.addEventListener('sim-welcome:dismissed', () => startGame());
 
         // START GAME
         function startGame() {
@@ -877,9 +804,13 @@
             if (publishLabel) publishLabel.innerText = "Publish my score";
 
             // UI Switch
-            document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('resultsScreen').classList.add('hidden');
             document.getElementById('gameplayScreen').classList.remove('hidden');
+
+            // The first scenario sits at the top of the page, so that is where a
+            // run starts -- not wherever the page happened to be sitting when the
+            // welcome dialog closed, and not where a reload restored it to.
+            window.scrollTo({ top: 0 });
 
             renderCurrentScenario();
         }
@@ -1148,7 +1079,6 @@
             const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 10);
             leaderboardData = result.scores;
             leaderboardStatus = result.error ? 'unavailable' : 'ready';
-            renderWelcomeLeaderboard();
             renderFullLeaderboard();
         }
 
@@ -1186,7 +1116,6 @@
             leaderboardStatus = 'ready';
             publishedRowKey = rowKey(currentState.playerName, currentState.score);
             if (label) label.innerText = "Published ✓";
-            renderWelcomeLeaderboard();
             renderFullLeaderboard();
             playSound('correct');
         }
@@ -1195,31 +1124,6 @@
             if (leaderboardStatus === 'loading') return "Loading the global leaderboard…";
             if (leaderboardStatus === 'unavailable') return "The global leaderboard is unavailable right now. Your own score is unaffected.";
             return "No scores published yet — finish a run and be the first on the board.";
-        }
-
-        function renderWelcomeLeaderboard() {
-            const container = document.getElementById('welcomeLeaderboard');
-            if (!container) return;
-
-            if (!leaderboardData.length) {
-                container.innerHTML = `<p class="py-2.5 text-xs text-slate-400">${emptyBoardMessage()}</p>`;
-                return;
-            }
-
-            container.innerHTML = leaderboardData.slice(0, 3).map((item, idx) => `
-                <div class="py-2.5 flex items-center justify-between text-xs sm:text-sm">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full font-bold flex items-center justify-center text-xs ${idx === 0 ? 'bg-amber-500/15 text-amber-300' : 'bg-slate-800 text-slate-400'}">
-                            #${idx + 1}
-                        </span>
-                        <span class="font-bold text-slate-200 truncate max-w-[180px]">${window.SimulatorLeaderboard.escapeHtml(item.name)}</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <span class="text-slate-400 text-xs hidden sm:inline">${tierForScore(item.score)}</span>
-                        <span class="font-extrabold text-brand-accent">${Number(item.score)} pts</span>
-                    </div>
-                </div>
-            `).join('');
         }
 
         function renderFullLeaderboard() {
@@ -1334,12 +1238,19 @@
         function resetGame() {
             playSound('click');
             document.getElementById('resultsScreen').classList.add('hidden');
-            document.getElementById('welcomeScreen').classList.remove('hidden');
+            document.getElementById('gameplayScreen').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Reopening the dialog is what starts the next run: closing it fires
+            // sim-welcome:dismissed again, and that is what calls startGame().
+            if (window.SimulatorWelcome) {
+                window.SimulatorWelcome.show();
+            } else {
+                startGame();
+            }
         }
     </script>
 
-<footer class="simulator-site-footer">
+<footer class="simulator-site-footer simulator-site-footer--pinned">
 <nav class="simulator-locale-nav" aria-label="More simulators">
   <div class="simulator-locale-nav-inner">
     <div><span>More simulators</span><ul><li><a href="/simulators/en/data-governance-day-to-day/">Data Governance Day-to-Day</a></li><li><a href="/simulators/en/data-literacy/">Data Literacy</a></li><li><a href="/en/blog/">Insights</a></li><li><a href="/en/">Home</a></li></ul></div>
@@ -1349,5 +1260,63 @@
 </footer>
 <script type="module" src="/assets/js/language-switch.js"></script>
 <script src="/assets/js/simulator-footer-reveal.js" defer></script>
+<!--
+  The shared welcome overlay. Behaviour lives in
+  /assets/js/simulator-welcome.js; the wording lives here so that it stays
+  translated and stays visible to scripts/extract-simulator-text.mjs.
+-->
+<div class="sim-welcome" data-sim-welcome hidden>
+  <div class="sim-welcome__dialog sim-welcome__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="sim-welcome-title">
+    <p class="sim-eyebrow">DAMA RACI &middot; 10 ownership conflicts</p>
+    <h2 id="sim-welcome-title" class="sim-welcome__title">You are the one who has to say who owns it.</h2>
+    <p class="sim-welcome__lead">End internal corporate turf wars. Test your knowledge on who actually owns real-world data tasks according to the international <strong>DAMA Data Governance framework</strong>.</p>
+    <ul class="sim-welcome__facts">
+      <li class="sim-badge sim-badge--neutral">~3 minutes</li>
+      <li class="sim-badge sim-badge--neutral">No sign-up</li>
+      <li class="sim-badge sim-badge--neutral">Scored in your browser</li>
+    </ul>
+    <p class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed"><strong>Your goal:</strong> name the role accountable for all ten tasks. The team that runs a thing is not always the team that owns it.</p>
+    <!-- The three roles every scenario chooses between, read once before the
+         first one asks. This row is what .sim-welcome__dialog--wide is for. -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
+      <div class="sim-panel p-4">
+        <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
+          <i class="fas fa-user-tie fa-fw text-base text-brand-accent" aria-hidden="true"></i> Business Owner
+        </div>
+        <p class="text-xs text-slate-500">Owns domain definitions, logic, business rules, revenue metrics &amp; final risk sign-off.</p>
+      </div>
+      <div class="sim-panel p-4">
+        <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
+          <i class="fas fa-shield-halved fa-fw text-base text-brand-accent" aria-hidden="true"></i> Data Steward / Product Owner
+        </div>
+        <p class="text-xs text-slate-500">Maintains data hygiene, quality profiling, catalog metadata &amp; cross-functional rules.</p>
+      </div>
+      <div class="sim-panel p-4">
+        <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
+          <i class="fas fa-laptop-code fa-fw text-base text-brand-accent" aria-hidden="true"></i> IT / Data Team
+        </div>
+        <p class="text-xs text-slate-500">Executes SQL pipelines, storage infrastructure, cloud hosting, security &amp; backups.</p>
+      </div>
+    </div>
+    <div class="sim-welcome__start">
+      <div class="sim-welcome__field">
+        <label class="sim-welcome__label" for="playerNameInput">Your name or title, for the leaderboard</label>
+        <!-- The page asks for a name nowhere else, so this is the field
+             startGame() reads and the one workspace-context.js fills inside a
+             private space. It keeps its id and tells simulator-welcome.js to
+             treat it as the dialog's name field. -->
+        <input type="text" id="playerNameInput" class="sim-input" placeholder="e.g. Alex Chen (Data Lead)" maxlength="30" autocomplete="off" data-sim-welcome-name>
+      </div>
+      <div class="sim-welcome__actions">
+        <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" data-sim-welcome-start>
+          <i class="fas fa-play fa-fw" aria-hidden="true"></i> Start the simulation
+        </button>
+        <button type="button" class="sim-btn sim-btn--quiet" data-sim-welcome-skip>Just look around</button>
+      </div>
+      <p class="sim-welcome__note">Optional. Nothing is sent anywhere unless you choose to publish your score at the end.</p>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/simulator-welcome.js" defer></script>
 </body>
 </html>

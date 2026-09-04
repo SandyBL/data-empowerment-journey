@@ -47,9 +47,9 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
  *
  * Both spellings are tried for every page rather than one being pinned per
  * simulator, because the nine pages were written at different times and do not
- * agree: the English Data Ownership page says `SCENARIOS` where the Spanish and
- * Portuguese ones say `scenarios`. Trying both is a two-line loop; renaming a
- * variable in nine shipped pages to please a build script is not.
+ * agree: the three Data Literacy pages say `scenarios` where the other six say
+ * `SCENARIOS`. Trying both is a two-line loop; renaming a variable in nine
+ * shipped pages to please a build script is not.
  */
 const ARRAY_NAMES = ["SCENARIOS", "scenarios"];
 
@@ -176,9 +176,10 @@ const parseScenarios = (literal) => {
  * One page reduced to its editable wording.
  *
  * Scenarios are keyed by their own `id` where they have one and by their
- * position where they do not -- the Portuguese Data Governance page has no ids.
- * assets/js/scenario-text.js derives the key exactly the same way, which is what
- * makes an override written against this file land on the right scenario.
+ * position where they do not, which every page happens to number the same way:
+ * 1 to however many it has. assets/js/scenario-text.js derives the key exactly
+ * the same way, which is what makes an override written against this file land
+ * on the right scenario.
  */
 const extract = (scenarios, simulator, locale) =>
   scenarios.map((scenario, index) => {

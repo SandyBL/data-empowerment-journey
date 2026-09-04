@@ -600,7 +600,9 @@ select:focus-visible {
  * spent a strip of a small screen on navigation nobody is looking for while they
  * are mid-game. It now stays out of the way until the visitor asks to move down
  * the page -- a scroll, a swipe, a wheel turn or a Tab press -- which is the
- * point at which they are plausibly looking for a way onward.
+ * point at which they are plausibly looking for a way onward, and it leaves
+ * again a few seconds after they stop, which is the point at which the screen
+ * space is worth more to the game than to the navigation.
  *
  * The collapsed class is applied by assets/js/simulator-footer-reveal.js rather
  * than sitting in the markup on purpose: with no JavaScript, and for anything
@@ -618,8 +620,47 @@ select:focus-visible {
   display: none;
 }
 
-.simulator-site-footer--revealing,
-.simulator-locale-nav--revealing {
+/*
+ * One simulator scrolls as a document instead of filling the viewport: the
+ * ownership exercise runs ten scenarios and an explainer down a single page,
+ * where the other two keep the whole game inside one screen and scroll a pane
+ * within it. On those two the revealed footer lands on the bottom edge of the
+ * viewport and stays there; on a document-length page the same markup put it at
+ * the very end of the page instead, so it was only ever seen by scrolling past
+ * everything else.
+ *
+ * Pinning it to the bottom edge gives it the behaviour it has everywhere else:
+ * hidden until the visitor asks to move down the page, a strip along the bottom
+ * of the screen while they are moving, and gone again once they stop.
+ *
+ * position:fixed rather than sticky, for two reasons. Sticky only holds if
+ * every one of the footer's ancestors cooperates -- the containing block has to
+ * be the full-height body, and nothing above it may quietly become a scrollport
+ * -- and it was reported as still landing at the end of the page. Fixed depends
+ * on nothing but the viewport. It also takes the footer out of the layout for
+ * good, so appearing and disappearing moves no content at all on that page: no
+ * jump under the reader, and no scroll position for the browser to clamp, which
+ * is the one thing the reveal would otherwise mistake for a request to come
+ * back.
+ *
+ * The z-index clears the page content it now sits over while staying below the
+ * 50 the sticky site header and the in-page modals use.
+ */
+.simulator-site-footer--pinned {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+}
+
+/* Laid out, but transparent. The same class runs the fade in both directions:
+ * the footer is laid out at opacity 0 and then faded up on the way in, and
+ * faded down before it is taken out of the layout on the way out, so the page
+ * never jumps while the footer is still visible. The duration above is the one
+ * FADE_MS in assets/js/simulator-footer-reveal.js waits for. */
+.simulator-site-footer--fading,
+.simulator-locale-nav--fading {
   opacity: 0;
 }
 
@@ -629,8 +670,10 @@ select:focus-visible {
     transition: none;
   }
 
-  .simulator-site-footer--revealing,
-  .simulator-locale-nav--revealing {
+  /* No fade either way: the footer appears and disappears outright, which is
+     what someone who asked for less motion is asking for. */
+  .simulator-site-footer--fading,
+  .simulator-locale-nav--fading {
     opacity: 1;
   }
 }
