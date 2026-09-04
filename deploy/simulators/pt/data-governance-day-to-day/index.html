@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-sim-theme="dark">
+<html lang="pt-BR" class="h-full bg-slate-950 text-slate-100" data-sim-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador do Dia a Dia da Governança de Dados (DAMA-DMBOK) | Data Governance Journey</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador do Dia a Dia da Governança de Dados (DAMA-DMBOK) | Data Governance Journey</title>
     <meta name="description" content="Simulador interativo gratuito: resolva 10 dilemas reais de governança de dados em cinco dimensões do DAMA-DMBOK e veja como suas decisões afetam maturidade, confiança e orçamento.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://datagovjourney.com/simulators/pt/data-governance-day-to-day/">
@@ -29,24 +29,32 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Simulador do Dia a Dia da Governança de Dados (DAMA-DMBOK)","url":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/","description":"Simulador interativo gratuito: resolva 10 dilemas reais de governança de dados em cinco dimensões do DAMA-DMBOK e veja como suas decisões afetam maturidade, confiança e orçamento.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"pt-BR","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Papéis e responsabilidades","Gestão de qualidade de dados","Metadados e linhagem","Catálogo e descoberta de dados","Dados mestres e de referência","Ciclo de vida e retenção","FinOps e governança da analítica"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://datagovjourney.com/pt/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/pt/#simulators"},{"@type":"ListItem","position":3,"name":"Simulador do Dia a Dia da Governança de Dados (DAMA-DMBOK)","item":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/"}],"@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#faq","inLanguage":"pt-BR","isPartOf":{"@id":"https://datagovjourney.com/simulators/pt/data-governance-day-to-day/#app"},"mainEntity":[{"@type":"Question","name":"Preciso conhecer o DAMA-DMBOK para usar?","acceptedAnswer":{"@type":"Answer","text":"Não. Cada cenário é escrito em linguagem operacional e a análise após cada decisão nomeia o princípio do DMBOK envolvido. Muita gente usa o simulador como primeira introdução ao framework, não como prova sobre ele."}},{"@type":"Question","name":"Existe uma única resposta certa em cada cenário?","acceptedAnswer":{"@type":"Answer","text":"Não. Todas as opções são decisões que alguma organização real já tomou. A pontuação reflete o que cada opção custa e entrega nos cinco indicadores, então uma decisão defensável sob pressão de orçamento pode pontuar bem mesmo não sendo a resposta de manual."}},{"@type":"Question","name":"É gratuito e coleta meus dados?","acceptedAnswer":{"@type":"Answer","text":"É gratuito e não exige conta. Suas decisões são pontuadas no seu navegador e nunca saem dele. Publicar no ranking é opcional e é a única coisa enviada para nós: o nome que você digitar e sua pontuação final, que passam a aparecer no mesmo ranking global que todos os outros jogadores veem."}},{"@type":"Question","name":"O que significa a pontuação final?","acceptedAnswer":{"@type":"Answer","text":"É um índice ponderado de maturidade sobre Eficiência, Confiança, Responsabilidade, Segurança e Contexto, mais o orçamento restante. É uma leitura do seu estilo de decisão, não uma certificação nem um diagnóstico da sua organização."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/images/dg-logo.png","width":400,"height":388}}]}</script>
-    <style>
-        /* First-paint colours, so the page does not flash white before the rest
-           of the console has loaded. */
-        html { background-color: #04141c; color: #f2fafc; }
-    </style>
-    <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
-    <!-- The shared simulator theme: one Tailwind palette, one typeface, one
-         set of radii and shadows for all nine simulator pages. Must load after
-         the CDN script above and before the first paint of any utility class. -->
-    <script src="/assets/js/simulator-tailwind-config.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha384-c6Uo4N9c3SOEigMVzP6IshUG1wQ5uMp3xeoQFiHWAQ86joWdgyajkvopySyKy/Z6" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" integrity="sha384-HAH79XdRvHr6axVGh4xQWVCp14kcd32bNk4Xu0sHDHtFQ42n6BAM8ykvB47dGz6D" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- One typeface for the header, the app and the explainer below it. -->
-    <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/assets/css/fonts.css">
-    <link rel="stylesheet" href="/assets/css/simulator-header.css">
-    <link rel="stylesheet" href="/assets/css/simulator-theme.css">
+  
+  <!-- Tailwind CSS -->
+  <style>
+    /* First-paint colours, so the page does not flash white before the
+       Tailwind CDN has compiled and injected the utility styles. */
+    html { background-color: #04141c; color: #f2fafc; }
+  </style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
+  <!-- Tone.js for Web Audio sound effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha384-c6Uo4N9c3SOEigMVzP6IshUG1wQ5uMp3xeoQFiHWAQ86joWdgyajkvopySyKy/Z6" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <!-- One typeface for the header, the app and the explainer below it. -->
+  <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+
+  <!-- The shared simulator theme: one Tailwind palette, one typeface, one
+       set of radii and shadows for all nine simulator pages. Must load after
+       the CDN script above and before the first paint of any utility class. -->
+  <script src="/assets/js/simulator-tailwind-config.js"></script>
+
+  <link rel="stylesheet" href="/assets/css/simulator-header.css">
+  <link rel="stylesheet" href="/assets/css/simulator-theme.css">
+  <!-- One icon set. The inline heroicon SVGs this page used to carry are
+       now FontAwesome glyphs, the same set the other eight simulator
+       pages serve. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
   <!-- Private-space chrome, settled before the first paint. The rules it
        switches on live with the header styles in
        /assets/css/simulator-header.css, which this page already links above. -->
@@ -70,62 +78,52 @@
     })();
   </script>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
-    <a class="skip-link" href="#main-container">Ir para o simulador</a>
+<body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100 selection:bg-blue-600 selection:text-white">
+    <a class="skip-link" href="#simulator-main">Ir para o simulador</a>
 
-    <!-- Modal DAMA-DMBOK Guia -->
-    <div id="dama-modal" class="modal fixed inset-0 z-50 items-center justify-center p-4">
-        <div class="sim-card max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
-            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="sim-btn sim-btn--quiet absolute top-4 right-4">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            <h2 class="text-2xl font-bold text-slate-200 mb-2 border-b pb-2"><i class="fas fa-book text-cyan-400 mr-2"></i>Áreas de Conhecimento DAMA-DMBOK</h2>
-            <p class="text-sm text-slate-400 mb-4">A Estrutura DAMA (Data Management Association) define 11 áreas centrais de gerenciamento de dados. Este simulador testa suas decisões operacionais em relação a estes princípios.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div class="sim-panel p-3"><strong class="text-cyan-400">1. Governança de Dados:</strong> Planejamento, supervisão e controle do gerenciamento de dados.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">2. Arquitetura de Dados:</strong> A estrutura geral dos dados e os recursos relacionados a eles.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">3. Modelagem e Design:</strong> Análise e design para criação e manutenção de dados.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">4. Armazenamento e Operações:</strong> Implantação e gerenciamento de bancos de dados físicos.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">5. Segurança de Dados:</strong> Garantia de privacidade, confidencialidade e acesso adequado.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">6. Integração e Interoperabilidade:</strong> Movimentação e consolidação de dados.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">7. Gerenciamento de Documentos:</strong> Controle sobre dados armazenados em formatos não estruturados.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">8. Dados Mestres e Referência:</strong> Gerenciamento de dados compartilhados para reduzir redundâncias.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">9. Data Warehousing & BI:</strong> Gerenciamento de dados analíticos para relatórios.</div>
-                <div class="sim-panel p-3"><strong class="text-cyan-400">10. Metadados:</strong> Informações sobre os dados (contexto, linhagem, definições).</div>
-                <div class="sim-panel p-3 md:col-span-2"><strong class="text-cyan-400">11. Qualidade de Dados:</strong> Garantir que os dados sejam adequados para uso, medindo e melhorando sua condição.</div>
-            </div>
-            <button onclick="closeModal()" aria-label="Fechar a referência DAMA-DMBOK" class="sim-btn sim-btn--accent w-full mt-6">Entendido</button>
+  <!-- Main Navigation Header -->
+  <header class="simulator-site-header">
+    <div class="simulator-site-header-inner">
+      <div class="simulator-brand-block">
+        <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
+        <div class="simulator-brand-copy">
+          <span class="simulator-brand-name">Data Governance Journey</span>
         </div>
+      </div>
+
+      <div class="simulator-product-copy">
+        <div class="simulator-title-row">
+          <h1 class="simulator-title">DataGov OS</h1>
+        </div>
+        <p class="simulator-subtitle">Simulador Corporativo de Governança de Dados (10 Desafios)</p>
+      </div>
+
+      <div class="simulator-header-actions">
+        <button id="audio-toggle-btn" onclick="toggleAudio()" class="sim-btn sim-btn--ghost sim-btn--sm">
+          <i id="audio-icon-on" class="fas fa-volume-high fa-fw text-sm text-emerald-400"></i>
+          <span id="audio-label" class="simulator-action-label">Áudio Ativado</span>
+        </button>
+
+        <button onclick="openDamaMatrixModal()" class="sim-btn sim-btn--ghost sim-btn--sm">
+          <i class="fas fa-book-open fa-fw text-sm text-blue-400"></i>
+          <span class="simulator-action-label">Framework DAMA</span>
+        </button>
+
+        <button onclick="resetSimulation()" class="sim-btn sim-btn--ghost sim-btn--sm">
+          <i class="fas fa-rotate-right fa-fw text-sm"></i>
+          <span class="simulator-action-label">Reiniciar</span>
+        </button>
+
+        <a href="/pt/" class="simulator-home-link" aria-label="Voltar ao site principal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+          </svg>
+          <span>Site principal</span>
+        </a>
+      </div>
     </div>
-
-    <!-- Header -->
-    <header class="simulator-site-header">
-        <div class="simulator-site-header-inner">
-        <div class="simulator-brand-block">
-            <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
-            <div class="simulator-brand-copy">
-                <span class="simulator-brand-name">Data Governance Journey</span>
-            </div>
-        </div>
-
-        <div class="simulator-product-copy">
-            <div class="simulator-title-row">
-                <h1 class="simulator-title">DataGov OS</h1>
-            </div>
-            <p class="simulator-subtitle">Simulador de Governança de Dados Empresarial (10 Desafios)</p>
-        </div>
-
-        <div class="simulator-header-actions">
-            <a href="/pt/" class="simulator-home-link" aria-label="Voltar ao site principal">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
-                </svg>
-                <span>Site principal</span>
-            </a>
-        </div>
-        </div>
-    </header>
-    <nav class="simulator-breadcrumb" aria-label="Trilha de navegação">
+  </header>
+    <nav class="simulator-breadcrumb" aria-label="Breadcrumb">
       <ol>
         <li><a href="/pt/">Início</a></li>
         <li><a href="/pt/#simulators">Simuladores</a></li>
@@ -133,47 +131,46 @@
       </ol>
     </nav>
 
-    <!--
-      The board: metrics rail beside the scenario column, both below the header.
+  <!-- Main Grid Container -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-y-auto">
 
-      This row used to be <body> itself, with the rail as its first child and the
-      header nested inside the right-hand column. That cost the header the left
-      fifth of every screen -- visible on the public page as a header narrower
-      than the eight other simulators, and worse inside a private space, where
-      assets/js/workspace-context.js hides our header and puts the client's own
-      strip -- their colour, their logo -- exactly where ours was. A company
-      banner that stopped short of the left edge read as a panel bolted onto
-      somebody else's product, which is the one thing that feature exists to
-      avoid. So the header and the breadcrumb sit at body level like everywhere
-      else, and the rail starts where the header ends.
-
-      min-h-0 because both columns scroll their own overflow: without it a flex
-      child refuses to shrink below its content and the row grows past the
-      viewport instead of the panes scrolling inside it.
-    -->
-    <div class="flex min-h-0 flex-1 flex-col md:flex-row overflow-hidden">
-    <!-- Left Sidebar: Health Metrics -->
-    <div class="sidebar w-full md:w-1/4 lg:w-1/5 flex flex-col p-4 shadow-2xl z-20 flex-shrink-0 border-r border-slate-700 relative h-auto md:h-full overflow-y-auto">
-        <div class="flex items-center justify-between mb-4">
-            <p class="text-lg font-bold flex items-center gap-2">
-                <i class="fas fa-network-wired text-blue-400"></i> DAMA Simulator
-            </p>
-            <button onclick="openModal()" aria-label="Abrir a referência DAMA-DMBOK" class="sim-btn sim-btn--quiet" title="Referência DAMA-DMBOK">
-                <i class="fas fa-info-circle text-lg"></i>
-            </button>
-        </div>
+    <!-- LEFT SIDEBAR: Operational Health Metrics -->
+    <aside class="lg:col-span-4 flex flex-col space-y-5">
+      
+      <!-- Governance Health Index Card -->
+      <div class="sim-card p-5 overflow-hidden">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-blue-600/10 rounded-full blur-xl pointer-events-none"></div>
         
-        <div class="sim-panel p-4 mb-4 text-center">
-            <p class="sim-eyebrow sim-eyebrow--dim mb-1">Índice Ponderado de Madurez</p>
-            <div class="text-4xl font-bold text-white flex justify-center items-baseline gap-1">
-                <span id="overall-score">50.0</span><span class="text-sm text-slate-400">/100</span>
-            </div>
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-3">
+          <span class="sim-eyebrow sim-eyebrow--dim">Índice de Saúde da Governança</span>
+          <span id="health-status-badge" class="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Fase 1: Linha de Base Operacional
+          </span>
         </div>
 
-        <h2 class="sim-eyebrow sim-eyebrow--dim mb-3">Indicadores Operacionais</h2>
-        
-        <!-- COMPACT METRICS GRID (Side by side) -->
-        <div class="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-2 gap-2 mb-4">
+        <div class="flex items-baseline justify-between mb-1">
+          <div class="text-3xl font-extrabold text-white font-mono" id="governance-index-score">50.0</div>
+          <span class="text-xs text-slate-400 font-medium">Pontuação Ponderada de Maturidade</span>
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Medição em tempo real de 5 dimensões do DAMA-DMBOK e da eficiência orçamentária.
+        </p>
+      </div>
+
+      <!-- Key Metrics List -->
+      <div class="sim-card p-4 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-slate-800 pb-2">
+          <h2 class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+            <i class="fas fa-chart-column fa-fw text-sm text-blue-400"></i>
+            <span>Indicadores Operacionais da Plataforma</span>
+          </h2>
+          <span class="text-[10px] text-slate-500 font-mono">Métricas DAMA (ao vivo)</span>
+        </div>
+
+        <!-- The six indicators, kept short enough to read without scrolling:
+             three rows of two in the sidebar, two rows of three when the sidebar
+             is a full-width band above the scenario. -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2">
           <div class="sim-meter sim-meter--1">
             <div class="sim-meter__head">
               <span class="sim-meter__label">
@@ -182,7 +179,7 @@
                 Eficiência
               </span>
               <span class="sim-meter__value">
-                <span id="val-efficiency">50%</span>
+                <span id="metric-efficiency-val">50%</span>
                 <span id="delta-efficiency" class="hidden font-bold text-[10px]"></span>
               </span>
             </div>
@@ -198,7 +195,7 @@
                 Confiança
               </span>
               <span class="sim-meter__value">
-                <span id="val-trust">50%</span>
+                <span id="metric-trust-val">50%</span>
                 <span id="delta-trust" class="hidden font-bold text-[10px]"></span>
               </span>
             </div>
@@ -211,10 +208,10 @@
               <span class="sim-meter__label">
                 <span class="sim-meter__dot"></span>
                 <i class="fas fa-users-gear fa-fw" aria-hidden="true"></i>
-                Resp.
+                Responsabilidade
               </span>
               <span class="sim-meter__value">
-                <span id="val-accountability">50%</span>
+                <span id="metric-accountability-val">50%</span>
                 <span id="delta-accountability" class="hidden font-bold text-[10px]"></span>
               </span>
             </div>
@@ -230,7 +227,7 @@
                 Segurança
               </span>
               <span class="sim-meter__value">
-                <span id="val-security">50%</span>
+                <span id="metric-security-val">50%</span>
                 <span id="delta-security" class="hidden font-bold text-[10px]"></span>
               </span>
             </div>
@@ -246,7 +243,7 @@
                 Contexto
               </span>
               <span class="sim-meter__value">
-                <span id="val-context">50%</span>
+                <span id="metric-context-val">50%</span>
                 <span id="delta-context" class="hidden font-bold text-[10px]"></span>
               </span>
             </div>
@@ -262,7 +259,7 @@
                 Orçamento
               </span>
               <span class="sim-meter__value">
-                <span id="val-budget">$50k</span>
+                <span id="metric-budget-val">$100k</span>
                 <span id="delta-budget" class="hidden font-bold text-[10px]"></span>
               </span>
             </div>
@@ -272,185 +269,289 @@
           </div>
         </div>
 
-        <div class="mt-auto pt-4 border-t border-slate-700">
-            <div class="text-xs text-slate-400 flex justify-between items-center">
-                <span>Progresso</span>
-                <span id="scenario-counter">1 de 10</span>
-            </div>
-            <div class="w-full bg-slate-700 h-1 mt-1 rounded-full overflow-hidden">
-                <div id="progress-bar" class="bg-blue-500 h-full" style="width: 10%;"></div>
-            </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA: Educational State Machine -->
+    <main id="simulator-main" class="lg:col-span-8 flex flex-col space-y-6" tabindex="-1">
+
+      <!-- Progress Stepper Bar -->
+      <div class="sim-card p-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <span class="sim-eyebrow sim-eyebrow--dim">Progresso</span>
+          <div class="flex items-center space-x-1" id="stepper-dots">
+            <!-- Dynamically generated via JS for 10 steps -->
+          </div>
         </div>
-    </div>
+        <div class="text-xs text-slate-400 font-mono" id="scenario-counter">
+          Desafio 1 de 10
+        </div>
+      </div>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 min-h-0 bg-slate-800 flex flex-col relative overflow-y-auto">
+      <!-- Active Scenario Card -->
+      <div id="active-scenario-card" class="sim-card p-5 lg:p-7 flex-1 flex flex-col justify-between">
+        <!-- Scenario Header & Dynamic Metadata -->
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="scenario-dama-area" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                Área DAMA: Papéis & Responsabilidades
+              </span>
+              <span id="scenario-difficulty" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-400">
+                Dilema Operacional
+              </span>
+            </div>
+            <span class="text-xs text-slate-400 font-mono" id="scenario-incident-id">Incidente #DG-2026-01</span>
+          </div>
+
+          <h2 id="scenario-title" class="text-xl lg:text-2xl font-bold text-white mb-3 leading-snug">
+            Conflito de Definição de Métrica: a Fórmula de 'Cliente Ativo'
+          </h2>
+
+          <div class="sim-panel p-4 mb-5">
+            <p id="scenario-description" class="text-sm lg:text-base text-slate-300 leading-relaxed">
+              "A equipe de Marketing pede uma mudança na fórmula de 'Cliente Ativo' no Data Warehouse porque os números deles não batem com os de Vendas..."
+            </p>
+          </div>
+        </div>
+
+        <!-- OPTIONS SECTION (Visible during active choice state) -->
+        <div id="choices-container" class="space-y-3.5 my-2">
+          <p class="sim-eyebrow sim-eyebrow--dim mb-2">Selecione a Abordagem Estratégica (3 opções):</p>
+          
+          <!-- Option A Button -->
+          <button onclick="handleSelectOption('A')" class="sim-option">
+            <span class="sim-option__key">A</span>
+            <span class="sim-option__body">
+              <h3 id="option-a-label" class="sim-option__title">Opção A</h3>
+              <p id="option-a-text" class="sim-option__text">Descrição da opção...</p>
+            </span>
+          </button>
+
+          <!-- Option B Button -->
+          <button onclick="handleSelectOption('B')" class="sim-option">
+            <span class="sim-option__key">B</span>
+            <span class="sim-option__body">
+              <h3 id="option-b-label" class="sim-option__title">Opção B</h3>
+              <p id="option-b-text" class="sim-option__text">Descrição da opção...</p>
+            </span>
+          </button>
+
+          <!-- Option C Button -->
+          <button onclick="handleSelectOption('C')" class="sim-option">
+            <span class="sim-option__key">C</span>
+            <span class="sim-option__body">
+              <h3 id="option-c-label" class="sim-option__title">Opção C</h3>
+              <p id="option-c-text" class="sim-option__text">Descrição da opção...</p>
+            </span>
+          </button>
+        </div>
+
+        <!-- GOVERNANCE DEBRIEF CARD (Hidden initially, shown post-selection) -->
+        <div id="debrief-container" class="hidden space-y-4 my-2">
+          <div class="p-5 rounded-xl border border-blue-500/30 bg-blue-950/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+              <i class="fas fa-circle-info fa-fw text-8xl text-blue-400"></i>
+            </div>
+
+            <div class="sim-eyebrow flex items-center gap-2 mb-2">
+              <i class="fas fa-circle-check fa-fw text-sm"></i>
+              <span>Análise de Governança & Impacto Estratégico</span>
+            </div>
+
+            <h3 class="text-base font-bold text-white mb-2" id="debrief-choice-title">
+              Análise da Opção Selecionada
+            </h3>
+
+            <!-- Impact Summary Badges -->
+            <div id="debrief-impact-summary" class="flex flex-wrap gap-2 mb-4 font-mono text-xs">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="sim-panel p-4 mb-3">
+              <h4 class="sim-eyebrow sim-eyebrow--muted mb-1 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                <span>Princípio Central do DAMA-DMBOK</span>
+              </h4>
+              <p id="dama-lesson-text" class="text-sm text-slate-200 leading-relaxed italic">
+                --
+              </p>
+            </div>
+
+            <div class="text-xs text-slate-400 leading-relaxed" id="debrief-extra-insight">
+              <!-- Strategic context detail -->
+            </div>
+          </div>
+
+          <!-- Advance Button -->
+          <button id="next-btn" onclick="advanceScenario()" class="sim-btn sim-btn--accent sim-btn--block">
+            <span>Próximo Desafio</span>
+            <i class="fas fa-arrow-right fa-fw text-sm"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- FINAL SIMULATION SUMMARY CARD (Hidden until end) -->
+      <div id="simulation-summary-card" class="hidden sim-card p-4 sm:p-6 lg:p-8 space-y-6">
         
-        <!-- Dynamic Content Container -->
-        <main class="flex-1 p-4 sm:p-8 max-w-5xl mx-auto w-full flex flex-col" id="main-container" tabindex="-1">
-            
-            <!-- Welcome Screen -->
-            <div id="welcome-screen" class="sim-welcome__dialog my-auto">
-                <div class="w-20 h-20 bg-cyan-500/15 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-                    <i class="fas fa-sitemap text-3xl text-cyan-400"></i>
-                </div>
-                <h2 class="sim-welcome__title">Bem-vindo ao Simulador Diário de Governança de Dados</h2>
-                <p class="sim-welcome__lead max-w-2xl mx-auto">
-                    Você acaba de assumir como <strong class="text-slate-200">Líder de Dados</strong>. Suas decisões operacionais diárias moldarão a maturidade, a cultura e a eficiência dos dados da empresa. Avalie as compensações entre agilidade, custo, segurança e governança sustentável usando as diretrizes estruturais da DAMA.
-                </p>
-                <div class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed inline-block text-left">
-                    <p><strong><i class="fas fa-bullseye mr-2"></i>Seu Objetivo:</strong> Maximizar as métricas de saúde da plataforma terminando com a maior pontuação possível. As decisões mais fáceis raramente são as corretas.</p>
-                </div>
-                <div class="sim-welcome__start">
-                    <div class="sim-welcome__field">
-                        <label class="sim-welcome__label" for="sim-welcome-name">Seu nome ou cargo, para o ranking</label>
-                        <input type="text" id="sim-welcome-name" class="sim-input" placeholder="Ex. Maria Silva - CDO" maxlength="30" autocomplete="off">
-                    </div>
-                    <div class="sim-welcome__actions">
-                        <button type="button" onclick="startGame()" class="sim-btn sim-btn--primary sim-btn--lg">
-                            <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar a simulação
-                        </button>
-                    </div>
-                    <p class="sim-welcome__note">Opcional. Nada é enviado a nenhum lugar a menos que você escolha publicar sua pontuação no final.</p>
-                </div>
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-400 mb-1">
+            <i class="fas fa-award fa-fw text-xl"></i>
+          </div>
+          <span class="sim-badge">
+            Simulação Concluída (10 Desafios)
+          </span>
+          <h2 class="text-2xl lg:text-3xl font-extrabold text-white">Relatório de Avaliação de Governança</h2>
+          <p class="text-xs text-slate-400">
+            Avaliação completa das suas escolhas operacionais e da sua estratégia de governança de dados.
+          </p>
+        </div>
+
+        <!-- Classification Rating Card -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-800/80 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-2 text-center md:text-left">
+            <span class="text-xs uppercase font-mono text-slate-400">Perfil de Governança Avaliado</span>
+            <div id="summary-rating-title" class="text-2xl font-bold text-white">
+              Líder de Governança Estruturada
             </div>
+            <p id="summary-rating-desc" class="text-xs text-slate-300 max-w-lg leading-relaxed">
+              Você prioriza responsabilidade formal, políticas documentadas, contexto claro e governança automatizada dos pipelines.
+            </p>
+          </div>
 
-            <!-- Scenario Screen (Hidden initially) -->
-            <div id="scenario-screen" class="hidden flex-col h-full">
-                <div class="sim-eyebrow mb-6 flex items-center">
-                    <i class="fas fa-bolt mr-2"></i> <span id="scen-topic">Tópico</span>
-                </div>
-                
-                <h2 class="text-2xl font-bold text-slate-200 mb-4 leading-tight" id="scen-text">Texto do Cenário...</h2>
-                
-                <div id="options-container" class="space-y-4 mt-6">
-                    <!-- Options injected via JS -->
-                </div>
+          <div class="sim-panel shrink-0 text-center px-6 py-4 min-w-[160px]">
+            <span class="text-[11px] font-mono text-slate-400 block mb-1">Pontuação Final</span>
+            <span id="summary-final-score" class="text-3xl font-extrabold text-blue-400 font-mono">85.5</span>
+            <span class="text-[10px] text-slate-500 block mt-1">de um índice máximo de 100</span>
+            <span class="text-[10px] text-slate-500 block mt-1">O trimestre levou <span id="summary-run-time" class="font-mono text-slate-300">—</span></span>
+          </div>
+        </div>
 
-                <!-- Debrief Card (Hidden initially) -->
-                <div id="debrief-card" class="hidden mt-8 sim-card sim-card--accent p-4 sm:p-6 overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-cyan-500/10 px-3 py-1 rounded-bl-lg border-b border-l border-cyan-500/25 text-xs font-bold text-cyan-400">
-                        Análise de Governança
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-200 mb-2 flex items-center gap-2">
-                        <i class="fas fa-clipboard-check text-cyan-400"></i> Resultado Operacional
-                    </h3>
-                    
-                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4 mt-4" id="debrief-impacts">
-                        <!-- Impacts injected via JS -->
-                    </div>
+        <!-- Metrics Summary Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <div class="sim-panel p-3 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Eficiência</span>
+            <span id="summary-metric-eff" class="text-lg font-bold text-cyan-400 font-mono">75%</span>
+          </div>
+          <div class="sim-panel p-3 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Confiança</span>
+            <span id="summary-metric-trust" class="text-lg font-bold text-emerald-400 font-mono">85%</span>
+          </div>
+          <div class="sim-panel p-3 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Responsabilidade</span>
+            <span id="summary-metric-acc" class="text-lg font-bold text-indigo-400 font-mono">90%</span>
+          </div>
+          <div class="sim-panel p-3 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Segurança</span>
+            <span id="summary-metric-sec" class="text-lg font-bold text-rose-400 font-mono">80%</span>
+          </div>
+          <div class="sim-panel p-3 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Contexto</span>
+            <span id="summary-metric-ctx" class="text-lg font-bold text-purple-400 font-mono">85%</span>
+          </div>
+          <div class="sim-panel p-3 text-center">
+            <span class="text-[10px] text-slate-400 block mb-0.5">Orçamento Restante</span>
+            <span id="summary-metric-budget" class="text-lg font-bold text-amber-400 font-mono">$45,000</span>
+          </div>
+        </div>
 
-                    <div class="sim-panel p-4 mt-4">
-                        <h4 class="sim-eyebrow sim-eyebrow--muted mb-1 flex items-center gap-2">
-                            <i class="fas fa-graduation-cap text-cyan-400"></i> Princípio DAMA-DMBOK
-                        </h4>
-                        <p class="text-slate-400 text-sm leading-relaxed" id="debrief-lesson">A lição vai aqui.</p>
-                    </div>
+        <!-- Key Conclusion -->
+        <div class="p-4 rounded-xl bg-blue-950/20 border border-blue-500/20 space-y-1.5">
+          <h3 class="sim-eyebrow flex items-center gap-2">
+            <i class="fas fa-circle-info fa-fw text-sm"></i>
+            <span>Conclusão Executiva DAMA-DMBOK</span>
+          </h3>
+          <p class="text-xs lg:text-sm text-slate-200 leading-relaxed font-medium">
+            "Governança de dados não é criar burocracia nem frear a engenharia; é construir fluxos de trabalho sustentáveis, previsíveis e automatizados que permitam à empresa escalar sem destruir a confiança nos dados."
+          </p>
+        </div>
 
-                    <button onclick="nextScenario()" class="sim-btn sim-btn--accent sim-btn--block mt-6">
-                        Próximo Desafio <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
+        <!-- LEADERBOARD SUBMISSION FORM -->
+        <div id="leaderboard-submission-form" class="sim-panel p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="w-full sm:w-auto flex-1">
+            <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
+              Registre seu nome no Ranking Global:
+            </label>
+            <input type="text" id="player-name-input" placeholder="ex. Maria Silva - CDO" class="sim-input">
+          </div>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="sim-btn sim-btn--accent sim-btn--sm w-full sm:w-auto shrink-0">
+            <i class="fas fa-check fa-fw text-sm"></i>
+            <span>Salvar no Ranking</span>
+          </button>
+        </div>
 
-            <!-- Final Summary Screen (Hidden initially) -->
-            <div id="summary-screen" class="hidden glass-panel p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-4xl mx-auto my-auto relative">
-                <div class="text-center border-b border-slate-800 pb-6 mb-6">
-                    <h2 class="text-3xl font-bold text-slate-200 mb-2">Simulação Concluída</h2>
-                    <p class="text-slate-500">Relatório Final de Avaliação da Maturidade dos Dados</p>
-                </div>
-                
-                <div class="flex flex-col md:flex-row gap-8 items-center justify-center mb-8">
-                    <div class="text-center relative">
-                        <svg class="w-40 h-40 transform -rotate-90">
-                            <circle cx="80" cy="80" r="70" stroke="#1d5566" stroke-width="12" fill="none" />
-                            <circle id="final-circle" cx="80" cy="80" r="70" stroke="#65b7c7" stroke-width="12" fill="none" stroke-dasharray="439.8" stroke-dashoffset="439.8" class="transition-all duration-1500 ease-out" />
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span class="text-4xl font-bold text-slate-200" id="final-score-text">0</span>
-                            <span class="text-xs text-slate-500 font-semibold uppercase">Índice Final</span>
-                            <span class="text-[10px] text-slate-400 font-mono mt-1" id="summary-run-time">—</span>
-                        </div>
-                    </div>
-                    
-                    <div class="sim-card p-4 sm:p-6 flex-1 w-full">
-                        <h3 class="text-xl font-bold text-slate-200 mb-2" id="profile-title">Perfil</h3>
-                        <p class="text-slate-400 mb-4 text-sm leading-relaxed" id="profile-desc">Descrição do perfil.</p>
-                        <div class="sim-panel p-3 text-sm font-semibold text-slate-300">
-                            <i class="fas fa-lightbulb text-amber-400 mr-2"></i> Conclusão Principal: <span class="font-normal text-slate-400">A Governança de Dados não tem a ver com burocracia; trata-se de construir fluxos de trabalho sustentáveis, seguros e previsíveis.</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- GLOBAL LEADERBOARD TABLE -->
+        <div class="sim-card p-5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-white flex items-center space-x-2">
+              <i class="fas fa-wand-magic-sparkles fa-fw text-sm text-amber-400"></i>
+              <span>Ranking Global</span>
+            </h3>
+            <span class="text-[10px] text-slate-500 font-mono">Classificação dos Jogadores</span>
+          </div>
 
-                <!-- Global Leaderboard Section -->
-                <div class="sim-card overflow-hidden mb-8">
-                    <div class="bg-slate-800 text-white p-3 flex justify-between items-center">
-                        <h3 class="font-bold"><i class="fas fa-trophy text-amber-400 mr-2"></i> Tabela de Classificação Global</h3>
-                    </div>
-                    
-                    <div class="p-4 bg-slate-800 border-b border-slate-800" id="leaderboard-form-container">
-                        <p class="text-sm text-slate-400 mb-2 font-medium">Salve sua pontuação no ranking:</p>
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <label for="player-name" class="sr-only">Seu nome ou cargo para o ranking</label>
-                            <input type="text" id="player-name" placeholder="Seu Nome ou Cargo" class="flex-1 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                            <button onclick="saveScore()" class="sim-btn sim-btn--accent sim-btn--sm">
-                                Salvar no Ranking
-                            </button>
-                        </div>
-                    </div>
+          <div class="sim-table-wrap">
+            <table class="sim-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Jogador</th>
+                  <th class="sim-table__score">Pontos</th>
+                  <th>Perfil Avaliado</th>
+                  <th class="sim-table__meta">Data</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-table-body">
+                <!-- Dynamically inserted via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-                    <div class="sim-table-wrap">
-                        <table class="sim-table">
-                            <thead>
-                                <tr>
-                                    <th>Pos</th>
-                                    <th>Jogador</th>
-                                    <th class="sim-table__score">Índice</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leaderboard-body">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <!-- simulator-bridge.js renders the personalised Scorecard invitation here
+             and then hides the generic banner below. If that script fails to load,
+             the slot stays empty and the banner is what the visitor sees. -->
+        <div id="simBridgeSlot"></div>
 
-                <!-- simulator-bridge.js renderiza aqui o convite personalizado ao
-                     Scorecard e depois esconde o banner genérico abaixo. Se esse
-                     script não carregar, o espaço fica vazio e o visitante vê o
-                     banner original. -->
-                <div id="simBridgeSlot"></div>
+        <!-- CALL TO ACTION BANNER -->
+        <div data-sim-bridge-replaces class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="space-y-1 text-center sm:text-left">
+            <span class="sim-badge">
+              Consultoria Especializada em Dados
+            </span>
+            <h3 class="text-lg lg:text-xl font-bold text-white">
+              Dificuldade em aplicar boas práticas de governança de dados na vida real?
+            </h3>
+            <p class="text-xs text-slate-300 max-w-xl">
+              Vamos construir um framework de governança de dados personalizado, escalável e automatizado, sob medida para a arquitetura e os objetivos de negócio da sua empresa.
+            </p>
+          </div>
 
-                <!-- CTA Banner -->
-                <div data-sim-bridge-replaces class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-slate-900 border border-blue-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 relative overflow-hidden mb-6">
-                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <a href="/pt/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg shrink-0">
+            <span>Vamos construir o seu framework</span>
+            <i class="fas fa-arrow-up-right-from-square fa-fw text-sm"></i>
+          </a>
+        </div>
 
-                    <div class="space-y-1 text-center sm:text-left">
-                        <span class="sim-badge">
-                            Consultoria Especializada em Dados
-                        </span>
-                        <h3 class="text-lg lg:text-xl font-bold text-white">
-                            Com dificuldades com as melhores práticas de Governança de Dados no dia a dia?
-                        </h3>
-                        <p class="text-xs text-slate-300 max-w-xl">
-                            Vamos construir um framework de governança de dados personalizado, escalável e automatizado para a arquitetura e os objetivos de negócio da sua empresa.
-                        </p>
-                    </div>
+        <!-- Action Footer Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          <button onclick="openDamaMatrixModal()" class="sim-btn sim-btn--ghost sim-btn--sm w-full sm:w-auto">
+            <i class="fas fa-book-open fa-fw text-sm text-blue-400"></i>
+            <span>Revisar as Áreas de Conhecimento DAMA</span>
+          </button>
 
-                    <a href="/pt/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg shrink-0">
-                        <span>Vamos construir seu framework</span>
-                        <i class="fas fa-arrow-up-right-from-square fa-fw text-sm" aria-hidden="true"></i>
-                    </a>
-                </div>
+          <button onclick="resetSimulation()" class="sim-btn sim-btn--ghost w-full sm:w-auto">
+            <i class="fas fa-rotate-right fa-fw text-sm"></i>
+            <span>Reiniciar a Simulação</span>
+          </button>
+        </div>
 
-                <div class="text-center">
-                    <button onclick="resetGame()" class="sim-btn sim-btn--ghost mx-auto">
-                        <i class="fas fa-redo"></i> Jogar Novamente
-                    </button>
-                </div>
-            </div>
+      </div>
 
-        
+    
     <!--
       Static explainer.
 
@@ -460,13 +561,13 @@
       placeholders and no explanation of what the simulator teaches. This section
       is the page saying, in plain HTML, what the exercise is and what it covers.
     -->
-    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-300 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
-      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-100">Sobre este simulador</h2>
+    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 text-slate-700 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
+      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-900">Sobre este simulador</h2>
         <p class="mb-4 leading-relaxed">O Simulador do Dia a Dia da Governança de Dados é um exercício gratuito, no navegador, que coloca você na cadeira de quem precisa resolver dez incidentes de governança em sequência — os que chegam por Slack, não como projeto. O Marketing quer mudar a fórmula de "Cliente Ativo" porque os números não batem com os de Vendas. Uma tabela obsoleta custa milhares por mês em nuvem. Cientistas de dados recém-chegados levam semanas para achar datasets que já existem. Cada incidente oferece três respostas plausíveis e nenhuma é de graça.</p>
         <p class="mb-4 leading-relaxed">Cada escolha move cinco indicadores DAMA-DMBOK — Eficiência, Confiança, Responsabilidade, Segurança e Contexto — e consome um orçamento fixo. O ponto é o trade-off: a correção mais rápida costuma custar responsabilidade, e a mais rigorosa costuma custar orçamento e capital político. Ao final, o simulador avalia o padrão das suas decisões, não uma resposta isolada, e explica em qual princípio do DMBOK cada uma se apoiava.</p>
         <p class="mb-4 leading-relaxed">Leva cerca de dez minutos e não exige cadastro. Suas decisões são pontuadas no seu navegador e ficam lá. O ranking é a única exceção: se você escolher publicar seu resultado, o nome que digitar e sua pontuação são salvos para que todos os outros jogadores possam vê-los.</p>
 
-      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">O que você vai praticar</h3>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">O que você vai praticar</h3>
         <ul class="mb-4 list-disc space-y-2 pl-6 leading-relaxed">
           <li><strong>Papéis e responsabilidades</strong>: quando uma disputa precisa de um data steward com nome definido em vez de mais uma reunião.</li>
           <li><strong>Gestão de qualidade de dados</strong>: filtrar o dado ruim no relatório ou corrigi-lo na origem.</li>
@@ -477,25 +578,25 @@
           <li><strong>FinOps e governança da analítica</strong>: cotas de consulta, atribuição de custo e quem paga por um join ineficiente.</li>
         </ul>
 
-      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Perguntas sobre este simulador</h3>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Perguntas sobre este simulador</h3>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-100 mb-1">Preciso conhecer o DAMA-DMBOK para usar?</h4>
+          <h4 class="font-semibold text-slate-900 mb-1">Preciso conhecer o DAMA-DMBOK para usar?</h4>
           <p class="leading-relaxed">Não. Cada cenário é escrito em linguagem operacional e a análise após cada decisão nomeia o princípio do DMBOK envolvido. Muita gente usa o simulador como primeira introdução ao framework, não como prova sobre ele.</p>
         </div>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-100 mb-1">Existe uma única resposta certa em cada cenário?</h4>
+          <h4 class="font-semibold text-slate-900 mb-1">Existe uma única resposta certa em cada cenário?</h4>
           <p class="leading-relaxed">Não. Todas as opções são decisões que alguma organização real já tomou. A pontuação reflete o que cada opção custa e entrega nos cinco indicadores, então uma decisão defensável sob pressão de orçamento pode pontuar bem mesmo não sendo a resposta de manual.</p>
         </div>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-100 mb-1">É gratuito e coleta meus dados?</h4>
+          <h4 class="font-semibold text-slate-900 mb-1">É gratuito e coleta meus dados?</h4>
           <p class="leading-relaxed">É gratuito e não exige conta. Suas decisões são pontuadas no seu navegador e nunca saem dele. Publicar no ranking é opcional e é a única coisa enviada para nós: o nome que você digitar e sua pontuação final, que passam a aparecer no mesmo ranking global que todos os outros jogadores veem.</p>
         </div>
         <div class="mb-5">
-          <h4 class="font-semibold text-slate-100 mb-1">O que significa a pontuação final?</h4>
+          <h4 class="font-semibold text-slate-900 mb-1">O que significa a pontuação final?</h4>
           <p class="leading-relaxed">É um índice ponderado de maturidade sobre Eficiência, Confiança, Responsabilidade, Segurança e Contexto, mais o orçamento restante. É uma leitura do seu estilo de decisão, não uma certificação nem um diagnóstico da sua organização.</p>
         </div>
 
-      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Leituras relacionadas</h3>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-900">Leituras relacionadas</h3>
         <ul class="list-disc space-y-2 pl-6">
           <li><a class="underline hover:no-underline" href="/simulators/pt/data-ownership-conflict/">Quem é o Dono Disso? Simulador de Conflitos de Propriedade de Dados</a></li>
           <li><a class="underline hover:no-underline" href="/simulators/pt/data-literacy/">Simulador de Alfabetização de Dados</a></li>
@@ -503,419 +604,518 @@
         </ul>
     </section>
     </main>
+  </div>
+
+  <!-- MODAL: DAMA-DMBOK Knowledge Areas Reference -->
+  <div id="dama-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="sim-card max-w-3xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold">
+            D
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Referência do Framework DAMA-DMBOK</h3>
+            <p class="text-xs text-slate-400">Áreas centrais da governança de dados corporativa</p>
+          </div>
+        </div>
+        <button onclick="closeDamaMatrixModal()" aria-label="Fechar a matriz DAMA-DMBOK" class="sim-btn sim-btn--quiet">
+          <i class="fas fa-xmark fa-fw text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-300">
+        <p class="leading-relaxed text-slate-400">
+          O framework DAMA-DMBOK2 organiza a gestão de dados em 11 funções interligadas, com a Governança de Dados como orquestradora central.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="sim-panel p-3.5 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">1. Governança de Dados</span>
+            <p class="text-slate-400">Planejamento, supervisão e controle da gestão e da estratégia de dados.</p>
+          </div>
+          <div class="sim-panel p-3.5 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">2. Segurança & Privacidade dos Dados</span>
+            <p class="text-slate-400">Garantir confidencialidade, controle de acesso, conformidade regulatória (LGPD/GDPR) e criptografia.</p>
+          </div>
+          <div class="sim-panel p-3.5 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">3. Metadados & Contexto</span>
+            <p class="text-slate-400">Glossários de negócio, catálogos de dados, definições técnicas e linhagem ponta a ponta.</p>
+          </div>
+          <div class="sim-panel p-3.5 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">4. Qualidade de Dados</span>
+            <p class="text-slate-400">Definir, medir, monitorar e melhorar a adequação dos dados ao uso.</p>
+          </div>
+          <div class="sim-panel p-3.5 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">5. Dados Mestres & de Referência</span>
+            <p class="text-slate-400">Registro único de cliente/entidade, resolução de identidade e taxonomias corporativas.</p>
+          </div>
+          <div class="sim-panel p-3.5 space-y-1">
+            <span class="font-bold text-blue-400 block text-xs">6. Arquitetura de Dados</span>
+            <p class="text-slate-400">Desenho estrutural, camadas semânticas e gestão de custo de nuvem com FinOps.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 bg-slate-900/90 border-t border-slate-800 flex justify-end">
+        <button onclick="closeDamaMatrixModal()" aria-label="Fechar a matriz DAMA-DMBOK" class="sim-btn sim-btn--ghost sim-btn--sm">
+          Fechar Referência
+        </button>
+      </div>
     </div>
-    </div>
+  </div>
 
-<!-- Private company spaces. Runs before the leaderboard script and
-     resolves, from the space cookie alone, whether this browser is inside a
-     client's space; if it is, the board on this page becomes that company's
-     board and a banner names it. A public visitor loads this file, learns
-     there is no seat, and nothing about the page changes. -->
-<script src="/assets/js/workspace-context.js"></script>
-<script src="/assets/js/scenario-text.js"></script>
-<script src="/assets/js/simulator-leaderboard.js"></script>
-<script src="/assets/js/workspace-auto-publish.js"></script>
-<script src="/assets/js/simulator-bridge.js"></script>
-<script>
-    // System Initialization & Audio
-    let synth = null;
-    try { synth = new Tone.Synth().toDestination(); synth.volume.value = -10; } catch (e) { console.warn("Tone.js init failed", e); }
-    
-    function playSound(type) {
-        if(!synth) return;
-        Tone.start();
-        if(type === 'start') synth.triggerAttackRelease("C4", "8n");
-        if(type === 'click') synth.triggerAttackRelease("G4", "16n");
-        if(type === 'success') {
-            const now = Tone.now();
-            synth.triggerAttackRelease("C5", "8n", now);
-            synth.triggerAttackRelease("E5", "8n", now + 0.1);
-            synth.triggerAttackRelease("G5", "4n", now + 0.2);
-        }
-    }
-
-    // Modal Logic
-    function openModal() { document.getElementById('dama-modal').classList.add('active'); }
-    function closeModal() { document.getElementById('dama-modal').classList.remove('active'); }
-
-    // O ranking global servido por /api/simulator-scores. Todos os visitantes veem
-    // as mesmas linhas, então nada é pré-carregado aqui: o corpo da tabela informa
-    // por conta própria se está carregando, vazio ou indisponível.
-    const SIMULATOR_SLUG = 'data-governance-day-to-day';
-    const SIMULATOR_LOCALE = 'pt';
-    let leaderboard = [];
-    let leaderboardStatus = 'loading';
-    let playerRanked = false;
-    // Definido quando o visitante publica, para destacar a própria linha em um
-    // ranking que agora contém desconhecidos.
-    let playerRowKey = null;
-
-    // SCENARIO DATA (10 DAMA-DMBOK scenarios, balanced deltas max ~9%, fully localized to PT-BR)
+  <!-- JAVASCRIPT LOGIC -->
+  <!-- Private company spaces. Runs before the leaderboard script and
+       resolves, from the space cookie alone, whether this browser is inside a
+       client's space; if it is, the board on this page becomes that company's
+       board and a banner names it. A public visitor loads this file, learns
+       there is no seat, and nothing about the page changes. -->
+  <script src="/assets/js/workspace-context.js"></script>
+  <script src="/assets/js/scenario-text.js"></script>
+  <script src="/assets/js/simulator-leaderboard.js"></script>
+  <script src="/assets/js/workspace-auto-publish.js"></script>
+  <script src="/assets/js/simulator-bridge.js"></script>
+  <script>
     const SCENARIOS = [
-        {
-            topic: "Papéis & Responsabilidades (Stewardship)",
-            text: "A equipe de Marketing solicita uma alteração urgente na fórmula usada para calcular 'Cliente Ativo' no data warehouse, pois os números não batem com os de Vendas. Ninguém sabe quem aprova ou é dono desta métrica. Como você lida com isso?",
-            options: [
-                {
-                    label: "A", title: "Correção Rápida no BI",
-                    desc: "Deixe o engenheiro de dados fazer a alteração rapidamente para desbloquear o Marketing.",
-                    impact: { eff: 8, trust: -6, acc: -8, sec: 0, ctx: -4, budget: 0 },
-                    lesson: "Corrigir dados em silos sem Governança clara leva a definições conflitantes e destrói a confiança entre os departamentos."
-                },
-                {
-                    label: "B", title: "Dono do Domínio (Stewardship)",
-                    desc: "Nomeie formalmente um Data Steward para o domínio de clientes, estabeleça aprovação e documente no glossário de negócios.",
-                    impact: { eff: -3, trust: 9, acc: 9, sec: 2, ctx: 8, budget: -1500 },
-                    lesson: "Atribuir papéis formalmente (Stewardship) garante responsabilidade e cria uma fonte única de verdade para métricas corporativas."
-                },
-                {
-                    label: "C", title: "Comitê Executivo",
-                    desc: "Congele o desenvolvimento e exija que as duas equipes apresentem ao comitê de diretores para debater a fórmula.",
-                    impact: { eff: -9, trust: 2, acc: 4, sec: 0, ctx: 2, budget: -3000 },
-                    lesson: "A burocracia excessiva para decisões de nível de métrica trava as operações. A Governança deve capacitar os Stewards, não escalar tudo para os executivos."
-                }
-            ]
+      {
+        id: 1,
+        incidentId: "DG-2026-01",
+        damaArea: "Papéis & Responsabilidades",
+        title: "Conflito de Definição de Métrica: a Fórmula de 'Cliente Ativo'",
+        description: "A equipe de Marketing pede uma mudança na fórmula de 'Cliente Ativo' no Data Warehouse porque os números deles não batem com os de Vendas. Ninguém sabe quem é dono da métrica nem quem tem autoridade para aprovar alterações.",
+        optionA: {
+          label: "Deixar o engenheiro de dados fazer uma correção rápida",
+          costLabel: "Custo Imediato de $0",
+          text: "O engenheiro atualiza a consulta SQL direto no dashboard do Marketing para desbloquear o pedido.",
+          impact: { efficiency: 4, trust: -6, accountability: -5, security: 0, context: -4, budget: 0 },
+          damaLesson: "Correções rápidas sem data stewards ou governança criam definições conflitantes e destroem a confiança nos dados.",
+          insight: "Contornos imediatos parecem ágeis, mas dividem a empresa em versões contraditórias da verdade."
         },
-        {
-            topic: "Segurança de Dados & Políticas",
-            text: "A equipe de Analytics copia dados confidenciais de RH para uma pasta pública na nuvem para economizar tempo na construção de um dashboard. Não há regra oficial proibindo estritamente isso.",
-            options: [
-                {
-                    label: "A", title: "Intervenção Manual",
-                    desc: "Mova os dados manualmente e advirta verbalmente a equipe analítica.",
-                    impact: { eff: -2, trust: 2, acc: 2, sec: 4, ctx: 0, budget: 0 },
-                    lesson: "Correções manuais não previnem erros futuros. As organizações precisam de regras sistêmicas de segurança integradas ao fluxo de trabalho."
-                },
-                {
-                    label: "B", title: "Política de Classificação Sistêmica",
-                    desc: "Publique uma 'Política de Classificação de Dados' formal e automatize as permissões de nuvem com base em tags (PII).",
-                    impact: { eff: -4, trust: 6, acc: 5, sec: 9, ctx: 4, budget: -2500 },
-                    lesson: "Políticas documentadas estabelecem limites claros e permitem que a arquitetura automatize regras de segurança (Security by Design)."
-                },
-                {
-                    label: "C", title: "Bloqueio Total de Acesso",
-                    desc: "Revogue todo o acesso direto a dados brutos para analistas até segunda ordem.",
-                    impact: { eff: -9, trust: -5, acc: 0, sec: 9, ctx: 0, budget: 0 },
-                    lesson: "A segurança excessiva por meio de bloqueios prejudica a entrega de valor. O objetivo da Governança de Dados é o acesso seguro e governado, não a restrição total."
-                }
-            ]
+        optionB: {
+          label: "Formar um comitê informal entre Marketing e Vendas",
+          costLabel: "Custo Moderado",
+          text: "Organizar reuniões semanais para negociar um meio-termo na lógica de cliente ativo.",
+          impact: { efficiency: -2, trust: 2, accountability: 2, security: 0, context: 2, budget: -2000 },
+          damaLesson: "O alinhamento informal ajuda, mas carece de autoridade formal e de propriedade clara.",
+          insight: "Sem papéis definidos de data stewardship, as decisões do comitê dependem de boa vontade e perdem força com o tempo."
         },
-        {
-            topic: "Arquitetura & Qualidade (Schema Contracts)",
-            text: "Um engenheiro de software altera o nome de uma coluna de 'user_id' para 'customer_uuid' no banco transacional. O pipeline noturno quebra e trava todos os painéis executivos.",
-            options: [
-                {
-                    label: "A", title: "Comunicação Informal",
-                    desc: "Conserte o pipeline manualmente e peça no Slack para o engenheiro te avisar da próxima vez.",
-                    impact: { eff: 5, trust: -4, acc: -4, sec: 0, ctx: 0, budget: 0 },
-                    lesson: "Depender de comunicação informal falha em escala. Sem gerenciamento de mudanças (Change Management), os pipelines continuarão a quebrar."
-                },
-                {
-                    label: "B", title: "Contratos de Esquema CI/CD",
-                    desc: "Integre um fluxo de alerta automático no pipeline CI/CD que avisa os donos dos dados antes de mudanças no banco irem ao ar.",
-                    impact: { eff: 8, trust: 6, acc: 5, sec: 3, ctx: 3, budget: -4000 },
-                    lesson: "Codificar fluxos de Governança na arquitetura de dados (Data Contracts) previne indisponibilidade de forma proativa."
-                },
-                {
-                    label: "C", title: "Trava de Banco de Dados",
-                    desc: "Remova a permissão da engenharia de software para modificar qualquer esquema de banco de dados sem a aprovação da equipe de dados.",
-                    impact: { eff: -8, trust: 3, acc: 2, sec: 2, ctx: 0, budget: -1000 },
-                    lesson: "Criar gargalos operacionais estrangula a agilidade de desenvolvimento (Shadow IT vai surgir)."
-                }
-            ]
-        },
-        {
-            topic: "Gerenciamento de Dados Mestres (MDM)",
-            text: "Vários sistemas de CRM contêm registros duplicados dos mesmos clientes, causando faturamento duplo e reclamações frequentes no Suporte ao Cliente.",
-            options: [
-                {
-                    label: "A", title: "Deduplicação Manual Mensal",
-                    desc: "Atribua um analista júnior para baixar arquivos Excel todo mês e cruzar (vlookup) as duplicatas.",
-                    impact: { eff: -5, trust: 2, acc: 0, sec: -2, ctx: 0, budget: -500 },
-                    lesson: "O gerenciamento manual de dados mestres é insustentável, sujeito a erros e introduz riscos de segurança com exportações de planilhas."
-                },
-                {
-                    label: "B", title: "Implementação de Golden Record",
-                    desc: "Estabeleça um programa MDM (Master Data Management) automatizado para criar uma 'Visão Única do Cliente' via APIs.",
-                    impact: { eff: 7, trust: 9, acc: 5, sec: 4, ctx: 6, budget: -6000 },
-                    lesson: "O MDM estabelece um 'Golden Record' autoritário, melhorando drasticamente a experiência do cliente e a confiança no nível executivo."
-                },
-                {
-                    label: "C", title: "Ignorar e Compensar",
-                    desc: "Deixe os sistemas como estão e ofereça descontos aos clientes que reclamarem de faturamento duplo.",
-                    impact: { eff: 4, trust: -8, acc: -5, sec: 0, ctx: 0, budget: -8000 },
-                    lesson: "Ignorar problemas de qualidade na origem causa vazamento financeiro exponencial e perda permanente de reputação."
-                }
-            ]
-        },
-        {
-            topic: "Metadados & Camada Semântica",
-            text: "Em uma reunião da diretoria, o CFO e o CMO apresentam relatórios diferentes para a 'Margem de Lucro' do último trimestre. As reuniões viram brigas sobre quem tem os dados 'certos'.",
-            options: [
-                {
-                    label: "A", title: "Guerra de Dashboards",
-                    desc: "Permita que ambos os departamentos continuem usando sua própria lógica nas ferramentas de BI locais.",
-                    impact: { eff: 5, trust: -9, acc: -6, sec: 0, ctx: -8, budget: 0 },
-                    lesson: "Definições não gerenciadas criam silos de dados, destruindo o alinhamento da liderança e a confiabilidade dos relatórios."
-                },
-                {
-                    label: "B", title: "Glossário e Camada Semântica",
-                    desc: "Crie um Glossário de Negócios oficial e implemente a definição certificada em uma camada semântica central.",
-                    impact: { eff: -2, trust: 8, acc: 6, sec: 0, ctx: 9, budget: -2000 },
-                    lesson: "O gerenciamento de Metadados e as camadas semânticas abstraem lógicas complexas, garantindo que toda a empresa fale a mesma linguagem."
-                },
-                {
-                    label: "C", title: "Mandato Top-Down",
-                    desc: "Desative o painel de Marketing e force todos a usar o painel da equipe de Finanças sem colaboração.",
-                    impact: { eff: 2, trust: 2, acc: 3, sec: 0, ctx: -4, budget: -500 },
-                    lesson: "Ditar definições sem consenso (Stewardship) resulta em baixa adoção e ressentimento entre departamentos."
-                }
-            ]
-        },
-        {
-            topic: "Qualidade de Dados",
-            text: "Um novo modelo de Machine Learning falha em produção porque 30% dos registros de clientes na tabela de faturamento estão sem código postal (CEP).",
-            options: [
-                {
-                    label: "A", title: "Preencher com Default",
-                    desc: "Escreva um script rápido que preenche os códigos postais ausentes com '00000' para fazer o modelo rodar hoje.",
-                    impact: { eff: 8, trust: -7, acc: -4, sec: 0, ctx: -2, budget: 0 },
-                    lesson: "Mascarar erros de Qualidade de Dados contamina algoritmos de IA/ML, levando a previsões perigosas ou enviesadas."
-                },
-                {
-                    label: "B", title: "Regras de Qualidade na Origem",
-                    desc: "Implemente verificações de Qualidade de Dados na API do CRM de origem para rejeitar perfis sem CEP e alerte o time de vendas.",
-                    impact: { eff: -4, trust: 9, acc: 8, sec: 0, ctx: 4, budget: -1500 },
-                    lesson: "A Qualidade de Dados proativa impede que o lixo entre na plataforma. Consertar os dados na origem é o princípio fundamental da DAMA."
-                },
-                {
-                    label: "C", title: "Limpeza Local",
-                    desc: "Apenas filtre (WHERE CEP IS NOT NULL) as linhas incorretas no pipeline do modelo de IA.",
-                    impact: { eff: 4, trust: -3, acc: -2, sec: 0, ctx: 2, budget: 0 },
-                    lesson: "Filtrar dados passivamente reduz o volume do dataset sem resolver o problema sistêmico de captura de dados."
-                }
-            ]
-        },
-        {
-            topic: "Linhagem de Dados & Conformidade",
-            text: "Uma auditoria regulatória de conformidade exige que você prove exatamente de quais tabelas o modelo de IA de concessão de crédito extrai os dados, e quem os tocou.",
-            options: [
-                {
-                    label: "A", title: "Conjecturas (Guesswork)",
-                    desc: "Adivinhe os caminhos vasculhando logs antigos do GitHub e envie um PDF informal aos auditores.",
-                    impact: { eff: 3, trust: -8, acc: -6, sec: -5, ctx: -5, budget: 0 },
-                    lesson: "A incapacidade de provar a linhagem resulta em multas regulatórias e desconfiança na transparência operacional."
-                },
-                {
-                    label: "B", title: "Linhagem de Dados Automatizada",
-                    desc: "Invista em uma ferramenta de linhagem (Data Lineage) que rastreia os fluxos da origem ao destino, comprovando a conformidade de ponta a ponta.",
-                    impact: { eff: 6, trust: 8, acc: 6, sec: 7, ctx: 8, budget: -5000 },
-                    lesson: "O gerenciamento robusto de metadados fornece linhagem visual, vital para auditorias de conformidade (Compliance) e solução de problemas."
-                },
-                {
-                    label: "C", title: "Esconder o Modelo",
-                    desc: "Desligue temporariamente o modelo de IA de crédito até que os auditores terminem a avaliação.",
-                    impact: { eff: -9, trust: -9, acc: -8, sec: -2, ctx: 0, budget: -10000 },
-                    lesson: "Desligar sistemas geradores de receita devido ao medo de conformidade é uma falha massiva de governança."
-                }
-            ]
-        },
-        {
-            topic: "Ciclo de Vida & Armazenamento",
-            text: "Os custos do banco de dados na nuvem estão fora de controle porque o data lake retém petabytes de logs de tráfego web não analisados com mais de 7 anos.",
-            options: [
-                {
-                    label: "A", title: "Exclusão Silenciosa",
-                    desc: "Escreva um script para excluir todos os logs com mais de 3 anos sem notificar o departamento jurídico.",
-                    impact: { eff: 6, trust: -4, acc: -7, sec: -5, ctx: -2, budget: 3000 },
-                    lesson: "A exclusão não governada viola leis de retenção legal e destrói a responsabilidade histórica dos dados."
-                },
-                {
-                    label: "B", title: "Arquivamento e Retenção",
-                    desc: "Crie uma 'Política de Ciclo de Vida e Retenção de Dados' validada pelo jurídico, automatizando a transição para armazenamento frio (Cold Storage).",
-                    impact: { eff: -2, trust: 6, acc: 8, sec: 4, ctx: 3, budget: 2000 },
-                    lesson: "O Gerenciamento de Documentos e Registros (DMBOK) define ciclos de vida claros (Criação, Arquivamento, Expurgo) baseados em valor."
-                },
-                {
-                    label: "C", title: "Comprar Mais Espaço",
-                    desc: "Ignore o problema e apenas aprove mais orçamento de nuvem para continuar crescendo.",
-                    impact: { eff: 5, trust: 0, acc: -3, sec: 0, ctx: 0, budget: -7000 },
-                    lesson: "Jogar dinheiro em infraestrutura sem otimização de arquitetura é o oposto da gestão eficiente de ativos de dados."
-                }
-            ]
-        },
-        {
-            topic: "Acesso a Dados & Catálogo",
-            text: "Analistas recém-contratados demoram 3 semanas para entender onde as tabelas principais estão localizadas e o que cada coluna significa, atrasando as entregas de projetos.",
-            options: [
-                {
-                    label: "A", title: "Shadow Pairing",
-                    desc: "Mande-os sentar ao lado de engenheiros seniores por 3 semanas para absorver conhecimento tribal.",
-                    impact: { eff: -6, trust: 0, acc: -3, sec: 0, ctx: -5, budget: -1000 },
-                    lesson: "Depender de 'conhecimento tribal' não escala e desperdiça tempo valioso dos engenheiros de dados mais caros."
-                },
-                {
-                    label: "B", title: "Catálogo de Dados de Autoatendimento",
-                    desc: "Implemente um Catálogo de Dados de autoatendimento onde tabelas, donos e regras são documentados e facilmente pesquisáveis.",
-                    impact: { eff: 9, trust: 7, acc: 6, sec: 3, ctx: 9, budget: -4000 },
-                    lesson: "Um Catálogo de Dados de metadados democratiza o conhecimento, reduz o tempo de onboarding e capacita os analistas de forma autônoma."
-                },
-                {
-                    label: "C", title: "Acesso Total de Administrador",
-                    desc: "Dê a eles privilégios de administrador em toda a plataforma na nuvem para que possam 'explorar e descobrir' sozinhos.",
-                    impact: { eff: 7, trust: -5, acc: -8, sec: -9, ctx: 2, budget: 0 },
-                    lesson: "Fornecer acesso excessivo destrói a Segurança de Dados e abre a plataforma para exclusões ou vazamentos acidentais."
-                }
-            ]
-        },
-        {
-            topic: "Operações em Nuvem (FinOps)",
-            text: "Um cluster de processamento analítico foi deixado ligado rodando uma query recursiva de um Cientista de Dados por um fim de semana inteiro, estourando 200% do limite de orçamento do mês.",
-            options: [
-                {
-                    label: "A", title: "Bronca na Equipe",
-                    desc: "Pague a conta da nuvem e envie um e-mail agressivo proibindo queries pesadas nos fins de semana.",
-                    impact: { eff: -2, trust: -3, acc: -4, sec: 0, ctx: 0, budget: -9000 },
-                    lesson: "A culpa não previne falhas de sistema. A infraestrutura de dados moderna requer salvaguardas (guardrails) incorporadas."
-                },
-                {
-                    label: "B", title: "Tags FinOps & Alertas",
-                    desc: "Implemente tags de custo obrigatórias (FinOps), defina alertas de faturamento e crie regras de desligamento automático ocioso.",
-                    impact: { eff: 4, trust: 5, acc: 8, sec: 2, ctx: 4, budget: -1000 },
-                    lesson: "FinOps e Arquitetura de Dados trabalham juntos para criar monitoramento contínuo e responsabilidade orçamentária previsível."
-                },
-                {
-                    label: "C", title: "Revisão Manual de Queries",
-                    desc: "Exija que todas as queries de Cientistas de Dados passem por aprovação manual de um DBA antes da execução.",
-                    impact: { eff: -9, trust: -2, acc: 3, sec: 1, ctx: 0, budget: -500 },
-                    lesson: "Introduzir gargalos operacionais drásticos para resolver falhas mecânicas afoga a inovação analítica da equipe."
-                }
-            ]
+        optionC: {
+          label: "Nomear um data steward e publicar no glossário de negócio",
+          costLabel: "Investimento Estratégico",
+          text: "Designar o data steward do domínio de clientes, mapear os requisitos e documentar a métrica oficial no catálogo.",
+          impact: { efficiency: -2, trust: 6, accountability: 7, security: 0, context: 5, budget: -5000 },
+          damaLesson: "A governança formal de dados estabelece papéis claros (RACI) e cria uma fonte única de verdade para as métricas corporativas.",
+          insight: "Definições centralizadas e documentadas eliminam a ambiguidade e alinham a liderança executiva."
         }
+      },
+      {
+        id: 2,
+        incidentId: "DG-2026-02",
+        damaArea: "Segurança & Privacidade",
+        title: "Possível Vazamento: Dados Sensíveis de RH em Bucket Público",
+        description: "A equipe de Analytics copiou arquivos de salários e dados pessoais de funcionários para um bucket S3 público temporário para acelerar a criação de um dashboard.",
+        optionA: {
+          label: "Mover os arquivos manualmente e dar um aviso verbal",
+          costLabel: "Custo Imediato de $0",
+          text: "Excluir os arquivos da pasta pública e pedir no Slack que a equipe não repita.",
+          impact: { efficiency: -2, trust: 1, accountability: 0, security: -8, context: 0, budget: 0 },
+          damaLesson: "Correções manuais sem políticas formais ou controles automatizados não impedem novas violações.",
+          insight: "Tratar a segurança de dados de forma informal expõe a organização a multas regulatórias severas (LGPD/GDPR)."
+        },
+        optionB: {
+          label: "Restringir o acesso ao bucket com políticas IAM",
+          costLabel: "Custo Moderado",
+          text: "Bloquear a pasta com as políticas de acesso do provedor de nuvem e restringir o acesso a IPs específicos.",
+          impact: { efficiency: -1, trust: 2, accountability: 2, security: 4, context: 2, budget: -3000 },
+          damaLesson: "Controles de infraestrutura garantem segurança imediata, mas precisam ser sustentados por políticas oficiais.",
+          insight: "Segurança técnica sem consciência da equipe leva a contornos e a novas vulnerabilidades."
+        },
+        optionC: {
+          label: "Implementar política de classificação e mascaramento automático",
+          costLabel: "Investimento Estratégico",
+          text: "Publicar a Política de Classificação de Dados, aplicar mascaramento automático de PII e configurar alertas de conformidade.",
+          impact: { efficiency: -2, trust: 5, accountability: 5, security: 8, context: 4, budget: -8000 },
+          damaLesson: "Políticas formais de classificação combinadas com controles automatizados de privacidade garantem o 'Privacy by Design'.",
+          insight: "A proteção de dados é sustentável quando as regras de segurança estão integradas nativamente à arquitetura da plataforma."
+        }
+      },
+      {
+        id: 3,
+        incidentId: "DG-2026-03",
+        damaArea: "Engenharia de Dados & CI/CD",
+        title: "Mudança de Schema Sem Aviso Quebra os Pipelines da Manhã",
+        description: "Um desenvolvedor renomeou a coluna 'user_id' para 'customer_uuid' no banco relacional. A mudança quebrou o pipeline ELT noturno e derrubou os painéis executivos.",
+        optionA: {
+          label: "Corrigir a consulta manualmente e pedir avisos no Slack",
+          costLabel: "Custo Imediato de $0",
+          text: "Passar a manhã consertando o SQL quebrado e pedir à engenharia que avise na próxima vez.",
+          impact: { efficiency: 2, trust: -5, accountability: -3, security: 0, context: -2, budget: 0 },
+          damaLesson: "Depender de comunicação informal e de correções emergenciais é insustentável em escala corporativa.",
+          insight: "O custo da indisponibilidade e da confiança perdida supera em muito o tempo necessário para implementar testes de schema."
+        },
+        optionB: {
+          label: "Criar uma view de compatibilidade no banco relacional",
+          costLabel: "Custo Moderado",
+          text: "Manter na origem uma view que emula a coluna antiga para evitar que os relatórios quebrem.",
+          impact: { efficiency: 0, trust: 2, accountability: 1, security: 0, context: 2, budget: -2000 },
+          damaLesson: "Camadas de compatibilidade escondem problemas estruturais e acumulam dívida técnica na arquitetura de dados.",
+          insight: "Táticas paliativas resolvem o sintoma atual, mas aumentam a complexidade de manutenção com o tempo."
+        },
+        optionC: {
+          label: "Integrar data contracts e testes automatizados de CI/CD",
+          costLabel: "Investimento Estratégico",
+          text: "Implementar data contracts nos pipelines de deploy para bloquear mudanças destrutivas antes de chegarem à produção.",
+          impact: { efficiency: 4, trust: 4, accountability: 4, security: 0, context: 3, budget: -12000 },
+          damaLesson: "Data contracts e testes automatizados de CI/CD protegem proativamente a saúde dos pipelines.",
+          insight: "Governança embutida no fluxo de desenvolvimento evita falhas antes mesmo de os pipelines rodarem."
+        }
+      },
+      {
+        id: 4,
+        incidentId: "DG-2026-04",
+        damaArea: "Dados Mestres & de Referência",
+        title: "Duplicação Massiva de Clientes Entre os Sistemas de Vendas e CRM",
+        description: "O mesmo cliente tem registros diferentes no CRM (HubSpot) e no ERP (SAP). Os relatórios de receita mostram contagens inconsistentes por falta de resolução de identidade.",
+        optionA: {
+          label: "Fazer deduplicação manual quinzenal em planilhas",
+          costLabel: "Custo Imediato de $0",
+          text: "Pedir ao time de Analytics que consolide os registros no Excel antes do fechamento mensal.",
+          impact: { efficiency: -4, trust: -4, accountability: -2, security: 0, context: -2, budget: 0 },
+          damaLesson: "Limpeza manual em planilhas cria trabalho repetitivo sem resolver a causa raiz da duplicação.",
+          insight: "Limpar os dados no fim do fluxo sem governar os dados mestres garante que os erros voltem no mês seguinte."
+        },
+        optionB: {
+          label: "Unificar os IDs de cliente com uma chave de referência cruzada",
+          costLabel: "Custo Moderado",
+          text: "Adicionar uma coluna de referência cruzada que une as tabelas dos sistemas no Data Lake.",
+          impact: { efficiency: 2, trust: 3, accountability: 2, security: 0, context: 2, budget: -6000 },
+          damaLesson: "Mapeamentos ponto a ponto simplificam os joins, mas não resolvem os conflitos na entrada dos dados.",
+          insight: "Sem validação na entrada dos sistemas operacionais, a criação de duplicados continua sem controle."
+        },
+        optionC: {
+          label: "Implementar uma arquitetura de Master Data Management (MDM)",
+          costLabel: "Investimento Estratégico",
+          text: "Estabelecer regras de golden record, deduplicação automática por similaridade e governar a entidade Cliente de forma central.",
+          impact: { efficiency: 3, trust: 6, accountability: 5, security: 1, context: 4, budget: -15000 },
+          damaLesson: "O Master Data Management (MDM) garante integridade estrutural nas entidades centrais do negócio.",
+          insight: "Um único registro mestre de cliente eleva a precisão e a confiança em toda a analítica estratégica."
+        }
+      },
+      {
+        id: 5,
+        incidentId: "DG-2026-05",
+        damaArea: "Arquitetura & Camada Semântica",
+        title: "Silos de BI: Cada Área Cria as Suas Próprias Métricas",
+        description: "Financeiro, Vendas e Produto usam ferramentas de BI diferentes conectadas direto às tabelas brutas, resultando em 3 taxas de churn distintas apresentadas ao conselho.",
+        optionA: {
+          label: "Impor a adoção de uma única ferramenta de BI na empresa",
+          costLabel: "Custo Imediato de $0",
+          text: "Padronizar o software de visualização sem mexer na modelagem de dados subjacente.",
+          impact: { efficiency: -2, trust: -3, accountability: 1, security: 0, context: 0, budget: -2000 },
+          damaLesson: "Padronizar ferramentas de BI não resolve as divergências conceituais escritas nas consultas SQL.",
+          insight: "O problema de fundo não é o software de gráficos, e sim a falta de uma camada padronizada de lógica de negócio."
+        },
+        optionB: {
+          label: "Criar views consolidadas no Data Warehouse",
+          costLabel: "Custo Moderado",
+          text: "Modelar tabelas agregadas no Data Warehouse e recomendar a adoção às equipes de analytics.",
+          impact: { efficiency: 2, trust: 3, accountability: 2, security: 0, context: 3, budget: -5000 },
+          damaLesson: "Views centralizadas melhoram a consistência, mas exigem governança para não ficarem obsoletas.",
+          insight: "Tabelas agregadas ajudam, mas sem semântica versionada os analistas podem redefinir as regras."
+        },
+        optionC: {
+          label: "Implantar uma camada semântica governada (Headless BI / dbt)",
+          costLabel: "Investimento Estratégico",
+          text: "Centralizar a lógica de negócio e as métricas como código, com controle de versão (dbt / camada semântica), para todas as ferramentas.",
+          impact: { efficiency: 4, trust: 5, accountability: 4, security: 2, context: 6, budget: -10000 },
+          damaLesson: "Camadas semânticas em código garantem métricas consistentes independentemente da ferramenta de consumo.",
+          insight: "Métricas como código promovem transparência, testabilidade e um ambiente analítico realmente escalável."
+        }
+      },
+      {
+        id: 6,
+        incidentId: "DG-2026-06",
+        damaArea: "Gestão da Qualidade de Dados",
+        title: "Dados Nulos e Outliers em Produção Sem Monitoramento",
+        description: "Um bug no formulário do aplicativo móvel gerou milhares de transações com valores '0' ou negativos, corrompendo o ticket médio nos painéis executivos.",
+        optionA: {
+          label: "Filtrar o dado ruim direto no relatório executivo",
+          costLabel: "Custo Imediato de $0",
+          text: "Adicionar 'WHERE valor > 0' nas consultas do dashboard para esconder as anomalias dos executivos.",
+          impact: { efficiency: 2, trust: -7, accountability: -4, security: 0, context: -2, budget: 0 },
+          damaLesson: "Esconder dados defeituosos compromete a auditabilidade e mascara falhas operacionais.",
+          insight: "Mascarar anomalias na visualização impede que as equipes de produto identifiquem e corrijam o bug de origem."
+        },
+        optionB: {
+          label: "Rodar scripts de limpeza automatizados semanalmente",
+          costLabel: "Custo Moderado",
+          text: "Agendar tarefas CRON periódicas para excluir ou corrigir registros anômalos.",
+          impact: { efficiency: 0, trust: 2, accountability: 2, security: 0, context: 2, budget: -3000 },
+          damaLesson: "Limpezas reativas periódicas melhoram o histórico, mas deixam janelas de dados corrompidos.",
+          insight: "Qualidade de dados eficaz precisa ser monitorada em tempo real para evitar a propagação de erros."
+        },
+        optionC: {
+          label: "Implementar monitoramento automatizado de qualidade (Great Expectations / Monte Carlo)",
+          costLabel: "Investimento Estratégico",
+          text: "Configurar testes de completude, validade e volume com alertas imediatos para os data owners.",
+          impact: { efficiency: 3, trust: 7, accountability: 4, security: 1, context: 3, budget: -10000 },
+          damaLesson: "A gestão da qualidade de dados no DMBOK exige monitoramento proativo em várias dimensões de qualidade.",
+          insight: "Alertas automatizados evitam decisões baseadas em dados corrompidos e reduzem drasticamente o tempo de resolução."
+        }
+      },
+      {
+        id: 7,
+        incidentId: "DG-2026-07",
+        damaArea: "Metadados & Linhagem de Dados",
+        title: "Impacto Desconhecido ao Alterar Tabelas Legadas",
+        description: "A infraestrutura precisa descontinuar uma tabela operacional legada, mas ninguém sabe quais relatórios, modelos de ML ou pipelines a consomem.",
+        optionA: {
+          label: "Descontinuar a tabela e esperar as reclamações",
+          costLabel: "Custo Imediato de $0",
+          text: "Renomear a tabela para '_deprecated' e ver quem abre um ticket relatando erros.",
+          impact: { efficiency: -4, trust: -7, accountability: -4, security: -2, context: -5, budget: 0 },
+          damaLesson: "Testar por indisponibilidade não planejada desestabiliza a operação e revela baixa maturidade de governança.",
+          insight: "A abordagem do 'scream test' é altamente destrutiva para a confiança nas equipes de engenharia de dados."
+        },
+        optionB: {
+          label: "Inspecionar os repositórios de código manualmente e enviar questionários",
+          costLabel: "Custo Moderado",
+          text: "Mapear as dependências revisando repositórios de código e enviando questionários por e-mail aos analistas.",
+          impact: { efficiency: -2, trust: 2, accountability: 1, security: 0, context: 3, budget: -2000 },
+          damaLesson: "O rastreamento manual de metadados consome tempo e é propenso a erros em ecossistemas complexos.",
+          insight: "Conforme o número de tabelas cresce, rastrear linhagem manualmente se torna completamente insustentável."
+        },
+        optionC: {
+          label: "Automatizar a linhagem ponta a ponta no catálogo de dados",
+          costLabel: "Investimento Estratégico",
+          text: "Integrar ferramentas de parsing de SQL para gerar automaticamente um grafo visual de linhagem.",
+          impact: { efficiency: 4, trust: 4, accountability: 3, security: 2, context: 7, budget: -9000 },
+          damaLesson: "A linhagem de dados oferece rastreabilidade completa e permite análises precisas de causa raiz e de impacto.",
+          insight: "Saber a origem e o destino exatos de cada dataset permite evoluir a arquitetura com segurança."
+        }
+      },
+      {
+        id: 8,
+        incidentId: "DG-2026-08",
+        damaArea: "Ciclo de Vida & Retenção de Dados",
+        title: "Explosão de Custo de Nuvem por Causa de Dados Obsoletos",
+        description: "O Data Lake acumulou petabytes de logs desorganizados em 7 anos sem política de expiração, consumindo metade do orçamento de nuvem.",
+        optionA: {
+          label: "Pedir uma ampliação do orçamento de infraestrutura",
+          costLabel: "Custo Imediato de $0",
+          text: "Aprovar a ampliação da cota de nuvem para não ter de fazer a análise de retenção de dados.",
+          impact: { efficiency: -2, trust: -3, accountability: -3, security: -3, context: 0, budget: -15000 },
+          damaLesson: "Escalar recursos sem governança de ciclo de vida escala custos infinitamente e preserva os riscos legais.",
+          insight: "Acumular dados ROT (redundantes, obsoletos, triviais) infla custos e amplia a superfície de ataque."
+        },
+        optionB: {
+          label: "Excluir dados antigos arbitrariamente, sem validação do negócio",
+          costLabel: "Custo Moderado",
+          text: "Rodar um script para excluir todas as partições com mais de 3 anos e liberar armazenamento.",
+          impact: { efficiency: 2, trust: -4, accountability: -2, security: 1, context: -3, budget: 5000 },
+          damaLesson: "Excluir dados sem consultar os requisitos jurídicos e de compliance expõe a sanções regulatórias severas.",
+          insight: "A retenção de dados precisa equilibrar conformidade legal, valor analítico e custo de armazenamento."
+        },
+        optionC: {
+          label: "Implementar política de ciclo de vida e regras de auto-tiering",
+          costLabel: "Investimento Estratégico",
+          text: "Definir prazos legais de retenção com o Jurídico, mover dados para armazenamento frio (Glacier) e automatizar o expurgo.",
+          impact: { efficiency: 3, trust: 4, accountability: 3, security: 4, context: 3, budget: 12000 },
+          damaLesson: "A gestão do ciclo de vida dos dados otimiza o custo de nuvem e reduz a exposição jurídica.",
+          insight: "Automatizar a transição e o expurgo de dados sem uso otimiza drasticamente o gasto com nuvem."
+        }
+      },
+      {
+        id: 9,
+        incidentId: "DG-2026-09",
+        damaArea: "Catálogo & Descoberta de Dados",
+        title: "Novos Cientistas de Dados Levam Semanas Para Achar Datasets",
+        description: "Cada nova contratação leva quase um mês para localizar as tabelas corretas e entender as definições das colunas por falta total de documentação.",
+        optionA: {
+          label: "Orientar os novos contratados a perguntar aos colegas no Slack",
+          costLabel: "Custo Imediato de $0",
+          text: "Depender da cultura oral e da transferência informal de conhecimento na equipe.",
+          impact: { efficiency: -4, trust: -2, accountability: -2, security: 0, context: -6, budget: 0 },
+          damaLesson: "A dependência de conhecimento tribal cria gargalos e perda irreversível de saber quando há rotatividade.",
+          insight: "Interromper constantemente engenheiros sênior para explicar schemas de dados degrada a produtividade geral."
+        },
+        optionB: {
+          label: "Criar uma página de wiki estática no Confluence listando as tabelas",
+          costLabel: "Custo Moderado",
+          text: "Documentar os schemas manualmente em um documento estático na intranet da empresa.",
+          impact: { efficiency: 0, trust: 1, accountability: 1, security: 0, context: 2, budget: -2000 },
+          damaLesson: "Documentação estática fica obsoleta rapidamente conforme os modelos de dados em produção evoluem.",
+          insight: "Documentação desatualizada costuma causar mais confusão do que a ausência de documentação."
+        },
+        optionC: {
+          label: "Implantar um catálogo de dados ativo com autodescoberta",
+          costLabel: "Investimento Estratégico",
+          text: "Implementar um catálogo conectado às fontes, com linhagem automatizada, descrição de campos e métricas de uso.",
+          impact: { efficiency: 5, trust: 4, accountability: 3, security: 2, context: 7, budget: -10000 },
+          damaLesson: "A gestão moderna de metadados democratiza o acesso aos dados e acelera o tempo até o valor com segurança.",
+          insight: "Um catálogo ativo acelera drasticamente a integração de novos talentos e viabiliza a analítica self-service."
+        }
+      },
+      {
+        id: 10,
+        incidentId: "DG-2026-10",
+        damaArea: "FinOps & Governança da Analítica",
+        title: "Consultas SQL Ineficientes Geram uma Fatura de Nuvem Enorme",
+        description: "Um modelo de ML executou cross-joins não particionados repetidamente durante o fim de semana, resultando em uma fatura de nuvem inesperada de $25.000.",
+        optionA: {
+          label: "Absorver o custo e pedir verbalmente mais cuidado à equipe",
+          costLabel: "Custo Imediato de $0",
+          text: "Pagar a fatura sem aplicar limites técnicos para não frear as pesquisas da equipe.",
+          impact: { efficiency: -2, trust: -3, accountability: -4, security: 0, context: 0, budget: -25000 },
+          damaLesson: "A falta de limites financeiros e de monitoramento de consultas no processamento de dados gera vazamento de orçamento.",
+          insight: "Oferecer computação sem restrições nem teto de gasto é financeiramente insustentável."
+        },
+        optionB: {
+          label: "Restringir os cientistas de dados a amostras pequenas",
+          costLabel: "Custo Moderado",
+          text: "Bloquear consultas nas tabelas de produção completas, limitando a equipe a amostras de 1% dos dados.",
+          impact: { efficiency: -5, trust: 0, accountability: 1, security: 1, context: -2, budget: 0 },
+          damaLesson: "Medidas excessivamente restritivas asfixiam a inovação e impedem treinar modelos estatisticamente válidos.",
+          insight: "Mutilar a capacidade analítica protege o orçamento no curto prazo, mas destrói a criação de valor."
+        },
+        optionC: {
+          label: "Implementar práticas de Data FinOps e cotas de consulta",
+          costLabel: "Investimento Estratégico",
+          text: "Definir limites de varredura, alertas automáticos de custo e exigir boas práticas de particionamento e clustering.",
+          impact: { efficiency: 4, trust: 4, accountability: 4, security: 1, context: 3, budget: -5000 },
+          damaLesson: "O Data FinOps equilibra eficiência de custo com a liberdade analítica necessária para inovar.",
+          insight: "Guardrails financeiros e otimização de consultas preservam a saúde fiscal mantendo a agilidade."
+        }
+      }
     ];
 
-    // Core State (Starts at 50% and $50k)
+    // --- APPLICATION STATE ---
     let state = {
-        metrics: { efficiency: 50, trust: 50, accountability: 50, security: 50, context: 50, budget: 50000 },
-        currentScenarioIndex: 0,
-        score: 50.0
+      currentScenarioIdx: 0,
+      metrics: {
+        efficiency: 50,
+        trust: 50,
+        accountability: 50,
+        security: 50,
+        context: 50,
+        budget: 100000
+      },
+      hasChosen: false,
+      selectedKey: null,
+      currentShuffledOptions: [],
+      audioEnabled: true,
+      history: []
     };
 
-    // Helper Functions
-    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-    
-    function setSafeText(id, text) { 
-        const el = document.getElementById(id); 
-        if (el) el.innerText = text; 
-    }
-    
-    function setSafeWidth(id, percentage) { 
-        const el = document.getElementById(id); 
-        if (el) el.style.width = percentage + '%'; 
-    }
-    
-    // Shuffle Array for randomized options
-    function shuffleArray(array) {
-        let curId = array.length;
-        while (0 !== curId) {
-            let randId = Math.floor(Math.random() * curId);
-            curId -= 1;
-            let tmp = array[curId];
-            array[curId] = array[randId];
-            array[randId] = tmp;
+    // The global leaderboard as served by /api/simulator-scores. Every visitor
+    // sees the same rows, so nothing is seeded here: the table body reports
+    // whether it is loading, empty or unreachable on its own.
+    const SIMULATOR_SLUG = 'data-governance-day-to-day';
+    const SIMULATOR_LOCALE = 'pt';
+    let leaderboardData = [];
+    let leaderboardStatus = 'loading';
+    // Set once the visitor publishes, so their own row can be highlighted.
+    let playerRowKey = null;
+
+    // Tone.js Audio Synthesizer setup
+    let synth = null;
+    function initAudio() {
+      if (!synth && window.Tone) {
+        try {
+          synth = new Tone.PolySynth(Tone.Synth).toDestination();
+          synth.volume.value = -12;
+        } catch(e) {
+          console.warn("Tone.js não pôde ser inicializado:", e);
         }
-        return array;
+      }
     }
 
-    function calculateScore() {
-        // Média simples dos cinco eixos de governança, igual às versões en e es,
-        // e é por isso que a partida começa exatamente em 50,0.
-        //
-        // Esta página multiplicava a média por (0,8 + 0,2 * orçamento/50000).
-        // Como o orçamento só desce ao longo do trimestre, esse fator era 1,0 no
-        // início e menor a partir daí: a mesma partida pontuava até 20% abaixo
-        // em português do que em inglês. Isso tornava as pontuações de idiomas
-        // diferentes incomparáveis -- e o ranking global e o relatório do
-        // facilitador juntam as três numa média só.
-        //
-        // O orçamento continua a contar, apenas não duas vezes: cada decisão
-        // cara já paga o seu preço nos cinco eixos, e o orçamento restante fica
-        // na tela como o limite dentro do qual o trimestre foi jogado.
-        const finalScore = (
-            state.metrics.efficiency +
-            state.metrics.trust +
-            state.metrics.accountability +
-            state.metrics.security +
-            state.metrics.context
-        ) / 5;
-        state.score = clamp(finalScore, 0, 100);
-        return state.score.toFixed(1);
-    }
-
-    function updateMetricsUI(deltas = null) {
-        // Update Values
-        setSafeText('val-efficiency', state.metrics.efficiency + '%');
-        setSafeText('val-trust', state.metrics.trust + '%');
-        setSafeText('val-accountability', state.metrics.accountability + '%');
-        setSafeText('val-security', state.metrics.security + '%');
-        setSafeText('val-context', state.metrics.context + '%');
-        setSafeText('val-budget', '$' + state.metrics.budget.toLocaleString('pt-BR'));
-        
-        // Overall Score
-        setSafeText('overall-score', calculateScore());
-
-        // Update Bars
-        setSafeWidth('bar-efficiency', state.metrics.efficiency);
-        setSafeWidth('bar-trust', state.metrics.trust);
-        setSafeWidth('bar-accountability', state.metrics.accountability);
-        setSafeWidth('bar-security', state.metrics.security);
-        setSafeWidth('bar-context', state.metrics.context);
-        
-        // Budget bar logic (max $50k)
-        let bPct = clamp((state.metrics.budget / 50000) * 100, 0, 100);
-        setSafeWidth('bar-budget', bPct);
-
-        // Show floating deltas if provided
-        if(deltas) {
-            showFloatingDelta('delta-efficiency', deltas.eff);
-            showFloatingDelta('delta-trust', deltas.trust);
-            showFloatingDelta('delta-accountability', deltas.acc);
-            showFloatingDelta('delta-security', deltas.sec);
-            showFloatingDelta('delta-context', deltas.ctx);
-            
-            if(deltas.budget !== 0) {
-                const sign = deltas.budget > 0 ? '+' : '-';
-                showFloatingDelta('delta-budget', deltas.budget,
-                    `${sign}$${Math.abs(deltas.budget)}`);
-            }
+    function playSoundEffect(type) {
+      if (!state.audioEnabled || !window.Tone) return;
+      initAudio();
+      try {
+        if (Tone.context.state !== 'running') {
+          Tone.start();
         }
+        if (type === 'click') {
+          synth.triggerAttackRelease(["C4", "E4"], "16n");
+        } else if (type === 'success') {
+          synth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
+        } else if (type === 'warning') {
+          synth.triggerAttackRelease(["C3", "F#3"], "8n");
+        } else if (type === 'complete') {
+          synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "4n");
+        }
+      } catch(e) {}
     }
 
-    function showFloatingDelta(id, val, text) {
-        if(!val || val === 0) return;
-        const el = document.getElementById(id);
-        if(!el) return;
-        el.innerText = text || (val > 0 ? `+${val}%` : `${val}%`);
-        // Re-adding the class is what restarts the animation; setting it while
-        // it is already applied does nothing.
-        el.className = 'hidden font-bold text-[10px]';
-        void el.offsetWidth;
-        el.className = `font-bold text-[10px] delta-indicator ${val > 0 ? 'text-emerald-400' : 'text-rose-400'}`;
-        setTimeout(() => { el.className = 'hidden font-bold text-[10px]'; }, 1800);
+    function toggleAudio() {
+      state.audioEnabled = !state.audioEnabled;
+      const label = document.getElementById('audio-label');
+      const iconOn = document.getElementById('audio-icon-on');
+      if (state.audioEnabled) {
+        label.innerText = "Áudio Ativado";
+        iconOn.classList.remove("text-slate-500");
+        iconOn.classList.add("text-emerald-400");
+        playSoundEffect('click');
+      } else {
+        label.innerText = "Áudio Desativado";
+        iconOn.classList.remove("text-emerald-400");
+        iconOn.classList.add("text-slate-500");
+      }
     }
+
+    // The profile is a pure function of the score, which is why the leaderboard
+    // stores only the score. Each page derives the label itself, so a Spanish run
+    // shows up in this table with an English profile rather than a Spanish one.
+    function profileForScore(score) {
+      const value = parseFloat(score);
+      if (value < 50) return "Bombeiro em Silos";
+      if (value < 75) return "Operador de Dados Reativo";
+      return "Líder de Governança Estruturada";
+    }
+
+    // Defensive UI DOM helpers
+    function setSafeText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.innerText = val;
+    }
+
+    function setSafeWidth(id, percent) {
+      const el = document.getElementById(id);
+      if (el) el.style.width = Math.min(100, Math.max(0, percent)) + "%";
+    }
+
+    // --- UI INITIALIZATION AND RENDER ---
+    // The company's own wording first, where a private space has any, then the
+    // page starts exactly as it always did. A public visitor, and a private one
+    // whose space plays the standard scenarios, waits for nothing: the lookup
+    // has already resolved by the time this runs. See assets/js/scenario-text.js.
+    window.onload = function () {
+      window.SimulatorScenarioText.hydrate(SCENARIOS, function () {
+        renderStepper();
+        renderCurrentScenario();
+        updateMetricsUI();
+        renderLeaderboard();
+        loadLeaderboard();
+      });
+    };
 
     /*
-     * Quanto tempo durou o trimestre.
+     * How long the quarter took.
      *
-     * O ranking sempre teve esta coluna e este simulador nunca enviou nada, por
-     * isso todas as linhas do Dia a Dia mostravam "—" e o relatório do
-     * facilitador não tinha tempo mediano para apresentar. Medido a partir da
-     * primeira decisão e não do carregamento da página: o primeiro cenário já
-     * está na tela, por isso um relógio iniciado ao carregar mede quanto tempo
-     * alguém deixou a aba aberta e não quanto durou a partida.
+     * The leaderboard has always had a column for this and this simulator has
+     * always sent nothing, so every Day-to-Day row read "—" and the facilitator
+     * report had no median time to show for it. Timed from the first decision
+     * rather than from page load: the first scenario is on screen the moment the
+     * page renders, so a clock started at load measures how long somebody left
+     * the tab open before engaging, not how long the run took.
      *
-     * Degrada em vez de falhar se o script compartilhado não chegou: uma partida
-     * sem cronômetro é uma perda menor do que uma partida que não arranca.
+     * Degrades rather than throws if the shared leaderboard script did not
+     * arrive: an untimed run is a smaller loss than a run that refuses to start.
      */
     const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
       start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
@@ -925,367 +1125,473 @@
       return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
     }
 
-    function startGame() {
-        // A private space's own wording lands before the first scenario is drawn.
-        // By the time somebody has typed a name and pressed start, the lookup that
-        // carries it has long since resolved, so this waits for nothing in practice
-        // -- and if it somehow has not, the exercise starts in the standard wording
-        // rather than not starting. See assets/js/scenario-text.js.
-        if (!window.SimulatorScenarioText.isReady(SCENARIOS)) {
-          window.SimulatorScenarioText.hydrate(SCENARIOS, function () { startGame(); });
-          return;
-        }
-
-        // The name given on the welcome screen pre-fills the leaderboard form,
-        // so nobody is asked for it twice. Empty is a valid answer: the form at
-        // the end is still there for anyone who decides to be listed later.
-        const welcomeName = document.getElementById('sim-welcome-name');
-        const publishField = document.getElementById('player-name');
-        if (welcomeName && publishField && publishField.value.trim() === '') {
-            publishField.value = welcomeName.value.trim();
-        }
-
-        playSound('start');
-        document.getElementById('welcome-screen').classList.add('hidden');
-        document.getElementById('scenario-screen').classList.remove('hidden');
-        document.getElementById('scenario-screen').classList.add('flex');
-        updateMetricsUI();
-        renderScenario();
+    function renderStepper() {
+      const dotsContainer = document.getElementById('stepper-dots');
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      
+      for (let i = 0; i < SCENARIOS.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+          i === state.currentScenarioIdx 
+            ? 'bg-blue-500 ring-4 ring-blue-500/20 scale-110' 
+            : i < state.currentScenarioIdx 
+            ? 'bg-emerald-500' 
+            : 'bg-slate-800 border border-slate-700'
+        }`;
+        dotsContainer.appendChild(dot);
+      }
+      setSafeText('scenario-counter', `Desafio ${state.currentScenarioIdx + 1} de ${SCENARIOS.length}`);
     }
 
-    function renderScenario() {
-        if(state.currentScenarioIndex >= SCENARIOS.length) {
-            showSummary();
-            return;
-        }
+    function renderCurrentScenario() {
+      const sc = SCENARIOS[state.currentScenarioIdx];
+      
+      setSafeText('scenario-incident-id', `Incidente #${sc.incidentId}`);
+      setSafeText('scenario-dama-area', `Área DAMA: ${sc.damaArea}`);
+      setSafeText('scenario-title', sc.title);
+      setSafeText('scenario-description', sc.description);
 
-        const scen = SCENARIOS[state.currentScenarioIndex];
-        
-        document.getElementById('scenario-counter').innerText = `${state.currentScenarioIndex + 1} de ${SCENARIOS.length}`;
-        document.getElementById('progress-bar').style.width = `${((state.currentScenarioIndex) / SCENARIOS.length) * 100}%`;
-        
-        document.getElementById('scen-topic').innerText = scen.topic;
-        document.getElementById('scen-text').innerText = scen.text;
-        
-        document.getElementById('debrief-card').classList.add('hidden');
-        
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        container.classList.remove('hidden');
+      // Randomize option order for each scenario
+      const rawOptions = [
+        { key: 'A', data: sc.optionA },
+        { key: 'B', data: sc.optionB },
+        { key: 'C', data: sc.optionC }
+      ];
+      
+      // Shuffle options using Fisher-Yates algorithm
+      const shuffled = [...rawOptions];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      state.currentShuffledOptions = shuffled;
 
-        // Shuffle options for this render so order is unpredictable
-        let randomizedOptions = shuffleArray([...scen.options]);
+      // Populate Option Buttons (Hidden point/cost indicators for fair decision making)
+      ['a', 'b', 'c'].forEach((slot, idx) => {
+        const item = shuffled[idx];
+        setSafeText(`option-${slot}-label`, item.data.label);
+        setSafeText(`option-${slot}-text`, item.data.text);
+      });
 
-        randomizedOptions.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'sim-option';
+      // Reset Visibility to Choice State
+      document.getElementById('choices-container').classList.remove('hidden');
+      document.getElementById('debrief-container').classList.add('hidden');
+      state.hasChosen = false;
+      state.selectedKey = null;
 
-            // NOTE: Impactos/pontos/custos ficam de fora do botão de propósito,
-            // para forçar uma decisão qualitativa.
-            btn.innerHTML = `
-                <span class="sim-option__key">${'ABC'[idx]}</span>
-                <span class="sim-option__body">
-                    <h4 class="sim-option__title">${opt.title}</h4>
-                    <p class="sim-option__text">${opt.desc}</p>
-                </span>
-            `;
-            btn.onclick = () => handleOptionSelection(opt, scen);
-            container.appendChild(btn);
-        });
+      renderStepper();
     }
 
-    function handleOptionSelection(opt, scen) {
-        playSound('click');
+    function handleSelectOption(slotKey) {
+      if (state.hasChosen) return;
+      state.hasChosen = true;
 
-        // A partida começa na primeira decisão, e isto só dispara no cenário um.
-        if (state.currentScenarioIndex === 0) runTimer.start();
-        
-        // Hide options
-        document.getElementById('options-container').classList.add('hidden');
-        
-        // Apply logic
-        state.metrics.efficiency = clamp(state.metrics.efficiency + opt.impact.eff, 0, 100);
-        state.metrics.trust = clamp(state.metrics.trust + opt.impact.trust, 0, 100);
-        state.metrics.accountability = clamp(state.metrics.accountability + opt.impact.acc, 0, 100);
-        state.metrics.security = clamp(state.metrics.security + opt.impact.sec, 0, 100);
-        state.metrics.context = clamp(state.metrics.context + opt.impact.ctx, 0, 100);
-        state.metrics.budget = state.metrics.budget + opt.impact.budget;
+      // The run begins at the first decision. start() is idempotent from the
+      // player's point of view here because it only fires on scenario one.
+      if (state.currentScenarioIdx === 0) runTimer.start();
 
-        updateMetricsUI(opt.impact);
+      // Map slot button letter (A, B, C) to randomized shuffled option
+      const slotIndex = slotKey === 'A' ? 0 : slotKey === 'B' ? 1 : 2;
+      const selectedOptionObj = state.currentShuffledOptions[slotIndex];
+      const selectedData = selectedOptionObj.data;
+      state.selectedKey = selectedOptionObj.key;
 
-        // Prepare Debrief Card
-        const debriefImpacts = document.getElementById('debrief-impacts');
-        debriefImpacts.innerHTML = '';
-        
-        const metricsList = [
-            { key: 'eff', icon: 'fa-bolt', color: 'text-amber-400', bg: 'bg-amber-500/10', label: 'Efic' },
-            { key: 'trust', icon: 'fa-shield-check', color: 'text-emerald-400', bg: 'bg-emerald-500/10', label: 'Conf' },
-            { key: 'acc', icon: 'fa-users-cog', color: 'text-cyan-400', bg: 'bg-cyan-500/10', label: 'Resp' },
-            { key: 'sec', icon: 'fa-lock', color: 'text-rose-400', bg: 'bg-rose-500/10', label: 'Seg' },
-            { key: 'ctx', icon: 'fa-book-open', color: 'text-purple-400', bg: 'bg-purple-500/10', label: 'Cont' }
-        ];
+      playSoundEffect('click');
 
-        metricsList.forEach(m => {
-            const val = opt.impact[m.key];
-            if(val !== 0) {
-                const sign = val > 0 ? '+' : '';
-                debriefImpacts.innerHTML += `
-                    <div class="${m.bg} p-2 rounded border border-slate-800 flex flex-col items-center justify-center text-center">
-                        <i class="fas ${m.icon} ${m.color} mb-1 text-sm"></i>
-                        <span class="font-bold text-xs text-slate-200">${sign}${val}%</span>
-                        <span class="text-[0.6rem] text-slate-500 uppercase">${m.label}</span>
-                    </div>
-                `;
-            }
-        });
+      // Calculate Impact Deltas
+      const impact = selectedData.impact;
+      const prevMetrics = { ...state.metrics };
 
-        if(opt.impact.budget !== 0) {
-            const bSign = opt.impact.budget > 0 ? '+' : '';
-            const bColor = opt.impact.budget > 0 ? 'text-emerald-400' : 'text-rose-400';
-            const bBg = opt.impact.budget > 0 ? 'bg-emerald-500/10' : 'bg-rose-500/10';
-            debriefImpacts.innerHTML += `
-                <div class="${bBg} p-2 rounded border border-slate-800 flex flex-col items-center justify-center text-center">
-                    <i class="fas fa-wallet ${bColor} mb-1 text-sm"></i>
-                    <span class="font-bold text-xs text-slate-200">${bSign}$${Math.abs(opt.impact.budget)}</span>
-                    <span class="text-[0.6rem] text-slate-500 uppercase">Orçam</span>
-                </div>
-            `;
-        }
+      state.metrics.efficiency = Math.min(100, Math.max(0, state.metrics.efficiency + impact.efficiency));
+      state.metrics.trust = Math.min(100, Math.max(0, state.metrics.trust + impact.trust));
+      state.metrics.accountability = Math.min(100, Math.max(0, state.metrics.accountability + impact.accountability));
+      state.metrics.security = Math.min(100, Math.max(0, state.metrics.security + impact.security));
+      state.metrics.context = Math.min(100, Math.max(0, state.metrics.context + impact.context));
+      state.metrics.budget = Math.max(0, state.metrics.budget + impact.budget);
 
-        document.getElementById('debrief-lesson').innerText = opt.lesson;
-        document.getElementById('debrief-card').classList.remove('hidden');
+      // Save Decision History
+      state.history.push({
+        scenarioId: SCENARIOS[state.currentScenarioIdx].id,
+        incidentId: SCENARIOS[state.currentScenarioIdx].incidentId,
+        title: SCENARIOS[state.currentScenarioIdx].title,
+        slotSelected: slotKey,
+        originalKey: selectedOptionObj.key,
+        label: selectedData.label,
+        impact: impact
+      });
+
+      // Show Floating Deltas and Update Metrics UI
+      triggerDeltas(prevMetrics, state.metrics, impact);
+      updateMetricsUI();
+
+      // Render Governance Debrief Card
+      document.getElementById('choices-container').classList.add('hidden');
+      document.getElementById('debrief-container').classList.remove('hidden');
+
+      setSafeText('debrief-choice-title', `Opção Selecionada: ${selectedData.label}`);
+      setSafeText('dama-lesson-text', `"${selectedData.damaLesson}"`);
+      setSafeText('debrief-extra-insight', selectedData.insight);
+
+      // Render Debrief Impact Summary Badges
+      const summaryContainer = document.getElementById('debrief-impact-summary');
+      summaryContainer.innerHTML = '';
+
+      const formatDeltaBadge = (label, val) => {
+        if (val === 0) return '';
+        const isPos = val > 0;
+        const colorClass = isPos 
+          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+          : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+        const sign = isPos ? '+' : '';
+        return `<span class="px-2.5 py-1 rounded-md border ${colorClass}">${label}: ${sign}${val}${label === 'Orçamento' ? '' : '%'}</span>`;
+      };
+
+      summaryContainer.innerHTML += formatDeltaBadge('Eficiência', impact.efficiency);
+      summaryContainer.innerHTML += formatDeltaBadge('Confiança', impact.trust);
+      summaryContainer.innerHTML += formatDeltaBadge('Responsabilidade', impact.accountability);
+      summaryContainer.innerHTML += formatDeltaBadge('Segurança', impact.security);
+      summaryContainer.innerHTML += formatDeltaBadge('Contexto', impact.context);
+      
+      if (impact.budget !== 0) {
+        const budgetFormatted = (impact.budget > 0 ? '+$' : '-$') + Math.abs(impact.budget).toLocaleString();
+        const bClass = impact.budget > 0 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+        summaryContainer.innerHTML += `<span class="px-2.5 py-1 rounded-md border ${bClass}">Orçamento: ${budgetFormatted}</span>`;
+      }
     }
 
-    function nextScenario() {
-        state.currentScenarioIndex++;
-        renderScenario();
+    function triggerDeltas(prev, current, impact) {
+      const showDelta = (id, delta, isCurrency = false) => {
+        const el = document.getElementById(id);
+        if (!el || delta === 0) return;
+
+        const isPos = delta > 0;
+        el.innerText = isCurrency 
+          ? `${isPos ? '+' : '-'}$${Math.abs(delta / 1000)}k` 
+          : `${isPos ? '+' : ''}${delta}%`;
+
+        el.className = `font-bold text-[10px] delta-indicator ${isPos ? 'text-emerald-400' : 'text-rose-400'}`;
+        el.classList.remove('hidden');
+
+        setTimeout(() => {
+          el.classList.add('hidden');
+        }, 1800);
+      };
+
+      showDelta('delta-efficiency', impact.efficiency);
+      showDelta('delta-trust', impact.trust);
+      showDelta('delta-accountability', impact.accountability);
+      showDelta('delta-security', impact.security);
+      showDelta('delta-context', impact.context);
+      showDelta('delta-budget', impact.budget, true);
     }
 
-    function showSummary() {
-        playSound('success');
-        document.getElementById('scenario-screen').classList.add('hidden');
-        document.getElementById('scenario-screen').classList.remove('flex');
-        document.getElementById('summary-screen').classList.remove('hidden');
-        
-        document.getElementById('progress-bar').style.width = `100%`;
-        
-        let finalS = calculateScore();
+    function updateMetricsUI() {
+      // Calculate Weighted Health Index (5 Core DAMA Dimensions equally weighted at 20%)
+      const m = state.metrics;
+      const indexScore = (
+        m.efficiency * 0.20 +
+        m.trust * 0.20 +
+        m.accountability * 0.20 +
+        m.security * 0.20 +
+        m.context * 0.20
+      ).toFixed(1);
 
-        // Parado na última decisão e não na publicação: ler o resumo não faz
-        // parte da partida.
-        runTimer.stop();
-        setSafeText('summary-run-time', formatRunTime(runTimer.elapsedMs()));
+      setSafeText('governance-index-score', indexScore);
 
-        // Counter Animation for Score
-        let currentS = 0;
-        let interval = setInterval(() => {
-            currentS += 2;
-            if(currentS >= finalS) {
-                currentS = finalS;
-                clearInterval(interval);
-                triggerConfetti();
-            }
-            document.getElementById('final-score-text').innerText = parseFloat(currentS).toFixed(1);
-            
-            let offset = 439.8 - (439.8 * (currentS / 100));
-            document.getElementById('final-circle').style.strokeDashoffset = offset;
-            
-        }, 30);
-
-        // Determine Profile Level
-        let title = "";
-        let desc = "";
-        let color = "";
-        
-        if(finalS >= 75) {
-            title = "Líder de Governança Estruturado";
-            desc = "Excelente! Você equilibrou perfeitamente a agilidade com as regras de governança estruturada da DAMA, construindo uma arquitetura resiliente dentro do orçamento.";
-            color = "#50c878"; // --sim-good
-        } else if (finalS >= 50) {
-            title = "Operador de Dados Reativo";
-            desc = "Bom esforço. Você salvou projetos no curto prazo, mas dependeu de comunicação manual ou excedeu um pouco o orçamento. Tente focar mais na automação de regras sistêmicas.";
-            color = "#e9b03c"; // --sim-warn
+      // Update Health Status Badge
+      const badge = document.getElementById('health-status-badge');
+      if (badge) {
+        if (indexScore >= 75) {
+          badge.innerText = "Governança Madura";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+        } else if (indexScore >= 50) {
+          badge.innerText = "Linha de Base Operacional";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20";
         } else {
-            title = "Bombeiro em Silos";
-            desc = "Cuidado. Suas decisões causaram gargalos, quebraram a confiança nos dados, introduziram riscos de segurança ou estouraram o orçamento operacional severamente. A plataforma está instável.";
-            color = "#ef9384"; // --sim-bad
+          badge.innerText = "Vulnerabilidade Crítica";
+          badge.className = "px-2 py-0.5 rounded text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20";
         }
+      }
 
-        document.getElementById('profile-title').innerText = title;
-        document.getElementById('profile-title').style.color = color;
-        document.getElementById('profile-desc').innerText = desc;
-        document.getElementById('final-circle').style.stroke = color;
+      // Update Metric Values and Bars
+      setSafeText('metric-efficiency-val', `${m.efficiency}%`);
+      setSafeWidth('bar-efficiency', m.efficiency);
 
-        renderLeaderboard();
+      setSafeText('metric-trust-val', `${m.trust}%`);
+      setSafeWidth('bar-trust', m.trust);
 
-        // As faixas são 75/50, iguais às das versões en e es. Esta página usava
-        // 85/65, o que significava que a mesma partida recebia perfis
-        // diferentes em idiomas diferentes -- e o relatório do facilitador
-        // precisa de indicar um perfil da sala sem perguntar em que idioma a
-        // sala jogou. A faixa continua a ser passada em vez de recalculada pela
-        // ponte: ela tem de concordar com o perfil que acabou de aparecer nesta
-        // tela, e é esta página que decide o que ali está escrito.
-        if (window.SimulatorBridge) {
-            window.SimulatorBridge.render({
-                simulator: 'data-governance-day-to-day',
-                locale: 'pt',
-                band: finalS >= 75 ? 'leader' : (finalS >= 50 ? 'reactive' : 'firefighter'),
-                bandLabel: title,
-                simulatorLabel: 'Governança de Dados no Dia a Dia',
-                score: Number(finalS),
-                // Apenas os cinco eixos de 0-100. state.metrics também carrega o
-                // orçamento restante, que é dinheiro e não uma dimensão de
-                // maturidade, e não tem pilar do Scorecard para onde mapear.
-                dimensions: {
-                    efficiency: state.metrics.efficiency,
-                    trust: state.metrics.trust,
-                    accountability: state.metrics.accountability,
-                    security: state.metrics.security,
-                    context: state.metrics.context
-                }
-            });
-        }
+      setSafeText('metric-accountability-val', `${m.accountability}%`);
+      setSafeWidth('bar-accountability', m.accountability);
 
-        // Inside a private space the run is not the player's to withhold: it is
-        // saved the moment these results appear, under the name on their seat,
-        // because a board the client paid for cannot be a list of everybody's
-        // luckiest attempt. A public visitor is unaffected -- finish() does nothing
-        // for a browser with no seat, and the publish form above stays exactly as it
-        // was. See assets/js/workspace-auto-publish.js.
-        if (window.SimulatorAutoPublish) {
-            window.SimulatorAutoPublish.finish(saveScore);
-        }
+      setSafeText('metric-security-val', `${m.security}%`);
+      setSafeWidth('bar-security', m.security);
+
+      setSafeText('metric-context-val', `${m.context}%`);
+      setSafeWidth('bar-context', m.context);
+
+      // Budget Metric Format
+      setSafeText('metric-budget-val', `$${(m.budget / 1000).toFixed(0)}k`);
+      const budgetPercent = (m.budget / 100000) * 100;
+      setSafeWidth('bar-budget', budgetPercent);
     }
 
-    function triggerConfetti() {
-        if(state.score > 70) {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#65b7c7', '#50c878', '#e9b03c'] });
-        }
+    function advanceScenario() {
+      if (state.currentScenarioIdx < SCENARIOS.length - 1) {
+        state.currentScenarioIdx++;
+        renderCurrentScenario();
+      } else {
+        showSimulationSummary();
+      }
     }
 
-    function resetGame() {
-        state = {
-            metrics: { efficiency: 50, trust: 50, accountability: 50, security: 50, context: 50, budget: 50000 },
-            currentScenarioIndex: 0,
-            score: 50.0
-        };
-        playerRanked = false;
+    function showSimulationSummary() {
+      playSoundEffect('complete');
 
-        document.getElementById('summary-screen').classList.add('hidden');
-        document.getElementById('leaderboard-form-container').classList.remove('hidden');
-        document.getElementById('player-name').value = '';
-        // A linha publicada continua no ranking global; apenas o destaque local
-        // deixa de fazer sentido para a próxima partida.
-        playerRowKey = null;
-        runTimer.reset();
-        setSafeText('summary-run-time', "—");
-        startGame();
-    }
+      document.getElementById('active-scenario-card').classList.add('hidden');
+      document.getElementById('simulation-summary-card').classList.remove('hidden');
 
-    async function saveScore() {
-        if (playerRanked) return;
-        const nameInput = document.getElementById('player-name').value.trim();
-        if (!nameInput) {
-            alert("Por favor, insira seu nome ou cargo para salvar no ranking.");
-            return;
-        }
+      const m = state.metrics;
+      const finalScore = (
+        m.efficiency * 0.20 +
+        m.trust * 0.20 +
+        m.accountability * 0.20 +
+        m.security * 0.20 +
+        m.context * 0.20
+      ).toFixed(1);
 
-        const finalS = parseFloat(calculateScore());
-        const button = document.querySelector('#leaderboard-form-container button');
-        const originalLabel = button ? button.innerText : '';
-        if (button) {
-            button.disabled = true;
-            button.innerText = 'Salvando…';
-        }
+      setSafeText('summary-final-score', finalScore);
 
-        const result = await window.SimulatorLeaderboard.submit({
-            simulator: SIMULATOR_SLUG,
-            locale: SIMULATOR_LOCALE,
-            // The five governance metrics as they stood at the end of the
-            // quarter. Listed one by one rather than passing state.metrics
-            // wholesale, because that object also carries the remaining budget,
-            // which is money and not a 0-100 dimension.
-            breakdown: window.SimulatorLeaderboard.categoryBreakdown({
-              efficiency: state.metrics.efficiency,
-              trust: state.metrics.trust,
-              accountability: state.metrics.accountability,
-              security: state.metrics.security,
-              context: state.metrics.context
-            }),
-            name: nameInput,
-            score: finalS,
-            durationMs: runTimer.elapsedMs()
+      // Stopped on the last decision, not when Publish is pressed: reading the
+      // debrief is not part of the run, and it asks nothing of the player.
+      runTimer.stop();
+      setSafeText('summary-run-time', formatRunTime(runTimer.elapsedMs()));
+
+      // Determine Profile Rating. The title comes from the same helper the
+      // leaderboard renders with, so a row can never disagree with the summary.
+      const ratingTitle = profileForScore(finalScore);
+      let ratingDesc = "Você prioriza responsabilidade formal, políticas documentadas, contexto claro e governança automatizada dos pipelines.";
+
+      if (finalScore < 50) {
+        ratingDesc = "Suas decisões dependeram muito de correções manuais rápidas e de silos descoordenados. A dívida de dados e os riscos se acumularam com o tempo.";
+      } else if (finalScore < 75) {
+        ratingDesc = "Você resolveu as urgências e equilibrou o orçamento, mas faltaram salvaguardas automatizadas e definições formais de stewardship.";
+      }
+
+      setSafeText('summary-rating-title', ratingTitle);
+      setSafeText('summary-rating-desc', ratingDesc);
+
+      // Summary Grid Metrics
+      setSafeText('summary-metric-eff', `${m.efficiency}%`);
+      setSafeText('summary-metric-trust', `${m.trust}%`);
+      setSafeText('summary-metric-acc', `${m.accountability}%`);
+      setSafeText('summary-metric-sec', `${m.security}%`);
+      setSafeText('summary-metric-ctx', `${m.context}%`);
+      setSafeText('summary-metric-budget', `$${m.budget.toLocaleString()}`);
+
+      renderLeaderboard();
+
+      // finalScore is a toFixed string, so it is coerced once here rather than
+      // relying on the loose comparisons above. The band is derived from the same
+      // 75/50 thresholds this page just used for the badge and the profile title,
+      // so the bridge cannot disagree with either.
+      if (window.SimulatorBridge) {
+        const indexValue = Number(finalScore);
+        window.SimulatorBridge.render({
+          simulator: 'data-governance-day-to-day',
+          locale: 'pt',
+          band: indexValue >= 75 ? 'leader' : (indexValue >= 50 ? 'reactive' : 'firefighter'),
+          bandLabel: ratingTitle,
+          simulatorLabel: 'Governança de Dados no Dia a Dia',
+          score: indexValue,
+          // The five 0-100 governance axes only. state.metrics also carries the
+          // remaining budget, which is money rather than a maturity dimension and
+          // has no Scorecard pillar to map onto.
+          dimensions: {
+            efficiency: m.efficiency,
+            trust: m.trust,
+            accountability: m.accountability,
+            security: m.security,
+            context: m.context
+          }
         });
+      }
 
-        if (!result.accepted) {
-            // Recuperável de propósito: a partida terminou e a pontuação está na
-            // tela, então uma publicação falha deve custar uma nova tentativa e
-            // mais nada.
-            if (button) {
-                button.disabled = false;
-                button.innerText = originalLabel;
-            }
-            alert("Não foi possível salvar sua pontuação agora. Tente novamente.");
-            return;
-        }
+      // Inside a private space the run is not the player's to withhold: it is
+      // saved the moment these results appear, under the name on their seat,
+      // because a board the client paid for cannot be a list of everybody's
+      // luckiest attempt. A public visitor is unaffected -- finish() does nothing
+      // for a browser with no seat, and the publish form above stays exactly as it
+      // was. See assets/js/workspace-auto-publish.js.
+      if (window.SimulatorAutoPublish) {
+        window.SimulatorAutoPublish.finish(savePlayerScore);
+      }
+    }
 
-        leaderboard = result.scores;
-        leaderboardStatus = 'ready';
-        playerRowKey = nameInput + '|' + finalS.toFixed(1);
-        playerRanked = true;
+    async function savePlayerScore() {
+      const nameInput = document.getElementById('player-name-input');
+      const playerName = nameInput ? nameInput.value.trim() : "";
+      if (!playerName) {
+        alert("Digite seu nome para salvar sua pontuação no ranking.");
+        return;
+      }
 
-        // Hide form after submission
-        document.getElementById('leaderboard-form-container').classList.add('hidden');
+      const score = parseFloat(document.getElementById('summary-final-score').innerText);
+      const button = document.getElementById('save-score-btn');
+      const label = button ? button.querySelector('span') : null;
+      const originalLabel = label ? label.innerText : "";
+      if (button) button.disabled = true;
+      if (label) label.innerText = "Salvando…";
 
-        renderLeaderboard();
-        playSound('success');
+      const result = await window.SimulatorLeaderboard.submit({
+        simulator: SIMULATOR_SLUG,
+        locale: SIMULATOR_LOCALE,
+        // The five governance metrics as they stood at the end of the
+        // quarter. Listed one by one rather than passing state.metrics
+        // wholesale, because that object also carries the remaining budget,
+        // which is money and not a 0-100 dimension.
+        breakdown: window.SimulatorLeaderboard.categoryBreakdown({
+          efficiency: state.metrics.efficiency,
+          trust: state.metrics.trust,
+          accountability: state.metrics.accountability,
+          security: state.metrics.security,
+          context: state.metrics.context
+        }),
+        name: playerName,
+        score: score,
+        durationMs: runTimer.elapsedMs()
+      });
+
+      if (!result.accepted) {
+        // Left recoverable on purpose: the run is finished and the score is on
+        // screen, so a failed publish should cost a retry and nothing more.
+        if (button) button.disabled = false;
+        if (label) label.innerText = originalLabel;
+        alert("Não foi possível salvar sua pontuação agora. Tente novamente.");
+        return;
+      }
+
+      leaderboardData = result.scores;
+      leaderboardStatus = 'ready';
+      // Marks the row just published so the player can find themselves in a
+      // board that now contains strangers.
+      playerRowKey = playerName + '|' + score.toFixed(1);
+      renderLeaderboard();
+
+      document.getElementById('leaderboard-submission-form').innerHTML = `
+        <div class="w-full text-center py-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+          <i class="fas fa-check fa-fw" aria-hidden="true"></i> Sua pontuação foi registrada no Ranking Global!
+        </div>
+      `;
+      playSoundEffect('success');
     }
 
     async function loadLeaderboard() {
-        const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 5);
-        leaderboard = result.scores;
-        leaderboardStatus = result.error ? 'unavailable' : 'ready';
-        renderLeaderboard();
+      const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 10);
+      leaderboardData = result.scores;
+      leaderboardStatus = result.error ? 'unavailable' : 'ready';
+      renderLeaderboard();
     }
 
     function renderLeaderboard() {
-        const tbody = document.getElementById('leaderboard-body');
-        if (!tbody) return;
+      const tbody = document.getElementById('leaderboard-table-body');
+      if (!tbody) return;
 
-        tbody.innerHTML = '';
+      tbody.innerHTML = '';
 
-        if (!leaderboard.length) {
-            const messages = {
-                loading: 'Carregando o ranking global…',
-                ready: 'Nenhuma pontuação publicada ainda — termine uma partida e seja o primeiro.',
-                unavailable: 'O ranking global está indisponível agora. Sua pontuação acima não é afetada.'
-            };
-            tbody.innerHTML = `<tr><td colspan="3" class="sim-table__empty">${messages[leaderboardStatus]}</td></tr>`;
-            return;
-        }
+      if (!leaderboardData.length) {
+        const messages = {
+          loading: "Carregando o ranking global…",
+          ready: "Nenhuma pontuação publicada ainda — complete uma partida e seja o primeiro do ranking.",
+          unavailable: "O ranking global está indisponível agora. Sua pontuação acima não é afetada."
+        };
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="5" class="sim-table__empty">${messages[leaderboardStatus]}</td>`;
+        tbody.appendChild(tr);
+        return;
+      }
 
-        leaderboard.forEach((entry, index) => {
-            const rank = index < 3
-                ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
-                : `${index + 1}`;
+      leaderboardData.forEach((entry, idx) => {
+        const tr = document.createElement('tr');
+        const score = Number(entry.score).toFixed(1);
+        const isPlayer = playerRowKey !== null && playerRowKey === entry.name + '|' + score;
+        if (isPlayer) tr.className = 'sim-table__row--you';
 
-            const score = Number(entry.score).toFixed(1);
-            const isPlayer = playerRowKey !== null && playerRowKey === entry.name + '|' + score;
+        const rank = idx < 3
+          ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
+          : `${idx + 1}`;
 
-            tbody.innerHTML += `
-                <tr${isPlayer ? ' class="sim-table__row--you"' : ''}>
-                    <td class="sim-table__rank${index < 3 ? ' sim-table__rank--' + (index + 1) : ''}">${rank}</td>
-                    <td class="sim-table__name">${window.SimulatorLeaderboard.escapeHtml(entry.name)}${isPlayer ? ' <span class="sim-table__you">(Você)</span>' : ''}</td>
-                    <td class="sim-table__score">${score}</td>
-                </tr>
-            `;
-        });
+        tr.innerHTML = `
+          <td class="sim-table__rank${idx < 3 ? ' sim-table__rank--' + (idx + 1) : ''}">${rank}</td>
+          <td class="sim-table__name">${escapeHtml(entry.name)}${isPlayer ? ' <span class="sim-table__you">(Você)</span>' : ''}</td>
+          <td class="sim-table__score">${score}</td>
+          <td>${escapeHtml(profileForScore(score))}</td>
+          <td class="sim-table__meta">${window.SimulatorLeaderboard.formatDate(entry.createdAt)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
-    // Initialize UI on load
-    updateMetricsUI();
-    renderLeaderboard();
-    loadLeaderboard();
-</script>
+
+    function escapeHtml(text) {
+      return String(text == null ? '' : text).replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    function resetSimulation() {
+      state = {
+        currentScenarioIdx: 0,
+        metrics: {
+          efficiency: 50,
+          trust: 50,
+          accountability: 50,
+          security: 50,
+          context: 50,
+          budget: 100000
+        },
+        hasChosen: false,
+        selectedKey: null,
+        currentShuffledOptions: [],
+        audioEnabled: state.audioEnabled,
+        history: []
+      };
+
+      runTimer.reset();
+      setSafeText('summary-run-time', "—");
+
+      document.getElementById('simulation-summary-card').classList.add('hidden');
+      document.getElementById('active-scenario-card').classList.remove('hidden');
+
+      // Reset Leaderboard Form
+      const subForm = document.getElementById('leaderboard-submission-form');
+      if (subForm) {
+        subForm.innerHTML = `
+          <div class="w-full sm:w-auto flex-1">
+            <label for="player-name-input" class="block text-xs font-semibold text-slate-300 mb-1">
+              Registre seu nome no Ranking Global:
+            </label>
+            <input type="text" id="player-name-input" placeholder="ex. Maria Silva - CDO" class="sim-input">
+          </div>
+          <button id="save-score-btn" onclick="savePlayerScore()" class="sim-btn sim-btn--accent sim-btn--sm w-full sm:w-auto shrink-0">
+            <i class="fas fa-check fa-fw text-sm"></i>
+            <span>Salvar no Ranking</span>
+          </button>
+        `;
+      }
+
+      renderStepper();
+      renderCurrentScenario();
+      updateMetricsUI();
+    }
+
+    function openDamaMatrixModal() {
+      document.getElementById('dama-modal').classList.remove('hidden');
+    }
+
+    function closeDamaMatrixModal() {
+      document.getElementById('dama-modal').classList.add('hidden');
+    }
+  </script>
 
 <footer class="simulator-site-footer">
 <nav class="simulator-locale-nav" aria-label="Mais simuladores">
@@ -1297,5 +1603,37 @@
 </footer>
 <script type="module" src="/assets/js/language-switch.js"></script>
 <script src="/assets/js/simulator-footer-reveal.js" defer></script>
+<!--
+  The shared welcome overlay. Behaviour lives in
+  /assets/js/simulator-welcome.js; the wording lives here so that it stays
+  translated and stays visible to scripts/extract-simulator-text.mjs.
+-->
+<div class="sim-welcome" data-sim-welcome data-sim-welcome-target="#player-name-input" hidden>
+  <div class="sim-welcome__dialog" role="dialog" aria-modal="true" aria-labelledby="sim-welcome-title">
+    <p class="sim-eyebrow">DAMA-DMBOK &middot; 10 incidentes</p>
+    <h2 id="sim-welcome-title" class="sim-welcome__title">Você acabou de assumir como líder de dados.</h2>
+    <p class="sim-welcome__lead">Dez incidentes de governança chegam um atrás do outro &mdash; do tipo que aparece como mensagem no Slack, não como projeto. Cada um oferece três respostas plausíveis, e nenhuma delas é de graça.</p>
+    <ul class="sim-welcome__facts">
+      <li class="sim-badge sim-badge--neutral">~10 minutos</li>
+      <li class="sim-badge sim-badge--neutral">Sem cadastro</li>
+      <li class="sim-badge sim-badge--neutral">Pontuado no seu navegador</li>
+    </ul>
+    <p class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed"><strong>Seu objetivo:</strong> terminar com os cinco indicadores de saúde do DAMA-DMBOK o mais altos possível. A decisão mais fácil raramente é a certa.</p>
+    <div class="sim-welcome__start">
+      <div class="sim-welcome__field">
+        <label class="sim-welcome__label" for="sim-welcome-name">Seu nome ou cargo, para o ranking</label>
+        <input type="text" id="sim-welcome-name" class="sim-input" placeholder="ex. Maria Silva - CDO" maxlength="30" autocomplete="off">
+      </div>
+      <div class="sim-welcome__actions">
+        <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" data-sim-welcome-start>
+          <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar a simulação
+        </button>
+        <button type="button" class="sim-btn sim-btn--quiet" data-sim-welcome-skip>Só quero olhar</button>
+      </div>
+      <p class="sim-welcome__note">Opcional. Nada é enviado a lugar algum a menos que você escolha publicar sua pontuação no final.</p>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/simulator-welcome.js" defer></script>
 </body>
 </html>

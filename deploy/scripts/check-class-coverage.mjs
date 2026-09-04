@@ -37,21 +37,21 @@ const HTML_SOURCES = [
   'admin/index.html',
   'admin/spaces/index.html',
   'workspace/index.html',
-  'simulators/es/data-ownership-conflict/index.html',
-  'simulators/pt/data-ownership-conflict/index.html',
 ];
 
 /**
  * Pages that are reported but never fail the build.
  *
- * These seven load the Tailwind Play CDN, which compiles utility classes in the
- * browser from a config this script cannot evaluate, so `checkFile` skips them
- * outright rather than measuring their markup against the hand-written subset
- * and calling every Tailwind utility undefined. They stay on this list for the
- * day one of them stops loading the CDN: the run will start reporting real
- * findings for it, and it can be promoted into HTML_SOURCES once it reads clean
- * -- which is how the two Spanish and Portuguese "Who Owns This?" pages, the
- * only two that were already CDN-free, got there.
+ * All nine simulators load the Tailwind Play CDN, which compiles utility classes
+ * in the browser from a config this script cannot evaluate, so `checkFile` skips
+ * them outright rather than measuring their markup against the hand-written
+ * subset and calling every Tailwind utility undefined. They stay on this list for
+ * the day one of them stops loading the CDN: the run will start reporting real
+ * findings for it, and it can be promoted into HTML_SOURCES once it reads clean.
+ *
+ * The Spanish and Portuguese "Who Owns This?" pages were the two exceptions --
+ * CDN-free, and so checked strictly -- until they were rebuilt from the English
+ * page they translate, which brought the CDN with it.
  */
 const ADVISORY_SOURCES = [
   'simulators/en/data-governance-day-to-day/index.html',
@@ -59,8 +59,10 @@ const ADVISORY_SOURCES = [
   'simulators/en/data-ownership-conflict/index.html',
   'simulators/es/data-governance-day-to-day/index.html',
   'simulators/es/data-literacy/index.html',
+  'simulators/es/data-ownership-conflict/index.html',
   'simulators/pt/data-governance-day-to-day/index.html',
   'simulators/pt/data-literacy/index.html',
+  'simulators/pt/data-ownership-conflict/index.html',
 ];
 
 /** Directories scanned for class names referenced from JavaScript or generators. */

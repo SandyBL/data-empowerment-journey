@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es" data-sim-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos | Data Governance Journey</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos | Data Governance Journey</title>
     <meta name="description" content="Simulador gratuito basado en RACI: decide si el dueño de negocio, el data steward o TI es responsable de cada tarea de datos según el marco DAMA de gobierno de datos.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://datagovjourney.com/simulators/es/data-ownership-conflict/">
@@ -29,660 +29,26 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos","url":"https://datagovjourney.com/simulators/es/data-ownership-conflict/","description":"Simulador gratuito basado en RACI: decide si el dueño de negocio, el data steward o TI es responsable de cada tarea de datos según el marco DAMA de gobierno de datos.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"es","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Separar responsabilidad de ejecución","Propiedad de negocio sobre las definiciones","Stewardship entre áreas","Los límites del mandato de TI","Rutas de escalamiento"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://datagovjourney.com/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/#simulators"},{"@type":"ListItem","position":3,"name":"¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos","item":"https://datagovjourney.com/simulators/es/data-ownership-conflict/"}],"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#faq","inLanguage":"es","isPartOf":{"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#app"},"mainEntity":[{"@type":"Question","name":"¿Cuál es la diferencia entre un data owner y un data steward?","acceptedAnswer":{"@type":"Answer","text":"El data owner rinde cuentas: decide qué significa el dato, aprueba sus reglas de negocio y firma el riesgo de usarlo. El data steward es responsable de mantenerlo apto para el uso diario: perfilar la calidad, mantener el glosario y el catálogo, y conciliar reglas entre áreas. La propiedad es un derecho de decisión; el stewardship es un trabajo continuo."}},{"@type":"Question","name":"¿Dónde encaja TI en la propiedad del dato?","acceptedAnswer":{"@type":"Answer","text":"TI es dueña de la capa de ejecución: pipelines, almacenamiento, infraestructura, control de acceso y respaldos. No es dueña del significado de negocio. Cuando una métrica está mal porque su definición está mal, eso es una pregunta de propiedad, no un ticket de ingeniería: justamente la confusión sobre la que se construyó este simulador."}},{"@type":"Question","name":"¿Necesito una matriz RACI formal antes de empezar?","acceptedAnswer":{"@type":"Answer","text":"No. El simulador sirve para descubrir cuál es tu RACI implícito. Muchos equipos lo resuelven juntos y descubren que no coinciden en escenarios que daban por cerrados, lo cual suele ser más útil que la puntuación."}},{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No hay cuenta y no pedimos correo. Los diez escenarios se puntúan por completo en tu navegador; lo único que sale de ahí es la entrada de la tabla de posiciones, y solo si pulsas Publicar: el nombre que escribiste, tu puntaje final y el tiempo que tardaste en responder pasan a aparecer en la misma tabla global que ve el resto de jugadores."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/images/dg-logo.png","width":400,"height":388}}]}</script>
-  <style>
-      /* First-paint colours, so the page does not flash white before the rest
-         of the console has loaded. */
-      html { background-color: #04141c; color: #f2fafc; }
-  </style>
-  <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/fonts.css">
-  
-  <style>
-    /*
-     * These names are the same nineteen this page has always used; only the
-     * values moved. They now resolve to the shared console tokens in
-     * /assets/css/simulator-theme.css, which is what converts this page --
-     * the one simulator written in hand-rolled CSS rather than Tailwind --
-     * onto the same surface as the other eight without rewriting the six
-     * hundred lines of rules below that reference them.
-     *
-     * Two names had to split. --dark-navy-teal was doing duty as both a dark
-     * background (the header, the tier banner) and as heading ink on a white
-     * card; on the console those are opposite ends of the ramp, so the ink
-     * role moved to --heading-ink. --light-bg was both the page ground and the
-     * inset-panel fill, and only the panel meaning survives -- the page ground
-     * is the console gradient now, which simulator-theme.css paints on <body>.
-     */
-    :root {
-      /* Accent: brand --dejourney-cyan, and the deep teal behind it. */
-      --primary-teal: #65b7c7;
-      --accent-deep: #095b73;
-      /* Dark grounds. */
-      --dark-navy-teal: #04222e;
-      /* Brand orange, the single call-to-action colour on the console. */
-      --accent-orange: #e95d24;
-      --accent-orange-hover: #c25419;
-      /* Surfaces: an inset panel, and the card it sits in. */
-      --light-bg: #0d3d4e;
-      --card-bg: rgb(7 42 56 / 0.88);
-      /* Ink. --heading-ink is the former --dark-navy-teal text role. */
-      --heading-ink: #f2fafc;
-      --text-main: #e2f0f4;
-      --text-muted: #9dc2cc;
-      --border-color: #1d5566;
-      /* States: brand emerald, and a warmed coral in place of a stock red,
-         which read as a browser error against this palette. */
-      --success-green: #50c878;
-      --success-light: rgb(80 200 120 / 0.12);
-      --error-red: #ef9384;
-      --error-light: rgb(239 147 132 / 0.12);
-      --highlight-soft: rgb(101 183 199 / 0.14);
-      --amber: #e9b03c;
-      /* Geometry: 1.5rem is .simulator-card on the homepage, 0.75rem the one
-         step down that keeps a control looking like it belongs to its card. */
-      --radius-lg: 1.5rem;
-      --radius-md: 0.75rem;
-      --radius-sm: 0.5rem;
-      --shadow-sm: 0 2px 6px rgb(2 22 33 / 0.3);
-      --shadow-md: 0 24px 48px rgb(2 22 33 / 0.28);
-      --shadow-lg: 0 28px 56px rgb(2 22 33 / 0.4);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      /* The ground is the console gradient painted on <body> by
-         /assets/css/simulator-theme.css; no background-color here. */
-      color: var(--text-main);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* The emoji and the wording are addressed separately so the phone header can
-       keep the first and drop the second; see the max-width: 768px block. */
-    main {
-      flex: 1;
-      max-width: 900px;
-      width: 100%;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-
-    .screen {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out forwards;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* TARJETAS Y CONTENEDORES */
-    .card {
-      background-color: var(--card-bg);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--border-color);
-      margin-bottom: 1.5rem;
-    }
-
-    /* PANTALLA DE BIENVENIDA */
-    .roles-preview {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
-      margin-bottom: 2.5rem;
-      text-align: left;
-    }
-
-    .role-preview-box {
-      background: var(--light-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-    }
-
-    .role-preview-header {
-      font-weight: 700;
-      color: var(--primary-teal);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-      font-size: 0.95rem;
-    }
-
-    .role-preview-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-
-    /* PANTALLA DE JUEGO */
-    .game-header {
-      background: var(--dark-navy-teal);
-      color: white;
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1.75rem;
-      margin-bottom: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .game-stats {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .stat-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .stat-value {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 2px 10px;
-      border-radius: 12px;
-      color: var(--amber);
-    }
-
-    .progress-bar-container {
-      width: 100%;
-      height: 10px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: var(--accent-orange);
-      width: 10%;
-      transition: width 0.3s ease;
-    }
-
-    .scenario-card {
-      position: relative;
-    }
-
-    .scenario-number-tag {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--accent-orange);
-      margin-bottom: 8px;
-    }
-
-    .scenario-text {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--heading-ink);
-      margin-bottom: 2rem;
-      line-height: 1.4;
-    }
-
-    /* MODAL DE RETROALIMENTACIÓN */
-    .feedback-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgb(2 12 18 / 0.84);
-      backdrop-filter: blur(6px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 1.5rem;
-    }
-
-    .feedback-modal-overlay.active {
-      display: flex;
-    }
-
-    .feedback-card {
-      background: white;
-      border-radius: var(--radius-lg);
-      max-width: 550px;
-      width: 100%;
-      padding: 2rem;
-      box-shadow: var(--shadow-lg);
-      animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .feedback-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 1rem;
-    }
-
-    .feedback-badge {
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .feedback-badge.correct {
-      background-color: var(--success-light);
-      color: var(--success-green);
-    }
-
-    .feedback-badge.incorrect {
-      background-color: var(--error-light);
-      color: var(--error-red);
-    }
-
-    .feedback-explanation {
-      font-size: 1rem;
-      color: var(--text-main);
-      margin-bottom: 1.5rem;
-      background: var(--light-bg);
-      padding: 1.25rem;
-      border-radius: var(--radius-md);
-      border-left: 4px solid var(--primary-teal);
-    }
-
-    .feedback-explanation p {
-      margin-bottom: 0.5rem;
-    }
-
-    .feedback-explanation p:last-child {
-      margin-bottom: 0;
-    }
-
-    .dama-framework-tag {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-top: 8px;
-      display: block;
-    }
-
-    /* PANTALLA DE RESULTADOS */
-    /*
-     * minmax(0, 1fr) rather than 1fr, and min-width: 0 on the cards.
-     *
-     * A bare 1fr track is minmax(auto, 1fr), and that auto minimum is the
-     * widest min-content width among the items in it -- so a single card
-     * holding something that cannot be narrowed made the whole grid wider than
-     * <main>, and the results screen ended up wider than the header while the
-     * header stayed at viewport width. Flooring the track at zero closes that
-     * off for every card at once instead of one wide child at a time, and
-     * break-word keeps a long unbroken string (a URL in a scenario title, a
-     * pasted player name) inside its card rather than through the side of it.
-     */
-    .results-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1.5rem;
-    }
-
-    .results-grid > * {
-      min-width: 0;
-    }
-
-    .card {
-      overflow-wrap: break-word;
-    }
-
-    .tier-badge-card {
-      text-align: center;
-      background: linear-gradient(135deg, var(--dark-navy-teal) 0%, var(--accent-deep) 100%);
-      color: white;
-    }
-
-    .tier-title-label {
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      opacity: 0.8;
-      margin-bottom: 6px;
-    }
-
-    .tier-name {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--amber);
-      margin-bottom: 0.5rem;
-    }
-
-    .final-score-display {
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1;
-      margin: 1rem 0;
-    }
-
-    .tier-description {
-      font-size: 0.95rem;
-      opacity: 0.9;
-      max-width: 550px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 1.2rem;
-      color: var(--heading-ink);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .tips-list {
-      list-style: none;
-    }
-
-    .tip-item {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 1rem;
-      background: var(--light-bg);
-      padding: 1rem;
-      border-radius: var(--radius-md);
-      align-items: flex-start;
-    }
-
-    .tip-icon {
-      background: var(--primary-teal);
-      color: #04141c;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: bold;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    /* TABLA DE CLASIFICACIÓN */
-    /*
-     * The RACI matrix is three prose columns wide and a phone leaves it roughly
-     * 260px to live in. A table refuses to render narrower than its min-content
-     * width, so without this wrapper it pushed the document itself wider than
-     * the viewport: the modal came out wider than the header and had to be
-     * zoomed out to read. The overflow now stays inside the panel, where the
-     * table scrolls sideways on its own and the page does not. (The leaderboard
-     * had the same problem and is now on the shared .sim-table-wrap, which
-     * carries the same overflow rule.)
-     */
-    .table-scroll {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* SECCIÓN CALL TO ACTION (CTA) */
-    .cta-box {
-      background: linear-gradient(135deg, rgb(233 93 36 / 0.16) 0%, rgb(233 93 36 / 0.07) 100%);
-      border: 2px dashed var(--accent-orange);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .cta-heading {
-      font-size: 1.3rem;
-      color: var(--heading-ink);
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-
-    .cta-subtext {
-      color: var(--text-main);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* MODAL GUÍA DE MATRIZ RACI */
-    .raci-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgb(2 12 18 / 0.84);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 1.5rem;
-    }
-
-    .raci-modal.active {
-      display: flex;
-    }
-
-    .raci-modal-content {
-      background: white;
-      border-radius: var(--radius-lg);
-      max-width: 700px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 1.25rem;
-      right: 1.25rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-
-    .raci-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-
-    .raci-table th, .raci-table td {
-      border: 1px solid var(--border-color);
-      padding: 8px 12px;
-      text-align: left;
-    }
-
-    .raci-table th {
-      background: var(--light-bg);
-      color: var(--heading-ink);
-    }
-
-    /* DISEÑO ADAPTATIVO (RESPONSIVE) */
-    @media (max-width: 768px) {
-      .roles-preview {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .card {
-        padding: 1.5rem;
-      }
-
-      .final-score-display {
-        font-size: 2.75rem;
-      }
-
-      main {
-        margin: 1.5rem auto;
-        padding: 0 1rem;
-      }
-
-      /*
-       * The four stat badges want about 325px in a single row and a 360px phone
-       * offers the header card about 290px, so the row used to spill out of the
-       * card and off the screen. Two columns fit, and each badge may wrap its
-       * own value chip under its label rather than forcing the column wider.
-       */
-      .game-header {
-        padding: 1rem 1.1rem;
-      }
-
-      .game-stats {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px 12px;
-      }
-
-      .stat-badge {
-        flex-wrap: wrap;
-        gap: 6px;
-        min-width: 0;
-        font-size: 0.85rem;
-      }
-
-      /* The verdict mark stays on the right where it is scannable; it is the
-         scenario text beside it that has to give way, and a flex item only does
-         that once it is allowed under its own min-content width. */
-      .cta-box {
-        padding: 1.5rem 1.25rem;
-      }
-
-      .raci-modal {
-        padding: 1rem;
-      }
-
-      .raci-modal-content {
-        padding: 1.5rem 1.25rem;
-      }
-
-      .raci-table th,
-      .raci-table td {
-        padding: 6px 8px;
-        font-size: 0.78rem;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .card {
-        padding: 1.15rem;
-      }
-
-      .game-header {
-        padding: 0.9rem 1rem;
-      }
-
-      .stat-badge {
-        font-size: 0.8rem;
-      }
-
-      .stat-value {
-        padding: 2px 8px;
-      }
-
-      .final-score-display {
-        font-size: 2.25rem;
-      }
-    }
-
-    /*
-     * "About this simulator" -- the static explanation that carries this page
-     * for anyone (a crawler, an assistant, a reader with scripts off) who never
-     * sees the interactive board above it.
-     *
-     * It was authored with Tailwind utility classes, back when this page
-     * compiled Tailwind in the browser. The page no longer loads Tailwind, so
-     * every one of those classes matched nothing and the whole section rendered
-     * as a full-width wall of unstyled text. It is styled here from the page's
-     * own tokens, which is also why the markup no longer carries utilities that
-     * nothing on this page can define.
-     */
-    .simulator-explainer {
-      width: 100%;
-      max-width: 48rem;
-      margin: 4rem auto;
-      padding: 1.5rem;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      color: var(--text-main);
-    }
-
-    @media (min-width: 640px) {
-      .simulator-explainer { padding: 2.5rem; }
-    }
-
-    .simulator-explainer h2,
-    .simulator-explainer h3,
-    .simulator-explainer h4 {
-      color: var(--heading-ink);
-      font-weight: 700;
-    }
-
-    .simulator-explainer h2 { margin-bottom: 1.25rem; font-size: 1.5rem; line-height: 2rem; }
-    .simulator-explainer h3 { margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.25rem; line-height: 1.75rem; }
-    .simulator-explainer h4 { margin-bottom: 0.25rem; font-weight: 600; }
-
-    .simulator-explainer p { margin-bottom: 1rem; line-height: 1.625; }
-
-    .simulator-explainer ul {
-      margin-bottom: 1rem;
-      padding-left: 1.5rem;
-      list-style: disc;
-      line-height: 1.625;
-    }
-
-    .simulator-explainer li + li { margin-top: 0.5rem; }
-    .simulator-explainer div + div,
-    .simulator-explainer h3 + div { margin-bottom: 1.25rem; }
-
-    .simulator-explainer a { color: inherit; text-decoration: underline; }
-    .simulator-explainer a:hover { text-decoration: none; }
-  </style>
-  <link rel="stylesheet" href="/assets/css/simulator-header.css">
-  <link rel="stylesheet" href="/assets/css/simulator-theme.css">
-  <!-- One icon set across the nine simulator pages. The emoji this page
-       used to carry rendered as a different picture on every operating
-       system and could not take the brand colours; these glyphs do. -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Tailwind CSS -->
+    <style>
+        /* First-paint colours, so the page does not flash white before the rest
+           of the console has loaded. */
+        html { background-color: #04141c; color: #f2fafc; }
+    </style>
+    <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- One typeface for the header, the app and the explainer below it. -->
+    <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/fonts.css">
+
+    <!-- The shared simulator theme: one Tailwind palette, one typeface, one
+         set of radii and shadows for all nine simulator pages. Must load after
+         the CDN script above and before the first paint of any utility class. -->
+    <script src="/assets/js/simulator-tailwind-config.js"></script>
+
+    <link rel="stylesheet" href="/assets/css/simulator-header.css">
+    <link rel="stylesheet" href="/assets/css/simulator-theme.css">
   <!-- Private-space chrome, settled before the first paint. The rules it
        switches on live with the header styles in
        /assets/css/simulator-header.css, which this page already links above. -->
@@ -706,42 +72,44 @@
     })();
   </script>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brand-orange selection:text-white">
     <a class="skip-link" href="#simulator-main">Saltar al simulador</a>
 
-  <!-- ENCABEZADO DE LA MARCA -->
-  <header class="simulator-site-header">
-    <div class="simulator-site-header-inner">
-      <div class="simulator-brand-block">
-        <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
-        <div class="simulator-brand-copy">
-          <span class="simulator-brand-name">Data Governance Journey</span>
+    <!-- MAIN NAVIGATION HEADER -->
+    <header class="simulator-site-header">
+        <div class="simulator-site-header-inner">
+            <div class="simulator-brand-block">
+                <img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" class="simulator-brand-logo" width="40" height="40" fetchpriority="high" decoding="async">
+                <div class="simulator-brand-copy">
+                    <span class="simulator-brand-name">Data Governance Journey</span>
+                </div>
+            </div>
+
+            <div class="simulator-product-copy">
+                <div class="simulator-title-row">
+                    <h1 class="simulator-title">¿Quién es el dueño de esto?</h1>
+                </div>
+                <p class="simulator-subtitle">Simulador de Matriz de Conflictos de Roles</p>
+            </div>
+
+            <!-- Global Action Controls -->
+            <div class="simulator-header-actions">
+                <button id="btnSoundToggle" onclick="toggleSound()" aria-pressed="true" aria-label="Activar o desactivar el sonido" class="sim-btn sim-btn--ghost sim-btn--sm" title="Activar/Desactivar Sonido">
+                    <i id="soundIcon" class="fas fa-volume-high fa-fw"></i>
+                </button>
+                <button onclick="openRACIModal()" aria-label="Guía RACI de Datos" title="Guía RACI de Datos" class="sim-btn sim-btn--ghost sim-btn--sm">
+                    <i class="fas fa-sitemap fa-fw text-brand-orange"></i>
+                    <span class="simulator-action-label">Guía RACI</span>
+                </button>
+                <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
+                    </svg>
+                    <span>Sitio principal</span>
+                </a>
+            </div>
         </div>
-      </div>
-      <div class="simulator-product-copy">
-        <div class="simulator-title-row">
-          <h1 class="simulator-title">¿Quién es el dueño de esto?</h1>
-        </div>
-        <p class="simulator-subtitle">Simulador de Matriz de Conflictos de Roles</p>
-      </div>
-      <div class="simulator-header-actions">
-        <button class="sim-btn sim-btn--ghost sim-btn--sm" onclick="toggleSound()" id="soundToggleBtn" aria-label="Sonido activado" title="Activar/Desactivar Sonido">
-          <i class="fas fa-volume-high fa-fw" id="soundToggleGlyph" aria-hidden="true"></i>
-          <span class="simulator-action-label" id="soundToggleLabel">Sonido: ON</span>
-        </button>
-        <button class="sim-btn sim-btn--ghost sim-btn--sm" onclick="openRaciModal()" aria-label="Guía RACI de Datos" title="Guía RACI de Datos">
-          <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-          <span class="simulator-action-label">Guía RACI de Datos</span>
-        </button>
-        <a href="/" class="simulator-home-link" aria-label="Volver al sitio principal">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10M9.5 19.5v-6h5v6"></path>
-          </svg>
-          <span>Sitio principal</span>
-        </a>
-      </div>
-    </div>
-  </header>
+    </header>
     <nav class="simulator-breadcrumb" aria-label="Ruta de navegación">
       <ol>
         <li><a href="/">Inicio</a></li>
@@ -750,183 +118,294 @@
       </ol>
     </nav>
 
-  <main id="simulator-main" tabindex="-1">
-    <!-- 1. PANTALLA DE BIENVENIDA -->
-    <section id="welcome-screen" class="screen active">
-      <div class="sim-welcome__dialog sim-welcome__dialog--wide">
-        <h2 class="sim-welcome__title">¿Quién es el dueño de esto?</h2>
-        <p class="sim-welcome__lead">
-          Acaba con las disputas internas de territorio. Pon a prueba tus conocimientos sobre quién es realmente el dueño de las tareas de datos: <strong>Dueño del Negocio</strong>, <strong>Data Steward / Product Owner</strong> o <strong>TI / Data Team</strong>.
-        </p>
+    <!-- MAIN CONTENT AREA -->
+    <main id="simulator-main" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full" tabindex="-1">
 
-        <div class="roles-preview">
-          <div class="role-preview-box">
-            <div class="role-preview-header"><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i>Dueño del Negocio</div>
-            <div class="role-preview-desc">Define la lógica comercial, asume los riesgos del negocio, fija presupuestos y aprueba reglas de dominio.</div>
-          </div>
-          <div class="role-preview-box">
-            <div class="role-preview-header"><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i>Data Steward / Product Owner</div>
-            <div class="role-preview-desc">Mantiene la higiene de datos a diario, define reglas de calidad y conecta el contexto de negocio con metadatos.</div>
-          </div>
-          <div class="role-preview-box">
-            <div class="role-preview-header"><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i>TI / Data Team</div>
-            <div class="role-preview-desc">Construye la infraestructura, automatiza pipelines de datos, administra la seguridad y garantiza el tiempo de actividad.</div>
-          </div>
+        <!-- ================= GAMEPLAY SCREEN ================= -->
+        <section id="gameplayScreen" class="hidden space-y-6">
+            
+            <!-- Game HUD / Progress Bar Card -->
+            <div class="bg-brand-navy text-white rounded-2xl p-4 sm:p-5 shadow-soft border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between sm:justify-start gap-3">
+                        <span id="hudScenarioCounter" class="sim-eyebrow">Escenario 1 de 10</span>
+                        <span id="hudStreakBadge" class="hidden inline-flex items-center gap-1 text-xs font-bold bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                            <i class="fas fa-fire fa-fw text-amber-400"></i> Racha <span id="hudStreakCount">2</span>
+                        </span>
+                    </div>
+                    <!-- Visual Progress Bar -->
+                    <div class="w-full sm:w-64 bg-slate-700/60 h-2.5 rounded-full overflow-hidden border border-slate-600/40 mt-1">
+                        <div id="hudProgressBar" class="bg-brand-orange h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+                    </div>
+                </div>
+
+                <!--
+                     Player / score / time is a three-column grid on a phone and
+                     the original flex row from sm: up. As a flex row it asked for
+                     roughly 325px -- two text-2xl figures, gap-6 between them and
+                     pl-4 either side of the dividers -- where a 360px screen
+                     leaves this card about 288px, and a flex item never renders
+                     narrower than its own content, so the whole card pushed out
+                     past the edge of the screen instead of tightening up.
+                -->
+                <div class="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:gap-6 sm:justify-end border-t sm:border-t-0 border-slate-700/60 pt-3 sm:pt-0">
+                    <div class="min-w-0 text-left sm:text-right">
+                        <div class="sim-eyebrow sim-eyebrow--dim">Jugador</div>
+                        <div id="hudPlayerName" class="font-bold text-sm text-white truncate max-w-full sm:max-w-[120px]">Jugador</div>
+                    </div>
+                    <div class="min-w-0 text-right pl-3 sm:pl-4 border-l border-slate-700/60">
+                        <div class="sim-eyebrow sim-eyebrow--dim">Puntaje Actual</div>
+                        <div id="hudScore" class="text-xl sm:text-2xl font-black text-brand-orange tracking-tight">0 <span class="text-xs font-normal text-teal-200">pts</span></div>
+                    </div>
+                    <div class="min-w-0 text-right pl-3 sm:pl-4 border-l border-slate-700/60">
+                        <div class="sim-eyebrow sim-eyebrow--dim">Tiempo</div>
+                        <div id="hudTimer" class="text-xl sm:text-2xl font-black text-teal-200 tracking-tight tabular-nums">0:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario Card Display -->
+            <div class="bg-brand-card rounded-2xl p-6 sm:p-10 shadow-soft border border-slate-800/80 space-y-8 animate-pop">
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <span class="sim-badge">
+                            <i class="fas fa-building-user fa-fw mr-1"></i> Tarea en Conflicto
+                        </span>
+                        <span id="scenarioCategoryBadge" class="text-xs font-semibold text-slate-400">
+                            Categoría: Gestión de Datos
+                        </span>
+                    </div>
+                    <h2 id="scenarioTaskText" class="text-2xl sm:text-3xl font-extrabold text-brand-text leading-snug">
+                        "Definir qué significa oficialmente 'Cliente Activo' para los informes de rendimiento del negocio."
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        ¿Quién tiene la responsabilidad principal y la propiedad para ejecutar o aprobar esta tarea?
+                    </p>
+                </div>
+
+                <!-- 3 Interactive Choice Buttons -->
+                <div class="sim-option-grid pt-2">
+                    <!-- Business Owner Button -->
+                    <button onclick="submitAnswer('Business Owner')" class="sim-option sim-option--stacked">
+                        <span class="sim-option__key"><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i></span>
+                        <span class="sim-option__body">
+                            <span class="sim-option__meta">Líder de Dominio</span>
+                            <h3 class="sim-option__title">Dueño del Negocio</h3>
+                            <p class="sim-option__text">Tiene los objetivos de ingresos, la lógica de las métricas, el presupuesto y la aprobación del riesgo del dominio.</p>
+                        </span>
+                    </button>
+
+                    <!--
+                      Data Steward button. The string passed to submitAnswer() is
+                      the answer key the whole scoring path is written against
+                      (and the key the RACI legend, the feedback modal and the
+                      review screen look up), so it stays "Data Steward" while the
+                      heading below carries the client-facing wording.
+                    -->
+                    <button onclick="submitAnswer('Data Steward')" class="sim-option sim-option--stacked">
+                        <span class="sim-option__key"><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i></span>
+                        <span class="sim-option__body">
+                            <span class="sim-option__meta">Líder de Calidad</span>
+                            <h3 class="sim-option__title">Data Steward / Product Owner</h3>
+                            <p class="sim-option__text">Conecta tecnología y negocio; aplica higiene, definiciones y perfilado.</p>
+                        </span>
+                    </button>
+
+                    <!-- IT / Tech Button -->
+                    <button onclick="submitAnswer('IT / Tech')" class="sim-option sim-option--stacked">
+                        <span class="sim-option__key"><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i></span>
+                        <span class="sim-option__body">
+                            <span class="sim-option__meta">Ingeniería</span>
+                            <h3 class="sim-option__title">TI / Data Team</h3>
+                            <p class="sim-option__text">Construye pipelines, configura bases de datos, hosting, seguridad y respaldos.</p>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FEEDBACK MODAL / CARD ================= -->
+        <div id="feedbackModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden animate-pop">
+            <div class="sim-card max-w-lg w-full p-6 sm:p-8 space-y-6 overflow-hidden">
+                <!-- Status Header Indicator -->
+                <div id="feedbackBanner" class="p-4 rounded-xl flex items-center gap-3">
+                    <div id="feedbackIcon" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-black text-white shrink-0">
+                        <i class="fas fa-check fa-fw"></i>
+                    </div>
+                    <div>
+                        <h3 id="feedbackResultTitle" class="text-xl font-extrabold tracking-tight">¡Elección Correcta!</h3>
+                        <p id="feedbackPointsEarned" class="sim-eyebrow">+100 puntos sumados</p>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="sim-panel p-4 space-y-3">
+                    <div class="sim-eyebrow sim-eyebrow--dim flex flex-wrap items-center justify-between gap-2">
+                        <span>Fundamento de Gobernanza DAMA</span>
+                        <span id="feedbackCorrectRoleBadge" class="bg-cyan-500/15 text-brand-accent px-2 py-0.5 rounded font-semibold">
+                            Rol: Dueño del Negocio
+                        </span>
+                    </div>
+                    <p id="feedbackExplanationText" class="text-sm text-slate-300 leading-relaxed font-medium">
+                        Aquí va la explicación...
+                    </p>
+                </div>
+
+                <button id="btnNextScenario" onclick="nextScenario()" class="sim-btn sim-btn--accent sim-btn--block">
+                    <span>Siguiente Escenario</span>
+                    <i class="fas fa-arrow-right fa-fw text-sm" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
 
-        <div class="sim-welcome__start">
-          <div class="sim-welcome__field">
-            <label class="sim-welcome__label" for="player-name">Tu nombre o cargo, para la clasificación</label>
-            <input type="text" id="player-name" class="sim-input" placeholder="Ej. Ana García (Líder de Analytics)" maxlength="30" autocomplete="off">
-          </div>
-          <div class="sim-welcome__actions">
-            <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" onclick="startGame()">
-              <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar la simulación
-            </button>
-          </div>
-          <p class="sim-welcome__note">Opcional. No se envía nada a ningún sitio salvo que decidas publicar tu puntaje al final.</p>
-        </div>
-      </div>
-    </section>
+        <!-- ================= RESULTS & LEADERBOARD SCREEN ================= -->
+        <section id="resultsScreen" class="hidden space-y-8 animate-pop">
+            
+            <!-- Result Summary Card -->
+            <div class="bg-brand-card rounded-2xl p-6 sm:p-10 shadow-soft border border-slate-800/80 space-y-8 text-center relative overflow-hidden">
+                
+                <div class="sim-badge sim-badge--neutral">
+                    <i class="fas fa-flag-checkered fa-fw text-brand-orange"></i> Evaluación Completada
+                </div>
 
-    <!-- 2. PANTALLA DE JUEGO -->
-    <section id="game-screen" class="screen">
-      <div class="game-header">
-        <div class="game-stats">
-          <div class="stat-badge">
-            <i class="fas fa-thumbtack fa-fw" aria-hidden="true"></i> Escenario: <span id="current-scenario-num" class="stat-value">1 de 10</span>
-          </div>
-          <div class="stat-badge">
-            <i class="fas fa-fire fa-fw" aria-hidden="true"></i> Racha: <span id="current-streak" class="stat-value">0</span>
-          </div>
-          <div class="stat-badge">
-            <i class="fas fa-star fa-fw" aria-hidden="true"></i> Puntaje: <span id="current-score" class="stat-value">0</span>
-          </div>
-          <div class="stat-badge">
-            <i class="fas fa-stopwatch fa-fw" aria-hidden="true"></i> Tiempo: <span id="current-time" class="stat-value">0:00</span>
-          </div>
-        </div>
-        <div class="progress-bar-container">
-          <div id="progress-bar" class="progress-bar-fill"></div>
-        </div>
-      </div>
+                <div class="space-y-2">
+                    <h2 id="resultPlayerGreeting" class="text-2xl sm:text-3xl font-extrabold text-brand-text">
+                        ¡Buen trabajo, Ana!
+                    </h2>
+                    <p class="text-sm text-slate-500">Este es el desglose de tu madurez en propiedad de datos:</p>
+                </div>
 
-      <div class="card scenario-card">
-        <div class="scenario-number-tag">Conflictos de Gobernanza de Datos</div>
-        <h2 id="scenario-title" class="scenario-text">Cargando escenario...</h2>
+                <!-- Score Big Counter & Tier Badge -->
+                <div class="sim-card p-6 sm:p-8 max-w-md mx-auto space-y-4">
+                    <div>
+                        <span id="finalScoreDisplay" class="text-5xl sm:text-6xl font-black text-brand-text tracking-tight">800</span>
+                        <span class="text-lg font-bold text-slate-400">/ 1000 pts</span>
+                    </div>
 
-        <div class="sim-option-grid">
-          <button class="sim-option sim-option--stacked" onclick="makeChoice('Business Owner')">
-            <span class="sim-option__key"><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i></span>
-            <span class="sim-option__body">
-              <span class="sim-option__title">Dueño del Negocio</span>
-              <span class="sim-option__text">Lógica Comercial y Riesgo</span>
-            </span>
-          </button>
+                    <p class="text-xs font-bold text-slate-500">
+                        <i class="fa-regular fa-clock text-brand-accent"></i>
+                        Respondido en <span id="finalTimeDisplay" class="tabular-nums text-brand-text">0:00</span>
+                        <span class="font-normal text-slate-400">— a igual puntaje, gana quien responde más rápido</span>
+                    </p>
 
-          <!--
-            El argumento de makeChoice() es la clave de respuesta con la que se
-            puntúa la partida y con la que se guardan los resultados publicados,
-            así que no cambia; solo cambia la etiqueta que se lee en pantalla.
-          -->
-          <button class="sim-option sim-option--stacked" onclick="makeChoice('Data Steward')">
-            <span class="sim-option__key"><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i></span>
-            <span class="sim-option__body">
-              <span class="sim-option__title">Data Steward / Product Owner</span>
-              <span class="sim-option__text">Calidad e Higiene Diaria</span>
-            </span>
-          </button>
+                    <!-- Performance Tier Badge -->
+                    <div id="tierBadgeContainer" class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-brand-accent inline-block w-full">
+                        <div id="tierTitle" class="text-lg font-extrabold flex items-center justify-center gap-2">
+                            <i id="tierBadgeIcon" class="fas fa-trophy fa-fw" aria-hidden="true"></i><span id="tierTitleText">Maestro en Propiedad de Datos</span>
+                        </div>
+                        <p id="tierDescription" class="text-xs mt-1 text-slate-400 font-normal">
+                            ¡Nivel experto! Sabes exactamente cómo estructurar los roles de gobernanza.
+                        </p>
+                    </div>
+                </div>
 
-          <button class="sim-option sim-option--stacked" onclick="makeChoice('IT / Tech')">
-            <span class="sim-option__key"><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i></span>
-            <span class="sim-option__body">
-              <span class="sim-option__title">TI / Data Team</span>
-              <span class="sim-option__text">Infraestructura y Código</span>
-            </span>
-          </button>
-        </div>
-      </div>
-    </section>
+                <!-- Share / Download Badge Button -->
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="copyResultsToClipboard()" class="sim-btn sim-btn--ghost sim-btn--sm">
+                        <i class="fa-regular fa-copy"></i> Copiar Resumen del Puntaje
+                    </button>
+                    <button onclick="toggleReviewMode()" class="sim-btn sim-btn--soft sim-btn--sm">
+                        <i class="fas fa-list-check fa-fw"></i> Revisar Todas las Respuestas
+                    </button>
+                </div>
+            </div>
 
-    <!-- 3. PANTALLA DE RESULTADOS -->
-    <section id="results-screen" class="screen">
-      <div class="results-grid">
-        <!-- Nivel / Medalla -->
-        <div class="card tier-badge-card">
-          <div class="tier-title-label">Tu Nivel de Madurez de Gobernanza</div>
-          <div id="res-tier-name" class="tier-name"><i id="res-tier-icon" class="fas fa-trophy fa-fw" aria-hidden="true"></i> <span id="res-tier-text">Evaluando...</span></div>
-          <div id="res-final-score" class="final-score-display">0 pts</div>
-          <div class="tier-title-label" style="margin-top: -0.5rem;"><i class="fas fa-stopwatch fa-fw" aria-hidden="true"></i> Tiempo total: <span id="res-final-time">0:00</span> — a igual puntaje, gana quien responde más rápido</div>
-          <p id="res-tier-desc" class="tier-description">Análisis de rendimiento...</p>
-        </div>
+            <!-- Answer Review Section (Collapsible/Toggleable) -->
+            <div id="answerReviewContainer" class="hidden sim-card p-6 space-y-4">
+                <h3 class="font-bold text-brand-text text-lg flex items-center gap-2">
+                    <i class="fas fa-magnifying-glass fa-fw text-brand-orange"></i> Repaso de Escenarios y Guías DAMA
+                </h3>
+                <div id="reviewList" class="sim-review-list">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
 
-        <!-- Recomendaciones Clave -->
-        <div class="card">
-          <h3 class="section-title"><i class="fas fa-lightbulb fa-fw" aria-hidden="true"></i> Recomendaciones Estratégicas para tu Empresa</h3>
-          <ul id="res-tips-list" class="tips-list">
-            <!-- Dinámico -->
-          </ul>
-        </div>
+            <!-- Personalized Takeaways & Tips Section -->
+            <div class="sim-card p-6 sm:p-8 space-y-6">
+                <div>
+                    <span class="sim-badge sim-badge--cta">
+                        Plan de Acción
+                    </span>
+                    <h3 class="text-xl font-extrabold text-brand-text mt-2">Recomendaciones Estratégicas para tu Empresa</h3>
+                    <p class="text-xs text-slate-500">3 recomendaciones prácticas para eliminar la ambigüedad de roles en tu empresa:</p>
+                </div>
 
-        <!-- Tabla de Clasificación Global -->
-        <div class="card">
-          <h3 class="section-title"><i class="fas fa-trophy fa-fw" aria-hidden="true"></i> Tabla de Clasificación Global</h3>
-          <div class="sim-table-wrap">
-            <table class="sim-table">
-              <thead>
-                <tr>
-                  <th>Pos.</th>
-                  <th>Jugador</th>
-                  <th class="sim-table__score">Puntaje</th>
-                  <th class="sim-table__meta">Tiempo</th>
-                  <th>Rango</th>
-                </tr>
-              </thead>
-              <tbody id="leaderboard-body">
-                <!-- Dinámico -->
-              </tbody>
-            </table>
-          </div>
-          <button id="publish-score-btn" class="sim-btn sim-btn--accent sim-btn--sm" style="margin-top: 1rem;" onclick="publishScore()">
-            <span id="publish-score-label">Publicar mi puntaje</span>
-          </button>
-        </div>
+                <div id="takeawaysList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Populated dynamically based on score tier -->
+                </div>
+            </div>
 
-        <!-- Revisión de Respuestas -->
-        <div class="card">
-          <h3 class="section-title"><i class="fas fa-magnifying-glass fa-fw" aria-hidden="true"></i> Resumen de Escenarios Evaluados</h3>
-          <div id="review-list" class="sim-review-list">
-            <!-- Dinámico -->
-          </div>
-        </div>
+            <!-- Leaderboard Section -->
+            <div class="sim-card p-6 sm:p-8 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="min-w-0">
+                        <h3 class="text-xl font-extrabold text-brand-text flex items-center gap-2">
+                            <i class="fas fa-trophy fa-fw text-amber-400"></i> Tabla de Posiciones Global
+                        </h3>
+                        <p class="text-xs text-slate-500">Los mejores puntajes de gobernanza publicados por jugadores de todo el mundo — a igual puntaje, gana quien responde más rápido</p>
+                    </div>
+                    <button id="publishScoreBtn" onclick="publishScore()" class="sim-btn sim-btn--accent sim-btn--sm">
+                        <span id="publishScoreLabel">Publicar mi puntaje</span>
+                    </button>
+                </div>
 
-        <!-- Llamado a la Acción (CTA) -->
-        <!-- simulator-bridge.js renderiza aquí la invitación personalizada al
-             Scorecard y luego oculta el CTA genérico de abajo. Si ese script no
-             carga, el hueco queda vacío y el visitante ve el CTA original, así que
-             la pantalla de resultados nunca se queda sin un paso siguiente. -->
-        <div id="simBridgeSlot"></div>
+                <div class="sim-table-wrap">
+                    <table class="sim-table">
+                        <thead>
+                            <tr>
+                                <th>Pos.</th>
+                                <th>Jugador</th>
+                                <th>Rango</th>
+                                <th class="sim-table__meta">Tiempo</th>
+                                <th class="sim-table__score">Puntaje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-        <div class="cta-box" data-sim-bridge-replaces>
-          <h3 class="cta-heading">¿Cansado de la confusión sobre la propiedad de los datos en tu empresa?</h3>
-          <p class="cta-subtext">
-            Mide la madurez analítica de tu organización y descubre exactamente qué pasos seguir para estructurar tu modelo de gobernanza.
-          </p>
-          <div class="cta-buttons">
-            <a href="/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg" style="text-decoration: none;">
-              Obtener Diagnóstico de Madurez de Datos
-            </a>
-          </div>
-        </div>
+            <!-- simulator-bridge.js renders the personalised Scorecard invitation
+                 here and then hides the generic CTA below. If that script fails to
+                 load, the slot stays empty and the original CTA is what the visitor
+                 sees, so the results screen is never left without a next step. -->
+            <div id="simBridgeSlot"></div>
 
-        <!-- Fuera del CTA de arriba a propósito: ese bloque se oculta cuando el
-             puente se renderiza, y volver a jugar tiene que seguir disponible. -->
-        <div class="cta-buttons">
-          <button class="sim-btn sim-btn--ghost" onclick="resetGame()">Intentar de Nuevo</button>
-        </div>
-      </div>
-    </section>
-  
+            <!-- Call to Action Box (Data Empowerment Journey) -->
+            <div data-sim-bridge-replaces class="gradient-header text-white rounded-2xl p-6 sm:p-8 shadow-xl border border-teal-800 space-y-6 relative overflow-hidden text-center sm:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-3 max-w-xl">
+                    <div class="sim-badge sim-badge--neutral">
+                        <i class="fas fa-chart-line fa-fw text-brand-orange"></i> Diagnóstico de Madurez de Datos
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                        Conoce el nivel de madurez de datos de tu empresa
+                    </h3>
+                    <p class="text-teal-100 text-sm leading-relaxed">
+                        Completa el formulario de evaluación rápida para descubrir en qué punto está tu organización en madurez de datos y recibe un diagnóstico personalizado.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-auto shrink-0">
+                    <a href="/#contact-form-start" target="_blank" rel="noopener noreferrer" class="sim-btn sim-btn--primary sim-btn--lg">
+                        <span>Obtener Diagnóstico de Madurez de Datos</span>
+                        <i class="fas fa-arrow-up-right-from-square fa-fw text-sm" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Outside the CTA above on purpose: that block gets hidden once the
+                 bridge renders, and replaying the simulator has to stay available. -->
+            <div class="text-center">
+                <button onclick="resetGame()" class="sim-btn sim-btn--ghost">
+                    <i class="fas fa-rotate-right fa-fw" aria-hidden="true"></i> Intentar de Nuevo
+                </button>
+            </div>
+
+        </section>
+
+    
     <!--
       Static explainer.
 
@@ -936,14 +415,14 @@
       placeholders and no explanation of what the simulator teaches. This section
       is the page saying, in plain HTML, what the exercise is and what it covers.
     -->
-    <section class="simulator-explainer" aria-labelledby="about-this-simulator">
-      <h2 id="about-this-simulator">Sobre este simulador</h2>
-        <p>"¿Quién es el dueño de esto?" es un simulador gratuito de diez escenarios sobre la discusión que todo programa de gobierno de datos acaba teniendo: cuando algo sale mal con un dataset, ¿de quién era la tarea? Cada escenario describe una situación concreta —cambia la definición de una métrica, un pipeline pierde filas, hay que aplicar una regla de retención— y te pide asignarla al Dueño de Negocio, al Data Steward / Product Owner o al TI / Data Team.</p>
-        <p>Los tres roles vienen del marco DAMA de gobierno de datos: fáciles de enunciar y difíciles de aplicar. El Dueño de Negocio tiene las definiciones del dominio, las reglas de negocio, las métricas de ingresos y la aprobación final del riesgo. El Data Steward / Product Owner mantiene la higiene del dato, el perfilado de calidad, los metadatos del catálogo y las reglas que cruzan áreas. El TI / Data Team ejecuta los pipelines, el almacenamiento, el hosting, la seguridad y los respaldos. Casi todas las disputas reales ocurren porque la tarea parece de quien la detectó primero.</p>
-        <p>El ejercicio dura unos tres minutos y no requiere cuenta. Está deliberadamente construido como un RACI: la pregunta no es quién hace el trabajo, sino quién responde por el resultado, que es la distinción que termina las guerras de territorio en vez de reiniciarlas.</p>
+    <section class="simulator-explainer mx-auto mb-16 mt-16 w-full max-w-3xl rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-300 shadow-sm sm:p-10" aria-labelledby="about-this-simulator">
+      <h2 id="about-this-simulator" class="mb-5 text-2xl font-bold text-slate-100">Sobre este simulador</h2>
+        <p class="mb-4 leading-relaxed">"¿Quién es el dueño de esto?" es un simulador gratuito de diez escenarios sobre la discusión que todo programa de gobierno de datos acaba teniendo: cuando algo sale mal con un dataset, ¿de quién era la tarea? Cada escenario describe una situación concreta —cambia la definición de una métrica, un pipeline pierde filas, hay que aplicar una regla de retención— y te pide asignarla al Dueño de Negocio, al Data Steward / Product Owner o al TI / Data Team.</p>
+        <p class="mb-4 leading-relaxed">Los tres roles vienen del marco DAMA de gobierno de datos: fáciles de enunciar y difíciles de aplicar. El Dueño de Negocio tiene las definiciones del dominio, las reglas de negocio, las métricas de ingresos y la aprobación final del riesgo. El Data Steward / Product Owner mantiene la higiene del dato, el perfilado de calidad, los metadatos del catálogo y las reglas que cruzan áreas. El TI / Data Team ejecuta los pipelines, el almacenamiento, el hosting, la seguridad y los respaldos. Casi todas las disputas reales ocurren porque la tarea parece de quien la detectó primero.</p>
+        <p class="mb-4 leading-relaxed">El ejercicio dura unos tres minutos y no requiere cuenta. Está deliberadamente construido como un RACI: la pregunta no es quién hace el trabajo, sino quién responde por el resultado, que es la distinción que termina las guerras de territorio en vez de reiniciarlas.</p>
 
-      <h3>Qué vas a practicar</h3>
-        <ul>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Qué vas a practicar</h3>
+        <ul class="mb-4 list-disc space-y-2 pl-6 leading-relaxed">
           <li><strong>Separar responsabilidad de ejecución</strong>: quien ejecuta el proceso rara vez es quien responde por él.</li>
           <li><strong>Propiedad de negocio sobre las definiciones</strong>: por qué "qué cuenta como cliente activo" nunca es una decisión de TI.</li>
           <li><strong>Stewardship entre áreas</strong>: quién arbitra cuando dos dominios discrepan sobre el mismo campo.</li>
@@ -951,619 +430,827 @@
           <li><strong>Rutas de escalamiento</strong>: reconocer las pocas decisiones que realmente necesitan una aprobación y no un arreglo.</li>
         </ul>
 
-      <h3>Preguntas sobre este simulador</h3>
-        <div>
-          <h4>¿Cuál es la diferencia entre un data owner y un data steward?</h4>
-          <p>El data owner rinde cuentas: decide qué significa el dato, aprueba sus reglas de negocio y firma el riesgo de usarlo. El data steward es responsable de mantenerlo apto para el uso diario: perfilar la calidad, mantener el glosario y el catálogo, y conciliar reglas entre áreas. La propiedad es un derecho de decisión; el stewardship es un trabajo continuo.</p>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Preguntas sobre este simulador</h3>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-100 mb-1">¿Cuál es la diferencia entre un data owner y un data steward?</h4>
+          <p class="leading-relaxed">El data owner rinde cuentas: decide qué significa el dato, aprueba sus reglas de negocio y firma el riesgo de usarlo. El data steward es responsable de mantenerlo apto para el uso diario: perfilar la calidad, mantener el glosario y el catálogo, y conciliar reglas entre áreas. La propiedad es un derecho de decisión; el stewardship es un trabajo continuo.</p>
         </div>
-        <div>
-          <h4>¿Dónde encaja TI en la propiedad del dato?</h4>
-          <p>TI es dueña de la capa de ejecución: pipelines, almacenamiento, infraestructura, control de acceso y respaldos. No es dueña del significado de negocio. Cuando una métrica está mal porque su definición está mal, eso es una pregunta de propiedad, no un ticket de ingeniería: justamente la confusión sobre la que se construyó este simulador.</p>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-100 mb-1">¿Dónde encaja TI en la propiedad del dato?</h4>
+          <p class="leading-relaxed">TI es dueña de la capa de ejecución: pipelines, almacenamiento, infraestructura, control de acceso y respaldos. No es dueña del significado de negocio. Cuando una métrica está mal porque su definición está mal, eso es una pregunta de propiedad, no un ticket de ingeniería: justamente la confusión sobre la que se construyó este simulador.</p>
         </div>
-        <div>
-          <h4>¿Necesito una matriz RACI formal antes de empezar?</h4>
-          <p>No. El simulador sirve para descubrir cuál es tu RACI implícito. Muchos equipos lo resuelven juntos y descubren que no coinciden en escenarios que daban por cerrados, lo cual suele ser más útil que la puntuación.</p>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-100 mb-1">¿Necesito una matriz RACI formal antes de empezar?</h4>
+          <p class="leading-relaxed">No. El simulador sirve para descubrir cuál es tu RACI implícito. Muchos equipos lo resuelven juntos y descubren que no coinciden en escenarios que daban por cerrados, lo cual suele ser más útil que la puntuación.</p>
         </div>
-        <div>
-          <h4>¿Es gratis?</h4>
-          <p>Sí. No hay cuenta y no pedimos correo. Los diez escenarios se puntúan por completo en tu navegador; lo único que sale de ahí es la entrada de la tabla de posiciones, y solo si pulsas Publicar: el nombre que escribiste, tu puntaje final y el tiempo que tardaste en responder pasan a aparecer en la misma tabla global que ve el resto de jugadores.</p>
+        <div class="mb-5">
+          <h4 class="font-semibold text-slate-100 mb-1">¿Es gratis?</h4>
+          <p class="leading-relaxed">Sí. No hay cuenta y no pedimos correo. Los diez escenarios se puntúan por completo en tu navegador; lo único que sale de ahí es la entrada de la tabla de posiciones, y solo si pulsas Publicar: el nombre que escribiste, tu puntaje final y el tiempo que tardaste en responder pasan a aparecer en la misma tabla global que ve el resto de jugadores.</p>
         </div>
 
-      <h3>Lecturas relacionadas</h3>
-        <ul>
-          <li><a href="/simulators/es/data-governance-day-to-day/">Simulador del Día a Día en Gobierno de Datos</a></li>
-          <li><a href="/simulators/es/data-literacy/">Simulador de Alfabetización de Datos</a></li>
-          <li><a href="/es/blog/">Artículos sobre gobierno de datos</a></li>
+      <h3 class="mb-3 mt-8 text-xl font-bold text-slate-100">Lecturas relacionadas</h3>
+        <ul class="list-disc space-y-2 pl-6">
+          <li><a class="underline hover:no-underline" href="/simulators/es/data-governance-day-to-day/">Simulador del Día a Día en Gobierno de Datos</a></li>
+          <li><a class="underline hover:no-underline" href="/simulators/es/data-literacy/">Simulador de Alfabetización de Datos</a></li>
+          <li><a class="underline hover:no-underline" href="/es/blog/">Artículos sobre gobierno de datos</a></li>
         </ul>
     </section>
     </main>
 
-  <!-- MODAL DE RETROALIMENTACIÓN DE ESCENARIOS -->
-  <div id="feedback-modal" class="feedback-modal-overlay">
-    <div class="feedback-card">
-      <div class="feedback-header">
-        <span id="feedback-badge" class="feedback-badge correct"> Correcto</span>
-      </div>
-      <div class="feedback-explanation">
-        <p id="feedback-text">Explicación técnica...</p>
-        <span class="dama-framework-tag"><i class="fas fa-ruler-combined fa-fw" aria-hidden="true"></i> Estándar DAMA-DMBOK</span>
-      </div>
-      <button class="sim-btn sim-btn--accent sim-btn--block" onclick="nextScenario()">Siguiente Escenario <i class="fas fa-arrow-right fa-fw" aria-hidden="true"></i></button>
-    </div>
-  </div>
+    <!-- RACI / GOVERNANCE CHEATSHEET MODAL -->
+    <div id="raciModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm hidden">
+        <div class="sim-card max-w-2xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-cyan-500/15 text-brand-accent flex items-center justify-center font-black">
+                        <i class="fas fa-sitemap fa-fw"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-brand-text text-lg">Guía RACI de Gobernanza DAMA</h3>
+                        <p class="text-xs text-slate-500">Desglose de la Matriz de Roles</p>
+                    </div>
+                </div>
+                <button onclick="closeRACIModal()" aria-label="Cerrar la matriz RACI" class="sim-btn sim-btn--quiet">
+                    <i class="fas fa-xmark fa-fw"></i>
+                </button>
+            </div>
 
-  <!-- MODAL GUÍA RÁPIDA RACI -->
-  <div id="raci-modal" class="raci-modal">
-    <div class="raci-modal-content">
-      <button class="close-modal" onclick="closeRaciModal()"><i class="fas fa-xmark fa-fw" aria-hidden="true"></i></button>
-      <h2 style="color: var(--heading-ink); margin-bottom: 0.5rem;">Guía de Roles DAMA (Matriz RACI)</h2>
-      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Criterios estándar de la industria para evitar superposiciones y cuellos de botella entre equipos de negocio y tecnología.
-      </p>
+            <div class="space-y-4 text-sm text-slate-300">
+                <div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/25 space-y-1">
+                    <h4 class="font-bold text-brand-accent flex items-center gap-2">
+                        <i class="fas fa-user-tie fa-fw" aria-hidden="true"></i><span>Dueño del Negocio (Accountable)</span>
+                    </h4>
+                    <p class="text-xs text-slate-400">
+                        Tiene el presupuesto, los resultados comerciales, las definiciones de métricas, las reglas del dominio y la aprobación final del riesgo de negocio. Si una métrica está mal, la dirección le pide cuentas al Dueño del Negocio.
+                    </p>
+                </div>
 
-      <div class="table-scroll">
-        <table class="raci-table">
-          <thead>
-            <tr>
-              <th>Rol de Gobernanza</th>
-              <th>Responsabilidad Principal</th>
-              <th>Ejemplos de Tareas Comunes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i> Dueño del Negocio</strong><br><em>(Business Owner)</em></td>
-              <td>Decisiones de Negocio y Riesgos</td>
-              <td>Definición de KPIs, presupuestos, aprobaciones de acceso a proveedores y cumplimiento legal del dominio.</td>
-            </tr>
-            <tr>
-              <td><strong><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i> Data Steward / Product Owner</strong><br><em>(Custodio de Datos)</em></td>
-              <td>Calidad de Datos y Operación Diaria</td>
-              <td>Documentación del catálogo de datos, reglas de validación, investigaciones de causa raíz y diccionario de términos.</td>
-            </tr>
-            <tr>
-              <td><strong><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i> TI / Data Team</strong><br><em>(Infraestructura y Tecnología)</em></td>
-              <td>Infraestructura y Automatización</td>
-              <td>Pipelines de extracción (ETL/ELT), scripts SQL, respaldos, seguridad de red y mantenimiento del Data Warehouse.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+                <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 space-y-1">
+                    <h4 class="font-bold text-amber-300 flex items-center gap-2">
+                        <i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i><span>Data Steward / Product Owner (Responsible / Consulted)</span>
+                    </h4>
+                    <p class="text-xs text-slate-400">
+                        Expertos operativos del dominio que gestionan el perfilado de calidad de datos, documentan las definiciones del catálogo de metadatos, resuelven registros duplicados y aplican los flujos de higiene a diario.
+                    </p>
+                </div>
 
-  <!-- Private company spaces. Runs before the leaderboard script and
-       resolves, from the space cookie alone, whether this browser is inside a
-       client's space; if it is, the board on this page becomes that company's
-       board and a banner names it. A public visitor loads this file, learns
-       there is no seat, and nothing about the page changes. -->
-  <script src="/assets/js/workspace-context.js"></script>
-  <script src="/assets/js/scenario-text.js"></script>
-  <script src="/assets/js/simulator-leaderboard.js"></script>
-  <script src="/assets/js/workspace-auto-publish.js"></script>
-  <script src="/assets/js/simulator-bridge.js"></script>
-  <script>
-    // --- BASE DE DATOS DE ESCENARIOS (DAMA FRAMEWORK) ---
-    const scenarios = [
-      {
-        id: 1,
-        title: "Definir qué significa oficialmente 'Cliente Activo' para los informes de rendimiento del negocio.",
-        correct: "Business Owner",
-        explanation: "El Dueño del Negocio debe definir la lógica comercial y las reglas de negocio de los indicadores (KPIs). TI o los Stewards no deben inventar los criterios de rendimiento de la empresa."
-      },
-      {
-        id: 2,
-        title: "Escribir un script SQL automatizado para fusionar correos electrónicos duplicados directamente en la base de datos.",
-        correct: "IT / Tech",
-        explanation: "TI / Data Team ejecuta el código, la optimización de consultas y la manipulación de la infraestructura técnica donde residen los datos."
-      },
-      {
-        id: 3,
-        title: "Crear reglas de perfilado de calidad de datos y monitorear registros con formato incorrecto en el CRM.",
-        correct: "Data Steward",
-        explanation: "Los Data Stewards / Product Owners supervisan la calidad operativa diaria, establecen los umbrales de validez de los datos y monitorean la higiene de la información."
-      },
-      {
-        id: 4,
-        title: "Configurar reglas de firewall en la base de datos y gestionar las credenciales de acceso a los servidores.",
-        correct: "IT / Tech",
-        explanation: "TI / Data Team administra la seguridad de infraestructura, arquitecturas de red y protocolos de autenticación de sistemas."
-      },
-      {
-        id: 5,
-        title: "Decidir si el área de Marketing puede compartir el historial de compras de los clientes con una agencia externa.",
-        correct: "Business Owner",
-        explanation: "El Dueño del Negocio asume el riesgo comercial, la responsabilidad legal de los acuerdos y la toma de decisiones sobre el uso de activos del dominio."
-      },
-      {
-        id: 6,
-        title: "Investigar por qué el 15% de las ventas registradas en la región Norte carecen de código postal.",
-        correct: "Data Steward",
-        explanation: "Los Data Stewards / Product Owners investigan las anomalías operativas y las causas raíz de la degradación de datos en los flujos de proceso."
-      },
-      {
-        id: 7,
-        title: "Seleccionar, comprar y configurar la arquitectura de un nuevo Data Warehouse en la nube.",
-        correct: "IT / Tech",
-        explanation: "TI / Data Team evalúa, dimensiona e implementa la infraestructura física/nube y las plataformas tecnológicas."
-      },
-      {
-        id: 8,
-        title: "Documentar la descripción funcional de los campos y metadatos de negocio en el Catálogo de Datos.",
-        correct: "Data Steward",
-        explanation: "Los Data Stewards / Product Owners sirven como puente entre el lenguaje operativo del negocio y la estructura técnica del catálogo de datos."
-      },
-      {
-        id: 9,
-        title: "Aprobar un presupuesto de $50,000 USD para una campaña de enriquecimiento de datos de clientes.",
-        correct: "Business Owner",
-        explanation: "El Dueño del Negocio posee la responsabilidad sobre la cuenta de pérdidas y ganancias (P&L) y la inversión de recursos financieros."
-      },
-      {
-        id: 10,
-        title: "Configurar las copias de seguridad (backups) diarias y los planes de recuperación ante desastres para los servidores analíticos.",
-        correct: "IT / Tech",
-        explanation: "TI / Data Team garantiza la continuidad operativa, el almacenamiento seguro de copias de respaldo y la disponibilidad de los sistemas."
-      }
-    ];
+                <div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/25 space-y-1">
+                    <h4 class="font-bold text-cyan-300 flex items-center gap-2">
+                        <i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i><span>TI / Data Team (Habilitador de Infraestructura)</span>
+                    </h4>
+                    <p class="text-xs text-slate-400">
+                        Custodios técnicos responsables de escribir los pipelines ETL, construir los warehouses en la nube, configurar la seguridad de red, mantener los protocolos de respaldo y garantizar la disponibilidad.
+                    </p>
+                </div>
+            </div>
 
-    // --- ESTADO DEL JUEGO ---
-    let gameState = {
-      playerName: "",
-      currentScenarioIndex: 0,
-      score: 0,
-      streak: 0,
-      userAnswers: [],
-      soundEnabled: true
-    };
-
-    // La tabla global tal como la sirve /api/simulator-scores. Todos los
-    // visitantes ven las mismas filas, así que aquí no se precarga nada: el
-    // cuerpo de la tabla informa si está cargando, vacía o inalcanzable.
-    const SIMULATOR_SLUG = 'data-ownership-conflict';
-    const SIMULATOR_LOCALE = 'es';
-    let leaderboardData = [];
-    let leaderboardStatus = 'loading';
-    let publishedRowKey = null;
-
-    // Cuánto tardó la partida, que es como la tabla ordena a dos jugadores con el
-    // mismo puntaje. Corre desde el primer escenario en pantalla hasta la última
-    // respuesta registrada: el debrief que se lee después no cuenta, porque no
-    // le pide nada al jugador.
-    //
-    // Degrada en lugar de fallar si el script compartido de la tabla no llegó:
-    // una partida sin cronómetro es una pérdida menor que una partida que no
-    // arranca, y esto se evalúa al cargar la página.
-    const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
-      start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
-    };
-    let runTimerInterval = null;
-
-    function formatRunTime(ms) {
-      return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
-    }
-
-    function renderRunTimer() {
-      const display = document.getElementById('current-time');
-      if (display) display.textContent = formatRunTime(runTimer.elapsedMs());
-    }
-
-    function startRunTimer() {
-      runTimer.start();
-      renderRunTimer();
-      // Se muestra en vivo y no como sorpresa al final: al jugador se lo ordena
-      // por este número, así que debe poder verlo avanzar.
-      if (runTimerInterval !== null) clearInterval(runTimerInterval);
-      runTimerInterval = setInterval(renderRunTimer, 1000);
-    }
-
-    function stopRunTimer() {
-      if (runTimerInterval !== null) {
-        clearInterval(runTimerInterval);
-        runTimerInterval = null;
-      }
-      runTimer.stop();
-      renderRunTimer();
-    }
-
-    // --- EFECTOS DE SONIDO SINTETIZADOS (WEB AUDIO API) ---
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    function playSound(type) {
-      if (!gameState.soundEnabled) return;
-      try {
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        if (type === 'correct') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15); // E5
-          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.3);
-        } else if (type === 'incorrect') {
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
-          osc.frequency.exponentialRampToValueAtTime(130.81, audioCtx.currentTime + 0.2); // C4
-          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.3);
-        }
-      } catch (e) {
-        console.warn("Audio Context setup skipped:", e);
-      }
-    }
-
-    // Writes into the two spans rather than replacing the button's innerHTML,
-    // which is what the old version did -- that would have thrown away the
-    // glyph/label split the mobile header depends on the first time anyone
-    // muted the sound.
-    function toggleSound() {
-      gameState.soundEnabled = !gameState.soundEnabled;
-      const on = gameState.soundEnabled;
-      document.getElementById('soundToggleGlyph').className =
-        'fas fa-fw ' + (on ? 'fa-volume-high' : 'fa-volume-xmark');
-      document.getElementById('soundToggleLabel').textContent = on ? 'Sonido: ON' : 'Sonido: OFF';
-      document.getElementById('soundToggleBtn').setAttribute('aria-label', on ? 'Sonido activado' : 'Sonido desactivado');
-    }
-
-    // --- CONTROL DE PANTALLAS ---
-    function showScreen(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-      window.scrollTo(0, 0);
-    }
-
-    // --- INICIO DE JUEGO ---
-    function startGame() {
-      // A private space's own wording lands before the first scenario is drawn.
-      // By the time somebody has typed a name and pressed start, the lookup that
-      // carries it has long since resolved, so this waits for nothing in practice
-      // -- and if it somehow has not, the exercise starts in the standard wording
-      // rather than not starting. See assets/js/scenario-text.js.
-      if (!window.SimulatorScenarioText.isReady(scenarios)) {
-        window.SimulatorScenarioText.hydrate(scenarios, startGame);
-        return;
-      }
-
-      const nameInput = document.getElementById('player-name').value.trim();
-      gameState.playerName = nameInput !== '' ? nameInput : 'Líder Anónimo';
-      gameState.currentScenarioIndex = 0;
-      gameState.score = 0;
-      gameState.streak = 0;
-      gameState.userAnswers = [];
-      startRunTimer();
-
-      showScreen('game-screen');
-      loadScenario();
-    }
-
-    // --- CARGAR ESCENARIO ACTUAL ---
-    function loadScenario() {
-      const scenario = scenarios[gameState.currentScenarioIndex];
-      const totalScenarios = scenarios.length;
-
-      document.getElementById('current-scenario-num').textContent = `${gameState.currentScenarioIndex + 1} de ${totalScenarios}`;
-      document.getElementById('current-score').textContent = gameState.score;
-      document.getElementById('current-streak').textContent = gameState.streak;
-      document.getElementById('scenario-title').textContent = scenario.title;
-
-      const progressPercent = ((gameState.currentScenarioIndex + 1) / totalScenarios) * 100;
-      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
-    }
-
-    // --- PROCESAR ELECCIÓN DE JUGADOR ---
-    function makeChoice(selectedRole) {
-      const scenario = scenarios[gameState.currentScenarioIndex];
-      const isCorrect = (selectedRole === scenario.correct);
-
-      let pointsEarned = 0;
-      if (isCorrect) {
-        gameState.streak += 1;
-        // 100 puntos fijos por acierto. La racha es solo un estimulo visual y no
-        // suma puntos: este ranking es una unica bolsa global compartida con las
-        // versiones en ingles y portugues, la pantalla de resultados dice
-        // "x / 1000 pts" y los niveles se cortan en 400 y 700. Con bonus de
-        // racha una partida perfecta llegaba a 1900, lo que desbordaba las tres
-        // cosas y hacia que la API rechazara toda puntuacion mayor que 1000 --
-        // es decir, justo los mejores jugadores no podian publicar su resultado.
-        pointsEarned = 100;
-        gameState.score += pointsEarned;
-        playSound('correct');
-      } else {
-        gameState.streak = 0;
-        playSound('incorrect');
-      }
-
-      gameState.userAnswers.push({
-        scenarioId: scenario.id,
-        title: scenario.title,
-        selectedRole: selectedRole,
-        correctRole: scenario.correct,
-        isCorrect: isCorrect,
-        explanation: scenario.explanation
-      });
-
-      // Se detiene aquí y no en endGame(): ya se respondieron todas las preguntas,
-      // y los segundos que lleva leer este último debrief no son lo que mide la tabla.
-      if (gameState.userAnswers.length === scenarios.length) stopRunTimer();
-
-      // Mostrar Modal
-      const modal = document.getElementById('feedback-modal');
-      const badge = document.getElementById('feedback-badge');
-      const text = document.getElementById('feedback-text');
-
-      if (isCorrect) {
-        badge.className = "feedback-badge correct";
-        badge.innerHTML = `<i class="fas fa-check fa-fw" aria-hidden="true"></i> ¡Correcto! (+${pointsEarned} pts)`;
-      } else {
-        badge.className = "feedback-badge incorrect";
-        badge.innerHTML = `<i class="fas fa-xmark fa-fw" aria-hidden="true"></i> Incorrecto (El responsable es: ${translateRole(scenario.correct)})`;
-      }
-
-      text.innerHTML = `<strong>${translateRole(scenario.correct)}:</strong> ${scenario.explanation}`;
-      modal.classList.add('active');
-    }
-
-    function translateRole(roleKey) {
-      switch(roleKey) {
-        case 'Business Owner': return 'Dueño del Negocio';
-        case 'Data Steward': return 'Data Steward / Product Owner';
-        case 'IT / Tech': return 'TI / Data Team';
-        default: return roleKey;
-      }
-    }
-
-    function nextScenario() {
-      document.getElementById('feedback-modal').classList.remove('active');
-      gameState.currentScenarioIndex += 1;
-
-      if (gameState.currentScenarioIndex < scenarios.length) {
-        loadScenario();
-      } else {
-        endGame();
-      }
-    }
-
-    // --- FINALIZACIÓN DE JUEGO Y RESULTADOS ---
-    function endGame() {
-      renderResults();
-      loadLeaderboard();
-      showScreen('results-screen');
-    }
-
-    function renderResults() {
-      const score = gameState.score;
-      let tierTitle = "";
-      let tierIcon = "";
-      let tierDesc = "";
-      let tips = [];
-
-      if (score <= 400) {
-        tierTitle = "Novato de la Propiedad";
-        tierIcon = "fa-seedling";
-        tierDesc = "Existe una alta fricción organizacional en tu estructura actual. Probablemente tu equipo trata al área de TI como 'conserjes de datos' encargados de corregir errores de negocio.";
-        tips = [
-          "<strong>Detén la delegación indebida en TI:</strong> El equipo de TI no debe definir el significado de métricas de negocio ni autorizar acceso a clientes.",
-          "<strong>Implementa una Matriz RACI básica:</strong> Clarifica por escrito quién Aprueba (Business) y quién Ejecuta (TI).",
-          "<strong>Designa Data Stewards / Product Owners en áreas clave:</strong> Asigna al menos un Steward funcional en Finanzas y Marketing."
-        ];
-      } else if (score <= 700) {
-        tierTitle = "Practicante de Gobernanza";
-        tierIcon = "fa-bolt";
-        tierDesc = "Cuentas con una buena base teórica, pero los límites operativos entre los Data Stewards / Product Owners y los Dueños del Negocio aún presentan zonas grises en tu día a día.";
-        tips = [
-          "<strong>Documenta las reglas de calidad de datos:</strong> Pasa de resolver incidentes reactivamente a formalizar catálogos de metadatos.",
-          "<strong>Empodera a los Data Stewards / Product Owners:</strong> Otorga a los Stewards autoridad para hacer cumplir estándares con los equipos de operaciones.",
-          "<strong>Separa presupuesto de ejecución técnica:</strong> Asegúrate de que las inversiones en proyectos analíticos sean aprobadas por el Dueño del Negocio."
-        ];
-      } else {
-        tierTitle = "Maestro en Propiedad de Datos";
-        tierIcon = "fa-trophy";
-        tierDesc = "¡Nivel Experto! Comprendes con precisión la separación estratégica entre decisiones de negocio, gestión de calidad e infraestructura técnica.";
-        tips = [
-          "<strong>Escala el modelo a toda la organización:</strong> Formaliza tu marco de trabajo basándote en el estándar DAMA-DMBOK.",
-          "<strong>Automatiza el gobierno de datos:</strong> Implementa herramientas modernas de linaje de datos y catálogos automatizados.",
-          "<strong>Promueve la cultura Data-Driven:</strong> Utiliza tu conocimiento para entrenar a líderes de dominio en responsabilidad de datos."
-        ];
-      }
-
-      document.getElementById('res-tier-icon').className = 'fas fa-fw ' + tierIcon;
-      document.getElementById('res-tier-text').textContent = tierTitle;
-      document.getElementById('res-final-score').textContent = `${score} / 1000 pts`;
-      const finalTime = document.getElementById('res-final-time');
-      if (finalTime) finalTime.textContent = formatRunTime(runTimer.elapsedMs());
-      document.getElementById('res-tier-desc').textContent = tierDesc;
-
-      const tipsListEl = document.getElementById('res-tips-list');
-      tipsListEl.innerHTML = tips.map((tip, idx) => `
-        <li class="tip-item">
-          <span class="tip-icon">${idx + 1}</span>
-          <div>${tip}</div>
-        </li>
-      `).join('');
-
-      renderLeaderboard();
-      renderReview();
-
-      // Se pasa la banda ya calculada arriba en lugar de recalcularla, para que
-      // el puente nunca contradiga la etiqueta de nivel que acaba de aparecer en
-      // pantalla; el arreglo de respuestas es lo que se mapea a los pilares.
-      if (window.SimulatorBridge) {
-        const correctCount = gameState.userAnswers.filter(a => a.isCorrect).length;
-        window.SimulatorBridge.render({
-          simulator: 'data-ownership-conflict',
-          locale: 'es',
-          band: score <= 400 ? 'rookie' : (score <= 700 ? 'practitioner' : 'master'),
-          bandLabel: tierTitle,
-          simulatorLabel: 'Conflicto de Propiedad de Datos',
-          score: score,
-          correct: correctCount,
-          total: gameState.userAnswers.length,
-          answers: gameState.userAnswers
-        });
-      }
-
-      // Inside a private space the run is not the player's to withhold: it is
-      // saved the moment these results appear, under the name on their seat,
-      // because a board the client paid for cannot be a list of everybody's
-      // luckiest attempt. A public visitor is unaffected -- finish() does nothing
-      // for a browser with no seat, and the publish form above stays exactly as it
-      // was. See assets/js/workspace-auto-publish.js.
-      if (window.SimulatorAutoPublish) {
-        window.SimulatorAutoPublish.finish(publishScore);
-      }
-    }
-
-    // --- TABLA DE CLASIFICACIÓN GLOBAL (/api/simulator-scores) ---
-
-    // El rango es una función pura del puntaje, y por eso la tabla global solo
-    // guarda el puntaje. Cada página deriva la etiqueta, de modo que una partida
-    // jugada en portugués aparece aquí con el rango en español.
-    function tierForScore(score) {
-      const value = Number(score);
-      if (value <= 400) return "Novato";
-      if (value <= 700) return "Practicante";
-      return "Maestro";
-    }
-
-    function rowKey(name, score) {
-      return name + '|' + Number(score);
-    }
-
-    async function loadLeaderboard() {
-      const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 5);
-      leaderboardData = result.scores;
-      leaderboardStatus = result.error ? 'unavailable' : 'ready';
-      renderLeaderboard();
-    }
-
-    // Publicar es un clic aparte a propósito, no algo que ocurre al terminar la
-    // partida: el nombre va a una tabla que cualquiera puede leer.
-    async function publishScore() {
-      const button = document.getElementById('publish-score-btn');
-      const label = document.getElementById('publish-score-label');
-      const originalLabel = label ? label.innerText : '';
-      if (button) button.disabled = true;
-      if (label) label.innerText = "Publicando…";
-
-      const result = await window.SimulatorLeaderboard.submit({
-        simulator: SIMULATOR_SLUG,
-        locale: SIMULATOR_LOCALE,
-        // One entry per scenario, in order, so the report can say which of
-        // the ten ownership disputes the room actually got wrong rather
-        // than only how many.
-        breakdown: window.SimulatorLeaderboard.categoryBreakdown(gameState.userAnswers, 'scenario'),
-        name: gameState.playerName,
-        score: gameState.score,
-        durationMs: runTimer.elapsedMs()
-      });
-
-      if (!result.accepted) {
-        // Recuperable a propósito: la partida terminó y el puntaje está en pantalla,
-        // así que una publicación fallida debe costar un reintento y nada más.
-        if (button) button.disabled = false;
-        if (label) label.innerText = originalLabel;
-        alert("No se pudo publicar tu puntaje ahora mismo. Inténtalo de nuevo.");
-        return;
-      }
-
-      leaderboardData = result.scores;
-      leaderboardStatus = 'ready';
-      publishedRowKey = rowKey(gameState.playerName, gameState.score);
-      if (label) label.innerText = "Publicado ✓";
-      renderLeaderboard();
-      playSound('correct');
-    }
-
-    function renderLeaderboard() {
-      const tbody = document.getElementById('leaderboard-body');
-      if (!tbody) return;
-
-      if (!leaderboardData.length) {
-        const messages = {
-          loading: "Cargando la tabla de posiciones global…",
-          ready: "Todavía no hay puntajes publicados: completa una partida y sé el primero.",
-          unavailable: "La tabla de posiciones global no está disponible ahora. Tu puntaje no se ve afectado."
-        };
-        tbody.innerHTML = `<tr><td colspan="5" class="sim-table__empty">${messages[leaderboardStatus]}</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = leaderboardData.map((entry, index) => {
-        const isUser = publishedRowKey !== null && publishedRowKey === rowKey(entry.name, entry.score);
-        const rank = index < 3
-          ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>'
-          : `#${index + 1}`;
-        return `
-          <tr${isUser ? ' class="sim-table__row--you"' : ''}>
-            <td class="sim-table__rank${index < 3 ? ' sim-table__rank--' + (index + 1) : ''}">${rank}</td>
-            <td class="sim-table__name">${escapeHtml(entry.name)}${isUser ? ' <span class="sim-table__you">(Tú)</span>' : ''}</td>
-            <td class="sim-table__score">${Number(entry.score)} pts</td>
-            <td class="sim-table__meta">${formatRunTime(entry.durationMs)}</td>
-            <td>${tierForScore(entry.score)}</td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function renderReview() {
-      const container = document.getElementById('review-list');
-      container.innerHTML = gameState.userAnswers.map((ans, idx) => `
-        <div class="sim-option ${ans.isCorrect ? 'sim-option--correct' : 'sim-option--incorrect'}">
-          <span class="sim-option__key">${idx + 1}</span>
-          <span class="sim-option__body">
-            <span class="sim-option__row">
-              <span>
-                <span class="sim-eyebrow sim-eyebrow--dim">ESCENARIO ${idx + 1}</span>
-                <span class="sim-option__title">${escapeHtml(ans.title)}</span>
-              </span>
-              <span class="sim-option__verdict">
-                ${ans.isCorrect
-                  ? '<i class="fas fa-circle-check fa-fw" aria-hidden="true"></i> Correcto'
-                  : '<i class="fas fa-circle-xmark fa-fw" aria-hidden="true"></i> Fallado'}
-              </span>
-            </span>
-            <span class="sim-option__answers">
-              <span>Tu respuesta: <strong class="${ans.isCorrect ? 'sim-option__answer-right' : 'sim-option__answer-wrong'}">${translateRole(ans.selectedRole)}</strong></span>
-              ${!ans.isCorrect ? `<span>Correcto: <strong class="sim-option__answer-right">${translateRole(ans.correctRole)}</strong></span>` : ''}
-            </span>
-          </span>
+            <button onclick="closeRACIModal()" aria-label="Cerrar la matriz RACI" class="sim-btn sim-btn--ghost w-full">
+                Entendido, Volver al Desafío
+            </button>
         </div>
-      `).join('');
-    }
+    </div>
 
-    function resetGame() {
-      showScreen('welcome-screen');
-      publishedRowKey = null;
-      const publishButton = document.getElementById('publish-score-btn');
-      const publishLabel = document.getElementById('publish-score-label');
-      if (publishButton) publishButton.disabled = false;
-      if (publishLabel) publishLabel.innerText = "Publicar mi puntaje";
-    }
+    <!-- JAVASCRIPT GAME LOGIC -->
+    <!-- Private company spaces. Runs before the leaderboard script and
+         resolves, from the space cookie alone, whether this browser is inside a
+         client's space; if it is, the board on this page becomes that company's
+         board and a banner names it. A public visitor loads this file, learns
+         there is no seat, and nothing about the page changes. -->
+    <script src="/assets/js/workspace-context.js"></script>
+    <script src="/assets/js/scenario-text.js"></script>
+    <script src="/assets/js/simulator-leaderboard.js"></script>
+    <script src="/assets/js/workspace-auto-publish.js"></script>
+    <script src="/assets/js/simulator-bridge.js"></script>
+    <script>
+        /*
+         * How the three roles are written on screen.
+         *
+         * The keys are the answer keys: they are what the buttons submit, what
+         * every scenario's `correctRole` holds, and what the saved breakdown is
+         * scored against, so they cannot be renamed without invalidating results
+         * already published to a leaderboard. The values are what a player reads.
+         *
+         * Splitting the two is what lets the wording follow a client's own naming
+         * -- most organisations that have adopted a data product model call this
+         * person a Product Owner, and being told they picked "Data Steward" when
+         * the button they pressed said something else is a needless stumble in the
+         * middle of an exercise about exactly this vocabulary.
+         *
+         * An unknown key falls through unchanged, so a new role could be added to
+         * the scenarios without silently rendering as an empty string.
+         */
+        const ROLE_LABELS = {
+            "Business Owner": "Dueño del Negocio",
+            "Data Steward": "Data Steward / Product Owner",
+            "IT / Tech": "TI / Data Team"
+        };
 
-    function openRaciModal() {
-      document.getElementById('raci-modal').classList.add('active');
-    }
+        const roleLabel = (key) => ROLE_LABELS[key] || key;
 
-    function closeRaciModal() {
-      document.getElementById('raci-modal').classList.remove('active');
-    }
+        // PRE-LOADED 10 DAMA GOVERNANCE SCENARIOS
+        const SCENARIOS = [
+            {
+                id: 1,
+                task: "Definir qué significa oficialmente 'Cliente Activo' para los informes de rendimiento del negocio.",
+                category: "Métricas y Definiciones de Negocio",
+                correctRole: "Business Owner",
+                explanation: "El Dueño del Negocio define la lógica comercial y las reglas de negocio de los indicadores (KPIs). TI o los Stewards no deben inventar los criterios de rendimiento de la empresa."
+            },
+            {
+                id: 2,
+                task: "Escribir un script SQL automatizado para fusionar correos electrónicos duplicados directamente en la base de datos.",
+                category: "Ingeniería de Datos Técnica",
+                correctRole: "IT / Tech",
+                explanation: "TI / Data Team ejecuta el código, la optimización de consultas y la manipulación de la infraestructura técnica donde residen los datos."
+            },
+            {
+                id: 3,
+                task: "Crear reglas de perfilado de calidad de datos y monitorear registros con formato incorrecto en el CRM.",
+                category: "Higiene y Calidad de Datos",
+                correctRole: "Data Steward",
+                explanation: "Los Data Stewards / Product Owners supervisan la calidad operativa diaria, establecen los umbrales de validez de los datos y monitorean la higiene de la información."
+            },
+            {
+                id: 4,
+                task: "Configurar reglas de firewall en la base de datos y gestionar las credenciales de acceso a los servidores.",
+                category: "Seguridad e Infraestructura",
+                correctRole: "IT / Tech",
+                explanation: "TI / Data Team administra la seguridad de infraestructura, arquitecturas de red y protocolos de autenticación de sistemas."
+            },
+            {
+                id: 5,
+                task: "Decidir si el área de Marketing puede compartir el historial de compras de los clientes con una agencia externa.",
+                category: "Aprobación de Uso y Riesgo",
+                correctRole: "Business Owner",
+                explanation: "El Dueño del Negocio asume el riesgo comercial, la responsabilidad legal de los acuerdos y la toma de decisiones sobre el uso de activos del dominio."
+            },
+            {
+                id: 6,
+                task: "Investigar por qué el 15% de las ventas registradas en la región Norte carecen de código postal.",
+                category: "Resolución de Causa Raíz",
+                correctRole: "Data Steward",
+                explanation: "Los Data Stewards / Product Owners investigan las anomalías operativas y las causas raíz de la degradación de datos en los flujos de proceso."
+            },
+            {
+                id: 7,
+                task: "Seleccionar, comprar y configurar la arquitectura de un nuevo Data Warehouse en la nube.",
+                category: "Montaje de Infraestructura en la Nube",
+                correctRole: "IT / Tech",
+                explanation: "TI / Data Team evalúa, dimensiona e implementa la infraestructura física/nube y las plataformas tecnológicas."
+            },
+            {
+                id: 8,
+                task: "Documentar la descripción funcional de los campos y metadatos de negocio en el Catálogo de Datos.",
+                category: "Metadatos de Gobernanza de Datos",
+                correctRole: "Data Steward",
+                explanation: "Los Data Stewards / Product Owners sirven como puente entre el lenguaje operativo del negocio y la estructura técnica del catálogo de datos."
+            },
+            {
+                id: 9,
+                task: "Aprobar un presupuesto de $50,000 USD para una campaña de enriquecimiento de datos de clientes.",
+                category: "Presupuesto y P&L",
+                correctRole: "Business Owner",
+                explanation: "El Dueño del Negocio posee la responsabilidad sobre la cuenta de pérdidas y ganancias (P&L) y la inversión de recursos financieros."
+            },
+            {
+                id: 10,
+                task: "Configurar las copias de seguridad (backups) diarias y los planes de recuperación ante desastres para los servidores analíticos.",
+                category: "Disponibilidad y Respaldos",
+                correctRole: "IT / Tech",
+                explanation: "TI / Data Team garantiza la continuidad operativa, el almacenamiento seguro de copias de respaldo y la disponibilidad de los sistemas."
+            }
+        ];
 
-    function escapeHtml(str) {
-      return String(str == null ? "" : str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    }
-  </script>
+        // The global leaderboard as served by /api/simulator-scores. Every visitor
+        // sees the same rows, so nothing is seeded here: the table reports whether it
+        // is loading, empty or unreachable on its own.
+        const SIMULATOR_SLUG = 'data-ownership-conflict';
+        const SIMULATOR_LOCALE = 'es';
+        let leaderboardData = [];
+        let leaderboardStatus = 'loading';
+        // Set once the visitor publishes, so their own row can be highlighted in a
+        // board that now contains strangers.
+        let publishedRowKey = null;
 
-<footer class="simulator-site-footer">
+        // How long the run took, which is how the board ranks two players on the
+        // same score. Runs from the first scenario appearing to the last answer
+        // being recorded — the debrief the player reads after that last answer is
+        // not part of it, since it asks nothing of them.
+        //
+        // Degrades rather than throws if the shared leaderboard script did not
+        // arrive: an untimed game is a smaller loss than a game that refuses to
+        // start, and this runs at parse time.
+        const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
+            start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+        };
+        let runTimerInterval = null;
+
+        function formatRunTime(ms) {
+            return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
+        }
+
+        function renderRunTimer() {
+            const display = document.getElementById('hudTimer');
+            if (display) display.innerText = formatRunTime(runTimer.elapsedMs());
+        }
+
+        function startRunTimer() {
+            runTimer.start();
+            renderRunTimer();
+            // Shown live rather than sprung on the player at the end: they are
+            // being ranked on it, so they should be able to see it move.
+            if (runTimerInterval !== null) clearInterval(runTimerInterval);
+            runTimerInterval = setInterval(renderRunTimer, 1000);
+        }
+
+        function stopRunTimer() {
+            if (runTimerInterval !== null) {
+                clearInterval(runTimerInterval);
+                runTimerInterval = null;
+            }
+            runTimer.stop();
+            renderRunTimer();
+        }
+
+        // GAME STATE
+        let currentState = {
+            playerName: "",
+            currentScenarioIndex: 0,
+            score: 0,
+            streak: 0,
+            userAnswers: [], // stores { scenarioId, selectedRole, correctRole, isCorrect, explanation }
+            soundEnabled: true
+        };
+
+        // WEB AUDIO SOUND SYNTHESIZER
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!currentState.soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'incorrect') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(220, now); // A3
+                    osc.frequency.setValueAtTime(174.61, now + 0.1); // F3
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'complete') {
+                    // Celebration fanfare
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.frequency.setValueAtTime(freq, now + i * 0.08);
+                        g.gain.setValueAtTime(0.15, now + i * 0.08);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.3);
+                        o.start(now + i * 0.08);
+                        o.stop(now + i * 0.08 + 0.3);
+                    });
+                }
+            } catch {
+                // Sound is decorative. Browsers routinely refuse to start an
+                // AudioContext before the visitor has interacted with the page,
+                // so a rejection here is expected behaviour rather than a fault
+                // — logging it just filled the console on every load.
+            }
+        }
+
+        function toggleSound() {
+            currentState.soundEnabled = !currentState.soundEnabled;
+            document
+                .getElementById('btnSoundToggle')
+                ?.setAttribute('aria-pressed', String(currentState.soundEnabled));
+            const soundIcon = document.getElementById('soundIcon');
+            if (currentState.soundEnabled) {
+                soundIcon.className = "fas fa-volume-high fa-fw";
+                playSound('click');
+            } else {
+                soundIcon.className = "fas fa-volume-xmark fa-fw text-slate-400";
+            }
+        }
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLeaderboard();
+            // The welcome dialog is the only way into the game, so if its script
+            // never arrived -- it is deferred, and has therefore already run by
+            // now if it ran at all -- the run has to start without it.
+            if (!window.SimulatorWelcome) startGame();
+        });
+
+        // Otherwise the run starts when the dialog closes, however it closed: the
+        // start button, "just look around", Escape or a click on the backdrop.
+        // The dialog holds the only name field on the page, so startGame() reads
+        // whatever was typed there.
+        document.addEventListener('sim-welcome:dismissed', () => startGame());
+
+        // START GAME
+        function startGame() {
+            // A private space's own wording lands before the first scenario is drawn.
+            // By the time somebody has typed a name and pressed start, the lookup that
+            // carries it has long since resolved, so this waits for nothing in practice
+            // -- and if it somehow has not, the exercise starts in the standard wording
+            // rather than not starting. See assets/js/scenario-text.js.
+            if (!window.SimulatorScenarioText.isReady(SCENARIOS)) {
+              window.SimulatorScenarioText.hydrate(SCENARIOS, function () { startGame(); });
+              return;
+            }
+
+            playSound('click');
+            const nameInput = document.getElementById('playerNameInput').value.trim();
+            currentState.playerName = nameInput !== "" ? nameInput : "Líder Anónimo";
+            currentState.currentScenarioIndex = 0;
+            currentState.score = 0;
+            currentState.streak = 0;
+            currentState.userAnswers = [];
+            publishedRowKey = null;
+            startRunTimer();
+            const publishButton = document.getElementById('publishScoreBtn');
+            const publishLabel = document.getElementById('publishScoreLabel');
+            if (publishButton) publishButton.disabled = false;
+            if (publishLabel) publishLabel.innerText = "Publicar mi puntaje";
+
+            // UI Switch
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.remove('hidden');
+
+            // The first scenario sits at the top of the page, so that is where a
+            // run starts -- not wherever the page happened to be sitting when the
+            // welcome dialog closed, and not where a reload restored it to.
+            window.scrollTo({ top: 0 });
+
+            renderCurrentScenario();
+        }
+
+        // RENDER CURRENT SCENARIO
+        function renderCurrentScenario() {
+            const scenario = SCENARIOS[currentState.currentScenarioIndex];
+            
+            // HUD updates
+            document.getElementById('hudScenarioCounter').innerText = `Escenario ${currentState.currentScenarioIndex + 1} de 10`;
+            document.getElementById('hudPlayerName').innerText = currentState.playerName;
+            document.getElementById('hudScore').innerText = currentState.score;
+            
+            const progressPercent = ((currentState.currentScenarioIndex) / 10) * 100;
+            document.getElementById('hudProgressBar').style.width = `${progressPercent}%`;
+
+            if (currentState.streak >= 2) {
+                document.getElementById('hudStreakBadge').classList.remove('hidden');
+                document.getElementById('hudStreakCount').innerText = currentState.streak;
+            } else {
+                document.getElementById('hudStreakBadge').classList.add('hidden');
+            }
+
+            // Scenario Card Updates
+            document.getElementById('scenarioCategoryBadge').innerText = `Categoría: ${scenario.category}`;
+            document.getElementById('scenarioTaskText').innerText = `"${scenario.task}"`;
+        }
+
+        // SUBMIT ANSWER
+        function submitAnswer(selectedRole) {
+            const scenario = SCENARIOS[currentState.currentScenarioIndex];
+            const isCorrect = selectedRole === scenario.correctRole;
+
+            if (isCorrect) {
+                currentState.score += 100;
+                currentState.streak += 1;
+                playSound('correct');
+            } else {
+                currentState.streak = 0;
+                playSound('incorrect');
+            }
+
+            // Record Answer
+            currentState.userAnswers.push({
+                scenarioId: scenario.id,
+                task: scenario.task,
+                selectedRole: selectedRole,
+                correctRole: scenario.correctRole,
+                isCorrect: isCorrect,
+                explanation: scenario.explanation
+            });
+
+            // Stopped here rather than in finishGame(): every question has been
+            // answered, and the seconds spent reading this last debrief are not
+            // part of what the board is measuring.
+            if (currentState.userAnswers.length === SCENARIOS.length) stopRunTimer();
+
+            showFeedbackModal(isCorrect, scenario.correctRole, scenario.explanation);
+        }
+
+        // SHOW FEEDBACK MODAL
+        function showFeedbackModal(isCorrect, correctRole, explanation) {
+            const modal = document.getElementById('feedbackModal');
+            const banner = document.getElementById('feedbackBanner');
+            const icon = document.getElementById('feedbackIcon');
+            const title = document.getElementById('feedbackResultTitle');
+            const points = document.getElementById('feedbackPointsEarned');
+            const roleBadge = document.getElementById('feedbackCorrectRoleBadge');
+            const explanationText = document.getElementById('feedbackExplanationText');
+            const btnNext = document.getElementById('btnNextScenario');
+
+            if (isCorrect) {
+                banner.className = "p-4 rounded-xl flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/25 text-emerald-300";
+                icon.className = "w-12 h-12 rounded-full flex items-center justify-center text-xl font-black bg-emerald-500 text-white shrink-0";
+                icon.innerHTML = `<i class="fas fa-check fa-fw"></i>`;
+                title.innerText = "¡Elección Correcta!";
+                title.className = "text-xl font-extrabold text-emerald-300 tracking-tight";
+                points.innerText = currentState.streak > 2 ? `+100 puntos (¡racha de ${currentState.streak}!)` : "+100 puntos sumados";
+                points.className = "sim-eyebrow sim-eyebrow--good";
+            } else {
+                banner.className = "p-4 rounded-xl flex items-center gap-3 bg-rose-500/10 border border-rose-500/25 text-rose-300";
+                icon.className = "w-12 h-12 rounded-full flex items-center justify-center text-xl font-black bg-rose-500 text-white shrink-0";
+                icon.innerHTML = `<i class="fas fa-xmark fa-fw"></i>`;
+                title.innerText = "Rol Asignado Incorrecto";
+                title.className = "text-xl font-extrabold text-rose-300 tracking-tight";
+                points.innerText = "0 puntos";
+                points.className = "sim-eyebrow sim-eyebrow--bad";
+            }
+
+            roleBadge.innerText = `Responsable correcto: ${roleLabel(correctRole)}`;
+            explanationText.innerText = explanation;
+
+            if (currentState.currentScenarioIndex === 9) {
+                btnNext.innerHTML = `<span>Ver Resultados Finales</span> <i class="fas fa-trophy fa-fw text-amber-300"></i>`;
+            } else {
+                btnNext.innerHTML = `<span>Siguiente Escenario</span> <i class="fas fa-chevron-right fa-fw text-xs"></i>`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // NEXT SCENARIO OR END GAME
+        function nextScenario() {
+            playSound('click');
+            document.getElementById('feedbackModal').classList.add('hidden');
+
+            currentState.currentScenarioIndex += 1;
+
+            if (currentState.currentScenarioIndex < 10) {
+                renderCurrentScenario();
+            } else {
+                finishGame();
+            }
+        }
+
+        // FINISH GAME & DISPLAY RESULTS
+        function finishGame() {
+            playSound('complete');
+            document.getElementById('gameplayScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            document.getElementById('resultPlayerGreeting').innerText = `¡Buen trabajo, ${currentState.playerName}!`;
+            document.getElementById('finalScoreDisplay').innerText = currentState.score;
+            const finalTime = document.getElementById('finalTimeDisplay');
+            if (finalTime) finalTime.innerText = formatRunTime(runTimer.elapsedMs());
+
+            // Determine Tier
+            let tierTitle = "";
+            let tierDesc = "";
+            let tierBgClass = "";
+            let tierIcon = "";
+
+            if (currentState.score <= 400) {
+                tierTitle = "Novato de la Propiedad";
+                tierIcon = "fa-seedling";
+                tierDesc = "¡Alta fricción organizacional! Probablemente estás tratando a TI como conserje de datos.";
+                tierBgClass = "p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-300 inline-block w-full";
+            } else if (currentState.score <= 700) {
+                tierTitle = "Practicante de Gobernanza";
+                tierIcon = "fa-bolt";
+                tierDesc = "Buena base, pero los límites entre Stewards y Negocio siguen siendo difusos.";
+                tierBgClass = "p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-300 inline-block w-full";
+            } else {
+                tierTitle = "Maestro en Propiedad de Datos";
+                tierIcon = "fa-trophy";
+                tierDesc = "¡Nivel experto! Sabes exactamente cómo estructurar los roles de gobernanza según DAMA.";
+                tierBgClass = "p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 inline-block w-full";
+            }
+
+            const tierContainer = document.getElementById('tierBadgeContainer');
+            tierContainer.className = tierBgClass;
+            document.getElementById('tierBadgeIcon').className = 'fas fa-fw ' + tierIcon;
+            document.getElementById('tierTitleText').innerText = tierTitle;
+            document.getElementById('tierDescription').innerText = tierDesc;
+
+            renderTakeaways(currentState.score);
+            renderFullLeaderboard();
+            renderAnswerReview();
+
+            // The band key is passed rather than derived so the bridge can never
+            // contradict the tier badge rendered a few lines above; the answer
+            // array is what it maps onto Scorecard pillars.
+            if (window.SimulatorBridge) {
+                const correctCount = currentState.userAnswers.filter(a => a.isCorrect).length;
+                window.SimulatorBridge.render({
+                    simulator: 'data-ownership-conflict',
+                    locale: 'es',
+                    band: currentState.score <= 400 ? 'rookie' : (currentState.score <= 700 ? 'practitioner' : 'master'),
+                    bandLabel: tierTitle,
+                    simulatorLabel: 'Conflicto de Propiedad de Datos',
+                    score: currentState.score,
+                    correct: correctCount,
+                    total: currentState.userAnswers.length,
+                    answers: currentState.userAnswers
+                });
+            }
+
+            // Inside a private space the run is not the player's to withhold: it is
+            // saved the moment these results appear, under the name on their seat,
+            // because a board the client paid for cannot be a list of everybody's
+            // luckiest attempt. A public visitor is unaffected -- finish() does nothing
+            // for a browser with no seat, and the publish form above stays exactly as it
+            // was. See assets/js/workspace-auto-publish.js.
+            if (window.SimulatorAutoPublish) {
+                window.SimulatorAutoPublish.finish(publishScore);
+            }
+        }
+
+        // RENDER TAKEAWAYS & TIPS BASED ON TIER
+        function renderTakeaways(score) {
+            const list = document.getElementById('takeawaysList');
+            let tips = [];
+
+            if (score <= 400) {
+                tips = [
+                    {
+                        title: "1. Detén la delegación indebida en TI",
+                        desc: "El equipo de TI no debe definir el significado de las métricas de negocio ni autorizar el acceso a datos de clientes."
+                    },
+                    {
+                        title: "2. Publica una Matriz RACI de negocio",
+                        desc: "Documenta por escrito quién aprueba (Negocio) y quién ejecuta (TI) en todas las métricas críticas de reporte."
+                    },
+                    {
+                        title: "3. Designa Data Stewards / Product Owners",
+                        desc: "Asigna al menos un Steward funcional en Finanzas y Marketing para que aplique la higiene del dato a diario."
+                    }
+                ];
+            } else if (score <= 700) {
+                tips = [
+                    {
+                        title: "1. Clarifica los roles de Steward y Negocio",
+                        desc: "Los Dueños del Negocio aprueban la lógica de las métricas y los presupuestos; los Data Stewards / Product Owners implementan las reglas de perfilado y mantienen los catálogos de metadatos."
+                    },
+                    {
+                        title: "2. Automatiza la documentación del catálogo",
+                        desc: "Implementa una herramienta de catálogo de datos que conecte los esquemas técnicos con las definiciones de negocio de forma transparente."
+                    },
+                    {
+                        title: "3. Establece umbrales de calidad de datos",
+                        desc: "Define SLA automáticos de tasa de error en las tablas centrales del CRM para que los Stewards prioricen los datos faltantes de forma proactiva."
+                    }
+                ];
+            } else {
+                tips = [
+                    {
+                        title: "1. Escala la gobernanza a todos los dominios",
+                        desc: "Extiende tu modelo de responsabilidad de roles a los nuevos pipelines de IA, ML y datos en tiempo real."
+                    },
+                    {
+                        title: "2. Incentiva el stewardship",
+                        desc: "Vincula los KPI de calidad de datos a la evaluación anual de desempeño de los Data Stewards / Product Owners del dominio."
+                    },
+                    {
+                        title: "3. Comparte buenas prácticas en toda la empresa",
+                        desc: "Organiza talleres internos de 'Data Empowerment' con Sandy Bradbury para acompañar a otras áreas del negocio."
+                    }
+                ];
+            }
+
+            list.innerHTML = tips.map(tip => `
+                <div class="sim-panel p-4 space-y-1 text-left">
+                    <h4 class="font-bold text-brand-text text-sm">${tip.title}</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">${tip.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        // GLOBAL LEADERBOARD (/api/simulator-scores)
+
+        // The tier is a pure function of the score, which is why the board stores only
+        // the score. Each page derives the label itself, so a run played in English
+        // shows up in this table with a Spanish tier rather than an English one.
+        function tierForScore(score) {
+            const value = Number(score);
+            if (value <= 400) return "Novato de la Propiedad";
+            if (value <= 700) return "Practicante de Gobernanza";
+            return "Maestro en Propiedad de Datos";
+        }
+
+        function rowKey(name, score) {
+            return name + '|' + Number(score);
+        }
+
+        async function loadLeaderboard() {
+            const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 10);
+            leaderboardData = result.scores;
+            leaderboardStatus = result.error ? 'unavailable' : 'ready';
+            renderFullLeaderboard();
+        }
+
+        // Publishing is deliberately a separate click rather than something that
+        // happens when the run ends: the name goes to a board everybody can read.
+        async function publishScore() {
+            const button = document.getElementById('publishScoreBtn');
+            const label = document.getElementById('publishScoreLabel');
+            const originalLabel = label ? label.innerText : "";
+            if (button) button.disabled = true;
+            if (label) label.innerText = "Publicando…";
+
+            const result = await window.SimulatorLeaderboard.submit({
+                simulator: SIMULATOR_SLUG,
+                locale: SIMULATOR_LOCALE,
+                // One entry per scenario, in order, so the report can say which of
+                // the ten ownership disputes the room actually got wrong rather
+                // than only how many.
+                breakdown: window.SimulatorLeaderboard.categoryBreakdown(currentState.userAnswers, 'scenario'),
+                name: currentState.playerName,
+                score: currentState.score,
+                durationMs: runTimer.elapsedMs()
+            });
+
+            if (!result.accepted) {
+                // Left recoverable on purpose: the run is over and the score is on
+                // screen, so a failed publish should cost a retry and nothing more.
+                if (button) button.disabled = false;
+                if (label) label.innerText = originalLabel;
+                alert("No se pudo publicar tu puntaje ahora mismo. Inténtalo de nuevo.");
+                return;
+            }
+
+            leaderboardData = result.scores;
+            leaderboardStatus = 'ready';
+            publishedRowKey = rowKey(currentState.playerName, currentState.score);
+            if (label) label.innerText = "Publicado ✓";
+            renderFullLeaderboard();
+            playSound('correct');
+        }
+
+        function emptyBoardMessage() {
+            if (leaderboardStatus === 'loading') return "Cargando la tabla de posiciones global…";
+            if (leaderboardStatus === 'unavailable') return "La tabla de posiciones global no está disponible ahora. Tu puntaje no se ve afectado.";
+            return "Todavía no hay puntajes publicados: completa una partida y sé el primero.";
+        }
+
+        function renderFullLeaderboard() {
+            const tbody = document.getElementById('leaderboardTableBody');
+            if (!tbody) return;
+
+            if (!leaderboardData.length) {
+                tbody.innerHTML = `<tr><td colspan="5" class="sim-table__empty">${emptyBoardMessage()}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = leaderboardData.map((item, idx) => {
+                const isCurrentPlayer = publishedRowKey !== null && publishedRowKey === rowKey(item.name, item.score);
+                return `
+                    <tr${isCurrentPlayer ? ' class="sim-table__row--you"' : ''}>
+                        <td class="sim-table__rank${idx < 3 ? ' sim-table__rank--' + (idx + 1) : ''}">
+                            ${idx < 3 ? '<i class="fas fa-medal fa-fw" aria-hidden="true"></i>' : '#' + (idx + 1)}
+                        </td>
+                        <td class="sim-table__name">
+                            ${window.SimulatorLeaderboard.escapeHtml(item.name)}${isCurrentPlayer ? ' <span class="sim-table__you">(Tú)</span>' : ''}
+                        </td>
+                        <td>${tierForScore(item.score)}</td>
+                        <td class="sim-table__meta">${formatRunTime(item.durationMs)}</td>
+                        <td class="sim-table__score">${Number(item.score)} pts</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // RENDER SCENARIO ANSWER REVIEW
+        function renderAnswerReview() {
+            const list = document.getElementById('reviewList');
+            list.innerHTML = currentState.userAnswers.map((ans, idx) => `
+                <div class="sim-option ${ans.isCorrect ? 'sim-option--correct' : 'sim-option--incorrect'}">
+                    <span class="sim-option__key">${idx + 1}</span>
+                    <span class="sim-option__body">
+                        <span class="flex items-start justify-between gap-3">
+                            <span class="sim-option__title">${ans.task}</span>
+                            <span class="sim-option__verdict">
+                                ${ans.isCorrect
+                                    ? '<i class="fas fa-check fa-fw" aria-hidden="true"></i> Correcto'
+                                    : '<i class="fas fa-xmark fa-fw" aria-hidden="true"></i> Fallado'}
+                            </span>
+                        </span>
+                        <span class="sim-option__answers">
+                            <span>Tu respuesta: <strong class="${ans.isCorrect ? 'sim-option__answer-right' : 'sim-option__answer-wrong'}">${roleLabel(ans.selectedRole)}</strong></span>
+                            ${!ans.isCorrect ? `<span>Correcto: <strong class="sim-option__answer-right">${roleLabel(ans.correctRole)}</strong></span>` : ''}
+                        </span>
+                        <span class="sim-option__note">${ans.explanation}</span>
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function toggleReviewMode() {
+            playSound('click');
+            const container = document.getElementById('answerReviewContainer');
+            container.classList.toggle('hidden');
+            if (!container.classList.contains('hidden')) {
+                container.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // COPY RESULTS TO CLIPBOARD
+        function copyResultsToClipboard() {
+            playSound('click');
+            const text = `🏆 Obtuve ${currentState.score}/1000 en ${formatRunTime(runTimer.elapsedMs())} en "¿Quién es el dueño de esto? — El Simulador de Conflictos de Propiedad de Datos" de The Data Empowerment Journey. Pruébalo y acaba con las guerras internas por los datos en datagovjourney.com`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alertToast("¡Resumen copiado al portapapeles!");
+                }).catch(() => {
+                    fallbackCopyText(text);
+                });
+            } else {
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alertToast("¡Resumen copiado al portapapeles!");
+        }
+
+        function alertToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-6 right-6 z-50 bg-brand-navy text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl border border-teal-600 animate-pop";
+            toast.innerHTML = `<i class="fas fa-circle-check fa-fw text-brand-orange mr-2"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // RACI MODAL CONTROLS
+        function openRACIModal() {
+            playSound('click');
+            document.getElementById('raciModal').classList.remove('hidden');
+        }
+
+        function closeRACIModal() {
+            playSound('click');
+            document.getElementById('raciModal').classList.add('hidden');
+        }
+
+        // RESET GAME
+        function resetGame() {
+            playSound('click');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Reopening the dialog is what starts the next run: closing it fires
+            // sim-welcome:dismissed again, and that is what calls startGame().
+            if (window.SimulatorWelcome) {
+                window.SimulatorWelcome.show();
+            } else {
+                startGame();
+            }
+        }
+    </script>
+
+<footer class="simulator-site-footer simulator-site-footer--pinned">
 <nav class="simulator-locale-nav" aria-label="Más simuladores">
   <div class="simulator-locale-nav-inner">
     <div><span>Más simuladores</span><ul><li><a href="/simulators/es/data-governance-day-to-day/">Día a Día en Gobierno de Datos</a></li><li><a href="/simulators/es/data-literacy/">Alfabetización de Datos</a></li><li><a href="/es/blog/">Blog</a></li><li><a href="/">Inicio</a></li></ul></div>
@@ -1573,5 +1260,63 @@
 </footer>
 <script type="module" src="/assets/js/language-switch.js"></script>
 <script src="/assets/js/simulator-footer-reveal.js" defer></script>
+<!--
+  The shared welcome overlay. Behaviour lives in
+  /assets/js/simulator-welcome.js; the wording lives here so that it stays
+  translated and stays visible to scripts/extract-simulator-text.mjs.
+-->
+<div class="sim-welcome" data-sim-welcome hidden>
+  <div class="sim-welcome__dialog sim-welcome__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="sim-welcome-title">
+    <p class="sim-eyebrow">RACI de DAMA &middot; 10 conflictos de propiedad</p>
+    <h2 id="sim-welcome-title" class="sim-welcome__title">Eres quien tiene que decir de quién es.</h2>
+    <p class="sim-welcome__lead">Acaba con las disputas internas de territorio. Pon a prueba tus conocimientos sobre quién es realmente el dueño de las tareas de datos del mundo real según el <strong>marco internacional DAMA de gobierno de datos</strong>.</p>
+    <ul class="sim-welcome__facts">
+      <li class="sim-badge sim-badge--neutral">~3 minutos</li>
+      <li class="sim-badge sim-badge--neutral">Sin registro</li>
+      <li class="sim-badge sim-badge--neutral">Se calcula en tu navegador</li>
+    </ul>
+    <p class="sim-quote p-4 mb-6 text-slate-300 text-sm leading-relaxed"><strong>Tu objetivo:</strong> nombrar al rol responsable de las diez tareas. El equipo que ejecuta algo no siempre es su dueño.</p>
+    <!-- The three roles every scenario chooses between, read once before the
+         first one asks. This row is what .sim-welcome__dialog--wide is for. -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
+      <div class="sim-panel p-4">
+        <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
+          <i class="fas fa-user-tie fa-fw text-base text-brand-accent" aria-hidden="true"></i> Dueño del Negocio
+        </div>
+        <p class="text-xs text-slate-500">Es dueño de las definiciones del dominio, la lógica, las reglas de negocio, las métricas de ingresos y la aprobación final del riesgo.</p>
+      </div>
+      <div class="sim-panel p-4">
+        <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
+          <i class="fas fa-shield-halved fa-fw text-base text-brand-accent" aria-hidden="true"></i> Data Steward / Product Owner
+        </div>
+        <p class="text-xs text-slate-500">Mantiene la higiene de datos, el perfilado de calidad, los metadatos del catálogo y las reglas que cruzan áreas.</p>
+      </div>
+      <div class="sim-panel p-4">
+        <div class="flex items-center gap-2 font-bold text-brand-text text-sm mb-1">
+          <i class="fas fa-laptop-code fa-fw text-base text-brand-accent" aria-hidden="true"></i> TI / Data Team
+        </div>
+        <p class="text-xs text-slate-500">Ejecuta los pipelines SQL, la infraestructura de almacenamiento, el hosting en la nube, la seguridad y los respaldos.</p>
+      </div>
+    </div>
+    <div class="sim-welcome__start">
+      <div class="sim-welcome__field">
+        <label class="sim-welcome__label" for="playerNameInput">Tu nombre o cargo, para la clasificación</label>
+        <!-- The page asks for a name nowhere else, so this is the field
+             startGame() reads and the one workspace-context.js fills inside a
+             private space. It keeps its id and tells simulator-welcome.js to
+             treat it as the dialog's name field. -->
+        <input type="text" id="playerNameInput" class="sim-input" placeholder="Ej. Ana García (Líder de Analytics)" maxlength="30" autocomplete="off" data-sim-welcome-name>
+      </div>
+      <div class="sim-welcome__actions">
+        <button type="button" class="sim-btn sim-btn--primary sim-btn--lg" data-sim-welcome-start>
+          <i class="fas fa-play fa-fw" aria-hidden="true"></i> Iniciar la simulación
+        </button>
+        <button type="button" class="sim-btn sim-btn--quiet" data-sim-welcome-skip>Solo quiero mirar</button>
+      </div>
+      <p class="sim-welcome__note">Opcional. No se envía nada a ningún sitio salvo que decidas publicar tu puntaje al final.</p>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/simulator-welcome.js" defer></script>
 </body>
 </html>

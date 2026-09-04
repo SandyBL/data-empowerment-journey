@@ -60,15 +60,6 @@ const perOption = (suffix, label, max, extra = {}) =>
     ...extra,
   }));
 
-/** The same, for the pages that hold their three options in an array. */
-const perIndexedOption = (suffix, label, max, extra = {}) =>
-  [0, 1, 2].map((index) => ({
-    path: `options.${index}.${suffix}`,
-    label: `Option ${"ABC"[index]} — ${label}`,
-    max,
-    ...extra,
-  }));
-
 /** @type {Record<string, ScenarioField[]>} */
 export const SCENARIO_FIELDS = {
   "data-governance-day-to-day": [
@@ -96,47 +87,20 @@ export const SCENARIO_FIELDS = {
 /**
  * The pages whose scenario objects are not shaped like their English original.
  *
- * The nine pages are nine hand-written files, and three of them diverged before
- * this feature existed: the Portuguese Data Governance page keeps its three
- * options in an `options` array with `title`/`desc`/`lesson` instead of
- * `optionA`/`optionB`/`optionC`, and both the Spanish and Portuguese Data
- * Ownership pages call the task `title` and have no category label at all.
+ * Empty, and kept as the place for the next one. Three of the nine used to be
+ * here: the Portuguese Data Governance page held its three options in an
+ * `options` array with `title`/`desc`/`lesson`, and the Spanish and Portuguese
+ * Data Ownership pages called the task `title` and had no category label. All
+ * three were rebuilt from the English page they translate, so one entry in
+ * SCENARIO_FIELDS now describes a simulator in all three languages.
  *
- * They are described here rather than made uniform. Rewriting three shipped
- * pages so a whitelist can be shorter would mean re-testing three simulators
- * against their scoring for no gain a participant or an operator would ever see,
- * and this feature only reads those objects. The cost is this map; the benefit is
- * that the console offers exactly the fields the page it is aimed at actually
- * has, in every language, instead of nine boxes that quietly do nothing in two
- * of them.
- *
- * Same exclusions as everywhere else in this file: `impact` and the Ownership
- * pages' `correct` are the scoring and are absent, and the Portuguese
- * Governance options' `label` is the letter "A", which is structure.
+ * A page that diverges again belongs here rather than in `fieldsFor`: the
+ * console, the save endpoint and the extractor all ask this file what a given
+ * page has, and they should keep getting one answer.
  *
  * @type {Record<string, Record<string, ScenarioField[]>>}
  */
-export const SCENARIO_FIELD_VARIANTS = {
-  "data-governance-day-to-day": {
-    pt: [
-      { path: "topic", label: "Topic label", max: 180 },
-      { path: "text", label: "What is happening", max: 900, long: true },
-      ...perIndexedOption("title", "choice", 220),
-      ...perIndexedOption("desc", "what it does", 500, { long: true }),
-      ...perIndexedOption("lesson", "lesson", 600, { long: true }),
-    ],
-  },
-  "data-ownership-conflict": {
-    es: [
-      { path: "title", label: "The task", max: 500, long: true },
-      { path: "explanation", label: "Why that owner", max: 800, long: true },
-    ],
-    pt: [
-      { path: "title", label: "The task", max: 500, long: true },
-      { path: "explanation", label: "Why that owner", max: 800, long: true },
-    ],
-  },
-};
+export const SCENARIO_FIELD_VARIANTS = {};
 
 /** The three simulator slugs, in the order the console lists them. */
 export const SCENARIO_SIMULATORS = Object.keys(SCENARIO_FIELDS);

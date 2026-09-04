@@ -28,7 +28,15 @@
  *
  * The name is copied into the page's own leaderboard input rather than held
  * here, because every page already reads its score submission from that field
- * and nothing else needed to change.
+ * and nothing else needed to change. A page whose only name field is the one in
+ * this dialog -- "Who Owns This?", which asks for a name nowhere else -- gives
+ * that field the id its own script reads and marks it data-sim-welcome-name
+ * instead, and leaves data-sim-welcome-target off: there is nothing to copy to.
+ *
+ * Dismissing the dialog, by any route, fires a `sim-welcome:dismissed` event on
+ * document, and window.SimulatorWelcome exposes show() and dismiss(). Pages
+ * that hold their first screen back until the dialog closes, or that reopen it
+ * to start a second run, need both; the others can ignore them.
  */
 (function () {
   'use strict';
@@ -37,7 +45,7 @@
   if (!overlay) return;
 
   var dialog = overlay.querySelector('.sim-welcome__dialog');
-  var nameInput = overlay.querySelector('#sim-welcome-name');
+  var nameInput = overlay.querySelector('#sim-welcome-name, [data-sim-welcome-name]');
   var startBtn = overlay.querySelector('[data-sim-welcome-start]');
   var skipBtn = overlay.querySelector('[data-sim-welcome-skip]');
   var targetSelector = overlay.getAttribute('data-sim-welcome-target');
@@ -61,22 +69,35 @@
     }
     overlay.hidden = true;
     document.documentElement.classList.remove('sim-welcome-open');
+    /* preventScroll on the way out as well as on the way in. Focusing an element
+       taller than the viewport whose top edge is below the top of the page --
+       which is what the main region is on a page with a header above it -- makes
+       the browser align that top edge with the top of the viewport, so the page
+       opened a header and a breadcrumb further down than the visitor left it.
+       Focus is still moved; only the jump is dropped. */
     var main = document.getElementById('simulator-main') || document.getElementById('main-container');
     if (main && typeof main.focus === 'function') {
-      main.focus();
+      main.focus({ preventScroll: true });
     } else if (lastFocus && typeof lastFocus.focus === 'function') {
-      lastFocus.focus();
+      lastFocus.focus({ preventScroll: true });
     }
+    document.dispatchEvent(new CustomEvent('sim-welcome:dismissed'));
   }
 
   function show() {
     lastFocus = document.activeElement;
     overlay.hidden = false;
     document.documentElement.classList.add('sim-welcome-open');
+    /* preventScroll, because the dialog is fixed to the viewport and there is
+       nothing to scroll to. A page that ever gets the overlay's positioning
+       wrong would otherwise have the focus drag the document to wherever the
+       dialog landed, which is how this last went wrong: the overlay laid itself
+       out after the footer and focusing the name field jumped the visitor to
+       the bottom of the page. */
     if (!nameFieldIsHidden()) {
-      nameInput.focus();
+      nameInput.focus({ preventScroll: true });
     } else if (startBtn) {
-      startBtn.focus();
+      startBtn.focus({ preventScroll: true });
     }
   }
 
@@ -119,6 +140,8 @@
       first.focus();
     }
   });
+
+  window.SimulatorWelcome = { show: show, dismiss: dismiss };
 
   show();
 })();

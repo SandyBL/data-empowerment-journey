@@ -196,7 +196,11 @@ html[data-sim-theme="dark"] body {
 }
 
 html[data-sim-theme="dark"] body {
+  /* position and z-index together make body a stacking context, which is what
+     lets the grid below sit behind the page on z-index -1 instead of behind
+     body's own background, where it would be invisible. */
   position: relative;
+  z-index: 0;
   background-image: var(--sim-console);
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -205,7 +209,7 @@ html[data-sim-theme="dark"] body {
 
 html[data-sim-theme="dark"] body::before {
   position: fixed;
-  z-index: 0;
+  z-index: -1;
   inset: 0;
   opacity: var(--sim-grid-opacity);
   background-image: linear-gradient(rgb(255 255 255 / 0.18) 1px, transparent 1px),
@@ -215,13 +219,20 @@ html[data-sim-theme="dark"] body::before {
   pointer-events: none;
 }
 
-/* Everything the page itself renders sits above the grid. The header, footer
-   and breadcrumb are given the same lift so a sticky header still covers the
-   content scrolling under it. */
-html[data-sim-theme="dark"] body > * {
-  position: relative;
-  z-index: 1;
-}
+/* Nothing else needs a z-index to clear the grid: in-flow content paints above
+   a negative-z-index layer by definition.
+ *
+ * This replaces a rule that gave every direct child of body position:relative
+ * and z-index:1 to lift it over a grid painted at z-index 0. That lift was the
+ * cause of a bug worth recording. It overrode elements that had taken
+ * themselves out of the flow on purpose -- .sim-welcome is position:fixed and
+ * is the last child of body, so forced back to relative it laid itself out
+ * after the site footer, and the welcome screen appeared below the footer with
+ * only the top edge of the dialog on screen. The sticky site header, the
+ * workspace banner, the skip link and the RACI and DAMA modals were flattened
+ * the same way. Weakening the selector with :where() fixed the cascade but left
+ * the trap in place for the next element that positions itself, so the lift is
+ * gone instead. */
 
 /*
  * Numeric labels.
@@ -829,11 +840,14 @@ button.sim-option:hover:not(:disabled) .sim-option__meta {
   font-size: 0.6875rem;
 }
 
+/* Laid out inline rather than as a flex row: text-overflow only truncates a
+   block container, and as a flex row the label's text was an anonymous flex
+   item that could not shrink below its own width, so instead of an ellipsis it
+   pushed the value out through the side of the box. */
 .sim-meter__label {
-  display: flex;
+  display: block;
   min-width: 0;
-  align-items: center;
-  gap: 0.375rem;
+  flex: 1 1 auto;
   color: var(--sim-ink-dim);
   font-weight: 600;
   overflow: hidden;
@@ -841,10 +855,17 @@ button.sim-option:hover:not(:disabled) .sim-option__meta {
   white-space: nowrap;
 }
 
+.sim-meter__label > i {
+  margin-right: 0.125rem;
+  vertical-align: -0.05em;
+}
+
 .sim-meter__dot {
+  display: inline-block;
   width: 0.4rem;
   height: 0.4rem;
-  flex: 0 0 auto;
+  margin-right: 0.25rem;
+  vertical-align: 0.05em;
   border-radius: var(--sim-radius-pill);
   background: var(--sim-meter-color, var(--sim-accent));
 }
@@ -852,7 +873,7 @@ button.sim-option:hover:not(:disabled) .sim-option__meta {
 .sim-meter__value {
   flex: 0 0 auto;
   color: var(--sim-ink);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
   font-weight: 800;
 }
@@ -1066,6 +1087,14 @@ html.sim-welcome-open body {
 .sim-welcome__dialog {
   width: 100%;
   max-width: 40rem;
+  /* Capped to the viewport, less the overlay's own padding, so that a dialog
+     taller than the screen -- "Who Owns This?" on a laptop, any of them on a
+     phone -- scrolls inside its own frame rather than running off the bottom
+     edge with no sign that there is more of it. dvh first excludes a mobile
+     browser's collapsing toolbar; the vh line above it is the fallback. */
+  max-height: calc(100vh - 2.5rem);
+  max-height: calc(100dvh - 2.5rem);
+  overflow-y: auto;
   margin: auto;
   padding: 1.75rem;
   /* Centred, because four of the nine welcome screens already were and they are
