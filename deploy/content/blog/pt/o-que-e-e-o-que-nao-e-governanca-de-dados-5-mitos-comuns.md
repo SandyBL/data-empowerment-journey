@@ -3,16 +3,16 @@ title: "O que é e o que NÃO é Governança de Dados: 5 Mitos Comuns"
 date: 2026-08-11
 updated: 2026-09-05
 category: data-governance
-summary: Confuso sobre Governança de Dados? Descubra o que a governança de dados
-  realmente é, o que não é e como esclarecer esses mitos protege sua empresa de
-  erros caros.
+summary: Ainda não está claro para você o que é governança de dados? Descubra o
+  que ela realmente é, o que não é e como esclarecer esses mitos protege sua
+  empresa de erros caros.
 author: Sandy Bradbury
 translation_key: what-data-governance-is-and-is-not
 ---
 
 A maioria dos programas de governança fracassados que me pediram para resgatar não falhou na execução. Falhou na definição. Alguém na sala acreditava que governança de dados era uma plataforma, outra pessoa acreditava que era um exercício de conformidade, uma terceira acreditava que era um projeto com data de fim, e o programa foi financiado pela média dessas crenças. Dezoito meses depois havia uma ferramenta, uma biblioteca de políticas e nenhuma mudança em como alguém tomava decisões.
 
-Então vale a pena ser preciso, e precisão aqui significa dizer o que a governança **não** é com o mesmo cuidado com que se diz o que ela **é**. Uma definição que só se expande é inútil: se governança inclui tudo, ninguém consegue saber se está fazendo.
+Então vale a pena ser preciso, e precisão aqui significa dizer o que a governança **não** é com o mesmo cuidado com que se diz o que ela **é**. Uma definição que só se expande é inútil: se governança inclui tudo, ninguém consegue saber se a está fazendo.
 
 ## O que a governança de dados É
 
@@ -26,7 +26,7 @@ O teste útil de uma regra é se você conseguiria saber, por evidência, que el
 
 ### Responsabilidade com nome e sobrenome
 
-A governança atribui um [proprietário de dados](/pt/glossary/data-owner/) por [domínio](/pt/glossary/data-domain/) — uma pessoa responsável, não um comitê — e o apoia com [curadores de dados](/pt/glossary/data-steward/) que fazem o trabalho de definição e de qualidade no dia a dia. Os custodiantes nas equipes técnicas seguram o armazenamento e os controles.
+A governança atribui um [proprietário de dados](/pt/glossary/data-owner/) por [domínio](/pt/glossary/data-domain/) — uma pessoa responsável, não um comitê — e o apoia com [curadores de dados](/pt/glossary/data-steward/) que fazem o trabalho de definição e de qualidade no dia a dia. Os custodiantes nas equipes técnicas cuidam do armazenamento e dos controles.
 
 A palavra que importa é *pessoa*. Propriedade distribuída por um fórum é propriedade que ninguém sente.
 
@@ -70,7 +70,7 @@ Risco e conformidade são a maneira mais fácil de financiar governança, e é p
 
 Uma função de governança julgada apenas por risco otimiza para cobertura de controles. Ela adiciona aprovações, porque aprovação é auditável. E nunca retira nenhuma, porque retirar cria exposição sem crédito equivalente. O resultado é uma função segura, lenta e mal recebida, e a primeira a ser cortada quando o orçamento aperta.
 
-Os programas que duram medem também o lado habilitador: quanto tempo alguém leva para obter acesso a um conjunto de dados, quantas métricas certificadas são reutilizadas em vez de reconstruídas, quanta reconciliação manual foi eliminada, com que rapidez um novo produto de dados pode ser lançado com propriedade e qualidade resolvidas. Esses números custam mais para coletar e são a razão pela qual alguém fora da auditoria se importa. Se você nunca colocou um número no arrasto operacional, a [calculadora do custo dos dados ruins](/pt/calculator/) é uma primeira estimativa razoável.
+Os programas que duram medem também o lado habilitador: quanto tempo alguém leva para obter acesso a um conjunto de dados, quantas métricas certificadas são reutilizadas em vez de reconstruídas, quanta reconciliação manual foi eliminada, com que rapidez um novo produto de dados pode ser lançado com propriedade e qualidade resolvidas. Esses números custam mais para coletar e são a razão pela qual alguém fora da auditoria se importa. Se você nunca colocou um número nesse atrito operacional, a [calculadora do custo dos dados ruins](/pt/calculator/) é uma primeira estimativa razoável.
 
 ## Mito 5: pode ser adicionada depois
 
@@ -85,7 +85,7 @@ A versão leve no início é genuinamente barata: um proprietário e uma classif
 | Uma ferramenta que se compra | Software guarda decisões; não pode tomá-las nem cobrar responsabilidade | A autoridade que decide o que a ferramenta registra |
 | Um projeto que termina | Definições derivam, sistemas mudam, proprietários vão embora | Uma prática operacional com custo corrente e cadência de revisão |
 | Sinônimo de gestão de dados | Uma produz regras e responsabilidade, a outra sistemas e operação | A camada de decisão que a gestão de dados implementa |
-| Só uma questão de risco | Governança só de controle adiciona aprovações e nunca as remove | Uma função medida por proteção e por habilitação |
+| Só uma questão de risco | Uma governança centrada só no controle adiciona aprovações e nunca as remove | Uma função medida por proteção e por habilitação |
 | Algo para adicionar depois | Colocar depois obriga a reconstruir a intenção a partir de sistemas vivos | Um pequeno conjunto de perguntas feitas antes de construir |
 
 ## O que fazer com isso

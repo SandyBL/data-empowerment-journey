@@ -33,8 +33,8 @@ Também não é um formulário de captação disfarçado de diagnóstico. O resu
 
 ## Depois do resultado
 
-Leia primeiro a descrição do nível, depois o radar, depois os quick wins — nessa ordem, porque os quick wins só fazem sentido quando você aceita o eixo de onde eles saíram.
+Leia primeiro a descrição do nível, depois o radar, depois os quick wins, nessa ordem, porque os quick wins só fazem sentido quando você aceita o eixo de onde eles saíram.
 
 Se o eixo mais fraco for propriedade ou direitos de decisão, os [playbooks](/pt/playbooks/) e os artigos que estão no fim desta página são o próximo passo. Se for qualidade, coloque um número com a [calculadora de custos](/pt/calculator/) antes de propor qualquer coisa. Se for alfabetização, a restrição quase nunca é o orçamento de treinamento.
 
-E se você quiser o diagnóstico feito como deve ser — entrevistas em vez de um formulário, com as discordâncias entre áreas colocadas na mesa em vez de tiradas na média —, esse é o [diagnóstico de governança](/pt/consulting/), que é onde a maioria dos meus projetos começa.
+E se você quiser o diagnóstico feito como deve ser, com entrevistas em vez de um formulário e as discordâncias entre áreas colocadas na mesa em vez de tiradas na média, esse é o [diagnóstico de governança](/pt/consulting/), que é onde a maioria dos meus projetos começa.

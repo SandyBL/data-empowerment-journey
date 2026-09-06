@@ -1,11 +1,11 @@
 ---
-title: "O que é Governança de Dados no DAMA DMBOK? Framework e Componentes
-  Chave"
+title: "O que é Governança de Dados no DAMA DMBOK? Framework e
+  Componentes-Chave"
 date: 2026-08-11
 updated: 2026-09-05
 category: data-governance
 summary: Descubra como o framework DAMA DMBOK define Governança de Dados, seus
-  pilares, papéis chave e como ela se integra à gestão de dados para gerar valor
+  pilares, papéis-chave e como ela se integra à gestão de dados para gerar valor
   real.
 author: Sandy Bradbury
 translation_key: dama-dmbok-data-governance-framework
@@ -59,7 +59,7 @@ As [políticas de dados](/pt/glossary/data-policy/) dizem o que deve ser verdade
 
 O DMBOK é claro que devem ser poucas, localizáveis e exigíveis. Na prática, as organizações escrevem demais e não guardam em lugar nenhum. Um conjunto de políticas funciona quando um curador consegue responder com ele a uma pergunta real em menos de um minuto.
 
-Uma nota sobre quantas políticas são suficientes. Nove de cada dez organizações com que trabalhei tinham mais páginas de política do que curadores, o que é sinal confiável de que escrever substituiu decidir. Se uma política nunca foi citada numa decisão real e ninguém sabe nomear seu dono, ela é documentação, não governança.
+Uma nota sobre quantas políticas são suficientes. Nove de cada dez organizações com as quais trabalhei tinham mais páginas de política do que curadores, o que é sinal confiável de que escrever substituiu decidir. Se uma política nunca foi citada numa decisão real e ninguém sabe nomear seu dono, ela é documentação, não governança.
 
 ### Órgãos de decisão
 
@@ -69,7 +69,7 @@ Uma ressalva que o livro insinua e a prática torna óbvia: conselhos revisam be
 
 ### Supervisão e monitoramento
 
-Governança sem medição deriva para a afirmação. Supervisionar significa saber que percentual dos elementos críticos tem proprietário ativo, se a qualidade está dentro da tolerância, quanto tempo levam as decisões de acesso e se as definições aprovadas estão realmente sendo reutilizadas. Esse relatório é o que permite pedir financiamento continuado com algo além de um princípio.
+Governança sem medição vira apenas afirmação. Supervisionar significa saber que percentual dos elementos críticos tem proprietário ativo, se a qualidade está dentro da tolerância, quanto tempo levam as decisões de acesso e se as definições aprovadas estão realmente sendo reutilizadas. Esse relatório é o que permite pedir financiamento continuado com algo além de um princípio.
 
 A supervisão também é como você descobre que a governança parou de acontecer. O sinal raramente é uma falha dramática; é uma queda lenta na cobertura de propriedade conforme as pessoas mudam de cargo, e ninguém percebe por dois trimestres porque ninguém estava publicando.
 
@@ -86,7 +86,7 @@ A supervisão também é como você descobre que a governança parou de acontece
 
 O padrão é constante. A governança produz uma decisão; a área de conhecimento produz um sistema que a implementa. Nada da coluna do meio exige uma plataforma, e nada da coluna da direita se resolve numa reunião.
 
-## O que o DMBOK não vai te dar
+## O que o DMBOK não vai lhe dar
 
 É aqui que a maioria das implementações descarrilha, então vale ser direto.
 
@@ -102,7 +102,7 @@ Uma abordagem prática, na ordem em que eu executaria.
 
 Adote o vocabulário já. Usar os termos do DMBOK para proprietário, curador, custodiante e elemento de dados crítico não custa nada e elimina uma categoria inteira de confusão em cada conversa seguinte.
 
-Depois escolha três áreas de conhecimento, escolhidas por onde dói e não pela ordem do livro. Para a maioria das organizações o trio produtivo é a própria governança, a qualidade de dados e os metadados — porque propriedade, medição e definições documentadas se reforçam e produzem resultados visíveis dentro de um trimestre.
+Depois escolha três áreas de conhecimento, guiado por onde dói e não pela ordem do livro. Para a maioria das organizações o trio produtivo é a própria governança, a qualidade de dados e os metadados — porque propriedade, medição e definições documentadas se reforçam e produzem resultados visíveis dentro de um trimestre.
 
 Use o conteúdo de maturidade como diagnóstico, não como meta. Um [modelo de maturidade](/pt/glossary/data-maturity-model/) serve para achar sua dimensão mais fraca e não vale nada como ambição; "chegar ao nível 4" não é um resultado que alguém fora do time de dados vá financiar. Se quiser uma leitura rápida de onde você está, a [avaliação de maturidade](/pt/maturity-assessment/) cobre as dimensões que preveem se um programa se sustenta.
 

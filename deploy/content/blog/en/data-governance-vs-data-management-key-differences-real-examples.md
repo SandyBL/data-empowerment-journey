@@ -10,7 +10,7 @@ author: Sandy Bradbury
 translation_key: data-governance-vs-data-management
 ---
 
-The question comes up in almost every first conversation I have with a new client, usually phrased as an apology: "I know this is basic, but what is the actual difference between data governance and data management?" It is not basic, and the confusion is not the client's fault. Job adverts use the two terms interchangeably. Vendors sell "governance platforms" that are data management tools. Consultants use whichever word the buyer used first.
+The question comes up in almost every first conversation I have with a new client, usually phrased as an apology: "I know this is basic, but what is the actual difference between data governance and data management?" It is not basic, and the confusion is not the client's fault. Job postings use the two terms interchangeably. Vendors sell "governance platforms" that are data management tools. Consultants use whichever word the buyer used first.
 
 The distinction matters because the two disciplines fail in different ways, need different people, and are funded from different budgets. Organizations that confuse them tend to make one of two expensive mistakes: they buy a catalog and expect the policy problem to solve itself, or they write a policy set and expect engineering to have somehow implemented it.
 
@@ -34,7 +34,7 @@ A payments business decides that unmasked card numbers may be viewed only by lev
 
 ## What data management actually does
 
-Data management is the engineering and operational work that makes data usable across its lifecycle. In [DAMA DMBOK](/en/glossary/dama-dmbok/) terms it is the bulk of the wheel — architecture, modelling, storage, integration, security implementation, reference and [master data](/en/glossary/master-data-management/), warehousing, metadata, and [data quality](/en/glossary/data-quality/) operations.
+Data management is the engineering and operational work that makes data usable across its lifecycle. In [DAMA DMBOK](/en/glossary/dama-dmbok/) terms it is the bulk of the wheel — architecture, modeling, storage, integration, security implementation, reference and [master data](/en/glossary/master-data-management/), warehousing, metadata, and [data quality](/en/glossary/data-quality/) operations.
 
 The outputs here are concrete and largely technical. Pipelines that run on schedule and alert when they do not. A warehouse whose grain is documented. Deduplicated customer records. Backups that have actually been restored at least once. Access controls configured to match the classification policy. [Data lineage](/en/glossary/data-lineage/) captured well enough that when a number changes you can find out why.
 
@@ -46,11 +46,11 @@ The same payments business builds column-level masking in the warehouse, wires t
 
 Three things blur the line in practice.
 
-Governance is often *implemented through* management tooling. The [business glossary](/en/glossary/business-glossary/) inside your [data catalog](/en/glossary/data-catalog/) is a management artefact holding a governance decision. Because the decision lives in a tool, people conclude the tool made the decision.
+Governance is often *implemented through* management tooling. The [business glossary](/en/glossary/business-glossary/) inside your [data catalog](/en/glossary/data-catalog/) is a management artifact holding a governance decision. Because the decision lives in a tool, people conclude the tool made the decision.
 
 The job titles overlap badly. A "data governance manager" frequently spends most of the week on quality remediation, which is management work. A "data platform lead" often ends up arbitrating definitions because nobody else will, which is governance work being done without a mandate.
 
-And the DMBOK wheel puts governance at the centre, which reads to newcomers as *governance is the most important function* rather than *governance is the function that coordinates the others*. Centrality is about relationship, not rank.
+And the DMBOK wheel puts governance at the center, which reads to newcomers as *governance is the most important function* rather than *governance is the function that coordinates the others*. Centrality is about relationship, not rank.
 
 ## Key differences at a glance
 
@@ -58,7 +58,7 @@ And the DMBOK wheel puts governance at the centre, which reads to newcomers as *
 | :--- | :--- | :--- |
 | Core question | Who decides, on what evidence, and who is accountable? | How do we capture, store, move, protect, and retire it? |
 | Primary outputs | Decision rights, policies, standards, ownership, forums | Architecture, pipelines, models, controls, quality operations |
-| Typical roles | Data owners, stewards, governance council, DGO | Data engineers, architects, DBAs, platform and security teams |
+| Typical roles | Data owners, stewards, governance council, governance office | Data engineers, architects, DBAs, platform and security teams |
 | Fails as | A policy library nobody applies | A well-run platform serving data nobody agrees on |
 | Measured by | Coverage of ownership, decision cycle time, reuse of approved definitions | Uptime, freshness, defect rates, incident recovery time |
 | Budget lives in | Business or transformation | IT or platform engineering |
@@ -89,15 +89,15 @@ You have a management gap if the definitions are agreed and documented but the r
 
 Most organizations have both gaps and treat only the one their loudest function owns. If you want to size the second one before you argue for budget, the [cost of bad data calculator](/en/calculator/) turns rework hours and duplicate records into an annual figure, and the [maturity assessment](/en/maturity-assessment/) will tell you which side of this line your weaknesses sit on.
 
-## The artefacts that sit on the boundary
+## The artifacts that sit on the boundary
 
 A few things belong to both disciplines, and they are where most arguments happen.
 
 The business glossary is the clearest case. The definitions in it are governance decisions; the tool holding them, its integrations, and its refresh schedule are management responsibilities. When a glossary rots, the usual cause is that one side assumed the other owned it.
 
-Data quality is the same story told twice. Setting the tolerance — 98% completeness on this attribute, measured weekly, and here is who accepts the risk when we miss it — is a governance act. Building the [data quality rule](/en/glossary/data-quality-rule/), running the [profiling](/en/glossary/data-profiling/), routing the alert, and fixing the pipeline is management. A quality programme with rules but no accepted tolerances produces dashboards nobody acts on. One with tolerances but no rules produces opinions.
+Data quality is the same story told twice. Setting the tolerance — 98% completeness on this attribute, measured weekly, and here is who accepts the risk when we miss it — is a governance act. Building the [data quality rule](/en/glossary/data-quality-rule/), running the [profiling](/en/glossary/data-profiling/), routing the alert, and fixing the pipeline is management. A quality program with rules but no accepted tolerances produces dashboards nobody acts on. One with tolerances but no rules produces opinions.
 
-Classification runs the same way: the tiers and their handling requirements are policy, the tagging and enforcement are engineering. Write down for each of these three artefacts which half your organization owns and who owns the other half. The gaps you find in that exercise are usually the reason the artefact is not working.
+Classification runs the same way: the tiers and their handling requirements are policy, the tagging and enforcement are engineering. Write down for each of these three artifacts which half your organization owns and who owns the other half. The gaps you find in that exercise are usually the reason the artifact is not working.
 
 ## Where to start
 

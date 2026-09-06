@@ -84,7 +84,7 @@ export const FAQ = {
     {
       q: '¿En qué consiste un proyecto MVP (Mínimo Producto Viable) de Gobierno de Datos?',
       a:
-        'En lugar de intentar gobernar toda la empresa desde el día uno, seleccionamos un caso de uso estratégico (por ejemplo, el dominio de clientes o un reporte financiero crítico) y aplicamos gobierno de punta a punta para demostrar retorno de inversión rápido.',
+        'En lugar de intentar gobernar toda la empresa desde el día uno, seleccionamos un caso de uso estratégico (por ejemplo, el dominio de clientes o un informe financiero crítico) y aplicamos gobierno de punta a punta para demostrar retorno de inversión rápido.',
     },
     {
       q: '¿Cuál es la diferencia entre un Data Owner y un Data Steward?',
@@ -94,7 +94,7 @@ export const FAQ = {
     {
       q: '¿Cómo se mide el ROI de un proyecto de Gobierno de Datos?',
       a:
-        'El ROI del Gobierno de Datos se mide reduciendo costes operativos (menos horas dedicadas a limpiar datos o corregir reportes), aumentando ingresos (al habilitar analítica confiable e IA) y mitigando riesgos de seguridad, multas regulatorias o fugas de información.',
+        'El ROI del Gobierno de Datos se mide reduciendo costes operativos (menos horas dedicadas a limpiar datos o corregir informes), aumentando ingresos (al habilitar analítica fiable e IA) y mitigando riesgos de seguridad, multas regulatorias o fugas de información.',
     },
     {
       q: '¿Necesitamos software o herramientas costosas para iniciar el Gobierno de Datos?',

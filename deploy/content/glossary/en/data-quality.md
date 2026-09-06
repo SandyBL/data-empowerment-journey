@@ -8,7 +8,7 @@ article: identifying-addressing-data-pain-points
 updated: 2026-09-05
 ---
 
-There is no absolute data quality. A customer address that is good enough to send a marketing email is not good enough to ship a pallet, and the same record can be simultaneously acceptable and unusable depending on who picked it up. This is why "improve our data quality" cannot be actioned and "our address data must be good enough to deliver to, and today 12% of it is not" can.
+There is no absolute data quality. A customer address that is good enough to send a marketing email is not good enough to ship a pallet, and the same record can be simultaneously acceptable and unusable depending on who picked it up. This is why "improve our data quality" is not actionable and "our address data must be good enough to deliver to, and today 12% of it is not" can.
 
 **In practice.** Quality work runs in a loop: pick a use that matters, define the rule that use requires, measure the breach rate, fix the process that creates the breach, keep measuring. The fourth step is the one that changes anything — cleansing without fixing the source is a subscription, not a project.
 

@@ -11,7 +11,7 @@ translation_key: responsible-ai-starts-with-data-governance
 
 AI governance is not a separate discipline floating above data management. Every model depends on data whose origin, meaning, quality, permissions, and limitations need to be understood. When those things are already governed, an AI policy is a short document that points at controls the organization runs anyway. When they are not, the policy has to invent an entire control environment from scratch, and it usually invents one that nobody operates.
 
-This is the most common pattern we see. A company writes a responsible AI charter, appoints an AI ethics committee, and publishes principles about fairness, transparency, and human oversight. Six months later the committee cannot answer a simple question about a model already in production: which tables feed it, who owns them, when they last changed, and whether the customers in them consented to this use. The principles were never wrong. They just had nothing underneath them.
+This is the most common pattern I see. A company writes a responsible AI charter, appoints an AI ethics committee, and publishes principles about fairness, transparency, and human oversight. Six months later the committee cannot answer a simple question about a model already in production: which tables feed it, who owns them, when they last changed, and whether the customers in them consented to this use. The principles were never wrong. They just had nothing underneath them.
 
 ## Why AI governance is mostly data governance
 
@@ -56,14 +56,14 @@ Three input controls carry most of the weight. First, an approved-source list: m
 
 Document approvals, source changes, tests, limitations, and monitoring results. Good evidence makes responsible practice visible and repeatable.
 
-Evidence is also what turns a regulatory conversation from an argument into a document handover. Regulators, auditors, and enterprise customers increasingly ask the same questions: what data trained this, who authorised it, what did you test, what did you find, and what do you monitor now. An organization that has to reconstruct those answers after the fact will spend weeks on it and will not be confident in the result.
+Evidence is also what turns a regulatory conversation from an argument into a document handover. Regulators, auditors, and enterprise customers increasingly ask the same questions: what data trained this, who authorized it, what did you test, what did you find, and what do you monitor now. An organization that has to reconstruct those answers after the fact will spend weeks on it and will not be confident in the result.
 
 Keep the record close to the work rather than in a separate compliance repository. A model card stored alongside the model, updated as part of the release, is maintained. A spreadsheet updated once a year for an audit is not.
 
 ## Start where the risk already is
 
-You do not need an AI governance programme before you can govern your first model. Start with the use cases already running, or already funded, and work backwards to the data they depend on. For each one, answer five questions in writing: what decision does this affect, what sources feed it, who owns each source, what could go wrong for a person on the receiving end, and how would we notice.
+You do not need an AI governance program before you can govern your first model. Start with the use cases already running, or already funded, and work backward to the data they depend on. For each one, answer five questions in writing: what decision does this affect, what sources feed it, who owns each source, what could go wrong for a person on the receiving end, and how would we notice.
 
-Those five answers usually expose the same gap in the same place — an unowned source, an unclassified field, a metric nobody can define — and closing it improves far more than the model. That is the argument worth making internally: responsible AI work is not a tax on the AI programme. It is data governance with a deadline and a sponsor.
+Those five answers usually expose the same gap in the same place — an unowned source, an unclassified field, a metric nobody can define — and closing it improves far more than the model. That is the argument worth making internally: responsible AI work is not a tax on the AI program. It is data governance with a deadline and a sponsor.
 
 For the wider mechanics of ownership and decision rights, see [Building a Data Governance Operating Model That People Actually Use](/en/blog/building-a-data-governance-operating-model/), and for the distinction between the two disciplines this article keeps leaning on, see [Data Governance vs Data Management](/en/blog/data-governance-vs-data-management-key-differences-real-examples/).

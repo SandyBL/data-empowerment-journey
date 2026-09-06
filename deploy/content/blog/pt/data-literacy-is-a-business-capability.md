@@ -39,7 +39,7 @@ Ofereça definições, exemplos e proteções dentro das ferramentas que as pess
 
 O momento da necessidade é quando alguém olha um número e decide se confia nele. A ajuda que existir precisa estar ali, naquela tela, naquele segundo. Na prática, isso significa quatro coisas:
 
-1. **Definições coladas à métrica**, não guardadas num glossário que ninguém abre. Se o painel diz "clientes ativos", o hover deveria dizer o que conta como ativo e quem decidiu.
+1. **Definições coladas à métrica**, não guardadas num glossário que ninguém abre. Se o painel diz "clientes ativos", passar o cursor sobre o rótulo deveria dizer o que conta como ativo e quem decidiu.
 2. **Certificação visível.** Um selo que separe uma métrica governada de uma improvisada permite decidir sobre confiança em um segundo em vez de em uma hora.
 3. **Exemplos resolvidos na linguagem local do time.** Finanças e marketing não precisam do mesmo exemplo duas vezes; precisam do seu, uma vez.
 4. **Uma pessoa para perguntar.** Não uma fila de chamados: uma pessoa, listada no ativo, que responde.

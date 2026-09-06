@@ -3,7 +3,7 @@ slug: workshops
 nav: workshops
 title: Talleres de Gobierno de Datos con Simuladores de Marca | Data Governance Journey
 heading: Talleres de gobierno que tu equipo juega, no aguanta
-deck: Doy tu taller sobre los mismos simuladores de escenarios que publica esta web —con tu marca, reescritos con tus sistemas y tus áreas, en una clasificación privada— y te quedas con el informe de facilitador.
+deck: Doy tu taller sobre los mismos simuladores de escenarios que publica esta web, con tu marca y reescritos con tus sistemas y tus áreas, en una clasificación privada, y te quedas con el informe de facilitador.
 description: Talleres de gobierno de datos y alfabetización de datos sobre simuladores de escenarios privados y con la marca de tu empresa. Preguntas reescritas con tus sistemas, clasificación privada e informe de facilitador que te queda.
 kicker: Talleres
 schema: service
@@ -20,7 +20,7 @@ Eso es lo que hace este formato.
 
 ## El formato
 
-Una sesión dura de dos a tres horas para un grupo de ocho a cuarenta personas. Alterna encuadres cortos —veinte minutos sobre derechos de decisión, sobre dimensiones de calidad, sobre qué posee realmente un dueño— con rondas en un simulador de escenarios que toda la sala juega desde el móvil.
+Una sesión dura de dos a tres horas para un grupo de ocho a cuarenta personas. Alterna encuadres cortos (veinte minutos sobre derechos de decisión, sobre dimensiones de calidad, sobre qué posee realmente un dueño) con rondas en un simulador de escenarios que toda la sala juega desde el móvil.
 
 Cada ronda mete al grupo dentro de una situación sin respuesta limpia. Dos departamentos reclaman la propiedad del registro de cliente. Un regulador pregunta de dónde sale un número y el linaje se corta en una hoja de cálculo. Una regla de calidad falla el 14 % de las veces y arreglar el origen implica pedir a otro director que cambie un proceso por el que se le mide. Todos eligen, las elecciones se puntúan por consecuencia de gobierno y no por corrección, y la clasificación aparece en pantalla.
 

@@ -8,7 +8,7 @@ article: building-a-data-governance-operating-model
 updated: 2026-09-05
 ---
 
-Tratar los datos como un producto significa que alguien responde de que sus consumidores estén satisfechos, no solo de que el pipeline se ejecute. Eso implica documentación, una interfaz estable, una frecuencia de actualización declarada, garantías de calidad, una vía para reportar problemas y un plan para cambiarlo sin romper a quien está más abajo. Es la misma disciplina que un equipo de software aplica a una API, aplicada a una tabla.
+Tratar los datos como un producto significa que alguien responde de que sus consumidores estén satisfechos, no solo de que el pipeline se ejecute. Eso implica documentación, una interfaz estable, una frecuencia de actualización declarada, garantías de calidad, una vía para notificar problemas y un plan para cambiarlo sin romper a quien está más abajo. Es la misma disciplina que un equipo de software aplica a una API, aplicada a una tabla.
 
 **En la práctica.** Un producto de datos solo es un producto si tiene consumidores con nombre. Dos equipos que dependen de él, con una actualización acordada y una vía para quejarse, es suficiente. Sin consumidores tienes un conjunto de datos con papeleo extra.
 

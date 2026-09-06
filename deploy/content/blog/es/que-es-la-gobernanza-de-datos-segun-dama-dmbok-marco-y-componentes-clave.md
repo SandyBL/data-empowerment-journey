@@ -69,7 +69,7 @@ Una advertencia que el libro insinúa y la práctica hace evidente: los consejos
 
 ### Supervisión y monitorización
 
-La gobernanza sin medición deriva hacia la afirmación. Supervisar significa saber qué porcentaje de elementos críticos tiene propietario activo, si la calidad está dentro de tolerancia, cuánto tardan las decisiones de acceso y si las definiciones aprobadas se están reutilizando de verdad. Ese reporte es lo que permite pedir financiación continuada con algo más que un principio.
+La gobernanza sin medición deriva hacia la afirmación. Supervisar significa saber qué porcentaje de elementos críticos tiene propietario activo, si la calidad está dentro de tolerancia, cuánto tardan las decisiones de acceso y si las definiciones aprobadas se están reutilizando de verdad. Ese informe es lo que permite pedir financiación continuada con algo más que un principio.
 
 La supervisión también es cómo te enteras de que la gobernanza ha dejado de ocurrir. La señal rara vez es un fallo dramático; es un descenso lento en la cobertura de propiedad a medida que la gente cambia de puesto, y nadie lo nota durante dos trimestres porque nadie lo estaba publicando.
 

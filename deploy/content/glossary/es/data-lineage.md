@@ -8,7 +8,7 @@ article: dama-dmbok-data-governance-framework
 updated: 2026-09-05
 ---
 
-El linaje responde a dos preguntas que de otro modo son caras. Hacia arriba: este número parece incorrecto, ¿de dónde viene y qué lo ha tocado? Hacia abajo: vamos a cambiar este campo, ¿qué se rompe? La segunda es el análisis de impacto y, en organizaciones con algo de complejidad en sus pipelines, es la que paga todo el ejercicio: la alternativa es un congelamiento de cambios o un descubrimiento en producción.
+El linaje responde a dos preguntas que de otro modo son caras. Hacia arriba: este número parece incorrecto, ¿de dónde viene y qué lo ha tocado? Hacia abajo: vamos a cambiar este campo, ¿qué se rompe? La segunda es el análisis de impacto y, en organizaciones con algo de complejidad en sus pipelines, es la que paga todo el ejercicio: la alternativa es una congelación de cambios o un descubrimiento en producción.
 
 **En la práctica.** El linaje merece capturarse con la granularidad sobre la que vas a actuar. El linaje tabla a tabla en los pipelines que sostienen los informes regulatorios suele bastar para responder a ambas preguntas; el linaje a nivel de columna en todo el parque es un proyecto de investigación.
 

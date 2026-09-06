@@ -23,7 +23,7 @@ Si quitas los diagramas de marco, la gobernanza se reduce a tres resultados.
 
 El primero son los [derechos de decisión](/es/glossary/decision-rights/). Alguien tiene que poder decir qué significa "cliente activo" y que esa definición se sostenga en finanzas, en marketing y en el informe al consejo. Alguien tiene que poder aceptar por escrito una brecha de calidad conocida en producción, con su nombre encima. La gobernanza es el mecanismo que nombra a esas personas y define la evidencia que necesitan antes de decidir.
 
-El segundo son las políticas y estándares: las reglas que aplican mire alguien o no. Plazos de retención. Niveles de clasificación. Qué se considera [información personal identificable](/es/glossary/personally-identifiable-information/) y qué puede hacerse con ella. Qué atributos de qué entidades son [elementos de datos críticos](/es/glossary/critical-data-element/) y por tanto están sujetos a medición.
+El segundo son las políticas y estándares: las reglas que se aplican mire alguien o no. Plazos de retención. Niveles de clasificación. Qué se considera [información personal identificable](/es/glossary/personally-identifiable-information/) y qué puede hacerse con ella. Qué atributos de qué entidades son [elementos de datos críticos](/es/glossary/critical-data-element/) y por tanto están sujetos a medición.
 
 El tercero es la responsabilidad, la parte que las organizaciones se saltan. Una política sin dueño es un documento. La gobernanza asigna un [propietario de datos](/es/glossary/data-owner/) a cada [dominio de datos](/es/glossary/data-domain/), lo apoya con [custodios de datos](/es/glossary/data-steward/) que hacen el trabajo definicional y da a ambos un foro donde las disputas se resuelven en lugar de escalarse indefinidamente.
 
@@ -60,7 +60,7 @@ Y la rueda del DMBOK pone la gobernanza en el centro, lo que quien empieza lee c
 | Pregunta central | ¿Quién decide, con qué evidencia y quién responde? | ¿Cómo lo capturamos, almacenamos, movemos, protegemos y retiramos? |
 | Resultados principales | Derechos de decisión, políticas, estándares, propiedad, foros | Arquitectura, pipelines, modelos, controles, operación de calidad |
 | Roles típicos | Propietarios, custodios, consejo de gobierno, oficina de datos | Ingenieros de datos, arquitectos, DBA, plataforma y seguridad |
-| Cómo fracasa | Una biblioteca de políticas que nadie aplica | Una plataforma impecable que sirve datos que nadie acuerda |
+| Cómo fracasa | Una biblioteca de políticas que nadie aplica | Una plataforma impecable que sirve datos sobre los que nadie está de acuerdo |
 | Se mide con | Cobertura de propiedad, tiempo de decisión, reutilización de definiciones | Disponibilidad, frescura, tasa de defectos, tiempo de recuperación |
 | Presupuesto | Negocio o transformación | TI o ingeniería de plataforma |
 
@@ -86,19 +86,19 @@ Algunas cosas pertenecen a las dos disciplinas, y ahí es donde se producen la m
 
 El glosario de negocio es el caso más claro. Las definiciones que contiene son decisiones de gobierno; la herramienta que las guarda, sus integraciones y su calendario de actualización son responsabilidad de gestión. Cuando un glosario se pudre, la causa habitual es que cada lado dio por hecho que el otro era su dueño.
 
-La calidad de datos es la misma historia contada dos veces. Fijar la tolerancia (98% de completitud en este atributo, medido semanalmente, y este es quien acepta el riesgo cuando no llegamos) es un acto de gobierno. Construir la [regla de calidad](/es/glossary/data-quality-rule/), ejecutar el [perfilado](/es/glossary/data-profiling/), enrutar la alerta y arreglar el pipeline es gestión. Un programa de calidad con reglas pero sin tolerancias aceptadas produce cuadros de mando que nadie usa. Uno con tolerancias pero sin reglas produce opiniones.
+La calidad de datos es la misma historia contada dos veces. Fijar la tolerancia (98 % de completitud en este atributo, medido semanalmente, y este es quien acepta el riesgo cuando no llegamos) es un acto de gobierno. Construir la [regla de calidad](/es/glossary/data-quality-rule/), ejecutar el [perfilado](/es/glossary/data-profiling/), enrutar la alerta y arreglar el pipeline es gestión. Un programa de calidad con reglas pero sin tolerancias aceptadas produce cuadros de mando que nadie usa. Uno con tolerancias pero sin reglas produce opiniones.
 
-La clasificación funciona igual: los niveles y sus requisitos de manejo son política, el etiquetado y la aplicación son ingeniería. Escribe, para cada uno de estos tres artefactos, qué mitad posee tu organización y quién posee la otra. Los huecos que encuentres en ese ejercicio suelen ser la razón por la que el artefacto no funciona.
+La clasificación funciona igual: los niveles y sus requisitos de manejo son política, el etiquetado y la aplicación son ingeniería. Escribe, para cada uno de estos tres artefactos, qué mitad posee tu organización y quién posee la otra. Las brechas que encuentres en ese ejercicio suelen ser la razón por la que el artefacto no funciona.
 
 ## Cómo saber cuál te falta
 
 Un diagnóstico corto, sacado de las preguntas que hago la primera semana de una intervención.
 
-Tienes un hueco de gobernanza si dos equipos reportan valores distintos para la misma métrica con nombre y no existe un foro que pueda zanjarlo; si no puedes nombrar en menos de un minuto al responsable de tus cinco dominios principales; si las solicitudes de acceso las decide quien esté de guardia; o si un problema de calidad se conoce desde hace un año y nadie lo ha arreglado ni lo ha aceptado formalmente.
+Tienes una brecha de gobernanza si dos equipos dan valores distintos para la misma métrica con nombre y no existe un foro que pueda zanjarlo; si no puedes nombrar en menos de un minuto al responsable de tus cinco dominios principales; si las solicitudes de acceso las decide quien esté de guardia; o si un problema de calidad se conoce desde hace un año y nadie lo ha arreglado ni lo ha aceptado formalmente.
 
-Tienes un hueco de gestión si las definiciones están acordadas y documentadas pero los informes siguen sin cuadrar; si el linaje solo existe en la cabeza de dos ingenieros; si nadie ha probado una restauración; o si la política de clasificación es clara y los controles de acceso no la reflejan.
+Tienes una brecha de gestión si las definiciones están acordadas y documentadas pero los informes siguen sin cuadrar; si el linaje solo existe en la cabeza de dos ingenieros; si nadie ha probado una restauración; o si la política de clasificación es clara y los controles de acceso no la reflejan.
 
-La mayoría de las organizaciones tienen los dos huecos y atienden solo el que pertenece a su función más ruidosa. Si quieres dimensionar el segundo antes de pedir presupuesto, la [calculadora del coste de los datos malos](/es/calculator/) convierte horas de retrabajo y registros duplicados en una cifra anual, y la [evaluación de madurez](/es/maturity-assessment/) te dirá a qué lado de esta línea caen tus debilidades.
+La mayoría de las organizaciones tienen las dos brechas y atienden solo la que pertenece a su función más ruidosa. Si quieres dimensionar el segundo antes de pedir presupuesto, la [calculadora del coste de los datos malos](/es/calculator/) convierte horas de retrabajo y registros duplicados en una cifra anual, y la [evaluación de madurez](/es/maturity-assessment/) te dirá a qué lado de esta línea caen tus debilidades.
 
 ## Por dónde empezar
 

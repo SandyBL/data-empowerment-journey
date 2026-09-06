@@ -12,4 +12,4 @@ La alfabetización de datos no es estadística. Es la capacidad práctica de mir
 
 **En la práctica.** La alfabetización se construye con los datos propios de la organización, en el contexto de decisiones que la gente ya toma. Una sesión de una hora que recorra con un equipo de ventas su propio informe de pipeline —qué significa cada campo, dónde se rompe, qué comparaciones no son válidas— supera con mucho a un curso genérico.
 
-**Dónde se rompe.** La alfabetización se compra como una licencia de una plataforma de e-learning y se reporta como tasa de finalización. La finalización mide asistencia, no capacidad. La medida que importa es si las preguntas que se hacen en las reuniones de revisión mejoran, y eso es observable en un trimestre si alguien está mirando.
+**Dónde se rompe.** La alfabetización se compra como una licencia de una plataforma de e-learning y se comunica como tasa de finalización. La finalización mide asistencia, no capacidad. La medida que importa es si las preguntas que se hacen en las reuniones de revisión mejoran, y eso es observable en un trimestre si alguien está mirando.

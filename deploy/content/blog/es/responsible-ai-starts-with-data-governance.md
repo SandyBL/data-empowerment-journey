@@ -11,7 +11,7 @@ translation_key: responsible-ai-starts-with-data-governance
 
 El gobierno de IA no es una disciplina separada que flota sobre la gestión de datos. Cada modelo depende de datos cuyo origen, significado, calidad, permisos y limitaciones deben comprenderse. Cuando esas cosas ya están gobernadas, una política de IA es un documento corto que apunta a controles que la organización ya opera. Cuando no lo están, la política tiene que inventar todo un entorno de control desde cero, y normalmente inventa uno que nadie ejecuta.
 
-Este es el patrón más común que vemos. Una empresa redacta una carta de IA responsable, nombra un comité de ética y publica principios sobre equidad, transparencia y supervisión humana. Seis meses después, el comité no puede responder una pregunta simple sobre un modelo que ya está en producción: qué tablas lo alimentan, quién es su propietario, cuándo cambiaron por última vez y si las personas incluidas en ellas consintieron este uso. Los principios nunca estuvieron equivocados. Simplemente no tenían nada debajo.
+Este es el patrón más común que veo. Una empresa redacta una carta de IA responsable, nombra un comité de ética y publica principios sobre equidad, transparencia y supervisión humana. Seis meses después, el comité no puede responder una pregunta simple sobre un modelo que ya está en producción: qué tablas lo alimentan, quién es su propietario, cuándo cambiaron por última vez y si las personas incluidas en ellas consintieron este uso. Los principios nunca estuvieron equivocados. Simplemente no tenían nada debajo.
 
 ## Por qué el gobierno de IA es, sobre todo, gobierno de datos
 
@@ -21,12 +21,12 @@ La consecuencia práctica es que una organización con gobierno de datos maduro 
 
 ## Conecta los riesgos de IA con los controles de datos
 
-Relaciona los riesgos del modelo con los controles que pueden reducirlos, de forma explícita, para que una revisión sea una lista de verificación y no un debate. Las preocupaciones por sesgo se conectan con representatividad y procedencia. La fiabilidad se conecta con umbrales de calidad y monitoreo. La privacidad se conecta con clasificación y acceso.
+Relaciona los riesgos del modelo con los controles que pueden reducirlos, de forma explícita, para que una revisión sea una lista de verificación y no un debate. Las preocupaciones por sesgo se conectan con representatividad y procedencia. La fiabilidad se conecta con umbrales de calidad y monitorización. La privacidad se conecta con clasificación y acceso.
 
 | Riesgo de IA | Control de datos que lo reduce |
 | --- | --- |
 | Resultados sesgados o desviados | Registros de procedencia y comprobaciones de representatividad de la población de entrenamiento |
-| Predicciones poco fiables con el tiempo | Umbrales de calidad en las fuentes y monitoreo de deriva en las entradas |
+| Predicciones poco fiables con el tiempo | Umbrales de calidad en las fuentes y monitorización de la deriva en las entradas |
 | Brecha de privacidad o consentimiento | Clasificación, limitación de finalidad y control de acceso a nivel de campo |
 | Decisiones inexplicables | Linaje desde la variable hasta el sistema de origen |
 | Rupturas silenciosas tras un cambio | Propiedad de cada fuente, con obligación de notificar cambios |
@@ -54,9 +54,9 @@ Tres controles de entrada cargan con la mayor parte del peso. Primero, una lista
 
 ## Conserva evidencia
 
-Documenta aprobaciones, cambios en las fuentes, pruebas, limitaciones y resultados de monitoreo. La buena evidencia hace visible y repetible la práctica responsable.
+Documenta aprobaciones, cambios en las fuentes, pruebas, limitaciones y resultados de la monitorización. La buena evidencia hace visible y repetible la práctica responsable.
 
-La evidencia también convierte una conversación regulatoria de una discusión en una entrega de documentos. Reguladores, auditores y clientes corporativos hacen cada vez las mismas preguntas: con qué datos se entrenó esto, quién lo autorizó, qué probaste, qué encontraste y qué monitoreas ahora. Una organización que tiene que reconstruir esas respuestas después dedicará semanas y no confiará en el resultado.
+La evidencia también convierte una conversación regulatoria de una discusión en una entrega de documentos. Reguladores, auditores y clientes corporativos hacen cada vez las mismas preguntas: con qué datos se entrenó esto, quién lo autorizó, qué probaste, qué encontraste y qué monitorizas ahora. Una organización que tiene que reconstruir esas respuestas después dedicará semanas y no confiará en el resultado.
 
 Mantén el registro cerca del trabajo y no en un repositorio de cumplimiento aparte. Una ficha de modelo guardada junto al modelo y actualizada como parte del despliegue se mantiene viva. Una hoja de cálculo que se actualiza una vez al año para una auditoría no.
 
@@ -64,6 +64,6 @@ Mantén el registro cerca del trabajo y no en un repositorio de cumplimiento apa
 
 No necesitas un programa de gobierno de IA antes de poder gobernar tu primer modelo. Empieza por los casos de uso que ya están en marcha, o ya financiados, y retrocede hasta los datos de los que dependen. Para cada uno, responde cinco preguntas por escrito: qué decisión afecta, qué fuentes lo alimentan, quién es propietario de cada fuente, qué podría salir mal para la persona que recibe el resultado y cómo nos daríamos cuenta.
 
-Esas cinco respuestas suelen exponer el mismo hueco en el mismo sitio —una fuente sin dueño, un campo sin clasificar, una métrica que nadie sabe definir— y cerrarlo mejora mucho más que el modelo. Ese es el argumento que vale la pena defender internamente: el trabajo de IA responsable no es un impuesto sobre el programa de IA. Es gobierno de datos con una fecha límite y un patrocinador.
+Esas cinco respuestas suelen exponer la misma brecha en el mismo sitio —una fuente sin dueño, un campo sin clasificar, una métrica que nadie sabe definir— y cerrarla mejora mucho más que el modelo. Ese es el argumento que vale la pena defender internamente: el trabajo de IA responsable no es un impuesto sobre el programa de IA. Es gobierno de datos con una fecha límite y un patrocinador.
 
 Para la mecánica más amplia de propiedad y derechos de decisión, revisa [Cómo construir un modelo operativo de gobierno de datos](/es/blog/building-a-data-governance-operating-model/), y para la distinción entre las dos disciplinas en la que se apoya este artículo, [Gobernanza de datos vs gestión de datos](/es/blog/gobernanza-de-datos-vs-gestion-de-datos-diferencias-clave-y-ejemplos-reales/).

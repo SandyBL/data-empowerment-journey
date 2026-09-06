@@ -13,7 +13,7 @@ updated: 2026-09-05
 
 Casi todas las organizaciones saben que su situación de datos no es buena. Muy pocas pueden decir *dónde* de una forma que sobreviva a una conversación con un patrocinador, y "somos bastante inmaduros" no es un plan: no te dice qué arreglar primero y no le da a un directivo escéptico nada con lo que estar de acuerdo.
 
-Este scorecard produce la versión concreta. Lleva unos quince minutos y pregunta por comportamiento, no por aspiración: no "¿tenéis una política de datos?" sino "cuando alguien la incumple, ¿qué pasa?".
+Este scorecard produce la versión concreta. Lleva unos quince minutos y pregunta por comportamiento, no por aspiración: no "¿existe una política de datos?" sino "cuando alguien la incumple, ¿qué pasa?".
 
 [**Empezar el diagnóstico**](https://forms.gle/CAApA7ENzfL72piJ6)
 
@@ -37,4 +37,4 @@ Lee primero la descripción del nivel, luego el radar, luego los quick wins, en 
 
 Si el eje más débil es propiedad o derechos de decisión, los [playbooks](/es/playbooks/) y los artículos que hay al final de esta página son el siguiente paso. Si es calidad, ponle un número con la [calculadora de costes](/es/calculator/) antes de proponer nada. Si es alfabetización, la restricción casi nunca es el presupuesto de formación.
 
-Y si quieres el diagnóstico hecho como toca —entrevistas en lugar de un formulario, con los desacuerdos entre áreas puestos sobre la mesa en lugar de promediados—, ese es el [diagnóstico de gobierno](/es/consulting/), que es donde arrancan la mayoría de mis proyectos.
+Y si quieres el diagnóstico hecho como toca, con entrevistas en lugar de un formulario y los desacuerdos entre áreas puestos sobre la mesa en lugar de promediados, ese es el [diagnóstico de gobierno](/es/consulting/), que es donde arrancan la mayoría de mis proyectos.

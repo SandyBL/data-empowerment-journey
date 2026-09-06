@@ -30,14 +30,14 @@ Três pilares atravessam tudo, e são os mesmos três que o [framework da págin
 
 Cada um destes é um formato real que eu entrego, não um menu de horas. Escopo, duração e entregável são acordados antes de começar, e cada um termina com algo que é seu.
 
-- **Diagnóstico de governança: duas a três semanas.** Entrevistas nos domínios que importam, perfilamento dos dados por trás dos seus relatórios em disputa e uma avaliação contra as áreas de capacidade da DAMA. Entregável: um diagnóstico escrito, uma lista ordenada do que realmente está te bloqueando, três quick wins quantificados e uma leitura de maturidade que você pode levar a um comitê executivo. É o começo certo quando a organização sabe que algo está errado e não concorda sobre o quê.
+- **Diagnóstico de governança: duas a três semanas.** Entrevistas nos domínios que importam, perfilamento dos dados por trás dos seus relatórios em disputa e uma avaliação contra as áreas de capacidade da DAMA. Entregável: um diagnóstico escrito, uma lista ordenada do que de fato está bloqueando você, três quick wins quantificados e uma leitura de maturidade que você pode levar a um comitê executivo. É o começo certo quando a organização sabe que algo está errado e não concorda sobre o quê.
 - **Desenho do modelo operacional: seis a dez semanas.** Domínios, donos, stewards, fóruns, direitos de decisão e as rotas entre eles, desenhados para a organização que você tem e não para a que um organograma sugere. Entregável: o documento do modelo operacional, uma matriz de direitos de decisão populada, descrições de papel com um compromisso de tempo honesto, os termos de referência do conselho de governança e a primeira reunião do conselho facilitada com uma pauta real.
 - **Prática de qualidade de dados: oito a doze semanas, um domínio.** Elementos de dados críticos derivados da consequência, padrões escritos para serem verificáveis por máquina, regras implementadas com limites e responsáveis, e um relatório que nomeia o processo que produziu cada violação. Entregável: uma prática de qualidade funcionando em um domínio, uma linha de base do custo da má qualidade e um padrão que o próximo domínio pode copiar sem mim.
 - **Assessoria contínua: mensal.** Para organizações com um responsável interno de governança que precisa de uma segunda opinião e não de um time de entrega. Um bloco fixo de horas por mês: revisar artefatos antes de irem a um comitê, preparar conversas difíceis e ser a voz externa quando uma recomendação interna precisa de peso por trás.
 
 ## O que eu não faço
 
-Não vendo seleção de ferramentas como projeto de governança. Vou te dizer com prazer qual capacidade está faltando e que classe de ferramenta a cobre, mas se as definições não existem a compra de um catálogo não vai criá-las, e prefiro dizer isso antes da fatura do que depois.
+Não vendo seleção de ferramentas como projeto de governança. Digo com prazer qual capacidade está faltando e que classe de ferramenta a cobre, mas se as definições não existem a compra de um catálogo não vai criá-las, e prefiro dizer isso antes da fatura do que depois.
 
 Também não aceito projetos em que o patrocinador não compromete um dono. Governança sem um dono de negócio que possa aprovar uma definição e dizer não a outra área é um exercício, e o resultado é previsível o bastante para não valer o tempo de nenhum dos dois.
 
@@ -51,6 +51,6 @@ Tudo é entregue remotamente, em português, inglês ou espanhol, e eu trabalho 
 
 Se você não tem certeza de qual formato serve, comece pelo [diagnóstico de maturidade](/pt/maturity-assessment/): é gratuito, leva cerca de quinze minutos e produz uma leitura sobre a qual você pode agir comigo ou sem mim. Ou use a [calculadora do custo dos dados ruins](/pt/calculator/) para colocar um número no que a situação atual está custando, o que normalmente é o caminho mais rápido para uma conversa com orçamento.
 
-Se a pergunta é menor que um projeto — uma iniciativa travada, uma disputa de definições, um modelo operacional sobre o qual você quer uma segunda opinião —, [solicite uma sessão de assessoria](/pt/advisory-sessions/) em vez disso. Trinta minutos, preço fixo, e esse valor é descontado da primeira fatura se virar algo maior.
+Se a pergunta é menor que um projeto (uma iniciativa travada, uma disputa de definições, um modelo operacional sobre o qual você quer uma segunda opinião), [solicite uma sessão de assessoria](/pt/advisory-sessions/) em vez disso. Trinta minutos, preço fixo, e esse valor é descontado da primeira fatura se virar algo maior.
 
 Quando quiser conversar sobre um projeto, o [formulário de contato](/pt/#contact-form-start) chega diretamente a mim. Conte o que está quebrado e o que você já tentou.

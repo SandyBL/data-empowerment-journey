@@ -70,7 +70,7 @@ Compáralas contra una línea base tomada antes de lanzar nada. Sin línea base,
 
 ## Dónde suele fallar
 
-Tres modos de fallo explican la mayoría de los programas estancados. El primero es formar a la gente para usar activos que aún no existen: enseñar el hábito de la métrica certificada antes de que exista la certificación produce frustración, no alfabetización. El segundo es tratarla como una campaña de comunicación, donde el entregable es notoriedad y no un flujo de trabajo cambiado. El tercero es ejecutarla íntegramente dentro de RR. HH. o formación, desconectada de quienes son dueños de las definiciones, de modo que el estándar que enseña el curso no es el que el negocio exige.
+Tres modos de fallo explican la mayoría de los programas estancados. El primero es formar a la gente para usar activos que aún no existen: enseñar el hábito de la métrica certificada antes de que exista la certificación produce frustración, no alfabetización. El segundo es tratarla como una campaña de comunicación, donde el entregable es notoriedad y no un flujo de trabajo cambiado. El tercero es ejecutarla íntegramente dentro de RRHH o formación, desconectada de quienes son dueños de las definiciones, de modo que el estándar que enseña el curso no es el que el negocio exige.
 
 En los tres casos el arreglo es el mismo: ata cada compromiso de alfabetización a una decisión concreta, un activo concreto y un propietario concreto. Si no puedes nombrar los tres, todavía no estás construyendo una capacidad.
 

@@ -123,7 +123,7 @@ export const NAV = {
     simOwnership: '¿Quién es dueño de estos datos?',
     simLiteracy: 'Alfabetización de datos',
     boardResults: 'Qué muestran las partidas públicas',
-    calculator: 'Calculadora del costo de los datos malos',
+    calculator: 'Calculadora del coste de los datos malos',
     templates: 'Plantillas',
     playbooks: 'Playbooks',
     maturity: 'Diagnóstico de madurez',

@@ -8,7 +8,7 @@ article: why-data-governance-people-process-technology-data
 updated: 2026-09-05
 ---
 
-Um steward é a metade operacional da propriedade. Ele escreve e mantém as definições no glossário de negócio, traduz a política em regras, triagem os incidentes de qualidade e é a primeira ligação quando um número parece errado. É escolhido por conhecimento, não por hierarquia: normalmente é a pessoa a quem o resto do time já perguntava, informalmente, antes de o papel existir. Os melhores stewards já faziam quase todo o trabalho sem remuneração e sem documentação.
+Um steward é a metade operacional da propriedade. Ele escreve e mantém as definições no glossário de negócio, traduz a política em regras, faz a triagem dos incidentes de qualidade e é a primeira ligação quando um número parece errado. É escolhido por conhecimento, não por hierarquia: normalmente é a pessoa a quem o resto do time já perguntava, informalmente, antes de o papel existir. Os melhores stewards já faziam quase todo o trabalho sem remuneração e sem documentação.
 
 **Na prática.** Stewardship é um percentual declarado de um cargo real, não um título somado a uma carga de trabalho já cheia. De dez a vinte por cento, protegido e com o respaldo do dono, é a diferença entre uma rede de stewards que funciona e uma que para de se reunir silenciosamente depois de quatro meses.
 

@@ -12,4 +12,4 @@ La cultura se observa en comportamientos pequeños. Si una reunión empieza por 
 
 **En la práctica.** La cultura se mueve cuando se mueven los incentivos. La intervención individual más eficaz es que un líder cambie públicamente una decisión por la evidencia y diga que ese es el motivo. Eso vale más que un año de comunicación interna.
 
-**Dónde se rompe.** La cultura se trata como el componente blando y no medible del programa y se entrega a comunicación. No es blanda ni inmedible: cuenta con qué frecuencia se conciliaron previamente los números de un documento de decisión, cuántas decisiones citan una fuente, cuánto se tarda en responder "¿de dónde viene esto?". Esas cosas se mueven y se pueden seguir.
+**Dónde se rompe.** La cultura se trata como el componente blando y no medible del programa y se entrega a comunicación. No es blanda ni imposible de medir: mide con qué frecuencia se conciliaron previamente los números de un documento de decisión, cuántas decisiones citan una fuente, cuánto se tarda en responder "¿de dónde viene esto?". Esas cosas se mueven y se pueden seguir.

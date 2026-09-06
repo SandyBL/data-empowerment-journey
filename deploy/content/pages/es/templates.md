@@ -25,11 +25,11 @@ Tres hábitos lo evitan.
 
 **Deja los desacuerdos a la vista.** Si dos áreas definen "cliente activo" de forma distinta, no lo reconcilies en silencio para que el documento quede limpio. Escribe las dos definiciones en la celda. Esa contradicción es la evidencia más fuerte que vas a tener de que hace falta un [glosario de negocio](/es/glossary/business-glossary/), y se evapora en cuanto alguien la alisa.
 
-**Quita las columnas que no vas a mantener.** Un scorecard de gobierno con nueve métricas que nadie actualiza es peor que uno con tres que se revisan cada mes, porque la versión abandonada enseña a la organización que los artefactos de gobierno caducan. Borra con generosidad antes de circular.
+**Quita las columnas que no vas a mantener.** Un scorecard de gobierno con nueve métricas que nadie actualiza es peor que uno con tres que se revisan cada mes, porque la versión abandonada enseña a la organización que los artefactos de gobierno caducan. Recorta sin piedad antes de circularla.
 
 ## Para qué sirve cada una
 
-La hoja de **identificación de puntos de dolor** es donde arrancan la mayoría de los proyectos: recoge fallos concretos —un informe del que nadie se fía, una conciliación que se come dos días al mes— y traza cada uno hasta el proceso que lo crea. Combínala con la [calculadora de costes](/es/calculator/) para ponerle precio a los tres primeros.
+La hoja de **identificación de puntos de dolor** es donde arrancan la mayoría de los proyectos: recoge fallos concretos (un informe del que nadie se fía, una conciliación que se come dos días al mes) y traza cada uno hasta el proceso que lo crea. Combínala con la [calculadora de costes](/es/calculator/) para ponerle precio a los tres primeros.
 
 El documento de **encuadre 5W2H** es para el momento en que alguien pregunta "¿y qué es este programa, exactamente?" y necesitas una página en lugar de una presentación.
 
@@ -37,7 +37,7 @@ El documento de **encuadre 5W2H** es para el momento en que alguien pregunta "¿
 
 **Casos de uso de herramientas de catálogo** existe para evitar que compres un catálogo antes de saber a qué pregunta tiene que responder. Rellénalo antes de las demos, no después.
 
-**Principios y políticas** te da la forma de un conjunto corto de [políticas de datos](/es/glossary/data-policy/) —del tipo que la gente puede recordar— en lugar de un documento de cuarenta páginas que se aprueba y nunca se lee.
+**Principios y políticas** te da la forma de un conjunto corto de [políticas de datos](/es/glossary/data-policy/), del tipo que la gente puede recordar, en lugar de un documento de cuarenta páginas que se aprueba y nunca se lee.
 
 El **scorecard de gobierno** es el informe estable: un conjunto pequeño de medidas que le dice a un comité si el modelo operativo está funcionando.
 

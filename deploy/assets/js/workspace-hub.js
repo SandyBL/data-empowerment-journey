@@ -77,7 +77,7 @@ const SIMULATORS = [
       pt: "Conflitos de Propriedade de Dados",
     },
     summary: {
-      en: "Ten ownership disputes from real organisations. Decide who owns the data, and why.",
+      en: "Ten ownership disputes from real organizations. Decide who owns the data, and why.",
       es: "Diez disputas de propiedad reales. Decide de quién son los datos, y por qué.",
       pt: "Dez disputas de propriedade reais. Decida de quem são os dados, e por quê.",
     },
@@ -100,7 +100,7 @@ const COPY = {
     joinButton: "Enter the space",
     joining: "Checking…",
     hubLead:
-      "Your organisation's simulators and leaderboards. The first run you finish of each simulator is saved automatically under your name — replays after that are practice — and the scores stay inside this space.",
+      "Your organization's simulators and leaderboards. The first run you finish of each simulator is saved automatically under your name — replays after that are practice — and the scores stay inside this space.",
     reportTitle: "Facilitator report",
     printButton: "Print or save as PDF",
     csvButton: "Download CSV",
@@ -123,7 +123,7 @@ const COPY = {
     switchSpace: "You are seated in a different space. Leave it to enter this one.",
     leaveAndSwitch: "Leave the other space",
     badCode: "That code is not right for this space. Check it with your facilitator.",
-    notFound: "We do not recognise this space address.",
+    notFound: "We do not recognize this space address.",
     expired: "This space's access period has ended. Your consultant can extend it.",
     notStarted: "This space is not open yet.",
     suspended: "Access to this space is paused. Your consultant can restore it.",

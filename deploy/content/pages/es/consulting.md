@@ -51,6 +51,6 @@ Todo se entrega en remoto, en español, inglés o portugués, y trabajo junto al
 
 Si no tienes claro qué formato encaja, empieza por el [diagnóstico de madurez](/es/maturity-assessment/): es gratis, lleva unos quince minutos y produce una lectura sobre la que puedes actuar conmigo o sin mí. O usa la [calculadora del coste de los datos malos](/es/calculator/) para poner un número a lo que te está costando la situación actual, que suele ser la vía más rápida a una conversación con presupuesto.
 
-Si la pregunta es más pequeña que un proyecto —una iniciativa atascada, una disputa de definiciones, un modelo operativo sobre el que quieres una segunda opinión—, [solicita una sesión de asesoría](/es/advisory-sessions/) en su lugar. Treinta minutos, precio fijo, y ese importe se descuenta de la primera factura si acaba convirtiéndose en algo mayor.
+Si la pregunta es más pequeña que un proyecto (una iniciativa atascada, una disputa de definiciones, un modelo operativo sobre el que quieres una segunda opinión), [solicita una sesión de asesoría](/es/advisory-sessions/) en su lugar. Treinta minutos, precio fijo, y ese importe se descuenta de la primera factura si acaba convirtiéndose en algo mayor.
 
 Cuando quieras hablar de un proyecto, el [formulario de contacto](/#contact-form-start) llega directamente a mí. Cuéntame qué está roto y qué has intentado ya.

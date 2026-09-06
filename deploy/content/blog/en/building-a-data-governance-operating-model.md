@@ -9,9 +9,9 @@ author: Sandy Bradbury
 translation_key: building-a-data-governance-operating-model
 ---
 
-Data governance succeeds when it becomes part of how work gets done—not when it exists only as a policy library. A useful operating model connects strategic intent with the daily decisions made by data owners, stewards, producers, and consumers.
+Data governance succeeds when it becomes part of how work gets done, not when it exists only as a policy library. A useful operating model connects strategic intent with the daily decisions made by data owners, stewards, producers, and consumers.
 
-Most governance programmes are not short of intent. They have a charter, a framework diagram, a council with a calendar invite, and a policy set that took months to write. What they lack is the connective tissue: a clear answer to "who decides this, on what evidence, by when" for the handful of questions the organization keeps stalling on. An operating model is that connective tissue, and it is much smaller than the frameworks suggest.
+Most governance programs are not short of intent. They have a charter, a framework diagram, a council with a calendar invite, and a policy set that took months to write. What they lack is the connective tissue: a clear answer to "who decides this, on what evidence, by when" for the handful of questions the organization keeps stalling on. An operating model is that connective tissue, and it is much smaller than the frameworks suggest.
 
 ## Start with decisions, not committees
 
@@ -50,7 +50,7 @@ The counter-example is the standalone governance workflow: a request form, a que
 
 Central, federated, and hybrid models all work; what fails is choosing one that does not match the capacity you have. A federated model asks each domain to supply a real owner with real time. If those people do not exist, federation becomes a diagram in which nobody is accountable.
 
-A workable test is to count the named individuals who can spend a day a week on this. If the answer is two, run centrally, cover the highest-value domains, and expand as you recruit stewards. If the answer is fifteen across the business, federate and keep the centre small — standards, tooling, arbitration, and reporting. Announcing federation before the stewards exist is the most common way an operating model loses credibility in its first quarter.
+A workable test is to count the named individuals who can spend a day a week on this. If the answer is two, run centrally, cover the highest-value domains, and expand as you recruit stewards. If the answer is fifteen across the business, federate and keep the center small — standards, tooling, arbitration, and reporting. Announcing federation before the stewards exist is the most common way an operating model loses credibility in its first quarter.
 
 ## Measure adoption and value
 
@@ -58,13 +58,13 @@ Policy completion is not the same as behavior change. Track practical signals: t
 
 The strongest measures connect governance activity to a business result such as faster reporting, lower operational risk, or more reliable AI outputs.
 
-Pick no more than five and publish them on the same cadence as the delivery metrics, in the same place. A governance scorecard that lives in its own deck is read by the people who wrote it. One that appears in the operations review is read by the people whose behaviour you are trying to change.
+Pick no more than five and publish them on the same cadence as the delivery metrics, in the same place. A governance scorecard that lives in its own deck is read by the people who wrote it. One that appears in the operations review is read by the people whose behavior you are trying to change.
 
 ## Build the learning loop
 
 Treat the operating model as a product. Review friction, collect feedback from practitioners, retire controls that do not create value, and improve guidance where teams repeatedly get stuck.
 
-Retirement is the discipline most programmes skip. Controls accumulate, each one justified when it was added, and the aggregate becomes the bureaucracy everyone complains about. A standing rule helps: every control has a named owner and a review date, and at review it must justify itself with evidence of a risk it caught or a decision it accelerated. Controls that cannot are removed, publicly. That single habit does more for governance's reputation than any communications plan.
+Retirement is the discipline most programs skip. Controls accumulate, each one justified when it was added, and the aggregate becomes the bureaucracy everyone complains about. A standing rule helps: every control has a named owner and a review date, and at review it must justify itself with evidence of a risk it caught or a decision it accelerated. Controls that cannot are removed, publicly. That single habit does more for governance's reputation than any communications plan.
 
 Governance becomes sustainable when people can see that it helps them make better decisions with less effort.
 

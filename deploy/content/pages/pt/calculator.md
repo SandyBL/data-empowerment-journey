@@ -13,7 +13,7 @@ updated: 2026-09-05
 
 "Nossa qualidade de dados é ruim" nunca financiou nada. É uma reclamação, e todo executivo já ouviu uma versão dela de todas as áreas. O que financia trabalho é um número com um método por trás.
 
-É isso que isto faz. Coloque o que você sabe — quantas pessoas, quanto tempo, com que frequência — e ele devolve uma cifra anual que você pode defender linha por linha.
+É isso que isto faz. Coloque o que você sabe (quantas pessoas, quanto tempo, com que frequência) e ele devolve uma cifra anual que você pode defender linha por linha.
 
 {{CALCULATOR}}
 
@@ -33,7 +33,7 @@ O resultado é uma estimativa, e o valor dele não está na precisão. O valor e
 
 Não há aqui nenhuma tentativa de precificar dano reputacional, custo de oportunidade ou as decisões que a sua organização não tomou porque não confiava no relatório. São reais e frequentemente maiores que o custo operacional, mas não podem ser estimados de forma defensável, e colocar um número subjetivo ao lado de um número firme contamina os dois.
 
-Da mesma forma, isto mede o custo do estado atual, não o retorno de um programa de governança. São afirmações diferentes e confundi-las é como os business cases desmoronam quando examinados. Custo do problema: esta calculadora. Custo da correção: um escopo e um orçamento.
+Da mesma forma, isto mede o custo do estado atual, não o retorno de um programa de governança. São afirmações diferentes, e confundi-las é a forma mais comum de um business case desmoronar quando alguém o examina. Custo do problema: esta calculadora. Custo da correção: um escopo e um orçamento.
 
 ## Para onde ir depois
 
