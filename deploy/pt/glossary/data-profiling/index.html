@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>O que é Perfilamento de dados? | Data Governance Journey</title>
+  <meta name="description" content="Examinar os dados reais para descobrir o que há de fato neles: distribuições de valores, taxas de nulos, formatos, atípicos e relações.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://datagovjourney.com/pt/glossary/data-profiling/">
+  <link rel="alternate" hreflang="en" href="https://datagovjourney.com/en/glossary/data-profiling/">
+  <link rel="alternate" hreflang="es" href="https://datagovjourney.com/es/glossary/data-profiling/">
+  <link rel="alternate" hreflang="pt" href="https://datagovjourney.com/pt/glossary/data-profiling/">
+  <link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/en/glossary/data-profiling/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Data Governance Journey">
+  <meta property="og:title" content="O que é Perfilamento de dados? | Data Governance Journey">
+  <meta property="og:description" content="Examinar os dados reais para descobrir o que há de fato neles: distribuições de valores, taxas de nulos, formatos, atípicos e relações.">
+  <meta property="og:url" content="https://datagovjourney.com/pt/glossary/data-profiling/">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:image" content="https://datagovjourney.com/assets/images/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Data Governance Journey">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="O que é Perfilamento de dados? | Data Governance Journey">
+  <meta name="twitter:description" content="Examinar os dados reais para descobrir o que há de fato neles: distribuições de valores, taxas de nulos, formatos, atípicos e relações.">
+  <meta name="twitter:image" content="https://datagovjourney.com/assets/images/og-default.png">
+  <meta name="twitter:image:alt" content="Data Governance Journey">
+  <link rel="preload" href="/assets/fonts/dm-serif-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts-dm.css">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#003366">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/site-brand.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+  <link rel="alternate" type="application/rss+xml" title="Data Governance Journey — Ideias" href="https://datagovjourney.com/pt/feed.xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"DefinedTerm","@id":"https://datagovjourney.com/pt/glossary/data-profiling/#term","name":"Perfilamento de dados","description":"Examinar os dados reais para descobrir o que há de fato neles: distribuições de valores, taxas de nulos, formatos, atípicos e relações.","inDefinedTermSet":{"@id":"https://datagovjourney.com/pt/glossary/#glossary"},"url":"https://datagovjourney.com/pt/glossary/data-profiling/","alternateName":["Profiling","avaliação de dados"]},{"@type":"WebPage","@id":"https://datagovjourney.com/pt/glossary/data-profiling/#page","url":"https://datagovjourney.com/pt/glossary/data-profiling/","name":"O que é Perfilamento de dados? | Data Governance Journey","description":"Examinar os dados reais para descobrir o que há de fato neles: distribuições de valores, taxas de nulos, formatos, atípicos e relações.","inLanguage":"pt-BR","isPartOf":{"@id":"https://datagovjourney.com/#website"},"breadcrumb":{"@id":"https://datagovjourney.com/pt/glossary/data-profiling/#breadcrumb"},"mainEntity":{"@id":"https://datagovjourney.com/pt/glossary/data-profiling/#term"},"dateModified":"2026-09-05"},{"@type":"BreadcrumbList","@id":"https://datagovjourney.com/pt/glossary/data-profiling/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://datagovjourney.com/pt/"},{"@type":"ListItem","position":2,"name":"Glossário","item":"https://datagovjourney.com/pt/glossary/"},{"@type":"ListItem","position":3,"name":"Perfilamento de dados","item":"https://datagovjourney.com/pt/glossary/data-profiling/"}]}]}</script>
+</head>
+<body data-lang="pt" class="lang-pt site-page term-page">
+  <a class="skip-link" href="#term">Ir para o conteúdo principal</a>
+  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Navegação principal"><a class="blog-brand" href="/pt/"><img src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=80&amp;h=78" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><div class="site-nav-links"><a href="/pt/blog/">Ideias</a><a href="/pt/glossary/" aria-current="page">Glossário</a><a href="/pt/resources/">Ferramentas gratuitas</a><a href="/pt/consulting/">Consultoria</a><a href="/pt/about/">Sobre</a></div><div class="blog-nav-actions"><div class="language-nav" role="navigation" aria-label="Idioma"><a href="/en/glossary/data-profiling/">EN</a><a href="/es/glossary/data-profiling/">ES</a><a href="/pt/glossary/data-profiling/" aria-current="page">PT</a></div></div></nav></header>
+  <main id="term" tabindex="-1">
+    <article class="term blog-shell">
+      <header class="page-hero">
+        <nav class="article-breadcrumb" aria-label="Trilha de navegação"><ol><li><a href="https://datagovjourney.com/pt/">Início</a></li><li><a href="https://datagovjourney.com/pt/glossary/">Glossário</a></li><li><span aria-current="page">Perfilamento de dados</span></li></ol></nav>
+        <span class="blog-kicker">Glossário</span>
+        <h1><dfn>Perfilamento de dados</dfn></h1>
+        <p class="term__short">Examinar os dados reais para descobrir o que há de fato neles: distribuições de valores, taxas de nulos, formatos, atípicos e relações.</p>
+        <p class="term__also"><span>Também chamado de</span> <em>Profiling</em>, <em>avaliação de dados</em></p>
+      </header>
+      <div class="term__body article-body">
+<p>Perfilamento é como você descobre que o campo de país contém 47 grafias distintas de &quot;Reino Unido&quot;, que 8% das datas de nascimento são 01/01/1900 e que uma coluna documentada como obrigatória está vazia em um terço das linhas. É o diagnóstico mais barato do trabalho com dados e o mais frequentemente pulado, porque produz fatos incômodos antes de um projeto ter acordado seu escopo.</p>
+<p><strong>Na prática.</strong> Perfile antes de prometer. Meio dia de perfilamento nas tabelas por trás de um painel proposto vai dizer se esse painel é um trabalho de duas semanas ou de dois trimestres, e isso é a coisa mais útil que você pode saber no início.</p>
+<p><strong>Onde dá errado.</strong> O resultado do perfilamento é apresentado cru. Ninguém fora do time de dados tem opinião sobre um relatório de cardinalidade. Traduza: &quot;a tabela de clientes tem 14.000 registros duplicados, e é por isso que a taxa de churn no material da diretoria está superestimada em cerca de quatro pontos&quot;. Mesma descoberta, outra consequência.</p>
+      </div>
+      <footer class="term__footer">
+        <a class="term__article" href="/pt/blog/identificando-e-solucionando-pontos-de-dor-de-dados-o-primeiro-passo-na-governanca-de-dados/"><small>Leia mais sobre isso</small><strong>Identificando e solucionando pontos de dor de dados: o primeiro passo na governança de dados</strong></a>
+        <div class="term__related"><h2>Termos relacionados</h2><ul><li><a href="/pt/glossary/data-quality/"><strong>Qualidade de dados</strong><span>O grau em que os dados são adequados ao propósito para o qual alguém os está usando — o que significa que a qualidade é sempre relativa a um uso.</span></a></li><li><a href="/pt/glossary/data-quality-rule/"><strong>Regra de qualidade de dados</strong><span>Um teste executável sobre os dados, com um limite definido e uma pessoa responsável que age quando ele falha.</span></a></li><li><a href="/pt/glossary/metadata/"><strong>Metadados</strong><span>A camada descritiva em torno de um ativo de dados: o que significa, de onde veio, quem é o dono e como pode ser usado.</span></a></li><li><a href="/pt/glossary/critical-data-element/"><strong>Elemento de dados crítico</strong><span>Um campo de dados cuja falha tem consequência material — regulatória, financeira, operacional ou reputacional — e que por isso é governado primeiro.</span></a></li></ul></div>
+        <p class="term__back">Esta página define um termo. O índice do glossário tem o resto. <a href="/pt/glossary/">Todos os termos</a></p>
+      </footer>
+    </article>
+  </main>
+  <footer class="site-footer">
+  <div class="site-footer__inner blog-shell">
+    <nav class="site-footer__directory" aria-label="Diretório do site">
+      <div><h2>Aprender</h2><ul><li><a href="/pt/blog/">Ideias</a></li><li><a href="/pt/glossary/">Glossário</a></li><li><a href="/pt/confession-wall/">Mural de Confissões</a></li><li><a href="/pt/feed.xml">Feed RSS</a></li></ul></div>
+      <div><h2>Ferramentas</h2><ul><li><a href="/pt/resources/">Ferramentas gratuitas</a></li><li><a href="/pt/calculator/">Calculadora do custo dos dados ruins</a></li><li><a href="/pt/templates/">Modelos</a></li><li><a href="/pt/playbooks/">Playbooks</a></li><li><a href="/pt/maturity-assessment/">Diagnóstico de maturidade</a></li><li><a href="/simulators/pt/data-governance-day-to-day/">Simuladores</a></li><li><a href="/pt/simulator-results/">Resultados dos simuladores</a></li></ul></div>
+      <div><h2>Trabalhar comigo</h2><ul><li><a href="/pt/consulting/">Consultoria</a></li><li><a href="/pt/workshops/">Workshops</a></li><li><a href="/pt/about/">Sobre</a></li><li><a href="/pt/#contact-form-start">Contato</a></li></ul></div>
+      <div>
+        <h2>Idioma</h2>
+        <div class="site-footer__languages"><a href="/en/">EN</a><a href="/">ES</a><a href="/pt/" aria-current="page">PT</a></div>
+      </div>
+    </nav>
+    <p class="site-footer__legal">© 2026 Data Governance Journey. Todos os direitos reservados. <span>Consultoria, ferramentas e artigos de governança de dados por Sandy Bradbury.</span></p>
+  </div>
+</footer>
+  <script type="module" src="/assets/js/share.js"></script>
+</body>
+</html>

@@ -1,0 +1,1256 @@
+/**
+ * Standalone pages: the glossary, /about/, /consulting/, /advisory-sessions/,
+ * /workshops/, /faq/ and the four resource pages, plus the share bar and
+ * newsletter block that appear on articles as well.
+ *
+ * This loads after assets/css/blog.css and reuses its custom properties, so the
+ * palette lives in one place. The header, the language switcher, the drawer and
+ * the footer directory are NOT here: they are the same on every page family, so
+ * they live in assets/css/site-chrome.css, which the confession wall can link
+ * without linking this file. Two things it deliberately owns:
+ *
+ * 1. Prose margins under `.page--embedded`. Only the pages that embed homepage
+ *    markup link assets/styles.css, and that file resets `h1, h2, h3, p` to zero
+ *    margin and strips link colour. The rules below put both back for content
+ *    inside this shell, without touching the embedded blocks themselves, which
+ *    carry their own utility spacing.
+ * 2. The drop cap. blog.css gives `.article-body > p:first-child` a four-line
+ *    initial, which is right for a 2,000-word article and absurd on a
+ *    three-paragraph glossary definition, so the term body opts out.
+ */
+
+/* ---------------------------------------------------------------- shell ---- */
+
+.site-page {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+.site-page main {
+  display: block;
+  padding-bottom: 96px;
+}
+
+.site-page main:focus-visible {
+  outline: none;
+}
+
+/* Put the resets back for prose on the pages that link the homepage
+   stylesheet. Scoped to the shell so embedded homepage blocks keep their own
+   utility-class spacing. */
+.page--embedded main :is(h1, h2, h3, p) {
+  margin: revert;
+}
+
+.page--embedded main a:not([class]) {
+  color: var(--mint-dark);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/*
+ * The private-simulator-space offer, on a standalone page.
+ *
+ * `.simulator-offer` is dressed for the homepage's `.simulators-section` band:
+ * its own background is a `rgb(255 255 255 / 0.06)` veil, which reads as a dark
+ * card only because something dark sits behind it. On the workshops page the
+ * shell is `var(--paper)`, so the veil resolved to near-white and the block's
+ * light-grey body text measured 1.42:1 -- the note line 1.34:1. Give it the
+ * gradient it was always meant to sit on, the way `.bad-data-calculator`
+ * carries its own. Scoped to `.site-page` so the homepage is untouched, and
+ * `pages.css` loads after `styles.css`, so (0,2,0) wins outright.
+ *
+ * No emerald radial here: the glow is a tie-in to the band behind it, and
+ * dropping it also lifts the emerald plan title clear of its lightest stop.
+ */
+.site-page .simulator-offer {
+  background: linear-gradient(145deg, #04202e 0%, #063848 58%, #052b3a 100%);
+  color: #ffffff;
+  --focus-ring: #ffffff;
+}
+
+/*
+ * Cyan on a cyan tint is the one pairing no surface colour rescues -- 2.19:1 on
+ * the homepage too. Darken the two pills so `--dejourney-cyan` has something to
+ * read against.
+ */
+.site-page .simulator-offer__eyebrow,
+.site-page .simulator-offer__step-number {
+  background: rgb(2 22 33 / 0.45);
+}
+
+/* --------------------------------------------------------------- header ---- */
+
+.page-hero {
+  padding: 76px 0 34px;
+}
+
+.page-hero h1 {
+  max-width: 20ch;
+  margin: 16px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(2.7rem, 6vw, 4.6rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.page-deck {
+  max-width: 62ch;
+  margin: 22px 0 0;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.page-meta {
+  margin: 18px 0 0;
+  color: var(--slatecool);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.article-breadcrumb {
+  padding: 26px 0 0;
+  color: var(--slatecool);
+  font-size: 0.78rem;
+}
+
+.article-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-breadcrumb li + li::before {
+  margin-right: 8px;
+  color: rgba(100, 116, 139, 0.6);
+  content: "/";
+}
+
+.article-breadcrumb a {
+  color: var(--slatecool);
+  text-decoration: none;
+}
+
+.article-breadcrumb a:hover {
+  color: var(--coral);
+  text-decoration: underline;
+}
+
+.article-breadcrumb [aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------- page sections ---- */
+
+.page-section {
+  padding: 52px 0 0;
+}
+
+.page-section > h2 {
+  max-width: 26ch;
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.page-section > h3 {
+  margin: 32px 0 8px;
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+.page-prose {
+  max-width: 74ch;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #19333d;
+  font-size: 1.09rem;
+  line-height: 1.85;
+}
+
+.page-prose > * + * {
+  margin-top: 1.15em;
+}
+
+.page-prose h2 {
+  margin: 2em 0 0.5em;
+  font-family: var(--serif);
+  font-size: 1.95em;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.page-prose h3 {
+  margin: 1.7em 0 0.45em;
+  font-family: var(--serif);
+  font-size: 1.35em;
+  font-weight: 400;
+}
+
+.page-prose a {
+  color: var(--mint-dark);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.page-prose ul,
+.page-prose ol {
+  margin: 1.15em 0;
+  padding-left: 1.4em;
+}
+
+.page-prose li + li {
+  margin-top: 0.5em;
+}
+
+.page-prose blockquote {
+  margin: 1.7em 0;
+  padding: 0.2em 0 0.2em 1.3em;
+  border-left: 4px solid var(--mint);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.25em;
+  line-height: 1.4;
+}
+
+.page-prose hr {
+  height: 1px;
+  margin: 2.4em 0;
+  border: 0;
+  background: var(--line);
+}
+
+/* Cards used by /consulting/, /workshops/ and /about/ for engagement shapes,
+   credentials and anything else that is a list of comparable things. */
+.page-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  gap: 20px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.page-card h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.page-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+.page-card__meta {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--mint-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.page-cta {
+  display: grid;
+  gap: 14px;
+  margin: 52px 0 0;
+  padding: 34px 32px;
+  border: 1px solid rgba(101, 183, 199, 0.4);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(101, 183, 199, 0.13), rgba(233, 93, 36, 0.07));
+}
+
+.page-cta h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.85rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.page-cta p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.page-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.page-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--deepblue);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.page-button:hover {
+  background: var(--dejourney-teal);
+}
+
+.page-button--ghost {
+  border: 1px solid var(--deepblue);
+  background: transparent;
+  color: var(--deepblue);
+}
+
+.page-button--ghost:hover {
+  background: rgba(0, 51, 102, 0.07);
+  color: var(--deepblue);
+}
+
+/* The two DAMA certification images on /about/. */
+.page-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 28px 0 0;
+}
+
+.page-credential {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(240px, 100%);
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.page-credential img {
+  width: 100%;
+  height: auto;
+  max-width: 160px;
+  margin-inline: auto;
+}
+
+.page-credential figcaption {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* The FAQ accordion on /<lang>/faq/.
+   
+   <details> rather than a scripted accordion: it is open-by-default-closed,
+   keyboard operable and findable by the browser's own find-in-page, none of
+   which a div-and-JavaScript version gets for free. The first one is open so
+   the page does not present as nine closed bars with no visible answer. */
+.page-faq {
+  display: grid;
+  gap: 12px;
+  margin: 8px 0 0;
+}
+
+.page-faq__item {
+  padding: 4px 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page-faq__item[open] {
+  border-color: rgba(9, 91, 115, 0.35);
+  box-shadow: 0 10px 30px rgba(9, 91, 115, 0.07);
+}
+
+/* The default disclosure triangle is replaced by a chevron that rotates, so the
+   control reads the same as the ones in the header's dropdowns. Safari needs
+   the -webkit- pseudo-element as well as list-style. */
+.page-faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  color: var(--deepblue);
+  font-family: var(--sans);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.45;
+  list-style: none;
+  cursor: pointer;
+}
+
+.page-faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.page-faq__question::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--dejourney-teal);
+  border-bottom: 2px solid var(--dejourney-teal);
+  transform: rotate(45deg);
+  transform-origin: 60% 60%;
+  transition: transform 0.2s ease;
+}
+
+.page-faq__item[open] .page-faq__question::after {
+  transform: rotate(-135deg);
+}
+
+.page-faq__answer {
+  padding: 0 0 20px;
+  border-top: 1px solid var(--line);
+}
+
+.page-faq__answer p {
+  margin: 16px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-faq__item,
+  .page-faq__question::after {
+    transition: none;
+  }
+}
+
+/* Cross-links at the foot of a page: related reading, related terms. */
+.page-related {
+  padding: 56px 0 0;
+}
+
+.page-related h2 {
+  margin: 0 0 16px;
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 400;
+}
+
+.page-related ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-related a {
+  display: block;
+  height: 100%;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.page-related a:hover {
+  border-color: var(--dejourney-cyan);
+  color: var(--dejourney-teal);
+}
+
+.page-related small {
+  display: block;
+  margin-top: 6px;
+  color: var(--slatecool);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------- glossary ---- */
+
+.glossary-jump {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 30px;
+}
+
+.glossary-jump > span {
+  color: var(--slatecool);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.glossary-jump a {
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.glossary-jump a:hover {
+  border-color: var(--dejourney-cyan);
+  background: rgba(101, 183, 199, 0.12);
+  color: var(--dejourney-teal);
+}
+
+.glossary-group {
+  padding: 40px 0 0;
+  scroll-margin-top: 110px;
+}
+
+.glossary-group__head h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.glossary-group__head p {
+  max-width: 62ch;
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.glossary-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin: 22px 0 0;
+}
+
+.glossary-entry {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.glossary-entry:hover {
+  border-color: var(--dejourney-cyan);
+  box-shadow: var(--shadow);
+}
+
+.glossary-entry dt {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  line-height: 1.2;
+}
+
+.glossary-entry dt a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.glossary-entry dt a:hover {
+  color: var(--dejourney-teal);
+}
+
+.glossary-entry dd {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* ---------------------------------------------------------- glossary term -- */
+
+.term {
+  padding-bottom: 8px;
+}
+
+.term .page-hero {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.term__short {
+  max-width: 66ch;
+  margin: 20px 0 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  line-height: 1.45;
+}
+
+.term__also {
+  margin: 16px 0 0;
+  color: var(--slatecool);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.term__also > span {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+}
+
+.term__body {
+  max-width: 74ch;
+  padding: 34px 0 0;
+}
+
+/* blog.css sets a four-line drop cap on the first paragraph of .article-body,
+   which is right for an article and wrong for a three-paragraph definition. */
+.term__body > p:first-child {
+  font-size: 1em;
+  line-height: inherit;
+}
+
+.term__body > p:first-child::first-letter {
+  float: none;
+  margin: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.term__body > * + * {
+  margin-top: 1.2em;
+}
+
+.term__body strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.term__footer {
+  display: grid;
+  gap: 26px;
+  margin: 44px 0 0;
+  padding: 30px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.term__article {
+  display: block;
+  max-width: 62ch;
+  padding: 20px 22px;
+  border: 1px solid rgba(101, 183, 199, 0.4);
+  border-radius: 14px;
+  background: rgba(101, 183, 199, 0.08);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.term__article small {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--mint-dark);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.term__article:hover {
+  border-color: var(--dejourney-cyan);
+  color: var(--dejourney-teal);
+}
+
+.term__related h2 {
+  margin: 0 0 12px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slatecool);
+}
+
+.term__related ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.term__related a {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.term__related a:hover {
+  border-color: var(--dejourney-cyan);
+  color: var(--dejourney-teal);
+}
+
+.term__back {
+  margin: 0;
+  color: var(--slatecool);
+  font-size: 0.92rem;
+}
+
+.term__back a {
+  color: var(--mint-dark);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------ share bar ---- */
+
+.share-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 44px 0 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.share-bar__label {
+  color: var(--slatecool);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.share-bar__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.share-button:hover {
+  border-color: var(--dejourney-cyan);
+  background: rgba(101, 183, 199, 0.12);
+  color: var(--dejourney-teal);
+}
+
+.share-button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* One tint per destination, applied on hover and focus rather than at rest.
+   Four saturated brand colours in a row reads as an advertisement and pulls the
+   eye off the article that just ended; on hover the colour is confirmation that
+   the button goes where its icon says. */
+.share-button--linkedin:hover,
+.share-button--linkedin:focus-visible {
+  border-color: #0a66c2;
+  background: rgba(10, 102, 194, 0.1);
+  color: #0a66c2;
+}
+
+.share-button--x:hover,
+.share-button--x:focus-visible {
+  border-color: #111111;
+  background: rgba(17, 17, 17, 0.08);
+  color: #111111;
+}
+
+.share-button--whatsapp:hover,
+.share-button--whatsapp:focus-visible {
+  border-color: #1da851;
+  background: rgba(29, 168, 81, 0.1);
+  color: #147a3b;
+}
+
+.share-button--email:hover,
+.share-button--email:focus-visible {
+  border-color: var(--mint-dark);
+  background: rgba(101, 183, 199, 0.14);
+  color: var(--mint-dark);
+}
+
+/* The two buttons that act on this page rather than leaving it: the copy button
+   and the one the Web Share API reveals. Filled, because they are the primary
+   action on a phone, where the native sheet is how sharing actually happens. */
+.share-button--copy,
+.share-button--native {
+  border-color: transparent;
+  background: var(--dejourney-teal);
+  color: #ffffff;
+}
+
+.share-button--copy:hover,
+.share-button--native:hover {
+  border-color: transparent;
+  background: var(--dejourney-navy, #003366);
+  color: #ffffff;
+}
+
+.share-bar__status {
+  color: var(--mint-dark);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* The share bar sits inside .article-body on an article page, which is serif
+   and 1.25rem; the buttons must not inherit either. */
+.article-body .share-bar {
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------- newsletter -- */
+
+.signup {
+  display: grid;
+  gap: 20px;
+  margin: 44px 0 0;
+  padding: 32px 30px;
+  border: 1px solid rgba(101, 183, 199, 0.4);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(101, 183, 199, 0.12), rgba(0, 51, 102, 0.05));
+  font-family: var(--sans);
+}
+
+.signup__kicker {
+  color: var(--mint-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.signup__copy h2 {
+  margin: 10px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.signup__lead {
+  max-width: 58ch;
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.signup__form {
+  display: grid;
+  gap: 10px;
+}
+
+.signup__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.signup__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.signup__input {
+  flex: 1 1 240px;
+  min-height: 46px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}
+
+.signup__input:focus-visible {
+  border-color: var(--dejourney-cyan);
+  outline: var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.signup__submit {
+  min-height: 46px;
+  padding: 12px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--deepblue);
+  color: #ffffff;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.signup__submit:hover {
+  background: var(--dejourney-teal);
+}
+
+.signup__submit:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.signup__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.signup__privacy {
+  margin: 0;
+  color: var(--slatecool);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.signup__status {
+  margin: 0;
+  min-height: 1.2em;
+  color: var(--mint-dark);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.signup__status[data-state="error"] {
+  color: var(--coral);
+}
+
+/* --------------------------------------------------- public board summary -- */
+
+/*
+ * The build-time board summary on /{lang}/simulator-results/.
+ *
+ * Three cards of the same shape whatever the sample size, because the section
+ * has to read the same when a board holds three runs as when it holds three
+ * hundred. The band bars are scaled to the fullest band rather than to the run
+ * total, so a distribution is legible without a y-axis; that means a bar length
+ * is only comparable inside one card, which is why the count sits next to it.
+ */
+
+.board-summary {
+  display: grid;
+  gap: 18px;
+}
+
+.board-summary__meta {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.board-summary__meta strong {
+  color: var(--ink);
+}
+
+.board-summary__caveat,
+.board-summary__empty {
+  margin: 0;
+  padding: 16px 18px;
+  border-left: 4px solid var(--dejourney-cyan);
+  border-radius: 0 12px 12px 0;
+  background: rgba(101, 183, 199, 0.12);
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.board-summary__index {
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+}
+
+.board-summary__index-label {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.board-summary__index-value {
+  margin: 6px 0 0;
+  color: var(--deepblue);
+  font-family: var(--serif);
+  font-size: 2.6rem;
+  line-height: 1.1;
+}
+
+.board-summary__index-value small {
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.board-summary__index-note {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.board-summary__note {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.board-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.board-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 12px 34px rgba(7, 28, 44, 0.06);
+}
+
+.board-card h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.board-card__runs {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.board-card__figures {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.board-card__figure {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.board-card__figure dt {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.board-card__figure dd {
+  margin: 0;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.board-card__figure dd small {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.board-card__bands-title {
+  margin: 0 0 8px;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.board-bands {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.board-band {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+}
+
+.board-band__name {
+  color: var(--ink-soft);
+}
+
+.board-band__track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(7, 28, 44, 0.08);
+}
+
+.board-band__fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--dejourney-teal), var(--dejourney-cyan));
+}
+
+.board-band__count {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.board-band__count small {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.board-card__play {
+  margin: auto 0 0;
+}
+
+.board-card__play a {
+  color: var(--dejourney-teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.board-card__play a:hover {
+  text-decoration: underline;
+}
+
+.board-card--empty .board-card__runs {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------------------------------ responsive -- */
+
+@media (max-width: 720px) {
+  .page-hero {
+    padding-top: 52px;
+  }
+
+  .page-cta,
+  .signup {
+    padding: 26px 22px;
+  }
+
+  .glossary-list {
+    grid-template-columns: 1fr;
+  }
+
+  .share-bar {
+    gap: 10px;
+  }
+
+  .share-bar__label {
+    flex-basis: 100%;
+  }
+
+  .board-band {
+    grid-template-columns: 4.5rem 1fr auto;
+  }
+}
+
+/* Three cards or one column: two side by side leaves an orphan third. */
+@media (max-width: 900px) {
+  .board-cards {
+    grid-template-columns: 1fr;
+  }
+}

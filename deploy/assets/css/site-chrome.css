@@ -1,0 +1,590 @@
+/**
+ * The site chrome: one header, one drawer, one footer directory, on every page.
+ *
+ * This file exists because the same bar was implemented three times.
+ * `.dejourney-header` on the homepage, `.blog-header` on the blog and the
+ * standalone pages and `.wall-header` on the confession wall all resolved to
+ * #003366 at 5rem tall with the same rgb(101 183 199 / 0.38) accent border --
+ * three stylesheets, one design, three different sets of links inside it. The
+ * rules below are the homepage's version of that design, which was the only one
+ * with a real navigation in it, generalised from a single "Resources" dropdown
+ * to the four groups in scripts/lib/site-nav.mjs.
+ *
+ * Two constraints shaped it:
+ *
+ * 1. No utility classes. The homepage's header leaned on the hand-written
+ *    Tailwind subset in assets/styles.css for its layout (`sticky top-0 z-50`,
+ *    `max-w-7xl mx-auto`, `h-20 flex items-center`), and no other page on the
+ *    site links that file. Every dimension the header needs is therefore
+ *    written out here.
+ * 2. Its own palette fallbacks. The confession wall, the blog and the homepage
+ *    each declare their own `:root`, and they do not declare the same set --
+ *    `--ink-soft`, `--coral` and `--sans` exist only in blog.css. Every custom
+ *    property below carries the literal it resolves to, so the header and
+ *    footer render identically on a page that defines none of them.
+ */
+
+/* ----------------------------------------------------------------- header -- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgb(101 183 199 / 0.38);
+  background: var(--deepblue, #003366);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgb(9 91 115 / 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* The bar is dark, so the page's focus ring -- tuned for a white background
+     -- disappears on it. White measures 12.6:1 here. */
+  --focus-ring: #ffffff;
+}
+
+.site-header__inner {
+  display: flex;
+  width: min(100%, 1280px);
+  min-height: 5rem;
+  margin-inline: auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-inline: 1rem;
+}
+
+.site-header__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.5rem;
+
+  /* Light pills on a dark bar: back to the page's dark ring inside them. */
+  --focus-ring: #0b4a5c;
+}
+
+/*
+ * The element resets, in :where() so they carry no specificity of their own.
+ *
+ * Written as `.site-header button` these outranked every rule below: a class
+ * plus a type selector beats a single class, whatever the source order, so
+ * `color: inherit` and `font: inherit` won against the `color` and `font-size`
+ * the trigger and toggle rules set. The drawer's four group triggers inherited
+ * the bar's white text onto the drawer's white panel and disappeared -- the
+ * accordions were there, and invisible, while the two links either side of them
+ * showed normally. Zero-specificity resets lose to the components that follow
+ * them, which is the only way round for this to work.
+ */
+.site-header :where(a, button) {
+  text-decoration: none;
+}
+
+.site-header :where(button) {
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.dejourney-brand {
+  display: flex;
+  min-width: 0;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.dejourney-brand-logo {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  border: 4px solid rgb(255 255 255 / 0.18);
+  border-radius: 1.5rem;
+  object-fit: cover;
+  box-shadow: 0 14px 35px rgb(0 0 0 / 0.2);
+  transition: transform 220ms ease;
+}
+
+.dejourney-brand:hover .dejourney-brand-logo {
+  transform: rotate(-2deg) scale(1.03);
+}
+
+/* ------------------------------------------------------- language switch -- */
+
+.language-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  background: #f1f5f9;
+}
+
+.lang-btn {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem;
+  border-radius: 9999px;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.lang-btn:hover {
+  background: rgb(101 183 199 / 0.22);
+  transform: translateY(-1px);
+}
+
+/*
+ * The current language. A tint on its own measures about 1.1:1 against the
+ * pill, so the solid inset ring in the brand teal is what actually marks it —
+ * 7.0:1, and it costs no layout.
+ */
+.lang-btn.is-current {
+  background: rgb(9 91 115 / 0.12);
+  box-shadow: inset 0 0 0 2px var(--dejourney-teal, #095b73);
+}
+
+/* The pill has only 4px of padding around it, so the ring has to sit inside. */
+.lang-btn:focus-visible {
+  outline: 3px solid var(--focus-ring, #071c2c);
+  outline-offset: -3px;
+}
+
+.lang-flag {
+  width: 1.5rem;
+  height: 1rem;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+}
+
+/* --------------------------------------------------------- drawer toggle -- */
+
+.site-nav__toggle {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(101 183 199 / 0.45);
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: var(--deepblue, #003366);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.site-nav__toggle:hover,
+.site-nav__toggle[aria-expanded="true"] {
+  background: rgb(101 183 199 / 0.25);
+}
+
+.site-nav__toggle:active {
+  transform: scale(0.96);
+}
+
+/* ------------------------------------------------------------ desktop bar -- */
+
+/*
+ * Hidden by default and revealed at 1180px, rather than the reverse. The bar
+ * carries five items and a call to action, and below that width they cannot sit
+ * on one line beside the brand and the language switcher.
+ */
+.site-nav {
+  display: none;
+}
+
+@media (min-width: 1180px) {
+  .site-nav__toggle,
+  .site-drawer {
+    display: none !important;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.125rem;
+    padding: 0.3rem;
+    border: 1px solid rgb(101 183 199 / 0.38);
+    border-radius: 9999px;
+    background: #f1f5f9;
+
+    --focus-ring: #0b4a5c;
+  }
+
+  .site-nav__link,
+  .site-nav__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 9999px;
+    color: var(--dejourney-teal, #095b73);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  }
+
+  .site-nav__link:hover,
+  .site-nav__trigger:hover,
+  .site-nav__menu.is-open .site-nav__trigger {
+    color: var(--deepblue, #003366);
+    background: rgb(101 183 199 / 0.2);
+  }
+
+  .site-nav__link[aria-current="page"],
+  .site-nav__menu.is-active .site-nav__trigger {
+    color: var(--deepblue, #003366);
+    background: rgb(101 183 199 / 0.28);
+    box-shadow: inset 0 0 0 1px rgb(101 183 199 / 0.48);
+  }
+
+  .site-nav__cta,
+  .site-nav__cta:hover,
+  .site-nav__cta[aria-current="page"] {
+    background: var(--orange-ink, #c25419);
+    color: #ffffff;
+    box-shadow: 0 8px 18px rgb(234 119 48 / 0.28);
+  }
+
+  .site-nav__cta:hover {
+    background: #a8460f;
+    transform: translateY(-1px);
+  }
+
+  .site-nav__menu {
+    position: relative;
+  }
+
+  .site-nav__trigger i {
+    font-size: 0.58rem;
+    transition: transform 180ms ease;
+  }
+
+  .site-nav__menu.is-open .site-nav__trigger i {
+    transform: rotate(180deg);
+  }
+
+  /*
+   * Only .is-open reveals a panel. Hover and :focus-within used to open the
+   * homepage's dropdown straight from CSS, which left aria-expanded reporting
+   * "false" on a panel the visitor could see; assets/js/site-nav.js drives both
+   * the class and the attribute now.
+   */
+  .site-nav__dropdown {
+    position: absolute;
+    top: calc(100% + 0.65rem);
+    left: 50%;
+    display: grid;
+    width: 19.5rem;
+    padding: 0.55rem;
+    visibility: hidden;
+    opacity: 0;
+    border: 1px solid rgb(148 163 184 / 0.3);
+    border-radius: 1rem;
+    background: #ffffff;
+    box-shadow: 0 22px 48px rgb(0 31 51 / 0.2);
+    transform: translate(-50%, -0.4rem);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+  }
+
+  .site-nav__menu.is-open .site-nav__dropdown {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .site-nav__item {
+    padding: 0.75rem 0.8rem;
+    border-radius: 0.7rem;
+    color: #475569;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .site-nav__item:hover,
+  .site-nav__item:focus-visible {
+    background: #f1f5f9;
+    color: var(--deepblue, #003366);
+  }
+
+  .site-nav__item[aria-current="page"] {
+    background: rgb(101 183 199 / 0.2);
+    color: var(--deepblue, #003366);
+  }
+
+  /* The tint alone is a 1.10:1 change; the outline is the real indicator. */
+  .site-nav__item:focus-visible {
+    outline: 3px solid #0b4a5c;
+    outline-offset: -3px;
+  }
+}
+
+/*
+ * The bar first appears at 1180px with only a few pixels of slack, so the pill
+ * padding tightens in the band before the layout has room to breathe. Without
+ * this the nav wraps onto a second line and pushes the language switcher out.
+ */
+@media (min-width: 1180px) and (max-width: 1339px) {
+  .site-nav {
+    gap: 0;
+  }
+
+  .site-nav__link,
+  .site-nav__trigger {
+    padding-inline: 0.5rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .site-header__inner {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-header__inner {
+    padding-inline: 2rem;
+  }
+}
+
+/* ----------------------------------------------------------------- drawer -- */
+
+.site-drawer {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 49;
+  min-height: calc(100vh - 5rem);
+  padding: 0.75rem;
+  background: rgb(3 31 47 / 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.site-drawer[hidden] {
+  display: none;
+}
+
+.site-drawer__panel {
+  display: grid;
+  gap: 0.25rem;
+  max-height: calc(100vh - 6.5rem);
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid rgb(101 183 199 / 0.32);
+  border-radius: 1.25rem;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgb(0 31 51 / 0.3);
+
+  --focus-ring: #0b4a5c;
+}
+
+/*
+ * One group: its trigger and the links it discloses. The panel is a grid with a
+ * 0.25rem gap, so without this the accordion's two children would be spaced as
+ * if they were unrelated rows.
+ */
+.site-drawer__menu {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.site-drawer__link,
+.site-drawer__trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1rem;
+  border-radius: 0.85rem;
+  color: var(--deepblue, #003366);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.site-drawer__link:hover,
+.site-drawer__trigger:hover {
+  background: rgb(101 183 199 / 0.16);
+}
+
+.site-drawer__link[aria-current="page"] {
+  background: rgb(101 183 199 / 0.24);
+}
+
+.site-drawer__trigger i {
+  font-size: 0.7rem;
+  transition: transform 180ms ease;
+}
+
+.site-drawer__trigger[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}
+
+.site-drawer__links {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0.6rem 0.5rem;
+  padding: 0.35rem 0 0.35rem 0.8rem;
+  border-left: 2px solid var(--dejourney-cyan, #65b7c7);
+}
+
+.site-drawer__links[hidden] {
+  display: none;
+}
+
+.site-drawer__item {
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.7rem;
+  color: #475569;
+  font-size: 0.83rem;
+  font-weight: 700;
+}
+
+.site-drawer__item:hover {
+  background: #f1f5f9;
+  color: var(--deepblue, #003366);
+}
+
+.site-drawer__item[aria-current="page"] {
+  background: rgb(101 183 199 / 0.2);
+  color: var(--deepblue, #003366);
+}
+
+.site-drawer__panel .site-drawer__cta {
+  justify-content: center;
+  margin-top: 0.6rem;
+  background: var(--orange-ink, #c25419);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgb(234 119 48 / 0.28);
+}
+
+.site-drawer__panel .site-drawer__cta:hover {
+  background: #a8460f;
+  color: #ffffff;
+}
+
+body.site-drawer-open {
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------------- footer -- */
+
+/*
+ * Moved here from assets/css/pages.css so the confession wall can render the
+ * same directory. That page used to end in a `wall-footer` with a logo, a
+ * copyright line and no internal links at all -- it is linked from the footer
+ * of every page on the site, and once a reader arrived the only way onward was
+ * back to the homepage.
+ */
+.site-footer {
+  margin-top: 24px;
+  padding: 56px 0 40px;
+  border-top: 1px solid var(--line, rgb(7 28 44 / 0.14));
+  background: #ffffff;
+  font-family: var(--sans, "DM Sans", system-ui, sans-serif);
+}
+
+.site-footer__inner {
+  display: grid;
+  width: min(1180px, calc(100% - 40px));
+  margin-inline: auto;
+  gap: 34px;
+}
+
+.site-footer__directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 28px;
+}
+
+.site-footer__directory h2 {
+  margin: 0 0 12px;
+  color: var(--ink, #071c2c);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.site-footer__directory ul {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__directory a {
+  color: var(--ink-soft, #31505c);
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.site-footer__directory a:hover {
+  color: var(--coral, #ec6d57);
+  text-decoration: underline;
+}
+
+.site-footer__languages {
+  display: flex;
+  gap: 6px;
+}
+
+.site-footer__languages a {
+  min-width: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line, rgb(7 28 44 / 0.14));
+  border-radius: 999px;
+  color: var(--dejourney-teal, #095b73);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.site-footer__languages a[aria-current="page"] {
+  border-color: var(--dejourney-cyan, #65b7c7);
+  background: rgb(101 183 199 / 0.2);
+}
+
+.site-footer__legal {
+  margin: 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--line, rgb(7 28 44 / 0.14));
+  color: var(--slatecool, #0f172a);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.site-footer__legal span {
+  display: block;
+  color: rgb(100 116 139 / 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dejourney-brand-logo,
+  .lang-btn,
+  .site-nav__link,
+  .site-nav__trigger,
+  .site-nav__trigger i,
+  .site-nav__dropdown,
+  .site-nav__toggle,
+  .site-drawer__trigger i {
+    transition: none;
+  }
+
+  .dejourney-brand:hover .dejourney-brand-logo,
+  .lang-btn:hover,
+  .site-nav__cta:hover {
+    transform: none;
+  }
+}

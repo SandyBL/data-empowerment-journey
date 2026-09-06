@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/extract-simulator-text.mjs && node scripts/generate-blog-index.mjs",
-    "check": "node scripts/check-class-coverage.mjs && node scripts/check-asset-integrity.mjs"
+    "check": "node scripts/check-class-coverage.mjs && node scripts/check-asset-integrity.mjs",
+    "refresh:insights": "node scripts/refresh-simulator-insights.mjs"
   },
   "devDependencies": {
     "@netlify/edge-functions": "^4.0.0",

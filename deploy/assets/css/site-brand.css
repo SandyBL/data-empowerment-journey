@@ -1,12 +1,18 @@
-.dejourney-brand,
-.blog-brand,
-.wall-brand {
+/*
+ * The brand lockup in the shared header: the logo's gap and the wordmark beside
+ * it, including the gradient rule under the words.
+ *
+ * It sits in its own file rather than in assets/css/site-chrome.css because the
+ * wordmark needs Plus Jakarta Sans, which only the pages that link
+ * assets/css/fonts.css have — and because there were three lockups here until
+ * every page family moved to one header (see scripts/lib/site-nav.mjs).
+ */
+
+.dejourney-brand {
   gap: 0.35rem;
 }
 
-.dejourney-brand-name,
-.blog-wordmark,
-.wall-brand__title {
+.dejourney-brand-name {
   display: block;
   max-width: 6rem;
   color: #ffffff;
@@ -23,9 +29,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.dejourney-brand-name::after,
-.blog-wordmark::after,
-.wall-brand__title::after {
+.dejourney-brand-name::after {
   display: block;
   width: 2.5rem;
   height: 2px;
@@ -36,24 +40,18 @@
 }
 
 @media (min-width: 640px) {
-  .dejourney-brand,
-  .blog-brand,
-  .wall-brand {
+  .dejourney-brand {
     gap: 0.8rem;
   }
 
-  .dejourney-brand-name,
-  .blog-wordmark,
-  .wall-brand__title {
+  .dejourney-brand-name {
     max-width: 13rem;
     font-size: 0.82rem;
   }
 }
 
 @media (max-width: 520px) {
-  .dejourney-brand-name,
-  .blog-wordmark,
-  .wall-brand__title {
+  .dejourney-brand-name {
     display: none;
   }
 }

@@ -66,12 +66,17 @@ const READING_LINE_PX = 88;
  */
 const MIN_SCROLL_PX = 160;
 
-/** The language switcher in each of the four page layouts this site ships. */
+/**
+ * The language switcher, wherever it appears.
+ *
+ * This used to be four selectors, one per layout, because the homepage, the
+ * blog, the confession wall and the simulators each had their own switcher
+ * markup. Everything except the simulators now renders the shared header from
+ * scripts/lib/site-nav.mjs, so `.language-nav` covers all of them.
+ */
 const SWITCHER_LINKS = [
-  '.language-switcher a[href]', // homepage
-  '.language-nav a[href]', // blog index, category hubs, articles
-  '.wall-language-nav a[href]', // confession wall
-  '.simulator-locale-nav-languages a[href]', // simulators
+  '.language-nav a[href]', // the shared site header
+  '.simulator-locale-nav-languages a[href]', // simulators, still hand-maintained
 ].join(', ');
 
 /*

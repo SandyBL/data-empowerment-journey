@@ -22,10 +22,18 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
- * Source HTML that a human edits, checked strictly: an undefined class here
- * fails the build. Fully generated pages are regenerated on every build and are
- * not checked; the three blog indexes are, because only their marker regions
- * are generated and the rest is hand-maintained.
+ * HTML checked strictly: an undefined class here fails the build.
+ *
+ * Mostly source a human edits. The three blog indexes are here because only
+ * their marker regions are generated and the rest is hand-maintained, and one
+ * page from each generated family is here because the templates behind them are
+ * also hand-written -- a class typed into a generator template is exactly as
+ * undefined as one typed into markup, and there is nothing else in the build
+ * that would notice. One per family is enough: every page a family produces
+ * comes from the same template, so the first one carries its whole vocabulary.
+ *
+ * A generated entry is skipped rather than failed when the file is absent, so a
+ * fresh clone that has not run the build yet still passes.
  */
 const HTML_SOURCES = [
   'src/home.html',
@@ -37,6 +45,22 @@ const HTML_SOURCES = [
   'admin/index.html',
   'admin/spaces/index.html',
   'workspace/index.html',
+  // Article page: the share bar and the footer directory ride on this template.
+  'en/blog/building-a-data-governance-operating-model/index.html',
+  'en/blog/category/data-governance/index.html',
+  'en/glossary/index.html',
+  'en/glossary/data-governance/index.html',
+  // Prose page, and one of the four that embed homepage markup and so load the
+  // homepage stylesheet as well.
+  'en/about/index.html',
+  'en/calculator/index.html',
+  // The FAQ accordion is rendered from scripts/lib/faq.mjs rather than lifted
+  // from a partial, so its vocabulary only exists in that module and here.
+  'en/faq/index.html',
+  // The only page whose sole interactive block is rendered from code, so it does
+  // not load the homepage stylesheet: every board-summary class has to exist in
+  // assets/css/pages.css on its own.
+  'en/simulator-results/index.html',
 ];
 
 /**
@@ -85,16 +109,20 @@ const EXTERNAL_CLASSES = new Set(['fas', 'far', 'fab', 'fal', 'fad', 'fat', 'fa'
  * typo cannot hide behind "probably just a wrapper".
  */
 const IGNORED_CLASSES = new Set([
-  'header-actions',
   'framework-section',
   'resources-section',
-  'mobile-resources-menu',
   'contact-consultant',
   'bad-data-field__control--currency',
-  // Marker classes on data-es/data-en/data-pt anchors that localizeLinks()
-  // rewrites by attribute rather than by class name.
+  // A marker class on the data-es/data-en/data-pt download anchors, which
+  // localizeLinks() rewrites by attribute rather than by class name.
   'language-resource-download',
-  'language-scorecard-link',
+  // The language on <body>. assets/styles.css uses it to reveal the right
+  // [data-lang-content] block, but only the four pages that embed homepage
+  // markup link that file; everywhere else the class is read by
+  // assets/js/language-switch.js and styles nothing.
+  'lang-en',
+  'lang-es',
+  'lang-pt',
 ]);
 
 /** Files loaded from a CDN framework cannot be verified locally. */
