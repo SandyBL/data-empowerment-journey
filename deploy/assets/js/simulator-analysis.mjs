@@ -238,6 +238,31 @@ export const DIMENSION_LABELS = {
   },
 };
 
+/**
+ * The three simulators as a person reads them, per language.
+ *
+ * Same wording as SIMULATOR_LABELS in assets/js/simulator-bridge.js, which
+ * keeps its own copy for the reason its header gives: it is a classic <script>
+ * loaded by nine pages and cannot import a module. This is the canonical table.
+ */
+export const SIMULATOR_LABELS = {
+  en: {
+    "data-governance-day-to-day": "Data Governance Day-to-Day",
+    "data-ownership-conflict": "Data Ownership Conflict",
+    "data-literacy": "Data Literacy",
+  },
+  es: {
+    "data-governance-day-to-day": "Gobernanza de Datos en el Día a Día",
+    "data-ownership-conflict": "Conflicto de Propiedad de Datos",
+    "data-literacy": "Alfabetización de Datos",
+  },
+  pt: {
+    "data-governance-day-to-day": "Governança de Dados no Dia a Dia",
+    "data-ownership-conflict": "Conflito de Propriedade de Dados",
+    "data-literacy": "Letramento em Dados",
+  },
+};
+
 /** The five pillars as the Scorecard names them. Same wording as the bridge. */
 export const PILLAR_LABELS = {
   en: {
@@ -337,6 +362,53 @@ export const PROFILE_LABELS = {
     },
   },
 };
+
+/**
+ * The highest score each simulator can output.
+ *
+ * The three scales have nothing in common -- 100, 15 and 1000 -- so every
+ * comparison anything makes between simulators runs through here first. A Map
+ * rather than an object because both readers also ask it how many simulators
+ * there are, and `size` is the honest way to answer that.
+ */
+export const MAX_SCORES = new Map([
+  ["data-governance-day-to-day", 100],
+  ["data-literacy", 15],
+  ["data-ownership-conflict", 1000],
+]);
+
+/**
+ * Maturity bands rather than quartiles.
+ *
+ * A histogram in four equal slices is arithmetically tidy and says nothing. The
+ * boundaries below are roughly where the simulators' own result screens put a
+ * player, and -- unlike a simulator profile -- they mean the same thing on all
+ * three scales, which is what lets one histogram hold runs from every simulator
+ * and one index describe a whole room or a whole public board.
+ *
+ * The upper bound of the last band is past 100 on purpose: a perfect run is
+ * `percent === 100`, and a half-open interval ending at 100 would drop it.
+ */
+export const BANDS = [
+  { key: "developing", from: 0, to: 50 },
+  { key: "competent", from: 50, to: 70 },
+  { key: "strong", from: 70, to: 85 },
+  { key: "leading", from: 85, to: 100.01 },
+];
+
+/** One run as a percentage of its own simulator's ceiling, or null. */
+export const percentOf = (simulator, score) => {
+  const max = MAX_SCORES.get(simulator);
+  const value = Number(score);
+  if (!max || !Number.isFinite(value)) return null;
+  return Math.max(0, Math.min(100, (value / max) * 100));
+};
+
+/** Which band a percentage falls in, by the half-open intervals above. */
+export const bandFor = (percent) =>
+  Number.isFinite(percent)
+    ? (BANDS.find((band) => percent >= band.from && percent < band.to)?.key ?? null)
+    : null;
 
 /**
  * The four maturity bands the report distributes runs into, and the band the

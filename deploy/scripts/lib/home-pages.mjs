@@ -12,9 +12,15 @@
  */
 
 import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
+import { renderHomeFaq } from './faq.mjs';
+import { HOME_PATH, LANGUAGES, NAV, NAV_GROUPS, feedPath, renderSiteHeader } from './site-nav.mjs';
 
-/** Where each language's homepage lives. Spanish keeps the root. */
-export const HOME_PATH = { es: '/', en: '/en/', pt: '/pt/' };
+/**
+ * Re-exported: the routes now live in ./site-nav.mjs with the labels and the
+ * header, and this module is where the blog generator and the confession wall
+ * have always imported them from.
+ */
+export { HOME_PATH } from './site-nav.mjs';
 
 const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
 // pt_BR, not pt_PT: the Portuguese copy across this site is Brazilian
@@ -31,19 +37,17 @@ const PAGE_METADATA = {
     socialTitle: 'Data Governance Journey | Gobierno de Datos',
     socialDescription:
       'Convertimos los datos en activos estratégicos orquestando personas, procesos y tecnología. Basado en DAMA.',
-    ariaBlog: 'Abrir el blog',
-    ariaConfession: 'Visitar el Muro de Confesiones',
-    ariaBrand: 'Data Governance Journey, ir al inicio',
-    ariaSectionNav: 'Navegación por secciones',
-    ariaContentLinks: 'Blog, newsletter y Muro de Confesiones',
-    ariaNewsletter: 'Abrir la newsletter de Data Governance Journey',
-    ariaMenuOpen: 'Abrir el menú de navegación',
-    ariaMenuClose: 'Cerrar el menú de navegación',
-    ariaMobileNav: 'Navegación móvil',
     ariaContactOptions: 'Opciones de contacto',
-    ariaDirectory: 'Directorio del sitio',
     ariaDeliverables: 'Entregables del diagnóstico',
     skipLink: 'Saltar al contenido principal',
+    // The owned newsletter form in #newsletter. The same copy the
+    // resource pages use, kept here because the homepage is a template
+    // with three languages inline and an attribute cannot hold spans.
+    newsletterPlaceholder: 'tu@empresa.com',
+    newsletterSubmit: 'Enviarme el próximo',
+    newsletterSending: 'Enviando…',
+    newsletterSuccess: 'Ya estás en la lista. Revisa tu bandeja de entrada.',
+    newsletterError: 'No se pudo enviar. Vuelve a intentarlo o escríbenos desde el formulario de contacto.',
   },
   en: {
     title: 'Data Governance Journey | Data Governance & Data Culture Consulting',
@@ -52,19 +56,17 @@ const PAGE_METADATA = {
     socialTitle: 'Data Governance Journey | Data Governance',
     socialDescription:
       'We turn data into a strategic asset by orchestrating people, processes, and technology. Built on DAMA.',
-    ariaBlog: 'Open the blog',
-    ariaConfession: 'Visit the Confession Wall',
-    ariaBrand: 'Data Governance Journey, go to home',
-    ariaSectionNav: 'Section navigation',
-    ariaContentLinks: 'Blog, newsletter, and Confession Wall',
-    ariaNewsletter: 'Open the Data Governance Journey newsletter',
-    ariaMenuOpen: 'Open the navigation menu',
-    ariaMenuClose: 'Close the navigation menu',
-    ariaMobileNav: 'Mobile navigation',
     ariaContactOptions: 'Contact options',
-    ariaDirectory: 'Site directory',
     ariaDeliverables: 'Assessment deliverables',
     skipLink: 'Skip to main content',
+    // The owned newsletter form in #newsletter. The same copy the
+    // resource pages use, kept here because the homepage is a template
+    // with three languages inline and an attribute cannot hold spans.
+    newsletterPlaceholder: 'you@company.com',
+    newsletterSubmit: 'Send me the next one',
+    newsletterSending: 'Sending…',
+    newsletterSuccess: 'You are on the list. Check your inbox for a confirmation.',
+    newsletterError: 'That did not send. Please try again, or write to us from the contact form.',
   },
   pt: {
     title: 'Data Governance Journey | Governança de Dados & Cultura de Dados',
@@ -73,19 +75,17 @@ const PAGE_METADATA = {
     socialTitle: 'Data Governance Journey | Governança de Dados',
     socialDescription:
       'Transformamos dados em ativos estratégicos orquestrando pessoas, processos e tecnologia. Baseado no DAMA.',
-    ariaBlog: 'Abrir o blog',
-    ariaConfession: 'Visitar o Mural de Confissões',
-    ariaBrand: 'Data Governance Journey, ir para o início',
-    ariaSectionNav: 'Navegação por seções',
-    ariaContentLinks: 'Blog, newsletter e Mural de Confissões',
-    ariaNewsletter: 'Abrir a newsletter da Data Governance Journey',
-    ariaMenuOpen: 'Abrir o menu de navegação',
-    ariaMenuClose: 'Fechar o menu de navegação',
-    ariaMobileNav: 'Navegação móvel',
     ariaContactOptions: 'Opções de contato',
-    ariaDirectory: 'Diretório do site',
     ariaDeliverables: 'Entregáveis do diagnóstico',
     skipLink: 'Ir para o conteúdo principal',
+    // The owned newsletter form in #newsletter. The same copy the
+    // resource pages use, kept here because the homepage is a template
+    // with three languages inline and an attribute cannot hold spans.
+    newsletterPlaceholder: 'voce@empresa.com',
+    newsletterSubmit: 'Quero o próximo',
+    newsletterSending: 'Enviando…',
+    newsletterSuccess: 'Você está na lista. Confira sua caixa de entrada.',
+    newsletterError: 'Não foi possível enviar. Tente novamente ou escreva pelo formulário de contato.',
   },
 };
 
@@ -137,8 +137,11 @@ const escapeAttribute = (text) =>
  * walks the tag stream from each unwanted opening tag and counts depth until the
  * matching close. Only div, p, and span carry the attribute, and none of them is
  * void, so tracking one tag name at a time is enough.
+ *
+ * Exported because site-pages.mjs injects blocks lifted out of this template
+ * into standalone pages, and those blocks arrive carrying all three languages.
  */
-const stripOtherLanguages = (html, lang) => {
+export const stripOtherLanguages = (html, lang) => {
   const opening = /<(div|p|span)\b[^>]*?\sdata-lang-content="([a-z-]+)"[^>]*>/gi;
   let output = html;
   let cursor = 0;
@@ -174,8 +177,11 @@ const findElementEnd = (html, start, tagName) => {
 /**
  * The old script rewrote these links whenever the visitor switched language.
  * With one page per language they are plain, crawlable, single-value hrefs.
+ *
+ * Exported for the same reason as stripOtherLanguages above: the injected blocks
+ * carry the same three-language download attributes the homepage does.
  */
-const localizeLinks = (html, lang) =>
+export const localizeLinks = (html, lang) =>
   html
     .replace(/href="\/es\/confession-wall\/"(\s+class="language-confession-link)/g, `href="/${lang}/confession-wall/"$1`)
     .replace(/href="\/es\/blog\/"(\s+id="header-blog-link")/g, `href="/${lang}/blog/"$1`)
@@ -237,30 +243,23 @@ ${alternateLocales}
 /**
  * Narrows the shared JSON-LD graph to one language.
  *
- * The graph holds one FAQPage per language. Publishing all three on every page
- * would tell an assistant that the English homepage answers questions in
- * Spanish, so each page keeps only its own — re-pointed at its own URL.
+ * The graph used to hold one FAQPage per language, which claimed that the
+ * homepage was the page answering nine questions about DAMA. The answers have
+ * their own page now and carry the schema with them, so nothing here needs
+ * re-pointing except the searchbox.
  */
 const renderSchema = (graph, lang) => {
-  const homeUrl = `${SITE_ORIGIN}${HOME_PATH[lang]}`;
-  const nodes = graph['@graph']
-    .filter((node) => node['@type'] !== 'FAQPage' || (node['@id'] || '').includes(`lang=${lang}`) || (node.inLanguage || '').startsWith(lang))
-    .map((node) => {
-      const localized = JSON.parse(JSON.stringify(node));
-      if (localized['@type'] === 'FAQPage') {
-        localized['@id'] = `${homeUrl}#faq`;
-        localized.url = homeUrl;
-        localized.isPartOf = { '@id': `${SITE_ORIGIN}/#website` };
-      }
-      // The archive search is per-language, so the searchbox an assistant or a
-      // search engine builds from this node has to point at the archive the
-      // reader is actually on — otherwise a Portuguese visitor's query lands in
-      // the Spanish index.
-      if (localized['@type'] === 'WebSite' && localized.potentialAction?.target) {
-        localized.potentialAction.target.urlTemplate = `${SITE_ORIGIN}/${lang}/blog/?q={search_term_string}`;
-      }
-      return localized;
-    });
+  const nodes = graph['@graph'].map((node) => {
+    const localized = JSON.parse(JSON.stringify(node));
+    // The archive search is per-language, so the searchbox an assistant or a
+    // search engine builds from this node has to point at the archive the
+    // reader is actually on — otherwise a Portuguese visitor's query lands in
+    // the Spanish index.
+    if (localized['@type'] === 'WebSite' && localized.potentialAction?.target) {
+      localized.potentialAction.target.urlTemplate = `${SITE_ORIGIN}/${lang}/blog/?q={search_term_string}`;
+    }
+    return localized;
+  });
 
   return `<script type="application/ld+json">
     ${JSON.stringify({ '@context': 'https://schema.org', '@graph': nodes }, null, 4).split('\n').join('\n    ')}
@@ -329,6 +328,54 @@ ${cards}
     </section>`;
 };
 
+/**
+ * The footer directory: every page, in all three languages.
+ *
+ * Unlike the site footer, which lists one language, this block is deliberately
+ * trilingual. The homepage is the most strongly linked page on the site, so it
+ * is the cheapest place to give the Spanish and Portuguese versions of a page a
+ * crawlable inbound link from a page that is already indexed.
+ *
+ * It was hand-written, and it had fallen behind twice: the FAQ, the calculator,
+ * the templates, the playbooks, the maturity assessment and the advisory
+ * sessions were all missing from it. It is generated from NAV_GROUPS now, so a
+ * page that exists appears here.
+ */
+const LANGUAGE_NAMES = { en: 'English', es: 'Español', pt: 'Português' };
+
+const renderHomeDirectory = (lang) => {
+  const columns = LANGUAGES.map((other) => {
+    // The newsletter is one LinkedIn URL for all three languages, so listing it
+    // per column would be the same link three times; the contact anchor is a
+    // section of this page and is in the header already.
+    const links = NAV_GROUPS.flatMap((group) =>
+      group.items
+        .filter((item) => !item.external && item.key !== 'contact')
+        .map((item) => [NAV[other][item.key], item.href(other)])
+    ).concat([[NAV[other].feed, feedPath(other)]]);
+
+    return `                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">${LANGUAGE_NAMES[other]}</p>
+                    <ul class="space-y-2 text-slate-300">
+${links
+  .map(
+    ([label, href]) =>
+      `                        <li><a href="${href}" hreflang="${other}" class="hover:text-emeraldgreen transition-colors">${escapeAttribute(
+        label
+      )}</a></li>`
+  )
+  .join('\n')}
+                    </ul>
+                </div>`;
+  }).join('\n');
+
+  return `<nav class="w-full border-t border-slate-700/60 pt-8 mb-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left text-sm" aria-label="${escapeAttribute(
+    NAV[lang].footerNav
+  )}">
+${columns}
+            </nav>`;
+};
+
 /** Renders the master template into the finished page for one language. */
 export const renderHomePage = (template, schemaGraph, lang, articles = []) => {
   const metadata = PAGE_METADATA[lang];
@@ -340,6 +387,12 @@ export const renderHomePage = (template, schemaGraph, lang, articles = []) => {
   return page
     .replace('<!--BUILD:METADATA-->', renderMetadata(lang))
     .replace('<!--BUILD:SCHEMA-->', renderSchema(schemaGraph, lang))
+    // The same header every other page family renders. `current` is empty
+    // because the homepage is not one of the pages in the navigation -- the
+    // brand is the link back here, on every page including this one.
+    .replace('<!--BUILD:HEADER-->', () => renderSiteHeader(lang, { current: '', languageHrefs: HOME_PATH }))
+    .replace('<!--BUILD:DIRECTORY-->', () => renderHomeDirectory(lang))
+    .replace('<!--BUILD:FAQ-->', () => renderHomeFaq(lang))
     // A function replacement, not a string: an article title containing "$&"
     // or "$'" would otherwise be read as a replacement pattern.
     .replace('<!--BUILD:LATEST-->', () => renderLatestArticles(articles, lang))
@@ -349,21 +402,12 @@ export const renderHomePage = (template, schemaGraph, lang, articles = []) => {
     // year in the footer is correct for twelve months and then quietly wrong,
     // and nobody notices a copyright notice until it looks abandoned.
     .replace(/__YEAR__/g, String(new Date().getUTCFullYear()))
-    .replace(/__ARIA_BLOG__/g, escapeAttribute(metadata.ariaBlog))
-    .replace(/__ARIA_CONFESSION__/g, escapeAttribute(metadata.ariaConfession))
-    .replace(/__ARIA_BRAND__/g, escapeAttribute(metadata.ariaBrand))
-    .replace(/__ARIA_SECTION_NAV__/g, escapeAttribute(metadata.ariaSectionNav))
-    .replace(/__ARIA_CONTENT_LINKS__/g, escapeAttribute(metadata.ariaContentLinks))
-    .replace(/__ARIA_NEWSLETTER__/g, escapeAttribute(metadata.ariaNewsletter))
-    .replace(/__ARIA_MENU_OPEN__/g, escapeAttribute(metadata.ariaMenuOpen))
-    .replace(/__ARIA_MENU_CLOSE__/g, escapeAttribute(metadata.ariaMenuClose))
-    .replace(/__ARIA_MOBILE_NAV__/g, escapeAttribute(metadata.ariaMobileNav))
     .replace(/__ARIA_CONTACT_OPTIONS__/g, escapeAttribute(metadata.ariaContactOptions))
-    .replace(/__ARIA_DIRECTORY__/g, escapeAttribute(metadata.ariaDirectory))
     .replace(/__ARIA_DELIVERABLES__/g, escapeAttribute(metadata.ariaDeliverables))
     .replace(/__SKIP_LINK__/g, escapeAttribute(metadata.skipLink))
-    .replace(/__HOME_SELF__/g, HOME_PATH[lang])
-    .replace(/__HOME_EN__/g, HOME_PATH.en)
-    .replace(/__HOME_ES__/g, HOME_PATH.es)
-    .replace(/__HOME_PT__/g, HOME_PATH.pt);
+    .replace(/__NEWSLETTER_PLACEHOLDER__/g, escapeAttribute(metadata.newsletterPlaceholder))
+    .replace(/__NEWSLETTER_SUBMIT__/g, escapeAttribute(metadata.newsletterSubmit))
+    .replace(/__NEWSLETTER_SENDING__/g, escapeAttribute(metadata.newsletterSending))
+    .replace(/__NEWSLETTER_SUCCESS__/g, escapeAttribute(metadata.newsletterSuccess))
+    .replace(/__NEWSLETTER_ERROR__/g, escapeAttribute(metadata.newsletterError));
 };

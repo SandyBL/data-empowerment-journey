@@ -11,6 +11,25 @@ import { renderBlogIndexSchema } from './lib/blog-index-schema.mjs';
 import { checkClassCoverage } from './check-class-coverage.mjs';
 import { checkAssetIntegrity } from './check-asset-integrity.mjs';
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
+import {
+  FONT_AWESOME,
+  feedPath,
+  pagePath,
+  renderSiteFooter,
+  renderSiteHeader,
+} from './lib/page-shell.mjs';
+import {
+  glossaryHubPath,
+  glossaryTermPath,
+  glossaryTranslations,
+  loadGlossary,
+  renderGlossaryHub,
+  renderGlossaryTerm,
+} from './lib/glossary.mjs';
+import { loadPartials, loadSitePages, renderSitePage } from './lib/site-pages.mjs';
+import { loadInsightsSnapshot } from './lib/insights-snapshot.mjs';
+import { renderFeed } from './lib/feeds.mjs';
+import { renderShareBar } from './lib/share.mjs';
 
 /**
  * Whether this build is the one that answers on datagovjourney.com.
@@ -196,6 +215,98 @@ const STATIC_ROUTES = [
   ),
 ];
 
+/**
+ * Sitemap routes for the pages whose existence is decided by content rather
+ * than by this file.
+ *
+ * STATIC_ROUTES above can be a constant because those URLs are fixed. A
+ * glossary term and a standalone page are not: they appear when a Markdown file
+ * appears, so their routes are derived at build time from what actually loaded.
+ * That also keeps the hreflang cluster honest — a term written in two languages
+ * advertises two, not three.
+ */
+function collectContentRoutes(pages, terms) {
+  const routes = [];
+  const pageTranslations = new Map();
+  for (const page of pages) {
+    if (!pageTranslations.has(page.slug)) pageTranslations.set(page.slug, []);
+    pageTranslations.get(page.slug).push(page.lang);
+  }
+
+  for (const page of pages) {
+    const available = LANGUAGES.filter((lang) => pageTranslations.get(page.slug).includes(lang));
+    const fallback = available.includes('en') ? 'en' : available[0];
+    routes.push({
+      url: pagePath(page.lang, page.slug),
+      // A page that sells or explains the practice sits with the blog index at
+      // 0.8; the tool pages below it, because they are destinations a reader
+      // arrives at from those. The FAQ joins the first group because it answers
+      // queries people type, not just ones they arrive with.
+      priority: ['about', 'advisory-sessions', 'consulting', 'faq', 'resources', 'workshops'].includes(
+        page.slug
+      )
+        ? '0.8'
+        : '0.7',
+      changefreq: 'monthly',
+      lastmod: page.updated,
+      alternates: [
+        ...available.map((lang) => ({ hreflang: lang, url: pagePath(lang, page.slug) })),
+        { hreflang: 'x-default', url: pagePath(fallback, page.slug) },
+      ],
+    });
+  }
+
+  const termTranslations = glossaryTranslations(terms);
+  const newestTerm = (slug) =>
+    LANGUAGES.map((lang) => termTranslations.get(slug)?.[lang]?.updated)
+      .filter(Boolean)
+      .sort()
+      .at(-1);
+
+  for (const lang of LANGUAGES) {
+    const localized = terms.filter((term) => term.lang === lang);
+    if (!localized.length) continue;
+    const hubLastmod = localized
+      .map((term) => term.updated)
+      .filter(Boolean)
+      .sort()
+      .at(-1);
+    routes.push({
+      url: glossaryHubPath(lang),
+      priority: '0.8',
+      changefreq: 'weekly',
+      lastmod: hubLastmod,
+      alternates: [
+        ...LANGUAGES.filter((other) => terms.some((term) => term.lang === other)).map((other) => ({
+          hreflang: other,
+          url: glossaryHubPath(other),
+        })),
+        { hreflang: 'x-default', url: glossaryHubPath('en') },
+      ],
+    });
+  }
+
+  for (const term of terms) {
+    const cluster = termTranslations.get(term.slug) || {};
+    const available = LANGUAGES.filter((lang) => cluster[lang]);
+    const fallback = available.includes('en') ? 'en' : available[0];
+    routes.push({
+      url: glossaryTermPath(term.lang, term.slug),
+      // Below an article: a definition is a shorter page that exists to be
+      // found for one query, not the site's main body of work.
+      priority: '0.6',
+      changefreq: 'yearly',
+      lastmod: term.updated || newestTerm(term.slug),
+      alternates: [
+        ...available.map((lang) => ({ hreflang: lang, url: glossaryTermPath(lang, term.slug) })),
+        { hreflang: 'x-default', url: glossaryTermPath(fallback, term.slug) },
+      ],
+    });
+  }
+
+  return routes;
+}
+
 const projectDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDirectory = path.join(projectDirectory, 'content/blog');
 
@@ -330,10 +441,9 @@ function renderCategoryPage(page, categoryPages) {
     `<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${categoryPath('en', page.key)}">`,
   ].join('');
 
-  const languageNav = LANGUAGES.map(
-    (other) =>
-      `<a href="${categoryPath(other, page.key)}"${other === lang ? ' aria-current="page"' : ''}>${other.toUpperCase()}</a>`
-  ).join('');
+  const languageHrefs = Object.fromEntries(
+    LANGUAGES.map((other) => [other, categoryPath(other, page.key)])
+  );
 
   const breadcrumb = [
     { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[lang]}` },
@@ -412,22 +522,27 @@ function renderCategoryPage(page, categoryPages) {
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
   <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
   <meta name="theme-color" content="#003366">
+  ${FONT_AWESOME}
   <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
   <link rel="stylesheet" href="/assets/css/site-brand.css">
+  <link rel="stylesheet" href="/assets/css/site-chrome.css">
+  <link rel="alternate" type="application/rss+xml" title="${escapeHtml(labels.blogTitle)} — Data Governance Journey" href="${SITE_ORIGIN}${feedPath(lang)}">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body data-lang="${lang}">
   <a class="skip-link" href="#articles">${copy.skip}</a>
-  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[lang]}"><img src="${imageCdn(LOGO.url, 80, 78)}" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${lang}/blog/">${labels.allArticles}</a><div class="language-nav" role="navigation" aria-label="${labels.languageNav}">${languageNav}</div></div></nav></header>
+  ${renderSiteHeader(lang, { current: 'blog', languageHrefs })}
   <main id="articles" tabindex="-1">
     <section class="listing-intro blog-shell"><div>${renderBreadcrumbNav(breadcrumb, labels)}<span class="blog-kicker">${copy.kicker}</span><h1>${escapeHtml(label)}</h1></div><p>${escapeHtml(copy.lead(label))}</p></section>
     ${renderCategoryNav(lang, categoryPages, page.key)}
     <section class="blog-shell"><div class="section-heading"><h2>${escapeHtml(label)}</h2><span>${copy.count(page.articles.length)}</span></div>
       <div class="post-grid">${page.articles.map((article) => renderArchiveCard(article)).join('')}</div>
     </section>
-    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
+    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${pagePath(lang, 'resources')}">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${pagePath(lang, 'maturity-assessment')}">${labels.ctaScorecard}</a></div></aside>
   </main>
-  <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
+  ${renderSiteFooter(lang)}
+  <script type="module" src="/assets/js/site-nav.js"></script>
   <script type="module" src="/assets/js/language-switch.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>
 </body>
@@ -579,8 +694,8 @@ function renderBreadcrumbNav(breadcrumb, labels) {
  * Splices the lead-magnet callout after the fourth paragraph, matching the
  * placement the client-side renderer used before articles became static.
  */
-function insertLeadMagnet(bodyHtml, labels) {
-  const callout = `<aside class="article-lead-magnet" aria-label="${labels.leadTitle}"><span>FIELD NOTE / 01</span><h2>${labels.leadTitle}</h2><p>${labels.leadText}</p><a href="/#recursos">${labels.leadLink}</a></aside>`;
+function insertLeadMagnet(bodyHtml, labels, lang) {
+  const callout = `<aside class="article-lead-magnet" aria-label="${labels.leadTitle}"><span>FIELD NOTE / 01</span><h2>${labels.leadTitle}</h2><p>${labels.leadText}</p><a href="${pagePath(lang, 'resources')}">${labels.leadLink}</a></aside>`;
   const paragraphs = [...bodyHtml.matchAll(/<\/p>/g)];
   if (!paragraphs.length) return `${bodyHtml}${callout}`;
   const anchor = paragraphs[Math.min(3, paragraphs.length - 1)];
@@ -628,14 +743,16 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
   const labels = LABELS[article.lang];
   const canonical = `${SITE_ORIGIN}${articlePath(article.lang, article.slug)}`;
   const description = article.summary || article.title;
-  const bodyHtml = insertLeadMagnet(article.bodyHtml, labels);
+  const bodyHtml = insertLeadMagnet(article.bodyHtml, labels, article.lang);
 
-  const languageNav = LANGUAGES.map((lang) => {
-    const target = translations[lang];
-    const href = target ? articlePath(lang, target.slug) : `/${lang}/blog/`;
-    const current = lang === article.lang ? ' aria-current="page"' : '';
-    return `<a href="${href}"${current}>${lang.toUpperCase()}</a>`;
-  }).join('');
+  // An article with no translation in a language points at that language's blog
+  // index instead of at a 404, which is the nearest thing that exists.
+  const languageHrefs = Object.fromEntries(
+    LANGUAGES.map((lang) => {
+      const target = translations[lang];
+      return [lang, target ? articlePath(lang, target.slug) : `/${lang}/blog/`];
+    })
+  );
 
   // The category step is only in the trail when there is a page behind it.
   // Google asks that a breadcrumb describe a route the reader can actually
@@ -654,7 +771,6 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
   const schema = renderArticleSchema({
     article,
     canonical,
-    homeUrl: `${SITE_ORIGIN}${HOME_PATH[article.lang]}`,
     htmlLanguage: HTML_LANG[article.lang],
     blogName: `${labels.blogTitle} — Data Governance Journey`,
     breadcrumb,
@@ -697,20 +813,24 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
   <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
   <meta name="theme-color" content="#003366">
+  ${FONT_AWESOME}
   <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
   <link rel="stylesheet" href="/assets/css/site-brand.css">
+  <link rel="stylesheet" href="/assets/css/site-chrome.css">
+  <link rel="alternate" type="application/rss+xml" title="${escapeHtml(labels.blogTitle)} — Data Governance Journey" href="${SITE_ORIGIN}${feedPath(article.lang)}">
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body data-lang="${article.lang}" class="article-ready">
   <a class="skip-link" href="#article">${labels.skip}</a>
-  <header class="blog-header"><nav class="blog-nav blog-shell" aria-label="Primary navigation"><a class="blog-brand" href="${HOME_PATH[article.lang]}"><img src="${imageCdn(LOGO.url, 80, 78)}" alt="Data Governance Journey" width="40" height="40" fetchpriority="high" decoding="async"><span class="blog-wordmark">Data Governance Journey</span></a><a class="blog-nav-center" href="/${article.lang}/blog/">${labels.blogTitle}</a><div class="blog-nav-actions"><a class="home-link" href="/${article.lang}/blog/">${labels.allArticles}</a><div class="language-nav" role="navigation" aria-label="${labels.languageNav}">${languageNav}</div></div></nav></header>
+  ${renderSiteHeader(article.lang, { current: 'blog', languageHrefs })}
   <main id="article" tabindex="-1">
     <header class="article-hero blog-shell">
       ${renderBreadcrumbNav(breadcrumb, labels)}
       ${hasCategoryHub ? `<a class="blog-kicker" href="${categoryPath(article.lang, article.categoryKey)}">${escapeHtml(article.category)}</a>` : `<span class="blog-kicker">${escapeHtml(article.category)}</span>`}
       <h1>${escapeHtml(article.title)}</h1>
       <p class="article-deck">${escapeHtml(article.summary)}</p>
-      <div class="article-byline"><span>${labels.by} <strong>${escapeHtml(article.author)}</strong></span><time datetime="${article.date}">${formatDate(article.date, article.lang)}</time><span>${article.readingTime} ${labels.minRead}</span></div>
+      <div class="article-byline"><span>${labels.by} <a href="${pagePath(article.lang, 'about')}"><strong>${escapeHtml(article.author)}</strong></a></span><time datetime="${article.date}">${formatDate(article.date, article.lang)}</time><span>${article.readingTime} ${labels.minRead}</span></div>
     </header>
     <div class="article-layout">
       ${renderTableOfContents(article.headings, labels.toc)}
@@ -718,14 +838,17 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
         <article class="article-body">
 ${bodyHtml}
         </article>
-        <aside class="author-card" aria-label="${labels.about}"><img src="${imageCdn(PORTRAIT.url, 192, 192, 'cover')}" alt="Sandy Bradbury, Lead Data Governance Consultant" width="96" height="96" loading="lazy" decoding="async"><div><small>${labels.about}</small><h2>Sandy Bradbury</h2><p>${labels.aboutText}</p></div></aside>
+        ${renderShareBar(article.lang, { url: canonical, title: article.title })}
+        <aside class="author-card" aria-label="${labels.about}"><img src="${imageCdn(PORTRAIT.url, 192, 192, 'cover')}" alt="Sandy Bradbury, Lead Data Governance Consultant" width="96" height="96" loading="lazy" decoding="async"><div><small>${labels.about}</small><h2><a href="${pagePath(article.lang, 'about')}">Sandy Bradbury</a></h2><p>${labels.aboutText}</p></div></aside>
       </div>
     </div>
     ${renderRelated(article, articles, labels)}
-    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${HOME_PATH[article.lang]}#recursos">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${HOME_PATH[article.lang]}#scorecard">${labels.ctaScorecard}</a></div></aside>
+    <aside class="tools-cta article-cta blog-shell"><div><small>${labels.ctaKicker}</small><h2>${labels.ctaTitle}</h2></div><div class="cta-actions"><a class="cta-button" href="${pagePath(article.lang, 'resources')}">${labels.ctaTools}</a><a class="cta-button cta-button-secondary" href="${pagePath(article.lang, 'maturity-assessment')}">${labels.ctaScorecard}</a></div></aside>
   </main>
-  <footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>
+  ${renderSiteFooter(article.lang)}
+  <script type="module" src="/assets/js/site-nav.js"></script>
   <script type="module" src="/assets/js/language-switch.js"></script>
+  <script type="module" src="/assets/js/share.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>
@@ -810,15 +933,20 @@ async function updateBlogIndexes(articles, categoryPages) {
       renderBlogIndexSchema(lang, HTML_LANG[lang], localized, LABELS[lang]),
       indexPath
     );
-    // The footer year is generated for the same reason the article pages
-    // generate theirs: a literal year is right for twelve months and then makes
-    // the site look abandoned, and nobody reviews a copyright line.
+    // The header and footer are generated for the same reason: they are the same
+    // component on every page family, so a hand-maintained copy in three files
+    // is three copies to forget. The footer's year would also be right for
+    // twelve months and then make the site look abandoned.
     source = replaceBetweenMarkers(
       source,
-      'BLOG_FOOTER',
-      `<footer class="blog-footer blog-shell">© ${new Date().getUTCFullYear()} Data Governance Journey</footer>`,
+      'BLOG_HEADER',
+      renderSiteHeader(lang, {
+        current: 'blog',
+        languageHrefs: Object.fromEntries(LANGUAGES.map((other) => [other, `/${other}/blog/`])),
+      }),
       indexPath
     );
+    source = replaceBetweenMarkers(source, 'BLOG_FOOTER', renderSiteFooter(lang), indexPath);
     assertArchiveIsComplete(source, localized, indexPath);
     await writeFile(indexPath, source, 'utf8');
   }
@@ -864,7 +992,7 @@ async function writeSearchIndexes(articles) {
   }
 }
 
-function renderSitemap(articles, translationMap, categoryPages) {
+function renderSitemap(articles, translationMap, categoryPages, contentRoutes) {
   const entries = [];
 
   const escapeUrl = (url) => `${SITE_ORIGIN}${url}`.replace(/&/g, '&amp;');
@@ -885,7 +1013,7 @@ function renderSitemap(articles, translationMap, categoryPages) {
     for (const lang of LANGUAGES) noteRevision(HOME_PATH[lang], article.updated);
   }
 
-  for (const route of STATIC_ROUTES) {
+  for (const route of [...STATIC_ROUTES, ...contentRoutes]) {
     // A route with `lastmod: null` declares that its date is derived. Falling
     // back to the build date would republish it on every deploy, so an
     // underived route is a bug worth failing on rather than papering over.
@@ -1142,9 +1270,13 @@ async function writeHomePages(articles) {
  * below it is generated, so a newly published article shows up without anyone
  * remembering to edit a second file.
  */
-async function writeLlmsFiles(articles) {
+async function writeLlmsFiles(articles, glossaryTerms) {
   const intro = await readFile(path.join(projectDirectory, 'src/llms-intro.md'), 'utf8');
-  await writeFile(path.join(projectDirectory, 'llms.txt'), renderLlmsIndex(intro, articles, LANGUAGES), 'utf8');
+  await writeFile(
+    path.join(projectDirectory, 'llms.txt'),
+    renderLlmsIndex(intro, articles, LANGUAGES, glossaryTerms),
+    'utf8'
+  );
   await writeFile(path.join(projectDirectory, 'llms-full.txt'), renderLlmsFull(intro, articles, LANGUAGES), 'utf8');
 }
 
@@ -1152,6 +1284,108 @@ async function writeLlmsFiles(articles) {
  * `assets/styles.css` is a hand-written Tailwind subset, so a class that is not
  * authored there does nothing and reports no error. Fail the build instead of
  * shipping markup whose layout silently does not apply.
+ */
+/**
+ * Writes the glossary: one hub per language, one page per term.
+ *
+ * Both directions matter. The hub is the page that ranks for "data governance
+ * glossary" and the page a reader browses; the term pages are what rank for the
+ * hundreds of "what is a data steward" queries that bring somebody to this site
+ * for the first time. A hub with anchors instead of pages would have one URL for
+ * fifty definitions, which is one chance to match a query instead of fifty.
+ */
+async function writeGlossary(terms, articles) {
+  const translations = glossaryTranslations(terms);
+
+  for (const lang of LANGUAGES) {
+    const localized = terms.filter((term) => term.lang === lang);
+    const directory = path.join(projectDirectory, lang, 'glossary');
+    if (!localized.length) {
+      await rm(directory, { recursive: true, force: true });
+      continue;
+    }
+    await mkdir(directory, { recursive: true });
+    await writeFile(path.join(directory, 'index.html'), renderGlossaryHub(lang, localized, articles), 'utf8');
+
+    for (const term of localized) {
+      await mkdir(path.join(directory, term.slug), { recursive: true });
+      await writeFile(
+        path.join(directory, term.slug, 'index.html'),
+        renderGlossaryTerm(term, localized, translations, articles),
+        'utf8'
+      );
+    }
+
+    // A term file that is deleted or renamed must stop being published, or the
+    // old URL lingers as a page nothing links to and the sitemap no longer
+    // lists — which is the shape Search Console reports as an orphan.
+    const published = new Set(localized.map((term) => term.slug));
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      if (entry.isDirectory() && !published.has(entry.name)) {
+        await rm(path.join(directory, entry.name), { recursive: true, force: true });
+      }
+    }
+  }
+  return terms.length;
+}
+
+/**
+ * Directories under /<lang>/ that the standalone-page sweep must leave alone.
+ *
+ * The pages live at /<lang>/<slug>/, so pruning a deleted page means sweeping
+ * the language directory itself — and that directory also holds the blog, which
+ * is hand-maintained, the glossary, which another pass generates and prunes on
+ * its own terms, and the confession wall, which renderConfessionWalls() wrote
+ * earlier in this same build. Without this list a build would delete all three:
+ * the sweep runs last, so anything it does not recognise is gone by the time
+ * the build reports success, and the wall is linked from the footer of every
+ * page on the site.
+ */
+const PAGE_SWEEP_EXCEPTIONS = new Set(['blog', 'glossary', 'confession-wall']);
+
+/** Writes the standalone pages — about, consulting, the resource pages. */
+async function writeSitePages(pages, articles, partials, boardSummary) {
+  for (const page of pages) {
+    const directory = path.join(projectDirectory, page.lang, page.slug);
+    await mkdir(directory, { recursive: true });
+    await writeFile(
+      path.join(directory, 'index.html'),
+      renderSitePage(page, pages, { partials, articles, boardSummary }),
+      'utf8'
+    );
+  }
+
+  for (const lang of LANGUAGES) {
+    const published = new Set(pages.filter((page) => page.lang === lang).map((page) => page.slug));
+    const directory = path.join(projectDirectory, lang);
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      if (PAGE_SWEEP_EXCEPTIONS.has(entry.name) || published.has(entry.name)) continue;
+      await rm(path.join(directory, entry.name), { recursive: true, force: true });
+    }
+  }
+  return pages.length;
+}
+
+/** Writes one RSS feed per language. See scripts/lib/feeds.mjs for why. */
+async function writeFeeds(articles) {
+  for (const lang of LANGUAGES) {
+    const localized = articles
+      .filter((article) => article.lang === lang)
+      .sort((first, second) => second.date.localeCompare(first.date));
+    await writeFile(path.join(projectDirectory, lang, 'feed.xml'), renderFeed(lang, localized), 'utf8');
+  }
+  return LANGUAGES.length;
+}
+
+/**
+ * Fails the build on a class used in markup that no stylesheet defines.
+ *
+ * Runs after the pages are written, alongside the asset check and for the same
+ * reason: the enforced list includes one page from each generated family, and
+ * checking those before regenerating them would measure the previous build --
+ * so a fix would need two builds to be believed, and a regression would ship
+ * one build before it was reported.
  */
 async function verifyClassCoverage() {
   const { enforced, advisory, unused } = await checkClassCoverage();
@@ -1196,13 +1430,18 @@ async function verifyAssetIntegrity() {
 }
 
 async function main() {
-  await verifyClassCoverage();
-
   const articles = await loadArticles();
   const translationMap = buildTranslationMap(articles);
   const renames = collectRenames(articles);
   const categoryPages = collectCategoryPages(articles);
   const categoryHubs = new Set(categoryPages.map((page) => page.key));
+
+  const glossaryTerms = await loadGlossary(projectDirectory);
+  const partials = await loadPartials(projectDirectory);
+  const sitePages = await loadSitePages(projectDirectory);
+  // Fetched from the live API, with the committed snapshot as the fallback. See
+  // lib/insights-snapshot.mjs: this can degrade but it can never fail a build.
+  const insights = await loadInsightsSnapshot(projectDirectory);
 
   await writeHomePages(articles);
   const confessionWalls = await renderConfessionWalls(projectDirectory);
@@ -1264,19 +1503,24 @@ async function main() {
 
   await updateBlogIndexes(articles, categoryPages);
   await writeSearchIndexes(articles);
-  await writeLlmsFiles(articles);
+  await writeLlmsFiles(articles, glossaryTerms);
+  await writeGlossary(glossaryTerms, articles);
+  await writeSitePages(sitePages, articles, partials, insights.summary);
+  await writeFeeds(articles);
 
   // Every directory-style URL the site publishes, which is also every URL that
   // has an index.html twin for renderRedirects to collapse.
+  const contentRoutes = collectContentRoutes(sitePages, glossaryTerms);
   const canonicalRoutes = [
     ...STATIC_ROUTES.map((route) => route.url),
+    ...contentRoutes.map((route) => route.url),
     ...categoryPages.map((page) => page.url),
     ...articles.map((article) => articlePath(article.lang, article.slug)),
   ];
 
   await writeFile(
     path.join(projectDirectory, 'sitemap.xml'),
-    renderSitemap(articles, translationMap, categoryPages),
+    renderSitemap(articles, translationMap, categoryPages, contentRoutes),
     'utf8'
   );
   await writeFile(
@@ -1290,6 +1534,7 @@ async function main() {
   // A previous local run may have left one behind; production must never ship it.
   else await rm(path.join(projectDirectory, '_headers'), { force: true });
 
+  await verifyClassCoverage();
   await verifyAssetIntegrity();
 
   // This is the only build that can see the old address: the directory is gone
@@ -1306,7 +1551,14 @@ async function main() {
 
   console.log(
     `Generated ${LANGUAGES.length} homepages, ${confessionWalls} confession walls, ` +
-      `${articles.length} static article pages, ${categoryPages.length} category pages, sitemap, and redirects.`
+      `${articles.length} static article pages, ${categoryPages.length} category pages, ` +
+      `${glossaryTerms.length} glossary terms, ${sitePages.length} standalone pages, ` +
+      `${LANGUAGES.length} feeds, sitemap, and redirects.`
+  );
+  // Which source the board figures came from, because a deploy that fell back
+  // to the committed snapshot publishes older numbers and should say so.
+  console.log(
+    `  public board figures: ${insights.summary.totalRuns} runs, source "${insights.source}".`
   );
 }
 

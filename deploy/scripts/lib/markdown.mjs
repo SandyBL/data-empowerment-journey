@@ -57,27 +57,36 @@ const parseFrontMatter = (source) => {
       ? value.slice(1, -1)
       : value;
 
-  const attributes = {};
+  // Scalars are assembled first and unquoted afterwards. A quoted title long
+  // enough to wrap only closes its quote on the last line, so unquoting line by
+  // line saw an opening quote with no closing one, left both in place, and put
+  // them in the h1, the <title>, the share links and the schema headline.
+  const raw = {};
   let currentKey = '';
   for (const line of match[1].split('\n')) {
     // Sequence entries collect under the key above them, which YAML leaves
     // empty (`redirect_from:` followed by `  - old-slug`). Requiring that empty
     // value keeps a wrapped text line starting with a dash a string, not a list.
     const item = line.match(/^\s*-\s+(.*)$/);
-    if (item && currentKey && (attributes[currentKey] === '' || Array.isArray(attributes[currentKey]))) {
-      if (!Array.isArray(attributes[currentKey])) attributes[currentKey] = [];
-      attributes[currentKey].push(unquote(item[1].trim()));
+    if (item && currentKey && (raw[currentKey] === '' || Array.isArray(raw[currentKey]))) {
+      if (!Array.isArray(raw[currentKey])) raw[currentKey] = [];
+      raw[currentKey].push(unquote(item[1].trim()));
       continue;
     }
 
     const separator = line.indexOf(':');
     // Indented continuation lines belong to the previous key (folded YAML scalars).
     if (separator < 0 || (/^\s+/.test(line) && currentKey && !/^\s*[\w-]+\s*:/.test(line))) {
-      if (currentKey && /^\s+/.test(line)) attributes[currentKey] = `${attributes[currentKey]} ${line.trim()}`;
+      if (currentKey && /^\s+/.test(line)) raw[currentKey] = `${raw[currentKey]} ${line.trim()}`;
       continue;
     }
     currentKey = line.slice(0, separator).trim();
-    attributes[currentKey] = unquote(line.slice(separator + 1).trim());
+    raw[currentKey] = line.slice(separator + 1).trim();
+  }
+
+  const attributes = {};
+  for (const [key, value] of Object.entries(raw)) {
+    attributes[key] = Array.isArray(value) ? value : unquote(value);
   }
   return { attributes, body: match[2] };
 };

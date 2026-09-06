@@ -163,6 +163,17 @@
     Content-Type = "text/plain; charset=utf-8"
     Cache-Control = "public, max-age=3600"
 
+# The three RSS feeds. Netlify serves .xml as application/xml, which most
+# readers accept and some reject; the RSS media type is what a feed reader
+# actually looks for, and X-Content-Type-Options = nosniff below means the
+# browser will not guess on its behalf. The short max-age is the point of a
+# feed: a reader that caches it for a day reports a new article a day late.
+[[headers]]
+  for = "/*/feed.xml"
+  [headers.values]
+    Content-Type = "application/rss+xml; charset=utf-8"
+    Cache-Control = "public, max-age=1800"
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -199,8 +210,10 @@
     # origin allowlist, base-uri, object-src and frame-ancestors still hold.
     # Tighten script-src to a nonce once the inline blocks move to files.
     #
-    # form-action 'self': the only form that posts anywhere is the Netlify Forms
-    # contact form, which posts to /thank-you on this origin.
+    # form-action 'self': every form on the site is a Netlify Form posting to
+    # this origin -- the contact form and the newsletter signups both target
+    # /thank-you, and assets/js/newsletter.js posts to / when it enhances the
+    # signup, which connect-src 'self' already allows.
     Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://api.netlify.com https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net; frame-src 'self' blob: data:; worker-src 'self' blob:; manifest-src 'self'"
 
 [[headers]]

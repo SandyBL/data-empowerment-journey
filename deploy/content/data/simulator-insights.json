@@ -1,0 +1,88 @@
+{
+  "generatedAt": "2026-09-05T22:49:21.604Z",
+  "totalRuns": 9,
+  "confident": false,
+  "index": 68.9,
+  "band": "competent",
+  "locales": {
+    "es": 9
+  },
+  "firstAt": "2026-08-26T17:55:32.369Z",
+  "lastAt": "2026-08-30T02:29:46.649Z",
+  "boards": [
+    {
+      "simulator": "data-governance-day-to-day",
+      "maxScore": 100,
+      "runs": 3,
+      "confident": false,
+      "best": 84.6,
+      "mean": 65.7,
+      "median": 59.8,
+      "spread": 24.8,
+      "bands": {
+        "developing": 0,
+        "competent": 2,
+        "strong": 1,
+        "leading": 0
+      },
+      "timedRuns": 0,
+      "medianDurationMs": null,
+      "fastestDurationMs": null,
+      "locales": {
+        "es": 3
+      },
+      "firstAt": "2026-08-26T17:55:32.369Z",
+      "lastAt": "2026-08-30T02:15:36.989Z"
+    },
+    {
+      "simulator": "data-ownership-conflict",
+      "maxScore": 1000,
+      "runs": 3,
+      "confident": false,
+      "best": 100,
+      "mean": 83.3,
+      "median": 90,
+      "spread": 10,
+      "bands": {
+        "developing": 0,
+        "competent": 1,
+        "strong": 0,
+        "leading": 2
+      },
+      "timedRuns": 2,
+      "medianDurationMs": 76620,
+      "fastestDurationMs": 50858,
+      "locales": {
+        "es": 3
+      },
+      "firstAt": "2026-08-26T18:58:35.942Z",
+      "lastAt": "2026-08-30T02:10:46.852Z"
+    },
+    {
+      "simulator": "data-literacy",
+      "maxScore": 15,
+      "runs": 3,
+      "confident": false,
+      "best": 73.3,
+      "mean": 57.8,
+      "median": 66.7,
+      "spread": 6.7,
+      "bands": {
+        "developing": 1,
+        "competent": 1,
+        "strong": 1,
+        "leading": 0
+      },
+      "timedRuns": 2,
+      "medianDurationMs": 195528,
+      "fastestDurationMs": 24834,
+      "locales": {
+        "es": 3
+      },
+      "firstAt": "2026-08-26T19:10:59.020Z",
+      "lastAt": "2026-08-30T02:29:46.649Z"
+    }
+  ],
+  "source": "leaderboard",
+  "capped": false
+}

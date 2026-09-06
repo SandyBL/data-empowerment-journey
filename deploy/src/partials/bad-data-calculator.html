@@ -1,0 +1,103 @@
+            <article id="cost-calculator" class="bad-data-calculator scroll-mt-24" aria-labelledby="bad-data-calculator-title">
+                <div class="bad-data-calculator__intro">
+                    <div>
+                        <p class="bad-data-calculator__eyebrow">
+                            <i class="fa-solid fa-calculator" aria-hidden="true"></i>
+                            <span data-lang-content="es">Calculadora ejecutiva</span>
+                            <span data-lang-content="en">Executive calculator</span>
+                            <span data-lang-content="pt">Calculadora executiva</span>
+                        </p>
+                        <h3 id="bad-data-calculator-title">
+                            <span data-lang-content="es">El Costo de la Ignorancia</span>
+                            <span data-lang-content="en">The Cost of Ignorance</span>
+                            <span data-lang-content="pt">O Custo da Ignorância</span>
+                        </h3>
+                    </div>
+                    <p>
+                        <span data-lang-content="es">Convierte las horas perdidas buscando, validando y limpiando datos en un costo anual que la dirección puede actuar.</span>
+                        <span data-lang-content="en">Turn hours lost searching, validating, and cleaning data into an annual cost leaders can act on.</span>
+                        <span data-lang-content="pt">Transforme as horas perdidas buscando, validando e limpando dados em um custo anual que a liderança pode enfrentar.</span>
+                    </p>
+                </div>
+
+                <div class="bad-data-calculator__grid">
+                    <form id="bad-data-calculator-form" class="bad-data-calculator__form" novalidate>
+                        <div class="bad-data-field-group">
+                            <label class="bad-data-field" for="bad-data-employees">
+                                <span class="bad-data-field__label">
+                                    <span data-lang-content="es">Personas en datos, analítica y marketing</span>
+                                    <span data-lang-content="en">Employees in data, analytics, and marketing</span>
+                                    <span data-lang-content="pt">Pessoas em dados, analytics e marketing</span>
+                                </span>
+                                <span class="bad-data-field__control">
+                                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                                    <input id="bad-data-employees" name="employees" type="number" inputmode="numeric" min="1" max="100000" step="1" value="25" aria-describedby="bad-data-employees-error" required>
+                                </span>
+                            </label>
+                            <p id="bad-data-employees-error" class="bad-data-calculator__error" hidden></p>
+                        </div>
+
+                        <div class="bad-data-field-group">
+                            <label class="bad-data-field" for="bad-data-hours">
+                                <span class="bad-data-field__label">
+                                    <span data-lang-content="es">Horas por semana buscando o limpiando datos</span>
+                                    <span data-lang-content="en">Hours per week searching for or cleaning data</span>
+                                    <span data-lang-content="pt">Horas por semana buscando ou limpando dados</span>
+                                </span>
+                                <span class="bad-data-field__control">
+                                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                                    <input id="bad-data-hours" name="weeklyHours" type="number" inputmode="numeric" min="1" max="40" step="1" value="5" aria-describedby="bad-data-hours-error" required>
+                                </span>
+                            </label>
+                            <p id="bad-data-hours-error" class="bad-data-calculator__error" hidden></p>
+                        </div>
+
+                        <div class="bad-data-field-group">
+                            <label class="bad-data-field" for="bad-data-salary">
+                                <span class="bad-data-field__label">
+                                    <span data-lang-content="es">Salario promedio anual (EUR)</span>
+                                    <span data-lang-content="en">Average annual salary (USD)</span>
+                                    <span data-lang-content="pt">Salário médio anual (BRL)</span>
+                                </span>
+                                <span class="bad-data-field__control bad-data-field__control--currency">
+                                    <span id="bad-data-currency-prefix" aria-hidden="true">€</span>
+                                    <input id="bad-data-salary" name="salary" type="number" inputmode="numeric" min="1" max="10000000" step="1" value="85000" aria-describedby="bad-data-salary-error" required>
+                                </span>
+                            </label>
+                            <p id="bad-data-salary-error" class="bad-data-calculator__error" hidden></p>
+                        </div>
+                    </form>
+
+                    <div class="bad-data-result">
+                        <div class="bad-data-result__topline">
+                            <span data-lang-content="es">Pérdida anual estimada</span>
+                            <span data-lang-content="en">Estimated annual loss</span>
+                            <span data-lang-content="pt">Perda anual estimada</span>
+                            <i class="fa-solid fa-arrow-trend-down" aria-hidden="true"></i>
+                        </div>
+                        <output id="bad-data-loss-amount" class="bad-data-result__amount" for="bad-data-employees bad-data-hours bad-data-salary">265.625 €</output>
+                        <p class="bad-data-result__statement">
+                            <span data-lang-content="es">Su empresa está perdiendo aproximadamente <strong data-bad-data-inline-loss>265.625 €</strong>/año por la Fricción de Datos.</span>
+                            <span data-lang-content="en">Your company is losing approximately <strong data-bad-data-inline-loss>$265,625</strong>/year to Data Friction.</span>
+                            <span data-lang-content="pt">Sua empresa está perdendo aproximadamente <strong data-bad-data-inline-loss>R$ 265.625</strong>/ano com a Fricção de Dados.</span>
+                        </p>
+                        <div class="bad-data-result__formula">
+                            <span data-lang-content="es">Equipo × horas perdidas × costo por hora × 52 semanas</span>
+                            <span data-lang-content="en">Team × lost hours × hourly cost × 52 weeks</span>
+                            <span data-lang-content="pt">Equipe × horas perdidas × custo por hora × 52 semanas</span>
+                        </div>
+                        <button id="bad-data-pdf-download" class="bad-data-result__cta" type="button">
+                            <span data-lang-content="es">Descargar informe PDF personalizado</span>
+                            <span data-lang-content="en">Download personalized PDF report</span>
+                            <span data-lang-content="pt">Baixar relatório PDF personalizado</span>
+                            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+                        </button>
+                        <p id="bad-data-download-status" class="bad-data-result__privacy" aria-live="polite">
+                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                            <span data-lang-content="es">Sin formulario. Descarga inmediata.</span>
+                            <span data-lang-content="en">No form required. Immediate download.</span>
+                            <span data-lang-content="pt">Sem formulário. Download imediato.</span>
+                        </p>
+                    </div>
+                </div>
+            </article>

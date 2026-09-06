@@ -154,10 +154,9 @@ const extractFaq = (article) => {
  * @param article       the loaded article
  * @param canonical     its absolute URL
  * @param breadcrumb    [{ name, item }] for the breadcrumb trail
- * @param homeUrl       the homepage in the article's language
  * @param htmlLanguage  BCP 47 tag for the article's language
  */
-export const renderArticleSchema = ({ article, canonical, breadcrumb, homeUrl, htmlLanguage, blogName }) => {
+export const renderArticleSchema = ({ article, canonical, breadcrumb, htmlLanguage, blogName }) => {
   const { about, mentions } = classifyTopics(article);
   const faq = extractFaq(article);
   const description = article.summary || article.title;
@@ -206,9 +205,13 @@ export const renderArticleSchema = ({ article, canonical, breadcrumb, homeUrl, h
       '@type': 'Person',
       '@id': `${SITE_ORIGIN}/#sandy-bradbury`,
       name: article.author,
-      url: homeUrl,
+      // The author's own page, not the homepage. `url` on a Person is meant to
+      // be the page that page is *about*; pointing it at the homepage told a
+      // consumer the entity's canonical description was a marketing page whose
+      // subject is the business.
+      url: `${SITE_ORIGIN}/${article.lang}/about/`,
       image: `${SITE_ORIGIN}${PORTRAIT.url}`,
-      jobTitle: 'Data Governance Consultant',
+      jobTitle: 'Lead Data Governance Consultant',
       worksFor: { '@id': `${SITE_ORIGIN}/#organization` },
     },
     {

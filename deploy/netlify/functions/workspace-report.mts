@@ -8,6 +8,8 @@ import { publicSpace, resolveSession } from "../lib/workspace-access.js";
 // header of that file for why it is plain .mjs.
 import {
   BAND_LABELS,
+  BANDS,
+  MAX_SCORES,
   OWNERSHIP_SCENARIO_ROLES,
   PILLAR_LABELS,
   PILLAR_ORDER,
@@ -82,28 +84,11 @@ const MAX_SEATS = 2000;
 /** A seat counts as active if it published something in the last two hours. */
 const ACTIVE_WINDOW_MS = 2 * 60 * 60 * 1000;
 
-/** The score each simulator can output, so runs can be compared as percentages. */
-const MAX_SCORES = new Map([
-  ["data-governance-day-to-day", 100],
-  ["data-literacy", 15],
-  ["data-ownership-conflict", 1000],
-]);
-
-/**
- * Maturity bands rather than quartiles.
- *
- * A histogram in four equal slices is arithmetically tidy and says nothing. The
- * boundaries below are roughly where the simulators' own result screens put a
- * player, and — unlike a simulator profile — they mean the same thing on all
- * three scales, which is what lets one histogram hold runs from every simulator
- * and one index describe the whole engagement.
- */
-const BANDS = [
-  { key: "developing", from: 0, to: 50 },
-  { key: "competent", from: 50, to: 70 },
-  { key: "strong", from: 70, to: 85 },
-  { key: "leading", from: 85, to: 100.01 },
-];
+// MAX_SCORES and BANDS used to be declared here. They now come from the
+// analysis module above, because the public board summary needs the same two
+// tables and a third copy of a scoring scale is how one of them goes wrong: the
+// day the ownership simulator's ceiling changes, a report and a benchmark that
+// disagree about it are worse than either alone.
 
 /**
  * Each simulator's own profile thresholds, in that simulator's own scoring units.

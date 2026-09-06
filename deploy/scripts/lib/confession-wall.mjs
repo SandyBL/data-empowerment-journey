@@ -16,8 +16,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { content } from '../../assets/js/confession-wall-content.js';
-import { LOGO, OG_IMAGE, SITE_ORIGIN, imageCdn } from './brand.mjs';
+import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 import { HOME_PATH } from './home-pages.mjs';
+import { pagePath, renderSiteFooter, renderSiteHeader } from './site-nav.mjs';
 
 const LANGUAGES = ['en', 'es', 'pt'];
 const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
@@ -185,10 +186,9 @@ const renderPage = (lang) => {
     .map((other) => `  <meta property="og:locale:alternate" content="${OG_LOCALE[other]}">`)
     .join('\n');
 
-  const languageNav = LANGUAGES.map((other) => {
-    const current = other === lang ? ' aria-current="page"' : '';
-    return `          <a href="${wallUrl(other).replace(SITE_ORIGIN, '')}"${current}>${other.toUpperCase()}</a>`;
-  }).join('\n');
+  const languageHrefs = Object.fromEntries(
+    LANGUAGES.map((other) => [other, wallUrl(other).replace(SITE_ORIGIN, '')])
+  );
 
   const filters = categories
     .map(
@@ -200,8 +200,6 @@ const renderPage = (lang) => {
   const categoryOptions = copy.categories
     .map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
     .join('');
-
-  const logo = `<img src="${imageCdn(LOGO.url, 400, 388)}" alt="Data Governance Journey" width="200" height="194" decoding="async">`;
 
   return `<!doctype html>
 <html lang="${HTML_LANG[lang]}">
@@ -238,29 +236,14 @@ ${alternates}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="/assets/css/confession-wall.css">
   <link rel="stylesheet" href="/assets/css/site-brand.css">
+  <link rel="stylesheet" href="/assets/css/site-chrome.css">
   <script type="application/ld+json">
   ${renderSchema(lang, copy, metadata)}
   </script>
 </head>
 <body data-locale="${lang}">
   <a class="skip-link" href="#main-content">${escapeHtml(metadata.skipLink)}</a>
-  <header class="wall-header">
-    <div class="wall-header__inner">
-      <a class="wall-brand" href="${home}" aria-label="${escapeHtml(metadata.homeAria)}">
-        ${logo}
-        <span class="wall-brand__title">Data Governance Journey</span>
-      </a>
-      <div class="wall-header__actions">
-        <a class="wall-home-link" href="${home}">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-          <span>${escapeHtml(copy.home)}</span>
-        </a>
-        <nav class="wall-language-nav" aria-label="${escapeHtml(metadata.languageAria)}">
-${languageNav}
-        </nav>
-      </div>
-    </div>
-  </header>
+  ${renderSiteHeader(lang, { current: 'confessionWall', languageHrefs })}
 
   <main id="main-content" tabindex="-1">
     <nav class="wall-breadcrumb" aria-label="${escapeHtml(metadata.breadcrumbAria)}">
@@ -317,19 +300,11 @@ ${filters}
     <div class="wall-assessment-cta__inner">
       <div class="wall-assessment-cta__mark" aria-hidden="true"><i class="fa-solid fa-chart-simple"></i></div>
       <div><p>${escapeHtml(copy.assessmentEyebrow)}</p><h2>${escapeHtml(copy.assessmentTitle)}</h2><span>${escapeHtml(copy.assessmentLead)}</span></div>
-      <a class="wall-assessment-cta__button" href="${home}#scorecard"><span>${escapeHtml(copy.assessmentButton)}</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <a class="wall-assessment-cta__button" href="${pagePath(lang, 'maturity-assessment')}"><span>${escapeHtml(copy.assessmentButton)}</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
   </section>
 
-  <footer class="wall-footer">
-    <div class="wall-footer__inner">
-      <div class="wall-footer__brand">
-        ${logo}
-        <div><strong>Data Governance Journey</strong><span id="footer-copy">${escapeHtml(copy.footer)}</span></div>
-      </div>
-      <p class="wall-footer__copy">&copy; ${new Date().getUTCFullYear()} Data Governance Journey. <span id="footer-rights">${escapeHtml(copy.copyright)}</span></p>
-    </div>
-  </footer>
+  ${renderSiteFooter(lang)}
 
   <div id="submission-modal" class="wall-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
     <div class="wall-modal__card">
@@ -354,6 +329,7 @@ ${filters}
     </div>
   </div>
   <div id="wall-toast" class="wall-toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/assets/js/site-nav.js"></script>
   <script type="module" src="/assets/js/confession-wall.js"></script>
   <script type="module" src="/assets/js/language-switch.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>

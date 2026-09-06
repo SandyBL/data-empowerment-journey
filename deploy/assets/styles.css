@@ -71,17 +71,6 @@ footer {
 }
 
 /*
- * The header bar itself is deep blue, so its ring is white. The language
- * switcher, content links, and section nav are light pills sitting on top of
- * it, and their controls take the ring back to the dark value.
- */
-.dejourney-header { --focus-ring: #ffffff; }
-
-.language-switcher,
-.header-content-links,
-.desktop-section-nav { --focus-ring: var(--focus-ring-dark); }
-
-/*
  * Bypass block (WCAG 2.4.1). Hidden off-canvas until it takes keyboard focus,
  * so the first Tab on the page offers a jump past the header navigation.
  */
@@ -195,8 +184,11 @@ summary {
 .mt-0\.5 { margin-top: 0.125rem; }
 .mt-1 { margin-top: 0.25rem; }
 .mt-1\.5 { margin-top: 0.375rem; }
+.mt-2 { margin-top: 0.5rem; }
 .mt-4 { margin-top: 1rem; }
 .mt-5 { margin-top: 1.25rem; }
+.mt-8 { margin-top: 2rem; }
+.mt-10 { margin-top: 2.5rem; }
 .my-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
 .block { display: block; }
 .inline-block { display: inline-block; }
@@ -247,6 +239,30 @@ summary {
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+
+/* The owned newsletter form in #newsletter. Its layout comes from the page's
+   own utilities, like every other block on the homepage; these four rules cover
+   the parts a utility cannot reach -- the offscreen honeypot, and the two
+   submission states that assets/js/newsletter.js sets on the status line after
+   the markup has already rendered. */
+.newsletter-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.newsletter-status {
+    min-height: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #475569;
+}
+
+.newsletter-status[data-state="success"] { color: #0f766e; font-weight: 700; }
+.newsletter-status[data-state="error"] { color: #b91c1c; font-weight: 700; }
 .items-start { align-items: flex-start; }
 .items-center { align-items: center; }
 .items-end { align-items: flex-end; }
@@ -459,135 +475,6 @@ body.lang-es flex[data-lang-content="es"],
 body.lang-en flex[data-lang-content="en"],
 body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 
-/*
- * Active language. This used to be a background tint measuring 1.07:1 against
- * the pill plus a border-color on an element the reset gives no border width —
- * so in practice nothing marked the current language. A solid inset ring in
- * the brand teal reads at 7.0:1 and costs no layout.
- */
-.lang-btn.active {
-    background-color: rgb(9 91 115 / 0.12);
-    box-shadow: inset 0 0 0 2px var(--dejourney-teal);
-    color: var(--deepblue);
-    font-weight: 700;
-}
-
-/* The switcher pill is only 4px of padding, so the ring has to sit inside. */
-.lang-btn:focus-visible {
-    outline: 3px solid var(--focus-ring);
-    outline-offset: -3px;
-}
-
-.desktop-section-nav { display: none; }
-
-.mobile-menu-toggle {
-    display: inline-flex;
-    width: 2.5rem;
-    height: 2.5rem;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgb(101 183 199 / 0.45);
-    border-radius: 9999px;
-    background: #f1f5f9;
-    color: var(--deepblue);
-    transition: transform 180ms ease, background-color 180ms ease;
-}
-
-.mobile-menu-toggle:hover,
-.mobile-menu-toggle[aria-expanded="true"] {
-    background: rgb(101 183 199 / 0.25);
-}
-
-.mobile-menu-toggle:active { transform: scale(0.96); }
-
-.mobile-menu-toggle:focus-visible,
-.desktop-resources-trigger:focus-visible,
-.mobile-resources-trigger:focus-visible {
-    outline: 3px solid var(--focus-ring);
-    outline-offset: 2px;
-}
-
-.mobile-navigation {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-    min-height: calc(100vh - 5rem);
-    z-index: 49;
-    padding: 0.75rem;
-    background: rgb(3 31 47 / 0.72);
-    backdrop-filter: blur(10px);
-}
-
-.mobile-navigation__panel {
-    display: grid;
-    gap: 0.25rem;
-    max-height: calc(100vh - 6.5rem);
-    overflow-y: auto;
-    padding: 1rem;
-    border: 1px solid rgb(101 183 199 / 0.32);
-    border-radius: 1.25rem;
-    background: #ffffff;
-    box-shadow: 0 24px 60px rgb(0 31 51 / 0.3);
-}
-
-.mobile-navigation__panel > a,
-.mobile-resources-trigger {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.9rem 1rem;
-    border-radius: 0.85rem;
-    color: var(--deepblue);
-    font-size: 0.95rem;
-    font-weight: 800;
-    text-align: left;
-}
-
-.mobile-navigation__panel > a:hover,
-.mobile-resources-trigger:hover {
-    background: rgb(101 183 199 / 0.16);
-}
-
-.mobile-resources-trigger i { transition: transform 180ms ease; }
-.mobile-resources-trigger[aria-expanded="true"] i { transform: rotate(180deg); }
-
-.mobile-resources-links {
-    display: grid;
-    gap: 0.25rem;
-    margin: 0 0.6rem 0.5rem;
-    padding: 0.35rem 0 0.35rem 0.8rem;
-    border-left: 2px solid var(--dejourney-cyan);
-}
-
-.mobile-resources-links[hidden] { display: none; }
-
-.mobile-resources-links a {
-    padding: 0.7rem 0.8rem;
-    border-radius: 0.7rem;
-    color: #475569;
-    font-size: 0.83rem;
-    font-weight: 700;
-}
-
-.mobile-resources-links a:hover { background: #f1f5f9; color: var(--deepblue); }
-
-.mobile-navigation__panel .mobile-scorecard-cta {
-    justify-content: center;
-    margin-top: 0.6rem;
-    background: var(--orange-ink);
-    color: #ffffff;
-    box-shadow: 0 12px 28px rgb(234 119 48 / 0.28);
-}
-
-.mobile-navigation__panel .mobile-scorecard-cta:hover {
-    background: #a8460f;
-    color: #ffffff;
-}
-
-body.mobile-navigation-open { overflow: hidden; }
-
 .anchor-alias {
     display: block;
     position: relative;
@@ -630,7 +517,31 @@ body.mobile-navigation-open { overflow: hidden; }
     line-height: 1.05;
 }
 
-.simulators-heading > p:last-child { color: #cbd5e1; line-height: 1.75; }
+/*
+ * The description sits directly under the h2. This was `> p:last-child` until a
+ * link to the results page was added after it, which is exactly the kind of
+ * markup change a positional selector silently mis-styles.
+ */
+.simulators-heading h2 + p { color: #cbd5e1; line-height: 1.75; }
+
+.simulators-heading__results {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: var(--emeraldgreen);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgb(80 200 120 / 0.35);
+    padding-bottom: 0.15rem;
+    transition: color 180ms ease, border-color 180ms ease;
+}
+
+.simulators-heading__results:hover {
+    color: #ffffff;
+    border-color: #ffffff;
+}
 
 .simulator-grid { display: grid; gap: 1rem; }
 
@@ -757,6 +668,17 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 .simulator-offer__cta:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgb(80 200 120 / 0.36); }
+
+/* The secondary route out of the offer teaser. Same shape as the primary CTA,
+   outlined rather than filled, so "read the whole thing" and "ask for a space"
+   read as one choice and its alternative rather than two competing buttons. */
+.simulator-offer__cta--ghost {
+    background: transparent;
+    color: var(--emeraldgreen);
+    box-shadow: inset 0 0 0 1px rgb(80 200 120 / 0.55);
+}
+
+.simulator-offer__cta--ghost:hover { box-shadow: inset 0 0 0 1px var(--emeraldgreen), 0 12px 26px rgb(2 22 33 / 0.28); }
 .simulator-offer__cta i { transition: transform 180ms ease; }
 .simulator-offer__cta:hover i { transform: translateX(4px); }
 
@@ -868,83 +790,6 @@ body.mobile-navigation-open { overflow: hidden; }
     .simulator-offer__cta i { transition: none; }
     .simulator-offer__cta:hover { transform: none; }
     .simulator-offer__cta:hover i { transform: none; }
-}
-
-.dejourney-header {
-    border-color: rgb(101 183 199 / 0.38);
-    background: var(--deepblue);
-    box-shadow: 0 8px 24px rgb(9 91 115 / 0.08);
-}
-
-.dejourney-brand {
-    display: flex;
-    min-width: 0;
-    align-items: center;
-}
-
-.dejourney-brand-logo {
-    width: 2.75rem;
-    height: 2.75rem;
-    flex: 0 0 auto;
-    border: 4px solid var(--dejourney-logo-frame);
-    border-radius: 1.5rem;
-    object-fit: cover;
-    box-shadow: 0 14px 35px rgb(0 0 0 / 0.2);
-    transition: transform 220ms ease;
-}
-
-.dejourney-brand:hover .dejourney-brand-logo {
-    transform: rotate(-2deg) scale(1.03);
-}
-
-.dejourney-header .lang-btn {
-    width: 2rem;
-}
-
-.dejourney-header .lang-btn.active {
-    color: var(--dejourney-teal);
-}
-
-.header-content-link {
-    display: inline-flex;
-    width: 2rem;
-    height: 2rem;
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9999px;
-    color: var(--deepblue);
-    font-size: 0.875rem;
-    text-decoration: none;
-    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
-}
-
-.header-content-link:hover {
-    transform: translateY(-1px);
-    background: rgb(101 183 199 / 0.22);
-    color: var(--dejourney-teal);
-}
-
-.header-content-link:active {
-    transform: translateY(0);
-}
-
-.header-content-link:focus-visible {
-    outline: 3px solid var(--focus-ring);
-    outline-offset: 1px;
-}
-
-.header-newsletter-link:hover {
-    color: var(--orange-ink);
-}
-
-.header-confession-link:hover {
-    color: #9f3f39;
-}
-
-.header-content-links i {
-    width: 1em;
-    text-align: center;
 }
 
 .dejourney-footer-logo {
@@ -2212,9 +2057,6 @@ body.mobile-navigation-open { overflow: hidden; }
 }
 
 @media (min-width: 640px) {
-    .dejourney-brand-logo { width: 4rem; height: 4rem; }
-    .dejourney-header .lang-btn { width: 2.5rem; }
-    .header-content-link { width: 2.5rem; }
     .sm\:flex-row { flex-direction: row; }
     .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -2254,128 +2096,6 @@ body.mobile-navigation-open { overflow: hidden; }
     .lg\:py-32 { padding-top: 8rem; padding-bottom: 8rem; }
     .lg\:text-6xl { font-size: 3.75rem; line-height: 1; }
     .simulator-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-@media (min-width: 1180px) {
-    .mobile-menu-toggle,
-    .mobile-navigation { display: none !important; }
-
-    .desktop-section-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.125rem;
-        padding: 0.3rem;
-        border: 1px solid rgb(101 183 199 / 0.38);
-        border-radius: 9999px;
-        background: #f1f5f9;
-    }
-    .desktop-section-nav > a,
-    .desktop-resources-trigger {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.55rem 0.75rem;
-        border-radius: 9999px;
-        color: var(--dejourney-teal);
-        font-size: 0.75rem;
-        font-weight: 700;
-        line-height: 1;
-        transition: all 180ms ease;
-    }
-    .desktop-section-nav > a:hover,
-    .desktop-resources-trigger:hover,
-    .desktop-resources-menu.is-open .desktop-resources-trigger,
-    .desktop-resources-menu:focus-within .desktop-resources-trigger {
-        color: var(--deepblue);
-        background: rgb(101 183 199 / 0.2);
-    }
-    .desktop-section-nav > a.is-active,
-    .desktop-resources-menu.is-active .desktop-resources-trigger {
-        color: var(--deepblue);
-        background: rgb(101 183 199 / 0.28);
-        box-shadow: inset 0 0 0 1px rgb(101 183 199 / 0.48);
-    }
-
-    .desktop-section-nav .desktop-scorecard-cta,
-    .desktop-section-nav .desktop-scorecard-cta:hover,
-    .desktop-section-nav .desktop-scorecard-cta.is-active {
-        background: var(--orange-ink);
-        color: #ffffff;
-        box-shadow: 0 8px 18px rgb(234 119 48 / 0.28);
-    }
-
-    .desktop-section-nav .desktop-scorecard-cta:hover { background: #a8460f; transform: translateY(-1px); }
-
-    .desktop-resources-menu { position: relative; }
-    .desktop-resources-trigger i { font-size: 0.58rem; transition: transform 180ms ease; }
-    .desktop-resources-menu.is-open .desktop-resources-trigger i,
-    .desktop-resources-menu:focus-within .desktop-resources-trigger i { transform: rotate(180deg); }
-
-    .desktop-resources-dropdown {
-        position: absolute;
-        top: calc(100% + 0.65rem);
-        left: 50%;
-        display: grid;
-        width: 18.5rem;
-        padding: 0.55rem;
-        visibility: hidden;
-        opacity: 0;
-        border: 1px solid rgb(148 163 184 / 0.3);
-        border-radius: 1rem;
-        background: #ffffff;
-        box-shadow: 0 22px 48px rgb(0 31 51 / 0.2);
-        transform: translate(-50%, -0.4rem);
-        transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
-    }
-
-    /*
-     * Only .is-open reveals the panel. Hover and keyboard focus used to open it
-     * straight from CSS, which left aria-expanded reporting "false" on a panel
-     * the visitor could see; the navigation script now drives both.
-     */
-    .desktop-resources-menu.is-open .desktop-resources-dropdown {
-        visibility: visible;
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-
-    .desktop-resources-dropdown a {
-        padding: 0.75rem 0.8rem;
-        border-radius: 0.7rem;
-        color: #475569;
-        font-size: 0.78rem;
-        font-weight: 700;
-        line-height: 1.35;
-    }
-
-    .desktop-resources-dropdown a:hover,
-    .desktop-resources-dropdown a:focus-visible {
-        background: #f1f5f9;
-        color: var(--deepblue);
-    }
-
-    /* The tint alone is a 1.10:1 change; the outline is the real indicator. */
-    .desktop-resources-dropdown a:focus-visible {
-        outline: 3px solid var(--focus-ring);
-        outline-offset: -3px;
-    }
-}
-
-/*
- * The section nav carries six items once Contact is in it, which leaves only a
- * few pixels of slack in the 1180-1279px band where the desktop bar first
- * appears. Tightening the pill padding there keeps every label on one line
- * instead of letting the bar wrap or push into the language switcher.
- */
-@media (min-width: 1180px) and (max-width: 1279px) {
-    .desktop-section-nav { gap: 0; }
-
-    .desktop-section-nav > a,
-    .desktop-resources-trigger {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
 }
 
 body.identity-modal-open {

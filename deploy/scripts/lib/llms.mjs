@@ -19,35 +19,77 @@ const LANGUAGE_NAMES = { en: 'English', es: 'Español (Spanish)', pt: 'Portuguê
 /** Non-article destinations worth pointing an assistant at, with why. */
 const GUIDE_LINKS = {
   en: [
-    ['Homepage', '/en/', 'Services, framework, and the full FAQ.'],
+    ['Homepage', '/en/', 'Services, the three-pillar framework, and the four most common questions.'],
+    ['FAQ', '/en/faq/', 'Nine data governance questions answered directly: the DAMA definition, governance versus data management, data owner versus data steward, ROI, tooling, AI readiness and realistic timelines.'],
     ['Insights (blog index)', '/en/blog/', 'Every English article, newest first.'],
+    ['Glossary', '/en/glossary/', 'Definitions of the working vocabulary, grouped by theme; every term also has its own page at /en/glossary/<term>/.'],
+    ['RSS feed', '/en/feed.xml', 'The English articles as RSS 2.0.'],
     ['Confession Wall', '/en/confession-wall/', 'Anonymous accounts of data-governance failures from practitioners.'],
+    ['About Sandy Bradbury', '/en/about/', 'Who writes this: background, DAMA certifications, and how the practice works.'],
+    ['Consulting', '/en/consulting/', 'The four engagement shapes, what each produces, and what is explicitly not offered.'],
+    ['Advisory sessions', '/en/advisory-sessions/', 'A single paid 30-minute conversation on one governance problem, requested in writing rather than booked from a calendar, with a written follow-up afterwards.'],
+    ['Workshops', '/en/workshops/', 'Facilitated governance sessions run on private, client-branded copies of the simulators, with a facilitator report afterwards.'],
+    ['Free resources', '/en/resources/', 'Index of every free tool, template and playbook. Nothing is behind an email form.'],
+    ['Cost of bad data calculator', '/en/calculator/', 'Estimates the annual cost of current data problems, and explains how to defend the number.'],
+    ['Maturity assessment', '/en/maturity-assessment/', 'DAMA-based scorecard returning a level, a five-axis radar and three quick wins.'],
+    ['Template library', '/en/templates/', 'Six Excel and Word working files: pain points, 5W2H framing, evolution stages, catalogue use cases, principles and policies, governance scorecard.'],
+    ['Playbooks', '/en/playbooks/', 'PDF playbooks on standing up data governance and on AI governance.'],
     ['Data Governance Day-to-Day simulator', '/simulators/en/data-governance-day-to-day/', 'Branching scenario on the trade-offs a data governance lead makes in a week.'],
     ['Who Owns This? simulator', '/simulators/en/data-ownership-conflict/', 'Scenario on resolving a disputed data ownership claim between two departments.'],
     ['Data Literacy simulator', '/simulators/en/data-literacy/', 'Scenario on raising data literacy without a formal training budget.'],
+    ['Public simulator results', '/en/simulator-results/', 'What the three public leaderboards currently show, with the sample size stated, plus the lessons that come out of them and an explanation of what a public board cannot measure.'],
   ],
   es: [
-    ['Página principal', '/', 'Servicios, marco de trabajo y preguntas frecuentes completas.'],
+    ['Página principal', '/', 'Servicios, el marco de tres pilares y las cuatro preguntas más frecuentes.'],
+    ['Preguntas frecuentes', '/es/faq/', 'Nueve preguntas de gobierno de datos respondidas directamente: la definición DAMA, gobierno frente a gestión, data owner frente a data steward, ROI, herramientas, IA y plazos realistas.'],
     ['Ideas (índice del blog)', '/es/blog/', 'Todos los artículos en español, del más reciente al más antiguo.'],
+    ['Glosario', '/es/glossary/', 'Definiciones del vocabulario de trabajo, agrupadas por tema; cada término tiene además su propia página en /es/glossary/<término>/.'],
+    ['Feed RSS', '/es/feed.xml', 'Los artículos en español como RSS 2.0.'],
     ['Muro de Confesiones', '/es/confession-wall/', 'Relatos anónimos de fracasos en gobierno de datos.'],
+    ['Sobre Sandy Bradbury', '/es/about/', 'Quién escribe esto: trayectoria, certificaciones DAMA y cómo trabaja la práctica.'],
+    ['Consultoría', '/es/consulting/', 'Los cuatro formatos de proyecto, qué produce cada uno y qué no se ofrece.'],
+    ['Sesiones de asesoría', '/es/advisory-sessions/', 'Una única conversación de pago de 30 minutos sobre un problema de gobierno, solicitada por escrito en lugar de agendada desde un calendario, con seguimiento escrito después.'],
+    ['Talleres', '/es/workshops/', 'Sesiones facilitadas de gobierno sobre copias privadas de los simuladores con la marca del cliente, con informe para el facilitador.'],
+    ['Recursos gratuitos', '/es/resources/', 'Índice de todas las herramientas, plantillas y playbooks gratuitos. Nada detrás de un formulario.'],
+    ['Calculadora del coste de los datos malos', '/es/calculator/', 'Estima el coste anual de los problemas de datos actuales y explica cómo defender la cifra.'],
+    ['Diagnóstico de madurez', '/es/maturity-assessment/', 'Scorecard basado en DAMA que devuelve un nivel, un radar de cinco ejes y tres quick wins.'],
+    ['Biblioteca de plantillas', '/es/templates/', 'Seis ficheros de trabajo en Excel y Word: puntos de dolor, encuadre 5W2H, etapas de evolución, casos de uso de catálogo, principios y políticas, scorecard de gobierno.'],
+    ['Playbooks', '/es/playbooks/', 'Playbooks en PDF sobre poner en marcha el gobierno de datos y sobre gobierno de la IA.'],
     ['Simulador del Día a Día', '/simulators/es/data-governance-day-to-day/', 'Escenario ramificado sobre las decisiones de un responsable de gobierno de datos.'],
     ['Simulador ¿Quién es el dueño de esto?', '/simulators/es/data-ownership-conflict/', 'Escenario sobre resolver una disputa de propiedad de datos entre áreas.'],
     ['Simulador de Alfabetización de Datos', '/simulators/es/data-literacy/', 'Escenario sobre elevar la alfabetización de datos sin presupuesto de formación.'],
+    ['Resultados públicos de los simuladores', '/es/simulator-results/', 'Lo que muestran ahora las tres clasificaciones públicas, con el tamaño de muestra declarado, más las lecciones que salen de ellas y qué no puede medir una clasificación pública.'],
   ],
   pt: [
-    ['Página inicial', '/pt/', 'Serviços, framework e perguntas frequentes completas.'],
+    ['Página inicial', '/pt/', 'Serviços, o framework de três pilares e as quatro perguntas mais frequentes.'],
+    ['Perguntas frequentes', '/pt/faq/', 'Nove perguntas de governança de dados respondidas diretamente: a definição da DAMA, governança versus gestão, data owner versus data steward, ROI, ferramentas, IA e prazos realistas.'],
     ['Ideias (índice do blog)', '/pt/blog/', 'Todos os artigos em português, do mais recente ao mais antigo.'],
+    ['Glossário', '/pt/glossary/', 'Definições do vocabulário de trabalho, agrupadas por tema; cada termo também tem a sua própria página em /pt/glossary/<termo>/.'],
+    ['Feed RSS', '/pt/feed.xml', 'Os artigos em português como RSS 2.0.'],
     ['Mural de Confissões', '/pt/confession-wall/', 'Relatos anônimos de fracassos em governança de dados.'],
+    ['Sobre Sandy Bradbury', '/pt/about/', 'Quem escreve isto: trajetória, certificações DAMA e como a prática funciona.'],
+    ['Consultoria', '/pt/consulting/', 'Os quatro formatos de projeto, o que cada um produz e o que não é oferecido.'],
+    ['Sessões de assessoria', '/pt/advisory-sessions/', 'Uma única conversa paga de 30 minutos sobre um problema de governança, solicitada por escrito em vez de agendada por calendário, com retorno escrito depois.'],
+    ['Workshops', '/pt/workshops/', 'Sessões facilitadas de governança sobre cópias privadas dos simuladores com a marca do cliente, com relatório para o facilitador.'],
+    ['Recursos gratuitos', '/pt/resources/', 'Índice de todas as ferramentas, modelos e playbooks gratuitos. Nada atrás de um formulário.'],
+    ['Calculadora do custo dos dados ruins', '/pt/calculator/', 'Estima o custo anual dos problemas de dados atuais e explica como defender o número.'],
+    ['Diagnóstico de maturidade', '/pt/maturity-assessment/', 'Scorecard baseado na DAMA que devolve um nível, um radar de cinco eixos e três quick wins.'],
+    ['Biblioteca de modelos', '/pt/templates/', 'Seis arquivos de trabalho em Excel e Word: pontos de dor, enquadramento 5W2H, etapas de evolução, casos de uso de catálogo, princípios e políticas, scorecard de governança.'],
+    ['Playbooks', '/pt/playbooks/', 'Playbooks em PDF sobre colocar a governança de dados em pé e sobre governança de IA.'],
     ['Simulador do Dia a Dia', '/simulators/pt/data-governance-day-to-day/', 'Cenário ramificado sobre as decisões de um responsável por governança de dados.'],
     ['Simulador Quem é o Dono Disso?', '/simulators/pt/data-ownership-conflict/', 'Cenário sobre resolver uma disputa de propriedade de dados entre áreas.'],
     ['Simulador de Alfabetização de Dados', '/simulators/pt/data-literacy/', 'Cenário sobre elevar a alfabetização de dados sem orçamento de treinamento.'],
+    ['Resultados públicos dos simuladores', '/pt/simulator-results/', 'O que os três rankings públicos mostram agora, com o tamanho da amostra declarado, mais as lições que saem deles e o que um ranking público não consegue medir.'],
   ],
 };
+
+/** The heading each language's glossary section gets in llms.txt. */
+const GLOSSARY_HEADINGS = { en: 'Glossary', es: 'Glosario', pt: 'Glossário' };
 
 /** Collapses a summary to a single line — llms.txt entries are one line each. */
 const oneLine = (text) => text.replace(/\s+/g, ' ').trim();
 
-const languageSection = (lang, articles) => {
+const languageSection = (lang, articles, terms) => {
   const lines = [`## ${LANGUAGE_NAMES[lang]}`, ''];
   for (const [label, route, note] of GUIDE_LINKS[lang]) {
     lines.push(`- [${label}](${SITE_ORIGIN}${route}): ${note}`);
@@ -60,6 +102,18 @@ const languageSection = (lang, articles) => {
       } · ${oneLine(article.summary)}`
     );
   }
+  // The definitions are inlined rather than left behind their links. An
+  // assistant asked "what is a data steward" can answer from this file in one
+  // fetch instead of thirty-three, and the one-line definition is the whole
+  // useful payload of a term page.
+  if (terms.length) {
+    lines.push('', `### ${GLOSSARY_HEADINGS[lang]} (${LANGUAGE_NAMES[lang]})`, '');
+    for (const term of terms) {
+      lines.push(
+        `- [${oneLine(term.term)}](${SITE_ORIGIN}/${lang}/glossary/${term.slug}/): ${oneLine(term.short)}`
+      );
+    }
+  }
   lines.push('');
   return lines.join('\n');
 };
@@ -70,8 +124,15 @@ const byLanguage = (articles, languages) =>
     articles.filter((article) => article.lang === lang).sort((first, second) => second.date.localeCompare(first.date)),
   ]);
 
-export const renderLlmsIndex = (intro, articles, languages) => {
-  const sections = byLanguage(articles, languages).map(([lang, localized]) => languageSection(lang, localized));
+export const renderLlmsIndex = (intro, articles, languages, terms = []) => {
+  const byTerm = (first, second) => first.term.localeCompare(second.term, 'en');
+  const sections = byLanguage(articles, languages).map(([lang, localized]) =>
+    languageSection(
+      lang,
+      localized,
+      terms.filter((term) => term.lang === lang).sort(byTerm)
+    )
+  );
   return `${intro.trim()}
 
 Every article is published in all three languages; the versions are translations
