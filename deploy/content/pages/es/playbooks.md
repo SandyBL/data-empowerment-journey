@@ -3,7 +3,7 @@ slug: playbooks
 nav: playbooks
 title: Playbooks de Gobierno de Datos y Gobierno de la IA (PDF, Gratis) | Data Governance Journey
 heading: Playbooks
-deck: Dos playbooks en PDF —poner en marcha el gobierno de datos y gobernar la IA— más el marco de diagnóstico de madurez como documento. Gratis, sin correo.
+deck: Dos playbooks en PDF, uno para poner en marcha el gobierno de datos y otro para gobernar la IA, más el marco de diagnóstico de madurez como documento. Gratis, sin correo.
 description: Playbooks gratuitos en PDF sobre establecer un programa de gobierno de datos y sobre gobierno de la IA, más el marco de diagnóstico de madurez basado en DAMA. Sin correo.
 kicker: Descargas gratuitas
 schema: collection
@@ -25,7 +25,7 @@ Es deliberadamente estrecho. No intenta cubrir once áreas de conocimiento, porq
 
 ## El playbook de gobierno de la IA
 
-La mayoría de las conversaciones sobre gobierno de la IA empiezan en el modelo y van hacia atrás, y por eso se atascan. Las preguntas interesantes son casi todas preguntas de datos: con qué se entrenó esto, quién estaba autorizado a aprobarlo, qué pasa cuando alguien pide que se borre su registro, y si puedes decir —por escrito, a un regulador— de dónde salió una salida concreta.
+La mayoría de las conversaciones sobre gobierno de la IA empiezan en el modelo y van hacia atrás, y por eso se atascan. Las preguntas interesantes son casi todas preguntas de datos: con qué se entrenó esto, quién estaba autorizado a aprobarlo, qué pasa cuando alguien pide que se borre su registro, y si puedes decir, por escrito y ante un regulador, de dónde salió una salida concreta.
 
 Este playbook va hacia delante desde el dato: [clasificación](/es/glossary/data-classification/) antes de la ingesta, [linaje](/es/glossary/data-lineage/) como condición previa y no como algo deseable, y los derechos de decisión concretos que necesita un órgano de [gobierno de la IA](/es/glossary/ai-governance/) y que un comité de gobierno de datos no tiene ya. Asume que tienes algo de gobierno en marcha; si no, lee primero el otro.
 

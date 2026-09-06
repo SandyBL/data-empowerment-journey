@@ -1,6 +1,6 @@
 ---
 term: Glosario de negocio
-short: Las definiciones acordadas y con dueño de los términos sobre los que la organización reporta: un solo significado por término, con un nombre detrás.
+short: Las definiciones acordadas y con dueño de los términos sobre los que la organización informa: un solo significado por término, con un nombre detrás.
 group: metadata
 also: Diccionario de negocio, vocabulario controlado
 related: metadata, data-catalog, data-steward, data-standard

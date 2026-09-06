@@ -106,7 +106,7 @@ const JOURNAL_COPY = {
     all: 'Read every article',
   },
   es: {
-    kicker: 'Desde el journal',
+    kicker: 'Desde el blog',
     heading: 'Lo último sobre gobierno de datos',
     lead: 'Nuevos artículos sobre gobierno de datos, cultura, alfabetización e IA responsable: ideas prácticas que puedes aplicar desde el primer día.',
     minRead: 'min de lectura',
@@ -114,7 +114,7 @@ const JOURNAL_COPY = {
     all: 'Ver todos los artículos',
   },
   pt: {
-    kicker: 'Do journal',
+    kicker: 'Do blog',
     heading: 'O mais recente sobre governança de dados',
     lead: 'Novos artigos sobre governança de dados, cultura, alfabetização e IA responsável: ideias práticas que você pode aplicar desde o primeiro dia.',
     minRead: 'min de leitura',

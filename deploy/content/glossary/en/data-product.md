@@ -12,4 +12,4 @@ Treating data as a product means somebody is accountable for its consumers being
 
 **In practice.** A data product is only a product if it has named consumers. Two teams that depend on it, with an agreed refresh and a route to complain, is enough. Without consumers you have a dataset with extra paperwork.
 
-**Where it goes wrong.** Every existing table gets relabelled a data product with no change in ownership, documentation or commitment. Renaming does not create accountability. The test is simple and unforgiving: if the load fails on a Sunday, does somebody who is not the platform team know, care, and have a stated obligation to respond?
+**Where it goes wrong.** Every existing table gets relabeled a data product with no change in ownership, documentation or commitment. Renaming does not create accountability. The test is simple and unforgiving: if the load fails on a Sunday, does somebody who is not the platform team know, care, and have a stated obligation to respond?

@@ -233,7 +233,7 @@ function createEditor(space, reload) {
   addField("displayName", "Header title", "text", space.displayName);
   addField("locale", "Opening language", "select", space.locale);
   addField("logoUrl", "Client logo URL", "url", space.logoUrl || "", "Empty removes the logo.");
-  addField("accentColor", "Accent colour", "color", space.accentColor || "#65b7c7");
+  addField("accentColor", "Accent color", "color", space.accentColor || "#65b7c7");
   addField("startsAt", "Access starts", "date", dateInputValue(space.startsAt));
   addField("expiresAt", "Access ends", "date", dateInputValue(space.expiresAt));
 

@@ -8,7 +8,7 @@ article: building-a-data-governance-operating-model
 updated: 2026-09-05
 ---
 
-Decision rights are the substance of governance. Not "the council governs customer data", but: who approves a new customer attribute, who approves a change to an existing definition, who grants access to it outside the domain, who accepts a quality tolerance, who declares an incident. Each of those is a distinct decision with a distinct decider, and writing them down is often the single highest-value week a governance programme spends.
+Decision rights are the substance of governance. Not "the council governs customer data", but: who approves a new customer attribute, who approves a change to an existing definition, who grants access to it outside the domain, who accepts a quality tolerance, who declares an incident. Each of those is a distinct decision with a distinct decider, and writing them down is often the single highest-value week a governance program spends.
 
 **In practice.** A one-page grid — decision down the side, role across the top, one A per row — is enough. The constraint that makes it useful is that every row has exactly one accountable party. Two A's in a row is an unresolved argument written down as if it were a design.
 

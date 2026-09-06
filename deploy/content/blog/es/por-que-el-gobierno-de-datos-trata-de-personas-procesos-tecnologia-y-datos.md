@@ -19,9 +19,9 @@ El valor del modelo no es descriptivo. Es diagnóstico. Casi todos los programas
 
 El gobierno lo ejercen personas, y esta esquina tiene tres requisitos distintos que las organizaciones suelen mezclar.
 
-**Autoridad.** Alguien tiene que poder tomar una decisión que se sostenga. Eso significa un [propietario de datos](/es/glossary/data-owner/) por [dominio](/es/glossary/data-domain/) con rango suficiente para que su aprobación de una definición no la vuelva a litigar un par el mes siguiente.
+**Autoridad.** Alguien tiene que poder tomar una decisión que se sostenga. Eso significa un [propietario de datos](/es/glossary/data-owner/) por [dominio](/es/glossary/data-domain/) con rango suficiente para que un colega de su mismo nivel no vuelva a discutir al mes siguiente la definición que ha aprobado.
 
-**Capacidad.** Alguien tiene que tener horas disponibles para hacer el trabajo: la molienda definicional, la investigación de defectos, la respuesta a preguntas. Es la función de [stewardship](/es/glossary/data-stewardship/), y es la parte peor dotada de casi cualquier programa de gobierno. Medio día a la semana, acordado con el propio responsable del custodio, vale más que cualquier cantidad de compromiso nominal.
+**Capacidad.** Alguien tiene que tener horas disponibles para hacer el trabajo: el trabajo lento de las definiciones, la investigación de defectos, la respuesta a preguntas. Es la función de [stewardship](/es/glossary/data-stewardship/), y es la parte peor dotada de casi cualquier programa de gobierno. Medio día a la semana, acordado con el propio responsable del custodio, vale más que cualquier cantidad de compromiso nominal.
 
 **Cultura.** Suficientes personas tienen que entender por qué existen los controles para cumplirlos sin que las persigan. Eso es una cuestión de [alfabetización de datos](/es/glossary/data-literacy/), y determina si el gobierno se vive como ayuda o como obstáculo.
 

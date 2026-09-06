@@ -94,7 +94,7 @@ const COPY = {
     title: 'Data governance glossary',
     metaTitle: 'Data Governance Glossary | Data Governance Journey',
     metaDescription:
-      'Plain-language definitions of the data governance, data quality, data literacy, and AI governance terms that come up in real programmes — what each one means, how it is used, and where it goes wrong.',
+      'Plain-language definitions of the data governance, data quality, data literacy, and AI governance terms that come up in real programs — what each one means, how it is used, and where it goes wrong.',
     lead: 'Every term a data governance conversation runs into, defined in plain language: what it means, how it is actually used, and the mistake people make with it. Written for the person who has to explain it to a room, not for a certification exam.',
     count: (total) => `${total} ${total === 1 ? 'term' : 'terms'}`,
     alsoKnown: 'Also called',

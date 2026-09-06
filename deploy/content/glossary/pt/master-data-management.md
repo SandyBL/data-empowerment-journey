@@ -8,7 +8,7 @@ article: data-governance-vs-data-management
 updated: 2026-09-05
 ---
 
-Dados mestres são os que aparecem em todos os sistemas: o cliente que existe no CRM, no faturamento, no suporte e no armazém, em quatro versões ligeiramente diferentes. MDM é a prática de resolvê-las em um único registro com um identificador conhecido, e de decidir qual sistema pode alterar qual atributo. É trabalho técnico com um pré-requisito de governança, porque regras de correspondência e de sobrevivência são decisões de negócio vestidas de configuração.
+Dados mestres são os que aparecem em todos os sistemas: o cliente que existe no CRM, no faturamento, no suporte e no armazém, em quatro versões ligeiramente diferentes. MDM é a prática de resolvê-las em um único registro com um identificador conhecido, e de decidir qual sistema pode alterar qual atributo. É trabalho técnico com um pré-requisito de governança, porque regras de correspondência e de sobrevivência são decisões de negócio disfarçadas de configuração.
 
 **Na prática.** Projetos de MDM funcionam quando partem de uma dor concreta — clientes duplicados inflando a taxa de churn, um fornecedor pago duas vezes — e cobrem uma única entidade. Fracassam quando partem da ambição de uma visão única de cliente para toda a empresa.
 

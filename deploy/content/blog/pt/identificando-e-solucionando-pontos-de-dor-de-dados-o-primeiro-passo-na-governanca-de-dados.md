@@ -4,9 +4,9 @@ title: "Identificando e solucionando pontos de dor de dados: o primeiro passo na
 date: 2026-09-04
 updated: 2026-09-05
 category: data-governance
-summary: Aprenda como identificar os pontos de dor de dados da sua organização
-  —silos, problemas de qualidade, falta de propriedade— é o passo fundacional de
-  uma estratégia de governança de dados que funciona.
+summary: Entenda por que identificar os pontos de dor de dados da sua
+  organização (silos, problemas de qualidade, falta de propriedade) é o passo
+  fundacional de uma estratégia de governança de dados que funciona.
 author: Sandy Bradbury
 translation_key: identifying-addressing-data-pain-points
 ---
@@ -17,7 +17,7 @@ A primeira abordagem produz documentos melhores. A segunda produz programas que 
 
 Isto não é um argumento contra frameworks — uso o [DAMA DMBOK](/pt/glossary/dama-dmbok/) constantemente, e um modelo de capacidades é a ferramenta certa para planejar o segundo ano. Mas um programa de governança precisa conquistar sua credibilidade antes de poder gastá-la, e a única moeda que alguém de fora do time de dados reconhece é um problema de que já reclamou, agora resolvido.
 
-Então comece pela dor. Aqui está como encontrá-la e o que a governança pode realmente fazer com cada variedade.
+Então comece pela dor. Veja como encontrá-la e o que a governança pode realmente fazer com cada variedade.
 
 ## Os seis pontos de dor que justificam um programa
 
@@ -82,7 +82,7 @@ Você não precisa de uma avaliação de maturidade para localizar a dor. Precis
 
 **Entreviste quem reclama.** De dez a quinze conversas, meia hora cada, distribuídas entre perfis de negócio e técnicos. A pergunta que rende melhores respostas não é "quais são seus problemas de dados?", e sim "o que você fez na semana passada que não deveria ter tido de fazer?". As pessoas descrevem contornos com riqueza e problemas em abstrato.
 
-**Leia os escalonamentos.** O que sua organização usa para incidentes, tickets ou achados de auditoria: puxe os últimos doze meses e classifique. A maioria descobre que quatro ou cinco causas-raiz explicam a maior parte, e que ao menos uma se repete trimestralmente há anos sem que ninguém a possua.
+**Leia os escalonamentos.** O que sua organização usa para incidentes, tickets ou achados de auditoria: puxe os últimos doze meses e classifique. A maioria descobre que quatro ou cinco causas-raiz explicam a maior parte, e que ao menos uma se repete trimestralmente há anos sem que ninguém a assuma.
 
 **Amostre os dados.** Pegue seus três conjuntos mais usados e rode um [perfilamento](/pt/glossary/data-profiling/) básico: completude por atributo, taxa de duplicados sobre a chave natural, distribuição de valores contra o esperado, frescor contra o calendário declarado. Dois dias disso convertem "a qualidade é ruim" num número, e número é o que se financia.
 

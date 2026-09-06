@@ -1,11 +1,11 @@
 ---
-title: "Governança de Dados vs. Gestão de Dados: Diferenças Chave e Exemplos
+title: "Governança de Dados vs. Gestão de Dados: Diferenças-Chave e Exemplos
   Reais"
 date: 2026-07-28
 updated: 2026-09-05
 category: data-governance
 summary: Confunde Governança de Dados com Gestão de Dados? Descubra as
-  diferenças chave, exemplos reais e como as duas trabalham juntas para proteger
+  diferenças-chave, exemplos reais e como as duas trabalham juntas para proteger
   seus dados.
 author: Sandy Bradbury
 translation_key: data-governance-vs-data-management
@@ -53,14 +53,14 @@ Os títulos dos cargos se sobrepõem mal. Um "gerente de governança de dados" f
 
 E a roda do DMBOK põe a governança no centro, o que quem está começando lê como *governança é a função mais importante* em vez de *governança é a função que coordena as outras*. Centralidade fala de relação, não de posto.
 
-## Diferenças chave num relance
+## Diferenças-chave num relance
 
 | Aspecto | Governança de Dados | Gestão de Dados |
 | :--- | :--- | :--- |
 | Pergunta central | Quem decide, com que evidência e quem responde? | Como capturamos, armazenamos, movemos, protegemos e descartamos? |
 | Resultados principais | Direitos de decisão, políticas, padrões, propriedade, fóruns | Arquitetura, pipelines, modelos, controles, operação de qualidade |
 | Papéis típicos | Proprietários, curadores, conselho de governança, escritório de dados | Engenheiros de dados, arquitetos, DBAs, plataforma e segurança |
-| Como falha | Uma biblioteca de políticas que ninguém aplica | Uma plataforma impecável servindo dados que ninguém acorda |
+| Como falha | Uma biblioteca de políticas que ninguém aplica | Uma plataforma impecável que serve dados com os quais ninguém concorda |
 | Medida por | Cobertura de propriedade, tempo de decisão, reuso de definições | Disponibilidade, frescor, taxa de defeitos, tempo de recuperação |
 | Orçamento | Negócio ou transformação | TI ou engenharia de plataforma |
 

@@ -4,8 +4,8 @@ title: "Por que a governança de dados é sobre pessoas, processos, tecnologia�
 date: 2026-09-02
 updated: 2026-09-05
 category: data-governance
-summary: Explore o Quadrado de Ouro da governança de dados —pessoas, processos,
-  tecnologia e dados— e aprenda como alinhar esses 4 pilares cria uma vantagem
+summary: Explore o Quadrado de Ouro da governança de dados (pessoas, processos,
+  tecnologia e dados) e veja como alinhar esses quatro pilares cria uma vantagem
   competitiva sustentável.
 author: Sandy Bradbury
 translation_key: why-data-governance-people-process-technology-data
@@ -19,21 +19,21 @@ O valor do modelo não é descritivo. É diagnóstico. Quase todo programa de [g
 
 A governança é exercida por pessoas, e este canto tem três requisitos distintos que as organizações costumam misturar.
 
-**Autoridade.** Alguém precisa poder tomar uma decisão que se sustente. Isso significa um [proprietário de dados](/pt/glossary/data-owner/) por [domínio](/pt/glossary/data-domain/) com senioridade suficiente para que sua aprovação de uma definição não seja relitigada por um par no mês seguinte.
+**Autoridade.** Alguém precisa poder tomar uma decisão que se sustente. Isso significa um [proprietário de dados](/pt/glossary/data-owner/) por [domínio](/pt/glossary/data-domain/) com senioridade suficiente para que um colega de mesmo nível não volte a discutir no mês seguinte a definição que ela aprovou.
 
-**Capacidade.** Alguém precisa ter horas disponíveis para fazer o trabalho: a moagem das definições, a investigação de defeitos, a resposta às perguntas. É a função de [curadoria de dados](/pt/glossary/data-stewardship/), e é a parte mais consistentemente subdimensionada de qualquer programa de governança. Meio dia por semana, acordado com o próprio gestor do curador, vale mais que qualquer quantidade de compromisso nominal.
+**Capacidade.** Alguém precisa ter horas disponíveis para fazer o trabalho: o trabalho lento das definições, a investigação de defeitos, a resposta às perguntas. É a função de [curadoria de dados](/pt/glossary/data-stewardship/), e é a parte mais consistentemente subdimensionada de qualquer programa de governança. Meio dia por semana, acordado com o próprio gestor do curador, vale mais que qualquer quantidade de compromisso nominal.
 
-**Cultura.** Pessoas suficientes precisam entender por que os controles existem para cumpri-los sem serem perseguidas. Isso é uma questão de [literacia de dados](/pt/glossary/data-literacy/), e determina se a governança é vivida como ajuda ou como obstáculo.
+**Cultura.** Pessoas suficientes precisam entender por que os controles existem para cumpri-los sem serem perseguidas. Isso é uma questão de [alfabetização de dados](/pt/glossary/data-literacy/), e determina se a governança é vivida como ajuda ou como obstáculo.
 
-Os três são independentes, e é por isso que investimento parcial produz tão pouco. Um proprietário com autoridade e sem capacidade aprova devagar e para de aparecer. Um curador com capacidade e sem proprietário acima produz documentação excelente que ninguém ratifica. E os dois trabalhando numa cultura a quem ninguém explicou por que isso importa passam a semana negociando em vez de decidindo.
+Os três são independentes, e é por isso que investimento parcial produz tão pouco. Um proprietário com autoridade e sem capacidade aprova devagar e para de aparecer. Um curador com capacidade e sem proprietário acima produz documentação excelente que ninguém ratifica. E os dois trabalhando numa cultura em que ninguém explicou por que isso importa passam a semana negociando em vez de decidindo.
 
 ## Processos: as rotinas que carregam as decisões
 
-Processo é o que transforma uma intenção de governança em algo que acontece numa terça-feira, lembre-se alguém ou não.
+Processo é o que transforma uma intenção de governança em algo que acontece numa terça-feira, quer alguém se lembre ou não.
 
 As rotinas centrais são poucas: como uma definição é proposta, revisada e aprovada; como um defeito de qualidade é levantado, triado e encerrado; como o acesso é solicitado e decidido; como uma mudança em um ativo compartilhado é avaliada quanto a impacto; e como a propriedade é reconfirmada depois de uma reorganização.
 
-O princípio de desenho que importa mais que qualquer detalhe: incruste essas rotinas dentro de rotinas que já existem em vez de criar paralelas. Um limite de qualidade na definição de pronto de um pipeline sobrevive. Um comitê de revisão de governança separado, ao lado do processo de entrega, funciona enquanto alguém o persegue e decai no momento em que a atenção se move.
+O princípio de desenho que importa mais que qualquer detalhe: encaixe essas rotinas dentro das que já existem em vez de criar rotinas paralelas. Um limite de qualidade na definição de pronto de um pipeline sobrevive. Um comitê de revisão de governança separado, ao lado do processo de entrega, funciona enquanto alguém o persegue e decai no momento em que a atenção se move.
 
 | Elemento de processo | O que produz | Onde deveria morar |
 | :--- | :--- | :--- |
@@ -57,7 +57,7 @@ Existe uma sequência defensável aqui. Compre ferramenta quando a carga manual 
 
 O quarto canto é o próprio ativo, e adicioná-lo muda a análise de três formas específicas.
 
-Ele obriga você a ser seletivo. Não todo dado merece governança. Identificar os [elementos de dados críticos](/pt/glossary/critical-data-element/) — os atributos cuja falha causa dano visível ao negócio — é o que mantém um programa proporcional. Organizações que pulam esse passo governam tudo superficialmente em vez de algo bem.
+Ele obriga você a ser seletivo. Nem todo dado merece governança. Identificar os [elementos de dados críticos](/pt/glossary/critical-data-element/) — os atributos cuja falha causa dano visível ao negócio — é o que mantém um programa proporcional. Organizações que pulam esse passo governam tudo superficialmente em vez de algo bem.
 
 Ele obriga você a considerar a forma. Registros estruturados num warehouse, logs e fluxos de eventos semiestruturados, e documentos, contratos e mídia não estruturados: todos precisam de governança, e os controles não se transferem entre eles. Um esquema de classificação desenhado para colunas de banco aplicado a um repositório de documentos produz uma política que não se pode aplicar.
 
@@ -65,7 +65,7 @@ E ele obriga você a pensar em ciclo de vida. O dado é criado, usado, fica defa
 
 ## Como é a falha em cada canto
 
-Aqui está o valor diagnóstico do modelo.
+É aqui que está o valor diagnóstico do modelo.
 
 **Pessoas fracas, todo o resto forte.** Você tem plataforma, processos documentados e uma lista clara de elementos críticos — e nenhum proprietário com autoridade. Definições são propostas e nunca aprovadas. Alertas de qualidade chegam a uma lista de distribuição. Tudo está pronto para funcionar e nada decide. É a falha mais comum e a mais barata de consertar, porque nomear proprietários custa uma decisão e não um orçamento.
 

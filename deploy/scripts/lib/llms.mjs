@@ -32,7 +32,7 @@ const GUIDE_LINKS = {
     ['Free resources', '/en/resources/', 'Index of every free tool, template and playbook. Nothing is behind an email form.'],
     ['Cost of bad data calculator', '/en/calculator/', 'Estimates the annual cost of current data problems, and explains how to defend the number.'],
     ['Maturity assessment', '/en/maturity-assessment/', 'DAMA-based scorecard returning a level, a five-axis radar and three quick wins.'],
-    ['Template library', '/en/templates/', 'Six Excel and Word working files: pain points, 5W2H framing, evolution stages, catalogue use cases, principles and policies, governance scorecard.'],
+    ['Template library', '/en/templates/', 'Six Excel and Word working files: pain points, 5W2H framing, evolution stages, catalog use cases, principles and policies, governance scorecard.'],
     ['Playbooks', '/en/playbooks/', 'PDF playbooks on standing up data governance and on AI governance.'],
     ['Data Governance Day-to-Day simulator', '/simulators/en/data-governance-day-to-day/', 'Branching scenario on the trade-offs a data governance lead makes in a week.'],
     ['Who Owns This? simulator', '/simulators/en/data-ownership-conflict/', 'Scenario on resolving a disputed data ownership claim between two departments.'],

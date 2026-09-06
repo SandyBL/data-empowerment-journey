@@ -235,7 +235,7 @@
     pt: {
       "data-ownership-conflict": "Conflito de Propriedade de Dados",
       "data-governance-day-to-day": "Governança de Dados no Dia a Dia",
-      "data-literacy": "Letramento em Dados"
+      "data-literacy": "Alfabetização de Dados"
     }
   };
 
@@ -295,7 +295,7 @@
       altPrefix: "Rather talk it through first?",
       altLink: "Send me your result and a question",
       returning: function (pillar) {
-        return "In this browser, another simulator already measured " + pillar + ", so all five pillars now have a reading. The Scorecard is what turns those separate readings into one organisational baseline.";
+        return "In this browser, another simulator already measured " + pillar + ", so all five pillars now have a reading. The Scorecard is what turns those separate readings into one organizational baseline.";
       }
     },
 
@@ -303,7 +303,7 @@
     coverage: {
       culture: {
         headline: "Four pillars answered. The fifth is the one that decides whether the other four hold.",
-        body: "Foundations, Metadata &amp; Catalog, Data Quality and Data Security all moved while you played. Data Culture -- change management and literacy -- never came up, because no simulator can measure whether your colleagues would actually go along with the decisions you just made. That pillar is where most governance programmes quietly stall."
+        body: "Foundations, Metadata &amp; Catalog, Data Quality and Data Security all moved while you played. Data Culture -- change management and literacy -- never came up, because no simulator can measure whether your colleagues would actually go along with the decisions you just made. That pillar is where most governance programs quietly stall."
       },
       metadata: {
         headline: "Four pillars answered. The fifth is the one nobody notices until an audit.",
@@ -315,7 +315,7 @@
     weakest: {
       foundations: {
         headline: "Your weakest pillar was Foundations: strategy, ownership and roles.",
-        body: "Every other pillar is downstream of this one. Quality rules with no accountable owner get skipped, catalogs with no mandate go stale, and security controls with no decision rights turn into a queue. If Foundations is the soft spot in a simulator, it is usually louder in the real organisation."
+        body: "Every other pillar is downstream of this one. Quality rules with no accountable owner get skipped, catalogs with no mandate go stale, and security controls with no decision rights turn into a queue. If Foundations is the soft spot in a simulator, it is usually louder in the real organization."
       },
       metadata: {
         headline: "Your weakest pillar was Metadata &amp; Catalog: documentation and traceability.",
@@ -340,18 +340,18 @@
     evidence: {
       "data-ownership-conflict": {
         master: function (c) {
-          return "You closed at " + c.score + " points with " + c.correct + " of " + c.total + " correct: you can name the accountable role faster than most governance leads. Which makes the expensive question the other one -- whether your organisation actually assigns them that way.";
+          return "You closed at " + c.score + " points with " + c.correct + " of " + c.total + " correct: you can name the accountable role faster than most governance leads. Which makes the expensive question the other one -- whether your organization actually assigns them that way.";
         },
         practitioner: function (c) {
           return "You closed at " + c.score + " points, " + c.correct + " of " + c.total + " correct. The pattern in the misses is the useful part: ownership calls are rarely wrong at random, they lean.";
         },
         rookie: function (c) {
-          return "You closed at " + c.score + " points, " + c.correct + " of " + c.total + " correct. Worth knowing: these ten scenarios are the ones real organisations argue about in meetings, so a middling first run is a reading, not a verdict.";
+          return "You closed at " + c.score + " points, " + c.correct + " of " + c.total + " correct. Worth knowing: these ten scenarios are the ones real organizations argue about in meetings, so a middling first run is a reading, not a verdict.";
         }
       },
       "data-governance-day-to-day": {
         leader: function (c) {
-          return "You finished ten decisions at " + c.score + "% with the budget intact: you already govern like the structure exists. The gap that costs money is between how you decided here and what your organisation would let you do on Monday.";
+          return "You finished ten decisions at " + c.score + "% with the budget intact: you already govern like the structure exists. The gap that costs money is between how you decided here and what your organization would let you do on Monday.";
         },
         reactive: function (c) {
           return "You finished ten decisions at " + c.score + "%. That is the profile of someone holding things together by hand -- which works, until it is the only thing holding them together.";
@@ -362,7 +362,7 @@
       },
       "data-literacy": {
         champion: function (c) {
-          return "You cleared " + c.score + " of " + c.total + " questions across bias, AI risk, analytics and culture. At that level your own literacy has stopped being the constraint, and the distance between you and the rest of the organisation has become it.";
+          return "You cleared " + c.score + " of " + c.total + " questions across bias, AI risk, analytics and culture. At that level your own literacy has stopped being the constraint, and the distance between you and the rest of the organization has become it.";
         },
         strategist: function (c) {
           return "You cleared " + c.score + " of " + c.total + " questions. Strong across most competencies, with one or two that gave way under pressure -- and those are the ones that show up in real decisions.";
@@ -455,7 +455,7 @@
         body: "Es el único pilar de la lista cuyos fallos tienen fecha, son públicos y salen caros. También es el que más se asume como problema de otro -- normalmente de IT -- hasta que la revisión de accesos pregunta quién aprobó esto."
       },
       quality: {
-        headline: "Tu pilar más débil fue Calidad de Datos: medición, reglas y monitoreo.",
+        headline: "Tu pilar más débil fue Calidad de Datos: medición, reglas y monitorización.",
         body: "Calidad es a lo que se refiere la gente cuando dice que no confía en el dashboard. Los datos sin confianza no se dejan de usar: se reemplazan en silencio por una hoja de cálculo, y así es como los números del comité dejan de coincidir con los del warehouse."
       },
       culture: {
@@ -557,7 +557,7 @@
     coverage: {
       culture: {
         headline: "Quatro pilares respondidos. O quinto é o que decide se os outros quatro se sustentam.",
-        body: "Fundamentos, Metadados e Catálogo, Qualidade de Dados e Segurança de Dados se moveram enquanto você jogava. Cultura de Dados -- gestão da mudança e letramento -- não apareceu, porque nenhum simulador consegue medir se os seus colegas realmente aceitariam as decisões que você acabou de tomar. Esse pilar é onde a maioria dos programas de governança trava em silêncio."
+        body: "Fundamentos, Metadados e Catálogo, Qualidade de Dados e Segurança de Dados se moveram enquanto você jogava. Cultura de Dados -- gestão da mudança e alfabetização -- não apareceu, porque nenhum simulador consegue medir se os seus colegas realmente aceitariam as decisões que você acabou de tomar. Esse pilar é onde a maioria dos programas de governança trava em silêncio."
       },
       metadata: {
         headline: "Quatro pilares respondidos. O quinto é o que ninguém nota até chegar uma auditoria.",
@@ -583,7 +583,7 @@
         body: "Qualidade é do que as pessoas estão falando quando dizem que não confiam no dashboard. Dado sem confiança não deixa de ser usado: ele é silenciosamente substituído por uma planilha, e é assim que os números do comitê param de bater com os do warehouse."
       },
       culture: {
-        headline: "Seu pilar mais fraco foi Cultura de Dados: gestão da mudança e letramento.",
+        headline: "Seu pilar mais fraco foi Cultura de Dados: gestão da mudança e alfabetização.",
         body: "É o pilar que decide se os outros quatro sobrevivem. Políticas chegam como recomendação que ninguém lê, ferramentas são compradas e não adotadas, e o time de governança acaba virando uma fila de aprovações. Também é o mais lento de corrigir, e é por isso que saber o seu nível agora importa."
       }
     },
@@ -613,7 +613,7 @@
       },
       "data-literacy": {
         champion: function (c) {
-          return "Você acertou " + c.score + " de " + c.total + " perguntas entre vieses, risco de IA, analytics e cultura. Nesse nível o seu próprio letramento deixou de ser a restrição, e a distância entre você e o resto da organização passou a ser.";
+          return "Você acertou " + c.score + " de " + c.total + " perguntas entre vieses, risco de IA, analytics e cultura. Nesse nível a sua própria alfabetização deixou de ser a restrição, e a distância entre você e o resto da organização passou a ser.";
         },
         strategist: function (c) {
           return "Você acertou " + c.score + " de " + c.total + " perguntas. Forte na maioria das competências, com uma ou duas que cederam sob pressão -- e são justamente as que aparecem nas decisões reais.";

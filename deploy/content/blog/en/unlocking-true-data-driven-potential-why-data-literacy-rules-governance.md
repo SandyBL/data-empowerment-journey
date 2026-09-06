@@ -13,17 +13,17 @@ There is a question worth asking before the next platform investment: is your or
 
 The two look identical on a slide. Both have a warehouse, a BI tool, a dashboard estate, and a leadership team that says decisions are based on evidence. The difference shows up in the meeting where the numbers disagree with someone's instinct. In a data-driven organization, that meeting is about the numbers. In a data-rich one, the numbers get set aside and the decision is made the way it would have been made anyway.
 
-That gap is rarely a technology gap. It is almost always a [data literacy](/en/glossary/data-literacy/) gap — and it is the reason well-designed governance programmes get experienced as bureaucracy.
+That gap is rarely a technology gap. It is almost always a [data literacy](/en/glossary/data-literacy/) gap — and it is the reason well-designed governance programs get experienced as bureaucracy.
 
 ## What data literacy actually is
 
-Data literacy is the ability to read, work with, analyse, and argue with data. In practice it is four distinguishable skills, and organizations tend to have some and not others.
+Data literacy is the ability to read, work with, analyze, and argue with data. In practice it is four distinguishable skills, and organizations tend to have some and not others.
 
 **Interpretation** — reading a chart correctly, understanding what a percentage is a percentage *of*, noticing when a trend is within normal variation, knowing that a metric which moved 3% may not have moved at all.
 
 **Questioning** — asking where a number came from, what population it covers, what it excludes, and whether it answers the question actually being asked. This is the skill that most reliably distinguishes a data-literate organization, and the one least often taught.
 
-**Application** — translating an insight into a decision, including deciding that the evidence is too weak to act on. Analysis that never changes anything is a cost centre.
+**Application** — translating an insight into a decision, including deciding that the evidence is too weak to act on. Analysis that never changes anything is a cost center.
 
 **Communication** — explaining a finding to someone who will not read the appendix, without either overclaiming or hedging it into meaninglessness.
 
@@ -35,7 +35,7 @@ You do not need a survey to spot this. The patterns are consistent, and each one
 
 | Symptom | What it looks like | Effect on governance |
 | :--- | :--- | :--- |
-| Metric misreading | A KPI moves within noise and triggers a reorganisation | Governance gets blamed for "bad data" that was fine |
+| Metric misreading | A KPI moves within noise and triggers a reorganization | Governance gets blamed for "bad data" that was fine |
 | Low trust in reporting | Teams maintain private spreadsheets alongside official reports | Shadow data multiplies faster than it can be governed |
 | Intuition override | Evidence presented, acknowledged, and then ignored | Investment in quality has no visible payoff, so it stops |
 | Definitional drift | Every team has its own version of the same metric | The [business glossary](/en/glossary/business-glossary/) is written and never consulted |
@@ -51,7 +51,7 @@ Consider a steward asking a team to use the approved definition of "active custo
 
 The same asymmetry applies to every control. Classification looks like paperwork if you have not thought about what a leak would cost. Quality thresholds look arbitrary if you do not know which downstream models break. Access approval looks like gatekeeping if you have never seen an unauditable copy of customer data on a laptop.
 
-Governance can be designed well and still be resented, and the resentment is a literacy problem wearing a governance costume. This is why the programmes that succeed spend part of their effort on explanation rather than enforcement — not communications campaigns, but making the reasoning visible at the moment the control applies.
+Governance can be designed well and still be resented, and the resentment is a literacy problem wearing a governance costume. This is why the programs that succeed spend part of their effort on explanation rather than enforcement — not communications campaigns, but making the reasoning visible at the moment the control applies.
 
 There is a practical version of this. When a steward asks for a change, the request should carry its reason and its consequence: "the forecast and the churn model both read this field, and last quarter the mismatch cost us two days of reconciliation in the close." That sentence takes ten seconds to add and converts an instruction into an argument. Most governance friction I have been called in to fix was a missing sentence of that kind, repeated a few hundred times.
 
@@ -59,7 +59,7 @@ There is a practical version of this. When a steward asks for a change, the requ
 
 Four patterns show up repeatedly in organizations where this works, and none of them is a training course.
 
-**Definitions are shared and enforced at the source.** There is one calculation for each significant metric, it lives in the semantic layer rather than in each analyst's query, and using it is easier than rebuilding it. Literacy is much cheaper when the environment does not require people to be sceptical about everything.
+**Definitions are shared and enforced at the source.** There is one calculation for each significant metric, it lives in the semantic layer rather than in each analyst's query, and using it is easier than rebuilding it. Literacy is much cheaper when the environment does not require people to be skeptical about everything.
 
 **Stewardship is distributed into the business.** The person who answers "what does this field mean" sits in the domain rather than in a central team. That both scales the answer and raises literacy in the surrounding team, because the explanation happens in context.
 
@@ -69,15 +69,15 @@ Four patterns show up repeatedly in organizations where this works, and none of 
 
 ## Assessing where you stand
 
-If you want to be systematic about it, the analytics maturity models give you a vocabulary. The TDWI model describes five stages that most organizations recognise immediately:
+If you want to be systematic about it, the analytics maturity models give you a vocabulary. The TDWI model describes five stages that most organizations recognize immediately:
 
 **Nascent** — data use is ad hoc and individual. Reporting is manual, and its accuracy depends on who produced it.
 
 **Emerging** — leadership is asking for evidence. Some training exists. Definitions are inconsistent and everyone knows it.
 
-**Developing** — literacy programmes are formalised, data is consulted routinely in operational decisions, and a [data culture](/en/glossary/data-culture/) is starting to be visible in how meetings run.
+**Developing** — literacy programs are formalized, data is consulted routinely in operational decisions, and a [data culture](/en/glossary/data-culture/) is starting to be visible in how meetings run.
 
-**Mature** — fluency extends well beyond technical teams. Standardised definitions are the default, and cross-functional analysis does not require translation.
+**Mature** — fluency extends well beyond technical teams. Standardized definitions are the default, and cross-functional analysis does not require translation.
 
 **Leading** — literacy is part of the organization's identity. Evidence is expected, questioning is normal, and analytical capability is a competitive input rather than a support function.
 

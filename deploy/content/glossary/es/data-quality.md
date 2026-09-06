@@ -12,4 +12,4 @@ No existe una calidad de datos absoluta. Una dirección de cliente que basta par
 
 **En la práctica.** El trabajo de calidad funciona en bucle: elige un uso que importe, define la regla que ese uso exige, mide la tasa de incumplimiento, corrige el proceso que la genera y sigue midiendo. El cuarto paso es el que cambia algo: limpiar sin arreglar el origen es una suscripción, no un proyecto.
 
-**Dónde se rompe.** La calidad se mide contra todas las dimensiones para todos los campos y se reporta como una única puntuación. Un porcentaje compuesto no le dice a nadie qué hacer el lunes. Reporta por regla y por dueño, nombra el proceso que produjo el incumplimiento, y la conversación pasa a ser resoluble.
+**Dónde se rompe.** La calidad se mide contra todas las dimensiones para todos los campos y se comunica como una única puntuación. Un porcentaje compuesto no le dice a nadie qué hacer el lunes. Informa por regla y por dueño, nombra el proceso que produjo el incumplimiento, y la conversación pasa a ser resoluble.

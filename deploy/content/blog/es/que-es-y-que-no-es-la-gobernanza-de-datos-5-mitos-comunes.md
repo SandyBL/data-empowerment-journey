@@ -3,9 +3,9 @@ title: "Qué es y qué NO es la Gobernanza de Datos: 5 Mitos Comunes"
 date: 2026-08-11
 updated: 2026-09-05
 category: data-governance
-summary: ¿Confuso sobre la Gobernanza de Datos? Descubre qué es realmente la
-  gobernanza de datos, qué no es y cómo aclarar estos mitos protege a tu empresa
-  de errores costosos.
+summary: ¿No te queda claro qué es la gobernanza de datos? Descubre qué es
+  realmente, qué no es y cómo aclarar estos mitos protege a tu empresa de
+  errores costosos.
 author: Sandy Bradbury
 translation_key: what-data-governance-is-and-is-not
 ---
@@ -22,7 +22,7 @@ La [gobernanza de datos](/es/glossary/data-governance/) es el ejercicio de autor
 
 La gobernanza produce [políticas](/es/glossary/data-policy/) y [estándares de datos](/es/glossary/data-standard/): afirmaciones que se sostienen mire alguien o no. Los atributos sensibles se clasifican y se tratan en consecuencia. La retención tiene un plazo y un disparador. Los nombres tienen convención. Un término de negocio tiene una única forma aprobada, guardada en un [glosario de negocio](/es/glossary/business-glossary/), y se espera que los informes que lo usan coincidan con ella.
 
-La prueba útil de una regla es si podrías saber, con evidencia, que se ha incumplido. "Valoramos la calidad del dato" no es una regla. "El email del cliente es obligatorio en cuentas activas, se mide semanalmente y el propietario del dominio acepta cualquier mes por debajo del 98%" sí lo es.
+La prueba útil de una regla es si podrías saber, con evidencia, que se ha incumplido. "Valoramos la calidad del dato" no es una regla. "El email del cliente es obligatorio en cuentas activas, se mide semanalmente y el propietario del dominio acepta cualquier mes por debajo del 98 %" sí lo es.
 
 ### Responsabilidad con nombre y apellido
 
@@ -85,7 +85,7 @@ La versión ligera al principio es genuinamente barata: un propietario y una cla
 | Una herramienta que compras | El software guarda decisiones; no puede tomarlas ni exigir responsabilidad | La autoridad que decide qué registra la herramienta |
 | Un proyecto que termina | Las definiciones derivan, los sistemas cambian, los propietarios se van | Una práctica operativa con coste corriente y cadencia de revisión |
 | Un sinónimo de gestión de datos | Una produce reglas y responsabilidad, la otra sistemas y operación | La capa de decisión que la gestión de datos implementa |
-| Solo cuestión de riesgo | El gobierno de solo control añade aprobaciones y nunca las quita | Una función medida por protección y por habilitación |
+| Solo cuestión de riesgo | Un gobierno centrado solo en el control añade aprobaciones y nunca las quita | Una función medida por protección y por habilitación |
 | Algo para añadir luego | Ponerlo a posteriori obliga a reconstruir la intención desde sistemas vivos | Un pequeño conjunto de preguntas hechas antes de construir |
 
 ## Qué hacer con esto

@@ -4,7 +4,7 @@ title: "Identificación y solución de puntos de dolor de datos: el primer paso 
 date: 2026-09-04
 updated: 2026-09-05
 category: data-governance
-summary: Aprende cómo identificar los puntos de dolor de datos de tu
+summary: Descubre por qué identificar los puntos de dolor de datos de tu
   organización —silos, problemas de calidad, falta de propiedad— es el paso
   fundacional de una estrategia de gobierno de datos que funciona.
 author: Sandy Bradbury
@@ -37,13 +37,13 @@ El gobierno aporta la parte que ingeniería no puede suministrar: qué atributos
 
 ### Falta de propiedad clara
 
-Nadie responde, así que los problemas se discuten y no se resuelven. Es el punto de dolor que con más fiabilidad indica un hueco real de gobierno y no uno técnico, y también el más barato de atacar: nombrar un [propietario de datos](/es/glossary/data-owner/) por [dominio](/es/glossary/data-domain/) cuesta una decisión, no un presupuesto.
+Nadie responde, así que los problemas se discuten y no se resuelven. Es el punto de dolor que con más fiabilidad indica una brecha real de gobierno y no una técnica, y también el más barato de atacar: nombrar un [propietario de datos](/es/glossary/data-owner/) por [dominio](/es/glossary/data-domain/) cuesta una decisión, no un presupuesto.
 
 La prueba que uso en un primer taller: nombra al responsable de tus cinco dominios principales. Si tarda más de un minuto, o produce el nombre de un equipo en lugar de una persona, ahí tienes tu hallazgo.
 
 ### Definiciones inconsistentes
 
-Dos equipos reportan "clientes activos" y los números difieren un once por ciento, porque uno cuenta un acceso en los últimos 90 días y el otro cuenta cualquier cuenta sin baja. Ambos son defendibles. Ninguno es autoritativo.
+Dos equipos informan de "clientes activos" y los números difieren un once por ciento, porque uno cuenta un acceso en los últimos 90 días y el otro cuenta cualquier cuenta sin baja. Ambos son defendibles. Ninguno es autoritativo.
 
 Para esto existe un [glosario de negocio](/es/glossary/business-glossary/), aunque el glosario es el artefacto y no la solución. La solución es que alguien tenga autoridad para aprobar una definición y que los informes se cambien para cuadrar con ella.
 
@@ -72,7 +72,7 @@ El gobierno aporta [clasificación de datos](/es/glossary/data-classification/),
 
 Dos cosas marcan la diferencia en la práctica.
 
-La primera es que un punto de dolor viene con patrocinador incluido. A alguien ya le importa, ya lo ha escalado y ya responderá por ti si se arregla. Los huecos de capacidad identificados desde un marco no tienen esa clientela: tienes que fabricar el interés, que es buena parte de la razón por la que los programas de gobierno se pasan sus primeros seis meses en comunicación interna.
+La primera es que un punto de dolor viene con patrocinador incluido. A alguien ya le importa, ya lo ha escalado y ya responderá por ti si se arregla. Las brechas de capacidad identificadas desde un marco no tienen esa clientela: tienes que fabricar el interés, que es buena parte de la razón por la que los programas de gobierno se pasan sus primeros seis meses en comunicación interna.
 
 La segunda es que el remedio es comprobable. "Reducir el tiempo de resolución de una disputa de definiciones de tres semanas a tres días" pasó o no pasó. "Alcanzar el nivel 3 en gestión de metadatos" es una afirmación que solo el equipo de datos puede evaluar, lo que significa que es una afirmación que solo el equipo de datos se cree.
 
@@ -82,7 +82,7 @@ No necesitas una evaluación de madurez para localizar el dolor. Necesitas cuatr
 
 **Entrevista a quien se queja.** De diez a quince conversaciones, media hora cada una, repartidas entre perfiles de negocio y técnicos. La pregunta que da mejores respuestas no es "¿cuáles son tus problemas de datos?", sino "¿qué hiciste la semana pasada que no deberías haber tenido que hacer?". La gente describe los apaños con viveza y los problemas en abstracto.
 
-**Lee los escalados.** Lo que use tu organización para incidentes, tickets o hallazgos de auditoría: saca los últimos doce meses y clasifícalos. La mayoría descubre que cuatro o cinco causas raíz explican la mayor parte, y que al menos una se repite trimestralmente desde años sin que nadie la posea.
+**Lee los escalados.** Lo que use tu organización para incidentes, tickets o hallazgos de auditoría: saca los últimos doce meses y clasifícalos. La mayoría descubre que cuatro o cinco causas raíz explican la mayor parte, y que al menos una se repite trimestralmente desde hace años sin que nadie la asuma.
 
 **Muestrea los datos.** Coge tus tres conjuntos más usados y ejecuta un [perfilado](/es/glossary/data-profiling/) básico: completitud por atributo, tasa de duplicados sobre la clave natural, distribución de valores frente a lo esperado, frescura frente al calendario declarado. Dos días de esto convierten "la calidad es mala" en un número, y un número es lo que se financia.
 

@@ -12,4 +12,4 @@ Las dimensiones existen para que "los datos están mal" pase a ser un diagnósti
 
 **En la práctica.** La mayoría de los problemas reales son de validez, completitud y consistencia, en ese orden, porque son las tres que un sistema puede generar en silencio. Nombrar la dimensión te dice dónde va el arreglo: la validez suele ser un control de entrada, la consistencia suele ser una integración, la oportunidad suele ser una planificación.
 
-**Dónde se rompe.** La exactitud se mide con una regla, y no puede medirse así. Un código postal que pasa la validación de formato y pertenece a otra ciudad es válido y equivocado. Comprobar la exactitud implica comparar contra algo autoritativo y, si no existe esa fuente, dilo en lugar de reportar un 98 %.
+**Dónde se rompe.** La exactitud se mide con una regla, y no puede medirse así. Un código postal que pasa la validación de formato y pertenece a otra ciudad es válido y equivocado. Comprobar la exactitud implica comparar contra algo autoritativo y, si no existe esa fuente, dilo en lugar de informar de un 98 %.

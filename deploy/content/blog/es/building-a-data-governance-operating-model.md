@@ -51,13 +51,13 @@ El contraejemplo es el flujo de gobierno independiente: un formulario, una cola 
 
 Los modelos central, federado e híbrido funcionan todos; lo que falla es elegir uno que no encaja con la capacidad que tienes. Un modelo federado pide a cada dominio un propietario real con tiempo real. Si esas personas no existen, la federación se convierte en un diagrama donde nadie rinde cuentas.
 
-Una prueba practicable es contar cuántas personas nombradas pueden dedicar un día por semana a esto. Si la respuesta es dos, opera de forma central, cubre los dominios de mayor valor y expande a medida que reclutas custodios. Si la respuesta son quince repartidas por el negocio, federa y mantén el centro pequeño: estándares, herramientas, arbitraje y reporte. Anunciar la federación antes de que existan los custodios es la forma más común de que un modelo operativo pierda credibilidad en su primer trimestre.
+Una prueba practicable es contar cuántas personas nombradas pueden dedicar un día por semana a esto. Si la respuesta es dos, opera de forma central, cubre los dominios de mayor valor y expande a medida que reclutas custodios. Si la respuesta son quince repartidas por el negocio, federa y mantén el centro pequeño: estándares, herramientas, arbitraje e informes. Anunciar la federación antes de que existan los custodios es la forma más común de que un modelo operativo pierda credibilidad en su primer trimestre.
 
 ## Mide la adopción y el valor
 
 Completar políticas no equivale a cambiar comportamientos. Mide señales prácticas: tiempo para resolver incidencias, porcentaje de elementos críticos con propietarios activos, reutilización de definiciones aprobadas y reducción de conciliaciones manuales.
 
-Las mejores métricas conectan la actividad de gobierno con un resultado de negocio, como informes más rápidos, menor riesgo operativo o resultados de IA más confiables.
+Las mejores métricas conectan la actividad de gobierno con un resultado de negocio, como informes más rápidos, menor riesgo operativo o resultados de IA más fiables.
 
 Elige como máximo cinco y publícalas con la misma cadencia y en el mismo sitio que las métricas de entrega. Un cuadro de mando de gobierno que vive en su propia presentación lo leen quienes lo escribieron. Uno que aparece en la revisión de operaciones lo leen las personas cuyo comportamiento intentas cambiar.
 

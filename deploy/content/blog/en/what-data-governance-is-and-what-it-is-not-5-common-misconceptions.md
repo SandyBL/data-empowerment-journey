@@ -10,7 +10,7 @@ author: Sandy Bradbury
 translation_key: what-data-governance-is-and-is-not
 ---
 
-Most failed governance programmes I have been asked to rescue did not fail on execution. They failed on definition. Somebody in the room believed governance was a platform, somebody else believed it was a compliance exercise, a third person believed it was a project with an end date, and the programme was funded on the average of those beliefs. Eighteen months later there was a tool, a policy library, and no change in how anyone made decisions.
+Most failed governance programs I have been asked to rescue did not fail on execution. They failed on definition. Somebody in the room believed governance was a platform, somebody else believed it was a compliance exercise, a third person believed it was a project with an end date, and the program was funded on the average of those beliefs. Eighteen months later there was a tool, a policy library, and no change in how anyone made decisions.
 
 So it is worth being precise, and precision here means saying what governance is *not* as carefully as what it is. A definition that only expands is useless: if governance includes everything, no one can tell whether they are doing it.
 
@@ -44,15 +44,15 @@ Definitions drift, systems change, regulation moves, and every organizational re
 
 This is the expensive one. Catalogs, quality engines, and lineage tools are genuinely useful — they make governance decisions visible, enforceable, and cheap to check. What they cannot do is make the decision.
 
-A [data catalog](/en/glossary/data-catalog/) will happily hold four competing definitions of "revenue" with no complaint. The tool has no opinion on which is correct, and no authority to make one binding. When a governance programme starts with a procurement exercise, what usually ships is an empty catalog and a slow realisation that populating it requires the exact conversations the tool was bought to avoid.
+A [data catalog](/en/glossary/data-catalog/) will happily hold four competing definitions of "revenue" with no complaint. The tool has no opinion on which is correct, and no authority to make one binding. When a governance program starts with a procurement exercise, what usually ships is an empty catalog and a slow realization that populating it requires the exact conversations the tool was bought to avoid.
 
-There is a reliable tell for this failure. Ask what percentage of the assets in the catalog have both an owner and an approved definition. Under a well-run governance function the number is small but rising, and someone can tell you which domains are covered. Under a tool-first programme the number is unknown, and the honest answer is that the crawler populated the inventory and nobody has been through it since.
+There is a reliable tell for this failure. Ask what percentage of the assets in the catalog have both an owner and an approved definition. Under a well-run governance function the number is small but rising, and someone can tell you which domains are covered. Under a tool-first program the number is unknown, and the honest answer is that the crawler populated the inventory and nobody has been through it since.
 
 Buy the tool second. Decide who decides first.
 
 ## Misconception 2: it is a project that finishes
 
-Programmes are scoped, funded, delivered, and closed. Governance behaves like operations: it has a run cost, a rota, and a backlog that never empties. Treating it as a project produces a predictable arc — a charter, a burst of activity, a completion report, and a quiet decay as the owners it named move roles and nobody replaces them.
+Programs are scoped, funded, delivered, and closed. Governance behaves like operations: it has a run cost, a rota, and a backlog that never empties. Treating it as a project produces a predictable arc — a charter, a burst of activity, a completion report, and a quiet decay as the owners it named move roles and nobody replaces them.
 
 I have seen the completion report land while the underlying problem was untouched: eleven policies approved, a council constituted, a catalog deployed — and the finance and commercial teams still bringing different revenue figures to the same monthly review, because no policy had ever named who arbitrates that. The project finished. The governance had not started.
 
@@ -66,15 +66,15 @@ Conflating them causes a specific, common failure: governance gets funded inside
 
 ## Misconception 4: it exists to reduce risk
 
-Risk and compliance are the easiest way to fund governance, which is why so many programmes are framed that way — and the framing quietly caps the value.
+Risk and compliance are the easiest way to fund governance, which is why so many programs are framed that way — and the framing quietly caps the value.
 
-A governance function judged only on risk optimises for control coverage. It adds approvals, because an approval is auditable. It never removes any, because removal creates exposure with no matching credit. The result is a function that is safe, slow, and resented, and the first thing cut when budgets tighten.
+A governance function judged only on risk optimizes for control coverage. It adds approvals, because an approval is auditable. It never removes any, because removal creates exposure with no matching credit. The result is a function that is safe, slow, and resented, and the first thing cut when budgets tighten.
 
-The programmes that last also measure the enabling side: how long it takes to get access to a dataset, how many certified metrics are reused rather than rebuilt, how much manual reconciliation has been eliminated, how quickly a new data product can be launched with ownership and quality in place. Those numbers are harder to collect and they are the reason anyone outside audit cares. If you have never put a figure on the operational drag, the [cost of bad data calculator](/en/calculator/) is a reasonable first estimate.
+The programs that last also measure the enabling side: how long it takes to get access to a dataset, how many certified metrics are reused rather than rebuilt, how much manual reconciliation has been eliminated, how quickly a new data product can be launched with ownership and quality in place. Those numbers are harder to collect and they are the reason anyone outside audit cares. If you have never put a figure on the operational drag, the [cost of bad data calculator](/en/calculator/) is a reasonable first estimate.
 
-## Misconception 5: it can be added afterwards
+## Misconception 5: it can be added afterward
 
-Governance retrofitted onto a live estate is not the same work as governance designed in, and it costs several times more. Ownership assigned after a warehouse is built means reverse-engineering intent from SQL. Classification applied after ingestion means a discovery project across systems that were never labelled. Definitions agreed after twelve dashboards exist means a migration, not a decision.
+Governance retrofitted onto a live estate is not the same work as governance designed in, and it costs several times more. Ownership assigned after a warehouse is built means reverse-engineering intent from SQL. Classification applied after ingestion means a discovery project across systems that were never labeled. Definitions agreed after twelve dashboards exist means a migration, not a decision.
 
 The lightweight version at the start is genuinely cheap: an owner and a classification before a dataset gets a slot in the roadmap, a definition of done that includes a quality threshold and an alert route, and a named decider for the handful of questions the organization keeps stalling on. None of that requires a platform or a council. It requires the discipline to ask three questions before the build rather than after it.
 
@@ -90,8 +90,8 @@ The lightweight version at the start is genuinely cheap: an owner and a classifi
 
 ## What to do with this
 
-If you are trying to get a governance programme funded, or to explain why the last one did not work, the misconceptions above are usually where the disagreement actually sits. Getting a room to agree on what governance is not takes about an hour and saves the average programme a year.
+If you are trying to get a governance program funded, or to explain why the last one did not work, the misconceptions above are usually where the disagreement actually sits. Getting a room to agree on what governance is not takes about an hour and saves the average program a year.
 
 Then start small enough to be credible. Three domains with named owners, ten decisions written down, one forum with a real mandate, and a published measure of whether decisions are getting faster. That is a governance function. Everything else — the platform, the council structure, the maturity roadmap — is an elaboration you can afford once the basics are working.
 
-If you want to see where your organization currently stands, the [data governance maturity assessment](/en/maturity-assessment/) covers the four dimensions that predict whether a programme will hold. For the mechanics of turning these principles into working routines, [Building a Data Governance Operating Model](/en/blog/building-a-data-governance-operating-model/) is the next step, and [Introduction to the Basics of a Data Governance Program](/en/blog/introduction-to-the-basics-of-a-data-governance-program/) covers the foundations in order.
+If you want to see where your organization currently stands, the [data governance maturity assessment](/en/maturity-assessment/) covers the four dimensions that predict whether a program will hold. For the mechanics of turning these principles into working routines, [Building a Data Governance Operating Model](/en/blog/building-a-data-governance-operating-model/) is the next step, and [Introduction to the Basics of a Data Governance Program](/en/blog/introduction-to-the-basics-of-a-data-governance-program/) covers the foundations in order.

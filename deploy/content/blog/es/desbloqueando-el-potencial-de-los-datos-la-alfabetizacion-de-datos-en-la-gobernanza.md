@@ -15,13 +15,13 @@ Hay una pregunta que vale hacerse antes de la siguiente inversión en plataforma
 
 Las dos cosas se ven idénticas en una diapositiva. Ambas tienen un almacén, una herramienta de BI, un parque de cuadros de mando y un comité de dirección que dice que las decisiones se basan en evidencia. La diferencia aparece en la reunión donde los números contradicen la intuición de alguien. En una organización dirigida por datos, esa reunión trata de los números. En una rica en datos, los números se apartan y la decisión se toma como se habría tomado igualmente.
 
-Ese hueco rara vez es tecnológico. Casi siempre es un hueco de [alfabetización de datos](/es/glossary/data-literacy/), y es la razón por la que programas de gobierno bien diseñados se viven como burocracia.
+Esa brecha rara vez es tecnológica. Casi siempre es una brecha de [alfabetización de datos](/es/glossary/data-literacy/), y es la razón por la que programas de gobierno bien diseñados se viven como burocracia.
 
 ## Qué es realmente la alfabetización de datos
 
 La alfabetización de datos es la capacidad de leer datos, trabajar con ellos, analizarlos y discutir con ellos. En la práctica son cuatro habilidades distinguibles, y las organizaciones suelen tener algunas y no otras.
 
-**Interpretación**: leer un gráfico correctamente, entender de qué es porcentaje un porcentaje, notar cuándo una tendencia está dentro de la variación normal, saber que una métrica que se movió un 3% puede no haberse movido.
+**Interpretación**: leer un gráfico correctamente, entender de qué es porcentaje un porcentaje, notar cuándo una tendencia está dentro de la variación normal, saber que una métrica que se movió un 3 % puede no haberse movido.
 
 **Cuestionamiento**: preguntar de dónde salió un número, qué población cubre, qué excluye y si responde a la pregunta que realmente se está haciendo. Es la habilidad que con más fiabilidad distingue a una organización alfabetizada, y la que menos se enseña.
 
@@ -47,11 +47,11 @@ El último es el más caro y el más difícil de ver, porque parece consenso.
 
 ## Por qué la alfabetización determina si el gobierno se acepta
 
-Esta es la parte que se pasa por alto, así que conviene decirla directamente: los controles de gobierno se viven como burocracia en proporción exacta a lo poco que entiende quien está sujeto a ellos por qué existen.
+Esta es la parte que se pasa por alto, así que conviene decirla directamente: los controles de gobierno se viven como burocracia en proporción exacta a lo poco que entienden por qué existen quienes están sujetos a ellos.
 
 Piensa en un custodio pidiendo a un equipo que use la definición aprobada de "cliente activo" en lugar de la suya. Para quien entiende que el informe al consejo, el modelo de abandono y la previsión comercial consumen ese número, la petición es obviamente razonable. Para quien no lo entiende, es una persona de datos diciéndole que su número está mal cuando su número siempre ha funcionado bien para su propósito.
 
-La misma asimetría aplica a todos los controles. La clasificación parece papeleo si no has pensado cuánto costaría una fuga. Los umbrales de calidad parecen arbitrarios si no sabes qué modelos aguas abajo se rompen. La aprobación de accesos parece control de portero si nunca has visto una copia no auditable de datos de cliente en un portátil.
+La misma asimetría se aplica a todos los controles. La clasificación parece papeleo si no has pensado cuánto costaría una fuga. Los umbrales de calidad parecen arbitrarios si no sabes qué modelos aguas abajo se rompen. La aprobación de accesos parece control de portero si nunca has visto una copia no auditable de datos de cliente en un portátil.
 
 El gobierno puede estar bien diseñado y aun así generar resentimiento, y ese resentimiento es un problema de alfabetización disfrazado de gobierno. Por eso los programas que funcionan dedican parte de su esfuerzo a explicar y no solo a exigir; no campañas de comunicación, sino hacer visible el razonamiento en el momento en que el control aplica.
 
@@ -81,7 +81,7 @@ Si quieres ser sistemático, los modelos de madurez analítica te dan vocabulari
 
 **Madura**: la fluidez va mucho más allá de los equipos técnicos. Las definiciones estandarizadas son el punto de partida y el análisis transversal no necesita traducción.
 
-**Líder**: la alfabetización es parte de la identidad de la organización. Se espera evidencia, cuestionar es normal y la capacidad analítica es un insumo competitivo y no una función de soporte.
+**Líder**: la alfabetización es parte de la identidad de la organización. Se espera evidencia, cuestionar es normal y la capacidad analítica es una ventaja competitiva y no una función de soporte.
 
 Los marcos complementarios merecen conocerse si necesitas un ángulo concreto: el trabajo de Gartner sobre alfabetización se centra en alinear capacidad con estrategia, [DCAM](/es/glossary/data-maturity-model/) evalúa la capacidad de datos de extremo a extremo incluyendo donde la alfabetización toca arquitectura y calidad, y la evaluación de Qlik mide la progresión de la habilidad individual junto con la cultura organizativa.
 
@@ -95,7 +95,7 @@ Cuenta las definiciones rivales de tus cinco métricas más citadas. Si ingresos
 
 Pide a diez personas de un área de negocio que expliquen qué mide realmente un cuadro de mando que usan. La varianza de las respuestas es tu puntuación de alfabetización, y suele ser humillante.
 
-Cuenta las hojas de cálculo en la sombra que se mantienen en paralelo al reporting oficial. Cada una representa a alguien que no confiaba en la fuente oficial o no la entendía, y el total es un buen indicador de lo que te cuesta tu hueco de alfabetización. Si lo quieres en dinero, la [calculadora del coste de los datos malos](/es/calculator/) convierte el retrabajo en una cifra anual.
+Cuenta las hojas de cálculo en la sombra que se mantienen en paralelo al reporting oficial. Cada una representa a alguien que no confiaba en la fuente oficial o no la entendía, y el total es un buen indicador de lo que te cuesta tu brecha de alfabetización. Si lo quieres en dinero, la [calculadora del coste de los datos malos](/es/calculator/) convierte el retrabajo en una cifra anual.
 
 ## Cerrar el círculo
 

@@ -48,7 +48,7 @@
             currency: 'EUR',
             prefix: '€',
             template: '/assets/templates/bad-data-calculator/report-es.html',
-            filename: 'informe-costo-friccion-de-datos.pdf',
+            filename: 'informe-coste-friccion-de-datos.pdf',
             required: 'Introduce un valor para calcular la pérdida.',
             wholeNumber: 'Usa un número entero, sin decimales.',
             minValue: 'Introduce un número mayor que cero.',

@@ -14,9 +14,9 @@ A maioria das pessoas que me pergunta como começar um programa de governança d
 
 Um primeiro programa de governança é pequeno. Consiste em seis fundamentos, nenhum dos quais exige uma plataforma, e pode ser erguido por uma pessoa determinada com respaldo executivo e algumas horas semanais dos cinco colegas certos. O que segue são esses seis fundamentos, a ordem em que eu os construiria e o que deixar deliberadamente para o segundo ano.
 
-## 1. Tratar o dado como ativo — e significar algo com isso
+## 1. Tratar o dado como ativo, e falar sério ao dizer isso
 
-"Dado é um ativo" é a frase mais repetida deste campo e normalmente a mais vazia. Ela se torna real apenas quando muda uma decisão, então aqui está o teste: um ativo tem proprietário, um valor registrado, um custo de manutenção e um ciclo de vida que termina.
+"Dado é um ativo" é a frase mais repetida deste campo e normalmente a mais vazia. Ela só se torna real quando muda uma decisão, então vale o teste: um ativo tem proprietário, um valor registrado, um custo de manutenção e um ciclo de vida que termina.
 
 Aplicado ao dado, isso significa que alguém responde por cada conjunto de dados significativo. Significa que você consegue dizer aproximadamente quanto ele vale para o negócio e quanto custa quando está errado; se você nunca colocou um número nisso, a [calculadora do custo dos dados ruins](/pt/calculator/) é uma estimativa inicial defensável. E significa que o dado é aposentado: arquivado ou apagado quando não serve mais a um propósito, em vez de acumular em armazenamento para sempre porque apagar dá medo.
 
@@ -32,7 +32,7 @@ Existem três cortes comuns, e a maioria das organizações acaba usando uma mis
 | :--- | :--- | :--- |
 | Função de negócio | Quem produz e usa o dado | Finanças, RH, Marketing, Operações |
 | Dados mestres | Entidades compartilhadas entre funções | Cliente, Produto, Fornecedor, Colaborador |
-| Processo | Fluxos operacionais de ponta a ponta | Pedido a caixa, Compra a pagamento, Admissão |
+| Processo | Fluxos operacionais de ponta a ponta | Do pedido ao recebimento, Da compra ao pagamento, Admissão |
 
 A orientação prática é manter o número baixo no início — cinco a oito domínios, não trinta — e definir cada um pelas entidades que contém e não pelos sistemas que as guardam. Um domínio definido por um sistema fica obsoleto no momento em que você migra.
 
@@ -46,7 +46,7 @@ Os **[proprietários de dados](/pt/glossary/data-owner/)** respondem por um dom�
 
 Os **[curadores de dados](/pt/glossary/data-steward/)** fazem o trabalho: manter definições, investigar problemas de qualidade, coordenar correções, responder o que significa um campo. É aqui que vão as horas reais, e é o papel que os programas mais frequentemente esquecem de prover. Um proprietário sem curador é uma pessoa responsável sem capacidade de agir.
 
-Uma **pequena função coordenadora** — uma pessoa basta no início — guarda os padrões, conduz o fórum, persegue os follow-ups e publica as medidas.
+Uma **pequena função coordenadora** — uma pessoa basta no início — guarda os padrões, conduz o fórum, cobra os pendentes e publica as medidas.
 
 A coisa mais útil que você pode fazer na primeira semana é converter cada papel do seu diagrama em um nome. Papéis que ninguém ocupa são a razão mais comum pela qual um programa de governança parece completo no papel e não produz nada.
 
@@ -64,7 +64,7 @@ Dois hábitos mantêm um conjunto de políticas vivo. Dê a cada política um do
 
 Você precisa saber o que tem. É para isso que serve um [catálogo de dados](/pt/glossary/data-catalog/) neste estágio, e uma planilha faz isso adequadamente para os primeiros cem ativos.
 
-Registre, por conjunto significativo: o que é, quem é o dono, sua classificação, seu sistema de origem, seu calendário de atualização e as definições dos seus campos chave. Comece pelos conjuntos que alimentam o reporting executivo, porque são aqueles cujas falhas são notadas.
+Registre, por conjunto significativo: o que é, quem é o dono, sua classificação, seu sistema de origem, seu calendário de atualização e as definições dos seus campos-chave. Comece pelos conjuntos que alimentam o reporting executivo, porque são aqueles cujas falhas são notadas.
 
 Compre a ferramenta quando a planilha se tornar o gargalo, e não antes. Um produto de catálogo comprado antes de haver algo para colocar nele produz um índice vazio e uma conversa de renovação de licença. Se quiser uma estrutura de partida, os [templates](/pt/templates/) incluem um inventário e um registro de definições que você pode copiar.
 
@@ -84,13 +84,13 @@ Os seis fundamentos não são independentes, e construí-los fora de sequência 
 
 Domínios antes de papéis, porque você não pode nomear proprietário de um escopo indefinido. Papéis antes de política, porque política sem dono é documentação. Política antes de catálogo, porque o catálogo registra decisões e você precisa ter tomado alguma. Catálogo antes de medição de qualidade, porque você não pode medir o que não inventariou, e do contrário vai medir o que for conveniente.
 
-Se você não levar nada mais disto: dois domínios, proprietários e curadores nomeados, cinco políticas, uma planilha, três atributos medidos. Esse é um programa completo de primeiro trimestre, e é suficiente para demonstrar valor.
+Se você não guardar mais nada deste artigo, guarde isto: dois domínios, proprietários e curadores nomeados, cinco políticas, uma planilha, três atributos medidos. Esse é um programa completo de primeiro trimestre, e é suficiente para demonstrar valor.
 
 ## O que deixar para o segundo ano
 
 Ser explícito sobre o que você **não** está fazendo é o que mantém um primeiro programa entregável.
 
-Deixe a compra da plataforma. Deixe a avaliação de maturidade completa contra todas as dimensões: uma leitura para encontrar sua área mais fraca é útil, uma linha de base pontuada de quarenta itens é um projeto em si. Deixe a federação: opere centralmente sobre dois domínios até ter curadores que existam. Deixe o glossário corporativo inteiro e faça os cinquenta termos que aparecem no reporting ao conselho. E deixe o roadmap plurianual, que estará errado, em troca de um plano publicado para os dois próximos trimestres, que estará aproximadamente certo e será acreditado.
+Deixe a compra da plataforma. Deixe a avaliação de maturidade completa contra todas as dimensões: uma leitura para encontrar sua área mais fraca é útil, uma linha de base pontuada de quarenta itens é um projeto em si. Deixe a federação: opere centralmente sobre dois domínios até ter curadores que existam. Deixe o glossário corporativo inteiro e faça os cinquenta termos que aparecem no reporting ao conselho. E deixe o roadmap plurianual, que estará errado, em troca de um plano publicado para os dois próximos trimestres, que estará aproximadamente certo e em que as pessoas vão acreditar.
 
 ## Como começar esta semana
 

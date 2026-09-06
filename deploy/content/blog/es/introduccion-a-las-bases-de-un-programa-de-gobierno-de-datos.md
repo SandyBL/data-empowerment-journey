@@ -5,12 +5,12 @@ updated: 2026-09-05
 category: data-governance
 summary: Aprende los 6 bloques fundacionales necesarios para lanzar un programa
   de gobierno de datos pragmático que convierta datos crudos en un activo
-  empresarial confiable.
+  empresarial fiable.
 author: Sandy Bradbury
 translation_key: introduction-basics-data-governance-program
 ---
 
-La mayoría de quienes me preguntan cómo arrancar un programa de gobierno de datos ya ha leído lo suficiente para estar intimidada. Han visto la rueda del [DMBOK](/es/glossary/dama-dmbok/) con sus once áreas de conocimiento, un modelo de madurez con cinco niveles y cuarenta subdimensiones, y una presentación comercial que promete un tejido de datos corporativo. Nada de eso está mal. Todo eso es el sitio equivocado para empezar.
+La mayoría de quienes me preguntan cómo arrancar un programa de gobierno de datos ya han leído lo suficiente para estar intimidados. Han visto la rueda del [DMBOK](/es/glossary/dama-dmbok/) con sus once áreas de conocimiento, un modelo de madurez con cinco niveles y cuarenta subdimensiones, y una presentación comercial que promete un tejido de datos corporativo. Nada de eso está mal. Todo eso es el sitio equivocado para empezar.
 
 Un primer programa de gobierno es pequeño. Consiste en seis fundamentos, ninguno de los cuales exige una plataforma, y puede levantarlo una persona decidida con respaldo directivo y unas pocas horas semanales de los cinco colegas adecuados. Lo que sigue son esos seis fundamentos, el orden en que yo los construiría y qué dejar deliberadamente para el segundo año.
 
@@ -58,7 +58,7 @@ Los programas nuevos tienden a escribir demasiada política demasiado pronto. Ap
 
 Para la mayoría de las organizaciones eso significa cinco o seis [políticas de datos](/es/glossary/data-policy/): clasificación y tratamiento de datos sensibles, aprobación de accesos, retención, expectativas de calidad para los [elementos de datos críticos](/es/glossary/critical-data-element/) y autoridad definicional, es decir, quién puede aprobar el significado de un término de negocio.
 
-Dos hábitos mantienen vivo un cuerpo de políticas. Dale a cada política un dueño con nombre y una fecha de revisión. Y escribe la regla de forma comprobable: no "los datos deben ser exactos", sino "el email del cliente es obligatorio en cuentas activas, se mide semanalmente, y cualquier mes por debajo del 98% lo acepta por escrito el propietario del dominio o se remedia".
+Dos hábitos mantienen vivo un cuerpo de políticas. Dale a cada política un dueño con nombre y una fecha de revisión. Y escribe la regla de forma comprobable: no "los datos deben ser exactos", sino "el email del cliente es obligatorio en cuentas activas, se mide semanalmente, y cualquier mes por debajo del 98 % lo acepta por escrito el propietario del dominio o se remedia".
 
 ## 5. Construir el inventario más simple que funcione
 
@@ -82,7 +82,7 @@ Una victoria temprana fiable: deduplicación de una entidad principal con una [�
 
 Los seis fundamentos no son independientes, y construirlos fuera de secuencia es la causa habitual de los programas atascados.
 
-Dominios antes que roles, porque no puedes nombrar propietario de un alcance indefinido. Roles antes que política, porque una política sin dueño es documentación. Política antes que catálogo, porque el catálogo registra decisiones y necesitas haber tomado alguna. Catálogo antes que medición de calidad, porque no puedes medir lo que no has inventariado, y si no medirás lo que resulte cómodo.
+Dominios antes que roles, porque no puedes nombrar propietario de un alcance indefinido. Roles antes que política, porque una política sin dueño es documentación. Política antes que catálogo, porque el catálogo registra decisiones y necesitas haber tomado alguna. Catálogo antes que medición de calidad, porque no puedes medir lo que no has inventariado y, si no, medirás lo que resulte cómodo.
 
 Si no te llevas nada más de esto: dos dominios, propietarios y custodios con nombre, cinco políticas, una hoja de cálculo, tres atributos medidos. Ese es un programa completo de primer trimestre, y es suficiente para demostrar valor.
 

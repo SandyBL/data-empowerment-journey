@@ -49,6 +49,6 @@ Una sesión suelta es un precio fijo, confirmado en la respuesta antes de agenda
 
 Cuéntame el problema y qué has intentado ya. Esa segunda parte nos ahorra a los dos los primeros diez minutos.
 
-**[Solicitar una sesión](/?offer=advisory-session#contact-form-start)** — el formulario de contacto se abre con la primera línea ya escrita y la solicitud marcada como sesión. Añade debajo el problema y envíalo.
+**[Solicitar una sesión](/?offer=advisory-session#contact-form-start)**: el formulario de contacto se abre con la primera línea ya escrita y la solicitud marcada como sesión. Añade debajo el problema y envíalo.
 
 Si prefieres llegar antes a la respuesta aprendiendo, es una elección legítima y buena parte de este sitio existe para eso: las [preguntas frecuentes](/es/faq/) para lo que sale en toda primera conversación, el [blog](/es/blog/) para los argumentos largos y los [simuladores](/es/simulator-results/) si prefieres tomar tú las decisiones y ver qué pasa.

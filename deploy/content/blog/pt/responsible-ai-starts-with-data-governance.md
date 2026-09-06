@@ -11,11 +11,11 @@ translation_key: responsible-ai-starts-with-data-governance
 
 A governança de IA não é uma disciplina separada flutuando sobre a gestão de dados. Todo modelo depende de dados cuja origem, significado, qualidade, permissões e limitações precisam ser compreendidos. Quando essas coisas já são governadas, uma política de IA é um documento curto que aponta para controles que a organização já opera. Quando não são, a política precisa inventar um ambiente de controle inteiro do zero — e normalmente inventa um que ninguém executa.
 
-Esse é o padrão mais comum que vemos. Uma empresa escreve uma carta de IA responsável, nomeia um comitê de ética e publica princípios sobre justiça, transparência e supervisão humana. Seis meses depois, o comitê não consegue responder a uma pergunta simples sobre um modelo que já está em produção: quais tabelas o alimentam, quem é o dono delas, quando mudaram pela última vez e se as pessoas ali representadas consentiram com esse uso. Os princípios nunca estiveram errados. Eles apenas não tinham nada por baixo.
+Esse é o padrão mais comum que vejo. Uma empresa escreve uma carta de IA responsável, nomeia um comitê de ética e publica princípios sobre justiça, transparência e supervisão humana. Seis meses depois, o comitê não consegue responder a uma pergunta simples sobre um modelo que já está em produção: quais tabelas o alimentam, quem é o dono delas, quando mudaram pela última vez e se as pessoas ali representadas consentiram com esse uso. Os princípios nunca estiveram errados. Eles apenas não tinham nada por baixo.
 
 ## Por que governança de IA é, sobretudo, governança de dados
 
-Quase todo risco que se atribui a um modelo é herdado dos dados. Um modelo é enviesado porque a população com que aprendeu não era representativa. Ele degrada porque uma fonte a montante mudou de forma e ninguém avisou o time. Ele vaza porque um campo que deveria estar classificado como sensível não estava. Ele não pode ser explicado porque a linhagem entre o conjunto de treino e a origem nunca foi registrada.
+Quase todo risco que se atribui a um modelo é herdado dos dados. Um modelo é enviesado porque a população com a qual aprendeu não era representativa. Ele degrada porque uma fonte a montante mudou de forma e ninguém avisou o time. Ele vaza porque um campo que deveria estar classificado como sensível não estava. Ele não pode ser explicado porque a linhagem entre o conjunto de treino e a origem nunca foi registrada.
 
 A consequência prática é que uma organização com governança de dados madura adota IA muito mais rápido do que uma sem ela — não por ser mais permissiva, mas porque já conhece as respostas que uma revisão pede. Propriedade, classificação, linhagem, limiares de qualidade e regras de retenção são a base de evidência. Os controles específicos de IA se apoiam sobre eles.
 
@@ -50,13 +50,13 @@ O quarto é o que mais falta. Um modelo que recomenda e uma pessoa que decide s�
 
 Os testes de saída chamam atenção porque são visíveis: métricas de justiça, red teaming, baterias de avaliação. São necessários e não são suficientes. Um teste diz que o modelo se comportou de forma aceitável com os dados que você usou. Governar as entradas é o que diz se os dados de amanhã ainda se parecem com aqueles.
 
-Três controles de entrada carregam a maior parte do peso. Primeiro, uma lista de fontes aprovadas: modelos só podem beber de fontes com dono nomeado e finalidade documentada. Segundo, marcação de finalidade: um conjunto coletado para faturamento não fica automaticamente disponível para um modelo de churn. Terceiro, notificação de mudança: quando um esquema, uma definição ou um método de coleta muda a montante, os donos dos modelos são avisados antes de a mudança ir ao ar, não depois de as métricas se moverem.
+Três controles de entrada carregam a maior parte do peso. Primeiro, uma lista de fontes aprovadas: modelos só podem consumir dados de fontes com dono nomeado e finalidade documentada. Segundo, marcação de finalidade: um conjunto coletado para faturamento não fica automaticamente disponível para um modelo de churn. Terceiro, notificação de mudança: quando um esquema, uma definição ou um método de coleta muda a montante, os donos dos modelos são avisados antes de a mudança ir ao ar, não depois de as métricas se moverem.
 
 ## Guarde evidência
 
 Documente aprovações, mudanças nas fontes, testes, limitações e resultados de monitoramento. Boa evidência torna a prática responsável visível e repetível.
 
-Evidência também transforma uma conversa regulatória de discussão em entrega de documentos. Reguladores, auditores e clientes corporativos fazem cada vez mais as mesmas perguntas: com quais dados isto foi treinado, quem autorizou, o que você testou, o que encontrou e o que monitora agora. Uma organização que precisa reconstruir essas respostas depois vai gastar semanas nisso e não vai confiar no resultado.
+Evidência também transforma uma conversa regulatória de um debate em uma entrega de documentos. Reguladores, auditores e clientes corporativos fazem cada vez mais as mesmas perguntas: com quais dados isto foi treinado, quem autorizou, o que você testou, o que encontrou e o que monitora agora. Uma organização que precisa reconstruir essas respostas depois vai gastar semanas nisso e não vai confiar no resultado.
 
 Mantenha o registro perto do trabalho, e não num repositório de conformidade separado. Um model card guardado junto do modelo e atualizado como parte do release se mantém vivo. Uma planilha atualizada uma vez por ano para uma auditoria, não.
 

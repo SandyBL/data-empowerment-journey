@@ -8,7 +8,7 @@ article: dama-dmbok-data-governance-framework
 updated: 2026-09-05
 ---
 
-Lineage answers two questions that are otherwise expensive. Upstream: this number looks wrong, where did it come from and what touched it. Downstream: we are changing this field, what breaks. The second is impact analysis, and in organisations with any pipeline complexity it is the one that pays for the whole exercise — the alternative is a change freeze or a discovery in production.
+Lineage answers two questions that are otherwise expensive. Upstream: this number looks wrong, where did it come from and what touched it. Downstream: we are changing this field, what breaks. The second is impact analysis, and in organizations with any pipeline complexity it is the one that pays for the whole exercise — the alternative is a change freeze or a discovery in production.
 
 **In practice.** Lineage is worth capturing at the granularity you will act on. Table-to-table lineage across the pipelines behind regulatory reports is usually enough to answer both questions; column-level lineage across the entire estate is a research project.
 

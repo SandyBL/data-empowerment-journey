@@ -1,11 +1,11 @@
 # Data Governance Journey
 
-> Strategic Data Governance consulting, Data Culture programmes, and Data Literacy training, led by Sandy Bradbury (CDMP Associate, Data Management Fundamentals certified) and delivered in English, Spanish, and Portuguese.
+> Strategic Data Governance consulting, Data Culture programs, and Data Literacy training, led by Sandy Bradbury (CDMP Associate, Data Management Fundamentals certified) and delivered in English, Spanish, and Portuguese.
 
-Data Governance Journey helps organisations turn data into a dependable asset by
+Data Governance Journey helps organizations turn data into a dependable asset by
 aligning three things at once: the people who own and use the data, the processes
 that keep it trustworthy, and the technology that stores and moves it. The
-approach follows DAMA's DMBOK2, adapted for organisations that are early in their
+approach follows DAMA's DMBOK2, adapted for organizations that are early in their
 governance journey and need a working capability rather than a policy binder.
 
 ## What the practice covers
@@ -23,7 +23,7 @@ governance journey and need a working capability rather than a policy binder.
 
 - Data governance is not data management, not a tool purchase, and not an IT
   project. It is the decision-rights layer that makes data management work.
-- A governance programme that starts with a full policy framework almost always
+- A governance program that starts with a full policy framework almost always
   stalls. Starting with one painful, visible domain does not.
 - Data literacy is a business capability with a measurable owner, not a training
   budget line.

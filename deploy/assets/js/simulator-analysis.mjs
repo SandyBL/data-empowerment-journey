@@ -259,7 +259,7 @@ export const SIMULATOR_LABELS = {
   pt: {
     "data-governance-day-to-day": "Governança de Dados no Dia a Dia",
     "data-ownership-conflict": "Conflito de Propriedade de Dados",
-    "data-literacy": "Letramento em Dados",
+    "data-literacy": "Alfabetização de Dados",
   },
 };
 

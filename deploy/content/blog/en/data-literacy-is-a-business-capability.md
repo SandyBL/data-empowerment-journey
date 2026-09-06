@@ -15,7 +15,7 @@ The problem is not the content of the course. It is the assumption underneath it
 
 ## Treat it as a capability, not a curriculum
 
-A capability is something an organization can reliably do. It has behaviours, the support that makes those behaviours possible, and evidence that they happen. A curriculum has modules and a completion rate. The difference shows up in how you plan the work.
+A capability is something an organization can reliably do. It has behaviors, the support that makes those behaviors possible, and evidence that they happen. A curriculum has modules and a completion rate. The difference shows up in how you plan the work.
 
 Planning a curriculum starts with "what should people know". Planning a capability starts with "what decision is currently going badly, and what would have to be true for it to go well". That question tends to produce a much shorter list of skills and a much longer list of fixes to definitions, access, and tooling.
 
@@ -47,9 +47,9 @@ None of these are training. All of them raise the quality of decisions more than
 
 ## Meet people where their confidence actually breaks
 
-Literacy programmes usually pitch at a general audience and miss both ends. Analysts sit through introductions to the mean; senior leaders get an SQL primer they will never use. Segmenting by what someone actually decides works better than segmenting by seniority.
+Literacy programs usually pitch at a general audience and miss both ends. Analysts sit through introductions to the mean; senior leaders get an SQL primer they will never use. Segmenting by what someone actually decides works better than segmenting by seniority.
 
-Three practical audiences cover most organizations. **Decision makers** need to interrogate a number: where it came from, what it excludes, how confident to be. **Producers** — analysts, engineers, anyone building an asset — need shared standards for definitions, documentation, and publication. **Everyday users** need to find the right asset and know when it is not the right asset. Same programme, three different asks.
+Three practical audiences cover most organizations. **Decision makers** need to interrogate a number: where it came from, what it excludes, how confident to be. **Producers** — analysts, engineers, anyone building an asset — need shared standards for definitions, documentation, and publication. **Everyday users** need to find the right asset and know when it is not the right asset. Same program, three different asks.
 
 ## Measure application
 
@@ -65,11 +65,11 @@ A small set of application metrics is enough, and each one should be readable fr
 | Proportion of dashboards with a named owner | Whether publication standards are holding |
 | Repeat use of certified assets after 90 days | Whether adoption survived the launch push |
 
-Compare these against a baseline you take before anything launches. Without a baseline, every result is an anecdote, and literacy programmes are unusually prone to being judged by the enthusiasm of the people who liked them most.
+Compare these against a baseline you take before anything launches. Without a baseline, every result is an anecdote, and literacy programs are unusually prone to being judged by the enthusiasm of the people who liked them most.
 
 ## Where it usually goes wrong
 
-Three failure modes account for most stalled programmes. The first is training people to use assets that do not exist yet — teaching a certified-metric habit before certification exists produces frustration, not literacy. The second is treating literacy as a communications campaign, where the deliverable is awareness rather than a changed workflow. The third is running it entirely inside HR or L&D, disconnected from the people who own the definitions, so that the standards taught in the course are not the standards the business enforces.
+Three failure modes account for most stalled programs. The first is training people to use assets that do not exist yet — teaching a certified-metric habit before certification exists produces frustration, not literacy. The second is treating literacy as a communications campaign, where the deliverable is awareness rather than a changed workflow. The third is running it entirely inside HR or L&D, disconnected from the people who own the definitions, so that the standards taught in the course are not the standards the business enforces.
 
 The fix in all three cases is the same: tie every literacy commitment to a specific decision, a specific asset, and a specific owner. If you cannot name all three, you are not building a capability yet.
 

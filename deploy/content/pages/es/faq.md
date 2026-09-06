@@ -21,6 +21,6 @@ Las respuestas de abajo son las que doy en las primeras llamadas, con las mismas
 
 Dos de estas salen tan a menudo que tienen su propia herramienta. Si quieres saber dónde está tu organización de verdad, el [diagnóstico de madurez](/es/maturity-assessment/) lleva unos quince minutos y produce una lectura que puedes poner delante de un comité. Si la pregunta es cuánto cuesta la situación actual, la [calculadora del coste de los datos malos](/es/calculator/) convierte las anécdotas en un número.
 
-Para el resto está el [blog](/es/blog/) —respuestas largas a las preguntas que no caben en un párrafo—, el [glosario](/es/glossary/) para el vocabulario y los [tres simuladores](/es/simulator-results/) si prefieres averiguarlo tomando tú las decisiones.
+Para el resto está el [blog](/es/blog/), que aborda las preguntas que no caben en un párrafo, el [glosario](/es/glossary/) para el vocabulario y los [tres simuladores](/es/simulator-results/) si prefieres averiguarlo tomando tú las decisiones.
 
 Y si lo que necesitas es una respuesta concreta sobre tu organización y no una general, [solicita una sesión de asesoría](/es/advisory-sessions/). Treinta minutos, un problema, sin propuesta adjunta.

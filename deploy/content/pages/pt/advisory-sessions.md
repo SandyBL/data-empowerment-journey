@@ -14,7 +14,7 @@ updated: 2026-09-06
 
 Nem todo problema de governança precisa de um projeto de consultoria. A maioria dos que chegam a mim por escrito precisa de meia hora com alguém que já viu esse mesmo problema fracassar em outras três organizações.
 
-É isso que isto é. Você descreve o problema, conversamos uma vez e você sai com uma posição sobre a qual pode agir — ou com um motivo claro de por que o que estava a ponto de fazer não teria funcionado. É uma conversa paga e não uma ligação comercial, e é justamente isso que a torna útil: eu não tenho motivo nenhum para te empurrar para um projeto.
+É isso que isto é. Você descreve o problema, conversamos uma vez e você sai com uma posição sobre a qual pode agir, ou com um motivo claro de por que o que estava a ponto de fazer não teria funcionado. É uma conversa paga e não uma ligação comercial, e é justamente isso que a torna útil: eu não tenho motivo nenhum para empurrar você para um projeto.
 
 ## Quando a sessão é o tamanho certo
 
@@ -29,13 +29,13 @@ Nem todo problema de governança precisa de um projeto de consultoria. A maioria
 
 Você me manda o problema por escrito primeiro: algumas frases bastam, e o formulário abaixo já vem com o enquadramento pronto. Eu leio antes de conversarmos, então os trinta minutos são gastos na resposta e não no contexto.
 
-Eu respondo com horários que funcionam entre o seu fuso e o meu, normalmente em até dois dias úteis. **Você está solicitando uma sessão, não escolhendo um horário em um calendário** — eu guardo algumas por semana e prefiro confirmar uma que sirva para você do que publicar uma grade que na terça já está desatualizada.
+Eu respondo com horários que funcionam entre o seu fuso e o meu, normalmente em até dois dias úteis. **Você está solicitando uma sessão, não escolhendo um horário em um calendário**: eu guardo algumas por semana e prefiro confirmar uma que sirva para você do que publicar uma grade que na terça já está desatualizada.
 
 A sessão é remota, em português, inglês ou espanhol. Depois você recebe um retorno escrito e curto: o que concluímos, o que eu faria primeiro e as referências que valem a leitura. Essa nota é sua para encaminhar, o que importa quando a pessoa que precisa ser convencida não estava na sala.
 
 ## O que não é
 
-Não é uma ligação de descoberta para um projeto maior. Se a resposta para o seu problema for de fato um projeto de várias semanas eu vou dizer, e a [página de consultoria](/pt/consulting/) descreve esses formatos — mas a sessão se sustenta sozinha e a maioria termina ali.
+Não é uma ligação de descoberta para um projeto maior. Se a resposta para o seu problema for de fato um projeto de várias semanas eu vou dizer, e a [página de consultoria](/pt/consulting/) descreve esses formatos, mas a sessão se sustenta sozinha e a maioria termina ali.
 
 Não é um serviço de revisão de documentos. Posso olhar um artefato se você mandar com antecedência, mas não consigo ler um modelo operacional, um conjunto de políticas e um relatório de qualidade e ainda ter tempo de falar sobre eles.
 
@@ -49,6 +49,6 @@ Uma sessão isolada tem preço fixo, confirmado na resposta antes de agendar qua
 
 Conte o problema e o que você já tentou. Essa segunda parte poupa os dez primeiros minutos de nós dois.
 
-**[Solicitar uma sessão](/pt/?offer=advisory-session#contact-form-start)** — o formulário de contato abre com a primeira linha já escrita e o pedido marcado como sessão. Acrescente o problema abaixo e envie.
+**[Solicitar uma sessão](/pt/?offer=advisory-session#contact-form-start)**: o formulário de contato abre com a primeira linha já escrita e o pedido marcado como sessão. Acrescente o problema abaixo e envie.
 
 Se você preferir chegar à resposta aprendendo primeiro, é uma escolha legítima e boa parte deste site existe para isso: as [perguntas frequentes](/pt/faq/) para o que aparece em toda primeira conversa, o [blog](/pt/blog/) para os argumentos longos e os [simuladores](/pt/simulator-results/) se você preferir tomar as decisões e ver o que acontece.

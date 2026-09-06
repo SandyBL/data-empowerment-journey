@@ -8,7 +8,7 @@ article: why-data-governance-people-process-technology-data
 updated: 2026-09-05
 ---
 
-A data owner is senior enough that their decisions stick. They approve definitions, authorise access, accept or reject quality tolerances, and carry the consequence when the domain's data fails somebody downstream. Ownership is accountability, not custody: the owner rarely touches the data and almost never fixes it personally. What distinguishes a real owner from a nominal one is that they can say no to a request from another function and be respected.
+A data owner is senior enough that their decisions stick. They approve definitions, authorize access, accept or reject quality tolerances, and carry the consequence when the domain's data fails somebody downstream. Ownership is accountability, not custody: the owner rarely touches the data and almost never fixes it personally. What distinguishes a real owner from a nominal one is that they can say no to a request from another function and be respected.
 
 **In practice.** Ownership sits with the business leader whose objectives depend most on the domain — commercial for customer, operations for product, HR for employee. It is one named person, never a team and never a committee, and it appears in their objectives rather than in a slide.
 

@@ -87,7 +87,7 @@ const LABELS = {
     by: 'Por',
     about: 'Sobre el autor',
     aboutText:
-      'Consultor de gobierno de datos y profesional certificado CDMP que ayuda a las organizaciones a alinear personas, procesos y tecnología en torno a datos confiables.',
+      'Consultor de gobierno de datos y profesional certificado CDMP que ayuda a las organizaciones a alinear personas, procesos y tecnología en torno a datos fiables.',
     ctaKicker: 'Continúa el camino',
     ctaTitle: 'Convierte la idea en una capacidad de datos práctica.',
     ctaTools: 'Explorar herramientas gratuitas →',

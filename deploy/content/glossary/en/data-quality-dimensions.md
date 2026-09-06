@@ -12,4 +12,4 @@ The dimensions exist so that "the data is bad" becomes a diagnosis. Completeness
 
 **In practice.** Most real problems are validity, completeness and consistency, in that order, because those are the three a system can create silently. Naming the dimension tells you where the fix belongs: validity is usually an input control, consistency is usually an integration, timeliness is usually a schedule.
 
-**Where it goes wrong.** Accuracy gets measured with a rule, which it cannot be. A postcode that passes format validation and belongs to a different city is valid and wrong. Testing accuracy means comparing against something authoritative, and if no such source exists, say so instead of reporting 98%.
+**Where it goes wrong.** Accuracy gets measured with a rule, which it cannot be. A postal code that passes format validation and belongs to a different city is valid and wrong. Testing accuracy means comparing against something authoritative, and if no such source exists, say so instead of reporting 98%.
