@@ -1,9 +1,9 @@
 ---
-title: "Desbloqueando o verdadeiro potencial dos dados: por que a alfabetização de
-  dados manda na governança"
+title: "Desbloqueando o verdadeiro potencial dos dados: por que a alfabetização
+  de dados manda na governança"
 date: 2026-08-13
 updated: 2026-09-05
-category: data-governance
+category: data-culture
 summary: Descubra por que a alfabetização de dados é o elo que falta na sua
   estratégia de governança de dados e como avaliar a maturidade analítica da sua
   organização.
