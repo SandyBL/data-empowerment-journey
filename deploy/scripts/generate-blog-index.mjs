@@ -12,7 +12,10 @@ import { checkClassCoverage } from './check-class-coverage.mjs';
 import { checkAssetIntegrity } from './check-asset-integrity.mjs';
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
 import {
+  DATE_LOCALE,
   FONT_AWESOME,
+  HTML_LANG,
+  OG_LOCALE,
   articlePath,
   blogPath,
   categoryHubPath,
@@ -21,6 +24,7 @@ import {
   feedPath,
   localizeInternalLinks,
   pagePath,
+  renderAlternateLocales,
   renderSiteFooter,
   renderSiteHeader,
   xDefaultLanguage,
