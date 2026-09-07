@@ -37,7 +37,7 @@ export const FAQ = {
     {
       q: 'What is a Data Governance MVP project?',
       a:
-        'Instead of attempting enterprise-wide governance all at once, we focus on a high-value business use case (e.g. Customer Domain or Executive Reporting) to prove immediate end-to-end business value.',
+        'Instead of attempting enterprise-wide governance all at once, you pick one high-value business use case (e.g. Customer Domain or Executive Reporting) and govern it end to end, to prove immediate business value.',
     },
     {
       q: 'What is the difference between a Data Owner and a Data Steward?',
@@ -84,7 +84,7 @@ export const FAQ = {
     {
       q: '¿En qué consiste un proyecto MVP (Mínimo Producto Viable) de Gobierno de Datos?',
       a:
-        'En lugar de intentar gobernar toda la empresa desde el día uno, seleccionamos un caso de uso estratégico (por ejemplo, el dominio de clientes o un informe financiero crítico) y aplicamos gobierno de punta a punta para demostrar retorno de inversión rápido.',
+        'En lugar de intentar gobernar toda la empresa desde el día uno, seleccionas un caso de uso estratégico (por ejemplo, el dominio de clientes o un informe financiero crítico) y aplicas gobierno de punta a punta para demostrar retorno de inversión rápido.',
     },
     {
       q: '¿Cuál es la diferencia entre un Data Owner y un Data Steward?',
@@ -131,7 +131,7 @@ export const FAQ = {
     {
       q: 'O que é um projeto MVP de Governança de Dados?',
       a:
-        'Em vez de governar toda a empresa de uma só vez, selecionamos um caso de uso crítico (como o domínio de clientes) e aplicamos governança de ponta a ponta para demonstrar valor imediato.',
+        'Em vez de governar toda a empresa de uma só vez, você seleciona um caso de uso crítico (como o domínio de clientes) e aplica governança de ponta a ponta para demonstrar valor imediato.',
     },
     {
       q: 'Qual é a diferença entre um Data Owner e um Data Steward?',

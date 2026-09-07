@@ -48,7 +48,7 @@ const GUIDE_LINKS = {
     ['Glosario', '/es/glosario/', 'Definiciones del vocabulario de trabajo, agrupadas por tema; cada término tiene además su propia página en /es/glosario/<término>/.'],
     ['Feed RSS', '/es/feed.xml', 'Los artículos en español como RSS 2.0.'],
     ['Muro de Confesiones', '/es/muro-de-confesiones/', 'Relatos anónimos de fracasos en gobierno de datos.'],
-    ['Sobre Sandy Bradbury', '/es/sobre-mi/', 'Quién escribe esto: trayectoria, certificaciones DAMA y cómo trabaja la práctica.'],
+    ['Sobre Sandy Bradbury', '/es/sobre/', 'Quién escribe esto: trayectoria, certificaciones DAMA y cómo trabaja la práctica.'],
     ['Consultoría', '/es/consultoria/', 'Los cuatro formatos de proyecto, qué produce cada uno y qué no se ofrece.'],
     ['Sesiones de asesoría', '/es/sesiones-de-asesoria/', 'Una única conversación de pago de 30 minutos sobre un problema de gobierno, solicitada por escrito en lugar de agendada desde un calendario, con seguimiento escrito después.'],
     ['Talleres', '/es/talleres/', 'Sesiones facilitadas de gobierno sobre copias privadas de los simuladores con la marca del cliente, con informe para el facilitador.'],

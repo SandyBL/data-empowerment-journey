@@ -54,11 +54,28 @@ export const content = {
     copyright: "All rights reserved.",
     defaultStories: [
       {
+        category: "Marketing",
+        role: "Growth Marketing Manager | E-commerce",
+        title: "A campaign emailed 40,000 people who had opted out",
+        story: "The suppression list lived in the CRM, but the campaign was built from a warehouse export taken two months earlier. Nobody owned the field that recorded consent, so the export left it out entirely. The complaints reached the data protection officer before the results reached the dashboard.",
+        expertComment: "Treat consent as a critical data element with a named owner: define it once, flag it in the catalog, and require campaign lists to be built from a certified view rather than from a spreadsheet export.",
+        publishedAt: "2026-09-04",
+      },
+      {
+        category: "Engineering",
+        role: "Analytics Engineer | Insurance",
+        title: "An internal AI assistant quoted salary data back to the company",
+        story: "A retrieval index was pointed at a shared drive so the assistant could answer questions about internal policies. The same drive held an HR reconciliation file nobody had ever classified, and within a day the assistant was answering questions about individual pay.",
+        expertComment: "Classify data before it becomes a source, not after. An AI assistant inherits every permission and every mislabelled file in the corpus you point it at, so classification and access review belong before the index is built.",
+        publishedAt: "2026-08-26",
+      },
+      {
         category: "Finance",
         role: "Senior Financial Analyst | Retail",
         title: "Two different revenue numbers reached the board",
         story: "Finance reported processed orders while Operations excluded returns and unsynchronized cancellations. Both teams used separate spreadsheet queries, and no one owned a single definition of net revenue.",
         expertComment: "Define critical metrics once in a governed business glossary, assign an accountable owner, and require executive reporting to use the same certified source.",
+        publishedAt: "2026-07-30",
       },
       {
         category: "Engineering",
@@ -66,6 +83,7 @@ export const content = {
         title: "A staging cleanup script reached production",
         story: "A debugging script pointed to the production database and removed active subscription records. Recovery required hours of downtime and a backup that did not include the latest transactions.",
         expertComment: "Separate credentials and network access by environment, require destructive-query safeguards, and test recovery procedures before an emergency exposes the gaps.",
+        publishedAt: "2026-07-09",
       },
       {
         category: "People & Operations",
@@ -73,6 +91,7 @@ export const content = {
         title: "Executive salaries were left in a shared folder",
         story: "A compensation spreadsheet was stored in an unrestricted shared folder for weeks. The file spread internally and triggered resignations, distrust, and an urgent privacy investigation.",
         expertComment: "Classify sensitive data at creation, apply least-privilege access automatically, and audit shared repositories continuously instead of relying on manual cleanup.",
+        publishedAt: "2026-06-18",
       },
     ],
   },
@@ -118,11 +137,28 @@ export const content = {
     copyright: "Todos los derechos reservados.",
     defaultStories: [
       {
+        category: "Marketing",
+        role: "Responsable de Marketing de Crecimiento | Comercio electrónico",
+        title: "Una campaña escribió a 40.000 personas que se habían dado de baja",
+        story: "La lista de exclusión vivía en el CRM, pero la campaña se armó con una extracción del almacén de datos de dos meses antes. Nadie era responsable del campo que registraba el consentimiento, así que la extracción lo dejó fuera. Las quejas llegaron al delegado de protección de datos antes de que los resultados llegaran al panel.",
+        expertComment: "Trata el consentimiento como un elemento de dato crítico con un responsable con nombre: defínelo una vez, márcalo en el catálogo y exige que las listas de campaña se construyan desde una vista certificada y no desde una hoja exportada.",
+        publishedAt: "2026-09-04",
+      },
+      {
+        category: "Ingeniería",
+        role: "Ingeniero de Analítica | Seguros",
+        title: "Un asistente de IA interno citó datos salariales a toda la empresa",
+        story: "Se apuntó un índice de recuperación a una unidad compartida para que el asistente respondiera dudas sobre políticas internas. En esa misma unidad había un archivo de conciliación de RR. HH. que nadie había clasificado, y en un día el asistente respondía preguntas sobre sueldos concretos.",
+        expertComment: "Clasifica los datos antes de que sean una fuente, no después. Un asistente de IA hereda todos los permisos y todos los archivos mal etiquetados del corpus al que lo apuntas, así que la clasificación y la revisión de accesos van antes de construir el índice.",
+        publishedAt: "2026-08-26",
+      },
+      {
         category: "Finanzas",
         role: "Analista Financiero Senior | Retail",
         title: "Dos cifras de ingresos distintas llegaron al consejo",
         story: "Finanzas reportaba pedidos procesados mientras Operaciones descontaba devoluciones y cancelaciones no sincronizadas. Ambos equipos usaban consultas separadas y nadie era responsable de una definición única de ingresos netos.",
         expertComment: "Define las métricas críticas una sola vez en un glosario de negocio gobernado, asigna un responsable y exige que los informes ejecutivos utilicen la misma fuente certificada.",
+        publishedAt: "2026-07-30",
       },
       {
         category: "Ingeniería",
@@ -130,6 +166,7 @@ export const content = {
         title: "Un script de limpieza de pruebas llegó a producción",
         story: "Un script de depuración apuntó a la base de producción y eliminó suscripciones activas. La recuperación exigió horas de interrupción y un respaldo que no incluía las transacciones más recientes.",
         expertComment: "Separa credenciales y accesos por entorno, incorpora protecciones para consultas destructivas y prueba la recuperación antes de que una emergencia revele las brechas.",
+        publishedAt: "2026-07-09",
       },
       {
         category: "Personas y Operaciones",
@@ -137,6 +174,7 @@ export const content = {
         title: "Los salarios ejecutivos quedaron en una carpeta compartida",
         story: "Una hoja de compensaciones permaneció durante semanas en una carpeta sin restricciones. El archivo circuló internamente y provocó renuncias, desconfianza y una investigación urgente de privacidad.",
         expertComment: "Clasifica los datos sensibles desde su creación, aplica acceso de mínimo privilegio automáticamente y audita los repositorios compartidos de forma continua.",
+        publishedAt: "2026-06-18",
       },
     ],
   },
@@ -182,11 +220,28 @@ export const content = {
     copyright: "Todos os direitos reservados.",
     defaultStories: [
       {
+        category: "Marketing",
+        role: "Gerente de Marketing de Crescimento | E-commerce",
+        title: "Uma campanha escreveu para 40.000 pessoas que já tinham se descadastrado",
+        story: "A lista de exclusão vivia no CRM, mas a campanha foi montada com uma extração do data warehouse feita dois meses antes. Ninguém respondia pelo campo que registrava o consentimento, então a extração o deixou de fora. As reclamações chegaram ao encarregado de dados antes de os resultados chegarem ao painel.",
+        expertComment: "Trate o consentimento como um elemento de dado crítico com um responsável nomeado: defina-o uma vez, marque-o no catálogo e exija que as listas de campanha sejam construídas a partir de uma visão certificada, não de uma planilha exportada.",
+        publishedAt: "2026-09-04",
+      },
+      {
+        category: "Engenharia",
+        role: "Engenheiro de Analytics | Seguros",
+        title: "Um assistente de IA interno citou dados salariais para a empresa inteira",
+        story: "Um índice de recuperação foi apontado para um drive compartilhado para que o assistente respondesse dúvidas sobre políticas internas. Nesse mesmo drive havia um arquivo de conciliação de RH que ninguém havia classificado e, em um dia, o assistente respondia perguntas sobre salários individuais.",
+        expertComment: "Classifique os dados antes de eles virarem fonte, não depois. Um assistente de IA herda todas as permissões e todos os arquivos mal rotulados do corpus para o qual você o aponta, então a classificação e a revisão de acessos vêm antes de construir o índice.",
+        publishedAt: "2026-08-26",
+      },
+      {
         category: "Finanças",
         role: "Analista Financeiro Sênior | Varejo",
         title: "Dois números de receita diferentes chegaram ao conselho",
         story: "Finanças reportava pedidos processados enquanto Operações descontava devoluções e cancelamentos não sincronizados. As equipes usavam consultas separadas e ninguém respondia por uma definição única de receita líquida.",
         expertComment: "Defina métricas críticas uma única vez em um glossário de negócios governado, atribua um responsável e exija que relatórios executivos usem a mesma fonte certificada.",
+        publishedAt: "2026-07-30",
       },
       {
         category: "Engenharia",
@@ -194,6 +249,7 @@ export const content = {
         title: "Um script de limpeza de testes chegou à produção",
         story: "Um script de depuração apontou para o banco de produção e removeu assinaturas ativas. A recuperação exigiu horas de indisponibilidade e um backup sem as transações mais recentes.",
         expertComment: "Separe credenciais e acessos por ambiente, adote proteções para consultas destrutivas e teste a recuperação antes que uma emergência exponha as lacunas.",
+        publishedAt: "2026-07-09",
       },
       {
         category: "Pessoas e Operações",
@@ -201,6 +257,7 @@ export const content = {
         title: "Os salários executivos ficaram em uma pasta compartilhada",
         story: "Uma planilha de remuneração permaneceu por semanas em uma pasta sem restrições. O arquivo circulou internamente e provocou demissões, desconfiança e uma investigação urgente de privacidade.",
         expertComment: "Classifique dados sensíveis na criação, aplique automaticamente o menor privilégio e audite repositórios compartilhados continuamente.",
+        publishedAt: "2026-06-18",
       },
     ],
   },

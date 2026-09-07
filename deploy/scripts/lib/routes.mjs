@@ -52,7 +52,7 @@ export const PAGE_SLUGS = {
     workshops: 'workshops',
   },
   es: {
-    about: 'sobre-mi',
+    about: 'sobre',
     'advisory-sessions': 'sesiones-de-asesoria',
     calculator: 'calculadora',
     consulting: 'consultoria',
@@ -235,6 +235,22 @@ export const simulatorPath = (lang, slug) => `/simulators/${requireLanguage(lang
  * Spanish or Portuguese segment that happens to match its canonical slug
  * (`playbooks`) would produce a rule pointing at itself.
  */
+/**
+ * Localized segments a page has been published at and has since moved off.
+ *
+ * The table above only records where a page lives now, so a rename inside a
+ * language leaves no trace of the address readers and crawlers already have:
+ * `/es/about/` keeps redirecting because the canonical slug is what the loop
+ * below iterates, but the retired Spanish spelling would simply 404. Anything
+ * ever served under `/<lang>/<segment>/` belongs here for good, oldest first.
+ */
+const RETIRED_PAGE_SEGMENTS = {
+  // "Sobre mí" was the odd one out: English publishes /en/about/ and Portuguese
+  // /pt/sobre/, so the possessive made Spanish the only language naming the
+  // page after its author rather than its subject.
+  es: { about: ['sobre-mi'] },
+};
+
 export const legacyRoutes = () => {
   const rules = [];
   const seen = new Set();
@@ -247,6 +263,9 @@ export const legacyRoutes = () => {
   for (const lang of LANGUAGES) {
     for (const slug of Object.keys(PAGE_SLUGS[lang])) {
       add(`/${lang}/${slug}/`, pagePath(lang, slug));
+      for (const retired of RETIRED_PAGE_SEGMENTS[lang]?.[slug] ?? []) {
+        add(`/${lang}/${retired}/`, pagePath(lang, slug));
+      }
     }
     // The glossary moved twice over: the hub segment changed, and so did every
     // term under it. The term rules have to be emitted before the hub's

@@ -833,11 +833,14 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     box-shadow: 0 24px 60px rgb(0 51 102 / 0.08);
 }
 
+/* Two cards since the consultant profile left this section for one of its own:
+   auto-fit rather than a fixed count so a third door added later still lands on
+   one row without another rule. */
 .contact-choice-nav {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 0.75rem;
-    max-width: 52rem;
+    max-width: 38rem;
     margin: 2rem auto 0;
 }
 
@@ -879,8 +882,10 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     padding-left: 0;
 }
 
+/* No margin override any more: this used to be the second card in the section,
+   tucked up under the consultant profile, and it is now the first one under the
+   choice nav, so it keeps the standard 3rem gap. */
 .contact-newsletter {
-    margin-top: 1.5rem;
     background: linear-gradient(135deg, rgb(255 255 255 / 0.96), rgb(236 248 250 / 0.94));
 }
 
@@ -1085,12 +1090,16 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 }
 
 /*
- * All three deliverable cards carry the orange top rule, the lifted background
- * and the orange icon that used to belong to the middle one alone. They are a
+ * All three deliverable cards carry the green top rule, the lifted background
+ * and the green icon that used to belong to the middle one alone. They are a
  * set of equals — a report, a chart, a shortlist of actions — so singling one
  * out read as an inconsistency rather than as emphasis. None of this treatment
  * depends on a card's position in the grid, which is why the
  * .maturity-deliverable-featured modifier is gone rather than reassigned.
+ *
+ * The accent is the brand emerald, the same green the "Scorecard de Madurez
+ * DAMA" eyebrow above the card is set in, rather than the orange it used to be:
+ * the section now reads in one colour from its label down to its deliverables.
  *
  * border-top comes after the border shorthand deliberately: the shorthand sets
  * all four sides, so the accent has to be restated afterwards to survive.
@@ -1103,7 +1112,7 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     padding: 1.5rem;
     overflow: hidden;
     border: 1px solid rgb(255 255 255 / 0.14);
-    border-top: 3px solid var(--dejourney-orange);
+    border-top: 3px solid var(--emeraldgreen);
     border-radius: 1.35rem;
     background-color: rgb(255 255 255 / 0.12);
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
@@ -1112,10 +1121,10 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 .maturity-deliverable:hover {
     transform: translateY(-4px);
     /* border-color is a shorthand for all four sides, so on its own it would
-       repaint the orange top rule cyan for as long as the pointer is over the
+       repaint the green top rule cyan for as long as the pointer is over the
        card. The accent identifies the card rather than its resting state. */
     border-color: rgb(101 183 199 / 0.55);
-    border-top-color: var(--dejourney-orange);
+    border-top-color: var(--emeraldgreen);
     /* Lighter than the 0.12 the card now rests at. The old 0.11 was a lift from
        the old 0.075 resting value; against 0.12 it would darken on hover. */
     background-color: rgb(255 255 255 / 0.155);
@@ -1138,10 +1147,10 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     height: 2.75rem;
     margin-bottom: auto;
     place-items: center;
-    border: 1px solid rgb(233 93 36 / 0.5);
+    border: 1px solid rgb(80 200 120 / 0.5);
     border-radius: 0.85rem;
-    background-color: rgb(233 93 36 / 0.14);
-    color: #ff9c73;
+    background-color: rgb(80 200 120 / 0.14);
+    color: var(--emeraldgreen);
 }
 
 .maturity-deliverable h4 {

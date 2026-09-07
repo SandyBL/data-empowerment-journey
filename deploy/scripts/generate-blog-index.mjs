@@ -1454,7 +1454,7 @@ const pageSweepExceptions = (lang) =>
 async function writeSitePages(pages, articles, partials, boardSummary) {
   for (const page of pages) {
     // The directory is the localized segment, not the Markdown filename:
-    // content/pages/es/about.md is published at /es/sobre-mi/.
+    // content/pages/es/about.md is published at /es/sobre/.
     const directory = path.join(projectDirectory, page.lang, localizedPageSlug(page.lang, page.slug));
     await mkdir(directory, { recursive: true });
     await writeDocument(

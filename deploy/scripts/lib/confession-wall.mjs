@@ -76,6 +76,18 @@ const escapeHtml = (text) =>
 const wallUrl = (lang) => `${SITE_ORIGIN}${confessionWallPath(lang)}`;
 
 /**
+ * The publication date of a seeded story, in the language's own locale.
+ *
+ * Formatted exactly the way createStoryCard formats it in the browser -- same
+ * dateStyle, same UTC timeZone -- because the script replaces this whole grid
+ * once a submission is published and the two renderings have to be identical.
+ */
+const formatStoryDate = (story, copy) =>
+  story.publishedAt
+    ? new Intl.DateTimeFormat(copy.localeTag, { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(story.publishedAt))
+    : '';
+
+/**
  * One seeded story, in the same shape the script builds at runtime.
  *
  * The class names have to match createStoryCard exactly: the script replaces the
@@ -87,7 +99,7 @@ const renderStoryCard = (story, copy) => `
             <div class="confession-card__body">
               <div class="confession-card__meta">
                 <span class="confession-card__category"><i class="fa-solid fa-tag" aria-hidden="true"></i>${escapeHtml(story.category)}</span>
-                <span class="confession-card__date"></span>
+                <span class="confession-card__date">${escapeHtml(formatStoryDate(story, copy))}</span>
               </div>
               <h3>${escapeHtml(story.title)}</h3>
               <p class="confession-card__role">${escapeHtml(story.role)}</p>
@@ -149,6 +161,7 @@ const renderSchema = (lang, copy, metadata) => {
           headline: story.title,
           text: story.story,
           genre: story.category,
+          ...(story.publishedAt ? { datePublished: story.publishedAt } : {}),
           inLanguage: HTML_LANG[lang],
           publisher: { '@id': `${SITE_ORIGIN}/#organization` },
           // The guidance is the reason the story is published at all, so it is

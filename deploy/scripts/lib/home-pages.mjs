@@ -47,10 +47,10 @@ const PAGE_METADATA = {
   es: {
     title: 'Data Governance Journey | Gobierno de Datos & Cultura de Datos',
     description:
-      'Consultoría estratégica en Gobierno de Datos, Cultura y Alfabetización en Datos basada en el marco DAMA. Orquestamos personas, procesos y tecnología.',
+      'Gobierno de Datos, Cultura y Alfabetización en Datos basados en el marco DAMA. Orquesta personas, procesos y tecnología.',
     socialTitle: 'Data Governance Journey | Gobierno de Datos',
     socialDescription:
-      'Convertimos los datos en activos estratégicos orquestando personas, procesos y tecnología. Basado en DAMA.',
+      'Convierte los datos en activos estratégicos orquestando personas, procesos y tecnología. Basado en DAMA.',
     ariaContactOptions: 'Opciones de contacto',
     ariaDeliverables: 'Entregables del diagnóstico',
     skipLink: 'Saltar al contenido principal',
@@ -61,15 +61,15 @@ const PAGE_METADATA = {
     newsletterSubmit: 'Enviarme el próximo',
     newsletterSending: 'Enviando…',
     newsletterSuccess: 'Ya estás en la lista. Revisa tu bandeja de entrada.',
-    newsletterError: 'No se pudo enviar. Vuelve a intentarlo o escríbenos desde el formulario de contacto.',
+    newsletterError: 'No se pudo enviar. Vuelve a intentarlo o escríbeme desde el formulario de contacto.',
   },
   en: {
     title: 'Data Governance Journey | Data Governance & Data Culture Consulting',
     description:
-      'Strategic Data Governance, Data Culture, and Data Literacy consulting based on the DAMA framework. We orchestrate people, processes, and technology.',
+      'Data Governance, Data Culture, and Data Literacy based on the DAMA framework. Orchestrate people, processes, and technology.',
     socialTitle: 'Data Governance Journey | Data Governance',
     socialDescription:
-      'We turn data into a strategic asset by orchestrating people, processes, and technology. Built on DAMA.',
+      'Turn data into a strategic asset by orchestrating people, processes, and technology. Built on DAMA.',
     ariaContactOptions: 'Contact options',
     ariaDeliverables: 'Assessment deliverables',
     skipLink: 'Skip to main content',
@@ -80,15 +80,15 @@ const PAGE_METADATA = {
     newsletterSubmit: 'Send me the next one',
     newsletterSending: 'Sending…',
     newsletterSuccess: 'You are on the list. Check your inbox for a confirmation.',
-    newsletterError: 'That did not send. Please try again, or write to us from the contact form.',
+    newsletterError: 'That did not send. Please try again, or write to me from the contact form.',
   },
   pt: {
     title: 'Data Governance Journey | Governança de Dados & Cultura de Dados',
     description:
-      'Consultoria estratégica em Governança de Dados, Cultura e Alfabetização em Dados baseada no framework DAMA. Orquestramos pessoas, processos e tecnologia.',
+      'Governança de Dados, Cultura e Alfabetização em Dados baseadas no framework DAMA. Orqueste pessoas, processos e tecnologia.',
     socialTitle: 'Data Governance Journey | Governança de Dados',
     socialDescription:
-      'Transformamos dados em ativos estratégicos orquestrando pessoas, processos e tecnologia. Baseado no DAMA.',
+      'Transforme dados em ativos estratégicos orquestrando pessoas, processos e tecnologia. Baseado no DAMA.',
     ariaContactOptions: 'Opções de contato',
     ariaDeliverables: 'Entregáveis do diagnóstico',
     skipLink: 'Ir para o conteúdo principal',
