@@ -41,6 +41,12 @@ No vendo selección de herramientas como proyecto de gobierno. Te diré con gust
 
 Tampoco acepto proyectos donde el patrocinador no compromete un dueño. Un gobierno sin un dueño de negocio que pueda aprobar una definición y decir no a otra área es un ejercicio, y el resultado es lo bastante predecible como para no merecer el tiempo de ninguno de los dos.
 
+## Dónde más se ha publicado este trabajo
+
+Escribo sobre gobierno de datos para el blog de **NowVertical Group**, la consultora en la que hago este trabajo como consultor especialista en gobierno de datos desde Brasil. El mismo tema que los artículos de esta web, con otro editor y para un público de clientes en lugar de lectores de mis propias páginas.
+
+{{EXTERNAL_WRITING}}
+
 ## Cómo se factura
 
 Los diagnósticos y los proyectos de diseño con alcance fijo se cotizan como precio fijo contra un alcance escrito, así que no estás comprando una tarifa diaria abierta. La asesoría es un bloque mensual de horas. Los talleres se cotizan por sesión, y la [página de talleres](/es/workshops/) explica qué incluye, incluido el espacio privado de simuladores con tu marca y el informe de facilitador.

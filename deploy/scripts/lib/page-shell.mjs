@@ -30,10 +30,9 @@
 
 import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 import { LANGUAGES, NAV, feedPath, renderSiteFooter, renderSiteHeader } from './site-nav.mjs';
+import { HTML_LANG, OG_LOCALE, renderAlternateLocales } from './locales.mjs';
 
-export const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
-export const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
-export const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+export { HTML_LANG, OG_LOCALE, DATE_LOCALE, renderAlternateLocales } from './locales.mjs';
 
 /**
  * The routes, the labels and the header and footer themselves now live in
@@ -51,26 +50,46 @@ export {
   NAV,
   NAV_GROUPS,
   NEWSLETTER_URL,
+  X_DEFAULT_LANGUAGE,
+  articlePath,
+  blogPath,
+  categoryHubPath,
+  categoryPath,
+  confessionWallPath,
   feedPath,
+  glossaryHubPath,
+  glossaryTermPath,
+  localizeInternalLinks,
   pagePath,
   pageLanguageHrefs,
   renderLanguageSwitcher,
   renderSiteFooter,
   renderSiteHeader,
   simulatorPath,
+  xDefaultLanguage,
 } from './site-nav.mjs';
 
 /**
- * Font Awesome, pinned to the exact URL and hash recorded in
- * scripts/check-asset-integrity.mjs. The embedded homepage blocks are full of
- * `fa-solid` glyphs, so a page that renders one without this stylesheet shows
- * empty boxes where the icons should be.
+ * Font Awesome, self-hosted and cut down to the 106 icons this site uses.
+ *
+ * This was a render-blocking stylesheet on cdnjs, which put a DNS lookup, a TCP
+ * connection and a TLS handshake in front of 102 KB of CSS for 2000 icons, and
+ * then a 150 KB webfont behind it -- all of it ahead of the largest contentful
+ * paint, which was measuring 3062 ms at p75 against a 2500 ms budget. It is now
+ * 6.6 KB of CSS and 11 KB of woff2 on the connection the page already has open,
+ * built by scripts/build-font-awesome-subset.py.
+ *
+ * The preload is the point of self-hosting as much as the size is: the browser
+ * could not discover the webfont until it had fetched and parsed a stylesheet
+ * from another origin, and `font-display: block` means every icon on the page
+ * waited on that chain. Same-origin, preloaded, both hops start immediately.
  *
  * Exported because the article and category templates in
- * scripts/generate-blog-index.mjs need the same tag for the share row's icons,
- * and two copies of a pinned URL is how one of them goes stale.
+ * scripts/generate-blog-index.mjs need the same two tags for the share row's
+ * icons, and two copies of an asset path is how one of them goes stale.
  */
-export const FONT_AWESOME = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">`;
+export const FONT_AWESOME = `<link rel="preload" href="/assets/fonts/fa-solid-900-subset.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/font-awesome.css">`;
 
 const escapeAttribute = (text) =>
   String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -138,9 +157,7 @@ export const renderPage = ({
   const alternateLinks = alternates
     .map((alternate) => `  <link rel="alternate" hreflang="${alternate.hreflang}" href="${SITE_ORIGIN}${alternate.url}">`)
     .join('\n');
-  const alternateLocales = LANGUAGES.filter((other) => other !== lang)
-    .map((other) => `  <meta property="og:locale:alternate" content="${OG_LOCALE[other]}">`)
-    .join('\n');
+  const alternateLocales = renderAlternateLocales(lang);
 
   return `<!doctype html>
 <html lang="${HTML_LANG[lang]}">

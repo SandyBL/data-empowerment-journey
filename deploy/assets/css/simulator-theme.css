@@ -87,7 +87,7 @@
    * ink on pale panels floating over a dark page.
    *
    * These values deliberately equal what the re-pointed Tailwind ramps in
-   * assets/js/simulator-tailwind-config.js produce, so a card built from
+   * scripts/lib/simulator-theme.mjs produce, so a card built from
    * `bg-slate-900/90 border-slate-800` and a card built from `.sim-card` are
    * the same card.
    *

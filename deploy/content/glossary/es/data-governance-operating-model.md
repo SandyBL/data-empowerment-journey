@@ -2,7 +2,7 @@
 term: Modelo operativo de gobierno de datos
 short: La disposición escrita de quién gobierna qué, cómo se toman las decisiones y cómo el trabajo llega a los datos en el día a día.
 group: maturity
-also: Modelo operativo de gobierno
+also: Modelo operativo de gobernanza de datos, modelo operativo de gobierno
 related: data-governance, decision-rights, data-stewardship, data-governance-council
 article: building-a-data-governance-operating-model
 updated: 2026-09-05

@@ -10,13 +10,15 @@
     <link rel="alternate" hreflang="en" href="https://datagovjourney.com/simulators/en/data-ownership-conflict/">
     <link rel="alternate" hreflang="es" href="https://datagovjourney.com/simulators/es/data-ownership-conflict/">
     <link rel="alternate" hreflang="pt" href="https://datagovjourney.com/simulators/pt/data-ownership-conflict/">
-    <link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/simulators/en/data-ownership-conflict/">
+    <link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/simulators/es/data-ownership-conflict/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Data Governance Journey">
     <meta property="og:title" content="¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos | Data Governance Journey">
     <meta property="og:description" content="Simulador gratuito basado en RACI: decide si el dueño de negocio, el data steward o TI es responsable de cada tarea de datos según el marco DAMA de gobierno de datos.">
     <meta property="og:url" content="https://datagovjourney.com/simulators/es/data-ownership-conflict/">
     <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="pt_BR">
     <meta property="og:image" content="https://datagovjourney.com/assets/images/og-default.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,23 +31,24 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos","url":"https://datagovjourney.com/simulators/es/data-ownership-conflict/","description":"Simulador gratuito basado en RACI: decide si el dueño de negocio, el data steward o TI es responsable de cada tarea de datos según el marco DAMA de gobierno de datos.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"es","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Separar responsabilidad de ejecución","Propiedad de negocio sobre las definiciones","Stewardship entre áreas","Los límites del mandato de TI","Rutas de escalamiento"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data management","sameAs":["https://en.wikipedia.org/wiki/Data_management","https://www.wikidata.org/wiki/Q1149776"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://datagovjourney.com/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/#simulators"},{"@type":"ListItem","position":3,"name":"¿Quién es el dueño de esto? Simulador de Conflictos de Propiedad de Datos","item":"https://datagovjourney.com/simulators/es/data-ownership-conflict/"}],"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#faq","inLanguage":"es","isPartOf":{"@id":"https://datagovjourney.com/simulators/es/data-ownership-conflict/#app"},"mainEntity":[{"@type":"Question","name":"¿Cuál es la diferencia entre un data owner y un data steward?","acceptedAnswer":{"@type":"Answer","text":"El data owner rinde cuentas: decide qué significa el dato, aprueba sus reglas de negocio y firma el riesgo de usarlo. El data steward es responsable de mantenerlo apto para el uso diario: perfilar la calidad, mantener el glosario y el catálogo, y conciliar reglas entre áreas. La propiedad es un derecho de decisión; el stewardship es un trabajo continuo."}},{"@type":"Question","name":"¿Dónde encaja TI en la propiedad del dato?","acceptedAnswer":{"@type":"Answer","text":"TI es dueña de la capa de ejecución: pipelines, almacenamiento, infraestructura, control de acceso y respaldos. No es dueña del significado de negocio. Cuando una métrica está mal porque su definición está mal, eso es una pregunta de propiedad, no un ticket de ingeniería: justamente la confusión sobre la que se construyó este simulador."}},{"@type":"Question","name":"¿Necesito una matriz RACI formal antes de empezar?","acceptedAnswer":{"@type":"Answer","text":"No. El simulador sirve para descubrir cuál es tu RACI implícito. Muchos equipos lo resuelven juntos y descubren que no coinciden en escenarios que daban por cerrados, lo cual suele ser más útil que la puntuación."}},{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No hay cuenta y no pedimos correo. Los diez escenarios se puntúan por completo en tu navegador; lo único que sale de ahí es la entrada de la tabla de posiciones, y solo si pulsas Publicar: el nombre que escribiste, tu puntaje final y el tiempo que tardaste en responder pasan a aparecer en la misma tabla global que ve el resto de jugadores."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/images/dg-logo.png","width":400,"height":388}}]}</script>
-    <!-- Tailwind CSS -->
-    <style>
-        /* First-paint colours, so the page does not flash white before the rest
-           of the console has loaded. */
-        html { background-color: #04141c; color: #f2fafc; }
-    </style>
-    <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
+    <!-- Tailwind CSS: the utilities this page uses, compiled ahead of time.
+         This was the Tailwind Play CDN -- the whole compiler, shipped to the
+         visitor and re-run on every page view to rebuild a stylesheet that
+         never changes, in front of the largest contentful paint of the
+         console. scripts/build-simulator-css.mjs now does it once, from the
+         theme in scripts/lib/simulator-theme.mjs. It loads exactly where the
+         CDN script sat, so the simulator stylesheets below still win a
+         specificity tie against a utility, as they did before.
+         The inline first-paint background that used to sit here went with it:
+         it existed because the compiler could paint the page before it had
+         produced any styles, and a render-blocking stylesheet cannot. -->
+    <link rel="stylesheet" href="/assets/css/simulator-tailwind.css">
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="preload" href="/assets/fonts/fa-solid-900-subset.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
     <!-- One typeface for the header, the app and the explainer below it. -->
     <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/fonts.css">
-
-    <!-- The shared simulator theme: one Tailwind palette, one typeface, one
-         set of radii and shadows for all nine simulator pages. Must load after
-         the CDN script above and before the first paint of any utility class. -->
-    <script src="/assets/js/simulator-tailwind-config.js"></script>
 
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
     <link rel="stylesheet" href="/assets/css/simulator-theme.css">

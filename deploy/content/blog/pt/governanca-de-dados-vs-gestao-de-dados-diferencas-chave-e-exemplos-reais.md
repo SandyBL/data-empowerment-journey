@@ -106,4 +106,4 @@ Comece pela governança, mas só pela parte necessária. Nomeie proprietários p
 
 As duas disciplinas não competem pelo mesmo terreno. Governança sem gestão é teoria; gestão sem governança é improvisação cara. Você precisa do par, e precisa parar de financiar uma enquanto culpa a outra.
 
-Se você quer o próximo nível de detalhe do lado da governança, [Como construir um modelo operacional de governança de dados](/pt/blog/building-a-data-governance-operating-model/) mostra como direitos de decisão se tornam rotinas que funcionam, e [O que é e o que NÃO é Governança de Dados](/pt/blog/o-que-e-e-o-que-nao-e-governanca-de-dados-5-mitos-comuns/) limpa os pressupostos que mais deformam o desenho.
+Se você quer o próximo nível de detalhe do lado da governança, [Como construir um modelo operacional de governança de dados](/pt/blog/como-criar-um-modelo-operacional-de-governanca-de-dados/) mostra como direitos de decisão se tornam rotinas que funcionam, e [O que é e o que NÃO é Governança de Dados](/pt/blog/o-que-e-e-o-que-nao-e-governanca-de-dados-5-mitos-comuns/) limpa os pressupostos que mais deformam o desenho.

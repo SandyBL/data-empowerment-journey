@@ -509,6 +509,92 @@
   font-weight: 500;
 }
 
+/* ------------------------------------------------- published elsewhere ---- */
+
+/*
+ * The off-site article list on /about/ and /consulting/, rendered from
+ * scripts/lib/external-writing.mjs.
+ *
+ * Deliberately not `.page-related`: that block puts its `small` inside the
+ * anchor and makes the whole card the link, and these items carry a second
+ * line of links -- the other language editions -- which cannot be nested in
+ * the first one. So this is a list of rows with a rule between them rather
+ * than a grid of cards, which also reads as a bibliography instead of as more
+ * navigation, and stops eleven external links looking like the site's own
+ * eleven best pages.
+ */
+
+/*
+ * The prose above this block carries the heading, so the section repeats none
+ * and does not need a heading's worth of space above it -- unlike
+ * `{{CERTIFICATIONS}}`, which `.page-section` was spaced for.
+ */
+.elsewhere {
+  padding-top: 22px;
+}
+
+.elsewhere-list {
+  max-width: 74ch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.elsewhere-list > li {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.elsewhere-list > li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.elsewhere-title {
+  display: block;
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.elsewhere-title:hover,
+.elsewhere-title:focus-visible {
+  color: var(--dejourney-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.elsewhere-meta {
+  margin: 5px 0 0;
+  color: var(--slatecool);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.elsewhere-alt {
+  margin: 4px 0 0;
+  color: var(--slatecool);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.elsewhere-alt a {
+  color: var(--dejourney-teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.elsewhere-alt a:hover,
+.elsewhere-alt a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.elsewhere-heading {
+  max-width: 40ch;
+}
+
 /* ------------------------------------------------------------- glossary ---- */
 
 .glossary-jump {

@@ -34,15 +34,47 @@
 
 import { LOGO, imageCdn } from './brand.mjs';
 
-export const LANGUAGES = ['en', 'es', 'pt'];
+/**
+ * The addresses themselves live in routes.mjs, which holds the per-language URL
+ * vocabulary; this file holds what the links are *called*. They are re-exported
+ * here because every page family already imports its routes from site-nav, and
+ * pointing forty call sites at a second module to gain nothing but a longer
+ * import list is not a separation worth having.
+ */
+export {
+  LANGUAGES,
+  HOME_PATH,
+  pagePath,
+  feedPath,
+  simulatorPath,
+  blogPath,
+  articlePath,
+  categoryHubPath,
+  categoryPath,
+  confessionWallPath,
+  glossaryHubPath,
+  glossaryTermPath,
+  localizeInternalLinks,
+  X_DEFAULT_LANGUAGE,
+  xDefaultLanguage,
+  BLOG_SEGMENT,
+  CATEGORY_SEGMENT,
+  CONFESSION_SEGMENT,
+  PAGE_SLUGS,
+  TERM_SLUGS,
+  localizedPageSlug,
+  localizedTermSlug,
+  legacyRoutes,
+} from './routes.mjs';
 
-/** Where each language's homepage lives. Spanish keeps the root. */
-export const HOME_PATH = { es: '/', en: '/en/', pt: '/pt/' };
-
-/** Every standalone page lives at /<lang>/<slug>/, in all three languages. */
-export const pagePath = (lang, slug) => `/${lang}/${slug}/`;
-export const feedPath = (lang) => `/${lang}/feed.xml`;
-export const simulatorPath = (lang, slug) => `/simulators/${lang}/${slug}/`;
+import {
+  LANGUAGES,
+  HOME_PATH,
+  pagePath,
+  simulatorPath,
+  blogPath,
+  confessionWallPath,
+} from './routes.mjs';
 
 /** The owned newsletter lives on LinkedIn; there is no on-site archive to link. */
 export const NEWSLETTER_URL =
@@ -205,10 +237,10 @@ export const NAV_GROUPS = [
     key: 'groupLearn',
     id: 'learn',
     items: [
-      { key: 'blog', href: (lang) => `/${lang}/blog/` },
+      { key: 'blog', href: (lang) => blogPath(lang) },
       { key: 'glossary', href: (lang) => pagePath(lang, 'glossary') },
       { key: 'faq', href: (lang) => pagePath(lang, 'faq') },
-      { key: 'confessionWall', href: (lang) => `/${lang}/confession-wall/` },
+      { key: 'confessionWall', href: (lang) => confessionWallPath(lang) },
       { key: 'newsletter', href: () => NEWSLETTER_URL, external: true },
     ],
   },

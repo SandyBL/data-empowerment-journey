@@ -25,6 +25,54 @@ node_modules/
 /es/blog/*/
 /pt/blog/*/
 # (the three patterns above also cover <lang>/blog/category/, the category hubs)
+
+# The standalone pages and the glossary, generated from content/pages/ and
+# content/glossary/ by writeSitePages and writeGlossary. These were tracked and
+# the rest of the build output was not, which is how the repository came to hold
+# forty-six copies of a page whose <head> the generator had since rewritten --
+# every one of them still loading Font Awesome from a CDN the site no longer
+# uses. Listed by their localized addresses, which is what the generator writes:
+# see PAGE_SLUGS in scripts/lib/routes.mjs.
+/en/about/
+/en/advisory-sessions/
+/en/calculator/
+/en/consulting/
+/en/faq/
+/en/glossary/
+/en/maturity-assessment/
+/en/playbooks/
+/en/resources/
+/en/simulator-results/
+/en/templates/
+/en/workshops/
+/es/sobre-mi/
+/es/sesiones-de-asesoria/
+/es/calculadora/
+/es/consultoria/
+/es/preguntas-frecuentes/
+/es/glosario/
+/es/diagnostico-de-madurez/
+/es/playbooks/
+/es/recursos/
+/es/resultados-de-simuladores/
+/es/plantillas/
+/es/talleres/
+/pt/sobre/
+/pt/sessoes-de-assessoria/
+/pt/calculadora/
+/pt/consultoria/
+/pt/perguntas-frequentes/
+/pt/glossario/
+/pt/diagnostico-de-maturidade/
+/pt/playbooks/
+/pt/recursos/
+/pt/resultados-dos-simuladores/
+/pt/modelos/
+/pt/workshops/
+# The three feeds, written by renderFeeds from the same article list.
+/en/feed.xml
+/es/feed.xml
+/pt/feed.xml
 /llms.txt
 /llms-full.txt
 /sitemap.xml
