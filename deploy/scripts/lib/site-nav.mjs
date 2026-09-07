@@ -23,7 +23,7 @@
  *   Learn         reading and reference -- no input from you
  *   Practice      the scenario simulators and what the public runs revealed
  *   Tools         you put your own organisation in, you get an artefact out
- *   Work with me  the commercial ladder, smallest door first
+ *   Get help      the commercial ladder, smallest door first
  *
  * Everything here is exported as data rather than markup wherever a caller
  * might need it differently, because the footer directory, the header, the
@@ -124,7 +124,7 @@ export const NAV = {
     groupLearn: 'Learn',
     groupPractice: 'Practice',
     groupTools: 'Tools',
-    groupWork: 'Work with me',
+    groupWork: 'Get help',
     groupLanguage: 'Language',
     skip: 'Skip to main content',
     breadcrumb: 'Breadcrumb',
@@ -148,7 +148,7 @@ export const NAV = {
     consulting: 'Consultoría',
     sessions: 'Sesiones de asesoría',
     workshops: 'Talleres',
-    about: 'Sobre mí',
+    about: 'Sobre',
     contact: 'Contacto',
     confessionWall: 'Muro de Confesiones',
     simulators: 'Simuladores',
@@ -165,7 +165,7 @@ export const NAV = {
     groupLearn: 'Aprender',
     groupPractice: 'Practicar',
     groupTools: 'Herramientas',
-    groupWork: 'Trabajar conmigo',
+    groupWork: 'Obtener ayuda',
     groupLanguage: 'Idioma',
     skip: 'Saltar al contenido principal',
     breadcrumb: 'Ruta de navegación',
@@ -206,7 +206,7 @@ export const NAV = {
     groupLearn: 'Aprender',
     groupPractice: 'Praticar',
     groupTools: 'Ferramentas',
-    groupWork: 'Trabalhar comigo',
+    groupWork: 'Obter ajuda',
     groupLanguage: 'Idioma',
     skip: 'Ir para o conteúdo principal',
     breadcrumb: 'Trilha de navegação',

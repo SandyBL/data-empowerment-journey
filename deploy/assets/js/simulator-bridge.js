@@ -98,14 +98,14 @@
    * The heading directly above the contact form, not the top of the contact
    * section.
    *
-   * #contacto is the whole section: it opens with three choice cards, the
-   * consultant block and the newsletter block, and the form is several screens
-   * below all of it. Someone arriving from a results screen has already decided
-   * to write -- landing them at the top of the section and asking them to scroll
-   * past everything they did not click is the wrong place to put them.
+   * #contacto is the whole section: it opens with two choice cards and the
+   * newsletter block, and the form is a screen or more below all of it. Someone
+   * arriving from a results screen has already decided to write -- landing them
+   * at the top of the section and asking them to scroll past everything they did
+   * not click is the wrong place to put them.
    *
    * The heading rather than the form itself, because #contact-form starts at the
-   * first input: anchoring there scrolls "Tell us what you need to solve" off
+   * first input: anchoring there scrolls "Tell me what you need to solve" off
    * the top of the screen and the visitor lands on a bare field. The heading
    * block carries scroll-mt-24 so the site's sticky header does not cover it.
    */

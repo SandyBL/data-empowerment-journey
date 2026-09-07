@@ -64,8 +64,12 @@ function createStoryCard(story) {
 
   const date = document.createElement("span");
   date.className = "confession-card__date";
+  // timeZone is pinned to UTC on purpose. The seeded stories carry date-only
+  // strings, which parse as UTC midnight; formatting those in the reader's own
+  // zone would render the day before for anyone west of Greenwich, and would
+  // disagree with the date the build already wrote into the static card.
   date.textContent = story.publishedAt
-    ? new Intl.DateTimeFormat(copy.localeTag, { dateStyle: "medium" }).format(new Date(story.publishedAt))
+    ? new Intl.DateTimeFormat(copy.localeTag, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(story.publishedAt))
     : "";
 
   meta.append(category, date);

@@ -112,7 +112,7 @@ const EXTERNAL_CLASSES = new Set(['fas', 'far', 'fab', 'fal', 'fad', 'fat', 'fa'
 const IGNORED_CLASSES = new Set([
   'framework-section',
   'resources-section',
-  'contact-consultant',
+  'consultant-section',
   'bad-data-field__control--currency',
   // A marker class on the data-es/data-en/data-pt download anchors, which
   // localizeLinks() rewrites by attribute rather than by class name.
