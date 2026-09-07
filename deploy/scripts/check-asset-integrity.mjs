@@ -41,10 +41,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
  * notice -- which is the whole problem.
  */
 const PINNED = new Map([
-  [
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-    'sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0',
-  ],
+  // Font Awesome used to be pinned here. It is now cut down to the icons this
+  // site uses and served from /assets/, so there is no third-party URL left to
+  // pin -- see scripts/build-font-awesome-subset.py, which keeps the hash of
+  // the upstream release it cuts from.
   [
     'https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js',
     'sha384-c6Uo4N9c3SOEigMVzP6IshUG1wQ5uMp3xeoQFiHWAQ86joWdgyajkvopySyKy/Z6',
@@ -79,34 +79,29 @@ const PINNED = new Map([
  * to read. Adding `integrity` and `crossorigin="anonymous"` to a script from an
  * origin that answers without `Access-Control-Allow-Origin` turns the response
  * opaque, the hash can never be compared, and the browser blocks the script
- * outright -- a correct hash makes no difference. Tailwind's Play CDN is such an
- * origin, and it compiles the stylesheet for seven simulator pages in the
- * browser, so blocking it strips those pages of every rule they have and leaves
- * a wall of unstyled text.
+ * outright -- a correct hash makes no difference.
  *
- * The version in the URL is the guarantee here: cdn.tailwindcss.com/3.4.17
- * resolves to one immutable build. Removing the version, not removing the hash,
- * is what would weaken this.
- *
- * The real fix is to stop compiling Tailwind in the browser and ship a built
- * stylesheet, which also removes the origin from the page's script-src.
+ * The list is empty, and the entry it used to hold is the reason to keep the
+ * mechanism. Tailwind's Play CDN was such an origin, and it compiled the
+ * stylesheet for all nine simulator pages in the browser, so blocking it would
+ * have stripped those pages of every rule they had. The exemption existed
+ * because the only alternative was an unpinned script; the real fix was to stop
+ * compiling Tailwind in the browser at all, which is what
+ * scripts/build-simulator-css.mjs now does. Anything that lands here again
+ * should be read the same way: as a note that the asset wants replacing, not as
+ * a place to park it.
  */
-const CORS_INCAPABLE = new Map([
-  [
-    'https://cdn.tailwindcss.com/3.4.17',
-    'cdn.tailwindcss.com sends no Access-Control-Allow-Origin, so an integrity attribute would block the script instead of verifying it.',
-  ],
-]);
+const CORS_INCAPABLE = new Map([]);
 
 /**
  * URLs that genuinely cannot be pinned, with the reason. Anything not on this
  * list and not in PINNED fails.
  */
 const UNPINNABLE = new Map([
-  [
-    'https://fonts.googleapis.com/',
-    'Google Fonts serves different CSS per browser, so no single hash is correct for every visitor. The font files it points at are immutable and versioned by URL.',
-  ],
+  // Google Fonts was here, exempt because it serves different CSS per browser
+  // and so has no single correct hash. The typefaces are self-hosted in
+  // /assets/fonts now, and with the entry gone a link back to that origin fails
+  // this check rather than being waved through.
   [
     'https://unpkg.com/decap-cms@',
     'Decap CMS is loaded behind a semver range so security patches reach the editor without a deploy. It runs only on /admin/, behind Netlify Identity, and touches no visitor-facing page.',

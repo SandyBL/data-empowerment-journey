@@ -61,23 +61,14 @@ const HTML_SOURCES = [
   // not load the homepage stylesheet: every board-summary class has to exist in
   // assets/css/pages.css on its own.
   'en/simulator-results/index.html',
-];
-
-/**
- * Pages that are reported but never fail the build.
- *
- * All nine simulators load the Tailwind Play CDN, which compiles utility classes
- * in the browser from a config this script cannot evaluate, so `checkFile` skips
- * them outright rather than measuring their markup against the hand-written
- * subset and calling every Tailwind utility undefined. They stay on this list for
- * the day one of them stops loading the CDN: the run will start reporting real
- * findings for it, and it can be promoted into HTML_SOURCES once it reads clean.
- *
- * The Spanish and Portuguese "Who Owns This?" pages were the two exceptions --
- * CDN-free, and so checked strictly -- until they were rebuilt from the English
- * page they translate, which brought the CDN with it.
- */
-const ADVISORY_SOURCES = [
+  // The nine simulators. These were advisory-only for as long as they compiled
+  // their utilities in the browser from the Tailwind Play CDN: a class that only
+  // ever exists inside a runtime compiler is not a class this script can verify,
+  // so it skipped them outright rather than call every Tailwind utility on them
+  // undefined. They now link a stylesheet compiled ahead of time by
+  // scripts/build-simulator-css.mjs, which is a file it can read -- so they are
+  // checked like everything else, and the check is what notices when a utility
+  // is added to a page and that stylesheet is not regenerated.
   'simulators/en/data-governance-day-to-day/index.html',
   'simulators/en/data-literacy/index.html',
   'simulators/en/data-ownership-conflict/index.html',
@@ -88,6 +79,16 @@ const ADVISORY_SOURCES = [
   'simulators/pt/data-literacy/index.html',
   'simulators/pt/data-ownership-conflict/index.html',
 ];
+
+/**
+ * Pages that are reported but never fail the build.
+ *
+ * Empty, and kept for the next page that needs it. The nine simulators lived
+ * here until they stopped loading the Tailwind Play CDN; the note above their
+ * entries in HTML_SOURCES explains why they could not be checked before and
+ * what changed.
+ */
+const ADVISORY_SOURCES = [];
 
 /** Directories scanned for class names referenced from JavaScript or generators. */
 const HOOK_SOURCES = ['assets/js', 'scripts', 'scripts/lib'];
@@ -218,6 +219,19 @@ const collectStylesheets = async (html, htmlFile) => {
 const inlineStyleBlocks = (html) =>
   [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)].map((match) => match[1]).join('\n');
 
+/**
+ * A page's own inline scripts, read as hook source.
+ *
+ * HOOK_SOURCES covers the shared files under assets/js and scripts, which is
+ * everything a page that keeps its behaviour in a separate file could name. The
+ * nine simulators do not: each one carries its whole app inline, so
+ * `document.querySelectorAll('.catalog-card')` and the class attribute it looks
+ * for live in the same file and neither is visible to the other. Without this
+ * every one of those hooks reads as an undefined class.
+ */
+const inlineScriptBlocks = (html) =>
+  [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((match) => match[1]).join('\n');
+
 const readIfPresent = async (file) => {
   try {
     if (!(await stat(file)).isFile()) return '';
@@ -247,12 +261,13 @@ const checkFile = async (htmlFile, extraSheets, hookSource) => {
   }
   for (const name of definedClasses(inlineStyleBlocks(html))) defined.add(name);
 
+  const hooks = `${hookSource}\n${inlineScriptBlocks(html)}`;
   const missing = [];
   for (const [token, line] of usedClasses(html)) {
     if (defined.has(token)) continue;
     if (IGNORED_CLASSES.has(token)) continue;
     if (isExternal(token)) continue;
-    if (isHook(token, hookSource)) continue;
+    if (isHook(token, hooks)) continue;
     missing.push({ token, line });
   }
   return { file: htmlFile, missing };

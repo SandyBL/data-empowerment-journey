@@ -20,7 +20,7 @@ import { BAND_LABELS, BANDS, SIMULATOR_LABELS } from '../../assets/js/simulator-
 import { MIN_SAMPLE } from '../../assets/js/public-board-analysis.mjs';
 import { escapeHtml } from './markdown.mjs';
 
-const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+import { DATE_LOCALE } from './locales.mjs';
 
 const COPY = {
   en: {

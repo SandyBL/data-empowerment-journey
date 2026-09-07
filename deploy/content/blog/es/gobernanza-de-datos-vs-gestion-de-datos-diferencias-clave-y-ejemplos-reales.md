@@ -106,4 +106,4 @@ Empieza por la gobernanza, pero solo por la parte justa. Nombra propietarios par
 
 Las dos disciplinas no compiten por el mismo terreno. Gobernanza sin gestión es teoría; gestión sin gobernanza es improvisación cara. Necesitas el par, y necesitas dejar de financiar una mientras culpas a la otra.
 
-Si quieres el siguiente nivel de detalle en el lado del gobierno, [Cómo construir un modelo operativo de gobierno de datos](/es/blog/building-a-data-governance-operating-model/) muestra cómo los derechos de decisión se convierten en rutinas que funcionan, y [Qué es y qué NO es la Gobernanza de Datos](/es/blog/que-es-y-que-no-es-la-gobernanza-de-datos-5-mitos-comunes/) despeja los supuestos que más deforman el diseño.
+Si quieres el siguiente nivel de detalle en el lado del gobierno, [Cómo construir un modelo operativo de gobierno de datos](/es/blog/como-construir-un-modelo-operativo-de-gobierno-de-datos/) muestra cómo los derechos de decisión se convierten en rutinas que funcionan, y [Qué es y qué NO es la Gobernanza de Datos](/es/blog/que-es-y-que-no-es-la-gobernanza-de-datos-5-mitos-comunes/) despeja los supuestos que más deforman el diseño.

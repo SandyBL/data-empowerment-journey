@@ -13,7 +13,17 @@
 
 import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 import { renderHomeFaq } from './faq.mjs';
-import { HOME_PATH, LANGUAGES, NAV, NAV_GROUPS, feedPath, renderSiteHeader } from './site-nav.mjs';
+import {
+  HOME_PATH,
+  LANGUAGES,
+  NAV,
+  NAV_GROUPS,
+  blogPath,
+  confessionWallPath,
+  feedPath,
+  pagePath,
+  renderSiteHeader,
+} from './site-nav.mjs';
 
 /**
  * Re-exported: the routes now live in ./site-nav.mjs with the labels and the
@@ -22,12 +32,16 @@ import { HOME_PATH, LANGUAGES, NAV, NAV_GROUPS, feedPath, renderSiteHeader } fro
  */
 export { HOME_PATH } from './site-nav.mjs';
 
-const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
 // pt_BR, not pt_PT: the Portuguese copy across this site is Brazilian
-// (“você”, “Anônimo”, R$ figures in the simulators), and the blog generator
-// and the confession wall both already say so. Three files disagreeing meant
-// the homepage advertised a variant the page is not written in.
-const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
+// (“você”, “Anônimo”, R$ figures in the simulators). Four files used to
+// declare that separately; scripts/lib/locales.mjs is now the one that does.
+import {
+  DATE_LOCALE,
+  HTML_LANG,
+  OG_LOCALE,
+  renderAlternateLocales,
+} from './locales.mjs';
+
 
 const PAGE_METADATA = {
   es: {
@@ -89,7 +103,6 @@ const PAGE_METADATA = {
   },
 };
 
-const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
 
 /**
  * Copy for the latest-articles block. It is written here rather than in
@@ -183,8 +196,11 @@ const findElementEnd = (html, start, tagName) => {
  */
 export const localizeLinks = (html, lang) =>
   html
-    .replace(/href="\/es\/confession-wall\/"(\s+class="language-confession-link)/g, `href="/${lang}/confession-wall/"$1`)
-    .replace(/href="\/es\/blog\/"(\s+id="header-blog-link")/g, `href="/${lang}/blog/"$1`)
+    .replace(
+      /href="\/es\/confession-wall\/"(\s+class="language-confession-link)/g,
+      `href="${confessionWallPath(lang)}"$1`
+    )
+    .replace(/href="\/es\/blog\/"(\s+id="header-blog-link")/g, `href="${blogPath(lang)}"$1`)
     .replace(/href="\/simulators\/es\/([a-z-]+)\/"(\s+class="language-simulator-link")/g, `href="/simulators/${lang}/$1/"$2`)
     // Downloads and the maturity scorecard carry all three targets as data
     // attributes; promote the one for this language into href and download.
@@ -211,10 +227,7 @@ const renderMetadata = (lang) => {
     // one thing Google's localisation guidance asks you not to ship.
     .concat(`    <link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${HOME_PATH.es}">`)
     .join('\n');
-  const alternateLocales = Object.keys(OG_LOCALE)
-    .filter((other) => other !== lang)
-    .map((other) => `    <meta property="og:locale:alternate" content="${OG_LOCALE[other]}">`)
-    .join('\n');
+  const alternateLocales = renderAlternateLocales(lang, '    ');
 
   return `<title>${escapeAttribute(metadata.title)}</title>
     <meta name="description" content="${escapeAttribute(metadata.description)}">
@@ -241,6 +254,34 @@ ${alternateLocales}
 };
 
 /**
+ * What this site is about, named the way each language's readers name it.
+ *
+ * `knowsAbout` was English-only on all three homepages, so the Spanish and
+ * Portuguese pages described their subject in a language they are not written
+ * in. The Spanish list carries both words for the field on purpose: "gobierno
+ * de datos" is the term this site uses and the one it wants to own, and
+ * "gobernanza de datos" is what a large share of readers -- particularly in
+ * Latin America -- actually type. They are the same discipline, so declaring
+ * both is accurate rather than padding, and it is the same relationship the
+ * glossary already publishes as the term's alternateName.
+ */
+const SUBJECT_NAMES = {
+  en: ['Data Governance', 'Data Culture', 'Data Stewardship'],
+  es: [
+    'Gobierno de datos',
+    'Gobernanza de datos',
+    'Cultura de datos',
+    'Alfabetización de datos',
+  ],
+  pt: [
+    'Governança de dados',
+    'Cultura de dados',
+    'Letramento de dados',
+    'Alfabetização de dados',
+  ],
+};
+
+/**
  * Narrows the shared JSON-LD graph to one language.
  *
  * The graph used to hold one FAQPage per language, which claimed that the
@@ -256,7 +297,19 @@ const renderSchema = (graph, lang) => {
     // reader is actually on — otherwise a Portuguese visitor's query lands in
     // the Spanish index.
     if (localized['@type'] === 'WebSite' && localized.potentialAction?.target) {
-      localized.potentialAction.target.urlTemplate = `${SITE_ORIGIN}/${lang}/blog/?q={search_term_string}`;
+      localized.potentialAction.target.urlTemplate = `${SITE_ORIGIN}${blogPath(lang)}?q={search_term_string}`;
+    }
+    // The Person node named /en/about/ on all three homepages, so the Spanish
+    // and Portuguese pages introduced their author by pointing at a page in a
+    // language the reader had not chosen — and, because every article's schema
+    // resolves its author to this same @id, that one wrong URL was the author
+    // reference for the whole site in two of its three languages.
+    if (localized['@type'] === 'Person') {
+      localized.url = `${SITE_ORIGIN}${pagePath(lang, 'about')}`;
+      localized.knowsAbout = [...(localized.knowsAbout ?? []), ...SUBJECT_NAMES[lang]];
+    }
+    if (localized['@type'] === 'Organization') {
+      localized.knowsAbout = [...(localized.knowsAbout ?? []), ...SUBJECT_NAMES[lang]];
     }
     return localized;
   });

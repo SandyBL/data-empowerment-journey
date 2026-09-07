@@ -29,6 +29,14 @@ I mention this for one reason: when a governance recommendation is contested ins
 
 {{CERTIFICATIONS}}
 
+## Writing published elsewhere
+
+Not all of this work is published here. I write about data governance for the blog of **NowVertical Group**, the consultancy I work for as a data governance specialist consultant out of Brazil, in Portuguese, English and Spanish — the same three languages as this site, for the same reason.
+
+They are worth a look for a specific reason: they were written for a client-facing audience, edited by somebody other than me, and published under a company's name rather than my own. If you want to know whether the material here holds up outside its own website, that is the shortest way to check.
+
+{{EXTERNAL_WRITING}}
+
 ## Why this site exists
 
 I kept giving the same explanations. What data governance is and is not. Why a data owner has to be a business leader with budget. Why a maturity score is a diagnosis rather than an objective. Why the catalog nobody filled in is not the tool's fault.

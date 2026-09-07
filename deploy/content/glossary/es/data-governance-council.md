@@ -2,7 +2,7 @@
 term: Consejo de gobierno de datos
 short: El foro permanente de dueños de datos que resuelve las decisiones que ningún dominio puede tomar por su cuenta.
 group: roles
-also: Comité de gobierno de datos, data governance council
+also: Consejo de gobernanza de datos, comité de gobierno de datos, data governance council
 related: data-owner, decision-rights, data-governance-operating-model, data-policy
 article: building-a-data-governance-operating-model
 updated: 2026-09-05

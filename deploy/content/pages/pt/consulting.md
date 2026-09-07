@@ -41,6 +41,12 @@ Não vendo seleção de ferramentas como projeto de governança. Digo com prazer
 
 Também não aceito projetos em que o patrocinador não compromete um dono. Governança sem um dono de negócio que possa aprovar uma definição e dizer não a outra área é um exercício, e o resultado é previsível o bastante para não valer o tempo de nenhum dos dois.
 
+## Onde mais este trabalho foi publicado
+
+Escrevo sobre governança de dados para o blog da **NowVertical Group**, a consultoria em que faço este trabalho como consultor especialista em governança de dados a partir do Brasil. O mesmo assunto dos artigos deste site, com outro editor e para um público de clientes em vez de leitores das minhas próprias páginas.
+
+{{EXTERNAL_WRITING}}
+
 ## Como é cobrado
 
 Diagnósticos e projetos de desenho com escopo fixo são cotados como preço fixo contra um escopo escrito, então você não está comprando uma diária aberta. A assessoria é um bloco mensal de horas. Workshops são cotados por sessão, e a [página de workshops](/pt/workshops/) explica o que está incluído, inclusive o espaço privado de simuladores com a sua marca e o relatório de facilitador.

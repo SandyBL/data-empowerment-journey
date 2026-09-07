@@ -10,13 +10,15 @@
     <link rel="alternate" hreflang="en" href="https://datagovjourney.com/simulators/en/data-literacy/">
     <link rel="alternate" hreflang="es" href="https://datagovjourney.com/simulators/es/data-literacy/">
     <link rel="alternate" hreflang="pt" href="https://datagovjourney.com/simulators/pt/data-literacy/">
-    <link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/simulators/en/data-literacy/">
+    <link rel="alternate" hreflang="x-default" href="https://datagovjourney.com/simulators/es/data-literacy/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Data Governance Journey">
     <meta property="og:title" content="Simulador de Alfabetización de Datos | Data Governance Journey">
     <meta property="og:description" content="Simulador interactivo gratuito: recorre 15 escenarios ejecutivos y descubre cómo las decisiones de alfabetización de datos cambian el valor de los activos, el ROI de la información y la fricción diaria.">
     <meta property="og:url" content="https://datagovjourney.com/simulators/es/data-literacy/">
     <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="pt_BR">
     <meta property="og:image" content="https://datagovjourney.com/assets/images/og-default.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -29,30 +31,32 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Simulador de Alfabetización de Datos","url":"https://datagovjourney.com/simulators/es/data-literacy/","description":"Simulador interactivo gratuito: recorre 15 escenarios ejecutivos y descubre cómo las decisiones de alfabetización de datos cambian el valor de los activos, el ROI de la información y la fricción diaria.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","inLanguage":"es","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@id":"https://datagovjourney.com/#organization"},"@id":"https://datagovjourney.com/simulators/es/data-literacy/#app","learningResourceType":"Simulation","educationalUse":"Professional development","teaches":["Sesgos cognitivos en la decisión","Análisis de causa raíz","Alfabetización en gobierno","Criterio sobre IA y seguridad","Cultura de datos","Medir la alfabetización como capacidad"],"audience":{"@type":"Audience","audienceType":"Data governance and analytics professionals"},"about":[{"@type":"Thing","name":"Data governance","sameAs":["https://en.wikipedia.org/wiki/Data_governance","https://www.wikidata.org/wiki/Q5227240"]},{"@type":"Thing","name":"Data literacy","sameAs":["https://en.wikipedia.org/wiki/Data_literacy","https://www.wikidata.org/wiki/Q105776957"]}],"isPartOf":{"@id":"https://datagovjourney.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://datagovjourney.com/"},{"@type":"ListItem","position":2,"name":"Simuladores","item":"https://datagovjourney.com/#simulators"},{"@type":"ListItem","position":3,"name":"Simulador de Alfabetización de Datos","item":"https://datagovjourney.com/simulators/es/data-literacy/"}],"@id":"https://datagovjourney.com/simulators/es/data-literacy/#breadcrumb"},{"@type":"FAQPage","@id":"https://datagovjourney.com/simulators/es/data-literacy/#faq","inLanguage":"es","isPartOf":{"@id":"https://datagovjourney.com/simulators/es/data-literacy/#app"},"mainEntity":[{"@type":"Question","name":"¿Qué es la alfabetización de datos, en una frase?","acceptedAnswer":{"@type":"Answer","text":"Es la capacidad de leer, interpretar, cuestionar y actuar sobre los datos en el contexto de una decisión real; y a nivel organizacional, hacerlo de forma tan fiable que la gente crea más en el dato que en su intuición."}},{"@type":"Question","name":"¿Por qué este simulador mide dinero y no notas de examen?","acceptedAnswer":{"@type":"Answer","text":"Porque un programa que produce certificados pero no reduce el tiempo que la gente pasa conciliando números no cambió nada. El valor del activo de datos, el ROI de la información y la fricción son indicadores de si la capacidad realmente aterrizó."}},{"@type":"Question","name":"¿Sirve si no soy ejecutivo?","acceptedAnswer":{"@type":"Answer","text":"Sí. Los escenarios están escritos desde la silla directiva porque ahí se ven los trade-offs, pero analistas y stewards lo usan para entender por qué las solicitudes que reciben tienen la forma que tienen."}},{"@type":"Question","name":"¿Cuánto dura y es gratis?","acceptedAnswer":{"@type":"Answer","text":"Unos quince minutos, gratis y sin cuenta. Cada decisión se puntúa en tu navegador y el registro se queda en tu dispositivo. Publicar en la tabla de posiciones es opcional y es lo único que se envía a nosotros: el nombre que escribas, tu puntaje final y el tiempo que tardaste en responder, que aparecen en la misma tabla global que ve el resto de jugadores."}}]},{"@type":"Organization","@id":"https://datagovjourney.com/#organization","name":"Data Governance Journey","url":"https://datagovjourney.com/","logo":{"@type":"ImageObject","url":"https://datagovjourney.com/assets/images/dg-logo.png","width":400,"height":388}}]}</script>
-    <!-- Tailwind CSS -->
-    <style>
-        /* First-paint colours, so the page does not flash white before the
-           Tailwind CDN has compiled and injected the utility styles. */
-        html { background-color: #04141c; color: #f2fafc; }
-    </style>
-    <script src="https://cdn.tailwindcss.com/3.4.17" referrerpolicy="no-referrer"></script>
+    <!-- Tailwind CSS: the utilities this page uses, compiled ahead of time.
+         This was the Tailwind Play CDN -- the whole compiler, shipped to the
+         visitor and re-run on every page view to rebuild a stylesheet that
+         never changes, in front of the largest contentful paint of the
+         console. scripts/build-simulator-css.mjs now does it once, from the
+         theme in scripts/lib/simulator-theme.mjs. It loads exactly where the
+         CDN script sat, so the simulator stylesheets below still win a
+         specificity tie against a utility, as they did before.
+         The inline first-paint background that used to sit here went with it:
+         it existed because the compiler could paint the page before it had
+         produced any styles, and a render-blocking stylesheet cannot. -->
+    <link rel="stylesheet" href="/assets/css/simulator-tailwind.css">
     <!-- FontAwesome. One icon set across all nine simulator pages: it
          replaces the Lucide sprite this page loaded and the hand-written
          inline SVG on the Day-to-Day pages, which between them gave the
          three simulators three icon vocabularies at three stroke weights.
          FontAwesome wins the tie because the Portuguese Day-to-Day page and
          the English "Who Owns This?" already served it. -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="preload" href="/assets/fonts/fa-solid-900-subset.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
     <!-- Chart.js for Radar Visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js" integrity="sha384-hfkuqrKeWFmnTMWN31VWyoe8xgdTADD11kgxmdpx2uyE6j5Az5uZq6u6AKYYmAOw" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Google Fonts -->
     <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/fonts.css">
 
-    <!-- The shared simulator theme: one Tailwind palette, one typeface, one
-         set of radii and shadows for all nine simulator pages. Must load after
-         the CDN script above and before the first paint of any utility class. -->
-    <script src="/assets/js/simulator-tailwind-config.js"></script>
     <link rel="stylesheet" href="/assets/css/simulator-header.css">
     <link rel="stylesheet" href="/assets/css/simulator-theme.css">
   <!-- Private-space chrome, settled before the first paint. The rules it

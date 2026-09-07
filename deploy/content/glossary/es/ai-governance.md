@@ -2,7 +2,7 @@
 term: Gobierno de la IA
 short: Los controles sobre cómo se construyen, aprueban, monitorizan y retiran los modelos, la mayoría de los cuales son controles de datos con otro nombre.
 group: ai
-also: IA responsable, gobierno algorítmico
+also: Gobernanza de la IA, IA responsable, gobierno algorítmico
 related: data-governance, data-classification, personally-identifiable-information, data-lineage
 article: responsible-ai-starts-with-data-governance
 updated: 2026-09-05

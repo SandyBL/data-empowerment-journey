@@ -29,6 +29,14 @@ Menciono isso por um motivo: quando uma recomendação de governança é contest
 
 {{CERTIFICATIONS}}
 
+## Publicado fora deste site
+
+Nem todo este trabalho é publicado aqui. Escrevo sobre governança de dados para o blog da **NowVertical Group**, a consultoria em que trabalho como consultor especialista em governança de dados a partir do Brasil, em português, inglês e espanhol: os mesmos três idiomas deste site, e pelo mesmo motivo.
+
+Vale a leitura por um motivo concreto: foram escritos para um público de cliente, editados por alguém que não sou eu e publicados sob o nome de uma empresa, e não sob o meu. Se você quiser saber se o material daqui se sustenta fora do próprio site, esse é o caminho mais curto.
+
+{{EXTERNAL_WRITING}}
+
 ## Por que este site existe
 
 Eu não parava de dar as mesmas explicações. O que é e o que não é governança de dados. Por que um dono dos dados precisa ser um líder de negócio com orçamento. Por que uma nota de maturidade é um diagnóstico e não um objetivo. Por que o catálogo que ninguém chegou a preencher não é culpa da ferramenta.

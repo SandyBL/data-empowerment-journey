@@ -28,9 +28,11 @@ import {
   LANGUAGES,
   NAV,
   breadcrumbSchema,
-  pagePath,
+  glossaryHubPath,
+  glossaryTermPath,
   renderBreadcrumb,
   renderPage,
+  xDefaultLanguage,
 } from './page-shell.mjs';
 
 /** The sections the hub groups terms under, in the order they are shown. */
@@ -145,8 +147,13 @@ const COPY = {
   },
 };
 
-export const glossaryHubPath = (lang) => pagePath(lang, 'glossary');
-export const glossaryTermPath = (lang, slug) => `/${lang}/glossary/${slug}/`;
+/**
+ * Both addresses are now per-language -- /es/glosario/gobierno-de-datos/ rather
+ * than /es/glossary/data-governance/ -- and are built from the tables in
+ * routes.mjs. Re-exported from here because the generator has always imported
+ * the glossary's routes from the glossary module.
+ */
+export { glossaryHubPath, glossaryTermPath };
 
 const splitList = (value) =>
   String(value || '')
@@ -216,10 +223,9 @@ export const glossaryTranslations = (terms) => {
 const alternatesFor = (slug, translations) => {
   const cluster = translations.get(slug) || {};
   const available = LANGUAGES.filter((lang) => cluster[lang]);
-  const fallback = cluster.en ? 'en' : available[0];
   return [
     ...available.map((lang) => ({ hreflang: lang, url: glossaryTermPath(lang, slug) })),
-    { hreflang: 'x-default', url: glossaryTermPath(fallback, slug) },
+    { hreflang: 'x-default', url: glossaryTermPath(xDefaultLanguage(available), slug) },
   ];
 };
 
@@ -349,7 +355,7 @@ ${sections}
     description: copy.metaDescription,
     alternates: [
       ...LANGUAGES.map((other) => ({ hreflang: other, url: glossaryHubPath(other) })),
-      { hreflang: 'x-default', url: glossaryHubPath('en') },
+      { hreflang: 'x-default', url: glossaryHubPath(xDefaultLanguage()) },
     ],
     schema,
     main,

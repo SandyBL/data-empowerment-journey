@@ -13,11 +13,27 @@ import { checkAssetIntegrity } from './check-asset-integrity.mjs';
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN, imageCdn } from './lib/brand.mjs';
 import {
   FONT_AWESOME,
+  articlePath,
+  blogPath,
+  categoryHubPath,
+  categoryPath,
+  confessionWallPath,
   feedPath,
+  localizeInternalLinks,
   pagePath,
   renderSiteFooter,
   renderSiteHeader,
+  xDefaultLanguage,
 } from './lib/page-shell.mjs';
+import {
+  BLOG_SEGMENT,
+  CATEGORY_SEGMENT,
+  CONFESSION_SEGMENT,
+  TERM_SLUGS,
+  legacyRoutes,
+  localizedPageSlug,
+  localizedTermSlug,
+} from './lib/routes.mjs';
 import {
   glossaryHubPath,
   glossaryTermPath,
@@ -46,9 +62,6 @@ import { renderShareBar } from './lib/share.mjs';
 const IS_PRODUCTION_DEPLOY = process.env.CONTEXT === 'production';
 
 const LANGUAGES = ['en', 'es', 'pt'];
-const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
-const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
-const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
 
 const LABELS = {
   en: {
@@ -185,19 +198,29 @@ const STATIC_ROUTES = [
       // "/" rather than "/en/": it is the address that negotiates, so it is the
       // address for a visitor whose language none of the three match. Kept in
       // step with the head of the page itself — see scripts/lib/home-pages.mjs.
-      { hreflang: 'x-default', url: HOME_PATH.es },
+      { hreflang: 'x-default', url: HOME_PATH[xDefaultLanguage()] },
     ],
   })),
-  ...['blog', 'confession-wall'].flatMap((section) =>
+  // Addressed through the route helpers because both segments are translated:
+  // the wall is /es/muro-de-confesiones/ and /pt/mural-de-confissoes/.
+  ...[
+    { key: 'blog', route: blogPath, priority: '0.8', lastmod: null },
+    {
+      key: 'confessionWall',
+      route: confessionWallPath,
+      priority: '0.7',
+      lastmod: CONFESSION_WALL_LAST_MODIFIED,
+    },
+  ].flatMap((section) =>
     LANGUAGES.map((lang) => ({
-      url: `/${lang}/${section}/`,
-      priority: section === 'blog' ? '0.8' : '0.7',
+      url: section.route(lang),
+      priority: section.priority,
       changefreq: 'weekly',
       // Blog indexes are derived in renderSitemap; the walls take the constant.
-      lastmod: section === 'blog' ? null : CONFESSION_WALL_LAST_MODIFIED,
+      lastmod: section.lastmod,
       alternates: [
-        ...LANGUAGES.map((other) => ({ hreflang: other, url: `/${other}/${section}/` })),
-        { hreflang: 'x-default', url: `/en/${section}/` },
+        ...LANGUAGES.map((other) => ({ hreflang: other, url: section.route(other) })),
+        { hreflang: 'x-default', url: section.route(xDefaultLanguage()) },
       ],
     }))
   ),
@@ -209,7 +232,10 @@ const STATIC_ROUTES = [
       lastmod: SIMULATOR_LAST_MODIFIED,
       alternates: [
         ...LANGUAGES.map((other) => ({ hreflang: other, url: `/simulators/${other}/${simulator}/` })),
-        { hreflang: 'x-default', url: `/simulators/en/${simulator}/` },
+        {
+          hreflang: 'x-default',
+          url: `/simulators/${xDefaultLanguage()}/${simulator}/`,
+        },
       ],
     }))
   ),
@@ -235,7 +261,6 @@ function collectContentRoutes(pages, terms) {
 
   for (const page of pages) {
     const available = LANGUAGES.filter((lang) => pageTranslations.get(page.slug).includes(lang));
-    const fallback = available.includes('en') ? 'en' : available[0];
     routes.push({
       url: pagePath(page.lang, page.slug),
       // A page that sells or explains the practice sits with the blog index at
@@ -251,7 +276,7 @@ function collectContentRoutes(pages, terms) {
       lastmod: page.updated,
       alternates: [
         ...available.map((lang) => ({ hreflang: lang, url: pagePath(lang, page.slug) })),
-        { hreflang: 'x-default', url: pagePath(fallback, page.slug) },
+        { hreflang: 'x-default', url: pagePath(xDefaultLanguage(available), page.slug) },
       ],
     });
   }
@@ -281,7 +306,7 @@ function collectContentRoutes(pages, terms) {
           hreflang: other,
           url: glossaryHubPath(other),
         })),
-        { hreflang: 'x-default', url: glossaryHubPath('en') },
+        { hreflang: 'x-default', url: glossaryHubPath(xDefaultLanguage()) },
       ],
     });
   }
@@ -289,7 +314,6 @@ function collectContentRoutes(pages, terms) {
   for (const term of terms) {
     const cluster = termTranslations.get(term.slug) || {};
     const available = LANGUAGES.filter((lang) => cluster[lang]);
-    const fallback = available.includes('en') ? 'en' : available[0];
     routes.push({
       url: glossaryTermPath(term.lang, term.slug),
       // Below an article: a definition is a shorter page that exists to be
@@ -299,7 +323,7 @@ function collectContentRoutes(pages, terms) {
       lastmod: term.updated || newestTerm(term.slug),
       alternates: [
         ...available.map((lang) => ({ hreflang: lang, url: glossaryTermPath(lang, term.slug) })),
-        { hreflang: 'x-default', url: glossaryTermPath(fallback, term.slug) },
+        { hreflang: 'x-default', url: glossaryTermPath(xDefaultLanguage(available), term.slug) },
       ],
     });
   }
@@ -310,13 +334,34 @@ function collectContentRoutes(pages, terms) {
 const projectDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDirectory = path.join(projectDirectory, 'content/blog');
 
+/**
+ * Writes a generated document with its internal links localized.
+ *
+ * Everything the templates build addresses itself through the route helpers, so
+ * the nav, the breadcrumbs and the hreflang cluster are already right. Prose is
+ * not: an author writing content/blog/es/*.md links to /es/glossary/data-owner/
+ * because that is the identifier the rest of the build uses, and rewriting it
+ * here is what lets ~700 links across content/ stay written that way while
+ * being published at /es/glosario/propietario-de-datos/.
+ *
+ * Deliberately not used for _redirects, whose left-hand side is a list of the
+ * old English addresses. Localizing that file would rewrite every rule into one
+ * that redirects a path to itself.
+ */
+const writeDocument = (filePath, contents) =>
+  writeFile(filePath, localizeInternalLinks(contents), 'utf8');
+
 const formatDate = (isoDate, lang) =>
   new Intl.DateTimeFormat(DATE_LOCALE[lang], { year: 'numeric', month: 'long', day: 'numeric' }).format(
     new Date(`${isoDate}T12:00:00Z`)
   );
 
-const articlePath = (lang, slug) => `/${lang}/blog/${slug}/`;
-const categoryPath = (lang, key) => `/${lang}/blog/category/${key}/`;
+/**
+ * Both used to be defined here. They live in scripts/lib/routes.mjs now,
+ * alongside the per-language segments they are built from, so that the Spanish
+ * category hub is spelled /es/blog/categoria/ in the sitemap, the breadcrumb
+ * and the hreflang cluster without three files agreeing to say so.
+ */
 
 /**
  * How many articles a category needs, in every language, before it gets a page.
@@ -417,7 +462,7 @@ function renderCategoryNav(lang, categoryPages, currentKey) {
   const labels = LABELS[lang];
   const copy = CATEGORY_COPY[lang];
   const links = [
-    `<a href="/${lang}/blog/"${currentKey ? '' : ' aria-current="page"'}>${labels.allArticles}</a>`,
+    `<a href="${blogPath(lang)}"${currentKey ? '' : ' aria-current="page"'}>${labels.allArticles}</a>`,
     ...localized.map(
       (page) =>
         `<a href="${page.url}"${page.key === currentKey ? ' aria-current="page"' : ''}>${escapeHtml(page.label)}</a>`
@@ -438,7 +483,7 @@ function renderCategoryPage(page, categoryPages) {
       (other) =>
         `<link rel="alternate" hreflang="${other}" href="${SITE_ORIGIN}${categoryPath(other, page.key)}">`
     ),
-    `<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${categoryPath('en', page.key)}">`,
+    `<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${categoryPath(xDefaultLanguage(), page.key)}">`,
   ].join('');
 
   const languageHrefs = Object.fromEntries(
@@ -447,7 +492,7 @@ function renderCategoryPage(page, categoryPages) {
 
   const breadcrumb = [
     { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[lang]}` },
-    { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${lang}/blog/` },
+    { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}${blogPath(lang)}` },
     { name: label, item: canonical },
   ];
 
@@ -506,6 +551,7 @@ function renderCategoryPage(page, categoryPages) {
   <meta property="og:url" content="${canonical}">
   <meta property="og:site_name" content="Data Governance Journey">
   <meta property="og:locale" content="${OG_LOCALE[lang]}">
+${renderAlternateLocales(lang)}
   <meta property="og:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
   <meta property="og:image:width" content="${OG_IMAGE.width}">
   <meta property="og:image:height" content="${OG_IMAGE.height}">
@@ -650,7 +696,12 @@ function renderAlternates(translations, fallbackLang) {
     (lang) =>
       `<link rel="alternate" hreflang="${lang}" href="${SITE_ORIGIN}${articlePath(lang, translations[lang].slug)}">`
   );
-  const defaultArticle = translations.en || translations[fallbackLang];
+  // Spanish is x-default across the site; an article that exists only in the
+  // other two nominates whichever of them it has, since a cluster cannot point
+  // at a translation that was never written.
+  const defaultArticle =
+    translations[xDefaultLanguage(LANGUAGES.filter((lang) => translations[lang]))] ||
+    translations[fallbackLang];
   links.push(
     `<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${articlePath(defaultArticle.lang, defaultArticle.slug)}">`
   );
@@ -733,7 +784,7 @@ function renderRelated(article, articles, labels) {
   return `<section class="related-articles blog-shell" aria-labelledby="keep-reading">
       <div class="related-head">
         <div><span class="blog-kicker">${labels.relatedKicker}</span><h2 id="keep-reading">${labels.relatedTitle}</h2><p>${labels.relatedText}</p></div>
-        <a class="related-all" href="/${article.lang}/blog/">${labels.allArticles}${arrow}</a>
+        <a class="related-all" href="${blogPath(article.lang)}">${labels.allArticles}${arrow}</a>
       </div>
       <ul class="related-grid">${items}</ul>
     </section>`;
@@ -750,7 +801,7 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
   const languageHrefs = Object.fromEntries(
     LANGUAGES.map((lang) => {
       const target = translations[lang];
-      return [lang, target ? articlePath(lang, target.slug) : `/${lang}/blog/`];
+      return [lang, target ? articlePath(lang, target.slug) : blogPath(lang)];
     })
   );
 
@@ -761,7 +812,7 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
   const hasCategoryHub = categoryHubs.has(article.categoryKey);
   const breadcrumb = [
     { name: labels.breadcrumbHome, item: `${SITE_ORIGIN}${HOME_PATH[article.lang]}` },
-    { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}/${article.lang}/blog/` },
+    { name: labels.breadcrumbBlog, item: `${SITE_ORIGIN}${blogPath(article.lang)}` },
     ...(hasCategoryHub
       ? [{ name: article.category, item: `${SITE_ORIGIN}${categoryPath(article.lang, article.categoryKey)}` }]
       : []),
@@ -793,6 +844,7 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
   <meta property="og:url" content="${canonical}">
   <meta property="og:site_name" content="Data Governance Journey">
   <meta property="og:locale" content="${OG_LOCALE[article.lang]}">
+${renderAlternateLocales(article.lang)}
   <meta property="og:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
   <meta property="og:image:width" content="${OG_IMAGE.width}">
   <meta property="og:image:height" content="${OG_IMAGE.height}">
@@ -902,7 +954,7 @@ function replaceBetweenMarkers(source, marker, replacement, filePath) {
  */
 async function updateBlogIndexes(articles, categoryPages) {
   for (const lang of LANGUAGES) {
-    const indexPath = path.join(projectDirectory, lang, 'blog', 'index.html');
+    const indexPath = path.join(projectDirectory, lang, BLOG_SEGMENT[lang], 'index.html');
     const localized = articles
       .filter((article) => article.lang === lang)
       .sort((first, second) => second.date.localeCompare(first.date));
@@ -942,13 +994,13 @@ async function updateBlogIndexes(articles, categoryPages) {
       'BLOG_HEADER',
       renderSiteHeader(lang, {
         current: 'blog',
-        languageHrefs: Object.fromEntries(LANGUAGES.map((other) => [other, `/${other}/blog/`])),
+        languageHrefs: Object.fromEntries(LANGUAGES.map((other) => [other, blogPath(other)])),
       }),
       indexPath
     );
     source = replaceBetweenMarkers(source, 'BLOG_FOOTER', renderSiteFooter(lang), indexPath);
     assertArchiveIsComplete(source, localized, indexPath);
-    await writeFile(indexPath, source, 'utf8');
+    await writeDocument(indexPath, source);
   }
 }
 
@@ -1006,7 +1058,7 @@ function renderSitemap(articles, translationMap, categoryPages, contentRoutes) {
     if (revision > (newestRevision.get(route) || '')) newestRevision.set(route, revision);
   };
   for (const article of articles) {
-    noteRevision(`/${article.lang}/blog/`, article.updated);
+    noteRevision(blogPath(article.lang), article.updated);
     noteRevision(categoryPath(article.lang, article.categoryKey), article.updated);
     // The homepages carry the latest-articles block, so any article revision
     // changes all three of them.
@@ -1041,7 +1093,7 @@ function renderSitemap(articles, translationMap, categoryPages, contentRoutes) {
         (other) =>
           `    <xhtml:link rel="alternate" hreflang="${other}" href="${escapeUrl(categoryPath(other, page.key))}"/>`
       ),
-      `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeUrl(categoryPath('en', page.key))}"/>`,
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeUrl(categoryPath(xDefaultLanguage(), page.key))}"/>`,
     ];
     const lastmod = newestRevision.get(page.url);
     if (!lastmod) throw new Error(`No lastmod could be derived for the sitemap entry ${page.url}`);
@@ -1066,7 +1118,8 @@ function renderSitemap(articles, translationMap, categoryPages, contentRoutes) {
       (lang) =>
         `    <xhtml:link rel="alternate" hreflang="${lang}" href="${SITE_ORIGIN}${articlePath(lang, translations[lang].slug)}"/>`
     );
-    const fallback = translations.en || article;
+    const fallback =
+      translations[xDefaultLanguage(LANGUAGES.filter((lang) => translations[lang]))] || article;
     alternates.push(
       `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${articlePath(fallback.lang, fallback.slug)}"/>`
     );
@@ -1205,12 +1258,25 @@ function renderRedirects(articles, renames, canonicalRoutes) {
     lines.push(`/${rename.lang}/blog/article.html post=${rename.previousSlug} ${rename.target} 301!`);
   }
   for (const lang of LANGUAGES) {
-    lines.push(`/${lang}/blog/article.html /${lang}/blog/ 301!`);
+    lines.push(`/${lang}/blog/article.html ${blogPath(lang)} 301!`);
   }
   if (renames.length) {
     lines.push('', '# Addresses published articles were renamed away from.');
     for (const rename of renames) {
       lines.push(`/${rename.lang}/blog/${rename.previousSlug}/ ${rename.target} 301!`);
+    }
+  }
+
+  // Every Spanish and Portuguese page used to be published at its English
+  // address. Those addresses are indexed and linked, so each one keeps working
+  // and hands its ranking to the translated URL that replaced it rather than
+  // becoming a 404. Generated from the same tables the new paths are built
+  // from, so a segment cannot be renamed without its redirect appearing.
+  const legacy = legacyRoutes();
+  if (legacy.length) {
+    lines.push('', '# English addresses the localized pages were published at.');
+    for (const rule of legacy) {
+      lines.push(`${rule.from} ${rule.to} 301!`);
     }
   }
   return `${lines.join('\n')}\n`;
@@ -1255,10 +1321,9 @@ async function writeHomePages(articles) {
     const route = HOME_PATH[lang];
     const outputDirectory = path.join(projectDirectory, route === '/' ? '.' : route.slice(1, -1));
     await mkdir(outputDirectory, { recursive: true });
-    await writeFile(
+    await writeDocument(
       path.join(outputDirectory, 'index.html'),
-      renderHomePage(template, schemaGraph, lang, articles),
-      'utf8'
+      renderHomePage(template, schemaGraph, lang, articles)
     );
   }
 }
@@ -1272,12 +1337,14 @@ async function writeHomePages(articles) {
  */
 async function writeLlmsFiles(articles, glossaryTerms) {
   const intro = await readFile(path.join(projectDirectory, 'src/llms-intro.md'), 'utf8');
-  await writeFile(
+  await writeDocument(
     path.join(projectDirectory, 'llms.txt'),
-    renderLlmsIndex(intro, articles, LANGUAGES, glossaryTerms),
-    'utf8'
+    renderLlmsIndex(intro, articles, LANGUAGES, glossaryTerms)
   );
-  await writeFile(path.join(projectDirectory, 'llms-full.txt'), renderLlmsFull(intro, articles, LANGUAGES), 'utf8');
+  await writeDocument(
+    path.join(projectDirectory, 'llms-full.txt'),
+    renderLlmsFull(intro, articles, LANGUAGES)
+  );
 }
 
 /**
@@ -1285,6 +1352,31 @@ async function writeLlmsFiles(articles, glossaryTerms) {
  * authored there does nothing and reports no error. Fail the build instead of
  * shipping markup whose layout silently does not apply.
  */
+/**
+ * Fails the build if TERM_SLUGS names a term that does not exist.
+ *
+ * Unlike the page table, a missing entry in TERM_SLUGS is legitimate -- an
+ * untranslated term keeps its English slug on purpose. That tolerance is what
+ * makes a *typo* invisible: misspell a key and the term simply keeps its
+ * English URL, with no error and nothing in the output to notice. Checking the
+ * other direction costs nothing and turns that into a build failure.
+ */
+function assertTermSlugsResolve(terms) {
+  const published = new Set(terms.map((term) => term.slug));
+  const unknown = [];
+  for (const [lang, table] of Object.entries(TERM_SLUGS)) {
+    for (const slug of Object.keys(table)) {
+      if (!published.has(slug)) unknown.push(`${lang}: ${slug}`);
+    }
+  }
+  if (unknown.length) {
+    throw new Error(
+      `TERM_SLUGS in scripts/lib/routes.mjs names ${unknown.length} glossary term(s) that do not ` +
+        `exist in content/glossary/:\n  ${unknown.join('\n  ')}`
+    );
+  }
+}
+
 /**
  * Writes the glossary: one hub per language, one page per term.
  *
@@ -1296,30 +1388,36 @@ async function writeLlmsFiles(articles, glossaryTerms) {
  */
 async function writeGlossary(terms, articles) {
   const translations = glossaryTranslations(terms);
+  assertTermSlugsResolve(terms);
 
   for (const lang of LANGUAGES) {
     const localized = terms.filter((term) => term.lang === lang);
-    const directory = path.join(projectDirectory, lang, 'glossary');
+    // Both segments are translated, so the Spanish glossary is written to
+    // es/glosario/gobierno-de-datos/ while the Markdown it comes from is still
+    // filed under the canonical English slug. The stale es/glossary/ tree is
+    // removed by the standalone-page sweep in writeSitePages, which no longer
+    // recognises "glossary" as a Spanish directory.
+    const directory = path.join(projectDirectory, lang, localizedPageSlug(lang, 'glossary'));
     if (!localized.length) {
       await rm(directory, { recursive: true, force: true });
       continue;
     }
     await mkdir(directory, { recursive: true });
-    await writeFile(path.join(directory, 'index.html'), renderGlossaryHub(lang, localized, articles), 'utf8');
+    await writeDocument(path.join(directory, 'index.html'), renderGlossaryHub(lang, localized, articles));
 
     for (const term of localized) {
-      await mkdir(path.join(directory, term.slug), { recursive: true });
-      await writeFile(
-        path.join(directory, term.slug, 'index.html'),
-        renderGlossaryTerm(term, localized, translations, articles),
-        'utf8'
+      const segment = localizedTermSlug(lang, term.slug);
+      await mkdir(path.join(directory, segment), { recursive: true });
+      await writeDocument(
+        path.join(directory, segment, 'index.html'),
+        renderGlossaryTerm(term, localized, translations, articles)
       );
     }
 
     // A term file that is deleted or renamed must stop being published, or the
     // old URL lingers as a page nothing links to and the sitemap no longer
     // lists — which is the shape Search Console reports as an orphan.
-    const published = new Set(localized.map((term) => term.slug));
+    const published = new Set(localized.map((term) => localizedTermSlug(lang, term.slug)));
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       if (entry.isDirectory() && !published.has(entry.name)) {
         await rm(path.join(directory, entry.name), { recursive: true, force: true });
@@ -1341,26 +1439,40 @@ async function writeGlossary(terms, articles) {
  * the build reports success, and the wall is linked from the footer of every
  * page on the site.
  */
-const PAGE_SWEEP_EXCEPTIONS = new Set(['blog', 'glossary', 'confession-wall']);
+const pageSweepExceptions = (lang) =>
+  new Set([
+    BLOG_SEGMENT[lang],
+    localizedPageSlug(lang, 'glossary'),
+    CONFESSION_SEGMENT[lang],
+  ]);
 
 /** Writes the standalone pages — about, consulting, the resource pages. */
 async function writeSitePages(pages, articles, partials, boardSummary) {
   for (const page of pages) {
-    const directory = path.join(projectDirectory, page.lang, page.slug);
+    // The directory is the localized segment, not the Markdown filename:
+    // content/pages/es/about.md is published at /es/sobre-mi/.
+    const directory = path.join(projectDirectory, page.lang, localizedPageSlug(page.lang, page.slug));
     await mkdir(directory, { recursive: true });
-    await writeFile(
+    await writeDocument(
       path.join(directory, 'index.html'),
-      renderSitePage(page, pages, { partials, articles, boardSummary }),
-      'utf8'
+      renderSitePage(page, pages, { partials, articles, boardSummary })
     );
   }
 
+  // The sweep is also what retires the old English directories: /es/about/ and
+  // /es/glossary/ are no longer any Spanish page's address, so they stop being
+  // recognised and are removed. That matters more than tidiness — a stale
+  // index.html left on disk keeps being served, so the 301 in _redirects would
+  // never fire and both spellings would answer 200 with the same content.
   for (const lang of LANGUAGES) {
-    const published = new Set(pages.filter((page) => page.lang === lang).map((page) => page.slug));
+    const keep = pageSweepExceptions(lang);
+    const published = new Set(
+      pages.filter((page) => page.lang === lang).map((page) => localizedPageSlug(lang, page.slug))
+    );
     const directory = path.join(projectDirectory, lang);
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       if (!entry.isDirectory()) continue;
-      if (PAGE_SWEEP_EXCEPTIONS.has(entry.name) || published.has(entry.name)) continue;
+      if (keep.has(entry.name) || published.has(entry.name)) continue;
       await rm(path.join(directory, entry.name), { recursive: true, force: true });
     }
   }
@@ -1373,7 +1485,7 @@ async function writeFeeds(articles) {
     const localized = articles
       .filter((article) => article.lang === lang)
       .sort((first, second) => second.date.localeCompare(first.date));
-    await writeFile(path.join(projectDirectory, lang, 'feed.xml'), renderFeed(lang, localized), 'utf8');
+    await writeDocument(path.join(projectDirectory, lang, 'feed.xml'), renderFeed(lang, localized));
   }
   return LANGUAGES.length;
 }
@@ -1448,12 +1560,11 @@ async function main() {
 
   const generatedDirectories = new Set();
   for (const article of articles) {
-    const outputDirectory = path.join(projectDirectory, article.lang, 'blog', article.slug);
+    const outputDirectory = path.join(projectDirectory, article.lang, BLOG_SEGMENT[article.lang], article.slug);
     await mkdir(outputDirectory, { recursive: true });
-    await writeFile(
+    await writeDocument(
       path.join(outputDirectory, 'index.html'),
-      renderArticlePage(article, translationMap.get(article.translationKey), articles, categoryHubs),
-      'utf8'
+      renderArticlePage(article, translationMap.get(article.translationKey), articles, categoryHubs)
     );
     generatedDirectories.add(`${article.lang}/${article.slug}`);
   }
@@ -1464,9 +1575,12 @@ async function main() {
   // CATEGORY_PAGE_MINIMUM — or is renamed — therefore stops being published
   // rather than lingering as an orphan the sitemap no longer lists.
   for (const lang of LANGUAGES) {
-    const categoryDirectory = path.join(projectDirectory, lang, 'blog', 'category');
+    // "categoria" in Spanish and Portuguese, so the container is named from the
+    // route table rather than hardcoded. The stale English directory is swept by
+    // the pruning pass below, which no longer recognises it.
+    const categoryDirectory = path.join(projectDirectory, lang, BLOG_SEGMENT[lang], CATEGORY_SEGMENT[lang]);
     const localized = categoryPages.filter((page) => page.lang === lang);
-    generatedDirectories.add(`${lang}/category`);
+    generatedDirectories.add(`${lang}/${CATEGORY_SEGMENT[lang]}`);
 
     if (!localized.length) {
       await rm(categoryDirectory, { recursive: true, force: true });
@@ -1475,10 +1589,9 @@ async function main() {
     await mkdir(categoryDirectory, { recursive: true });
     for (const page of localized) {
       await mkdir(path.join(categoryDirectory, page.key), { recursive: true });
-      await writeFile(
+      await writeDocument(
         path.join(categoryDirectory, page.key, 'index.html'),
-        renderCategoryPage(page, categoryPages),
-        'utf8'
+        renderCategoryPage(page, categoryPages)
       );
     }
     const published = new Set(localized.map((page) => page.key));
@@ -1492,7 +1605,7 @@ async function main() {
   // Remove article directories whose Markdown source no longer exists.
   const removed = [];
   for (const lang of LANGUAGES) {
-    const blogDirectory = path.join(projectDirectory, lang, 'blog');
+    const blogDirectory = path.join(projectDirectory, lang, BLOG_SEGMENT[lang]);
     for (const entry of await readdir(blogDirectory, { withFileTypes: true })) {
       if (entry.isDirectory() && !generatedDirectories.has(`${lang}/${entry.name}`)) {
         removed.push({ lang, slug: entry.name });

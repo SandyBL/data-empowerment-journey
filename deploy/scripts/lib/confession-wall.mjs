@@ -18,11 +18,18 @@ import path from 'node:path';
 import { content } from '../../assets/js/confession-wall-content.js';
 import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 import { HOME_PATH } from './home-pages.mjs';
-import { pagePath, renderSiteFooter, renderSiteHeader } from './site-nav.mjs';
+import {
+  CONFESSION_SEGMENT,
+  confessionWallPath,
+  pagePath,
+  renderSiteFooter,
+  renderSiteHeader,
+  xDefaultLanguage,
+} from './site-nav.mjs';
+import { HTML_LANG, OG_LOCALE, renderAlternateLocales } from './locales.mjs';
+
 
 const LANGUAGES = ['en', 'es', 'pt'];
-const HTML_LANG = { en: 'en', es: 'es', pt: 'pt-BR' };
-const OG_LOCALE = { en: 'en_US', es: 'es_ES', pt: 'pt_BR' };
 
 const PAGE_METADATA = {
   en: {
@@ -66,7 +73,7 @@ const PAGE_METADATA = {
 const escapeHtml = (text) =>
   String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-const wallUrl = (lang) => `${SITE_ORIGIN}/${lang}/confession-wall/`;
+const wallUrl = (lang) => `${SITE_ORIGIN}${confessionWallPath(lang)}`;
 
 /**
  * One seeded story, in the same shape the script builds at runtime.
@@ -179,12 +186,10 @@ const renderPage = (lang) => {
   const categories = [copy.all, ...copy.categories];
 
   const alternates = LANGUAGES.map((other) => `  <link rel="alternate" hreflang="${other}" href="${wallUrl(other)}">`)
-    .concat(`  <link rel="alternate" hreflang="x-default" href="${wallUrl('en')}">`)
+    .concat(`  <link rel="alternate" hreflang="x-default" href="${wallUrl(xDefaultLanguage())}">`)
     .join('\n');
 
-  const alternateLocales = LANGUAGES.filter((other) => other !== lang)
-    .map((other) => `  <meta property="og:locale:alternate" content="${OG_LOCALE[other]}">`)
-    .join('\n');
+  const alternateLocales = renderAlternateLocales(lang);
 
   const languageHrefs = Object.fromEntries(
     LANGUAGES.map((other) => [other, wallUrl(other).replace(SITE_ORIGIN, '')])
@@ -230,10 +235,10 @@ ${alternateLocales}
   <meta name="twitter:image" content="${SITE_ORIGIN}${OG_IMAGE.url}">
   <meta name="twitter:image:alt" content="${escapeHtml(OG_IMAGE.alt)}">
 ${alternates}
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/fonts.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="preload" href="/assets/fonts/fa-solid-900-subset.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/font-awesome.css">
   <link rel="stylesheet" href="/assets/css/confession-wall.css">
   <link rel="stylesheet" href="/assets/css/site-brand.css">
   <link rel="stylesheet" href="/assets/css/site-chrome.css">
@@ -341,7 +346,7 @@ ${filters}
 /** Writes {lang}/confession-wall/index.html for every language. */
 export const renderConfessionWalls = async (projectDirectory) => {
   for (const lang of LANGUAGES) {
-    const directory = path.join(projectDirectory, lang, 'confession-wall');
+    const directory = path.join(projectDirectory, lang, CONFESSION_SEGMENT[lang]);
     await mkdir(directory, { recursive: true });
     await writeFile(path.join(directory, 'index.html'), renderPage(lang), 'utf8');
   }

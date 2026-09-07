@@ -29,6 +29,14 @@ Lo menciono por una razón: cuando una recomendación de gobierno se discute den
 
 {{CERTIFICATIONS}}
 
+## Publicado fuera de esta web
+
+No todo este trabajo se publica aquí. Escribo sobre gobierno de datos para el blog de **NowVertical Group**, la consultora en la que trabajo como consultor especialista en gobierno de datos desde Brasil, en portugués, inglés y español: los mismos tres idiomas de esta web, y por el mismo motivo.
+
+Merecen una lectura por una razón concreta: se escribieron para un público de cliente, los editó alguien que no soy yo y se publican bajo el nombre de una empresa y no bajo el mío. Si quieres comprobar si el material de esta web se sostiene fuera de ella, es la vía más corta.
+
+{{EXTERNAL_WRITING}}
+
 ## Por qué existe esta web
 
 No dejaba de dar las mismas explicaciones. Qué es y qué no es el gobierno de datos. Por qué un dueño de datos tiene que ser un líder de negocio con presupuesto. Por qué una puntuación de madurez es un diagnóstico y no un objetivo. Por qué el catálogo que nadie llegó a rellenar no es culpa de la herramienta.

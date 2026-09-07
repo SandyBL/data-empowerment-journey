@@ -29,10 +29,12 @@ import {
   pagePath,
   renderBreadcrumb,
   renderPage,
+  xDefaultLanguage,
 } from './page-shell.mjs';
 import { faqSchema, renderFaqSection } from './faq.mjs';
 import { renderNewsletterForm } from './newsletter.mjs';
 import { renderBoardSummary } from './board-summary.mjs';
+import { EMPLOYER, externalWritingSchema, renderExternalWriting } from './external-writing.mjs';
 
 /**
  * Which src/partials file each token pulls in.
@@ -86,7 +88,7 @@ const LABELS = {
   },
 };
 
-const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
+import { DATE_LOCALE } from './locales.mjs';
 
 const formatDate = (iso, lang) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString(DATE_LOCALE[lang], {
@@ -248,6 +250,10 @@ const renderBody = (page, partials, boardSummary) => {
       blocks.push(renderBoardSummary(boardSummary, page.lang));
       continue;
     }
+    if (name === 'EXTERNAL_WRITING') {
+      blocks.push(renderExternalWriting(page.lang));
+      continue;
+    }
     if (name === 'FAQ') {
       blocks.push(renderFaqSection(page.lang));
       continue;
@@ -307,15 +313,20 @@ const schemaFor = (page, canonical, steps) => {
       '@type': 'Person',
       '@id': `${SITE_ORIGIN}/#sandy-bradbury`,
       name: 'Sandy Bradbury',
-      // The English page, on every language's copy of this node, because the
-      // @id is one entity and one entity has one canonical url. The
-      // language-specific description stays on the ProfilePage above, where it
-      // describes the page rather than the person.
-      url: `${SITE_ORIGIN}/en/about/`,
+      // The profile page in the language being rendered. This used to be a
+      // hardcoded /en/about/ on all three copies, which introduced the author
+      // by pointing a Spanish or Portuguese reader at a page in a language they
+      // had not chosen -- and since every article's schema resolves its author
+      // to this same @id, that one URL was the author reference for the whole
+      // site in two of its three languages.
+      url: `${SITE_ORIGIN}${pagePath(page.lang, 'about')}`,
       image: `${SITE_ORIGIN}${PORTRAIT.url}`,
       jobTitle: 'Lead Data Governance Consultant',
       knowsLanguage: ['en', 'es', 'pt'],
-      worksFor: { '@id': `${SITE_ORIGIN}/#organization` },
+      // This site's own Organization, and the consultancy the off-site
+      // articles below were published by. See ./external-writing.mjs for why
+      // naming the second one is the half that carries evidence.
+      worksFor: [{ '@id': `${SITE_ORIGIN}/#organization` }, EMPLOYER],
       memberOf: {
         '@type': 'Organization',
         name: 'DAMA International',
@@ -336,6 +347,13 @@ const schemaFor = (page, canonical, steps) => {
         },
       ],
     });
+  }
+
+  // Keyed off the token rather than the page's schema kind, so the structured
+  // data follows the block: the profile page and the service page both carry
+  // it, and a third page that places the token gets it without a code change.
+  if (page.body.includes('{{EXTERNAL_WRITING}}')) {
+    graph.push(externalWritingSchema(page.lang, canonical));
   }
 
   if (page.schemaKind === 'faq') {
@@ -377,7 +395,13 @@ export const renderSitePage = (page, pages, { partials, articles, boardSummary }
       hreflang: sibling.lang,
       url: pagePath(sibling.lang, sibling.slug),
     })),
-    { hreflang: 'x-default', url: pagePath('en', page.slug) },
+    {
+      hreflang: 'x-default',
+      url: pagePath(
+        xDefaultLanguage(siblings.map((sibling) => sibling.lang)),
+        page.slug
+      ),
+    },
   ];
 
   // Only the languages that actually loaded, so the switcher never offers a flag

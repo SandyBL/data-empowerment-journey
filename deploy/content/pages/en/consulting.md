@@ -41,6 +41,12 @@ I do not sell tool selection as a governance engagement. I will happily tell you
 
 I also do not take engagements where the sponsor will not commit an owner. Governance without a business owner who can approve a definition and say no to another function is an exercise, and the outcome is predictable enough that it is not worth either of our time.
 
+## Where else this work has been published
+
+I write about data governance for the blog of **NowVertical Group**, the consultancy I do this work for as a data governance specialist consultant out of Brazil. Same subject as the articles on this site, a different editor, and an audience of clients rather than readers of my own pages.
+
+{{EXTERNAL_WRITING}}
+
 ## Pricing shape
 
 Diagnostics and fixed-scope design engagements are quoted as a fixed fee against a written scope, so you are not buying an open-ended day rate. Advisory is a monthly block of hours. Workshops are priced per session, and the [workshops page](/en/workshops/) covers what is included, down to the private branded simulator space and the facilitator report.
