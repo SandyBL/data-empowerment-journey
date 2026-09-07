@@ -71,6 +71,7 @@ import {
   LANGUAGES,
   HOME_PATH,
   pagePath,
+  feedPath,
   simulatorPath,
   blogPath,
   confessionWallPath,
