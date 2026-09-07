@@ -8,33 +8,37 @@ description: Free DAMA-based data maturity assessment. Fifteen questions return 
 kicker: Free assessment
 schema: page
 related_articles: building-a-data-governance-operating-model, dama-dmbok-data-governance-framework
-updated: 2026-09-05
+updated: 2026-09-07
 ---
 
-Most organizations know their data situation is not good. Very few can say *where* in a way that survives a conversation with a sponsor, and "we are quite immature" is not a plan: it does not tell you what to fix first, and it gives a skeptical executive nothing to agree with.
+Most organizations know their data situation is not good. Very few can say *where* in a way that survives a conversation with a sponsor — and "we're quite immature" is not a plan. It doesn't tell you what to fix first, and it gives a skeptical executive nothing to agree with.
 
-This scorecard produces the specific version. It takes about fifteen minutes and asks about behavior rather than aspiration: not "do you have a data policy?" but "when someone breaks it, what happens?".
+This scorecard produces the specific version. It asks about behavior rather than aspiration: not "do you have a data policy?" but "when someone breaks it, what happens?". Fifteen questions, about fifteen minutes, and the result lands in your inbox rather than in mine.
 
-[**Start the assessment**](https://forms.gle/JGRfTUvuCAewTY469)
+{{MATURITY_CARD}}
 
-## What you get back
+## Reading the result
 
-**A maturity level from 1 to 5**, read against the DAMA maturity bands. The number matters less than the description that comes with it, which is written in terms of what an organization at that level does and does not yet do, so you can check it against your own week and tell whether it landed.
+Read it in order — level, then radar, then quick wins — because the quick wins only make sense once you accept the axis they came from.
 
-**A five-axis radar** across the governance pillars, because a single score hides the thing you most need to see. Almost nobody is uniformly immature. The common shape is respectable tooling and metadata alongside no [decision rights](/en/glossary/decision-rights/) at all, and the radar makes that asymmetry visible in a way a headline number cannot.
+**The level.** The number matters less than the description attached to it, which is written in terms of what an organization at that level actually does on a Tuesday. Check it against your own week. If it doesn't land, the interesting question is which of the fifteen answers was more generous than it should have been.
 
-**Three quick wins**, chosen against your weakest axis and scoped to be achievable without new budget or headcount. This is the part sponsors read.
+**The radar.** This is the part people screenshot. Almost nobody is uniformly immature, and the most common shape by a distance is respectable tooling and metadata sitting alongside no [decision rights](/en/glossary/decision-rights/) at all — a catalog nobody argues with because nobody has to. A single headline score hides exactly that asymmetry. The radar puts it on one page.
+
+**The quick wins.** Three of them, chosen against your weakest axis and scoped to need no new budget and no new headcount, because "hire a team" is not a first move. This is the part sponsors read, so it is written to be forwarded.
 
 ## What it is not
 
-It is not a benchmark. There is no claim here that you are in the 40th percentile of your industry, because a comparison against organizations you cannot inspect tells you nothing actionable and invites an argument about the sample instead of a decision about the work.
+It is not a benchmark. There is no claim that you are in the 40th percentile of your industry, because a comparison against organizations you can't inspect tells you nothing you can act on and invites an argument about the sample instead of a decision about the work.
 
-It is also not a lead qualification form dressed as a diagnostic. The result is the deliverable. If it tells you your governance foundations are solid and your problem is [data literacy](/en/glossary/data-literacy/), that is a genuinely useful answer and it does not point at me.
+It is also not a lead qualification form wearing a diagnostic costume. The result is the deliverable. If it tells you your governance foundations are solid and your real problem is [data literacy](/en/glossary/data-literacy/), that's a genuinely useful answer and it doesn't point at me.
 
-## After the result
+## What to do next week
 
-Read the level description first, then the radar, then the quick wins, in that order, because the quick wins only make sense once you accept the axis they came from.
+If the weakest axis is ownership or decision rights, the [playbooks](/en/playbooks/) and the articles at the foot of this page are the next step, in that order.
 
-If the weakest axis is ownership or decision rights, the [playbooks](/en/playbooks/) and the articles listed at the foot of this page are the next step. If it is quality, put a number on it with the [cost calculator](/en/calculator/) before you propose anything. If it is literacy, the constraint is almost never a training budget.
+If it's quality, put a number on it with the [cost of bad data calculator](/en/calculator/) before you propose anything. A quality problem with a figure attached gets funded; the same problem described as "poor data quality" gets noted.
 
-And if you want the assessment run properly, with interviews rather than a form and the disagreements between functions surfaced instead of averaged away, that is the [governance diagnostic](/en/consulting/), which is where most of my engagements start.
+If it's literacy, the constraint is almost never a training budget. It's that nobody has ever been told which number is the official one.
+
+And if you want the assessment run properly — interviews instead of a form, the disagreements between functions surfaced instead of quietly averaged away — that's the [governance diagnostic](/en/advisory/), which is where most of my longer work starts.

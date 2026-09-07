@@ -1021,7 +1021,8 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     animation: maturity-pulse 2.2s ease-out infinite;
 }
 
-.maturity-test-intro h3 {
+.maturity-test-intro h3,
+.maturity-test-intro h2 {
     max-width: 24rem;
     margin: 0 0 1rem;
     color: #ffffff;
@@ -1064,6 +1065,47 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 .maturity-test-cta:focus-visible {
     outline: 3px solid var(--focus-ring);
     outline-offset: 4px;
+}
+
+/*
+ * The CTA on /<lang>/maturity-assessment/, which is the only link to the Google
+ * Form anywhere on the site and the one thing the whole page exists to get
+ * clicked. The homepage version of this button competes with a nav CTA, a
+ * framework section and eight other blocks, so it is sized to fit among them;
+ * this one has nothing to compete with and every reason to be found by somebody
+ * skimming, so it is taller, wider and reads at a glance from across the page.
+ */
+.maturity-test-cta--start {
+    margin-top: 2rem;
+    padding: 1.25rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 16px 34px rgb(233 93 36 / 0.32), 0 0 0 0.35rem rgb(233 93 36 / 0.14);
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+}
+
+.maturity-test-cta--start:hover {
+    box-shadow: 0 20px 42px rgb(233 93 36 / 0.4), 0 0 0 0.5rem rgb(233 93 36 / 0.18);
+}
+
+/* The play glyph, in its own translucent well so the button reads as a start
+   control rather than as one more link with an arrow on the end. */
+.maturity-test-cta-icon {
+    display: grid;
+    width: 1.9rem;
+    height: 1.9rem;
+    place-items: center;
+    border-radius: 9999px;
+    background-color: rgb(255 255 255 / 0.18);
+    font-size: 0.7rem;
+}
+
+.maturity-test-cta-arrow {
+    transition: transform 180ms ease;
+}
+
+.maturity-test-cta--start:hover .maturity-test-cta-arrow {
+    transform: translateX(0.25rem);
 }
 
 .maturity-test-note {
@@ -1153,7 +1195,8 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     color: var(--emeraldgreen);
 }
 
-.maturity-deliverable h4 {
+.maturity-deliverable h4,
+.maturity-deliverable h3 {
     margin: 2.2rem 0 0.75rem;
     color: #ffffff;
     font-size: 1rem;
@@ -1239,6 +1282,7 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     .maturity-test-card { border-radius: 1.5rem; }
     .maturity-test-intro { padding: 2rem 1.4rem; }
     .maturity-test-cta { width: 100%; }
+    .maturity-test-cta--start { padding: 1.15rem 1.25rem; }
     .maturity-deliverables {
         grid-template-columns: 1fr;
         padding: 1rem;
@@ -1265,8 +1309,10 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 @media (prefers-reduced-motion: reduce) {
     .maturity-test-pulse { animation: none; }
     .maturity-test-cta,
+    .maturity-test-cta-arrow,
     .diagnostic-next-step-cta,
     .maturity-deliverable { transition: none; }
+    .maturity-test-cta--start:hover .maturity-test-cta-arrow { transform: none; }
 }
 
 .resource-library-card {

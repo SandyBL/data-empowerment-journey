@@ -1,6 +1,5 @@
 /**
- * Standalone pages: the glossary, /about/, /consulting/, /advisory-sessions/,
- * /workshops/, /faq/ and the four resource pages, plus the share bar and
+ * Standalone pages: the glossary, /about/, /advisory/, /workshops/, /faq/ and the four resource pages, plus the share bar and
  * newsletter block that appear on articles as well.
  *
  * This loads after assets/css/blog.css and reuses its custom properties, so the
@@ -235,7 +234,7 @@
   background: var(--line);
 }
 
-/* Cards used by /consulting/, /workshops/ and /about/ for engagement shapes,
+/* Cards used by /advisory/, /workshops/ and /about/ for engagement shapes,
    credentials and anything else that is a list of comparable things. */
 .page-cards {
   display: grid;
@@ -512,7 +511,7 @@
 /* ------------------------------------------------- published elsewhere ---- */
 
 /*
- * The off-site article list on /about/ and /consulting/, rendered from
+ * The off-site article list on /about/ and /advisory/, rendered from
  * scripts/lib/external-writing.mjs.
  *
  * Deliberately not `.page-related`: that block puts its `small` inside the
@@ -605,6 +604,16 @@
   padding: 8px 0 30px;
 }
 
+/* The links live in a <div> inside the nav. Left as a block it laid them out as
+   inline text, and inline boxes ignore their own vertical padding when a line
+   wraps: on a phone the rows overlapped and a thumb could not tell which pill it
+   was hitting. Flex gives every pill its own box and a real gap. */
+.glossary-jump > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .glossary-jump > span {
   color: var(--slatecool);
   font-size: 0.74rem;
@@ -614,6 +623,9 @@
 }
 
 .glossary-jump a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
   padding: 7px 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -649,6 +661,16 @@
   color: var(--ink-soft);
   font-size: 0.98rem;
   line-height: 1.65;
+}
+
+.glossary-group__head span {
+  display: block;
+  margin: 10px 0 0;
+  color: var(--slatecool);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .glossary-list {
@@ -1319,6 +1341,29 @@
 
   .glossary-list {
     grid-template-columns: 1fr;
+  }
+
+  /* Eight section links do not fit a phone as a row of pills. Two columns of
+     44px-tall buttons is one tap target per finger. */
+  .glossary-jump {
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: 22px;
+  }
+
+  .glossary-jump > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+  }
+
+  .glossary-jump a {
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 12px;
+    text-align: center;
+    line-height: 1.25;
   }
 
   .share-bar {

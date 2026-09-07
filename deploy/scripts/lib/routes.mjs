@@ -39,9 +39,8 @@ export const LANGUAGES = ['en', 'es', 'pt'];
 export const PAGE_SLUGS = {
   en: {
     about: 'about',
-    'advisory-sessions': 'advisory-sessions',
+    advisory: 'advisory',
     calculator: 'calculator',
-    consulting: 'consulting',
     faq: 'faq',
     glossary: 'glossary',
     'maturity-assessment': 'maturity-assessment',
@@ -53,9 +52,8 @@ export const PAGE_SLUGS = {
   },
   es: {
     about: 'sobre',
-    'advisory-sessions': 'sesiones-de-asesoria',
+    advisory: 'asesoria',
     calculator: 'calculadora',
-    consulting: 'consultoria',
     faq: 'preguntas-frecuentes',
     glossary: 'glosario',
     'maturity-assessment': 'diagnostico-de-madurez',
@@ -67,9 +65,8 @@ export const PAGE_SLUGS = {
   },
   pt: {
     about: 'sobre',
-    'advisory-sessions': 'sessoes-de-assessoria',
+    advisory: 'assessoria',
     calculator: 'calculadora',
-    consulting: 'consultoria',
     faq: 'perguntas-frequentes',
     glossary: 'glossario',
     'maturity-assessment': 'diagnostico-de-maturidade',
@@ -93,16 +90,20 @@ export const PAGE_SLUGS = {
  */
 export const TERM_SLUGS = {
   es: {
+    'active-metadata-ingestion': 'ingesta-activa-de-metadatos',
     'ai-governance': 'gobierno-de-la-ia',
     'business-glossary': 'glosario-de-negocio',
+    'confidential-data': 'datos-confidenciales',
     'cost-of-poor-data-quality': 'coste-de-la-mala-calidad-de-datos',
     'critical-data-element': 'elemento-de-datos-critico',
     'data-catalog': 'catalogo-de-datos',
     'data-classification': 'clasificacion-de-datos',
+    'data-contract': 'contrato-de-datos',
     'data-culture': 'cultura-de-datos',
     'data-domain': 'dominio-de-datos',
     'data-driven-decision-making': 'toma-de-decisiones-basada-en-datos',
     'data-governance': 'gobierno-de-datos',
+    'data-governance-committee': 'comite-de-gobierno-de-datos',
     'data-governance-council': 'consejo-de-gobierno-de-datos',
     'data-governance-operating-model': 'modelo-operativo-de-gobierno-de-datos',
     'data-lineage': 'linaje-de-datos',
@@ -119,23 +120,36 @@ export const TERM_SLUGS = {
     'data-quality-rule': 'regla-de-calidad-de-datos',
     'data-standard': 'estandar-de-datos',
     'data-stewardship': 'stewardship-de-datos',
+    'data-subdomain': 'subdominio-de-datos',
     'decision-rights': 'derechos-de-decision',
+    'dynamic-data-masking': 'enmascaramiento-dinamico-de-datos',
+    'external-data-marketplace': 'marketplace-externo-de-datos',
+    'internal-data-marketplace': 'marketplace-interno-de-datos',
+    'levels-of-maturity': 'niveles-de-madurez',
     'master-data-management': 'gestion-de-datos-maestros',
     metadata: 'metadatos',
     'personally-identifiable-information': 'informacion-personal-identificable',
+    'proactive-data-governance': 'gobierno-de-datos-proactivo',
+    'reactive-data-governance': 'gobierno-de-datos-reactivo',
+    'role-based-access-control': 'control-de-acceso-basado-en-roles',
+    'sensitive-data': 'datos-sensibles',
     'single-source-of-truth': 'fuente-unica-de-la-verdad',
   },
   pt: {
+    'active-metadata-ingestion': 'ingestao-ativa-de-metadados',
     'ai-governance': 'governanca-de-ia',
     'business-glossary': 'glossario-de-negocio',
+    'confidential-data': 'dados-confidenciais',
     'cost-of-poor-data-quality': 'custo-da-ma-qualidade-de-dados',
     'critical-data-element': 'elemento-de-dados-critico',
     'data-catalog': 'catalogo-de-dados',
     'data-classification': 'classificacao-de-dados',
+    'data-contract': 'contrato-de-dados',
     'data-culture': 'cultura-de-dados',
     'data-domain': 'dominio-de-dados',
     'data-driven-decision-making': 'tomada-de-decisao-baseada-em-dados',
     'data-governance': 'governanca-de-dados',
+    'data-governance-committee': 'comite-de-governanca-de-dados',
     'data-governance-council': 'conselho-de-governanca-de-dados',
     'data-governance-operating-model': 'modelo-operacional-de-governanca-de-dados',
     'data-lineage': 'linhagem-de-dados',
@@ -152,10 +166,19 @@ export const TERM_SLUGS = {
     'data-quality-rule': 'regra-de-qualidade-de-dados',
     'data-standard': 'padrao-de-dados',
     'data-stewardship': 'stewardship-de-dados',
+    'data-subdomain': 'subdominio-de-dados',
     'decision-rights': 'direitos-de-decisao',
+    'dynamic-data-masking': 'mascaramento-dinamico-de-dados',
+    'external-data-marketplace': 'marketplace-externo-de-dados',
+    'internal-data-marketplace': 'marketplace-interno-de-dados',
+    'levels-of-maturity': 'niveis-de-maturidade',
     'master-data-management': 'gestao-de-dados-mestres',
     metadata: 'metadados',
     'personally-identifiable-information': 'informacao-pessoal-identificavel',
+    'proactive-data-governance': 'governanca-de-dados-proativa',
+    'reactive-data-governance': 'governanca-de-dados-reativa',
+    'role-based-access-control': 'controle-de-acesso-baseado-em-papeis',
+    'sensitive-data': 'dados-sensiveis',
     'single-source-of-truth': 'fonte-unica-da-verdade',
   },
 };
@@ -245,10 +268,26 @@ export const simulatorPath = (lang, slug) => `/simulators/${requireLanguage(lang
  * ever served under `/<lang>/<segment>/` belongs here for good, oldest first.
  */
 const RETIRED_PAGE_SEGMENTS = {
+  // /advisory/ is one page where there were two. /consulting/ described four
+  // engagement shapes and /advisory-sessions/ described the thirty-minute
+  // conversation, and a reader deciding whether to ask for help had to read
+  // both to find out which one they wanted. Every address either page was ever
+  // served at is listed here, in all three languages, including the canonical
+  // English segments that /es/ and /pt/ answered on before the localized ones
+  // existed -- those used to be produced by the loop below from PAGE_SLUGS, and
+  // removing the two keys from that table is exactly what would have dropped
+  // them.
+  en: { advisory: ['consulting', 'advisory-sessions'] },
   // "Sobre mí" was the odd one out: English publishes /en/about/ and Portuguese
   // /pt/sobre/, so the possessive made Spanish the only language naming the
   // page after its author rather than its subject.
-  es: { about: ['sobre-mi'] },
+  es: {
+    about: ['sobre-mi'],
+    advisory: ['consulting', 'consultoria', 'advisory-sessions', 'sesiones-de-asesoria'],
+  },
+  pt: {
+    advisory: ['consulting', 'consultoria', 'advisory-sessions', 'sessoes-de-assessoria'],
+  },
 };
 
 export const legacyRoutes = () => {

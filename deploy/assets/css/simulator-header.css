@@ -442,6 +442,36 @@ select:focus-visible {
   }
 }
 
+/*
+ * The site navigation, borrowed whole.
+ *
+ * These pages link /assets/css/site-chrome.css for it, because the drawer, its
+ * accordions and the button that opens it are the same component every other
+ * page on the site renders, and a second copy of a hundred lines of drawer
+ * styling is how two copies of one component stop looking alike. Nothing else
+ * in that file touches anything here -- its rules are scoped to `.site-*`,
+ * `.dejourney-brand*` and `.lang-*`, none of which this header uses -- so it
+ * costs these pages one small stylesheet and the two overrides below.
+ *
+ * Both exist because site-chrome.css hides the toggle and the drawer above
+ * 1180px with `!important`: up there the desktop bar takes over. This header has
+ * no bar at any width -- there is no room for one beside a brand block, a
+ * simulator title and the app's own controls -- so the drawer is the whole
+ * navigation on a 27-inch monitor as much as on a phone, and both have to
+ * survive the breakpoint. The drawer override names `:not([hidden])` rather
+ * than `display: block` so that the attribute the script toggles still closes
+ * it; an unconditional `!important` here would have pinned it open.
+ */
+@media (min-width: 1180px) {
+  .simulator-site-header .site-nav__toggle {
+    display: inline-flex !important;
+  }
+
+  .simulator-site-header .site-drawer:not([hidden]) {
+    display: block !important;
+  }
+}
+
 /* Cross-language and cross-simulator navigation appended to every simulator page. */
 .simulator-locale-nav {
   border-top: 1px solid rgba(148, 163, 184, 0.25);

@@ -1,6 +1,5 @@
 /**
- * The standalone pages: /about/, /consulting/, /advisory-sessions/,
- * /workshops/, /faq/, and the four resource pages that used to be homepage
+ * The standalone pages: /about/, /advisory/, /workshops/, /faq/, and the four resource pages that used to be homepage
  * fragments.
  *
  * Content lives in content/pages/<lang>/<slug>.md so a page can be edited
@@ -45,6 +44,7 @@ import { EMPLOYER, externalWritingSchema, renderExternalWriting } from './extern
  */
 const PARTIAL_FILES = {
   CALCULATOR: 'bad-data-calculator.html',
+  MATURITY_CARD: 'maturity-scorecard.html',
   TEMPLATES: 'template-library.html',
   PLAYBOOKS: 'playbook-cards.html',
   SIMULATOR_OFFER: 'simulator-offer.html',

@@ -47,8 +47,8 @@ Si con esto montas tu propio gobierno de datos y no hablas nunca conmigo, esa es
 
 ## Si necesitas ayuda
 
-Y si prefieres no hacerlo solo, para eso está la consultoría.
+Y si prefieres no hacerlo solo, para eso está la asesoría.
 
-Trabajo en remoto, en tres idiomas y normalmente junto a un responsable interno más que en su lugar: quien va a convivir con las decisiones debería ser quien las tome. Los proyectos van desde un diagnóstico de dos semanas hasta un programa de varios trimestres; los formatos están en la [página de consultoría](/es/consulting/), y el de taller, incluidos los espacios privados de simuladores con tu marca, en [talleres](/es/workshops/).
+Trabajo en remoto, en tres idiomas y normalmente junto a un responsable interno más que en su lugar: quien va a convivir con las decisiones debería ser quien las tome. Los proyectos van desde un diagnóstico de dos semanas hasta un programa de varios trimestres; los formatos están en la [página de asesoría](/es/advisory/), y el de taller, incluidos los espacios privados de simuladores con tu marca, en [talleres](/es/workshops/).
 
 Casi siempre es uno de estos tres momentos: una decisión que tiene que aguantar delante del comité, un glosario que hay que ordenar de verdad o un taller que alguien tiene que dar. Si estás en alguno, el [formulario de contacto](/#contact-form-start) llega directamente a mí, y estoy en [LinkedIn](https://www.linkedin.com/in/sandy-bradbury).

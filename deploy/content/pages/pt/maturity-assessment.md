@@ -1,40 +1,44 @@
 ---
 slug: maturity-assessment
 nav: maturity
-title: Diagnóstico de Maturidade de Dados — Scorecard baseado na DAMA, Grátis | Data Governance Journey
+title: Diagnóstico de Maturidade de Dados — Scorecard DAMA, Grátis | Data Governance Journey
 heading: Diagnóstico de maturidade de dados
 deck: Quinze minutos, um scorecard baseado na DAMA e uma leitura escrita de onde você realmente está: nível, radar de cinco eixos e três quick wins sobre o seu pilar mais fraco.
-description: Diagnóstico gratuito de maturidade de dados baseado na DAMA. Quinze perguntas devolvem o seu nível de maturidade de 1 a 5, um gráfico radar de cinco eixos sobre os pilares de governança e três quick wins priorizados.
+description: Diagnóstico gratuito de maturidade de dados baseado na DAMA. Quinze perguntas devolvem seu nível de maturidade de 1 a 5, um gráfico radar de cinco eixos sobre os pilares de governança e três quick wins priorizados.
 kicker: Diagnóstico gratuito
 schema: page
 related_articles: building-a-data-governance-operating-model, dama-dmbok-data-governance-framework
-updated: 2026-09-05
+updated: 2026-09-07
 ---
 
-Quase todas as organizações sabem que a sua situação de dados não é boa. Muito poucas conseguem dizer *onde* de uma forma que sobreviva a uma conversa com um patrocinador, e "somos bem imaturos" não é um plano: não diz o que corrigir primeiro e não dá a um executivo cético nada com que concordar.
+Quase toda organização sabe que a sua situação com dados não é boa. Muito poucas conseguem dizer *onde* de um jeito que sobreviva a uma conversa com um patrocinador, e "somos bem imaturos" não é um plano. Não diz o que consertar primeiro e não dá nada com que um executivo cético possa concordar.
 
-Este scorecard produz a versão concreta. Leva cerca de quinze minutos e pergunta sobre comportamento, não sobre aspiração: não "vocês têm uma política de dados?" e sim "quando alguém a descumpre, o que acontece?".
+Este scorecard produz a versão específica. Ele pergunta sobre comportamento e não sobre aspiração: não "vocês têm uma política de dados?", mas "quando alguém a descumpre, o que acontece?". Quinze perguntas, uns quinze minutos, e o resultado cai na sua caixa de entrada, não na minha.
 
-[**Começar o diagnóstico**](https://forms.gle/yz5gxgSz2QrjczoSA)
+{{MATURITY_CARD}}
 
-## O que você recebe
+## Como ler o resultado
 
-**Um nível de maturidade de 1 a 5**, lido contra as faixas de maturidade da DAMA. O número importa menos que a descrição que vem com ele, escrita em termos do que uma organização daquele nível faz e ainda não faz, para que você possa confrontá-la com a sua própria semana e saber se acertou.
+Leia na ordem — nível, radar, quick wins — porque os quick wins só fazem sentido depois que você aceita o eixo de onde eles saíram.
 
-**Um radar de cinco eixos** sobre os pilares de governança, porque uma única pontuação esconde justamente o que você mais precisa ver. Quase ninguém é uniformemente imaturo. O formato comum é ferramentas e metadados respeitáveis ao lado da ausência total de [direitos de decisão](/pt/glossary/decision-rights/), e o radar torna essa assimetria visível de um jeito que uma cifra única não consegue.
+**O nível.** O número importa menos que a descrição que vem com ele, escrita em termos do que uma organização daquele nível faz numa terça-feira qualquer. Compare com a sua própria semana. Se não encaixar, a pergunta interessante é qual das quinze respostas foi mais generosa do que devia.
 
-**Três quick wins**, escolhidos contra o seu eixo mais fraco e dimensionados para serem alcançáveis sem orçamento nem headcount novo. Esta é a parte que os patrocinadores leem.
+**O radar.** É a parte que as pessoas printam. Quase ninguém é imaturo de forma uniforme, e a forma mais comum de longe é ferramentas e metadados razoáveis convivendo com zero [direitos de decisão](/pt/glossary/decision-rights/): um catálogo que ninguém contesta porque ninguém precisa. Uma nota única esconde exatamente essa assimetria. O radar coloca isso em uma página.
 
-## O que ele não é
+**Os quick wins.** Três, escolhidos contra o seu eixo mais fraco e dimensionados para não exigir orçamento novo nem gente nova, porque "contratar um time" não é um primeiro movimento. É a parte que os patrocinadores leem, então está escrita para ser encaminhada.
 
-Não é um benchmark. Não há aqui nenhuma afirmação de que você está no percentil 40 do seu setor, porque uma comparação contra organizações que você não pode inspecionar não diz nada acionável e convida a discutir a amostra em vez de decidir sobre o trabalho.
+## O que não é
 
-Também não é um formulário de captação disfarçado de diagnóstico. O resultado é o entregável. Se ele disser que as suas bases de governança são sólidas e que o seu problema é [alfabetização de dados](/pt/glossary/data-literacy/), essa é uma resposta genuinamente útil e não aponta para mim.
+Não é um benchmark. Não há aqui nenhuma afirmação de que você está no percentil 40 do seu setor, porque uma comparação com organizações que você não pode inspecionar não diz nada acionável e convida a uma discussão sobre a amostra em vez de uma decisão sobre o trabalho.
 
-## Depois do resultado
+Também não é um formulário de captação fantasiado de diagnóstico. O resultado é a entrega. Se ele disser que os seus fundamentos de governança estão sólidos e que o seu problema real é [letramento em dados](/pt/glossary/data-literacy/), essa é uma resposta genuinamente útil e ela não aponta para mim.
 
-Leia primeiro a descrição do nível, depois o radar, depois os quick wins, nessa ordem, porque os quick wins só fazem sentido quando você aceita o eixo de onde eles saíram.
+## O que fazer na semana que vem
 
-Se o eixo mais fraco for propriedade ou direitos de decisão, os [playbooks](/pt/playbooks/) e os artigos que estão no fim desta página são o próximo passo. Se for qualidade, coloque um número com a [calculadora de custos](/pt/calculator/) antes de propor qualquer coisa. Se for alfabetização, a restrição quase nunca é o orçamento de treinamento.
+Se o eixo mais fraco é propriedade ou direitos de decisão, os [playbooks](/pt/playbooks/) e os artigos no pé desta página são o próximo passo, nessa ordem.
 
-E se você quiser o diagnóstico feito como deve ser, com entrevistas em vez de um formulário e as discordâncias entre áreas colocadas na mesa em vez de tiradas na média, esse é o [diagnóstico de governança](/pt/consulting/), que é onde a maioria dos meus projetos começa.
+Se é qualidade, coloque um número nisso com a [calculadora do custo dos dados ruins](/pt/calculator/) antes de propor qualquer coisa. Um problema de qualidade com uma cifra atrás dele é financiado; o mesmo problema descrito como "má qualidade de dados" é anotado e arquivado.
+
+Se é letramento, a restrição quase nunca é orçamento de treinamento. É que ninguém nunca disse qual é o número oficial.
+
+E se você quiser o diagnóstico feito como deve ser — entrevistas em vez de um formulário, as discordâncias entre áreas colocadas na mesa em vez de silenciosamente tiradas na média — isso é o [diagnóstico de governança](/pt/advisory/), que é onde começa a maior parte do meu trabalho mais longo.

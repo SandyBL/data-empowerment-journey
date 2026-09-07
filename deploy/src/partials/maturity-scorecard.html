@@ -1,0 +1,85 @@
+            <!-- The maturity scorecard card, lifted from the #scorecard section on the
+                 homepage so the page the homepage sends people to looks like the block
+                 they clicked. The one difference is the CTA: on the homepage it points
+                 here, and here it points at the Google Form, which is the only link to
+                 the form anywhere on the site.
+
+                 The three form addresses ride along as data-es/data-en/data-pt and
+                 localizeLinks() promotes the right one into href, which is the same
+                 mechanism the download anchors use. -->
+            <div class="maturity-test-card">
+                <div class="maturity-test-glow" aria-hidden="true"></div>
+                <div class="maturity-test-grid">
+                    <div class="maturity-test-intro">
+                        <div class="maturity-test-kicker">
+                            <span class="maturity-test-pulse" aria-hidden="true"></span>
+                            <span data-lang-content="es">Gratis · 15 minutos · resultado automático</span>
+                            <span data-lang-content="en">Free · 15 minutes · automatic result</span>
+                            <span data-lang-content="pt">Grátis · 15 minutos · resultado automático</span>
+                        </div>
+                        <h2>
+                            <span data-lang-content="es">Descubre tu nivel de madurez en datos</span>
+                            <span data-lang-content="en">Discover your data maturity level</span>
+                            <span data-lang-content="pt">Descubra seu nível de maturidade em dados</span>
+                        </h2>
+                        <p data-lang-content="es">Quince preguntas sobre lo que pasa de verdad en tu organización, no sobre lo que dice la política. Al final recibes un nivel, un radar y tres cosas que puedes empezar el lunes.</p>
+                        <p data-lang-content="en">Fifteen questions about what actually happens in your organization, not about what the policy says. At the end you get a level, a radar and three things you can start on Monday.</p>
+                        <p data-lang-content="pt">Quinze perguntas sobre o que realmente acontece na sua organização, e não sobre o que a política diz. No final você recebe um nível, um radar e três coisas para começar na segunda-feira.</p>
+
+                        <a class="maturity-test-cta maturity-test-cta--start" href="https://forms.gle/JGRfTUvuCAewTY469" data-es="https://forms.gle/CAApA7ENzfL72piJ6" data-en="https://forms.gle/JGRfTUvuCAewTY469" data-pt="https://forms.gle/yz5gxgSz2QrjczoSA" target="_blank" rel="noopener noreferrer">
+                            <span class="maturity-test-cta-icon" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                            <span data-lang-content="es">Empezar el diagnóstico</span>
+                            <span data-lang-content="en">Start the assessment</span>
+                            <span data-lang-content="pt">Começar o diagnóstico</span>
+                            <i class="fa-solid fa-arrow-right maturity-test-cta-arrow" aria-hidden="true"></i>
+                        </a>
+                        <p class="maturity-test-note">
+                            <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                            <span data-lang-content="es">Se abre en Google Forms, en una pestaña nueva. El informe llega por correo en cuanto terminas.</span>
+                            <span data-lang-content="en">Opens in Google Forms, in a new tab. The report is emailed as soon as you finish.</span>
+                            <span data-lang-content="pt">Abre no Google Forms, em uma nova aba. O relatório chega por e-mail assim que você termina.</span>
+                        </p>
+                    </div>
+
+                    <div class="maturity-deliverables">
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">01</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></div>
+                            <h3>
+                                <span data-lang-content="es">Un nivel del 1 al 5</span>
+                                <span data-lang-content="en">A level from 1 to 5</span>
+                                <span data-lang-content="pt">Um nível de 1 a 5</span>
+                            </h3>
+                            <p data-lang-content="es">Leído contra las bandas de madurez de DAMA, con la descripción de lo que hace —y lo que todavía no hace— una organización en ese nivel.</p>
+                            <p data-lang-content="en">Read against the DAMA maturity bands, with a description of what an organization at that level does and does not yet do.</p>
+                            <p data-lang-content="pt">Lido contra as faixas de maturidade da DAMA, com a descrição do que uma organização nesse nível faz — e do que ainda não faz.</p>
+                        </article>
+
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">02</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+                            <h3>
+                                <span data-lang-content="es">Un radar de cinco ejes</span>
+                                <span data-lang-content="en">A five-axis radar</span>
+                                <span data-lang-content="pt">Um radar de cinco eixos</span>
+                            </h3>
+                            <p data-lang-content="es">Casi nadie es inmaduro de forma uniforme. El radar enseña la asimetría que una nota única esconde.</p>
+                            <p data-lang-content="en">Almost nobody is uniformly immature. The radar shows the asymmetry a single score hides.</p>
+                            <p data-lang-content="pt">Quase ninguém é imaturo de forma uniforme. O radar mostra a assimetria que uma nota única esconde.</p>
+                        </article>
+
+                        <article class="maturity-deliverable">
+                            <span class="maturity-deliverable-number">03</span>
+                            <div class="maturity-deliverable-icon"><i class="fa-solid fa-forward-fast" aria-hidden="true"></i></div>
+                            <h3>
+                                <span data-lang-content="es">Tres quick wins</span>
+                                <span data-lang-content="en">Three quick wins</span>
+                                <span data-lang-content="pt">Três quick wins</span>
+                            </h3>
+                            <p data-lang-content="es">Elegidos contra tu eje más débil y dimensionados para no necesitar presupuesto nuevo. Esta es la parte que leen los patrocinadores.</p>
+                            <p data-lang-content="en">Chosen against your weakest axis and scoped to need no new budget. This is the part sponsors read.</p>
+                            <p data-lang-content="pt">Escolhidos contra o seu eixo mais fraco e dimensionados para não exigir orçamento novo. Esta é a parte que os patrocinadores leem.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
