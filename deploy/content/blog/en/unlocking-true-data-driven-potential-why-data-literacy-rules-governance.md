@@ -2,7 +2,7 @@
 title: "Unlocking True Data-Driven Potential: Why Data Literacy Rules Governance"
 date: 2026-08-13
 updated: 2026-09-05
-category: data-governance
+category: data-culture
 summary: Discover why data literacy is the missing link in your data governance
   strategy and how to assess your organization's analytics maturity.
 author: Sandy Bradbury
