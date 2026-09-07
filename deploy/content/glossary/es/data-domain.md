@@ -1,11 +1,11 @@
 ---
 term: Dominio de datos
 short: Un área temática delimitada de datos —cliente, producto, empleado, contrato— de la que un único dueño puede responder razonablemente.
-group: foundations
+group: architecture
 also: Área temática, dominio de información
-related: data-owner, data-product, data-governance-operating-model, master-data-management
+related: data-subdomain, data-owner, data-product, data-governance-operating-model
 article: building-a-data-governance-operating-model
-updated: 2026-09-05
+updated: 2026-09-07
 ---
 
 Un dominio es la forma de partir el gobierno en trozos lo bastante pequeños para tener dueño. Cliente, producto, proveedor, empleado, finanzas, contrato: cada uno es un cuerpo de datos con sus propias definiciones, sus propios sistemas de registro, su propia exposición regulatoria y su propio dueño natural en algún lugar del negocio. Los dominios son la unidad sobre la que se construye casi todo modelo operativo, porque "quién es dueño de los datos" es una pregunta sin respuesta y "quién es dueño de los datos de cliente" no lo es.

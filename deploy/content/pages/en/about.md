@@ -47,8 +47,8 @@ If you build your own governance out of it and never speak to me, that's exactly
 
 ## If you need help
 
-And if you'd rather not do it on your own, that's what the consultancy is for.
+And if you'd rather not do it on your own, that's what the advisory work is for.
 
-I work remotely, in three languages, and usually alongside an internal lead rather than in place of one — the people who have to live with the decisions should be the ones making them. Engagements run from a two-week diagnostic to a multi-quarter program; the shapes are on the [consulting page](/en/consulting/), and the workshop format, including the private branded simulator spaces, is on [workshops](/en/workshops/).
+I work remotely, in three languages, and usually alongside an internal lead rather than in place of one — the people who have to live with the decisions should be the ones making them. Engagements run from a two-week diagnostic to a multi-quarter program; the shapes are on the [advisory page](/en/advisory/), and the workshop format, including the private branded simulator spaces, is on [workshops](/en/workshops/).
 
 It's usually one of three moments: a decision that has to hold up in front of a steering committee, a glossary that finally needs sorting out, or a workshop somebody has to run. If that's where you are, the [contact form](/en/#contact-form-start) reaches me directly, and I'm on [LinkedIn](https://www.linkedin.com/in/sandy-bradbury).

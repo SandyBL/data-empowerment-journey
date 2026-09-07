@@ -164,6 +164,20 @@ export const renderPage = ({
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--
+    No automatic linkification of anything in the copy.
+
+    A reader on iOS reported the words "La mayoria" in the opening line of the
+    Spanish FAQ arriving as a link to Google Maps. Nothing on this site links
+    there: Safari's data detectors decide, on their own, that a run of words
+    looks like a postal address and rewrite it into a maps link -- and what they
+    produce is a blue link, in the page, that goes somewhere the reader did not
+    ask for and that we cannot style, redirect or measure. The same detectors do
+    it to bare dates and to anything shaped like a phone number, and the site
+    has no text that wants any of that: every address, date and phone number
+    here is either a real link already or deliberately not one.
+  -->
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <title>${escapeAttribute(title)}</title>
   <meta name="description" content="${escapeAttribute(description)}">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">

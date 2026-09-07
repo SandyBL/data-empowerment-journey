@@ -90,14 +90,64 @@ const GROUP_LABELS = {
   },
 };
 
+/**
+ * One line under each section heading, saying who the terms in it are for.
+ *
+ * The hub used to be eight headings and a count, which reads like an index
+ * rather than like the rest of the site. `.glossary-group__head p` was already
+ * styled for this.
+ */
+const GROUP_BLURBS = {
+  foundations: {
+    en: 'The words everything else leans on: what governance is, how far it reaches, and the policies and standards holding it up.',
+    es: 'Las palabras sobre las que se apoya todo lo demás: qué es el gobierno, hasta dónde llega y las políticas y estándares que lo sostienen.',
+    pt: 'As palavras em que todo o resto se apoia: o que é governança, até onde ela vai e as políticas e padrões que a sustentam.',
+  },
+  roles: {
+    en: 'Who decides, who answers for it, and who does the daily work of keeping data usable.',
+    es: 'Quién decide, quién responde y quién hace el trabajo diario de mantener los datos usables.',
+    pt: 'Quem decide, quem responde e quem faz o trabalho diário de manter o dado utilizável.',
+  },
+  metadata: {
+    en: 'How your organization knows what data it has, what it means, and where it came from.',
+    es: 'Cómo sabe tu organización qué datos tiene, qué significan y de dónde vienen.',
+    pt: 'Como a sua organização sabe quais dados tem, o que eles significam e de onde vieram.',
+  },
+  quality: {
+    en: 'Whether the data can be trusted, how you measure that, and what to do when the answer is no.',
+    es: 'Si se puede confiar en el dato, cómo se mide eso y qué hacer cuando la respuesta es no.',
+    pt: 'Se o dado é confiável, como isso é medido e o que fazer quando a resposta é não.',
+  },
+  literacy: {
+    en: 'The human side: the skills and habits that keep governance alive after the project ends.',
+    es: 'El lado humano: las habilidades y los hábitos que mantienen vivo el gobierno cuando el proyecto termina.',
+    pt: 'O lado humano: as habilidades e os hábitos que mantêm a governança viva depois que o projeto termina.',
+  },
+  maturity: {
+    en: 'Where you stand today, where you are heading, and how you show that you moved.',
+    es: 'Dónde estás hoy, hacia dónde vas y cómo demuestras que te has movido.',
+    pt: 'Onde você está hoje, para onde vai e como mostra que saiu do lugar.',
+  },
+  ai: {
+    en: 'What has to be protected, from whom, and what AI changes about both questions.',
+    es: 'Qué hay que proteger, de quién, y qué cambia la IA en esas dos preguntas.',
+    pt: 'O que precisa ser protegido, de quem, e o que a IA muda nessas duas perguntas.',
+  },
+  architecture: {
+    en: 'How data becomes products, domains and contracts that other teams can build on.',
+    es: 'Cómo el dato se convierte en productos, dominios y contratos sobre los que otros equipos pueden construir.',
+    pt: 'Como o dado se transforma em produtos, domínios e contratos sobre os quais outros times podem construir.',
+  },
+};
+
 const COPY = {
   en: {
     kicker: 'Glossary',
     title: 'Data governance glossary',
     metaTitle: 'Data Governance Glossary | Data Governance Journey',
     metaDescription:
-      'Plain-language definitions of the data governance, data quality, data literacy, and AI governance terms that come up in real programs — what each one means, how it is used, and where it goes wrong.',
-    lead: 'Every term a data governance conversation runs into, defined in plain language: what it means, how it is actually used, and the mistake people make with it. Written for the person who has to explain it to a room, not for a certification exam.',
+      'Plain-language definitions of the data governance, data quality, data literacy and AI governance terms that come up in real programs — what each one means, how it is used, and where it goes wrong.',
+    lead: 'Data governance has a vocabulary problem: the same word means three different things in three different meetings. So here is every term you will actually run into, explained the way you would explain it to a colleague — what it means, how it works on a normal Tuesday, and where it usually goes wrong.',
     count: (total) => `${total} ${total === 1 ? 'term' : 'terms'}`,
     alsoKnown: 'Also called',
     inThisSection: 'In this section',
@@ -106,8 +156,10 @@ const COPY = {
     backToGlossary: 'All terms',
     termMetaTitle: (term) => `What is ${term}? | Data Governance Journey`,
     definition: 'Definition',
-    jumpTo: 'Jump to a section',
-    onePage: 'This page defines one term. The glossary index has the rest.',
+    jumpTo: 'Where do you want to start?',
+    // The visible label is a question; a landmark still needs a plain name.
+    jumpAria: 'Glossary sections',
+    onePage: 'One term, one page. The rest of the vocabulary is in the glossary.',
   },
   es: {
     kicker: 'Glosario',
@@ -115,7 +167,7 @@ const COPY = {
     metaTitle: 'Glosario de Gobierno de Datos | Data Governance Journey',
     metaDescription:
       'Definiciones claras de los términos de gobierno de datos, calidad de datos, alfabetización de datos y gobierno de la IA que aparecen en programas reales: qué significa cada uno, cómo se usa y dónde se malinterpreta.',
-    lead: 'Todos los términos con los que se tropieza una conversación de gobierno de datos, definidos en lenguaje claro: qué significan, cómo se usan de verdad y el error que la gente comete con ellos. Escrito para quien tiene que explicarlo en una reunión, no para aprobar un examen de certificación.',
+    lead: 'El gobierno de datos tiene un problema de vocabulario: la misma palabra significa tres cosas distintas en tres reuniones distintas. Así que aquí está cada término con el que te vas a topar de verdad, explicado como se lo explicarías a un compañero: qué significa, cómo funciona un martes normal y dónde suele romperse.',
     count: (total) => `${total} ${total === 1 ? 'término' : 'términos'}`,
     alsoKnown: 'También llamado',
     inThisSection: 'En esta sección',
@@ -124,8 +176,9 @@ const COPY = {
     backToGlossary: 'Todos los términos',
     termMetaTitle: (term) => `¿Qué es ${term}? | Data Governance Journey`,
     definition: 'Definición',
-    jumpTo: 'Ir a una sección',
-    onePage: 'Esta página define un término. El índice del glosario tiene el resto.',
+    jumpTo: '¿Por dónde quieres empezar?',
+    jumpAria: 'Secciones del glosario',
+    onePage: 'Un término, una página. El resto del vocabulario está en el glosario.',
   },
   pt: {
     kicker: 'Glossário',
@@ -133,7 +186,7 @@ const COPY = {
     metaTitle: 'Glossário de Governança de Dados | Data Governance Journey',
     metaDescription:
       'Definições claras dos termos de governança de dados, qualidade de dados, alfabetização de dados e governança de IA que aparecem em programas reais: o que cada um significa, como é usado e onde é mal interpretado.',
-    lead: 'Todos os termos em que uma conversa de governança de dados tropeça, definidos em linguagem clara: o que significam, como são usados de verdade e o erro que as pessoas cometem com eles. Escrito para quem precisa explicar isso numa reunião, não para passar em uma prova de certificação.',
+    lead: 'Governança de dados tem um problema de vocabulário: a mesma palavra significa três coisas diferentes em três reuniões diferentes. Então aqui está cada termo que você vai encontrar de verdade, explicado como você explicaria a um colega: o que significa, como funciona numa terça-feira comum e onde costuma dar errado.',
     count: (total) => `${total} ${total === 1 ? 'termo' : 'termos'}`,
     alsoKnown: 'Também chamado de',
     inThisSection: 'Nesta seção',
@@ -142,8 +195,9 @@ const COPY = {
     backToGlossary: 'Todos os termos',
     termMetaTitle: (term) => `O que é ${term}? | Data Governance Journey`,
     definition: 'Definição',
-    jumpTo: 'Ir para uma seção',
-    onePage: 'Esta página define um termo. O índice do glossário tem o resto.',
+    jumpTo: 'Por onde você quer começar?',
+    jumpAria: 'Seções do glossário',
+    onePage: 'Um termo, uma página. O resto do vocabulário está no glossário.',
   },
 };
 
@@ -265,6 +319,7 @@ export function renderGlossaryHub(lang, terms, articles) {
   const grouped = GROUPS.map((group) => ({
     group,
     label: GROUP_LABELS[group][lang],
+    blurb: GROUP_BLURBS[group][lang],
     terms: localized.filter((term) => term.group === group),
   })).filter((section) => section.terms.length);
 
@@ -277,6 +332,7 @@ export function renderGlossaryHub(lang, terms, articles) {
       (section) => `      <section class="glossary-group" id="${section.group}" aria-labelledby="${section.group}-heading">
         <div class="glossary-group__head">
           <h2 id="${section.group}-heading">${escapeHtml(section.label)}</h2>
+          <p>${escapeHtml(section.blurb)}</p>
           <span>${copy.count(section.terms.length)}</span>
         </div>
         <dl class="glossary-list">${section.terms
@@ -326,7 +382,7 @@ export function renderGlossaryHub(lang, terms, articles) {
       <p class="page-deck">${escapeHtml(copy.lead)}</p>
       <p class="page-meta">${copy.count(localized.length)}</p>
     </section>
-    <nav class="glossary-jump blog-shell" aria-label="${escapeHtml(copy.jumpTo)}"><span>${escapeHtml(
+    <nav class="glossary-jump blog-shell" aria-label="${escapeHtml(copy.jumpAria)}"><span>${escapeHtml(
       copy.jumpTo
     )}</span><div>${jumpLinks}</div></nav>
     <div class="blog-shell">

@@ -18,8 +18,17 @@
 
 const DESKTOP_QUERY = '(min-width: 1180px)';
 
+/*
+ * Two headers render this navigation. Every generated page has `.site-header`,
+ * whose bar appears at 1180px and whose drawer is the small-screen half of it.
+ * The nine simulator pages have `.simulator-site-header` -- their own row of
+ * brand, title and app controls -- and carry the drawer alone, at every width,
+ * because there is no room in that row for a bar and no page to fall back on:
+ * before this, a simulator opened from a search result had one home icon and
+ * nothing else pointing anywhere.
+ */
 const initialiseSiteNav = () => {
-  const header = document.querySelector('.site-header');
+  const header = document.querySelector('.site-header, .simulator-site-header');
   if (!header) return;
 
   const drawer = header.querySelector('.site-drawer');
@@ -170,8 +179,11 @@ const initialiseSiteNav = () => {
 
   // Growing past the breakpoint hides the toggle, which would otherwise leave
   // the drawer open with no control to close it and the page inert behind it.
+  // Only where the toggle actually goes away, though: on a simulator page it
+  // stays at every width, and closing the drawer there would be closing the
+  // only navigation the page has because the window got wider.
   window.matchMedia(DESKTOP_QUERY).addEventListener('change', (event) => {
-    if (event.matches) closeDrawer();
+    if (event.matches && toggle && toggle.offsetParent === null) closeDrawer();
   });
 };
 

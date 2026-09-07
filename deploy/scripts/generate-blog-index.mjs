@@ -271,7 +271,7 @@ function collectContentRoutes(pages, terms) {
       // 0.8; the tool pages below it, because they are destinations a reader
       // arrives at from those. The FAQ joins the first group because it answers
       // queries people type, not just ones they arrive with.
-      priority: ['about', 'advisory-sessions', 'consulting', 'faq', 'resources', 'workshops'].includes(
+      priority: ['about', 'advisory', 'faq', 'resources', 'workshops'].includes(
         page.slug
       )
         ? '0.8'
@@ -544,6 +544,8 @@ function renderCategoryPage(page, categoryPages) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Data detectors off: see the note in scripts/lib/page-shell.mjs. -->
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <title>${escapeHtml(copy.metaTitle(label))}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
@@ -836,6 +838,8 @@ function renderArticlePage(article, translations, articles, categoryHubs) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Data detectors off: see the note in scripts/lib/page-shell.mjs. -->
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <title>${escapeHtml(article.title)} | Data Governance Journey</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="${escapeHtml(article.author)}">

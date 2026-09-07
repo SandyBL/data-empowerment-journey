@@ -50,10 +50,13 @@ const HTML_SOURCES = [
   'en/blog/category/data-governance/index.html',
   'en/glossary/index.html',
   'en/glossary/data-governance/index.html',
-  // Prose page, and one of the four that embed homepage markup and so load the
-  // homepage stylesheet as well.
+  // Prose page, and two of the pages that embed homepage markup and so load the
+  // homepage stylesheet as well. The maturity assessment is here because its
+  // scorecard card is the only place src/partials/maturity-scorecard.html is
+  // used, and that partial reaches for the homepage's maturity vocabulary.
   'en/about/index.html',
   'en/calculator/index.html',
+  'en/maturity-assessment/index.html',
   // The FAQ accordion is rendered from scripts/lib/faq.mjs rather than lifted
   // from a partial, so its vocabulary only exists in that module and here.
   'en/faq/index.html',

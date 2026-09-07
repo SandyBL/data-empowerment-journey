@@ -47,8 +47,8 @@ Se você montar a sua própria governança com isso e nunca falar comigo, é exa
 
 ## Se você precisar de ajuda
 
-E se preferir não fazer isso sozinho, é para isso que existe a consultoria.
+E se preferir não fazer isso sozinho, é para isso que existe a assessoria.
 
-Trabalho remotamente, em três idiomas e normalmente ao lado de um responsável interno, mais do que no lugar dele: quem vai conviver com as decisões deveria ser quem as toma. Os projetos vão de um diagnóstico de duas semanas a um programa de vários trimestres; os formatos estão na [página de consultoria](/pt/consulting/), e o de workshop, incluindo os espaços privados de simuladores com a sua marca, em [workshops](/pt/workshops/).
+Trabalho remotamente, em três idiomas e normalmente ao lado de um responsável interno, mais do que no lugar dele: quem vai conviver com as decisões deveria ser quem as toma. Os projetos vão de um diagnóstico de duas semanas a um programa de vários trimestres; os formatos estão na [página de assessoria](/pt/advisory/), e o de workshop, incluindo os espaços privados de simuladores com a sua marca, em [workshops](/pt/workshops/).
 
 Quase sempre é um destes três momentos: uma decisão que precisa se sustentar na frente do comitê, um glossário que precisa ser organizado de verdade ou um workshop que alguém tem que conduzir. Se for o seu caso, o [formulário de contato](/pt/#contact-form-start) chega diretamente a mim, e estou no [LinkedIn](https://www.linkedin.com/in/sandy-bradbury).

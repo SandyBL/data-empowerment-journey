@@ -60,4 +60,4 @@ Os workshops são cotados por sessão, com o espaço privado, os cenários reesc
 
 Use o [formulário de contato](/pt/#contact-form-start) e inclua as suas datas, o número de participantes, a mistura de idiomas e uma frase sobre o que você quer que a sala entenda ao sair. Eu volto com uma recomendação de cenário e um orçamento.
 
-Se o workshop faz parte de algo maior, a página de [formatos de consultoria](/pt/consulting/) conta como ele normalmente se encaixa: quase sempre como movimento de abertura de um desenho de modelo operacional, porque uma sala que acabou de discutir sobre propriedade é uma sala que vai se envolver com uma matriz de direitos de decisão.
+Se o workshop faz parte de algo maior, a página de [assessoria](/pt/advisory/) conta como ele normalmente se encaixa: quase sempre como movimento de abertura de um desenho de modelo operacional, porque uma sala que acabou de discutir sobre propriedade é uma sala que vai se envolver com uma matriz de direitos de decisão.

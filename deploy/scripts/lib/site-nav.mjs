@@ -104,8 +104,7 @@ export const NAV = {
     glossary: 'Glossary',
     faq: 'FAQ',
     resources: 'All free tools',
-    consulting: 'Consulting',
-    sessions: 'Advisory sessions',
+    advisory: 'Advisory',
     workshops: 'Workshops',
     about: 'About',
     contact: 'Contact',
@@ -136,7 +135,7 @@ export const NAV = {
     footerNav: 'Site directory',
     minRead: 'min read',
     rights: 'All rights reserved.',
-    builtBy: 'Data governance consulting, tools, and writing by Sandy Bradbury.',
+    builtBy: 'Data governance advice, tools, and writing by Sandy Bradbury.',
   },
   es: {
     home: 'Inicio',
@@ -145,8 +144,7 @@ export const NAV = {
     glossary: 'Glosario',
     faq: 'Preguntas frecuentes',
     resources: 'Todas las herramientas gratuitas',
-    consulting: 'Consultoría',
-    sessions: 'Sesiones de asesoría',
+    advisory: 'Asesoría',
     workshops: 'Talleres',
     about: 'Sobre',
     contact: 'Contacto',
@@ -177,7 +175,7 @@ export const NAV = {
     footerNav: 'Directorio del sitio',
     minRead: 'min de lectura',
     rights: 'Todos los derechos reservados.',
-    builtBy: 'Consultoría, herramientas y artículos de gobierno de datos por Sandy Bradbury.',
+    builtBy: 'Asesoría, herramientas y artículos de gobierno de datos por Sandy Bradbury.',
   },
   pt: {
     home: 'Início',
@@ -186,8 +184,7 @@ export const NAV = {
     glossary: 'Glossário',
     faq: 'Perguntas frequentes',
     resources: 'Todas as ferramentas gratuitas',
-    consulting: 'Consultoria',
-    sessions: 'Sessões de assessoria',
+    advisory: 'Assessoria',
     workshops: 'Workshops',
     about: 'Sobre',
     contact: 'Contato',
@@ -218,7 +215,7 @@ export const NAV = {
     footerNav: 'Diretório do site',
     minRead: 'min de leitura',
     rights: 'Todos os direitos reservados.',
-    builtBy: 'Consultoria, ferramentas e artigos de governança de dados por Sandy Bradbury.',
+    builtBy: 'Assessoria, ferramentas e artigos de governança de dados por Sandy Bradbury.',
   },
 };
 
@@ -270,8 +267,7 @@ export const NAV_GROUPS = [
     key: 'groupWork',
     id: 'work',
     items: [
-      { key: 'consulting', href: (lang) => pagePath(lang, 'consulting') },
-      { key: 'sessions', href: (lang) => pagePath(lang, 'advisory-sessions') },
+      { key: 'advisory', href: (lang) => pagePath(lang, 'advisory') },
       { key: 'workshops', href: (lang) => pagePath(lang, 'workshops') },
       { key: 'about', href: (lang) => pagePath(lang, 'about') },
       { key: 'contact', href: (lang) => `${HOME_PATH[lang]}#contact-form-start` },
@@ -371,13 +367,21 @@ const renderDesktopNav = (lang, current) => {
 };
 
 /**
- * The drawer, which is the whole navigation below 1180px.
+ * The drawer, which is the whole navigation below 1180px -- and the whole
+ * navigation at every width on the nine simulator pages, which have no room in
+ * their header for a bar and used to offer a single home icon as the only way
+ * back into the site.
  *
  * The standalone pages used to hide their five links at 1080px and put nothing
  * in their place, so on every phone and most tablets the only way off the page
  * was the logo. Same links as the bar, same order, groups as accordions.
+ *
+ * Exported because the simulators are hand-maintained standalone HTML with no
+ * build step of their own: scripts/sync-simulator-nav.mjs writes the markup
+ * this returns into them between markers, so the nine pages carry a copy of
+ * this list rather than a second list.
  */
-const renderDrawerNav = (lang, current) => {
+export const renderNavDrawer = (lang, { current = '' } = {}) => {
   const nav = NAV[lang];
   const groups = NAV_GROUPS.map((group) => {
     const id = `nav-drawer-${group.id}`;
@@ -392,6 +396,25 @@ const renderDrawerNav = (lang, current) => {
   )}" hidden><div class="site-drawer__panel"><a class="site-drawer__link" href="${FRAMEWORK_HREF(lang)}">${escapeAttribute(
     nav.framework
   )}</a>${groups}${navItem(CTA, lang, current, 'site-drawer__link site-drawer__cta')}</div></nav>`;
+};
+
+/**
+ * The button that opens the drawer.
+ *
+ * The two labels ride on data attributes rather than living in
+ * assets/js/site-nav.js, because that file is served to all three languages and
+ * the button has to say "close" once it is open (ARIA 4.1.2).
+ *
+ * Exported for the same reason the drawer is: the simulator pages are patched
+ * with this markup by scripts/sync-simulator-nav.mjs.
+ */
+export const renderNavToggle = (lang) => {
+  const nav = NAV[lang];
+  return `<button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="site-drawer" aria-label="${escapeAttribute(
+    nav.menuOpen
+  )}" data-label-open="${escapeAttribute(nav.menuOpen)}" data-label-close="${escapeAttribute(
+    nav.menuClose
+  )}"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>`;
 };
 
 /**
@@ -413,13 +436,9 @@ export const renderSiteHeader = (lang, { current = '', languageHrefs = null } = 
         124
       )}" alt="Data Governance Journey" width="44" height="44" fetchpriority="high" decoding="async"><span class="dejourney-brand-name">Data Governance Journey</span></a>
       ${renderDesktopNav(lang, current)}
-      <div class="site-header__actions">${switcher}<button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="site-drawer" aria-label="${escapeAttribute(
-        nav.menuOpen
-      )}" data-label-open="${escapeAttribute(nav.menuOpen)}" data-label-close="${escapeAttribute(
-        nav.menuClose
-      )}"><i class="fa-solid fa-bars" aria-hidden="true"></i></button></div>
+      <div class="site-header__actions">${switcher}${renderNavToggle(lang)}</div>
     </div>
-    ${renderDrawerNav(lang, current)}
+    ${renderNavDrawer(lang, { current })}
   </header>`;
 };
 

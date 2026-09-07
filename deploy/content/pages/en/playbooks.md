@@ -8,30 +8,30 @@ description: Free PDF playbooks on establishing a data governance program and on
 kicker: Free downloads
 schema: collection
 related_articles: introduction-basics-data-governance-program, responsible-ai-starts-with-data-governance
-updated: 2026-09-05
+updated: 2026-09-07
 ---
 
-A playbook is not a methodology. A methodology tells you what the ideal end state is; a playbook tells you what to do on Monday when you have no budget, no mandate and one sympathetic director.
+A playbook is not a methodology. A methodology tells you what the ideal end state looks like. A playbook tells you what to do on Monday, when you have no budget, no mandate, and one sympathetic director who might return your call.
 
-These two are written for Monday.
+Both of these are written for that Monday.
 
 {{PLAYBOOKS}}
 
 ## The data governance playbook
 
-This is the sequence I use to get a program from nothing to a functioning first domain: how to pick the domain, how to find the [critical data elements](/en/glossary/critical-data-element/) inside it, how to get [ownership](/en/glossary/data-owner/) accepted rather than assigned, and what the first council meeting should have on the agenda so that people leave having decided something.
+This is the sequence I use to get a program from nothing to one functioning domain: how to pick the domain, how to find the [critical data elements](/en/glossary/critical-data-element/) inside it, how to get [ownership](/en/glossary/data-owner/) accepted rather than assigned — which is the whole game — and what the first council meeting needs on the agenda so people leave having actually decided something.
 
-It is deliberately narrow. It does not attempt to cover eleven knowledge areas, because a first-year program that tries to cover eleven knowledge areas produces a framework document and no change in behavior. One domain, done visibly, buys you the second.
+It's deliberately narrow. It doesn't try to cover eleven knowledge areas, because a first-year program that tries to cover eleven knowledge areas produces a framework document and no change in behavior. One domain, done visibly, is what buys you the second one. Nobody has ever been given a second domain on the strength of a roadmap.
 
 ## The AI governance playbook
 
-Most AI governance discussions start at the model and work backward, which is why they stall. The interesting questions are almost all data questions: what was this trained on, who was allowed to approve that, what happens when someone asks for their record to be deleted, and whether you can say, in writing and to a regulator, where a given output came from.
+Most AI governance conversations start at the model and work backward, which is exactly why they stall. The interesting questions turn out to be data questions almost every time: what was this trained on, who was allowed to approve that, what happens when somebody asks for their record to be deleted, and whether you can say — in writing, to a regulator, without a week of archaeology — where a given output came from.
 
-This playbook works forward from the data instead: [classification](/en/glossary/data-classification/) before ingestion, [lineage](/en/glossary/data-lineage/) as a precondition rather than a nice-to-have, and the specific decision rights an [AI governance](/en/glossary/ai-governance/) body needs that a data governance council does not already have. It assumes you have some governance in place; if you do not, read the other one first.
+So this playbook works forward from the data instead: [classification](/en/glossary/data-classification/) before ingestion, [lineage](/en/glossary/data-lineage/) as a precondition rather than a nice-to-have, and the specific decision rights an [AI governance](/en/glossary/ai-governance/) body needs that a data governance council doesn't already have. It assumes you have some governance in place. If you don't, read the other one first — starting here would be building the roof.
 
 ## The maturity assessment framework
 
-The framework behind the [scorecard](/en/maturity-assessment/), as a document you can adapt. Useful if you would rather run the assessment yourself, with your own wording, than send your team to a form on somebody else's website.
+The framework behind the [scorecard](/en/maturity-assessment/), as a document you can adapt. Useful if you'd rather run the assessment yourself, in your own wording, than send your team to a form on somebody else's website. I'd probably do the same.
 
 ## Using these with a group
 

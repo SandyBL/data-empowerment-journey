@@ -1,7 +1,7 @@
 /**
  * Articles Sandy Bradbury has published on someone else's blog.
  *
- * The About and Consulting pages made a claim about expertise and then offered
+ * The About and Advisory pages made a claim about expertise and then offered
  * nothing outside this domain to check it against: two DAMA certifications and
  * a lot of writing that a sceptical reader can only weigh by reading it. A
  * reader deciding whether to hire someone looks for the work that survived a
@@ -19,7 +19,7 @@
  * the other side.
  *
  * Sorted newest first, which is also how they render. Adding an entry is the
- * whole cost of publishing another one: the About and Consulting pages in all
+ * whole cost of publishing another one: the About and Advisory pages in all
  * three languages, the ItemList schema on both, and the counts in neither,
  * because the prose around the block deliberately states no total.
  */
@@ -324,7 +324,7 @@ export const renderExternalWriting = (lang) => {
  *
  * This is the half of the block a language model or a rich-results parser can
  * read without inferring anything from prose. Each Article is @id'd by its own
- * URL so the copy on the About page and the copy on the Consulting page are one
+ * URL so the copy on the About page and the copy on the Advisory page are one
  * entity rather than two claims, and every one of them resolves `author` to
  * ${SITE_ORIGIN}/#sandy-bradbury -- the same node the site's own articles name,
  * which is what ties the off-site body of work to the person being hired.

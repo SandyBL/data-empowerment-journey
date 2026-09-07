@@ -60,4 +60,4 @@ Workshops are priced per session, with the private space, the rewritten scenario
 
 Use the [contact form](/en/#contact-form-start) and include your dates, the number of participants, the language mix and one sentence on what you want the room to walk out understanding. I'll come back with a scenario recommendation and a quote.
 
-If the workshop is part of something bigger, the [consulting engagements](/en/consulting/) page describes where it usually fits — most often as the opening move of an operating model design, because a room that has just argued about ownership is a room that will engage with a decision-rights grid.
+If the workshop is part of something bigger, the [advice and support](/en/advisory/) page describes where it usually fits — most often as the opening move of an operating model design, because a room that has just argued about ownership is a room that will engage with a decision-rights grid.

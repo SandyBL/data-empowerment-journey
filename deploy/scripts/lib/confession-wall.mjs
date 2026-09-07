@@ -224,6 +224,8 @@ const renderPage = (lang) => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Data detectors off: see the note in scripts/lib/page-shell.mjs. -->
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <title>${escapeHtml(metadata.title)}</title>
   <meta name="description" content="${escapeHtml(metadata.description)}">
   <meta name="robots" content="index, follow">
