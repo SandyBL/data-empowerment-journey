@@ -2,6 +2,7 @@ import { mkdir, readdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { parseFrontMatter, renderMarkdown, readingTimeMinutes, escapeHtml } from './lib/markdown.mjs';
+import { resolveImageSizes } from './lib/media.mjs';
 import { renderHomePage, HOME_PATH } from './lib/home-pages.mjs';
 import { renderLlmsIndex, renderLlmsFull } from './lib/llms.mjs';
 import { renderArticleSchema } from './lib/article-schema.mjs';
@@ -656,7 +657,12 @@ async function loadArticles() {
       if (!attributes.title || !attributes.date) {
         throw new Error(`Missing title or date in content/blog/${lang}/${file}`);
       }
-      const { html, headings } = renderMarkdown(body);
+      // Images are read off disk before the body is rendered: a path with no
+      // file behind it stops the build here (see scripts/lib/media.mjs) rather
+      // than reaching a reader as a broken image, and the ones that do exist
+      // hand their dimensions to the <img> so the page reserves the space.
+      const imageSize = await resolveImageSizes(body, `content/blog/${lang}/${file}`);
+      const { html, headings } = renderMarkdown(body, { imageSize });
       // Front matter stores a language-neutral category key; the label people
       // read is resolved per language so a page never mixes languages.
       const category = resolveCategory(attributes.category, lang, `content/blog/${lang}/${file}`);

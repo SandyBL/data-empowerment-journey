@@ -21,6 +21,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parseFrontMatter, renderMarkdown, escapeHtml } from './markdown.mjs';
+import { resolveImageSizes } from './media.mjs';
 import { SITE_ORIGIN } from './brand.mjs';
 import {
   HOME_PATH,
@@ -239,7 +240,7 @@ export async function loadGlossary(projectDirectory) {
           `Unknown group "${attributes.group}" in ${where}. Use one of: ${GROUPS.join(', ')}`
         );
       }
-      const { html } = renderMarkdown(body);
+      const { html } = renderMarkdown(body, { imageSize: await resolveImageSizes(body, where) });
       terms.push({
         lang,
         slug,

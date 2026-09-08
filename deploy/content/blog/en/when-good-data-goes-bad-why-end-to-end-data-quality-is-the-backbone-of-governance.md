@@ -85,12 +85,7 @@ The last mile of data delivery is your final safety net before insights inform c
 * **Business Glossary Alignment:** Verify that underlying reporting queries pull from standardized data models rather than custom, ungoverned SQL calculations embedded directly within BI tools.
 * **Lineage Visibility:** Provide business consumers with immediate visibility into data freshness and pipeline status directly within the BI interface, establishing clear trust signals.
 
-| Governance Level | Primary Role | Core Responsibility |
-| :--- | :--- | :--- |
-| **Strategic Oversight** | **Data Governance Office** | Defines global policies, frameworks, and enterprise metrics. |
-| **Domain Ownership** | **Data Owner** | Sets domain quality standards, metrics, and threshold policies. |
-| **Operational Execution** | **Data Steward** | Validates quality rules, maintains definitions, and resolves anomalies. |
-| **Technical Enablement** | **Data Engineering & Tech** | Implements automated pipeline checks and monitors SLAs. |
+![Data Governance Organizational Accountability Diagram](/assets/images/blog/data-governance-roles.svg "Who is accountable for data quality at each stage of the pipeline, and where a business consumer takes a discrepancy.")
 
 ---
 
