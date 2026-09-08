@@ -29,12 +29,9 @@ O perigo real e silencioso é a **propagação invisível de dados corrompidos**
 
 Quando um registro incompleto ou incorreto entra no ecossistema durante a ingestão, ele atravessa as etapas de transformação e lógica de negócios sem ser detectado. Nesse trajeto, o erro não permanece estático; ele se multiplica. Um valor nulo não tratado ou um código de moeda incorreto em um sistema transacional transforma-se em um cálculo de agregação equivocado no pipeline ETL/ELT, consolida-se nas tabelas de produção e alimenta os painéis executivos com uma falsa aparência de precisão.
 
-+--------------------+      +-----------------------+      +--------------------+      +----------------------+
 | Ingestão de Dados  | ---> | Fase de Transformação | ---> | Armazenamento      | ---> | Consumo Final        |
 | (Nulos Não Semic.) |      | (Agregações Erradas)  |      | (Tabelas Alteradas)|      | (Dashboards da Diret)|
-+--------------------+      +-----------------------+      +--------------------+      +----------------------+
-|                             |                            |                            |
-+-----------------------------+----------------------------+----------------------------+
+
 Degradação Silenciosa na Cadeia de Valor
 
 Cada etapa adiciona uma camada de acabamento visual: gráficos bem desenhados, legendas organizadas e tendências aparentemente claras. No entanto, o conteúdo estrutural continua comprometido. Quando o executivo analisa o relatório, o erro original já está protegido por diversas camadas de processamento técnico.
@@ -98,28 +95,6 @@ A última milha na entrega da informação representa a defesa final antes que o
 
 Processos e tecnologias não geram resultados sem uma estrutura organizacional clara. Modelos eficientes de governança [Gartner, Data Governance Framework] distribuem as responsabilidades de qualidade entre papéis bem definidos na empresa:
 
-                            +-----------------------------+
-                            |    Escritório de Governança |
-                            |  (Define Políticas Globais) |
-                            +-----------------------------+
-                                           |
-                 +-------------------------+-------------------------+
-                 |                                                   |
-    +--------------------------+                        +--------------------------+
-    |        Data Owner        |                        |       Data Steward       |
-    |   (Dono do Dado)         |                        |   (Steward do Dado)      |
-    | Define padrões e metas   |                        | Valida regras operacionais|
-    |   de qualidade do domínio|                        |  e resolve anomalias     |
-    +--------------------------+                        +--------------------------+
-                 |                                                   |
-                 +-------------------------+-------------------------+
-                                           |
-                            +-----------------------------+
-                            |    Engenharia de Dados e IT |
-                            |  Implementa verificações e  |
-                            |   automatiza o monitoramento|
-                            +-----------------------------+
-
 ### O Data Owner ou Dono do Dado (Responsabilidade Estratégica)
 Executivos seniores (como o Diretor Financeiro ou a Diretora de Operações) que possuem a responsabilidade final por um domínio específico de dados. Eles definem o conceito de "dado de qualidade" sob a ótica do negócio, estabelecem os limites aceitáveis de erro (ex.: 99,9% de precisão nos dados de faturamento) e aprovam investimentos em correção.
 
@@ -144,9 +119,11 @@ Considere o exemplo de uma corporação avaliando uma fusão de empresas:
 * **Com Governança End-to-End:** A existência de domínios de dados auditados e governados permite analisar a viabilidade do negócio em poucos dias, utilizando informações confiáveis, reduzindo custos de assessoria e eliminando riscos de avaliação.
 
 Abordagem Reativa Tradicional:
+
 [ Dados Incorretos ] ---> [ Identificação Manual ] ---> [ Correção Custosa ] ---> [ Perda de Confiança ]
 
 Abordagem de Governança Proativa:
+
 [ Trava na Ingestão ] ---> [ Testes Automatizados ] ---> [ Dados Confiáveis ] ---> [ Decisões Ágeis ]
 
 ---
