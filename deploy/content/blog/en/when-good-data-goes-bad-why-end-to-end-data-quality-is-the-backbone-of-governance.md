@@ -30,7 +30,8 @@ The far more dangerous threat is the **silent spread of corrupted data**.
 When corrupted or incomplete records enter your ecosystem at ingestion, they pass unnoticed through business logic transformations. Along the way, flawed data does not remain static; it compounds. An unvalidated null value or a mismatched currency code in an operational database morphs into incorrect aggregate calculations during ETL/ELT pipelines, settles quietly into production tables, and feeds executive dashboards with absolute confidence.
 
 | Ingestion Phase  | ---> | Transformation Phase  | ---> | Storage Phase     | ---> | Consumption Phase   |
-| (Uncaught Nulls) |      | (Flawed Aggregations) |      | (Corrupted Tables)|      | (Executive Dashboards)
+| (Uncaught Nulls) |      | (Flawed Aggregations) |      | (Corrupted Tables)|      | (Executive Dashboards) |
+
 Silent Degradation Across the Value Chain
 
 Each stage adds visual polish—sleek UI components, clean chart legends, and impressive trend lines—yet the core payload remains fundamentally flawed. By the time a decision-maker views the report, the error is insulated by layers of technical processing.
@@ -84,7 +85,12 @@ The last mile of data delivery is your final safety net before insights inform c
 * **Business Glossary Alignment:** Verify that underlying reporting queries pull from standardized data models rather than custom, ungoverned SQL calculations embedded directly within BI tools.
 * **Lineage Visibility:** Provide business consumers with immediate visibility into data freshness and pipeline status directly within the BI interface, establishing clear trust signals.
 
-![Data Governance Organizational Accountability Diagram](/images/data-governance-roles.svg)
+| Governance Level | Primary Role | Core Responsibility |
+| :--- | :--- | :--- |
+| **Strategic Oversight** | **Data Governance Office** | Defines global policies, frameworks, and enterprise metrics. |
+| **Domain Ownership** | **Data Owner** | Sets domain quality standards, metrics, and threshold policies. |
+| **Operational Execution** | **Data Steward** | Validates quality rules, maintains definitions, and resolves anomalies. |
+| **Technical Enablement** | **Data Engineering & Tech** | Implements automated pipeline checks and monitors SLAs. |
 
 ---
 
