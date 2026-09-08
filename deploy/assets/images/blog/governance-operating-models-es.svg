@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="254" viewBox="0 0 720 254" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Los tres modelos operativos de gobierno de datos y lo que cede cada uno</title>
+  <desc id="desc">Tres modelos operativos en un espectro de centralizado a federado a descentralizado, con lo que compra cada uno y lo que entrega a cambio, sobre un eje que va de la consistencia a la velocidad.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">CÓMO ELEGIR EL MODELO OPERATIVO DE GOBIERNO</text>
+  
+  <!-- Centralizado -->
+  <rect x="24" y="48" width="209.33333333333334" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="209.33333333333334" height="4" fill="#071c2c"/>
+  <text x="128.66666666666669" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Centralizado</text>
+  <text x="128.66666666666669" y="128" font-size="11" fill="#31505c" text-anchor="middle">Un solo equipo es dueño de cada</text>
+  <text x="128.66666666666669" y="143" font-size="11" fill="#31505c" text-anchor="middle">definición. Consistente, y un cuello</text>
+  <text x="128.66666666666669" y="158" font-size="11" fill="#31505c" text-anchor="middle">de botella en cuanto llega el</text>
+  <text x="128.66666666666669" y="173" font-size="11" fill="#31505c" text-anchor="middle">segundo dominio.</text>
+  <line x1="237.33333333333334" y1="76" x2="251.33333333333334" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Federado -->
+  <rect x="255.33333333333334" y="48" width="209.33333333333334" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="255.33333333333334" y="48" width="209.33333333333334" height="4" fill="#0a7568"/>
+  <text x="360" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Federado</text>
+  <text x="360" y="128" font-size="11" fill="#31505c" text-anchor="middle">Un equipo central fija el estándar;</text>
+  <text x="360" y="143" font-size="11" fill="#31505c" text-anchor="middle">cada dominio lo aplica y es dueño</text>
+  <text x="360" y="158" font-size="11" fill="#31505c" text-anchor="middle">de sus datos. El modelo que casi</text>
+  <text x="360" y="173" font-size="11" fill="#31505c" text-anchor="middle">todas las organizaciones acaban</text>
+  <text x="360" y="188" font-size="11" fill="#31505c" text-anchor="middle">necesitando.</text>
+  <line x1="468.6666666666667" y1="76" x2="482.6666666666667" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Descentralizado -->
+  <rect x="486.6666666666667" y="48" width="209.33333333333334" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="486.6666666666667" y="48" width="209.33333333333334" height="4" fill="#095b73"/>
+  <text x="591.3333333333334" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Descentralizado</text>
+  <text x="591.3333333333334" y="128" font-size="11" fill="#31505c" text-anchor="middle">Cada dominio se gobierna solo.</text>
+  <text x="591.3333333333334" y="143" font-size="11" fill="#31505c" text-anchor="middle">Rápido, hasta que dos dominios</text>
+  <text x="591.3333333333334" y="158" font-size="11" fill="#31505c" text-anchor="middle">definen al mismo cliente de forma</text>
+  <text x="591.3333333333334" y="173" font-size="11" fill="#31505c" text-anchor="middle">distinta.</text>
+  <line x1="24" y1="216" x2="696" y2="216" stroke="#dfe3e7" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="24" y="234" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2">CONSISTENCIA</text>
+  <text x="696" y="234" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2" text-anchor="end">VELOCIDAD</text>
+</svg>

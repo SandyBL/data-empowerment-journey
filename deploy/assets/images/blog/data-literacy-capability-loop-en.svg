@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="232" viewBox="0 0 720 232" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">The four stages that turn data literacy into a business capability</title>
+  <desc id="desc">Four stages in a loop — define the decisions, teach the questions, embed the answer in the workflow, and measure the decision — where the measurement feeds the next round of definitions rather than ending the programme.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">DATA LITERACY AS A CAPABILITY, NOT A COURSE</text>
+  
+  <!-- Define the decisions -->
+  <rect x="24" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="156" height="4" fill="#071c2c"/>
+  <text x="102" y="76" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Define the</text>
+  <text x="102" y="92" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">decisions</text>
+  <text x="102" y="128" font-size="11" fill="#31505c" text-anchor="middle">Name the recurring</text>
+  <text x="102" y="143" font-size="11" fill="#31505c" text-anchor="middle">decisions the business</text>
+  <text x="102" y="158" font-size="11" fill="#31505c" text-anchor="middle">actually makes.</text>
+  <line x1="184" y1="76" x2="192" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Teach the questions -->
+  <rect x="196" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="196" y="48" width="156" height="4" fill="#0a7568"/>
+  <text x="274" y="76" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Teach the</text>
+  <text x="274" y="92" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">questions</text>
+  <text x="274" y="128" font-size="11" fill="#31505c" text-anchor="middle">Train people to ask what a</text>
+  <text x="274" y="143" font-size="11" fill="#31505c" text-anchor="middle">number means and where</text>
+  <text x="274" y="158" font-size="11" fill="#31505c" text-anchor="middle">it came from.</text>
+  <line x1="356" y1="76" x2="364" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Embed in the workflow -->
+  <rect x="368" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="368" y="48" width="156" height="4" fill="#095b73"/>
+  <text x="446" y="76" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Embed in the</text>
+  <text x="446" y="92" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">workflow</text>
+  <text x="446" y="128" font-size="11" fill="#31505c" text-anchor="middle">Put the trusted answer</text>
+  <text x="446" y="143" font-size="11" fill="#31505c" text-anchor="middle">inside the process people</text>
+  <text x="446" y="158" font-size="11" fill="#31505c" text-anchor="middle">already use.</text>
+  <line x1="528" y1="76" x2="536" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Measure the decision -->
+  <rect x="540" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="540" y="48" width="156" height="4" fill="#ec6d57"/>
+  <text x="618" y="76" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Measure the</text>
+  <text x="618" y="92" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">decision</text>
+  <text x="618" y="128" font-size="11" fill="#31505c" text-anchor="middle">Track whether the</text>
+  <text x="618" y="143" font-size="11" fill="#31505c" text-anchor="middle">decision changed, not</text>
+  <text x="618" y="158" font-size="11" fill="#31505c" text-anchor="middle">who attended training.</text>
+  <!-- MEASUREMENT REDEFINES THE DECISIONS: what sends the reader back to the first stage. -->
+  <path d="M 618 174 V 200 H 102 V 178" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-loop)"/>
+  <rect x="196.42223600000003" y="191" width="327.15552799999995" height="18" fill="#ffffff"/>
+  <text x="360" y="203.5" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.2" text-anchor="middle">MEASUREMENT REDEFINES THE DECISIONS</text>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="402" viewBox="0 0 720 402" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">La alfabetización de datos cruzada con la madurez del gobierno</title>
+  <desc id="desc">Una matriz de dos por dos de alfabetización de datos frente a madurez de gobierno: seguros y equivocados, realmente guiados por datos, decidiendo por intuición, y gobernados pero sin uso.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">ALFABETIZACIÓN Y GOBIERNO: CUATRO LUGARES POSIBLES</text>
+  
+  <!-- Seguros y equivocados -->
+  <rect x="78" y="48" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="78" y="48" width="299" height="4" fill="#071c2c"/>
+  <text x="98" y="76" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">HABILIDAD SIN ACUERDO</text>
+  <text x="98" y="98" font-size="16" font-weight="600" fill="#071c2c">Seguros y equivocados</text>
+  <text x="98" y="118" font-size="11.8" fill="#31505c">Cada equipo construye su propio análisis</text>
+  <text x="98" y="134" font-size="11.8" fill="#31505c">y cuatro equipos llegan a cuatro cifras de</text>
+  <text x="98" y="150" font-size="11.8" fill="#31505c">ingresos. La habilidad existe; falta la</text>
+  <text x="98" y="166" font-size="11.8" fill="#31505c">definición compartida.</text>
+  <!-- Guiados por datos -->
+  <rect x="397" y="48" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="397" y="48" width="299" height="4" fill="#0a7568"/>
+  <text x="417" y="76" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">EL OBJETIVO</text>
+  <text x="417" y="98" font-size="16" font-weight="600" fill="#071c2c">Guiados por datos</text>
+  <text x="417" y="118" font-size="11.8" fill="#31505c">La gente hace buenas preguntas y recibe</text>
+  <text x="417" y="134" font-size="11.8" fill="#31505c">una única respuesta fiable. El único</text>
+  <text x="417" y="150" font-size="11.8" fill="#31505c">cuadrante donde un dashboard cambia de</text>
+  <text x="417" y="166" font-size="11.8" fill="#31505c">verdad una decisión.</text>
+  <!-- Decidiendo por intuición -->
+  <rect x="78" y="212" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="78" y="212" width="299" height="4" fill="#095b73"/>
+  <text x="98" y="240" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">EL PUNTO DE PARTIDA</text>
+  <text x="98" y="262" font-size="16" font-weight="600" fill="#071c2c">Decidiendo por intuición</text>
+  <text x="98" y="282" font-size="11.8" fill="#31505c">Los datos existen pero nadie los usa ni</text>
+  <text x="98" y="298" font-size="11.8" fill="#31505c">confía en ellos. Empieza por las</text>
+  <text x="98" y="314" font-size="11.8" fill="#31505c">decisiones que ya se toman, no por un</text>
+  <text x="98" y="330" font-size="11.8" fill="#31505c">catálogo.</text>
+  <!-- Gobernados pero sin uso -->
+  <rect x="397" y="212" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="397" y="212" width="299" height="4" fill="#ec6d57"/>
+  <text x="417" y="240" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">GOBIERNO DE ESCAPARATE</text>
+  <text x="417" y="262" font-size="16" font-weight="600" fill="#071c2c">Gobernados pero sin uso</text>
+  <text x="417" y="282" font-size="11.8" fill="#31505c">El glosario está completo, las políticas</text>
+  <text x="417" y="298" font-size="11.8" fill="#31505c">aprobadas, y nadie abre ninguno de los</text>
+  <text x="417" y="314" font-size="11.8" fill="#31505c">dos. El gobierno se volvió papeleo.</text>
+  <line x1="58" y1="356" x2="58" y2="48" stroke="#dfe3e7" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="50" y="202" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2" text-anchor="middle" transform="rotate(-90 50 202)">ALFABETIZACIÓN DE DATOS</text>
+  <line x1="78" y1="374" x2="696" y2="374" stroke="#dfe3e7" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="387" y="392" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2" text-anchor="middle">MADUREZ DEL GOBIERNO DE DATOS</text>
+</svg>

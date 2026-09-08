@@ -49,6 +49,8 @@ En la práctica esto significa incrustar un número pequeño de comprobaciones e
 
 El contraejemplo es el flujo de gobierno independiente: un formulario, una cola y un comité de revisión aparte, al lado del proceso de entrega. Funciona mientras es nuevo y alguien lo persigue, y se degrada en cuanto la atención se mueve. Los controles que viven dentro de un proceso que la gente ya está obligada a completar se degradan mucho más despacio.
 
+![Los tres modelos operativos de gobierno de datos en un espectro de consistencia a velocidad](/assets/images/blog/governance-operating-models-es.svg "Gobierno centralizado, federado y descentralizado, y el intercambio entre consistencia y velocidad que hace cada uno.")
+
 ## Decide cuánta federación puedes sostener
 
 Los modelos central, federado e híbrido funcionan todos; lo que falla es elegir uno que no encaja con la capacidad que tienes. Un modelo federado pide a cada dominio un propietario real con tiempo real. Si esas personas no existen, la federación se convierte en un diagrama donde nadie rinde cuentas.

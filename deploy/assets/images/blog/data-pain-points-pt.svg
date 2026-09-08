@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="449" viewBox="0 0 720 449" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Seis pontos de dor de dados e a ação de governança que cada um exige</title>
+  <desc id="desc">Seis sintomas recorrentes — relatórios que não batem, conciliação manual, ausência de dono, acessos lentos, métricas inexplicáveis e registros duplicados — cada um com a primeira ação de governança que justifica.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">SEIS PONTOS DE DOR QUE MOSTRAM ONDE COMEÇAR</text>
+  
+  <!-- Dois relatórios, uma verdade -->
+  <rect x="24" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="72" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SINTOMA 01</text>
+  <text x="44" y="93" font-size="15" font-weight="600" fill="#071c2c">Dois relatórios, uma verdade</text>
+  <text x="44" y="113" font-size="11.8" fill="#31505c">Financeiro e vendas informam receitas</text>
+  <text x="44" y="129" font-size="11.8" fill="#31505c">diferentes para o mesmo mês. Comece por</text>
+  <text x="44" y="145" font-size="11.8" fill="#31505c">uma definição acordada e um dono com nome.</text>
+  <!-- A planilha do meio -->
+  <rect x="370" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="48" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="72" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SINTOMA 02</text>
+  <text x="390" y="93" font-size="15" font-weight="600" fill="#071c2c">A planilha do meio</text>
+  <text x="390" y="113" font-size="11.8" fill="#31505c">Alguém concilia os números à mão todo mês.</text>
+  <text x="390" y="129" font-size="11.8" fill="#31505c">Leve a regra para o pipeline antes de comprar</text>
+  <text x="390" y="145" font-size="11.8" fill="#31505c">uma ferramenta.</text>
+  <!-- Ninguém é dono do campo -->
+  <rect x="24" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="181" width="4" height="113" fill="#095b73"/>
+  <text x="44" y="205" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">SINTOMA 03</text>
+  <text x="44" y="226" font-size="15" font-weight="600" fill="#071c2c">Ninguém é dono do campo</text>
+  <text x="44" y="246" font-size="11.8" fill="#31505c">Todos usam o status do cliente e ninguém</text>
+  <text x="44" y="262" font-size="11.8" fill="#31505c">decide o que ele significa. Defina primeiro o</text>
+  <text x="44" y="278" font-size="11.8" fill="#31505c">dono, depois o steward.</text>
+  <!-- O acesso leva três semanas -->
+  <rect x="370" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="181" width="4" height="113" fill="#ec6d57"/>
+  <text x="390" y="205" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">SINTOMA 04</text>
+  <text x="390" y="226" font-size="15" font-weight="600" fill="#071c2c">O acesso leva três semanas</text>
+  <text x="390" y="246" font-size="11.8" fill="#31505c">Os pedidos esperam por um caminho de</text>
+  <text x="390" y="262" font-size="11.8" fill="#31505c">aprovação não escrito. Publique o caminho e a</text>
+  <text x="390" y="278" font-size="11.8" fill="#31505c">decisão que ele deve seguir.</text>
+  <!-- A métrica que ninguém explica -->
+  <rect x="24" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="314" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="338" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SINTOMA 05</text>
+  <text x="44" y="359" font-size="15" font-weight="600" fill="#071c2c">A métrica que ninguém explica</text>
+  <text x="44" y="379" font-size="11.8" fill="#31505c">O número do painel não tem linhagem até a</text>
+  <text x="44" y="395" font-size="11.8" fill="#31505c">origem. Documente o cálculo onde o leitor vai</text>
+  <text x="44" y="411" font-size="11.8" fill="#31505c">vê-lo.</text>
+  <!-- O mesmo cliente, quatro vezes -->
+  <rect x="370" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="314" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="338" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SINTOMA 06</text>
+  <text x="390" y="359" font-size="15" font-weight="600" fill="#071c2c">O mesmo cliente, quatro vezes</text>
+  <text x="390" y="379" font-size="11.8" fill="#31505c">Registros duplicados inflam qualquer</text>
+  <text x="390" y="395" font-size="11.8" fill="#31505c">contagem. Acorde a regra de correspondência</text>
+  <text x="390" y="411" font-size="11.8" fill="#31505c">antes de deduplicar.</text>
+</svg>

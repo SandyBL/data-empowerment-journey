@@ -19,6 +19,8 @@ This is not an argument against frameworks — I use [DAMA DMBOK](/en/glossary/d
 
 So start with the pain. Here is how to find it, and what governance can actually do about each variety.
 
+![Six common data pain points, each with the first governance action it justifies](/assets/images/blog/data-pain-points-en.svg "Each symptom points at a specific first move. The pain point is the business case for it, which is why it comes first.")
+
 ## The six pain points that justify a governance program
 
 Across engagements, almost everything organizations describe as a "data problem" resolves into one of six patterns.

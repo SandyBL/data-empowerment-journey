@@ -220,11 +220,29 @@
     # style attributes this site's own markup carries.
     # Tighten script-src to a nonce once the inline blocks move to files.
     #
+    # blob: in connect-src is what lets the Blog Content Studio publish an
+    # article with a picture in it. An upload never touches the network on its
+    # way into the editor: Decap holds the chosen file as a blob: URL, and when
+    # the article is saved it reads the bytes back with fetch() on that URL
+    # before base64-encoding them into the commit. A blob: URL is not covered by
+    # 'self', so that read was refused, fetch() rejected with "Failed to fetch",
+    # and the save died with "Failed to persist entry: TypeError: Failed to
+    # fetch" -- with the article and the image both lost. Text-only articles
+    # were unaffected, which is what made the failure look like it belonged to
+    # the image feature rather than to this header: their body is already a
+    # string in memory and is encoded without any fetch at all.
+    #
+    # This is the narrowest of the additions in this policy. A blob: URL is
+    # minted by script already running on this page, is readable only by this
+    # origin and dies with the document, so allowing it opens no route to a
+    # third party -- img-src, media-src, frame-src and worker-src already say
+    # blob: for the same reason.
+    #
     # form-action 'self': every form on the site is a Netlify Form posting to
     # this origin -- the contact form and the newsletter signups both target
     # /thank-you, and assets/js/newsletter.js posts to / when it enhances the
     # signup, which connect-src 'self' already allows.
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://api.netlify.com https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net; frame-src 'self' blob: data:; worker-src 'self' blob:; manifest-src 'self'"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' blob: https://api.netlify.com https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net; frame-src 'self' blob: data:; worker-src 'self' blob:; manifest-src 'self'"
 
 [[headers]]
   for = "/assets/images/*"

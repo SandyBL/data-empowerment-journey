@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="239" viewBox="0 0 720 239" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">The three data governance operating models and what each one trades away</title>
+  <desc id="desc">Three operating models on a spectrum from centralised to federated to decentralised, with what each one buys and what it gives up, along an axis running from consistency to speed.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">CHOOSING A GOVERNANCE OPERATING MODEL</text>
+  
+  <!-- Centralised -->
+  <rect x="24" y="48" width="209.33333333333334" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="209.33333333333334" height="4" fill="#071c2c"/>
+  <text x="128.66666666666669" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Centralised</text>
+  <text x="128.66666666666669" y="128" font-size="11" fill="#31505c" text-anchor="middle">One team owns every definition.</text>
+  <text x="128.66666666666669" y="143" font-size="11" fill="#31505c" text-anchor="middle">Consistent, and a bottleneck the</text>
+  <text x="128.66666666666669" y="158" font-size="11" fill="#31505c" text-anchor="middle">moment the second domain arrives.</text>
+  <line x1="237.33333333333334" y1="76" x2="251.33333333333334" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Federated -->
+  <rect x="255.33333333333334" y="48" width="209.33333333333334" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="255.33333333333334" y="48" width="209.33333333333334" height="4" fill="#0a7568"/>
+  <text x="360" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Federated</text>
+  <text x="360" y="128" font-size="11" fill="#31505c" text-anchor="middle">A central team sets the standard;</text>
+  <text x="360" y="143" font-size="11" fill="#31505c" text-anchor="middle">each domain applies it and owns its</text>
+  <text x="360" y="158" font-size="11" fill="#31505c" text-anchor="middle">own data. The model most</text>
+  <text x="360" y="173" font-size="11" fill="#31505c" text-anchor="middle">organisations end up needing.</text>
+  <line x1="468.6666666666667" y1="76" x2="482.6666666666667" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Decentralised -->
+  <rect x="486.6666666666667" y="48" width="209.33333333333334" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="486.6666666666667" y="48" width="209.33333333333334" height="4" fill="#095b73"/>
+  <text x="591.3333333333334" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Decentralised</text>
+  <text x="591.3333333333334" y="128" font-size="11" fill="#31505c" text-anchor="middle">Each domain governs itself. Fast,</text>
+  <text x="591.3333333333334" y="143" font-size="11" fill="#31505c" text-anchor="middle">until two domains define the same</text>
+  <text x="591.3333333333334" y="158" font-size="11" fill="#31505c" text-anchor="middle">customer differently.</text>
+  <line x1="24" y1="201" x2="696" y2="201" stroke="#dfe3e7" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="24" y="219" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2">CONSISTENCY</text>
+  <text x="696" y="219" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2" text-anchor="end">SPEED</text>
+</svg>

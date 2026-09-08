@@ -46,6 +46,8 @@ In practice this means embedding a small number of checks into rituals that alre
 
 The counter-example is the standalone governance workflow: a request form, a queue, and a separate review board sitting beside the delivery process. It works while it is new and someone is chasing it, and it decays the moment attention moves. Controls that live inside a process people are already obliged to complete decay much more slowly.
 
+![The three data governance operating models on a spectrum from consistency to speed](/assets/images/blog/governance-operating-models-en.svg "Centralised, federated and decentralised governance, and the trade between consistency and speed that each one makes.")
+
 ## Decide how much federation you can support
 
 Central, federated, and hybrid models all work; what fails is choosing one that does not match the capacity you have. A federated model asks each domain to supply a real owner with real time. If those people do not exist, federation becomes a diagram in which nobody is accountable.

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="560" viewBox="0 0 720 560" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Data governance at the centre of the DAMA-DMBOK knowledge areas</title>
+  <desc id="desc">Data governance at the centre of six DAMA-DMBOK knowledge areas — data architecture, data quality, metadata, master data, data security and data storage — with the decision governance supplies to each one.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">DAMA-DMBOK: WHY GOVERNANCE SITS AT THE CENTRE</text>
+  
+  <ellipse cx="360" cy="300" rx="214" ry="196" fill="none" stroke="#dfe3e7" stroke-width="1.5"/>
+  <!-- Data architecture -->
+  <rect x="266" y="84" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="266" y="95" width="4" height="18" fill="#071c2c"/>
+  <text x="360" y="109" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Data architecture</text>
+  <text x="360" y="49" font-size="10.5" fill="#31505c" text-anchor="middle">Approves the target state and the</text>
+  <text x="360" y="63" font-size="10.5" fill="#31505c" text-anchor="middle">exceptions</text>
+  <!-- Data quality -->
+  <rect x="451.3294364098699" y="182" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="451.3294364098699" y="193" width="4" height="18" fill="#0a7568"/>
+  <text x="545.3294364098699" y="207" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Data quality</text>
+  <text x="545.3294364098699" y="147" font-size="10.5" fill="#31505c" text-anchor="middle">Sets the thresholds and who is</text>
+  <text x="545.3294364098699" y="161" font-size="10.5" fill="#31505c" text-anchor="middle">accountable</text>
+  <!-- Master data -->
+  <rect x="451.3294364098699" y="378" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="451.3294364098699" y="389" width="4" height="18" fill="#095b73"/>
+  <text x="545.3294364098699" y="403" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Master data</text>
+  <text x="545.3294364098699" y="435" font-size="10.5" fill="#31505c" text-anchor="middle">Rules the golden record and its</text>
+  <text x="545.3294364098699" y="449" font-size="10.5" fill="#31505c" text-anchor="middle">survivorship</text>
+  <!-- Data security -->
+  <rect x="266" y="476" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="266" y="487" width="4" height="18" fill="#ec6d57"/>
+  <text x="360" y="501" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Data security</text>
+  <text x="360" y="533" font-size="10.5" fill="#31505c" text-anchor="middle">Classifies the data and approves</text>
+  <text x="360" y="547" font-size="10.5" fill="#31505c" text-anchor="middle">the access</text>
+  <!-- Data storage -->
+  <rect x="80.67056359013012" y="378" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="80.67056359013012" y="389" width="4" height="18" fill="#071c2c"/>
+  <text x="174.67056359013012" y="403" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Data storage</text>
+  <text x="174.67056359013012" y="435" font-size="10.5" fill="#31505c" text-anchor="middle">Sets the retention and the deletion</text>
+  <text x="174.67056359013012" y="449" font-size="10.5" fill="#31505c" text-anchor="middle">rules</text>
+  <!-- Metadata -->
+  <rect x="80.67056359013014" y="181.99999999999997" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="80.67056359013014" y="192.99999999999997" width="4" height="18" fill="#0a7568"/>
+  <text x="174.67056359013014" y="206.99999999999997" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Metadata</text>
+  <text x="174.67056359013014" y="146.99999999999997" font-size="10.5" fill="#31505c" text-anchor="middle">Mandates the glossary and the</text>
+  <text x="174.67056359013014" y="160.99999999999997" font-size="10.5" fill="#31505c" text-anchor="middle">lineage</text>
+  <circle cx="360" cy="300" r="96" fill="#071c2c"/>
+  <circle cx="360" cy="300" r="87" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <text x="360" y="291" font-size="18" font-weight="600" fill="#ffffff" text-anchor="middle">DATA</text>
+  <text x="360" y="313" font-size="18" font-weight="600" fill="#ffffff" text-anchor="middle">GOVERNANCE</text>
+  <text x="360" y="337" font-size="9" font-weight="700" fill="#62e6bd" letter-spacing="1" text-anchor="middle">DECIDES · ARBITRATES</text>
+</svg>

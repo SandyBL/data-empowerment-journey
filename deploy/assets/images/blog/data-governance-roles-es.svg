@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="570" viewBox="0 0 720 570" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Responsabilidad organizativa sobre la calidad de los datos</title>
+  <desc id="desc">Cuatro roles en secuencia — propietario de datos, data steward, ingeniero de datos y consumidor de negocio — cada uno con la responsabilidad de calidad que le corresponde, y la vía de escalado que devuelve una discrepancia del consumidor al steward.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">CALIDAD DE DATOS END-TO-END: QUIÉN RESPONDE</text>
+  
+  <!-- Propietario de datos -->
+  <rect x="96" y="48" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="48" width="4" height="104" fill="#071c2c"/>
+  <text x="120" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">RESPONSABILIDAD ESTRATÉGICA</text>
+  <text x="120" y="98" font-size="17" font-weight="600" fill="#071c2c">Propietario de datos</text>
+  <text x="120" y="120" font-size="12.5" fill="#31505c">Define qué significa un dato de calidad en términos de negocio, fija los umbrales de</text>
+  <text x="120" y="137" font-size="12.5" fill="#31505c">error aceptables y aprueba el presupuesto de remediación.</text>
+  <line x1="396" y1="154" x2="396" y2="178" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Data steward -->
+  <rect x="96" y="180" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="180" width="4" height="104" fill="#0a7568"/>
+  <text x="120" y="206" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">SUPERVISIÓN TÁCTICA</text>
+  <text x="120" y="230" font-size="17" font-weight="600" fill="#071c2c">Data steward</text>
+  <text x="120" y="252" font-size="12.5" fill="#31505c">Escribe las reglas de validación, investiga por qué falló un control y es dueño tanto del</text>
+  <text x="120" y="269" font-size="12.5" fill="#31505c">flujo de remediación como de la definición del glosario.</text>
+  <line x1="396" y1="286" x2="396" y2="310" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Ingeniero de datos -->
+  <rect x="96" y="312" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="312" width="4" height="104" fill="#095b73"/>
+  <text x="120" y="338" font-size="10" font-weight="700" fill="#095b73" letter-spacing="1.4">EJECUCIÓN TÉCNICA</text>
+  <text x="120" y="362" font-size="17" font-weight="600" fill="#071c2c">Ingeniero de datos</text>
+  <text x="120" y="384" font-size="12.5" fill="#31505c">Integra las pruebas automáticas en el pipeline, de modo que un control fallido detiene</text>
+  <text x="120" y="401" font-size="12.5" fill="#31505c">la ejecución y envía los registros corruptos a cuarentena.</text>
+  <line x1="396" y1="418" x2="396" y2="442" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Consumidor de negocio -->
+  <rect x="96" y="444" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="444" width="4" height="104" fill="#ec6d57"/>
+  <text x="120" y="470" font-size="10" font-weight="700" fill="#ec6d57" letter-spacing="1.4">BUCLE DE RETROALIMENTACIÓN</text>
+  <text x="120" y="494" font-size="17" font-weight="600" fill="#071c2c">Consumidor de negocio</text>
+  <text x="120" y="516" font-size="12.5" fill="#31505c">Lee las cifras y escala la discrepancia al steward en lugar de reconstruir la métrica en</text>
+  <text x="120" y="533" font-size="12.5" fill="#31505c">una hoja de cálculo paralela que nadie gobierna.</text>
+  <!-- ESCALADO: the path that closes the loop. -->
+  <path d="M 96 504 H 62 V 232 H 92" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-loop)"/>
+  <text x="52" y="342" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.2" text-anchor="middle" transform="rotate(-90 52 342)">ESCALADO</text>
+</svg>

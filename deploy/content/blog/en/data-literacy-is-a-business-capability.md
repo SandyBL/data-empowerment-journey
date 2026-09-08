@@ -13,6 +13,8 @@ Data literacy is often launched as a course and measured by attendance. That app
 
 The problem is not the content of the course. It is the assumption underneath it: that people use data badly because they do not know how, and that knowing how is enough. In practice, people use data badly because the environment makes the careless path easier than the careful one. Literacy work that does not change the environment is a training event with a certificate attached.
 
+![Four stages in a loop that turn data literacy into a business capability](/assets/images/blog/data-literacy-capability-loop-en.svg "Literacy becomes a capability when measurement feeds the next round of definitions, instead of closing the programme.")
+
 ## Treat it as a capability, not a curriculum
 
 A capability is something an organization can reliably do. It has behaviors, the support that makes those behaviors possible, and evidence that they happen. A curriculum has modules and a completion rate. The difference shows up in how you plan the work.

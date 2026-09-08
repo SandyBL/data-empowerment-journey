@@ -49,6 +49,8 @@ Na prática, isso significa embutir um número pequeno de verificações em ritu
 
 O contraexemplo é o fluxo de governança independente: um formulário, uma fila e um comitê de revisão à parte, ao lado do processo de entrega. Funciona enquanto é novidade e alguém cobra, e decai no momento em que a atenção se move. Controles que vivem dentro de um processo que as pessoas já são obrigadas a cumprir decaem muito mais devagar.
 
+![Os três modelos operacionais de governança de dados num espectro de consistência a velocidade](/assets/images/blog/governance-operating-models-pt.svg "Governança centralizada, federada e descentralizada, e a troca entre consistência e velocidade que cada uma faz.")
+
 ## Decida quanta federação você consegue sustentar
 
 Modelos central, federado e híbrido funcionam todos; o que falha é escolher um que não corresponde à capacidade que você tem. Um modelo federado pede a cada domínio um dono real com tempo real. Se essas pessoas não existem, a federação vira um diagrama em que ninguém responde por nada.

@@ -19,6 +19,8 @@ Esto no es un argumento contra los marcos —uso [DAMA DMBOK](/es/glossary/dama-
 
 Así que empieza por el dolor. Aquí va cómo encontrarlo y qué puede hacer el gobierno realmente con cada variedad.
 
+![Seis puntos de dolor de datos, cada uno con la primera acción de gobierno que justifica](/assets/images/blog/data-pain-points-es.svg "Cada síntoma señala un primer movimiento concreto. El punto de dolor es su caso de negocio, y por eso va primero.")
+
 ## Los seis puntos de dolor que justifican un programa
 
 A lo largo de distintos proyectos, casi todo lo que las organizaciones describen como "un problema de datos" se resuelve en uno de seis patrones.

@@ -63,6 +63,8 @@ Te obliga a tener en cuenta la forma. Registros estructurados en un almacén, lo
 
 Y te obliga a pensar en el ciclo de vida. El dato se crea, se usa, se queda obsoleto y en algún momento debería archivarse o borrarse. La retención con un disparador real es una decisión de gobierno que la mayoría de los programas aplaza indefinidamente, y así es como las organizaciones acaban guardando datos personales once años sin base defendible.
 
+![Personas, procesos, tecnología y datos, con la forma en que un programa de gobierno fracasa sin cada uno](/assets/images/blog/golden-square-people-process-technology-data-es.svg "Cada pilar aporta algo que los demás no pueden, y por eso un programa al que le falta uno fracasa de forma predecible.")
+
 ## Cómo se ve el fracaso en cada esquina
 
 Aquí está el valor diagnóstico del modelo.

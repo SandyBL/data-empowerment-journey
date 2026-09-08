@@ -80,6 +80,8 @@ Sin gestión, la gobernanza produce una política de acceso ejemplar que los sis
 
 Ambos modos de fallo son habituales. El segundo es más vergonzoso; el primero es más caro, porque es invisible hasta que algo depende de él.
 
+![Tres artefactos compartidos con la decisión de gobierno a un lado y la entrega de la gestión de datos al otro](/assets/images/blog/governance-management-boundary-es.svg "Los mismos tres artefactos pertenecen a ambas disciplinas: el gobierno decide qué dicen, la gestión los hace funcionar.")
+
 ## Los artefactos que están en la frontera
 
 Algunas cosas pertenecen a las dos disciplinas, y ahí es donde se producen la mayoría de las discusiones.

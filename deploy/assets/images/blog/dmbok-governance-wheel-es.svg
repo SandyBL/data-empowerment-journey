@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="560" viewBox="0 0 720 560" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">El gobierno de datos en el centro de las áreas de conocimiento del DMBOK</title>
+  <desc id="desc">El gobierno de datos en el centro de seis áreas de conocimiento de DAMA-DMBOK — arquitectura, calidad de datos, metadatos, datos maestros, seguridad y almacenamiento — con la decisión que el gobierno aporta a cada una.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">DAMA-DMBOK: POR QUÉ EL GOBIERNO ESTÁ EN EL CENTRO</text>
+  
+  <ellipse cx="360" cy="300" rx="214" ry="196" fill="none" stroke="#dfe3e7" stroke-width="1.5"/>
+  <!-- Arquitectura -->
+  <rect x="266" y="84" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="266" y="95" width="4" height="18" fill="#071c2c"/>
+  <text x="360" y="109" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Arquitectura</text>
+  <text x="360" y="49" font-size="10.5" fill="#31505c" text-anchor="middle">Aprueba el estado objetivo y las</text>
+  <text x="360" y="63" font-size="10.5" fill="#31505c" text-anchor="middle">excepciones</text>
+  <!-- Calidad de datos -->
+  <rect x="451.3294364098699" y="182" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="451.3294364098699" y="193" width="4" height="18" fill="#0a7568"/>
+  <text x="545.3294364098699" y="207" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Calidad de datos</text>
+  <text x="545.3294364098699" y="161" font-size="10.5" fill="#31505c" text-anchor="middle">Fija los umbrales y quién responde</text>
+  <!-- Datos maestros -->
+  <rect x="451.3294364098699" y="378" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="451.3294364098699" y="389" width="4" height="18" fill="#095b73"/>
+  <text x="545.3294364098699" y="403" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Datos maestros</text>
+  <text x="545.3294364098699" y="435" font-size="10.5" fill="#31505c" text-anchor="middle">Decide el registro maestro y su</text>
+  <text x="545.3294364098699" y="449" font-size="10.5" fill="#31505c" text-anchor="middle">supervivencia</text>
+  <!-- Seguridad -->
+  <rect x="266" y="476" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="266" y="487" width="4" height="18" fill="#ec6d57"/>
+  <text x="360" y="501" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Seguridad</text>
+  <text x="360" y="533" font-size="10.5" fill="#31505c" text-anchor="middle">Clasifica el dato y aprueba los</text>
+  <text x="360" y="547" font-size="10.5" fill="#31505c" text-anchor="middle">accesos</text>
+  <!-- Almacenamiento -->
+  <rect x="80.67056359013012" y="378" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="80.67056359013012" y="389" width="4" height="18" fill="#071c2c"/>
+  <text x="174.67056359013012" y="403" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Almacenamiento</text>
+  <text x="174.67056359013012" y="435" font-size="10.5" fill="#31505c" text-anchor="middle">Fija las reglas de retención y</text>
+  <text x="174.67056359013012" y="449" font-size="10.5" fill="#31505c" text-anchor="middle">borrado</text>
+  <!-- Metadatos -->
+  <rect x="80.67056359013014" y="181.99999999999997" width="188" height="40" rx="20" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="80.67056359013014" y="192.99999999999997" width="4" height="18" fill="#0a7568"/>
+  <text x="174.67056359013014" y="206.99999999999997" font-size="12.5" font-weight="600" fill="#071c2c" text-anchor="middle">Metadatos</text>
+  <text x="174.67056359013014" y="160.99999999999997" font-size="10.5" fill="#31505c" text-anchor="middle">Exige el glosario y el linaje</text>
+  <circle cx="360" cy="300" r="96" fill="#071c2c"/>
+  <circle cx="360" cy="300" r="87" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <text x="360" y="291" font-size="18" font-weight="600" fill="#ffffff" text-anchor="middle">GOBIERNO DE</text>
+  <text x="360" y="313" font-size="18" font-weight="600" fill="#ffffff" text-anchor="middle">DATOS</text>
+  <text x="360" y="337" font-size="9" font-weight="700" fill="#62e6bd" letter-spacing="1" text-anchor="middle">DECIDE · ARBITRA</text>
+</svg>

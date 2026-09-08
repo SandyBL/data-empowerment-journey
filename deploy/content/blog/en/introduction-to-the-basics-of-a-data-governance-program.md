@@ -77,6 +77,8 @@ One reliable early win: deduplication on a core entity with a [single source of 
 
 A note on where to publish quality results. The instinct is to build a governance dashboard, and the problem with a governance dashboard is that it is read by the people who built it. If completeness on customer email is a business metric, it belongs in the operations review next to the other business metrics. That placement does more for adoption than any communications plan.
 
+![The six building blocks of a data governance programme](/assets/images/blog/governance-program-building-blocks-en.svg "Six blocks that only work together: any one of them missing is the usual reason a governance programme stalls.")
+
 ## The order matters
 
 The six foundations are not independent, and building them out of sequence is the usual cause of stalled programs.

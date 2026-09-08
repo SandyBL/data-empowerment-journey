@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="702" viewBox="0 0 720 702" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Five misconceptions about data governance, and what it actually is</title>
+  <desc id="desc">Five common claims about data governance — that it is a tool, that it belongs to IT, that it slows the business down, that it is a project, and that it is only for regulated industries — each answered with what governance actually is.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">FIVE THINGS DATA GOVERNANCE IS NOT</text>
+  
+  <!-- It is a set of decisions, recorded -->
+  <rect x="24" y="48" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="104" fill="#071c2c"/>
+  <text x="48" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">MYTH 01 · IT IS A TOOL YOU BUY</text>
+  <text x="48" y="98" font-size="17" font-weight="600" fill="#071c2c">It is a set of decisions, recorded</text>
+  <text x="48" y="120" font-size="12.5" fill="#31505c">A catalogue with no named owner and no approval path is a search box. The tool stores the</text>
+  <text x="48" y="137" font-size="12.5" fill="#31505c">decision; it does not make it.</text>
+  <line x1="360" y1="154" x2="360" y2="178" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- The business owns the definitions -->
+  <rect x="24" y="180" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="180" width="4" height="104" fill="#0a7568"/>
+  <text x="48" y="206" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">MYTH 02 · IT BELONGS TO IT</text>
+  <text x="48" y="230" font-size="17" font-weight="600" fill="#071c2c">The business owns the definitions</text>
+  <text x="48" y="252" font-size="12.5" fill="#31505c">IT can build the pipeline, but only the business can say what an active customer is and which error</text>
+  <text x="48" y="269" font-size="12.5" fill="#31505c">rate is acceptable.</text>
+  <line x1="360" y1="286" x2="360" y2="310" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- It removes the rework -->
+  <rect x="24" y="312" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="312" width="4" height="104" fill="#095b73"/>
+  <text x="48" y="338" font-size="10" font-weight="700" fill="#095b73" letter-spacing="1.4">MYTH 03 · IT SLOWS US DOWN</text>
+  <text x="48" y="362" font-size="17" font-weight="600" fill="#071c2c">It removes the rework</text>
+  <text x="48" y="384" font-size="12.5" fill="#31505c">The delay is not the approval path; it is the three weeks spent arguing after the fact about whose</text>
+  <text x="48" y="401" font-size="12.5" fill="#31505c">number is right.</text>
+  <line x1="360" y1="418" x2="360" y2="442" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- It is an operating capability -->
+  <rect x="24" y="444" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="444" width="4" height="104" fill="#ec6d57"/>
+  <text x="48" y="470" font-size="10" font-weight="700" fill="#ec6d57" letter-spacing="1.4">MYTH 04 · IT IS A PROJECT</text>
+  <text x="48" y="494" font-size="17" font-weight="600" fill="#071c2c">It is an operating capability</text>
+  <text x="48" y="516" font-size="12.5" fill="#31505c">Projects end. Definitions change, systems get replaced and people leave, so the decision-making</text>
+  <text x="48" y="533" font-size="12.5" fill="#31505c">has to outlive the rollout.</text>
+  <line x1="360" y1="550" x2="360" y2="574" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Any company that decides on data needs it -->
+  <rect x="24" y="576" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="576" width="4" height="104" fill="#071c2c"/>
+  <text x="48" y="602" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">MYTH 05 · IT IS ONLY FOR BANKS</text>
+  <text x="48" y="626" font-size="17" font-weight="600" fill="#071c2c">Any company that decides on data needs it</text>
+  <text x="48" y="648" font-size="12.5" fill="#31505c">Regulation sets a floor, not the reason. If a wrong number costs you a decision, you already have</text>
+  <text x="48" y="665" font-size="12.5" fill="#31505c">a governance problem.</text>
+</svg>

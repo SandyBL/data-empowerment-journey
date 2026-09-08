@@ -78,6 +78,8 @@ Uma nota sobre onde publicar resultados de qualidade. O instinto é construir um
 
 Uma vitória inicial confiável: deduplicação de uma entidade principal com uma [fonte única da verdade](/pt/glossary/single-source-of-truth/) declarada depois. É visível, é mensurável e só permanece corrigida por causa da decisão de governança que veio atrás.
 
+![Os seis pilares de um programa de governança de dados](/assets/images/blog/governance-program-building-blocks-pt.svg "Seis pilares que só funcionam juntos: faltar qualquer um deles é a razão habitual de um programa empacar.")
+
 ## A ordem importa
 
 Os seis fundamentos não são independentes, e construí-los fora de sequência é a causa habitual dos programas travados.

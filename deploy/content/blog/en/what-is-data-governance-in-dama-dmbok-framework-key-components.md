@@ -30,6 +30,8 @@ Three words in there do most of the work.
 
 **Over the management of data assets** is the part most often missed. Governance is not the management of data. It is authority exercised *over* that management. It sits above the work rather than doing it, which is exactly why it can be small.
 
+![Data governance at the centre of six DAMA-DMBOK knowledge areas](/assets/images/blog/dmbok-governance-wheel-en.svg "Governance is the hub of the DMBOK wheel because each surrounding area needs a decision it cannot make on its own.")
+
 ## Why governance sits at the center of the wheel
 
 The DMBOK wheel puts data governance in the hub with the other knowledge areas around it — architecture, modeling, storage and operations, security, integration, documents and content, reference and master data, warehousing and business intelligence, [metadata](/en/glossary/metadata/), and [data quality](/en/glossary/data-quality/).

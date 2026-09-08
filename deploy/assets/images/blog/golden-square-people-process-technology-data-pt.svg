@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="370" viewBox="0 0 720 370" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Pessoas, processos, tecnologia e dados, e como cada um falha sozinho</title>
+  <desc id="desc">Os quatro pilares da governança de dados — pessoas, processos, tecnologia e dados — cada um com o que contribui e a forma concreta em que um programa falha quando esse pilar falta.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">AS QUATRO COISAS QUE A GOVERNANÇA PRECISA ACERTAR</text>
+  
+  <!-- Pessoas -->
+  <rect x="24" y="48" width="326" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="326" height="4" fill="#071c2c"/>
+  <text x="44" y="76" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SEM ELAS: NINGUÉM DECIDE</text>
+  <text x="44" y="98" font-size="16" font-weight="600" fill="#071c2c">Pessoas</text>
+  <text x="44" y="118" font-size="11.8" fill="#31505c">Donos e stewards com nome e direitos de</text>
+  <text x="44" y="134" font-size="11.8" fill="#31505c">decisão reais. Sem isso, cada definição fica</text>
+  <text x="44" y="150" font-size="11.8" fill="#31505c">aberta porque ninguém tem a tarefa de</text>
+  <text x="44" y="166" font-size="11.8" fill="#31505c">fechá-la.</text>
+  <!-- Processos -->
+  <rect x="370" y="48" width="326" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="48" width="326" height="4" fill="#0a7568"/>
+  <text x="390" y="76" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SEM ELES: TODO CASO É NOVO</text>
+  <text x="390" y="98" font-size="16" font-weight="600" fill="#071c2c">Processos</text>
+  <text x="390" y="118" font-size="11.8" fill="#31505c">O caminho repetível de uma pergunta a uma</text>
+  <text x="390" y="134" font-size="11.8" fill="#31505c">resposta aprovada. Sem isso, cada definição é</text>
+  <text x="390" y="150" font-size="11.8" fill="#31505c">rediscutida do zero em outra reunião.</text>
+  <!-- Tecnologia -->
+  <rect x="24" y="212" width="326" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="212" width="326" height="4" fill="#095b73"/>
+  <text x="44" y="240" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">SEM ELA: NADA ESCALA</text>
+  <text x="44" y="262" font-size="16" font-weight="600" fill="#071c2c">Tecnologia</text>
+  <text x="44" y="282" font-size="11.8" fill="#31505c">O catálogo, a linhagem, os controles</text>
+  <text x="44" y="298" font-size="11.8" fill="#31505c">automáticos. Sem isso, as regras vivem em</text>
+  <text x="44" y="314" font-size="11.8" fill="#31505c">uma planilha que só o autor mantém.</text>
+  <!-- Dados -->
+  <rect x="370" y="212" width="326" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="212" width="326" height="4" fill="#ec6d57"/>
+  <text x="390" y="240" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">SEM ELES: É TUDO TEORIA</text>
+  <text x="390" y="262" font-size="16" font-weight="600" fill="#071c2c">Dados</text>
+  <text x="390" y="282" font-size="11.8" fill="#31505c">As definições, regras de qualidade e</text>
+  <text x="390" y="298" font-size="11.8" fill="#31505c">classificações reais. Sem isso, você tem um</text>
+  <text x="390" y="314" font-size="11.8" fill="#31505c">framework de governança que não governa</text>
+  <text x="390" y="330" font-size="11.8" fill="#31505c">nada.</text>
+</svg>

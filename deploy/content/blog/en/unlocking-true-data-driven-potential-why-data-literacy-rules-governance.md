@@ -43,6 +43,8 @@ You do not need a survey to spot this. The patterns are consistent, and each one
 
 The last one is the most expensive and the hardest to see, because it looks like consensus.
 
+![A two-by-two of data literacy against data governance maturity](/assets/images/blog/data-literacy-governance-matrix-en.svg "Governance without literacy is paperwork; literacy without governance is four teams confidently quoting four numbers.")
+
 ## Why literacy determines whether governance is welcomed
 
 This is the part that gets missed, so it is worth stating directly: governance controls are experienced as bureaucracy in exact proportion to how little the person subject to them understands why they exist.

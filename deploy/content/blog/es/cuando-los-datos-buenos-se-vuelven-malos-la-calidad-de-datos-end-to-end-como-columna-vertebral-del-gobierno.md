@@ -92,6 +92,8 @@ La última milla en la entrega de información es su última barrera de defensa 
 
 ---
 
+![Diagrama de responsabilidad organizativa en el gobierno de datos](/assets/images/blog/data-governance-roles-es.svg "Quién responde por la calidad de los datos en cada etapa del pipeline, y a dónde lleva un consumidor de negocio una discrepancia.")
+
 ## Personas y Responsabilidad: Asociar Roles a la Calidad del Dato
 
 Los procesos y la tecnología son insuficientes si no existe una estructura organizativa con responsabilidades claras. Los modelos de gobierno de alto rendimiento [Gartner, Data Governance Framework] asignan la calidad del dato a roles bien definidos dentro de la empresa:

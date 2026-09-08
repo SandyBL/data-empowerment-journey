@@ -63,6 +63,8 @@ Ele obriga você a considerar a forma. Registros estruturados num warehouse, log
 
 E ele obriga você a pensar em ciclo de vida. O dado é criado, usado, fica defasado e em algum momento deveria ser arquivado ou apagado. Retenção com gatilho real é uma decisão de governança que a maioria dos programas adia indefinidamente, e é assim que organizações acabam guardando dados pessoais por onze anos sem base defensável.
 
+![Pessoas, processos, tecnologia e dados, com a forma em que um programa de governança falha sem cada um](/assets/images/blog/golden-square-people-process-technology-data-pt.svg "Cada pilar contribui com algo que os outros não podem, e por isso um programa sem um deles falha de forma previsível.")
+
 ## Como é a falha em cada canto
 
 É aqui que está o valor diagnóstico do modelo.

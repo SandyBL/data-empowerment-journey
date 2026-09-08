@@ -45,6 +45,8 @@ No necesitas una encuesta para detectar esto. Los patrones son constantes, y cad
 
 El último es el más caro y el más difícil de ver, porque parece consenso.
 
+![Una matriz de dos por dos de alfabetización de datos frente a madurez del gobierno de datos](/assets/images/blog/data-literacy-governance-matrix-es.svg "El gobierno sin alfabetización es papeleo; la alfabetización sin gobierno son cuatro equipos citando cuatro cifras con total seguridad.")
+
 ## Por qué la alfabetización determina si el gobierno se acepta
 
 Esta es la parte que se pasa por alto, así que conviene decirla directamente: los controles de gobierno se viven como burocracia en proporción exacta a lo poco que entienden por qué existen quienes están sujetos a ellos.
