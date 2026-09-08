@@ -19,6 +19,7 @@ import path from 'node:path';
 
 import { PORTRAIT, SITE_ORIGIN, imageCdn } from './brand.mjs';
 import { escapeHtml, parseFrontMatter, renderMarkdown } from './markdown.mjs';
+import { resolveImageSizes } from './media.mjs';
 import { localizeLinks, stripOtherLanguages } from './home-pages.mjs';
 import {
   HOME_PATH,
@@ -141,6 +142,10 @@ export const loadSitePages = async (projectDirectory) => {
       pages.push({
         lang,
         slug,
+        // Resolved at load time, where the read is already asynchronous: it
+        // fails the build on an image the site cannot serve and measures the
+        // ones it can, exactly as an article does.
+        imageSize: await resolveImageSizes(body, `content/pages/${lang}/${file}`),
         // Pages share a slug across languages, so the slug is the translation
         // key. Terms and articles differ; these do not, because the slug is a
         // URL segment chosen for search rather than translated prose.
@@ -203,10 +208,10 @@ const prepareInjected = (html, lang) =>
     .replace(/href="#scorecard"/g, `href="${pagePath(lang, 'maturity-assessment')}"`);
 
 /** Renders one Markdown chunk as a prose block, or nothing if it is blank. */
-const proseBlock = (markdown) => {
+const proseBlock = (markdown, imageSize) => {
   if (!markdown.trim()) return '';
   return `    <div class="page-section blog-shell"><div class="page-prose">
-${renderMarkdown(markdown).html}
+${renderMarkdown(markdown, { imageSize }).html}
     </div></div>`;
 };
 
@@ -219,7 +224,7 @@ const renderBody = (page, partials, boardSummary) => {
   let markdown = [];
 
   const flush = () => {
-    const block = proseBlock(markdown.join('\n'));
+    const block = proseBlock(markdown.join('\n'), page.imageSize);
     if (block) blocks.push(block);
     markdown = [];
   };

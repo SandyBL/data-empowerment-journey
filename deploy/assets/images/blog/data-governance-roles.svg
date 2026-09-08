@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="580" viewBox="0 0 720 580" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Data governance organizational accountability for data quality</title>
+  <desc id="desc">Four roles in sequence — data owner, data steward, data engineer and business consumer — each with the data quality responsibility it holds, and a feedback path from the business consumer back to the data steward.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="110" y="24" font-size="10.5" font-weight="700" letter-spacing="1.6" fill="#0a7568">END-TO-END DATA QUALITY: WHO IS ACCOUNTABLE</text>
+
+  <!-- Data owner -->
+  <rect x="110" y="44" width="580" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="110" y="44" width="4" height="104" fill="#071c2c"/>
+  <text x="134" y="70" font-size="10" font-weight="700" letter-spacing="1.4" fill="#071c2c">STRATEGIC ACCOUNTABILITY</text>
+  <text x="134" y="94" font-size="17" font-weight="600" fill="#071c2c">Data owner</text>
+  <text x="134" y="116" font-size="12.5" fill="#31505c">Defines what high-quality data means in business terms, sets the acceptable</text>
+  <text x="134" y="133" font-size="12.5" fill="#31505c">error thresholds, and approves the remediation budget.</text>
+
+  <line x1="400" y1="150" x2="400" y2="174" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Data steward -->
+  <rect x="110" y="176" width="580" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="110" y="176" width="4" height="104" fill="#0a7568"/>
+  <text x="134" y="202" font-size="10" font-weight="700" letter-spacing="1.4" fill="#0a7568">TACTICAL OVERSIGHT</text>
+  <text x="134" y="226" font-size="17" font-weight="600" fill="#071c2c">Data steward</text>
+  <text x="134" y="248" font-size="12.5" fill="#31505c">Writes the validation rules, investigates why a check failed, and owns both</text>
+  <text x="134" y="265" font-size="12.5" fill="#31505c">the remediation workflow and the glossary definition behind it.</text>
+
+  <line x1="400" y1="282" x2="400" y2="306" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Data engineer -->
+  <rect x="110" y="308" width="580" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="110" y="308" width="4" height="104" fill="#095b73"/>
+  <text x="134" y="334" font-size="10" font-weight="700" letter-spacing="1.4" fill="#095b73">TECHNICAL EXECUTION</text>
+  <text x="134" y="358" font-size="17" font-weight="600" fill="#071c2c">Data engineer</text>
+  <text x="134" y="380" font-size="12.5" fill="#31505c">Builds the automated tests into the pipeline, so a failed check halts the run</text>
+  <text x="134" y="397" font-size="12.5" fill="#31505c">and routes the corrupted records to quarantine instead of to a dashboard.</text>
+
+  <line x1="400" y1="414" x2="400" y2="438" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Business consumer -->
+  <rect x="110" y="440" width="580" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="110" y="440" width="4" height="104" fill="#ec6d57"/>
+  <text x="134" y="466" font-size="10" font-weight="700" letter-spacing="1.4" fill="#ec6d57">ACTIVE FEEDBACK LOOP</text>
+  <text x="134" y="490" font-size="17" font-weight="600" fill="#071c2c">Business consumer</text>
+  <text x="134" y="512" font-size="12.5" fill="#31505c">Reads the numbers, and escalates a discrepancy to the steward rather than</text>
+  <text x="134" y="529" font-size="12.5" fill="#31505c">rebuilding the metric in a shadow spreadsheet nobody governs.</text>
+
+  <!-- The escalation path that closes the loop, from the consumer back to the steward. -->
+  <path d="M 110 500 H 62 V 228 H 106" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-loop)"/>
+  <text x="52" y="364" font-size="10" font-weight="700" letter-spacing="1.2" fill="#0a7568" text-anchor="middle" transform="rotate(-90 52 364)">ESCALATION</text>
+</svg>

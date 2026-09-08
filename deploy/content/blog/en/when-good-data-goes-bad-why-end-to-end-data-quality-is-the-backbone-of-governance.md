@@ -84,7 +84,7 @@ The last mile of data delivery is your final safety net before insights inform c
 * **Business Glossary Alignment:** Verify that underlying reporting queries pull from standardized data models rather than custom, ungoverned SQL calculations embedded directly within BI tools.
 * **Lineage Visibility:** Provide business consumers with immediate visibility into data freshness and pipeline status directly within the BI interface, establishing clear trust signals.
 
-![Data Governance Organizational Accountability Diagram](/images/data-governance-roles.svg)
+![Data Governance Organizational Accountability Diagram](/assets/images/blog/data-governance-roles.svg "Who is accountable for data quality at each stage of the pipeline, and where a business consumer takes a discrepancy.")
 
 ---
 

@@ -11,6 +11,12 @@ backend:
 # think they are editing. Turn it on in a local working copy when you need it;
 # do not commit it.
 
+# Where an uploaded image is committed, and the address it answers on once the
+# deploy is live. The two differ because Netlify's base directory is "deploy":
+# the repository path carries that prefix and the public URL does not. Both
+# folders are shared by all three language collections, so the same diagram can
+# be referenced from the English, Spanish and Portuguese version of an article
+# without uploading it three times.
 media_folder: "deploy/assets/images/blog"
 public_folder: "/assets/images/blog"
 
@@ -69,7 +75,20 @@ collections:
         name: "body"
         widget: "markdown"
         buttons: ["bold", "italic", "link", "heading-two", "heading-three", "quote", "bulleted-list", "numbered-list"]
-        editor_components: []
+        # The image component is the whole picture workflow, and it lives on
+        # this page rather than anywhere else: the + button opens the media
+        # library, the library uploads the file into media_folder above as part
+        # of saving the article, and the component writes plain Markdown --
+        # ![alt](/assets/images/blog/diagram.svg "Caption") -- which is what
+        # scripts/lib/markdown.mjs renders as a figure. Nothing here is
+        # format-specific, so an SVG diagram works exactly as a PNG does.
+        #
+        # It is the only component enabled. "code-block" is the other one Decap
+        # ships and these articles have no code in them, and an empty list --
+        # what this said before -- removes the + button altogether, which is
+        # why there was no way to place an image from the editor at all.
+        editor_components: ["image"]
+        hint: "Use the + button to place an image: upload it there (SVG, PNG or JPEG) and it is committed with the article. Fill in the alt text, which readers using a screen reader hear instead of the picture, and the caption, which prints under it."
 
   - name: "blog_es"
     label: "Blog — Español"

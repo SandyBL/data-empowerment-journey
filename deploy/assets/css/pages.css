@@ -234,6 +234,33 @@
   background: var(--line);
 }
 
+/* Markdown images, matching the treatment blog.css gives them in an article so
+   the same picture looks the same wherever it is referenced from. */
+.page-prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.page-prose figure {
+  margin: 1.9em 0;
+}
+
+.page-prose figure img {
+  display: block;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  border-radius: 2px 22px 2px 2px;
+}
+
+.page-prose figcaption {
+  margin-top: 10px;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
 /* Cards used by /advisory/, /workshops/ and /about/ for engagement shapes,
    credentials and anything else that is a list of comparable things. */
 .page-cards {
