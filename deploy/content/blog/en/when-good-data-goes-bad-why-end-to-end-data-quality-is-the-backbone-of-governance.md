@@ -119,9 +119,11 @@ Consider a multi-national enterprise evaluating a major acquisition:
 * **With End-to-End Governance:** Clean, audited data domains allow the internal strategy team to evaluate target assets immediately using verified, trusted datasets—saving time, reducing advisory costs, and mitigating strategic risk.
 
 Traditional Reactive Approach:
+
 [ Bad Data ] ---> [ Manual Discovery ] ---> [ Expensive Firefighting ] ---> [ Loss of Trust ]
 
 Proactive Governance Approach:
+
 [ Ingestion Guardrails ] ---> [ Automated Quality Tests ] ---> [ Clean Data ] ---> [ High-Velocity Decisions ]
 
 ## Building Your End-to-End Quality Roadmap
