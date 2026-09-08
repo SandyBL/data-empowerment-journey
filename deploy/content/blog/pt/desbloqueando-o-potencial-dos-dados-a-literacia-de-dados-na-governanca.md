@@ -45,6 +45,8 @@ Você não precisa de pesquisa para detectar isso. Os padrões são constantes, 
 
 O último é o mais caro e o mais difícil de ver, porque parece consenso.
 
+![Uma matriz dois por dois de literacia de dados contra maturidade da governança de dados](/assets/images/blog/data-literacy-governance-matrix-pt.svg "Governança sem literacia é papelada; literacia sem governança são quatro times citando quatro números com toda a confiança.")
+
 ## Por que a alfabetização determina se a governança é aceita
 
 Esta é a parte que passa batido, então vale dizer diretamente: controles de governança são vividos como burocracia na proporção exata em que quem está sujeito a eles não entende por que eles existem.

@@ -92,6 +92,8 @@ A última milha na entrega da informação representa a defesa final antes que o
 
 ---
 
+![Diagrama de responsabilidade organizacional na governança de dados](/assets/images/blog/data-governance-roles-pt.svg "Quem responde pela qualidade dos dados em cada etapa do pipeline, e para onde um consumidor de negócio leva uma divergência.")
+
 ## Pessoas e Responsabilidade: Associando Papéis à Qualidade dos Dados
 
 Processos e tecnologias não geram resultados sem uma estrutura organizacional clara. Modelos eficientes de governança [Gartner, Data Governance Framework] distribuem as responsabilidades de qualidade entre papéis bem definidos na empresa:

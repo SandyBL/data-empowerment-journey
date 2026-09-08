@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="247" viewBox="0 0 720 247" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">As quatro etapas que transformam literacia de dados em capacidade</title>
+  <desc id="desc">Quatro etapas em ciclo — definir as decisões, ensinar as perguntas, embutir a resposta no fluxo de trabalho e medir a decisão — em que a medição alimenta a próxima rodada de definições em vez de encerrar o programa.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">LITERACIA DE DADOS: UMA CAPACIDADE, NÃO UM CURSO</text>
+  
+  <!-- Definir as decisões -->
+  <rect x="24" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="156" height="4" fill="#071c2c"/>
+  <text x="102" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Definir as decisões</text>
+  <text x="102" y="128" font-size="11" fill="#31505c" text-anchor="middle">Nomear as decisões</text>
+  <text x="102" y="143" font-size="11" fill="#31505c" text-anchor="middle">recorrentes que o negócio</text>
+  <text x="102" y="158" font-size="11" fill="#31505c" text-anchor="middle">realmente toma.</text>
+  <line x1="184" y1="76" x2="192" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Ensinar as perguntas -->
+  <rect x="196" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="196" y="48" width="156" height="4" fill="#0a7568"/>
+  <text x="274" y="76" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Ensinar as</text>
+  <text x="274" y="92" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">perguntas</text>
+  <text x="274" y="128" font-size="11" fill="#31505c" text-anchor="middle">Formar as pessoas para</text>
+  <text x="274" y="143" font-size="11" fill="#31505c" text-anchor="middle">perguntar o que um</text>
+  <text x="274" y="158" font-size="11" fill="#31505c" text-anchor="middle">número significa e de</text>
+  <text x="274" y="173" font-size="11" fill="#31505c" text-anchor="middle">onde veio.</text>
+  <line x1="356" y1="76" x2="364" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Embutir no fluxo -->
+  <rect x="368" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="368" y="48" width="156" height="4" fill="#095b73"/>
+  <text x="446" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Embutir no fluxo</text>
+  <text x="446" y="128" font-size="11" fill="#31505c" text-anchor="middle">Colocar a resposta</text>
+  <text x="446" y="143" font-size="11" fill="#31505c" text-anchor="middle">confiável dentro do</text>
+  <text x="446" y="158" font-size="11" fill="#31505c" text-anchor="middle">processo já usado.</text>
+  <line x1="528" y1="76" x2="536" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Medir a decisão -->
+  <rect x="540" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="540" y="48" width="156" height="4" fill="#ec6d57"/>
+  <text x="618" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Medir a decisão</text>
+  <text x="618" y="128" font-size="11" fill="#31505c" text-anchor="middle">Medir se a decisão</text>
+  <text x="618" y="143" font-size="11" fill="#31505c" text-anchor="middle">mudou, não quem</text>
+  <text x="618" y="158" font-size="11" fill="#31505c" text-anchor="middle">participou do treinamento.</text>
+  <!-- A MEDIÇÃO REDEFINE AS DECISÕES: what sends the reader back to the first stage. -->
+  <path d="M 618 189 V 215 H 102 V 193" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-loop)"/>
+  <rect x="222.793604" y="206" width="274.412792" height="18" fill="#ffffff"/>
+  <text x="360" y="218.5" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.2" text-anchor="middle">A MEDIÇÃO REDEFINE AS DECISÕES</text>
+</svg>

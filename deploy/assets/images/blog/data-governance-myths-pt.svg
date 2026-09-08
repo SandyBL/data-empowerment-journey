@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="702" viewBox="0 0 720 702" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Cinco mitos sobre governança de dados e o que ela realmente é</title>
+  <desc id="desc">Cinco afirmações comuns sobre governança de dados — que é uma ferramenta, que é assunto de TI, que atrasa o negócio, que é um projeto e que só vale para setores regulados — cada uma respondida com o que a governança realmente é.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">CINCO COISAS QUE A GOVERNANÇA DE DADOS NÃO É</text>
+  
+  <!-- É um conjunto de decisões registradas -->
+  <rect x="24" y="48" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="104" fill="#071c2c"/>
+  <text x="48" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">MITO 01 · É UMA FERRAMENTA QUE SE COMPRA</text>
+  <text x="48" y="98" font-size="17" font-weight="600" fill="#071c2c">É um conjunto de decisões registradas</text>
+  <text x="48" y="120" font-size="12.5" fill="#31505c">Um catálogo sem dono e sem caminho de aprovação é uma busca. A ferramenta guarda a</text>
+  <text x="48" y="137" font-size="12.5" fill="#31505c">decisão, não a toma.</text>
+  <line x1="360" y1="154" x2="360" y2="178" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- O negócio é dono das definições -->
+  <rect x="24" y="180" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="180" width="4" height="104" fill="#0a7568"/>
+  <text x="48" y="206" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">MITO 02 · É ASSUNTO DE TI</text>
+  <text x="48" y="230" font-size="17" font-weight="600" fill="#071c2c">O negócio é dono das definições</text>
+  <text x="48" y="252" font-size="12.5" fill="#31505c">TI constrói o pipeline, mas só o negócio pode dizer o que é um cliente ativo e qual taxa de erro é</text>
+  <text x="48" y="269" font-size="12.5" fill="#31505c">aceitável.</text>
+  <line x1="360" y1="286" x2="360" y2="310" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Ela elimina o retrabalho -->
+  <rect x="24" y="312" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="312" width="4" height="104" fill="#095b73"/>
+  <text x="48" y="338" font-size="10" font-weight="700" fill="#095b73" letter-spacing="1.4">MITO 03 · ISSO NOS ATRASA</text>
+  <text x="48" y="362" font-size="17" font-weight="600" fill="#071c2c">Ela elimina o retrabalho</text>
+  <text x="48" y="384" font-size="12.5" fill="#31505c">O atraso não é o caminho de aprovação: são as três semanas discutindo depois quem tem o</text>
+  <text x="48" y="401" font-size="12.5" fill="#31505c">número certo.</text>
+  <line x1="360" y1="418" x2="360" y2="442" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- É uma capacidade operacional -->
+  <rect x="24" y="444" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="444" width="4" height="104" fill="#ec6d57"/>
+  <text x="48" y="470" font-size="10" font-weight="700" fill="#ec6d57" letter-spacing="1.4">MITO 04 · É UM PROJETO</text>
+  <text x="48" y="494" font-size="17" font-weight="600" fill="#071c2c">É uma capacidade operacional</text>
+  <text x="48" y="516" font-size="12.5" fill="#31505c">Projetos terminam. Definições mudam, sistemas são trocados e pessoas saem: decidir precisa</text>
+  <text x="48" y="533" font-size="12.5" fill="#31505c">sobreviver ao rollout.</text>
+  <line x1="360" y1="550" x2="360" y2="574" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Serve a qualquer empresa que decide com dados -->
+  <rect x="24" y="576" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="576" width="4" height="104" fill="#071c2c"/>
+  <text x="48" y="602" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">MITO 05 · É SÓ PARA BANCOS</text>
+  <text x="48" y="626" font-size="17" font-weight="600" fill="#071c2c">Serve a qualquer empresa que decide com dados</text>
+  <text x="48" y="648" font-size="12.5" fill="#31505c">A regulação define um mínimo, não o motivo. Se um número errado custa uma decisão, você já</text>
+  <text x="48" y="665" font-size="12.5" fill="#31505c">tem um problema de governança.</text>
+</svg>

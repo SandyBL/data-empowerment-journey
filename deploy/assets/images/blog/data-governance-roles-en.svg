@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="570" viewBox="0 0 720 570" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Data governance organizational accountability for data quality</title>
+  <desc id="desc">Four roles in sequence — data owner, data steward, data engineer and business consumer — each with the data quality responsibility it holds, and a feedback path from the business consumer back to the data steward.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">END-TO-END DATA QUALITY: WHO IS ACCOUNTABLE</text>
+  
+  <!-- Data owner -->
+  <rect x="96" y="48" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="48" width="4" height="104" fill="#071c2c"/>
+  <text x="120" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">STRATEGIC ACCOUNTABILITY</text>
+  <text x="120" y="98" font-size="17" font-weight="600" fill="#071c2c">Data owner</text>
+  <text x="120" y="120" font-size="12.5" fill="#31505c">Defines what high-quality data means in business terms, sets the acceptable error</text>
+  <text x="120" y="137" font-size="12.5" fill="#31505c">thresholds, and approves the remediation budget.</text>
+  <line x1="396" y1="154" x2="396" y2="178" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Data steward -->
+  <rect x="96" y="180" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="180" width="4" height="104" fill="#0a7568"/>
+  <text x="120" y="206" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">TACTICAL OVERSIGHT</text>
+  <text x="120" y="230" font-size="17" font-weight="600" fill="#071c2c">Data steward</text>
+  <text x="120" y="252" font-size="12.5" fill="#31505c">Writes the validation rules, investigates why a check failed, and owns both the</text>
+  <text x="120" y="269" font-size="12.5" fill="#31505c">remediation workflow and the glossary definition behind it.</text>
+  <line x1="396" y1="286" x2="396" y2="310" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Data engineer -->
+  <rect x="96" y="312" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="312" width="4" height="104" fill="#095b73"/>
+  <text x="120" y="338" font-size="10" font-weight="700" fill="#095b73" letter-spacing="1.4">TECHNICAL EXECUTION</text>
+  <text x="120" y="362" font-size="17" font-weight="600" fill="#071c2c">Data engineer</text>
+  <text x="120" y="384" font-size="12.5" fill="#31505c">Builds the automated tests into the pipeline, so a failed check halts the run and routes</text>
+  <text x="120" y="401" font-size="12.5" fill="#31505c">the corrupted records to quarantine.</text>
+  <line x1="396" y1="418" x2="396" y2="442" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Business consumer -->
+  <rect x="96" y="444" width="600" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="96" y="444" width="4" height="104" fill="#ec6d57"/>
+  <text x="120" y="470" font-size="10" font-weight="700" fill="#ec6d57" letter-spacing="1.4">ACTIVE FEEDBACK LOOP</text>
+  <text x="120" y="494" font-size="17" font-weight="600" fill="#071c2c">Business consumer</text>
+  <text x="120" y="516" font-size="12.5" fill="#31505c">Reads the numbers, and escalates a discrepancy to the steward rather than rebuilding</text>
+  <text x="120" y="533" font-size="12.5" fill="#31505c">the metric in a shadow spreadsheet nobody governs.</text>
+  <!-- ESCALATION: the path that closes the loop. -->
+  <path d="M 96 504 H 62 V 232 H 92" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-loop)"/>
+  <text x="52" y="342" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.2" text-anchor="middle" transform="rotate(-90 52 342)">ESCALATION</text>
+</svg>

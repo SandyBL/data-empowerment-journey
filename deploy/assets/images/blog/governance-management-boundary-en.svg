@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="356" viewBox="0 0 720 356" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">The boundary between data governance and data management</title>
+  <desc id="desc">Three shared artifacts — the business glossary, data quality rules and access policy — with the decision each one needs from governance on the left and the delivery each one needs from data management on the right.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">WHERE GOVERNANCE ENDS AND MANAGEMENT BEGINS</text>
+  
+  <rect x="24" y="48" width="216" height="34" rx="5" fill="#071c2c"/>
+  <text x="132" y="70" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="1.3" text-anchor="middle">GOVERNANCE DECIDES</text>
+  <rect x="252" y="48" width="216" height="34" rx="5" fill="#ec6d57"/>
+  <text x="360" y="70" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="1.3" text-anchor="middle">SHARED ARTIFACT</text>
+  <rect x="480" y="48" width="216" height="34" rx="5" fill="#095b73"/>
+  <text x="588" y="70" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="1.3" text-anchor="middle">MANAGEMENT DELIVERS</text>
+  <!-- Business glossary -->
+  <rect x="24" y="92" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="92" width="4" height="74" fill="#071c2c"/>
+  <text x="42" y="118" font-size="11.4" fill="#31505c">Approves the definition of an</text>
+  <text x="42" y="134" font-size="11.4" fill="#31505c">active customer and names the</text>
+  <text x="42" y="150" font-size="11.4" fill="#31505c">owner who defends it.</text>
+  <rect x="480" y="92" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="480" y="92" width="4" height="74" fill="#095b73"/>
+  <text x="498" y="118" font-size="11.4" fill="#31505c">Publishes it in the catalogue and</text>
+  <text x="498" y="134" font-size="11.4" fill="#31505c">wires it to the tables and reports</text>
+  <text x="498" y="150" font-size="11.4" fill="#31505c">that use it.</text>
+  <rect x="252" y="92" width="216" height="74" rx="5" fill="#ffffff" stroke="#ec6d57"/>
+  <text x="360" y="134" font-size="14" font-weight="600" fill="#071c2c" text-anchor="middle">Business glossary</text>
+  <line x1="241" y1="129" x2="249" y2="129" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="129" x2="471" y2="129" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Data quality rules -->
+  <rect x="24" y="176" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="176" width="4" height="74" fill="#071c2c"/>
+  <text x="42" y="202" font-size="11.4" fill="#31505c">Sets the threshold that counts</text>
+  <text x="42" y="218" font-size="11.4" fill="#31505c">as acceptable and who is called</text>
+  <text x="42" y="234" font-size="11.4" fill="#31505c">when it breaks.</text>
+  <rect x="480" y="176" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="480" y="176" width="4" height="74" fill="#095b73"/>
+  <text x="498" y="202" font-size="11.4" fill="#31505c">Runs the checks in the pipeline</text>
+  <text x="498" y="218" font-size="11.4" fill="#31505c">and quarantines the records that</text>
+  <text x="498" y="234" font-size="11.4" fill="#31505c">fail them.</text>
+  <rect x="252" y="176" width="216" height="74" rx="5" fill="#ffffff" stroke="#ec6d57"/>
+  <text x="360" y="218" font-size="14" font-weight="600" fill="#071c2c" text-anchor="middle">Data quality rules</text>
+  <line x1="241" y1="213" x2="249" y2="213" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="213" x2="471" y2="213" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Access policy -->
+  <rect x="24" y="260" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="260" width="4" height="74" fill="#071c2c"/>
+  <text x="42" y="286" font-size="11.4" fill="#31505c">Rules who may see which data,</text>
+  <text x="42" y="302" font-size="11.4" fill="#31505c">for which purpose, and for how</text>
+  <text x="42" y="318" font-size="11.4" fill="#31505c">long.</text>
+  <rect x="480" y="260" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="480" y="260" width="4" height="74" fill="#095b73"/>
+  <text x="498" y="286" font-size="11.4" fill="#31505c">Provisions the roles, enforces</text>
+  <text x="498" y="302" font-size="11.4" fill="#31505c">masking, and produces the</text>
+  <text x="498" y="318" font-size="11.4" fill="#31505c">access audit trail.</text>
+  <rect x="252" y="260" width="216" height="74" rx="5" fill="#ffffff" stroke="#ec6d57"/>
+  <text x="360" y="302" font-size="14" font-weight="600" fill="#071c2c" text-anchor="middle">Access policy</text>
+  <line x1="241" y1="297" x2="249" y2="297" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="297" x2="471" y2="297" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>

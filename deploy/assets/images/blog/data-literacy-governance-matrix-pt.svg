@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="402" viewBox="0 0 720 402" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">A literacia de dados cruzada com a maturidade da governança</title>
+  <desc id="desc">Uma matriz dois por dois de literacia de dados contra maturidade da governança: seguros e errados, realmente orientados por dados, decidindo por intuição, e governados mas sem uso.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">LITERACIA E GOVERNANÇA: QUATRO LUGARES POSSÍVEIS</text>
+  
+  <!-- Seguros e errados -->
+  <rect x="78" y="48" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="78" y="48" width="299" height="4" fill="#071c2c"/>
+  <text x="98" y="76" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">HABILIDADE SEM ACORDO</text>
+  <text x="98" y="98" font-size="16" font-weight="600" fill="#071c2c">Seguros e errados</text>
+  <text x="98" y="118" font-size="11.8" fill="#31505c">Cada time monta a própria análise e</text>
+  <text x="98" y="134" font-size="11.8" fill="#31505c">quatro times chegam a quatro números de</text>
+  <text x="98" y="150" font-size="11.8" fill="#31505c">receita. A habilidade existe; falta a</text>
+  <text x="98" y="166" font-size="11.8" fill="#31505c">definição comum.</text>
+  <!-- Orientados por dados -->
+  <rect x="397" y="48" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="397" y="48" width="299" height="4" fill="#0a7568"/>
+  <text x="417" y="76" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">O OBJETIVO</text>
+  <text x="417" y="98" font-size="16" font-weight="600" fill="#071c2c">Orientados por dados</text>
+  <text x="417" y="118" font-size="11.8" fill="#31505c">As pessoas fazem boas perguntas e</text>
+  <text x="417" y="134" font-size="11.8" fill="#31505c">recebem uma única resposta confiável. O</text>
+  <text x="417" y="150" font-size="11.8" fill="#31505c">único quadrante em que um painel muda</text>
+  <text x="417" y="166" font-size="11.8" fill="#31505c">de fato uma decisão.</text>
+  <!-- Decidindo por intuição -->
+  <rect x="78" y="212" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="78" y="212" width="299" height="4" fill="#095b73"/>
+  <text x="98" y="240" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">O PONTO DE PARTIDA</text>
+  <text x="98" y="262" font-size="16" font-weight="600" fill="#071c2c">Decidindo por intuição</text>
+  <text x="98" y="282" font-size="11.8" fill="#31505c">Os dados existem, mas ninguém confia</text>
+  <text x="98" y="298" font-size="11.8" fill="#31505c">neles nem os usa. Comece pelas</text>
+  <text x="98" y="314" font-size="11.8" fill="#31505c">decisões que já são tomadas, não por um</text>
+  <text x="98" y="330" font-size="11.8" fill="#31505c">catálogo.</text>
+  <!-- Governados mas sem uso -->
+  <rect x="397" y="212" width="299" height="144" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="397" y="212" width="299" height="4" fill="#ec6d57"/>
+  <text x="417" y="240" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">GOVERNANÇA DE VITRINE</text>
+  <text x="417" y="262" font-size="16" font-weight="600" fill="#071c2c">Governados mas sem uso</text>
+  <text x="417" y="282" font-size="11.8" fill="#31505c">O glossário está completo, as políticas</text>
+  <text x="417" y="298" font-size="11.8" fill="#31505c">aprovadas, e ninguém abre nenhum dos</text>
+  <text x="417" y="314" font-size="11.8" fill="#31505c">dois. A governança virou papelada.</text>
+  <line x1="58" y1="356" x2="58" y2="48" stroke="#dfe3e7" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="50" y="202" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2" text-anchor="middle" transform="rotate(-90 50 202)">LITERACIA DE DADOS</text>
+  <line x1="78" y1="374" x2="696" y2="374" stroke="#dfe3e7" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="387" y="392" font-size="10" font-weight="700" fill="#31505c" letter-spacing="1.2" text-anchor="middle">MATURIDADE DA GOVERNANÇA DE DADOS</text>
+</svg>

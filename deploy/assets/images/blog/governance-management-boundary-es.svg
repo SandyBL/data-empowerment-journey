@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="356" viewBox="0 0 720 356" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">La frontera entre gobierno de datos y gestión de datos</title>
+  <desc id="desc">Tres artefactos compartidos — el glosario de negocio, las reglas de calidad y la política de acceso — con la decisión que cada uno necesita del gobierno a la izquierda y la entrega que cada uno necesita de la gestión de datos a la derecha.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">DÓNDE TERMINA EL GOBIERNO Y EMPIEZA LA GESTIÓN</text>
+  
+  <rect x="24" y="48" width="216" height="34" rx="5" fill="#071c2c"/>
+  <text x="132" y="70" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="1.3" text-anchor="middle">EL GOBIERNO DECIDE</text>
+  <rect x="252" y="48" width="216" height="34" rx="5" fill="#ec6d57"/>
+  <text x="360" y="70" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="1.3" text-anchor="middle">ARTEFACTO COMPARTIDO</text>
+  <rect x="480" y="48" width="216" height="34" rx="5" fill="#095b73"/>
+  <text x="588" y="70" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="1.3" text-anchor="middle">LA GESTIÓN ENTREGA</text>
+  <!-- Glosario de negocio -->
+  <rect x="24" y="92" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="92" width="4" height="74" fill="#071c2c"/>
+  <text x="42" y="118" font-size="11.4" fill="#31505c">Aprueba la definición de cliente</text>
+  <text x="42" y="134" font-size="11.4" fill="#31505c">activo y designa al propietario</text>
+  <text x="42" y="150" font-size="11.4" fill="#31505c">que la defiende.</text>
+  <rect x="480" y="92" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="480" y="92" width="4" height="74" fill="#095b73"/>
+  <text x="498" y="118" font-size="11.4" fill="#31505c">Lo publica en el catálogo y lo</text>
+  <text x="498" y="134" font-size="11.4" fill="#31505c">conecta con las tablas e</text>
+  <text x="498" y="150" font-size="11.4" fill="#31505c">informes que lo usan.</text>
+  <rect x="252" y="92" width="216" height="74" rx="5" fill="#ffffff" stroke="#ec6d57"/>
+  <text x="360" y="134" font-size="14" font-weight="600" fill="#071c2c" text-anchor="middle">Glosario de negocio</text>
+  <line x1="241" y1="129" x2="249" y2="129" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="129" x2="471" y2="129" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Reglas de calidad -->
+  <rect x="24" y="176" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="176" width="4" height="74" fill="#071c2c"/>
+  <text x="42" y="202" font-size="11.4" fill="#31505c">Fija el umbral que se considera</text>
+  <text x="42" y="218" font-size="11.4" fill="#31505c">aceptable y a quién se llama</text>
+  <text x="42" y="234" font-size="11.4" fill="#31505c">cuando se rompe.</text>
+  <rect x="480" y="176" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="480" y="176" width="4" height="74" fill="#095b73"/>
+  <text x="498" y="202" font-size="11.4" fill="#31505c">Ejecuta los controles en el</text>
+  <text x="498" y="218" font-size="11.4" fill="#31505c">pipeline y pone en cuarentena</text>
+  <text x="498" y="234" font-size="11.4" fill="#31505c">los registros que fallan.</text>
+  <rect x="252" y="176" width="216" height="74" rx="5" fill="#ffffff" stroke="#ec6d57"/>
+  <text x="360" y="218" font-size="14" font-weight="600" fill="#071c2c" text-anchor="middle">Reglas de calidad</text>
+  <line x1="241" y1="213" x2="249" y2="213" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="213" x2="471" y2="213" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <!-- Política de acceso -->
+  <rect x="24" y="260" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="260" width="4" height="74" fill="#071c2c"/>
+  <text x="42" y="286" font-size="11.4" fill="#31505c">Decide quién puede ver qué</text>
+  <text x="42" y="302" font-size="11.4" fill="#31505c">datos, con qué finalidad y</text>
+  <text x="42" y="318" font-size="11.4" fill="#31505c">durante cuánto tiempo.</text>
+  <rect x="480" y="260" width="216" height="74" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="480" y="260" width="4" height="74" fill="#095b73"/>
+  <text x="498" y="286" font-size="11.4" fill="#31505c">Aprovisiona los roles, aplica el</text>
+  <text x="498" y="302" font-size="11.4" fill="#31505c">enmascarado y genera la traza</text>
+  <text x="498" y="318" font-size="11.4" fill="#31505c">de auditoría.</text>
+  <rect x="252" y="260" width="216" height="74" rx="5" fill="#ffffff" stroke="#ec6d57"/>
+  <text x="360" y="302" font-size="14" font-weight="600" fill="#071c2c" text-anchor="middle">Política de acceso</text>
+  <line x1="241" y1="297" x2="249" y2="297" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="297" x2="471" y2="297" stroke="#31505c" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>

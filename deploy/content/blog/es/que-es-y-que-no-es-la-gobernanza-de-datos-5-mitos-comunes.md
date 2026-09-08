@@ -78,6 +78,8 @@ La gobernanza puesta a posteriori sobre un patrimonio en producción no es el mi
 
 La versión ligera al principio es genuinamente barata: un propietario y una clasificación antes de que un conjunto de datos entre en la hoja de ruta, una definición de "terminado" que incluya umbral de calidad y ruta de alerta, y un decisor con nombre para el puñado de preguntas donde la organización se atasca. Nada de eso exige plataforma ni consejo. Exige la disciplina de hacer tres preguntas antes de construir, no después.
 
+![Cinco mitos sobre el gobierno de datos, cada uno respondido con lo que realmente es](/assets/images/blog/data-governance-myths-es.svg "Cada mito a la izquierda de la tarjeta, y lo que el gobierno de datos realmente es a su derecha.")
+
 ## Los cinco mitos, uno al lado del otro
 
 | No es | Porque | Qué es en realidad |

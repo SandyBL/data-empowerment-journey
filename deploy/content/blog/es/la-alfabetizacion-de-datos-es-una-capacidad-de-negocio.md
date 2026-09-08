@@ -16,6 +16,8 @@ La alfabetización de datos suele lanzarse como un curso y medirse por asistenci
 
 El problema no es el contenido del curso. Es el supuesto que hay debajo: que la gente usa mal los datos porque no sabe cómo, y que saber cómo es suficiente. En la práctica, la gente usa mal los datos porque el entorno hace que el camino descuidado sea más fácil que el cuidadoso. Un trabajo de alfabetización que no cambia el entorno es un evento de formación con un certificado adjunto.
 
+![Cuatro etapas en bucle que convierten la alfabetización de datos en una capacidad de negocio](/assets/images/blog/data-literacy-capability-loop-es.svg "La alfabetización se vuelve capacidad cuando la medición alimenta la siguiente ronda de definiciones, en vez de cerrar el programa.")
+
 ## Trátala como capacidad, no como currículo
 
 Una capacidad es algo que la organización puede hacer de forma fiable. Tiene comportamientos, el apoyo que los hace posibles y evidencia de que ocurren. Un currículo tiene módulos y una tasa de finalización. La diferencia aparece en cómo planificas el trabajo.

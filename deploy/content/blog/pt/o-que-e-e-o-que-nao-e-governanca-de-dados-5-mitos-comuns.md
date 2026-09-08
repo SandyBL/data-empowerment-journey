@@ -78,6 +78,8 @@ Governança colocada depois sobre um parque em produção não é o mesmo trabal
 
 A versão leve no início é genuinamente barata: um proprietário e uma classificação antes de um conjunto de dados entrar no roadmap, uma definição de pronto que inclua limite de qualidade e rota de alerta, e um decisor com nome para o punhado de perguntas em que a organização vive travando. Nada disso exige plataforma nem conselho. Exige a disciplina de fazer três perguntas antes de construir, e não depois.
 
+![Cinco mitos sobre governança de dados, cada um respondido com o que ela realmente é](/assets/images/blog/data-governance-myths-pt.svg "Cada mito à esquerda do cartão, e o que a governança de dados realmente é à direita dele.")
+
 ## Os cinco mitos, lado a lado
 
 | Não é | Porque | O que é de fato |

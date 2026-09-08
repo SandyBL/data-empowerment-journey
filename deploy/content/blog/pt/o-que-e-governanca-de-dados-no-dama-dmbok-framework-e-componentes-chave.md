@@ -31,6 +31,8 @@ Três palavras aí fazem a maior parte do trabalho.
 
 **Sobre a gestão dos ativos de dados** é a parte mais frequentemente ignorada. Governança não é a gestão de dados. É autoridade exercida *sobre* essa gestão. Ela fica acima do trabalho em vez de fazê-lo, e é exatamente por isso que pode ser pequena.
 
+![A governança de dados no centro de seis áreas de conhecimento do DAMA-DMBOK](/assets/images/blog/dmbok-governance-wheel-pt.svg "A governança é o eixo da roda DMBOK porque cada área ao redor precisa de uma decisão que não consegue tomar sozinha.")
+
 ## Por que a governança fica no centro da roda
 
 A roda do DMBOK põe a governança de dados no eixo e as outras áreas de conhecimento em volta: arquitetura, modelagem, armazenamento e operação, segurança, integração, documentos e conteúdo, dados de referência e mestres, data warehouse e business intelligence, [metadados](/pt/glossary/metadata/) e [qualidade de dados](/pt/glossary/data-quality/).

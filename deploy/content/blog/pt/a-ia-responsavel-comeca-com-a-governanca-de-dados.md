@@ -48,6 +48,8 @@ Quatro papéis costumam bastar para eliminar a ambiguidade:
 
 O quarto é o que mais falta. Um modelo que recomenda e uma pessoa que decide são duas responsabilidades diferentes, e confundi-las é como o "humano no circuito" vira um carimbo.
 
+![Quatro pontos de controle entre um sistema de origem e uma decisão de IA](/assets/images/blog/responsible-ai-input-controls-pt.svg "A IA responsável se decide na origem: cada salto carrega um controle, e uma mudança na origem precisa avisar todos os seguintes.")
+
 ## Governe as entradas antes das saídas
 
 Os testes de saída chamam atenção porque são visíveis: métricas de justiça, red teaming, baterias de avaliação. São necessários e não são suficientes. Um teste diz que o modelo se comportou de forma aceitável com os dados que você usou. Governar as entradas é o que diz se os dados de amanhã ainda se parecem com aqueles.

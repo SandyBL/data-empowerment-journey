@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="232" viewBox="0 0 720 232" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">The four control points between a source system and an AI decision</title>
+  <desc id="desc">A chain from source system to training dataset to model to decision, with the governance control that has to hold at each hop, and a change notification that runs back from the source to everything downstream.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">RESPONSIBLE AI: GOVERN THE INPUTS, NOT THE OUTPUT</text>
+  
+  <!-- Source system -->
+  <rect x="24" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="156" height="4" fill="#071c2c"/>
+  <text x="102" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Source system</text>
+  <text x="102" y="128" font-size="11" fill="#31505c" text-anchor="middle">Only approved sources,</text>
+  <text x="102" y="143" font-size="11" fill="#31505c" text-anchor="middle">each with a named owner.</text>
+  <line x1="184" y1="76" x2="192" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Training dataset -->
+  <rect x="196" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="196" y="48" width="156" height="4" fill="#0a7568"/>
+  <text x="274" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Training dataset</text>
+  <text x="274" y="128" font-size="11" fill="#31505c" text-anchor="middle">Purpose tags that say</text>
+  <text x="274" y="143" font-size="11" fill="#31505c" text-anchor="middle">what this data may be</text>
+  <text x="274" y="158" font-size="11" fill="#31505c" text-anchor="middle">used for.</text>
+  <line x1="356" y1="76" x2="364" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Model -->
+  <rect x="368" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="368" y="48" width="156" height="4" fill="#095b73"/>
+  <text x="446" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Model</text>
+  <text x="446" y="128" font-size="11" fill="#31505c" text-anchor="middle">A recorded lineage from</text>
+  <text x="446" y="143" font-size="11" fill="#31505c" text-anchor="middle">every feature back to its</text>
+  <text x="446" y="158" font-size="11" fill="#31505c" text-anchor="middle">source.</text>
+  <line x1="528" y1="76" x2="536" y2="76" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Decision -->
+  <rect x="540" y="48" width="156" height="56" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="540" y="48" width="156" height="4" fill="#ec6d57"/>
+  <text x="618" y="84" font-size="13" font-weight="600" fill="#071c2c" text-anchor="middle">Decision</text>
+  <text x="618" y="128" font-size="11" fill="#31505c" text-anchor="middle">A person accountable for</text>
+  <text x="618" y="143" font-size="11" fill="#31505c" text-anchor="middle">the outcome, not the</text>
+  <text x="618" y="158" font-size="11" fill="#31505c" text-anchor="middle">algorithm.</text>
+  <!-- A SOURCE CHANGE NOTIFIES EVERY HOP: what sends the reader back to the first stage. -->
+  <path d="M 618 174 V 200 H 102 V 178" fill="none" stroke="#0a7568" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-loop)"/>
+  <rect x="203.450582" y="191" width="313.098836" height="18" fill="#ffffff"/>
+  <text x="360" y="203.5" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.2" text-anchor="middle">A SOURCE CHANGE NOTIFIES EVERY HOP</text>
+</svg>

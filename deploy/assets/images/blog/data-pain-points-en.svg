@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="449" viewBox="0 0 720 449" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Six common data pain points and the governance move each one calls for</title>
+  <desc id="desc">Six recurring symptoms — conflicting reports, manual reconciliation, no clear owner, slow access requests, unexplained metrics and duplicated records — each paired with the first governance action it justifies.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">SIX PAIN POINTS THAT TELL YOU WHERE TO START</text>
+  
+  <!-- Two reports, one truth -->
+  <rect x="24" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="72" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SYMPTOM 01</text>
+  <text x="44" y="93" font-size="15" font-weight="600" fill="#071c2c">Two reports, one truth</text>
+  <text x="44" y="113" font-size="11.8" fill="#31505c">Finance and sales quote different revenue for</text>
+  <text x="44" y="129" font-size="11.8" fill="#31505c">the same month. Start with one agreed</text>
+  <text x="44" y="145" font-size="11.8" fill="#31505c">definition and a named owner for it.</text>
+  <!-- The spreadsheet in the middle -->
+  <rect x="370" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="48" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="72" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SYMPTOM 02</text>
+  <text x="390" y="93" font-size="15" font-weight="600" fill="#071c2c">The spreadsheet in the middle</text>
+  <text x="390" y="113" font-size="11.8" fill="#31505c">Somebody reconciles the numbers by hand</text>
+  <text x="390" y="129" font-size="11.8" fill="#31505c">every month. Move the rule into the pipeline</text>
+  <text x="390" y="145" font-size="11.8" fill="#31505c">before you buy a tool.</text>
+  <!-- Nobody owns the field -->
+  <rect x="24" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="181" width="4" height="113" fill="#095b73"/>
+  <text x="44" y="205" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">SYMPTOM 03</text>
+  <text x="44" y="226" font-size="15" font-weight="600" fill="#071c2c">Nobody owns the field</text>
+  <text x="44" y="246" font-size="11.8" fill="#31505c">Everyone uses the customer status, nobody</text>
+  <text x="44" y="262" font-size="11.8" fill="#31505c">decides what it means. Assign the owner first,</text>
+  <text x="44" y="278" font-size="11.8" fill="#31505c">the steward second.</text>
+  <!-- Access takes three weeks -->
+  <rect x="370" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="181" width="4" height="113" fill="#ec6d57"/>
+  <text x="390" y="205" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">SYMPTOM 04</text>
+  <text x="390" y="226" font-size="15" font-weight="600" fill="#071c2c">Access takes three weeks</text>
+  <text x="390" y="246" font-size="11.8" fill="#31505c">Requests queue behind an unwritten approval</text>
+  <text x="390" y="262" font-size="11.8" fill="#31505c">path. Publish the path and the standing</text>
+  <text x="390" y="278" font-size="11.8" fill="#31505c">decision it should follow.</text>
+  <!-- The metric nobody explains -->
+  <rect x="24" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="314" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="338" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SYMPTOM 05</text>
+  <text x="44" y="359" font-size="15" font-weight="600" fill="#071c2c">The metric nobody explains</text>
+  <text x="44" y="379" font-size="11.8" fill="#31505c">The dashboard number has no lineage back to</text>
+  <text x="44" y="395" font-size="11.8" fill="#31505c">a source. Document the calculation where the</text>
+  <text x="44" y="411" font-size="11.8" fill="#31505c">reader will see it.</text>
+  <!-- The same customer, four times -->
+  <rect x="370" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="314" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="338" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SYMPTOM 06</text>
+  <text x="390" y="359" font-size="15" font-weight="600" fill="#071c2c">The same customer, four times</text>
+  <text x="390" y="379" font-size="11.8" fill="#31505c">Duplicated records inflate every count. Agree</text>
+  <text x="390" y="395" font-size="11.8" fill="#31505c">the matching rule before de-duplicating</text>
+  <text x="390" y="411" font-size="11.8" fill="#31505c">anything.</text>
+</svg>

@@ -78,6 +78,8 @@ Una nota sobre dónde publicar los resultados de calidad. El instinto es constru
 
 Una victoria temprana fiable: deduplicación de una entidad principal con una [única fuente de verdad](/es/glossary/single-source-of-truth/) declarada después. Es visible, es medible y solo se mantiene arreglada por la decisión de gobierno que vino detrás.
 
+![Los seis pilares de un programa de gobierno de datos](/assets/images/blog/governance-program-building-blocks-es.svg "Seis pilares que solo funcionan juntos: que falte cualquiera de ellos es la razón habitual de que un programa se atasque.")
+
 ## El orden importa
 
 Los seis fundamentos no son independientes, y construirlos fuera de secuencia es la causa habitual de los programas atascados.

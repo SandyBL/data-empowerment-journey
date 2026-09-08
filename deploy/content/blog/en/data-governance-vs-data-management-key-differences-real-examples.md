@@ -89,6 +89,8 @@ You have a management gap if the definitions are agreed and documented but the r
 
 Most organizations have both gaps and treat only the one their loudest function owns. If you want to size the second one before you argue for budget, the [cost of bad data calculator](/en/calculator/) turns rework hours and duplicate records into an annual figure, and the [maturity assessment](/en/maturity-assessment/) will tell you which side of this line your weaknesses sit on.
 
+![Three shared artifacts with the governance decision on one side and the data management delivery on the other](/assets/images/blog/governance-management-boundary-en.svg "The same three artifacts belong to both disciplines: governance decides what they say, data management makes them work.")
+
 ## The artifacts that sit on the boundary
 
 A few things belong to both disciplines, and they are where most arguments happen.

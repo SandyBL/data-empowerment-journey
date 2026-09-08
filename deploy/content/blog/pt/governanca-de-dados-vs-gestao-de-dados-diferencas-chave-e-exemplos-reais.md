@@ -80,6 +80,8 @@ Sem gestão, a governança produz uma política de acesso exemplar que os sistem
 
 Os dois modos de falha são comuns. O segundo é mais vergonhoso; o primeiro é mais caro, porque é invisível até que algo dependa dele.
 
+![Três artefatos compartilhados com a decisão da governança de um lado e a entrega da gestão de dados do outro](/assets/images/blog/governance-management-boundary-pt.svg "Os mesmos três artefatos pertencem às duas disciplinas: a governança decide o que eles dizem, a gestão os faz funcionar.")
+
 ## Os artefatos que ficam na fronteira
 
 Algumas coisas pertencem às duas disciplinas, e é ali que acontece a maioria das discussões.

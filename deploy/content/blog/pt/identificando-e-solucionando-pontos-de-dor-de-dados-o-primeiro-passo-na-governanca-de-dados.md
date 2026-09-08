@@ -19,6 +19,8 @@ Isto não é um argumento contra frameworks — uso o [DAMA DMBOK](/pt/glossary/
 
 Então comece pela dor. Veja como encontrá-la e o que a governança pode realmente fazer com cada variedade.
 
+![Seis pontos de dor de dados, cada um com a primeira ação de governança que justifica](/assets/images/blog/data-pain-points-pt.svg "Cada sintoma aponta para um primeiro movimento concreto. O ponto de dor é o business case dele, e por isso vem primeiro.")
+
 ## Os seis pontos de dor que justificam um programa
 
 Ao longo de vários trabalhos, quase tudo que as organizações descrevem como "um problema de dados" se resolve em um de seis padrões.

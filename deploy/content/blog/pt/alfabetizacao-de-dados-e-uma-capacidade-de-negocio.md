@@ -16,6 +16,8 @@ A alfabetização de dados costuma ser lançada como um curso e medida pela pres
 
 O problema não é o conteúdo do curso. É a suposição por baixo dele: que as pessoas usam dados mal porque não sabem como, e que saber como basta. Na prática, as pessoas usam dados mal porque o ambiente torna o caminho descuidado mais fácil que o cuidadoso. Um trabalho de alfabetização que não muda o ambiente é um evento de treinamento com um certificado anexo.
 
+![Quatro etapas em ciclo que transformam a literacia de dados em capacidade de negócio](/assets/images/blog/data-literacy-capability-loop-pt.svg "A literacia se torna capacidade quando a medição alimenta a próxima rodada de definições, em vez de encerrar o programa.")
+
 ## Trate como capacidade, não como currículo
 
 Uma capacidade é algo que a organização consegue fazer de forma confiável. Tem comportamentos, o apoio que os torna possíveis e evidência de que acontecem. Um currículo tem módulos e uma taxa de conclusão. A diferença aparece na forma de planejar o trabalho.

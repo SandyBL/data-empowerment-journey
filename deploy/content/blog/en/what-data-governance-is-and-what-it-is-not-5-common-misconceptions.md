@@ -78,6 +78,8 @@ Governance retrofitted onto a live estate is not the same work as governance des
 
 The lightweight version at the start is genuinely cheap: an owner and a classification before a dataset gets a slot in the roadmap, a definition of done that includes a quality threshold and an alert route, and a named decider for the handful of questions the organization keeps stalling on. None of that requires a platform or a council. It requires the discipline to ask three questions before the build rather than after it.
 
+![Five misconceptions about data governance, each answered with what it actually is](/assets/images/blog/data-governance-myths-en.svg "Each myth on the left of the card, and the thing governance actually is on the right of it.")
+
 ## The five myths, side by side
 
 | It is not | Because | What it actually is |

@@ -48,6 +48,8 @@ Cuatro roles suelen bastar para eliminar la ambigüedad:
 
 El cuarto es el que más falta. Un modelo que recomienda y una persona que decide son dos responsabilidades distintas, y confundirlas es la forma en que el "humano en el circuito" se convierte en un sello de goma.
 
+![Cuatro puntos de control entre un sistema origen y una decisión de IA](/assets/images/blog/responsible-ai-input-controls-es.svg "La IA responsable se decide aguas arriba: cada salto lleva un control, y un cambio en el origen debe avisar a todos los siguientes.")
+
 ## Gobierna las entradas antes que las salidas
 
 Las pruebas de salida se llevan la atención porque son visibles: métricas de equidad, ejercicios de red team, baterías de evaluación. Son necesarias y no son suficientes. Una prueba te dice que el modelo se comportó de forma aceptable con los datos con los que lo probaste. Gobernar las entradas es lo que te dice si los datos de mañana seguirán pareciéndose a esos.

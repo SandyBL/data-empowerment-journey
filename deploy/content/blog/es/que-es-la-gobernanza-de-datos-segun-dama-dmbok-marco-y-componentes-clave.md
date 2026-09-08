@@ -31,6 +31,8 @@ Tres palabras de ahí hacen la mayor parte del trabajo.
 
 **Sobre la gestión de los activos de datos** es la parte que más se pasa por alto. La gobernanza no es la gestión de datos. Es autoridad ejercida *sobre* esa gestión. Se sitúa por encima del trabajo en lugar de hacerlo, que es exactamente la razón por la que puede ser pequeña.
 
+![El gobierno de datos en el centro de seis áreas de conocimiento de DAMA-DMBOK](/assets/images/blog/dmbok-governance-wheel-es.svg "El gobierno es el eje de la rueda DMBOK porque cada área que lo rodea necesita una decisión que no puede tomar sola.")
+
 ## Por qué la gobernanza está en el centro de la rueda
 
 La rueda del DMBOK pone la gobernanza de datos en el eje y las demás áreas de conocimiento alrededor: arquitectura, modelado, almacenamiento y operación, seguridad, integración, documentos y contenido, datos de referencia y maestros, almacén analítico e inteligencia de negocio, [metadatos](/es/glossary/metadata/) y [calidad de datos](/es/glossary/data-quality/).

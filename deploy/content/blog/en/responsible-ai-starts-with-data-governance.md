@@ -46,6 +46,8 @@ Four roles are usually enough to remove the ambiguity:
 
 The fourth is the one most often missing. A model that recommends and a person who decides are two different accountabilities, and conflating them is how "human in the loop" becomes a rubber stamp.
 
+![Four control points between a source system and an AI decision](/assets/images/blog/responsible-ai-input-controls-en.svg "Responsible AI is decided upstream: each hop carries one control, and a source change has to notify every hop after it.")
+
 ## Govern the inputs before you govern the outputs
 
 Output testing gets the attention because it is visible: fairness metrics, red-teaming, evaluation suites. It is necessary and it is not sufficient. A test tells you the model behaved acceptably on the data you tested it with. Governing the inputs is what tells you whether tomorrow's data still resembles that.

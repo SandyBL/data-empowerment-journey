@@ -62,6 +62,8 @@ It forces you to account for shape. Structured records in a warehouse, semi-stru
 
 And it forces you to think about lifecycle. Data is created, used, becomes stale, and should eventually be archived or deleted. Retention with an actual trigger is a governance decision that most programs defer indefinitely, which is how organizations end up holding personal data for eleven years with no defensible basis.
 
+![People, process, technology and data, with the way a governance programme fails without each one](/assets/images/blog/golden-square-people-process-technology-data-en.svg "Each pillar contributes something the others cannot, which is why a programme missing one fails in a predictable way.")
+
 ## What failure looks like in each corner
 
 This is the diagnostic value of the model.
