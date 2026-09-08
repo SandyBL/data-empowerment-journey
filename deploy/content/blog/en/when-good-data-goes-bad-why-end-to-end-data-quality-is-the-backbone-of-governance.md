@@ -84,29 +84,19 @@ The last mile of data delivery is your final safety net before insights inform c
 * **Business Glossary Alignment:** Verify that underlying reporting queries pull from standardized data models rather than custom, ungoverned SQL calculations embedded directly within BI tools.
 * **Lineage Visibility:** Provide business consumers with immediate visibility into data freshness and pipeline status directly within the BI interface, establishing clear trust signals.
 
+```mermaid
+flowchart TD
+    DGO["<b>Data Governance Office</b><br/>Defines Global Policies"]
+    DO["<b>Data Owner</b><br/>Business Executive<br/>Sets domain standards & quality thresholds"]
+    DS["<b>Data Steward</b><br/>Subject Matter Expert<br/>Validates quality rules & resolves anomalies"]
+    DE["<b>Data Engineering & Tech</b><br/>Implement automated checks & monitor pipeline SLAs"]
+
+    DGO --> DO
+    DGO --> DS
+    DO --> DE
+    DS --> DE
 ```
-                                +-----------------------------+
-                                |     Data Governance Office  |
-                                |  (Defines Global Policies)  |
-                                +-----------------------------+
-                                               |
-                     +-------------------------+-------------------------+
-                     |                                                   |
-        +--------------------------+                        +--------------------------+
-        |       Data Owner         |                        |       Data Steward       |
-        | (Business Executive)     |                        | (Subject Matter Expert)  |
-        | Sets domain standards    |                        | Validates quality rules  |
-        |  and quality thresholds  |                        |  and resolves anomalies  |
-        +--------------------------+                        +--------------------------+
-                     |                                                   |
-                     +-------------------------+-------------------------+
-                                               |
-                                +-----------------------------+
-                                |  Data Engineering & Tech    |
-                                | Implement automated checks  |
-                                |   and monitor pipeline SLAs |
-                                +-----------------------------+
-```
+
 ---
 
 ## People and Accountability: Tying Roles to Quality
