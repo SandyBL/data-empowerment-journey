@@ -21,7 +21,7 @@ Un programa de **Gobierno de Datos** (también conocido alternativamente como *g
 
 ---
 
-## El Efecto de Propagación: Cómo se Desplazan y Multiplican los Datos Erroblemas
+## El Efecto de Propagación: Cómo se Desplazan y Multiplican los Datos Erróneos
 
 El mayor riesgo operativo en las plataformas de datos modernas (como Data Lakes, Lakehouses o Data Warehouses corporativos) raras veces es un fallo catastrófico en las tuberías de procesamiento (*pipelines*). Una interrupción total detiene la ejecución y genera una alerta técnica inmediata.
 
