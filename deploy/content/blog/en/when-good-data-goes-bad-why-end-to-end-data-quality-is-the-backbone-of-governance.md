@@ -30,7 +30,8 @@ The far more dangerous threat is the **silent spread of corrupted data**.
 When corrupted or incomplete records enter your ecosystem at ingestion, they pass unnoticed through business logic transformations. Along the way, flawed data does not remain static; it compounds. An unvalidated null value or a mismatched currency code in an operational database morphs into incorrect aggregate calculations during ETL/ELT pipelines, settles quietly into production tables, and feeds executive dashboards with absolute confidence.
 
 | Ingestion Phase  | ---> | Transformation Phase  | ---> | Storage Phase     | ---> | Consumption Phase   |
-| (Uncaught Nulls) |      | (Flawed Aggregations) |      | (Corrupted Tables)|      | (Executive Dashboards)
+| (Uncaught Nulls) |      | (Flawed Aggregations) |      | (Corrupted Tables)|      | (Executive Dashboards) |
+
 Silent Degradation Across the Value Chain
 
 Each stage adds visual polish—sleek UI components, clean chart legends, and impressive trend lines—yet the core payload remains fundamentally flawed. By the time a decision-maker views the report, the error is insulated by layers of technical processing.
