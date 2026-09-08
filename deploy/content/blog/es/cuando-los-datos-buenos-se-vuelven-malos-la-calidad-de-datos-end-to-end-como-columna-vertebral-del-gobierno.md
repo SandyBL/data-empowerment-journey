@@ -98,28 +98,6 @@ La última milla en la entrega de información es su última barrera de defensa 
 
 Los procesos y la tecnología son insuficientes si no existe una estructura organizativa con responsabilidades claras. Los modelos de gobierno de alto rendimiento [Gartner, Data Governance Framework] asignan la calidad del dato a roles bien definidos dentro de la empresa:
 
-                            +-----------------------------+
-                            |    Oficina de Gobierno      |
-                            | (Define Políticas Globales) |
-                            +-----------------------------+
-                                           |
-                 +-------------------------+-------------------------+
-                 |                                                   |
-    +--------------------------+                        +--------------------------+
-    |        Data Owner        |                        |       Data Steward       |
-    |  (Propietario de Datos)  |                        |   (Custodio de Datos)    |
-    | Establece estándares     |                        | Valida reglas de calidad |
-    |  y umbrales del dominio  |                        |  y resuelve anomalías    |
-    +--------------------------+                        +--------------------------+
-                 |                                                   |
-                 +-------------------------+-------------------------+
-                                           |
-                            +-----------------------------+
-                            |   Ingeniería de Datos y IT  |
-                            |  Implementa controles y     |
-                            |  automatiza las reglas      |
-                            +-----------------------------+
-
 ### El Data Owner o Propietario de Datos (Responsabilidad Estratégica)
 Líderes ejecutivos de área (como el Director Financiero o la Directora de Operaciones) que asumen la responsabilidad última de un dominio de datos específico. Definen qué significa "dato de calidad" para su negocio, fijan los umbrales de error aceptables (por ejemplo, un 99,9% de precisión en la facturación) y aprueban los recursos de corrección.
 
@@ -144,9 +122,11 @@ Consideremos el ejemplo de una corporación que analiza una adquisición empresa
 * **Con Gobierno End-to-End:** La presencia de dominios de datos auditados permite analizar los activos de la empresa objetivo en cuestión de días mediante datos fiables y estandarizados, reduciendo costes de asesoría y eliminando riesgos de valoración.
 
 Enfoque Reactivo Tradicional:
+
 [ Datos Erróneos ] ---> [ Detección Manual ] ---> [ Limpieza Costosa ] ---> [ Pérdida de Confianza ]
 
 Enfoque de Gobierno Proactivo:
+
 [ Filtro en Ingesta ] ---> [ Pruebas Automatizadas ] ---> [ Datos Confiables ] ---> [ Decisiones Ágiles ]
 
 ## Plan de Acción para Desplegar Calidad de Datos End-to-End
