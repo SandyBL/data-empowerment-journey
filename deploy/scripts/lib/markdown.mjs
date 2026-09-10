@@ -30,6 +30,21 @@ export const slugify = (text) =>
 const ESCAPABLE_PUNCTUATION = /\\([\\`*_{}[\]()#+\-.!<>|~"'$%&/:;=?@^])/g;
 
 /**
+ * A horizontal rule, in every spelling Markdown allows for one: three or more
+ * dashes, asterisks or underscores, with or without spaces between them.
+ *
+ * The spaces are the reason this is a named pattern rather than `---`. The Blog
+ * Content Studio's rich-text editor serialises every rule the author inserts as
+ * `- - -`, and a rule written that way used to match the bullet-list pattern
+ * before anything recognised it as a rule: each one published as a stray
+ * one-item list reading "- -", and a rule that followed a real list was
+ * swallowed into it as an extra bullet. So an article was fine until somebody
+ * opened it in the editor and saved it, which is the worst version of this bug
+ * — the corruption arrived with a save that changed nothing else.
+ */
+const THEMATIC_BREAK = /^\s*(?:(?:-\s*){3,}|(?:\*\s*){3,}|(?:_\s*){3,})$/;
+
+/**
  * The standard Markdown image, with the optional title the Blog Content Studio
  * writes when the author fills in the caption field of its image component:
  * `![alt](/assets/images/blog/diagram.svg "Caption")`.
@@ -204,7 +219,7 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
       continue;
     }
 
-    if (/^\s*(---|\*\*\*|___)\s*$/.test(line)) {
+    if (THEMATIC_BREAK.test(line)) {
       html.push('<hr>');
       index += 1;
       continue;
@@ -267,11 +282,15 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
       const pattern = ordered ? /^\s*\d+\.\s+/ : /^\s*[*-]\s+/;
       const items = [];
       while (index < lines.length) {
+        // A rule spelled `- - -` matches the bullet pattern below, so it is
+        // ruled out here first: it ends the list rather than joining it.
+        if (THEMATIC_BREAK.test(lines[index])) break;
         if (!pattern.test(lines[index])) {
           // Same reasoning as blockquotes: a blank line between bullets is a
           // loose list, which should still render as one list.
           const resumed = skipBlankLines(lines, index);
           if (resumed === index || !pattern.test(lines[resumed] || '')) break;
+          if (THEMATIC_BREAK.test(lines[resumed])) break;
           index = resumed;
         }
         let item = lines[index].replace(pattern, '');
@@ -288,7 +307,12 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
     }
 
     const paragraph = [];
-    while (index < lines.length && lines[index].trim() && !/^\s*(#{1,6}\s|>|\||[*-]\s|\d+\.\s|---\s*$)/.test(lines[index])) {
+    while (
+      index < lines.length &&
+      lines[index].trim() &&
+      !THEMATIC_BREAK.test(lines[index]) &&
+      !/^\s*(#{1,6}\s|>|\||[*-]\s|\d+\.\s)/.test(lines[index])
+    ) {
       paragraph.push(lines[index].trim());
       index += 1;
     }

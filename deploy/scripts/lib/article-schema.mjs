@@ -102,6 +102,17 @@ const classifyTopics = (article) => {
 };
 
 /**
+ * Markers that identify a section as a call to action rather than an answer.
+ *
+ * The site's own convention is a link labelled with a trailing arrow. The Blog
+ * Content Studio's editor produces the other two: a pointing-hand emoji ahead
+ * of the link, and a paragraph that is nothing but a bold link — the closest
+ * thing the editor's toolbar has to a button. All three mark copy that invites
+ * the reader somewhere, which is not an answer to anything.
+ */
+const CALL_TO_ACTION = /→\s*\]\(|\u{1F449}|^\s*\*{0,2}\[[^\]]+\]\([^)\s]+\)\*{0,2}\s*$/u;
+
+/**
  * Turns the article's question headings into FAQ entries.
  *
  * Only headings that are literally questions qualify, and only when prose
@@ -125,11 +136,9 @@ const extractFaq = (article) => {
     while (sectionEnd < lines.length && !/^#{1,6}\s/.test(lines[sectionEnd])) sectionEnd += 1;
     const section = lines.slice(index + 1, sectionEnd);
 
-    // The site writes every call to action as a link labelled with a trailing
-    // arrow, which is the one reliable marker of promotional copy here. The
-    // check covers the whole section, because the arrow usually sits a blank
-    // line below the paragraph the answer would otherwise be built from.
-    if (section.some((line) => /→\s*\]\(/.test(line))) continue;
+    // The check covers the whole section, because the marker usually sits a
+    // blank line below the paragraph the answer would otherwise be built from.
+    if (section.some((line) => CALL_TO_ACTION.test(line))) continue;
 
     const answer = [];
     for (const line of section) {

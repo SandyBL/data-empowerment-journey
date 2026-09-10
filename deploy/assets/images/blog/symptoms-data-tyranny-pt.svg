@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="449" viewBox="0 0 720 449" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Seis sintomas da tirania dos dados e o custo de cada um</title>
+  <desc id="desc">Seis sintomas recorrentes de dados excessivamente restritos — cadeias de aprovação, planilhas paralelas, um único time de entrega, ausência de autosserviço, exploração desestimulada e desconfiança na governança — cada um com o atraso ou o risco que gera.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">SEIS SINTOMAS DA TIRANIA DOS DADOS</text>
+  
+  <!-- Aprovações intermináveis -->
+  <rect x="24" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="72" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SINTOMA 01</text>
+  <text x="44" y="93" font-size="15" font-weight="600" fill="#071c2c">Aprovações intermináveis</text>
+  <text x="44" y="113" font-size="11.8" fill="#31505c">Um acesso básico exige aval da TI e do</text>
+  <text x="44" y="129" font-size="11.8" fill="#31505c">jurídico, e uma decisão rotineira espera</text>
+  <text x="44" y="145" font-size="11.8" fill="#31505c">semanas por dados que a empresa já tem.</text>
+  <!-- Mercados negros de dados -->
+  <rect x="370" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="48" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="72" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SINTOMA 02</text>
+  <text x="390" y="93" font-size="15" font-weight="600" fill="#071c2c">Mercados negros de dados</text>
+  <text x="390" y="113" font-size="11.8" fill="#31505c">Times bloqueados exportam extrações para</text>
+  <text x="390" y="129" font-size="11.8" fill="#31505c">planilhas locais, e o relatório que importa</text>
+  <text x="390" y="145" font-size="11.8" fill="#31505c">passa a viver fora da governança.</text>
+  <!-- Um time faz tudo -->
+  <rect x="24" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="181" width="4" height="113" fill="#095b73"/>
+  <text x="44" y="205" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">SINTOMA 03</text>
+  <text x="44" y="226" font-size="15" font-weight="600" fill="#071c2c">Um time faz tudo</text>
+  <text x="44" y="246" font-size="11.8" fill="#31505c">Um único time central concentra cada</text>
+  <text x="44" y="262" font-size="11.8" fill="#31505c">mudança de pipeline, então todas as áreas</text>
+  <text x="44" y="278" font-size="11.8" fill="#31505c">esperam na mesma fila.</text>
+  <!-- Zero autosserviço -->
+  <rect x="370" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="181" width="4" height="113" fill="#ec6d57"/>
+  <text x="390" y="205" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">SINTOMA 04</text>
+  <text x="390" y="226" font-size="15" font-weight="600" fill="#071c2c">Zero autosserviço</text>
+  <text x="390" y="246" font-size="11.8" fill="#31505c">Ninguém acha um dataset nem lê a definição</text>
+  <text x="390" y="262" font-size="11.8" fill="#31505c">de um campo sem abrir um ticket, então</text>
+  <text x="390" y="278" font-size="11.8" fill="#31505c">ninguém consulta antes de decidir.</text>
+  <!-- Exploração punida -->
+  <rect x="24" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="314" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="338" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SINTOMA 05</text>
+  <text x="44" y="359" font-size="15" font-weight="600" fill="#071c2c">Exploração punida</text>
+  <text x="44" y="379" font-size="11.8" fill="#31505c">Todo dado é tratado como risco máximo, e a</text>
+  <text x="44" y="395" font-size="11.8" fill="#31505c">análise exploratória deixa de valer o processo</text>
+  <text x="44" y="411" font-size="11.8" fill="#31505c">que agora exige.</text>
+  <!-- A governança perde crédito -->
+  <rect x="370" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="314" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="338" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SINTOMA 06</text>
+  <text x="390" y="359" font-size="15" font-weight="600" fill="#071c2c">A governança perde crédito</text>
+  <text x="390" y="379" font-size="11.8" fill="#31505c">As pessoas leem a governança como</text>
+  <text x="390" y="395" font-size="11.8" fill="#31505c">burocracia, e não como o que torna velocidade</text>
+  <text x="390" y="411" font-size="11.8" fill="#31505c">e qualidade possíveis juntas.</text>
+</svg>

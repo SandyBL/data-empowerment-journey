@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="449" viewBox="0 0 720 449" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Seis síntomas de la tiranía de datos y lo que cuesta cada uno</title>
+  <desc id="desc">Seis síntomas recurrentes de unos datos sobrerrestringidos — cadenas de aprobación, hojas de cálculo en la sombra, un único equipo de entrega, ausencia de autoservicio, exploración desincentivada y desconfianza en el gobierno — cada uno con el retraso o el riesgo que genera.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">SEIS SÍNTOMAS DE LA TIRANÍA DE DATOS</text>
+  
+  <!-- Aprobaciones interminables -->
+  <rect x="24" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="72" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SÍNTOMA 01</text>
+  <text x="44" y="93" font-size="15" font-weight="600" fill="#071c2c">Aprobaciones interminables</text>
+  <text x="44" y="113" font-size="11.8" fill="#31505c">Un acceso básico exige el visto bueno de TI y</text>
+  <text x="44" y="129" font-size="11.8" fill="#31505c">legal, y una decisión rutinaria espera semanas</text>
+  <text x="44" y="145" font-size="11.8" fill="#31505c">por datos que la empresa ya tiene.</text>
+  <!-- Mercados negros de datos -->
+  <rect x="370" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="48" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="72" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SÍNTOMA 02</text>
+  <text x="390" y="93" font-size="15" font-weight="600" fill="#071c2c">Mercados negros de datos</text>
+  <text x="390" y="113" font-size="11.8" fill="#31505c">Los equipos bloqueados exportan extractos a</text>
+  <text x="390" y="129" font-size="11.8" fill="#31505c">hojas de cálculo locales, y el reporting que</text>
+  <text x="390" y="145" font-size="11.8" fill="#31505c">importa sale del gobierno de datos.</text>
+  <!-- Un equipo lo hace todo -->
+  <rect x="24" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="181" width="4" height="113" fill="#095b73"/>
+  <text x="44" y="205" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">SÍNTOMA 03</text>
+  <text x="44" y="226" font-size="15" font-weight="600" fill="#071c2c">Un equipo lo hace todo</text>
+  <text x="44" y="246" font-size="11.8" fill="#31505c">Un único equipo central concentra cada</text>
+  <text x="44" y="262" font-size="11.8" fill="#31505c">cambio de pipeline, así que todas las áreas</text>
+  <text x="44" y="278" font-size="11.8" fill="#31505c">esperan en la misma cola.</text>
+  <!-- Cero autoservicio -->
+  <rect x="370" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="181" width="4" height="113" fill="#ec6d57"/>
+  <text x="390" y="205" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">SÍNTOMA 04</text>
+  <text x="390" y="226" font-size="15" font-weight="600" fill="#071c2c">Cero autoservicio</text>
+  <text x="390" y="246" font-size="11.8" fill="#31505c">Nadie encuentra un dataset ni lee la definición</text>
+  <text x="390" y="262" font-size="11.8" fill="#31505c">de un campo sin abrir un ticket, así que nadie</text>
+  <text x="390" y="278" font-size="11.8" fill="#31505c">consulta antes de decidir.</text>
+  <!-- Exploración penalizada -->
+  <rect x="24" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="314" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="338" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SÍNTOMA 05</text>
+  <text x="44" y="359" font-size="15" font-weight="600" fill="#071c2c">Exploración penalizada</text>
+  <text x="44" y="379" font-size="11.8" fill="#31505c">Todo dato se trata como riesgo máximo, y el</text>
+  <text x="44" y="395" font-size="11.8" fill="#31505c">análisis exploratorio deja de compensar el</text>
+  <text x="44" y="411" font-size="11.8" fill="#31505c">papeleo que ahora exige.</text>
+  <!-- El gobierno pierde crédito -->
+  <rect x="370" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="314" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="338" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SÍNTOMA 06</text>
+  <text x="390" y="359" font-size="15" font-weight="600" fill="#071c2c">El gobierno pierde crédito</text>
+  <text x="390" y="379" font-size="11.8" fill="#31505c">La gente lee el gobierno como burocracia y no</text>
+  <text x="390" y="395" font-size="11.8" fill="#31505c">como lo que hace posibles la velocidad y la</text>
+  <text x="390" y="411" font-size="11.8" fill="#31505c">calidad a la vez.</text>
+</svg>

@@ -42,7 +42,7 @@ Em vez de uma única equipe centralizada gerenciar todos os pipelines de dados, 
 
 Muitas corporações mantêm uma postura autoritária sobre os dados acreditando que o controle absoluto reduz os riscos operacionais. Contudo, restrições excessivas geram custos invisíveis que limitam diretamente a inovação e o crescimento do negócio:
 
-![Seis Sintomas da Tirania dos Dados](/images/symptoms-data-tyranny.svg)
+![Seis sintomas da tirania dos dados, cada um com o custo que impõe ao negócio](/assets/images/blog/symptoms-data-tyranny-pt.svg "Cada sintoma é um gargalo que alguém já está contornando, e o contorno é o custo real.")
 
 De acordo com pesquisas de mercado sobre maturidade analítica [TDWI, Analytics Maturity Model], empresas presas ao modelo de tirania dos dados enfrentam ciclos de tomada de decisão até 40% mais lentos e sofrem com a proliferação de "mercados negros de dados"—situações em que colaboradores exportam dados para planilhas paralelas não governadas para fugir das filas de atendimento da TI.
 

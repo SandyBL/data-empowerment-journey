@@ -43,7 +43,7 @@ En lugar de que un único departamento centralizado gestione todas las tuberías
 
 Muchas empresas operan bajo un modelo autoritario de datos asumiendo que el control absoluto minimiza el riesgo operativo. Sin embargo, las restricciones excesivas generan costes ocultos que frenan directamente la innovación y el crecimiento:
 
-![Seis Síntomas de la Tiranía de Datos](/images/symptoms-data-tyranny.svg)
+![Seis síntomas de la tiranía de datos, cada uno con el coste que impone al negocio](/assets/images/blog/symptoms-data-tyranny-es.svg "Cada síntoma es un cuello de botella que alguien ya está sorteando, y ese atajo es el coste real.")
 
 De acuerdo con los análisis del sector sobre madurez analítica [TDWI, Analytics Maturity Model], las empresas estancadas en esquemas de tiranía de datos sufren retrasos de hasta un 40% en sus ciclos de decisión y padecen la proliferación de "mercados negros de datos": escenarios donde los empleados exportan información a hojas de cálculo paralelas sin supervisión para evitar las colas de espera de TI.
 
