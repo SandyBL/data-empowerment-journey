@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="449" viewBox="0 0 720 449" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Six symptoms of data tyranny and what each one costs the business</title>
+  <desc id="desc">Six recurring symptoms of over-restricted data — approval loops, shadow spreadsheets, a single delivery team, no self-service, discouraged exploration and distrust of governance — each with the delay or risk it creates.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">SIX SYMPTOMS OF DATA TYRANNY</text>
+  
+  <!-- Endless approval loops -->
+  <rect x="24" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="72" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SYMPTOM 01</text>
+  <text x="44" y="93" font-size="15" font-weight="600" fill="#071c2c">Endless approval loops</text>
+  <text x="44" y="113" font-size="11.8" fill="#31505c">Basic access needs sign-off from IT and legal,</text>
+  <text x="44" y="129" font-size="11.8" fill="#31505c">so a routine decision waits weeks for data the</text>
+  <text x="44" y="145" font-size="11.8" fill="#31505c">company already holds.</text>
+  <!-- Data black markets -->
+  <rect x="370" y="48" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="48" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="72" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SYMPTOM 02</text>
+  <text x="390" y="93" font-size="15" font-weight="600" fill="#071c2c">Data black markets</text>
+  <text x="390" y="113" font-size="11.8" fill="#31505c">Blocked teams export raw extracts into desktop</text>
+  <text x="390" y="129" font-size="11.8" fill="#31505c">spreadsheets, and the reporting that matters</text>
+  <text x="390" y="145" font-size="11.8" fill="#31505c">moves outside governance entirely.</text>
+  <!-- One team owns everything -->
+  <rect x="24" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="181" width="4" height="113" fill="#095b73"/>
+  <text x="44" y="205" font-size="9.5" font-weight="700" fill="#095b73" letter-spacing="1.3">SYMPTOM 03</text>
+  <text x="44" y="226" font-size="15" font-weight="600" fill="#071c2c">One team owns everything</text>
+  <text x="44" y="246" font-size="11.8" fill="#31505c">A single central engineering team holds every</text>
+  <text x="44" y="262" font-size="11.8" fill="#31505c">pipeline change, so each department queues</text>
+  <text x="44" y="278" font-size="11.8" fill="#31505c">behind all the others.</text>
+  <!-- No self-service -->
+  <rect x="370" y="181" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="181" width="4" height="113" fill="#ec6d57"/>
+  <text x="390" y="205" font-size="9.5" font-weight="700" fill="#ec6d57" letter-spacing="1.3">SYMPTOM 04</text>
+  <text x="390" y="226" font-size="15" font-weight="600" fill="#071c2c">No self-service</text>
+  <text x="390" y="246" font-size="11.8" fill="#31505c">Nobody can find a dataset or read a field</text>
+  <text x="390" y="262" font-size="11.8" fill="#31505c">definition without raising a ticket, so nobody</text>
+  <text x="390" y="278" font-size="11.8" fill="#31505c">looks before deciding.</text>
+  <!-- Exploration discouraged -->
+  <rect x="24" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="314" width="4" height="113" fill="#071c2c"/>
+  <text x="44" y="338" font-size="9.5" font-weight="700" fill="#071c2c" letter-spacing="1.3">SYMPTOM 05</text>
+  <text x="44" y="359" font-size="15" font-weight="600" fill="#071c2c">Exploration discouraged</text>
+  <text x="44" y="379" font-size="11.8" fill="#31505c">Every dataset is treated as top-tier risk, so</text>
+  <text x="44" y="395" font-size="11.8" fill="#31505c">exploratory analysis stops being worth the</text>
+  <text x="44" y="411" font-size="11.8" fill="#31505c">paperwork it now requires.</text>
+  <!-- Governance loses trust -->
+  <rect x="370" y="314" width="326" height="113" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="370" y="314" width="4" height="113" fill="#0a7568"/>
+  <text x="390" y="338" font-size="9.5" font-weight="700" fill="#0a7568" letter-spacing="1.3">SYMPTOM 06</text>
+  <text x="390" y="359" font-size="15" font-weight="600" fill="#071c2c">Governance loses trust</text>
+  <text x="390" y="379" font-size="11.8" fill="#31505c">People read governance as red tape rather</text>
+  <text x="390" y="395" font-size="11.8" fill="#31505c">than the thing that makes speed and quality</text>
+  <text x="390" y="411" font-size="11.8" fill="#31505c">possible at the same time.</text>
+</svg>

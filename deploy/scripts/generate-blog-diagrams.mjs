@@ -1252,6 +1252,145 @@ export const DIAGRAMS = [
       ],
     },
   },
+  // -----------------------------------------------------------------------
+  {
+    slug: 'symptoms-data-tyranny',
+    layout: 'cards',
+    article: {
+      en: 'from-data-tyranny-to-data-democracy-making-data-work-for-everyone',
+      es: 'de-la-tirania-a-la-democracia-de-datos-hacer-que-los-datos-funcionen-para-todos',
+      pt: 'da-tirania-a-democracia-de-dados-fazendo-a-informacao-trabalhar-para-todos',
+    },
+    en: {
+      eyebrow: 'SIX SYMPTOMS OF DATA TYRANNY',
+      title: 'Six symptoms of data tyranny and what each one costs the business',
+      description:
+        'Six recurring symptoms of over-restricted data — approval loops, shadow spreadsheets, a single delivery team, no self-service, discouraged exploration and distrust of governance — each with the delay or risk it creates.',
+      figure: {
+        alt: 'Six symptoms of data tyranny, each with the cost it imposes on the business',
+        caption:
+          'Each symptom is a bottleneck somebody is already working around, and the workaround is the real cost.',
+      },
+      items: [
+        {
+          kicker: 'SYMPTOM 01',
+          title: 'Endless approval loops',
+          body: 'Basic access needs sign-off from IT and legal, so a routine decision waits weeks for data the company already holds.',
+        },
+        {
+          kicker: 'SYMPTOM 02',
+          title: 'Data black markets',
+          body: 'Blocked teams export raw extracts into desktop spreadsheets, and the reporting that matters moves outside governance entirely.',
+        },
+        {
+          kicker: 'SYMPTOM 03',
+          title: 'One team owns everything',
+          body: 'A single central engineering team holds every pipeline change, so each department queues behind all the others.',
+        },
+        {
+          kicker: 'SYMPTOM 04',
+          title: 'No self-service',
+          body: 'Nobody can find a dataset or read a field definition without raising a ticket, so nobody looks before deciding.',
+        },
+        {
+          kicker: 'SYMPTOM 05',
+          title: 'Exploration discouraged',
+          body: 'Every dataset is treated as top-tier risk, so exploratory analysis stops being worth the paperwork it now requires.',
+        },
+        {
+          kicker: 'SYMPTOM 06',
+          title: 'Governance loses trust',
+          body: 'People read governance as red tape rather than the thing that makes speed and quality possible at the same time.',
+        },
+      ],
+    },
+    es: {
+      eyebrow: 'SEIS SÍNTOMAS DE LA TIRANÍA DE DATOS',
+      title: 'Seis síntomas de la tiranía de datos y lo que cuesta cada uno',
+      description:
+        'Seis síntomas recurrentes de unos datos sobrerrestringidos — cadenas de aprobación, hojas de cálculo en la sombra, un único equipo de entrega, ausencia de autoservicio, exploración desincentivada y desconfianza en el gobierno — cada uno con el retraso o el riesgo que genera.',
+      figure: {
+        alt: 'Seis síntomas de la tiranía de datos, cada uno con el coste que impone al negocio',
+        caption:
+          'Cada síntoma es un cuello de botella que alguien ya está sorteando, y ese atajo es el coste real.',
+      },
+      items: [
+        {
+          kicker: 'SÍNTOMA 01',
+          title: 'Aprobaciones interminables',
+          body: 'Un acceso básico exige el visto bueno de TI y legal, y una decisión rutinaria espera semanas por datos que la empresa ya tiene.',
+        },
+        {
+          kicker: 'SÍNTOMA 02',
+          title: 'Mercados negros de datos',
+          body: 'Los equipos bloqueados exportan extractos a hojas de cálculo locales, y el reporting que importa sale del gobierno de datos.',
+        },
+        {
+          kicker: 'SÍNTOMA 03',
+          title: 'Un equipo lo hace todo',
+          body: 'Un único equipo central concentra cada cambio de pipeline, así que todas las áreas esperan en la misma cola.',
+        },
+        {
+          kicker: 'SÍNTOMA 04',
+          title: 'Cero autoservicio',
+          body: 'Nadie encuentra un dataset ni lee la definición de un campo sin abrir un ticket, así que nadie consulta antes de decidir.',
+        },
+        {
+          kicker: 'SÍNTOMA 05',
+          title: 'Exploración penalizada',
+          body: 'Todo dato se trata como riesgo máximo, y el análisis exploratorio deja de compensar el papeleo que ahora exige.',
+        },
+        {
+          kicker: 'SÍNTOMA 06',
+          title: 'El gobierno pierde crédito',
+          body: 'La gente lee el gobierno como burocracia y no como lo que hace posibles la velocidad y la calidad a la vez.',
+        },
+      ],
+    },
+    pt: {
+      eyebrow: 'SEIS SINTOMAS DA TIRANIA DOS DADOS',
+      title: 'Seis sintomas da tirania dos dados e o custo de cada um',
+      description:
+        'Seis sintomas recorrentes de dados excessivamente restritos — cadeias de aprovação, planilhas paralelas, um único time de entrega, ausência de autosserviço, exploração desestimulada e desconfiança na governança — cada um com o atraso ou o risco que gera.',
+      figure: {
+        alt: 'Seis sintomas da tirania dos dados, cada um com o custo que impõe ao negócio',
+        caption:
+          'Cada sintoma é um gargalo que alguém já está contornando, e o contorno é o custo real.',
+      },
+      items: [
+        {
+          kicker: 'SINTOMA 01',
+          title: 'Aprovações intermináveis',
+          body: 'Um acesso básico exige aval da TI e do jurídico, e uma decisão rotineira espera semanas por dados que a empresa já tem.',
+        },
+        {
+          kicker: 'SINTOMA 02',
+          title: 'Mercados negros de dados',
+          body: 'Times bloqueados exportam extrações para planilhas locais, e o relatório que importa passa a viver fora da governança.',
+        },
+        {
+          kicker: 'SINTOMA 03',
+          title: 'Um time faz tudo',
+          body: 'Um único time central concentra cada mudança de pipeline, então todas as áreas esperam na mesma fila.',
+        },
+        {
+          kicker: 'SINTOMA 04',
+          title: 'Zero autosserviço',
+          body: 'Ninguém acha um dataset nem lê a definição de um campo sem abrir um ticket, então ninguém consulta antes de decidir.',
+        },
+        {
+          kicker: 'SINTOMA 05',
+          title: 'Exploração punida',
+          body: 'Todo dado é tratado como risco máximo, e a análise exploratória deixa de valer o processo que agora exige.',
+        },
+        {
+          kicker: 'SINTOMA 06',
+          title: 'A governança perde crédito',
+          body: 'As pessoas leem a governança como burocracia, e não como o que torna velocidade e qualidade possíveis juntas.',
+        },
+      ],
+    },
+  },
 ];
 
 /** Everything the renderer needs for one diagram in one language. */

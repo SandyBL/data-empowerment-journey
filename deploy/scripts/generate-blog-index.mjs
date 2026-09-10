@@ -454,29 +454,70 @@ function collectCategoryPages(articles) {
 }
 
 /**
+ * Every category that has an article in a language, paired with where its link
+ * should go, keyed by language.
+ *
+ * The nav used to be built from the hubs alone, which meant it only ever
+ * offered the one category deep enough to have earned a page of its own: a
+ * reader looking at five categories' worth of articles was given "All articles"
+ * and "Data Governance" to choose between, and no way at all to see the four
+ * others as a group. So a category without a hub is not dropped — it points at
+ * the archive with its filter already applied, which is the same list the hub
+ * would show, rendered by the page the articles are already on.
+ *
+ * The filter travels as the category key rather than its label so one link
+ * works in all three languages, and so it keeps working if a label is ever
+ * reworded. See CATEGORY_PAGE_MINIMUM for why the hubs stay scarce.
+ */
+function collectCategoryLinks(articles, categoryPages) {
+  const hubs = new Map(categoryPages.map((page) => [`${page.lang}/${page.key}`, page.url]));
+  const links = new Map(LANGUAGES.map((lang) => [lang, []]));
+
+  for (const lang of LANGUAGES) {
+    for (const key of Object.keys(CATEGORY_LABELS)) {
+      const published = articles.some(
+        (article) => article.lang === lang && article.categoryKey === key
+      );
+      if (!published) continue;
+      links.get(lang).push({
+        key,
+        label: CATEGORY_LABELS[key][lang],
+        href: hubs.get(`${lang}/${key}`) ?? `${blogPath(lang)}?category=${key}`,
+        hub: hubs.has(`${lang}/${key}`),
+      });
+    }
+  }
+  return links;
+}
+
+/**
  * The row of category links shown on the blog index and on every hub.
  *
- * This is the inbound half of the hub: without it the only crawlable route to
- * a category page would be the sitemap and the chip on an article, and a page
+ * This is also the inbound half of the hub: without it the only crawlable route
+ * to a category page would be the sitemap and the chip on an article, and a page
  * whose only referrer is the sitemap is exactly the "discovered - currently not
- * indexed" case. Rendered as nothing at all when no category qualifies.
+ * indexed" case. Rendered as nothing at all when nothing is categorised.
  */
-function renderCategoryNav(lang, categoryPages, currentKey) {
-  const localized = categoryPages.filter((page) => page.lang === lang);
+function renderCategoryNav(lang, categoryLinks, currentKey) {
+  const localized = categoryLinks.get(lang) ?? [];
   if (!localized.length) return '';
   const labels = LABELS[lang];
   const copy = CATEGORY_COPY[lang];
+  // Each chip names the category it filters on. A hub link arrives on a page
+  // that already knows which category it is showing, so `currentKey` marks it
+  // server-side; a filter link comes back to the blog index, where the archive
+  // script reads these keys to move the highlight to the one being filtered on.
   const links = [
-    `<a href="${blogPath(lang)}"${currentKey ? '' : ' aria-current="page"'}>${labels.allArticles}</a>`,
+    `<a href="${blogPath(lang)}" data-category-key=""${currentKey ? '' : ' aria-current="page"'}>${labels.allArticles}</a>`,
     ...localized.map(
-      (page) =>
-        `<a href="${page.url}"${page.key === currentKey ? ' aria-current="page"' : ''}>${escapeHtml(page.label)}</a>`
+      (entry) =>
+        `<a href="${entry.href}" data-category-key="${entry.key}"${entry.key === currentKey ? ' aria-current="page"' : ''}>${escapeHtml(entry.label)}</a>`
     ),
   ].join('');
   return `<nav class="category-nav blog-shell" aria-label="${copy.browse}"><span class="category-nav-label">${copy.browse}</span><div class="category-nav-links">${links}</div></nav>`;
 }
 
-function renderCategoryPage(page, categoryPages) {
+function renderCategoryPage(page, categoryLinks) {
   const { lang, label } = page;
   const labels = LABELS[lang];
   const copy = CATEGORY_COPY[lang];
@@ -588,7 +629,7 @@ ${renderAlternateLocales(lang)}
   ${renderSiteHeader(lang, { current: 'blog', languageHrefs })}
   <main id="articles" tabindex="-1">
     <section class="listing-intro blog-shell"><div>${renderBreadcrumbNav(breadcrumb, labels)}<span class="blog-kicker">${copy.kicker}</span><h1>${escapeHtml(label)}</h1></div><p>${escapeHtml(copy.lead(label))}</p></section>
-    ${renderCategoryNav(lang, categoryPages, page.key)}
+    ${renderCategoryNav(lang, categoryLinks, page.key)}
     <section class="blog-shell"><div class="section-heading"><h2>${escapeHtml(label)}</h2><span>${copy.count(page.articles.length)}</span></div>
       <div class="post-grid">${page.articles.map((article) => renderArchiveCard(article)).join('')}</div>
     </section>
@@ -933,6 +974,10 @@ function renderArchiveCard(article, { hero = false } = {}) {
     `data-slug="${article.slug}"`,
     `data-title="${escapeHtml(article.title)}"`,
     `data-category="${escapeHtml(article.category)}"`,
+    // The label is what the card shows and what the sort orders by; the key is
+    // what the archive filters on, so the ?category= link in the category nav
+    // means the same thing on all three blogs.
+    `data-category-key="${article.categoryKey}"`,
     `data-date="${article.date}"`,
   ].join(' ');
 
@@ -966,7 +1011,7 @@ function replaceBetweenMarkers(source, marker, replacement, filePath) {
  * filter — the one article an editor has just published being the one the page
  * could not find.
  */
-async function updateBlogIndexes(articles, categoryPages) {
+async function updateBlogIndexes(articles, categoryLinks) {
   for (const lang of LANGUAGES) {
     const indexPath = path.join(projectDirectory, lang, BLOG_SEGMENT[lang], 'index.html');
     const localized = articles
@@ -990,7 +1035,7 @@ async function updateBlogIndexes(articles, categoryPages) {
     source = replaceBetweenMarkers(
       source,
       'BLOG_CATEGORIES',
-      renderCategoryNav(lang, categoryPages, ''),
+      renderCategoryNav(lang, categoryLinks, ''),
       indexPath
     );
     source = replaceBetweenMarkers(
@@ -1561,6 +1606,7 @@ async function main() {
   const renames = collectRenames(articles);
   const categoryPages = collectCategoryPages(articles);
   const categoryHubs = new Set(categoryPages.map((page) => page.key));
+  const categoryLinks = collectCategoryLinks(articles, categoryPages);
 
   const glossaryTerms = await loadGlossary(projectDirectory);
   const partials = await loadPartials(projectDirectory);
@@ -1605,7 +1651,7 @@ async function main() {
       await mkdir(path.join(categoryDirectory, page.key), { recursive: true });
       await writeDocument(
         path.join(categoryDirectory, page.key, 'index.html'),
-        renderCategoryPage(page, categoryPages)
+        renderCategoryPage(page, categoryLinks)
       );
     }
     const published = new Set(localized.map((page) => page.key));
@@ -1628,7 +1674,7 @@ async function main() {
     }
   }
 
-  await updateBlogIndexes(articles, categoryPages);
+  await updateBlogIndexes(articles, categoryLinks);
   await writeSearchIndexes(articles);
   await writeLlmsFiles(articles, glossaryTerms);
   await writeGlossary(glossaryTerms, articles);

@@ -42,7 +42,7 @@ Instead of a single bottleneck team owning every pipeline, domain ownership is d
 
 Many enterprises operate like a data dictatorship under the assumption that tight control minimizes organizational risk. However, excessive restrictions generate hidden operational risks that actively undermine business growth:
 
-![Six Symptoms of Data Tyranny](/assets/images/blog/symptoms-data-tyranny.svg "Six Symptoms of Data Tyranny")
+![Six symptoms of data tyranny, each with the cost it imposes on the business](/assets/images/blog/symptoms-data-tyranny-en.svg "Each symptom is a bottleneck somebody is already working around, and the workaround is the real cost.")
 
 According to industry benchmarks on analytical maturity \[TDWI, Analytics Maturity Model], companies stuck in "Data Tyranny" experience up to 40% longer decision-making cycles and suffer from widespread "data black markets"—where frustrated employees export raw data into ungoverned local spreadsheets to bypass IT ticket queues.
 
