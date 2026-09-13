@@ -33,6 +33,7 @@ import {
 } from './page-shell.mjs';
 import { faqSchema, renderFaqSection } from './faq.mjs';
 import { renderNewsletterForm } from './newsletter.mjs';
+import { renderPlaybookPanel } from './playbook-panel.mjs';
 import { renderBoardSummary } from './board-summary.mjs';
 import { EMPLOYER, externalWritingSchema, renderExternalWriting } from './external-writing.mjs';
 
@@ -279,6 +280,11 @@ const renderBody = (page, partials, boardSummary) => {
       );
     }
     blocks.push(`    <div class="blog-shell">${prepareInjected(partials[name], page.lang)}</div>`);
+    // The three download anchors in that block keep downloading on click; this
+    // is what the reader sees once the file is already on its way, and it is
+    // rendered here rather than inside the partial because the homepage does
+    // not embed the cards and would have no use for it. See ./playbook-panel.mjs.
+    if (name === 'PLAYBOOKS') blocks.push(renderPlaybookPanel(page.lang));
   }
 
   flush();
@@ -466,8 +472,14 @@ ${renderBody(page, partials, boardSummary)}${
       page.body.includes('{{CALCULATOR}}')
         ? '  <script type="module" src="/assets/js/bad-data-calculator.js"></script>\n'
         : '',
-      page.body.includes('{{NEWSLETTER}}')
+      // The playbook panel carries a second copy of the signup row, so this
+      // script is what submits that one too: it binds every
+      // form[data-newsletter] on the page, whichever block rendered it.
+      page.body.includes('{{NEWSLETTER}}') || page.body.includes('{{PLAYBOOKS}}')
         ? '  <script type="module" src="/assets/js/newsletter.js"></script>\n'
+        : '',
+      page.body.includes('{{PLAYBOOKS}}')
+        ? '  <script type="module" src="/assets/js/playbook-panel.js"></script>\n'
         : '',
     ].join(''),
   });
