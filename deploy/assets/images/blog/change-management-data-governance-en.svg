@@ -1,4 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="450" viewBox="0 0 720 450" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Six steps for driving data governance change management</title>
+  <desc id="desc">Six sequential change management steps for a governance programme — tell a business story, mobilize champions, drop the jargon, celebrate quick wins, measure adoption and sustain culture — each with the behaviour it is meant to change.</desc>
+
+  <rect width="720" height="450" fill="#0f172a"/>
   <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">SIX STEPS FOR DRIVING GOVERNANCE CHANGE MANAGEMENT</text>
   <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Connecting Governance Frameworks with Human Adoption &amp; Cultural Shift</text>
 
