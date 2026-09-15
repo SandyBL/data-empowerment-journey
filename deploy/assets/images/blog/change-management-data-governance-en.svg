@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">SIX STEPS FOR DRIVING GOVERNANCE CHANGE MANAGEMENT</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Connecting Governance Frameworks with Human Adoption &amp; Cultural Shift</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">STEP 01</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Tell a Business Story</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Focus on real operational pain</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">points and revenue impacts</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">rather than explaining technical</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">policy mandates.</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(253, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">STEP 02</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Mobilize Champions</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Empower informal domain</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">influencers and stewards to</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">model governed behaviors</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">across business teams.</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(486, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">STEP 03</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Drop the Jargon</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Translate complex terms like</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">'data lineage' into practical</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">concepts like 'knowing where</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">our numbers come from.'</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(20, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">STEP 04</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Celebrate Quick Wins</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Publicly showcase early</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">victories, such as resolved</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">quality issues or automated</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">reporting reconciliations.</text>
+  </g>
+
+  <!-- CARD 05 -->
+  <g transform="translate(253, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#ec4899"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#db2777" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#f472b6" letter-spacing="0.5">STEP 05</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Measure Adoption</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Track active platform usage,</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">catalog searches, and retired</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">shadow spreadsheets rather</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">than just policy counts.</text>
+  </g>
+
+  <!-- CARD 06 -->
+  <g transform="translate(486, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#64748b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#475569" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#94a3b8" letter-spacing="0.5">STEP 06</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Sustain Culture</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Embed data stewardship into</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">onboarding and routine reviews</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">until governed habits become</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">the operational norm.</text>
+  </g>
+</svg>
