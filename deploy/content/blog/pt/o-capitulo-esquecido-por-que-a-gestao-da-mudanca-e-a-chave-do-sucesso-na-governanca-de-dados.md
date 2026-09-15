@@ -9,8 +9,6 @@ summary: Entenda por que a maioria dos programas de governança de dados falha
 author: Sandy Bradbury
 translation_key: overlooked-chapter-change-management-data-governance
 ---
-![](/assets/images/blog/change-management-data-governance-pt.svg)
-
 # O Capítulo Esquecido: Por Que a Gestão da Mudança É a Chave do Sucesso na Governança de Dados
 
 Quando a liderança executiva planeja a implementação de um programa de **Governança de Dados**, a atenção se volta imediatamente para políticas corporativas, regras de qualidade, catálogos de dados e comitês direcionadores. Poucos líderes priorizam a **Gestão da Mudança** organizacional.
@@ -37,7 +35,7 @@ Um programa maduro de governança de dados não se limita a atribuir papéis em 
 
 Contudo, mudanças culturais não acontecem por acaso. Elas exigem comunicação transparente, engajamento contínuo e reforço constante ao longo do tempo \[ED Council, DCAM v2].
 
-![Seis Passos para Conduzir a Gestão da Mudança na Governança de Dados](/images/change-management-data-governance-pt.svg)
+![Seis Passos para Conduzir a Gestão da Mudança na Governança de Dados](/assets/images/blog/change-management-data-governance-pt.svg)
 
 Integrar uma gestão da mudança estruturada à sua estratégia de governança oferece a base necessária para:
 

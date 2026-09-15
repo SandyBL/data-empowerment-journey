@@ -123,5 +123,3 @@ That is why the final chapter of the DAMA DMBOK should be the very first framewo
 Is human resistance or low adoption stalling your data governance initiatives? Take our quick diagnostic assessment to evaluate your organization's readiness and receive an actionable improvement roadmap.
 
 👉 **[Evaluate Your Data Maturity Level](https://datagovjourney.com/en/#scorecard)**
-
-![]()

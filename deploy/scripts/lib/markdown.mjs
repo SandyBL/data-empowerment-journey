@@ -51,8 +51,14 @@ const THEMATIC_BREAK = /^\s*(?:(?:-\s*){3,}|(?:\*\s*){3,}|(?:_\s*){3,})$/;
  *
  * The source is matched as a single token, so a path with a space in it is a
  * path this renderer declines rather than one it silently truncates.
+ *
+ * The token may be empty, which is how the studio serialises an image
+ * component that was opened and saved without a file being chosen: `![]()`.
+ * Matching it is what lets renderMarkdown drop it -- the pattern used to
+ * require a source, so those two characters reached the page as the literal
+ * text `![]()` at the foot of the article.
  */
-const IMAGE_SOURCE = String.raw`!\[([^\]]*)\]\(\s*([^)\s]+)(?:\s+"([^"]*)")?\s*\)`;
+const IMAGE_SOURCE = String.raw`!\[([^\]]*)\]\(\s*([^)\s]*)(?:\s+"([^"]*)")?\s*\)`;
 const IMAGE_INLINE = new RegExp(IMAGE_SOURCE, 'g');
 /** The same image alone on its line, which is what becomes a <figure> below. */
 const IMAGE_ALONE = new RegExp(`^\\s*${IMAGE_SOURCE}\\s*$`);
@@ -73,16 +79,23 @@ export const imageSources = (markdown) =>
 /**
  * One <img>.
  *
- * `imageSize` is optional and comes from scripts/lib/media.mjs, which reads the
- * intrinsic dimensions off the file itself. When it answers, the tag carries
- * width and height, because an image that arrives without them is laid out
- * twice -- once at no height, again once it loads -- and that second pass is a
- * layout shift on a page whose field performance the studio reports.
+ * `imageSize` is optional and comes from scripts/lib/media.mjs, which finds the
+ * file behind a source and reads its intrinsic dimensions. Two things come back
+ * from it. `src` is the path the file is actually served from, which is not
+ * always the path written in the Markdown -- a draft that names
+ * `/images/diagram.svg` for a picture the editor uploaded to
+ * `/assets/images/blog/` is corrected here rather than published broken. And
+ * width and height are carried when the format could be measured, because an
+ * image that arrives without them is laid out twice -- once at no height, again
+ * once it loads -- and that second pass is a layout shift on a page whose field
+ * performance the studio reports.
  */
 const renderImage = (alt, source, imageSize) => {
-  const size = imageSize?.(source);
-  const dimensions = size ? ` width="${size.width}" height="${size.height}"` : '';
-  return `<img src="${escapeHtml(source)}" alt="${escapeHtml(alt)}"${dimensions} loading="lazy" decoding="async">`;
+  const resolved = imageSize?.(source);
+  const src = resolved?.src ?? source;
+  const dimensions =
+    resolved?.width && resolved?.height ? ` width="${resolved.width}" height="${resolved.height}"` : '';
+  return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}"${dimensions} loading="lazy" decoding="async">`;
 };
 
 const renderInline = (text, imageSize) => {
@@ -102,6 +115,9 @@ const renderInline = (text, imageSize) => {
   // which is exactly what it used to publish.
   const images = [];
   const withImages = parked.replace(IMAGE_INLINE, (match, alt, source) => {
+    // An image component saved without a file names no picture, so there is
+    // nothing to render and no alt text worth keeping in its place either.
+    if (!source) return '';
     if (!isServableImage(source)) return alt;
     images.push(renderImage(alt, source, imageSize));
     return `\u0001${images.length - 1}\u0001`;
@@ -230,6 +246,13 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
     // beside it, and the image escapes the prose spacing and the drop cap that
     // the article body applies to a <p>.
     const standaloneImage = line.match(IMAGE_ALONE);
+    // Same as in renderInline: an image component with no file behind it is
+    // dropped. It has to be caught here too, because otherwise the line falls
+    // through to the paragraph branch below and publishes an empty <p>.
+    if (standaloneImage && !standaloneImage[2]) {
+      index += 1;
+      continue;
+    }
     if (standaloneImage && isServableImage(standaloneImage[2])) {
       const [, alt, source, title] = standaloneImage;
       const caption = title ? `<figcaption>${renderInline(title, imageSize)}</figcaption>` : '';
