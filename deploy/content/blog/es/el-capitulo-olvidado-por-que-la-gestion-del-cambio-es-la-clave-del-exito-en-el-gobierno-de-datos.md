@@ -123,5 +123,3 @@ Por esta razón, el último capítulo del DAMA DMBOK debe ser el primer texto qu
 ¿La resistencia al cambio o la baja adopción están frenando sus iniciativas de gobierno de datos? Realice nuestro diagnóstico rápido para evaluar la preparación de su organización y obtenga un plan de acción personalizado.
 
 👉 **[Evalúe su Nivel de Madurez de Datos](https://datagovjourney.com/#scorecard)**
-
-![]()
