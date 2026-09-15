@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">6 PASSOS PARA A GESTÃO DA MUDANÇA NA GOVERNANÇA DE DADOS</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Conectando Estruturas de Governança à Adoção Humana e Transformação Cultural</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">PASSO 01</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">História de Negócio</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Conecte a governança às dores</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">operacionais reais e ao impacto</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">financeiro, evitando apresentar</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">apenas regras técnicas.</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(253, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">PASSO 02</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Multiplicadores</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Empodere Data Stewards e</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">líderes informais para</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">demonstrar os novos hábitos</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">em suas equipes.</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(486, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">PASSO 03</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Linguagem Simples</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Traduza termos complexos</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">como 'linhagem de dados'</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">para conceitos como 'saber a</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">origem dos nossos números.'</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(20, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">PASSO 04</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Vitórias Rápidas</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Divulgue os primeiros resultados,</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">como falhas de qualidade</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">corrigidas ou conciliações de</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">relatórios automatizadas.</text>
+  </g>
+
+  <!-- CARD 05 -->
+  <g transform="translate(253, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#ec4899"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#db2777" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#f472b6" letter-spacing="0.5">PASSO 05</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Medir Adoção</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Acompanhe o uso do catálogo e</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">a eliminação de planilhas</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">paralelas, em vez de focar</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">apenas em métricas de documentos.</text>
+  </g>
+
+  <!-- CARD 06 -->
+  <g transform="translate(486, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#64748b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#475569" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#94a3b8" letter-spacing="0.5">PASSO 06</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Sustentar Cultura</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Incorpore a gestão de dados</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">nas rotinas operacionais até</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">que os hábitos governados se</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">tornem a norma da empresa.</text>
+  </g>
+</svg>
