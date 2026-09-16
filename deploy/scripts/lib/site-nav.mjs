@@ -32,7 +32,7 @@
  * linked from anywhere.
  */
 
-import { LOGO, imageCdn } from './brand.mjs';
+import { CONTACT_EMAIL, CONTACT_MAILTO, LOGO, imageCdn } from './brand.mjs';
 
 /**
  * The addresses themselves live in routes.mjs, which holds the per-language URL
@@ -135,6 +135,7 @@ export const NAV = {
     footerNav: 'Site directory',
     minRead: 'min read',
     rights: 'All rights reserved.',
+    email: 'Write to us',
     builtBy: 'Data governance advice, tools, and writing by Sandy Bradbury.',
   },
   es: {
@@ -175,6 +176,7 @@ export const NAV = {
     footerNav: 'Directorio del sitio',
     minRead: 'min de lectura',
     rights: 'Todos los derechos reservados.',
+    email: 'Escríbenos',
     builtBy: 'Asesoría, herramientas y artículos de gobierno de datos por Sandy Bradbury.',
   },
   pt: {
@@ -215,6 +217,7 @@ export const NAV = {
     footerNav: 'Diretório do site',
     minRead: 'min de leitura',
     rights: 'Todos os direitos reservados.',
+    email: 'Escreva para nós',
     builtBy: 'Assessoria, ferramentas e artigos de governança de dados por Sandy Bradbury.',
   },
 };
@@ -485,6 +488,7 @@ export const renderSiteFooter = (lang) => {
         <div class="site-footer__languages">${languageLinks}</div>
       </div>
     </nav>
+    <p class="site-footer__contact">${escapeAttribute(nav.email)}: <a href="${CONTACT_MAILTO}">${CONTACT_EMAIL}</a></p>
     <p class="site-footer__legal">&copy; ${new Date().getUTCFullYear()} Data Governance Journey. ${escapeAttribute(
       nav.rights
     )} <span>${escapeAttribute(nav.builtBy)}</span></p>

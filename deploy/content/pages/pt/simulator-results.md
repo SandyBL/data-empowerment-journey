@@ -92,6 +92,6 @@ Duas portas de entrada, dependendo de quanto você já sabe que quer.
 
 **[Veja como funciona um workshop →](/pt/workshops/)**: o formato, o debrief, qual dos três cenários serve para cada sala, o que o relatório do facilitador contém e como as sessões são orçadas. Comece aqui se ainda está decidindo se isso serve para você.
 
-**[Ir direto ao formulário de contato →](/pt/?offer=private-space#contact-form-start)**: ele chega com o pedido de espaço privado já preenchido. Adicione as suas datas, o número de participantes, a mistura de idiomas e quais sistemas e times os cenários devem nomear, e eu volto com uma recomendação de cenário e um orçamento.
+**[Ir direto ao formulário de contato →](/pt/?offer=private-space#contact-form-start)**: ele chega com o pedido de espaço privado já preenchido. Adicione as suas datas, o número de participantes, a mistura de idiomas e quais sistemas e times os cenários devem nomear, e eu volto com uma recomendação de cenário e um orçamento. Um e-mail comum para [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) funciona igual: você só terá que dizer que é sobre um espaço privado, que é o que o formulário preenche para você.
 
 Se o workshop é uma peça de algo maior, a página de [assessoria](/pt/advisory/) descreve como ele costuma se encaixar — quase sempre como o movimento de abertura do desenho de um modelo operacional. Uma sala que acabou de discutir propriedade do dado se envolve com uma matriz de direitos de decisão. Uma que não discutiu, nunca se envolve.

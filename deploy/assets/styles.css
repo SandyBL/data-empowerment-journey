@@ -910,6 +910,41 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     box-shadow: 0 24px 60px rgb(0 51 102 / 0.09);
 }
 
+/*
+ * The address, under the send button.
+ *
+ * The form is still the front door, and the two prefilled offers (?offer=
+ * advisory-session and ?offer=private-space) only work through it. But a form
+ * is a dead end for anyone who needs to attach a file, forward an existing
+ * thread, or write from the mail client they already have open, and it gives
+ * nobody a way to follow up on a submission they already sent. Same inbox
+ * either way, which the copy says so that choosing the address does not feel
+ * like choosing the slower route.
+ */
+.contact-direct-email {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(226 232 240 / 0.9);
+    color: #64748b;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.contact-direct-email a {
+    color: var(--deepblue);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgb(80 200 120 / 0.55);
+    overflow-wrap: anywhere;
+}
+
+.contact-direct-email a:hover,
+.contact-direct-email a:focus-visible {
+    color: #23874a;
+    border-bottom-color: #23874a;
+}
+
 #contact-form {
     scroll-margin-top: 7rem;
 }

@@ -27,7 +27,18 @@
         "Data Literacy",
         "Data Quality",
         "CDMP Certification"
-      ]
+      ],
+      "email": "datagovjourney@gmail.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "datagovjourney@gmail.com",
+        "availableLanguage": [
+          "en",
+          "es",
+          "pt"
+        ]
+      }
     },
     {
       "@type": "Person",
@@ -47,7 +58,8 @@
         "Data Governance Strategy",
         "Change Management",
         "Data Quality & Stewardship"
-      ]
+      ],
+      "email": "datagovjourney@gmail.com"
     },
     {
       "@type": "Service",

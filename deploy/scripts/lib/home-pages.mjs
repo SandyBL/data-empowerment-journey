@@ -11,7 +11,7 @@
  * script used to patch in at runtime.
  */
 
-import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
+import { CONTACT_EMAIL, OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 import { renderHomeFaq } from './faq.mjs';
 import {
   HOME_PATH,
@@ -61,7 +61,7 @@ const PAGE_METADATA = {
     newsletterSubmit: 'Enviarme el próximo',
     newsletterSending: 'Enviando…',
     newsletterSuccess: 'Ya estás en la lista. Revisa tu bandeja de entrada.',
-    newsletterError: 'No se pudo enviar. Vuelve a intentarlo o escríbeme desde el formulario de contacto.',
+    newsletterError: `No se pudo enviar. Vuelve a intentarlo o escríbeme a ${CONTACT_EMAIL}.`,
   },
   en: {
     title: 'Data Governance Journey | Data Governance & Data Culture Consulting',
@@ -80,7 +80,7 @@ const PAGE_METADATA = {
     newsletterSubmit: 'Send me the next one',
     newsletterSending: 'Sending…',
     newsletterSuccess: 'You are on the list. Check your inbox for a confirmation.',
-    newsletterError: 'That did not send. Please try again, or write to me from the contact form.',
+    newsletterError: `That did not send. Please try again, or write to me at ${CONTACT_EMAIL}.`,
   },
   pt: {
     title: 'Data Governance Journey | Governança de Dados & Cultura de Dados',
@@ -99,7 +99,7 @@ const PAGE_METADATA = {
     newsletterSubmit: 'Quero o próximo',
     newsletterSending: 'Enviando…',
     newsletterSuccess: 'Você está na lista. Confira sua caixa de entrada.',
-    newsletterError: 'Não foi possível enviar. Tente novamente ou escreva pelo formulário de contato.',
+    newsletterError: `Não foi possível enviar. Tente novamente ou escreva para ${CONTACT_EMAIL}.`,
   },
 };
 
@@ -462,5 +462,10 @@ export const renderHomePage = (template, schemaGraph, lang, articles = []) => {
     .replace(/__NEWSLETTER_SUBMIT__/g, escapeAttribute(metadata.newsletterSubmit))
     .replace(/__NEWSLETTER_SENDING__/g, escapeAttribute(metadata.newsletterSending))
     .replace(/__NEWSLETTER_SUCCESS__/g, escapeAttribute(metadata.newsletterSuccess))
-    .replace(/__NEWSLETTER_ERROR__/g, escapeAttribute(metadata.newsletterError));
+    .replace(/__NEWSLETTER_ERROR__/g, escapeAttribute(metadata.newsletterError))
+    // The site's inbox, in the contact section and the footer. A placeholder
+    // rather than a literal in src/home.html so the address has exactly one
+    // definition (brand.mjs) across the footer, the Markdown pages, the schema
+    // graph and the report templates.
+    .replace(/__CONTACT_EMAIL__/g, CONTACT_EMAIL);
 };

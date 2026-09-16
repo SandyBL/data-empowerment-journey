@@ -34,7 +34,7 @@ node_modules/
 # uses. Listed by their localized addresses, which is what the generator writes:
 # see PAGE_SLUGS in scripts/lib/routes.mjs.
 /en/about/
-/en/advisory-sessions/
+/en/advisory/
 /en/calculator/
 /en/consulting/
 /en/faq/
@@ -45,8 +45,8 @@ node_modules/
 /en/simulator-results/
 /en/templates/
 /en/workshops/
-/es/sobre-mi/
-/es/sesiones-de-asesoria/
+/es/sobre/
+/es/asesoria/
 /es/calculadora/
 /es/consultoria/
 /es/preguntas-frecuentes/
@@ -58,7 +58,7 @@ node_modules/
 /es/plantillas/
 /es/talleres/
 /pt/sobre/
-/pt/sessoes-de-assessoria/
+/pt/assessoria/
 /pt/calculadora/
 /pt/consultoria/
 /pt/perguntas-frequentes/

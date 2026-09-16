@@ -757,6 +757,27 @@ a {
   color: #23874a;
 }
 
+/*
+ * The takedown route, quieter than the privacy note above it.
+ *
+ * The wall asks people to leave identifying details out, and the review step
+ * catches most of what slips through — but the author is the only person who
+ * can tell that a detail they kept in still identifies their employer. Without
+ * an address, that realisation had nowhere to go.
+ */
+.wall-form__removal {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.wall-form__removal a {
+  color: #23874a;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
 .wall-form__status {
   min-height: 1.2rem;
   margin: 0;

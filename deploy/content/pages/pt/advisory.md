@@ -88,4 +88,6 @@ Tudo é entregue remotamente, em português, inglês ou espanhol, e trabalho lad
 
 **[Me escreva sobre um projeto mais longo →](/pt/#contact-form-start)**: conte o que está quebrado e o que já tentou, e eu volto com o formato que acho que encaixa e quanto custaria. Se uma sessão for de verdade o melhor primeiro passo, eu digo isso.
 
+Qualquer uma das duas portas pode ser simplesmente um e-mail. [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) chega na mesma caixa de entrada que o formulário, e é o melhor caminho se você quiser anexar algo ou encaminhar uma conversa que já está em andamento.
+
 Ainda não tem certeza? Então comece por algo gratuito. O [diagnóstico de maturidade](/pt/maturity-assessment/) leva uns quinze minutos e dá uma leitura sobre a qual você pode agir comigo ou sem mim, e a [calculadora do custo dos dados ruins](/pt/calculator/) coloca um número no estado atual, que costuma ser o caminho mais curto para uma conversa com orçamento atrás. E se preferir ler primeiro e decidir depois, é uma escolha legítima e boa parte deste site existe para isso. As [perguntas frequentes](/pt/faq/) cobrem o que aparece em toda primeira conversa, o [blog](/pt/blog/) tem os argumentos longos e os [simuladores](/pt/simulator-results/) estão ali se preferir tomar você as decisões e ver o que acontece.

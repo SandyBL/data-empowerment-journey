@@ -23,4 +23,4 @@ Two of these come up so often they earned their own tool. Want to know where you
 
 For everything else: the [blog](/en/blog/) takes on the questions that do not fit in a paragraph, the [glossary](/en/glossary/) handles the vocabulary, and the [three simulators](/en/simulator-results/) let you find out by making the decisions yourself.
 
-And if you need an answer about your organization rather than a general one, [request an advisory session](/en/advisory/). Thirty minutes, one problem, no proposal attached.
+And if you need an answer about your organization rather than a general one, [request an advisory session](/en/advisory/). Thirty minutes, one problem, no proposal attached. If the question is short enough that a session would be overkill, [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) is the address — ask it there.
