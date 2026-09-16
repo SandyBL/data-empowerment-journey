@@ -92,6 +92,6 @@ Dos formas de entrar, según lo claro que tengas ya lo que quieres.
 
 **[Ver cómo funciona un taller →](/es/workshops/)**: el formato, el debrief, cuál de los tres escenarios encaja con cada sala, qué contiene el informe del facilitador y cómo se presupuestan las sesiones. Empieza aquí si todavía estás decidiendo si esto encaja.
 
-**[Ir directo al formulario de contacto →](/?offer=private-space#contact-form-start)**: llega con la solicitud de espacio privado ya rellenada. Añade tus fechas, el número de participantes, la mezcla de idiomas y qué sistemas y equipos deberían nombrar los escenarios, y te vuelvo con una recomendación de escenario y un presupuesto.
+**[Ir directo al formulario de contacto →](/?offer=private-space#contact-form-start)**: llega con la solicitud de espacio privado ya rellenada. Añade tus fechas, el número de participantes, la mezcla de idiomas y qué sistemas y equipos deberían nombrar los escenarios, y te vuelvo con una recomendación de escenario y un presupuesto. Un correo normal a [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) sirve igual: solo tendrás que decir que es por un espacio privado, que es lo que el formulario rellena por ti.
 
 Si el taller es una pieza de algo más grande, la página de [asesoría](/es/advisory/) cuenta cómo encaja normalmente: casi siempre como el movimiento de apertura del diseño de un modelo operativo. Una sala que acaba de discutir sobre propiedad del dato se implica con una matriz de derechos de decisión. Una que no lo ha hecho, nunca.

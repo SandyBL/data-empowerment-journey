@@ -16,7 +16,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { content } from '../../assets/js/confession-wall-content.js';
-import { OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
+import { CONTACT_EMAIL, CONTACT_MAILTO, OG_IMAGE, SITE_ORIGIN } from './brand.mjs';
 import { HOME_PATH } from './home-pages.mjs';
 import {
   CONFESSION_SEGMENT,
@@ -340,6 +340,10 @@ ${filters}
         <div class="wall-field"><label for="confession-title">${escapeHtml(copy.titleLabel)}</label><input id="confession-title" name="title" type="text" maxlength="180" placeholder="${escapeHtml(copy.titlePlaceholder)}" required></div>
         <div class="wall-field"><label for="confession-story">${escapeHtml(copy.storyLabel)}</label><textarea id="confession-story" name="story" minlength="20" maxlength="5000" placeholder="${escapeHtml(copy.storyPlaceholder)}" required></textarea></div>
         <p class="wall-form__privacy"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span id="privacy-copy">${escapeHtml(copy.privacy)}</span></p>
+        <p class="wall-form__removal" id="removal-copy">${escapeHtml(copy.removal).replace(
+          '{email}',
+          `<a href="${CONTACT_MAILTO}">${CONTACT_EMAIL}</a>`
+        )}</p>
         <p id="confession-form-status" class="wall-form__status" role="alert"></p>
         <div class="wall-form__actions">
           <button id="confession-form-cancel" class="wall-secondary-button" type="button" data-close-confession-form>${escapeHtml(copy.cancel)}</button>

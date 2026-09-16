@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Data detectors off: see the note in scripts/lib/page-shell.mjs. -->
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <title>O Mural de Confissões de Governança de Dados | Data Governance Journey</title>
   <meta name="description" content="Confissões anônimas de governança de dados, lições organizacionais reais e orientação prática de Sandy Bradbury.">
   <meta name="robots" content="index, follow">
@@ -78,7 +80,7 @@
         "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#stories",
         "name": "Confissões que merecem virar aprendizado",
         "description": "Conheça experiências reais compartilhadas por profissionais de dados. Nomes de empresas e detalhes identificáveis são removidos antes da publicação.",
-        "numberOfItems": 3,
+        "numberOfItems": 5,
         "itemListOrder": "https://schema.org/ItemListUnordered",
         "itemListElement": [
           {
@@ -87,10 +89,59 @@
             "item": {
               "@type": "CreativeWork",
               "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-1",
+              "name": "Uma campanha escreveu para 40.000 pessoas que já tinham se descadastrado",
+              "headline": "Uma campanha escreveu para 40.000 pessoas que já tinham se descadastrado",
+              "text": "A lista de exclusão vivia no CRM, mas a campanha foi montada com uma extração do data warehouse feita dois meses antes. Ninguém respondia pelo campo que registrava o consentimento, então a extração o deixou de fora. As reclamações chegaram ao encarregado de dados antes de os resultados chegarem ao painel.",
+              "genre": "Marketing",
+              "datePublished": "2026-09-04",
+              "inLanguage": "pt-BR",
+              "publisher": {
+                "@id": "https://datagovjourney.com/#organization"
+              },
+              "comment": {
+                "@type": "Comment",
+                "text": "Trate o consentimento como um elemento de dado crítico com um responsável nomeado: defina-o uma vez, marque-o no catálogo e exija que as listas de campanha sejam construídas a partir de uma visão certificada, não de uma planilha exportada.",
+                "author": {
+                  "@id": "https://datagovjourney.com/#sandy-bradbury"
+                }
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "CreativeWork",
+              "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-2",
+              "name": "Um assistente de IA interno citou dados salariais para a empresa inteira",
+              "headline": "Um assistente de IA interno citou dados salariais para a empresa inteira",
+              "text": "Um índice de recuperação foi apontado para um drive compartilhado para que o assistente respondesse dúvidas sobre políticas internas. Nesse mesmo drive havia um arquivo de conciliação de RH que ninguém havia classificado e, em um dia, o assistente respondia perguntas sobre salários individuais.",
+              "genre": "Engenharia",
+              "datePublished": "2026-08-26",
+              "inLanguage": "pt-BR",
+              "publisher": {
+                "@id": "https://datagovjourney.com/#organization"
+              },
+              "comment": {
+                "@type": "Comment",
+                "text": "Classifique os dados antes de eles virarem fonte, não depois. Um assistente de IA herda todas as permissões e todos os arquivos mal rotulados do corpus para o qual você o aponta, então a classificação e a revisão de acessos vêm antes de construir o índice.",
+                "author": {
+                  "@id": "https://datagovjourney.com/#sandy-bradbury"
+                }
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "CreativeWork",
+              "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-3",
               "name": "Dois números de receita diferentes chegaram ao conselho",
               "headline": "Dois números de receita diferentes chegaram ao conselho",
               "text": "Finanças reportava pedidos processados enquanto Operações descontava devoluções e cancelamentos não sincronizados. As equipes usavam consultas separadas e ninguém respondia por uma definição única de receita líquida.",
               "genre": "Finanças",
+              "datePublished": "2026-07-30",
               "inLanguage": "pt-BR",
               "publisher": {
                 "@id": "https://datagovjourney.com/#organization"
@@ -106,14 +157,15 @@
           },
           {
             "@type": "ListItem",
-            "position": 2,
+            "position": 4,
             "item": {
               "@type": "CreativeWork",
-              "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-2",
+              "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-4",
               "name": "Um script de limpeza de testes chegou à produção",
               "headline": "Um script de limpeza de testes chegou à produção",
               "text": "Um script de depuração apontou para o banco de produção e removeu assinaturas ativas. A recuperação exigiu horas de indisponibilidade e um backup sem as transações mais recentes.",
               "genre": "Engenharia",
+              "datePublished": "2026-07-09",
               "inLanguage": "pt-BR",
               "publisher": {
                 "@id": "https://datagovjourney.com/#organization"
@@ -129,14 +181,15 @@
           },
           {
             "@type": "ListItem",
-            "position": 3,
+            "position": 5,
             "item": {
               "@type": "CreativeWork",
-              "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-3",
+              "@id": "https://datagovjourney.com/pt/mural-de-confissoes/#story-5",
               "name": "Os salários executivos ficaram em uma pasta compartilhada",
               "headline": "Os salários executivos ficaram em uma pasta compartilhada",
               "text": "Uma planilha de remuneração permaneceu por semanas em uma pasta sem restrições. O arquivo circulou internamente e provocou demissões, desconfiança e uma investigação urgente de privacidade.",
               "genre": "Pessoas e Operações",
+              "datePublished": "2026-06-18",
               "inLanguage": "pt-BR",
               "publisher": {
                 "@id": "https://datagovjourney.com/#organization"
@@ -179,10 +232,10 @@
   <header class="site-header">
     <div class="site-header__inner">
       <a class="dejourney-brand" href="/pt/" aria-label="Data Governance Journey"><img class="dejourney-brand-logo" src="/.netlify/images?url=%2Fassets%2Fimages%2Fdg-logo.png&amp;w=128&amp;h=124" alt="Data Governance Journey" width="44" height="44" fetchpriority="high" decoding="async"><span class="dejourney-brand-name">Data Governance Journey</span></a>
-      <nav class="site-nav" aria-label="Navegação principal"><a class="site-nav__link" href="/pt/#framework">Framework</a><div class="site-nav__menu is-active"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-learn">Aprender<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-learn"><a class="site-nav__item" href="/pt/blog/">Ideias</a><a class="site-nav__item" href="/pt/glossario/">Glossário</a><a class="site-nav__item" href="/pt/perguntas-frequentes/">Perguntas frequentes</a><a class="site-nav__item" href="/pt/mural-de-confissoes/" aria-current="page">Mural de Confissões</a><a class="site-nav__item" href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/" target="_blank" rel="noopener noreferrer">Newsletter</a></div></div><div class="site-nav__menu"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-practice">Praticar<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-practice"><a class="site-nav__item" href="/simulators/pt/data-governance-day-to-day/">Governança do dia a dia</a><a class="site-nav__item" href="/simulators/pt/data-ownership-conflict/">Quem é o dono destes dados?</a><a class="site-nav__item" href="/simulators/pt/data-literacy/">Alfabetização de dados</a><a class="site-nav__item" href="/pt/resultados-dos-simuladores/">O que as partidas públicas mostram</a></div></div><div class="site-nav__menu"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-tools">Ferramentas<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-tools"><a class="site-nav__item" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a><a class="site-nav__item" href="/pt/calculadora/">Calculadora do custo dos dados ruins</a><a class="site-nav__item" href="/pt/modelos/">Modelos</a><a class="site-nav__item" href="/pt/playbooks/">Playbooks</a><a class="site-nav__item" href="/pt/recursos/">Todas as ferramentas gratuitas</a></div></div><div class="site-nav__menu"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-work">Trabalhar comigo<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-work"><a class="site-nav__item" href="/pt/consultoria/">Consultoria</a><a class="site-nav__item" href="/pt/sessoes-de-assessoria/">Sessões de assessoria</a><a class="site-nav__item" href="/pt/workshops/">Workshops</a><a class="site-nav__item" href="/pt/sobre/">Sobre</a><a class="site-nav__item" href="/pt/#contact-form-start">Contato</a></div></div><a class="site-nav__link site-nav__cta" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a></nav>
+      <nav class="site-nav" aria-label="Navegação principal"><a class="site-nav__link" href="/pt/#framework">Framework</a><div class="site-nav__menu is-active"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-learn">Aprender<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-learn"><a class="site-nav__item" href="/pt/blog/">Ideias</a><a class="site-nav__item" href="/pt/glossario/">Glossário</a><a class="site-nav__item" href="/pt/perguntas-frequentes/">Perguntas frequentes</a><a class="site-nav__item" href="/pt/mural-de-confissoes/" aria-current="page">Mural de Confissões</a><a class="site-nav__item" href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/" target="_blank" rel="noopener noreferrer">Newsletter</a></div></div><div class="site-nav__menu"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-practice">Praticar<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-practice"><a class="site-nav__item" href="/simulators/pt/data-governance-day-to-day/">Governança do dia a dia</a><a class="site-nav__item" href="/simulators/pt/data-ownership-conflict/">Quem é o dono destes dados?</a><a class="site-nav__item" href="/simulators/pt/data-literacy/">Alfabetização de dados</a><a class="site-nav__item" href="/pt/resultados-dos-simuladores/">O que as partidas públicas mostram</a></div></div><div class="site-nav__menu"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-tools">Ferramentas<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-tools"><a class="site-nav__item" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a><a class="site-nav__item" href="/pt/calculadora/">Calculadora do custo dos dados ruins</a><a class="site-nav__item" href="/pt/modelos/">Modelos</a><a class="site-nav__item" href="/pt/playbooks/">Playbooks</a><a class="site-nav__item" href="/pt/recursos/">Todas as ferramentas gratuitas</a></div></div><div class="site-nav__menu"><button type="button" class="site-nav__trigger" aria-expanded="false" aria-controls="nav-desktop-work">Obter ajuda<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-nav__dropdown" id="nav-desktop-work"><a class="site-nav__item" href="/pt/assessoria/">Assessoria</a><a class="site-nav__item" href="/pt/workshops/">Workshops</a><a class="site-nav__item" href="/pt/sobre/">Sobre</a><a class="site-nav__item" href="/pt/#contact-form-start">Contato</a></div></div><a class="site-nav__link site-nav__cta" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a></nav>
       <div class="site-header__actions"><div class="language-nav" role="navigation" aria-label="Idioma"><a class="lang-btn" href="/en/confession-wall/" hreflang="en" aria-label="Switch language to English"><svg class="lang-flag" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#fff"/><path fill="#B22234" d="M0 0h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28V7.7H0zm0 3.08h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28V20H0z"/><rect width="12" height="10.78" fill="#3C3B6E"/><g fill="#fff"><circle cx="1.5" cy="1.4" r=".45"/><circle cx="4.5" cy="1.4" r=".45"/><circle cx="7.5" cy="1.4" r=".45"/><circle cx="10.5" cy="1.4" r=".45"/><circle cx="3" cy="3.2" r=".45"/><circle cx="6" cy="3.2" r=".45"/><circle cx="9" cy="3.2" r=".45"/><circle cx="1.5" cy="5" r=".45"/><circle cx="4.5" cy="5" r=".45"/><circle cx="7.5" cy="5" r=".45"/><circle cx="10.5" cy="5" r=".45"/></g></svg></a><a class="lang-btn" href="/es/muro-de-confesiones/" hreflang="es" aria-label="Cambiar idioma a español"><svg class="lang-flag" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#AA151B"/><rect y="5" width="28" height="10" fill="#F1BF00"/><rect x="7" y="8" width="2.2" height="4" rx=".3" fill="#AA151B"/><rect x="7.35" y="7.2" width="1.5" height=".8" fill="#F1BF00" stroke="#AA151B" stroke-width=".3"/></svg></a><a class="lang-btn is-current" href="/pt/mural-de-confissoes/" hreflang="pt" aria-label="Mudar idioma para português" aria-current="page"><svg class="lang-flag" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#009B3A"/><path d="M14 2.5 25 10 14 17.5 3 10Z" fill="#FFDF00"/><circle cx="14" cy="10" r="4.2" fill="#002776"/><path d="M10.2 8.8c2.8-.5 5.5.2 7.7 2" fill="none" stroke="#fff" stroke-width=".7"/></svg></a></div><button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="site-drawer" aria-label="Abrir o menu de navegação" data-label-open="Abrir o menu de navegação" data-label-close="Fechar o menu de navegação"><i class="fa-solid fa-bars" aria-hidden="true"></i></button></div>
     </div>
-    <nav class="site-drawer" id="site-drawer" aria-label="Navegação do site" hidden><div class="site-drawer__panel"><a class="site-drawer__link" href="/pt/#framework">Framework</a><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-learn">Aprender<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-learn" hidden><a class="site-drawer__item" href="/pt/blog/">Ideias</a><a class="site-drawer__item" href="/pt/glossario/">Glossário</a><a class="site-drawer__item" href="/pt/perguntas-frequentes/">Perguntas frequentes</a><a class="site-drawer__item" href="/pt/mural-de-confissoes/" aria-current="page">Mural de Confissões</a><a class="site-drawer__item" href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/" target="_blank" rel="noopener noreferrer">Newsletter</a></div></div><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-practice">Praticar<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-practice" hidden><a class="site-drawer__item" href="/simulators/pt/data-governance-day-to-day/">Governança do dia a dia</a><a class="site-drawer__item" href="/simulators/pt/data-ownership-conflict/">Quem é o dono destes dados?</a><a class="site-drawer__item" href="/simulators/pt/data-literacy/">Alfabetização de dados</a><a class="site-drawer__item" href="/pt/resultados-dos-simuladores/">O que as partidas públicas mostram</a></div></div><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-tools">Ferramentas<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-tools" hidden><a class="site-drawer__item" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a><a class="site-drawer__item" href="/pt/calculadora/">Calculadora do custo dos dados ruins</a><a class="site-drawer__item" href="/pt/modelos/">Modelos</a><a class="site-drawer__item" href="/pt/playbooks/">Playbooks</a><a class="site-drawer__item" href="/pt/recursos/">Todas as ferramentas gratuitas</a></div></div><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-work">Trabalhar comigo<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-work" hidden><a class="site-drawer__item" href="/pt/consultoria/">Consultoria</a><a class="site-drawer__item" href="/pt/sessoes-de-assessoria/">Sessões de assessoria</a><a class="site-drawer__item" href="/pt/workshops/">Workshops</a><a class="site-drawer__item" href="/pt/sobre/">Sobre</a><a class="site-drawer__item" href="/pt/#contact-form-start">Contato</a></div></div><a class="site-drawer__link site-drawer__cta" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a></div></nav>
+    <nav class="site-drawer" id="site-drawer" aria-label="Navegação do site" hidden><div class="site-drawer__panel"><a class="site-drawer__link" href="/pt/#framework">Framework</a><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-learn">Aprender<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-learn" hidden><a class="site-drawer__item" href="/pt/blog/">Ideias</a><a class="site-drawer__item" href="/pt/glossario/">Glossário</a><a class="site-drawer__item" href="/pt/perguntas-frequentes/">Perguntas frequentes</a><a class="site-drawer__item" href="/pt/mural-de-confissoes/" aria-current="page">Mural de Confissões</a><a class="site-drawer__item" href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/" target="_blank" rel="noopener noreferrer">Newsletter</a></div></div><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-practice">Praticar<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-practice" hidden><a class="site-drawer__item" href="/simulators/pt/data-governance-day-to-day/">Governança do dia a dia</a><a class="site-drawer__item" href="/simulators/pt/data-ownership-conflict/">Quem é o dono destes dados?</a><a class="site-drawer__item" href="/simulators/pt/data-literacy/">Alfabetização de dados</a><a class="site-drawer__item" href="/pt/resultados-dos-simuladores/">O que as partidas públicas mostram</a></div></div><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-tools">Ferramentas<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-tools" hidden><a class="site-drawer__item" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a><a class="site-drawer__item" href="/pt/calculadora/">Calculadora do custo dos dados ruins</a><a class="site-drawer__item" href="/pt/modelos/">Modelos</a><a class="site-drawer__item" href="/pt/playbooks/">Playbooks</a><a class="site-drawer__item" href="/pt/recursos/">Todas as ferramentas gratuitas</a></div></div><div class="site-drawer__menu"><button type="button" class="site-drawer__trigger" aria-expanded="false" aria-controls="nav-drawer-work">Obter ajuda<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="site-drawer__links" id="nav-drawer-work" hidden><a class="site-drawer__item" href="/pt/assessoria/">Assessoria</a><a class="site-drawer__item" href="/pt/workshops/">Workshops</a><a class="site-drawer__item" href="/pt/sobre/">Sobre</a><a class="site-drawer__item" href="/pt/#contact-form-start">Contato</a></div></div><a class="site-drawer__link site-drawer__cta" href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a></div></nav>
   </header>
 
   <main id="main-content" tabindex="-1">
@@ -219,7 +272,7 @@
           <h2 id="wall-section-title">Confissões que merecem virar aprendizado</h2>
           <p>Conheça experiências reais compartilhadas por profissionais de dados. Nomes de empresas e detalhes identificáveis são removidos antes da publicação.</p>
         </div>
-        <span class="wall-count"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span id="wall-count" role="status">3 histórias publicadas</span></span>
+        <span class="wall-count"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span id="wall-count" role="status">5 histórias publicadas</span></span>
       </div>
       <div class="wall-controls">
         <label class="wall-search" for="wall-search-input">
@@ -239,8 +292,38 @@
           <article class="confession-card">
             <div class="confession-card__body">
               <div class="confession-card__meta">
+                <span class="confession-card__category"><i class="fa-solid fa-tag" aria-hidden="true"></i>Marketing</span>
+                <span class="confession-card__date">4 de set. de 2026</span>
+              </div>
+              <h3>Uma campanha escreveu para 40.000 pessoas que já tinham se descadastrado</h3>
+              <p class="confession-card__role">Gerente de Marketing de Crescimento | E-commerce</p>
+              <p class="confession-card__story">A lista de exclusão vivia no CRM, mas a campanha foi montada com uma extração do data warehouse feita dois meses antes. Ninguém respondia pelo campo que registrava o consentimento, então a extração o deixou de fora. As reclamações chegaram ao encarregado de dados antes de os resultados chegarem ao painel.</p>
+            </div>
+            <div class="confession-card__takeaway">
+              <div class="confession-card__takeaway-label"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Orientação de governança</span></div>
+              <p>Trate o consentimento como um elemento de dado crítico com um responsável nomeado: defina-o uma vez, marque-o no catálogo e exija que as listas de campanha sejam construídas a partir de uma visão certificada, não de uma planilha exportada.</p>
+            </div>
+          </article>
+          <article class="confession-card">
+            <div class="confession-card__body">
+              <div class="confession-card__meta">
+                <span class="confession-card__category"><i class="fa-solid fa-tag" aria-hidden="true"></i>Engenharia</span>
+                <span class="confession-card__date">26 de ago. de 2026</span>
+              </div>
+              <h3>Um assistente de IA interno citou dados salariais para a empresa inteira</h3>
+              <p class="confession-card__role">Engenheiro de Analytics | Seguros</p>
+              <p class="confession-card__story">Um índice de recuperação foi apontado para um drive compartilhado para que o assistente respondesse dúvidas sobre políticas internas. Nesse mesmo drive havia um arquivo de conciliação de RH que ninguém havia classificado e, em um dia, o assistente respondia perguntas sobre salários individuais.</p>
+            </div>
+            <div class="confession-card__takeaway">
+              <div class="confession-card__takeaway-label"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Orientação de governança</span></div>
+              <p>Classifique os dados antes de eles virarem fonte, não depois. Um assistente de IA herda todas as permissões e todos os arquivos mal rotulados do corpus para o qual você o aponta, então a classificação e a revisão de acessos vêm antes de construir o índice.</p>
+            </div>
+          </article>
+          <article class="confession-card">
+            <div class="confession-card__body">
+              <div class="confession-card__meta">
                 <span class="confession-card__category"><i class="fa-solid fa-tag" aria-hidden="true"></i>Finanças</span>
-                <span class="confession-card__date"></span>
+                <span class="confession-card__date">30 de jul. de 2026</span>
               </div>
               <h3>Dois números de receita diferentes chegaram ao conselho</h3>
               <p class="confession-card__role">Analista Financeiro Sênior | Varejo</p>
@@ -255,7 +338,7 @@
             <div class="confession-card__body">
               <div class="confession-card__meta">
                 <span class="confession-card__category"><i class="fa-solid fa-tag" aria-hidden="true"></i>Engenharia</span>
-                <span class="confession-card__date"></span>
+                <span class="confession-card__date">9 de jul. de 2026</span>
               </div>
               <h3>Um script de limpeza de testes chegou à produção</h3>
               <p class="confession-card__role">Engenheiro de Dados | SaaS</p>
@@ -270,7 +353,7 @@
             <div class="confession-card__body">
               <div class="confession-card__meta">
                 <span class="confession-card__category"><i class="fa-solid fa-tag" aria-hidden="true"></i>Pessoas e Operações</span>
-                <span class="confession-card__date"></span>
+                <span class="confession-card__date">18 de jun. de 2026</span>
               </div>
               <h3>Os salários executivos ficaram em uma pasta compartilhada</h3>
               <p class="confession-card__role">Especialista de Operações de Pessoas | Saúde</p>
@@ -299,13 +382,14 @@
       <div><h2>Aprender</h2><ul><li><a href="/pt/blog/">Ideias</a></li><li><a href="/pt/glossario/">Glossário</a></li><li><a href="/pt/perguntas-frequentes/">Perguntas frequentes</a></li><li><a href="/pt/mural-de-confissoes/">Mural de Confissões</a></li><li><a href="https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/" target="_blank" rel="noopener noreferrer">Newsletter</a></li><li><a href="/pt/feed.xml">Feed RSS</a></li></ul></div>
       <div><h2>Praticar</h2><ul><li><a href="/simulators/pt/data-governance-day-to-day/">Governança do dia a dia</a></li><li><a href="/simulators/pt/data-ownership-conflict/">Quem é o dono destes dados?</a></li><li><a href="/simulators/pt/data-literacy/">Alfabetização de dados</a></li><li><a href="/pt/resultados-dos-simuladores/">O que as partidas públicas mostram</a></li></ul></div>
       <div><h2>Ferramentas</h2><ul><li><a href="/pt/diagnostico-de-maturidade/">Diagnóstico de maturidade</a></li><li><a href="/pt/calculadora/">Calculadora do custo dos dados ruins</a></li><li><a href="/pt/modelos/">Modelos</a></li><li><a href="/pt/playbooks/">Playbooks</a></li><li><a href="/pt/recursos/">Todas as ferramentas gratuitas</a></li></ul></div>
-      <div><h2>Trabalhar comigo</h2><ul><li><a href="/pt/consultoria/">Consultoria</a></li><li><a href="/pt/sessoes-de-assessoria/">Sessões de assessoria</a></li><li><a href="/pt/workshops/">Workshops</a></li><li><a href="/pt/sobre/">Sobre</a></li><li><a href="/pt/#contact-form-start">Contato</a></li></ul></div>
+      <div><h2>Obter ajuda</h2><ul><li><a href="/pt/assessoria/">Assessoria</a></li><li><a href="/pt/workshops/">Workshops</a></li><li><a href="/pt/sobre/">Sobre</a></li><li><a href="/pt/#contact-form-start">Contato</a></li></ul></div>
       <div>
         <h2>Idioma</h2>
         <div class="site-footer__languages"><a href="/en/">EN</a><a href="/">ES</a><a href="/pt/" aria-current="page">PT</a></div>
       </div>
     </nav>
-    <p class="site-footer__legal">&copy; 2026 Data Governance Journey. Todos os direitos reservados. <span>Consultoria, ferramentas e artigos de governança de dados por Sandy Bradbury.</span></p>
+    <p class="site-footer__contact">Escreva para nós: <a href="mailto:datagovjourney@gmail.com">datagovjourney@gmail.com</a></p>
+    <p class="site-footer__legal">&copy; 2026 Data Governance Journey. Todos os direitos reservados. <span>Assessoria, ferramentas e artigos de governança de dados por Sandy Bradbury.</span></p>
   </div>
 </footer>
 
@@ -323,6 +407,7 @@
         <div class="wall-field"><label for="confession-title">Título da história</label><input id="confession-title" name="title" type="text" maxlength="180" placeholder="O erro na planilha que mudou nossos resultados trimestrais" required></div>
         <div class="wall-field"><label for="confession-story">O que aconteceu?</label><textarea id="confession-story" name="story" minlength="20" maxlength="5000" placeholder="Descreva o que deu errado, o impacto e o que sua equipe aprendeu…" required></textarea></div>
         <p class="wall-form__privacy"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span id="privacy-copy">Projetado para ser anônimo. Não inclua nomes de empresas, pessoas, credenciais ou outras informações identificáveis.</span></p>
+        <p class="wall-form__removal" id="removal-copy">Já publicou algo que quer alterar ou remover? Escreva para <a href="mailto:datagovjourney@gmail.com">datagovjourney@gmail.com</a> e retiramos do mural.</p>
         <p id="confession-form-status" class="wall-form__status" role="alert"></p>
         <div class="wall-form__actions">
           <button id="confession-form-cancel" class="wall-secondary-button" type="button" data-close-confession-form>Cancelar</button>

@@ -58,6 +58,6 @@ Los talleres se cotizan por sesión, con el espacio privado, los escenarios rees
 
 ## Reservar una sesión
 
-Usa el [formulario de contacto](/#contact-form-start) e incluye tus fechas, el número de participantes, la mezcla de idiomas y una frase sobre qué quieres que la sala entienda al salir. Te contesto con una recomendación de escenario y un presupuesto.
+Usa el [formulario de contacto](/#contact-form-start), o escribe a [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) si te resulta más cómodo, e incluye tus fechas, el número de participantes, la mezcla de idiomas y una frase sobre qué quieres que la sala entienda al salir. Te contesto con una recomendación de escenario y un presupuesto.
 
 Si el taller es parte de algo más grande, la página de [asesoría](/es/advisory/) cuenta cómo encaja normalmente: casi siempre como movimiento de apertura de un diseño de modelo operativo, porque una sala que acaba de discutir sobre propiedad es una sala que se va a implicar con una matriz de derechos de decisión.

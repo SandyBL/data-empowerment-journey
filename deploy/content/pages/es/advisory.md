@@ -88,4 +88,6 @@ Todo se entrega en remoto, en español, inglés o portugués, y trabajo codo con
 
 **[Escríbeme sobre un proyecto más largo →](/#contact-form-start)**: cuéntame qué está roto y qué has probado, y te contesto con el formato que creo que encaja y lo que costaría. Si una sesión es de verdad el mejor primer paso, te lo diré.
 
+Cualquiera de las dos puertas puede ser simplemente un correo. [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) llega a la misma bandeja que el formulario, y es la mejor vía si quieres adjuntar algo o reenviar un hilo que ya tienes abierto.
+
 ¿Todavía no lo tienes claro? Empieza por algo gratis. El [diagnóstico de madurez](/es/maturity-assessment/) lleva unos quince minutos y da una lectura sobre la que puedes actuar conmigo o sin mí, y la [calculadora del coste de los datos malos](/es/calculator/) le pone un número al estado actual, que suele ser el camino más corto a una conversación con presupuesto detrás. Y si prefieres leer primero y decidir después, es una elección legítima y buena parte de este sitio existe para eso. Las [preguntas frecuentes](/es/faq/) cubren lo que sale en toda primera conversación, el [blog](/es/blog/) tiene los argumentos largos y los [simuladores](/es/simulator-results/) están ahí si prefieres tomar tú las decisiones y ver qué pasa.

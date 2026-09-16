@@ -58,6 +58,6 @@ Workshops are priced per session, with the private space, the rewritten scenario
 
 ## Booking one
 
-Use the [contact form](/en/#contact-form-start) and include your dates, the number of participants, the language mix and one sentence on what you want the room to walk out understanding. I'll come back with a scenario recommendation and a quote.
+Use the [contact form](/en/#contact-form-start), or write to [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) if that is easier, and include your dates, the number of participants, the language mix and one sentence on what you want the room to walk out understanding. I'll come back with a scenario recommendation and a quote.
 
 If the workshop is part of something bigger, the [advice and support](/en/advisory/) page describes where it usually fits — most often as the opening move of an operating model design, because a room that has just argued about ownership is a room that will engage with a decision-rights grid.

@@ -19,6 +19,8 @@
  *   rate into a 3% one, and none of them are needed to send an email.
  */
 
+import { CONTACT_EMAIL } from './brand.mjs';
+
 const COPY = {
   en: {
     kicker: 'Optional',
@@ -29,7 +31,7 @@ const COPY = {
     submit: 'Send me the next one',
     sending: 'Sending…',
     success: 'You are on the list. Check your inbox for a confirmation.',
-    error: 'That did not send. Please try again, or write to us from the contact form.',
+    error: `That did not send. Please try again, or write to us at ${CONTACT_EMAIL}.`,
     privacy: 'No sharing, no selling, no third-party tracking on this form.',
   },
   es: {
@@ -41,7 +43,7 @@ const COPY = {
     submit: 'Enviarme el próximo',
     sending: 'Enviando…',
     success: 'Ya estás en la lista. Revisa tu bandeja de entrada.',
-    error: 'No se pudo enviar. Vuelve a intentarlo o escríbenos desde el formulario de contacto.',
+    error: `No se pudo enviar. Vuelve a intentarlo o escríbenos a ${CONTACT_EMAIL}.`,
     privacy: 'No compartimos ni vendemos tu correo, y este formulario no tiene rastreadores de terceros.',
   },
   pt: {
@@ -53,7 +55,7 @@ const COPY = {
     submit: 'Quero o próximo',
     sending: 'Enviando…',
     success: 'Você está na lista. Confira sua caixa de entrada.',
-    error: 'Não foi possível enviar. Tente novamente ou escreva pelo formulário de contato.',
+    error: `Não foi possível enviar. Tente novamente ou escreva para ${CONTACT_EMAIL}.`,
     privacy: 'Não compartilhamos nem vendemos seu e-mail, e este formulário não tem rastreadores de terceiros.',
   },
 };

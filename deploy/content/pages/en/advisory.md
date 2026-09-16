@@ -88,4 +88,6 @@ Everything is delivered remotely, in English, Spanish or Portuguese, and I work 
 
 **[Write to me about a longer piece of work →](/en/#contact-form-start)**: tell me what's broken and what you've tried, and I'll come back with the shape I think fits and what it would cost. If a session is genuinely the better first step, I'll say that instead.
 
+Either door can also just be an email. [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) reaches the same inbox as the form, and it is the better route if you want to attach something or forward a thread you are already in.
+
 Not sure yet? Then start with something free. The [maturity assessment](/en/maturity-assessment/) takes about fifteen minutes and produces a read you can act on with or without me, and the [cost of bad data calculator](/en/calculator/) puts a number on the current state, which is usually the shortest route to a funded conversation. And if you'd rather read first and decide later, that's a legitimate choice, and most of this site exists for it. The [FAQ](/en/faq/) covers what comes up in every first conversation, the [blog](/en/blog/) has the long arguments, and the [simulators](/en/simulator-results/) are there if you'd rather make the decisions yourself and watch what happens.

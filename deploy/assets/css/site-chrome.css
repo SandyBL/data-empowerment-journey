@@ -556,10 +556,36 @@ body.site-drawer-open {
   background: rgb(101 183 199 / 0.2);
 }
 
-.site-footer__legal {
-  margin: 0;
+/*
+ * The address sits above the copyright line and carries the rule that used to
+ * belong to it, so the two read as one block rather than as two separated
+ * footnotes. It is a real mailto rather than a link to the contact form: a
+ * reader whose submission just failed, or who is reading an article on a phone
+ * with a mail client already open, should not have to find the form again.
+ */
+.site-footer__contact {
+  margin: 0 0 6px;
   padding-top: 22px;
   border-top: 1px solid var(--line, rgb(7 28 44 / 0.14));
+  color: rgb(100 116 139 / 0.85);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.site-footer__contact a {
+  color: var(--deepblue, #003366);
+  font-weight: 700;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.site-footer__contact a:hover,
+.site-footer__contact a:focus-visible {
+  text-decoration: underline;
+}
+
+.site-footer__legal {
+  margin: 0;
   color: var(--slatecool, #0f172a);
   font-size: 0.82rem;
   line-height: 1.7;

@@ -23,4 +23,4 @@ Duas destas aparecem com tanta frequência que ganharam ferramenta própria. Que
 
 Para todo o resto: o [blog](/pt/blog/) encara as perguntas que não cabem em um parágrafo, o [glossário](/pt/glossary/) cuida do vocabulário e os [três simuladores](/pt/simulator-results/) deixam você descobrir tomando as decisões você mesmo.
 
-E se você precisa de uma resposta sobre a sua organização e não de uma geral, [solicite uma sessão de assessoria](/pt/advisory/). Trinta minutos, um problema, sem proposta anexada.
+E se você precisa de uma resposta sobre a sua organização e não de uma geral, [solicite uma sessão de assessoria](/pt/advisory/). Trinta minutos, um problema, sem proposta anexada. E se a pergunta for curta o bastante para que uma sessão seja exagero, o endereço é [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com): pergunte por lá.

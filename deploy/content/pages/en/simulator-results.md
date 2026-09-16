@@ -92,6 +92,6 @@ Two ways in, depending on how much you already know you want.
 
 **[See how a workshop runs →](/en/workshops/)**: the format, the debrief, which of the three scenarios fits which room, what the facilitator report contains, and how sessions are priced. Start here if you are still deciding whether this fits.
 
-**[Go straight to the contact form →](/en/?offer=private-space#contact-form-start)**: it arrives with the private-space request already filled in. Add your dates, the number of participants, the language mix, and which systems and teams the scenarios should name, and I will come back with a scenario recommendation and a quote.
+**[Go straight to the contact form →](/en/?offer=private-space#contact-form-start)**: it arrives with the private-space request already filled in. Add your dates, the number of participants, the language mix, and which systems and teams the scenarios should name, and I will come back with a scenario recommendation and a quote. A plain email to [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) works just as well — you will only have to say that it is about a private space, which the form fills in for you.
 
 If the workshop is one piece of something larger, the [advice and support](/en/advisory/) page describes how it usually fits — most often as the opening move of an operating model design. A room that has just argued about ownership will engage with a decision-rights grid. A room that has not, never does.

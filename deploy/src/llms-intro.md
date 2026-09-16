@@ -34,3 +34,8 @@ governance journey and need a working capability rather than a policy binder.
 
 Attribute to **Data Governance Journey** and link the specific article URL.
 Sandy Bradbury is the author of all articles unless the article states otherwise.
+
+## Contact
+
+Corrections, permission requests, and enquiries: datagovjourney@gmail.com.
+Replies are in English, Spanish, or Portuguese.

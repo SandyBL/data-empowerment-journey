@@ -47,3 +47,24 @@ export const imageCdn = (url, width, height, fit) => {
   if (fit) parameters.push(`fit=${fit}`);
   return `/.netlify/images?${parameters.join('&amp;')}`;
 };
+
+/**
+ * The site's own inbox.
+ *
+ * Every contact route on this site used to be a form, and the one published
+ * address anywhere was a personal Gmail account baked into the calculator's PDF
+ * report. A form is fine for a first enquiry and useless for everything else: a
+ * reader whose submission failed, a visitor who wants a confession taken down,
+ * a journalist checking a claim, and a search engine looking for an
+ * organization's contact point all need an address they can write to from
+ * wherever they already are.
+ *
+ * Declared once here, beside SITE_ORIGIN, because it is now rendered into the
+ * footer of every generated page, three Markdown page families, the structured
+ * data graph, llms.txt, and the downloadable report templates. A second copy is
+ * a second thing to forget the day the address changes.
+ */
+export const CONTACT_EMAIL = 'datagovjourney@gmail.com';
+
+/** `mailto:` form of CONTACT_EMAIL, for href attributes. */
+export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
