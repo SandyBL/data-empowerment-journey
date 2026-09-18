@@ -15,9 +15,9 @@ Imagine el siguiente escenario: estamos a cierre de trimestre. El cuadro de mand
 
 ¿Le resulta familiar esta situación?
 
-En el entorno corporativo actual, este tipo de crisis operativas no ocurren por falta de herramientas analíticas avanzadas. Ocurren porque la **Calidad de Datos** suele tratarse como una tarea puntual y reactiva de limpieza, en lugar de abordarse como una disciplina continua integrada en toda la cadena de valor de la información [DAMA International, DMBOK2].
+En el entorno corporativo actual, este tipo de crisis operativas no ocurren por falta de herramientas analíticas avanzadas. Ocurren porque la **[Calidad de Datos](/es/glossary/data-quality/)** suele tratarse como una tarea puntual y reactiva de limpieza, en lugar de abordarse como una disciplina continua integrada en toda la cadena de valor de la información [DAMA International, DMBOK2].
 
-Un programa de **Gobierno de Datos** (también conocido alternativamente como *gobernanza*) no puede sostenerse mediante simples documentos normativos o comités teóricos. Para proteger la toma de decisiones, mitigar riesgos operativos y maximizar el retorno de la inversión, las organizaciones deben desplegar controles de calidad integrales (*end-to-end*) en cada capa de su arquitectura: desde la ingesta inicial de las fuentes hasta los paneles de control de los usuarios finales.
+Un programa de **[Gobierno de Datos](/es/glossary/data-governance/)** (también conocido alternativamente como *gobernanza*) no puede sostenerse mediante simples documentos normativos o comités teóricos. Para proteger la toma de decisiones, mitigar riesgos operativos y maximizar el retorno de la inversión, las organizaciones deben desplegar controles de calidad integrales (*end-to-end*) en cada capa de su arquitectura: desde la ingesta inicial de las fuentes hasta los paneles de control de los usuarios finales.
 
 ---
 
@@ -39,7 +39,7 @@ Degradación Silenciosa en la Cadena de Valor
 
 Cada etapa del proceso añade una capa de pulido visual: gráficos atractivos, etiquetas estructuradas e indicadores estilizados. Sin embargo, el contenido subyacente sigue estando profundamente alterado. Para cuando un directivo analiza el informe, el error inicial está protegido por múltiples capas de procesamiento técnico.
 
-De acuerdo con los estudios sobre madurez analítica [TDWI, Analytics Maturity Model], las empresas que operan sin salvaguardas continuas de calidad de datos pierden entre un 15% y un 25% de su margen operativo gestionando las consecuencias derivadas de la mala información, incluyendo sanciones de cumplimiento regulatorio y decisiones de inversión erróneas.
+De acuerdo con los estudios sobre madurez analítica [TDWI, Analytics Maturity Model], las empresas que operan sin salvaguardas continuas de calidad de datos pierden entre un 15% y un 25% de su margen operativo gestionando las consecuencias derivadas de la [mala información](/es/glossary/cost-of-poor-data-quality/), incluyendo sanciones de cumplimiento regulatorio y decisiones de inversión erróneas.
 
 ---
 
@@ -87,8 +87,8 @@ Los datos almacenados en los almacenes modernos (Snowflake, BigQuery, Databricks
 La última milla en la entrega de información es su última barrera de defensa antes de que los datos influyan en decisiones comerciales, presentaciones a inversores o interacciones con clientes.
 
 * **Verificación de Lógica en Cuadros de Mando:** Configure alertas de umbral automatizadas sobre los indicadores clave de rendimiento (KPIs). Si la métrica de facturación diaria o el número de usuarios activos varía más de tres desviaciones estándar sobre la media histórica, bloquee temporalmente la publicación del cuadro de mando para su revisión.
-* **Alineación con el Glosario de Negocio:** Garantice que las consultas de los informes utilicen modelos de datos estandarizados, evitando la creación de fórmulas SQL personalizadas y no gobernadas dentro de las herramientas de Business Intelligence (BI).
-* **Visibilidad del Linaje:** Proporcione a los usuarios de negocio visibilidad directa sobre la frescura del dato y el estado de los pipelines desde la propia interfaz de BI, generando total transparencia.
+* **Alineación con el [Glosario de Negocio](/es/glossary/business-glossary/):** Garantice que las consultas de los informes utilicen modelos de datos estandarizados, evitando la creación de fórmulas SQL personalizadas y no gobernadas dentro de las herramientas de Business Intelligence (BI).
+* **Visibilidad del [Linaje](/es/glossary/data-lineage/):** Proporcione a los usuarios de negocio visibilidad directa sobre la frescura del dato y el estado de los pipelines desde la propia interfaz de BI, generando total transparencia.
 
 ---
 
@@ -98,17 +98,17 @@ La última milla en la entrega de información es su última barrera de defensa 
 
 Los procesos y la tecnología son insuficientes si no existe una estructura organizativa con responsabilidades claras. Los modelos de gobierno de alto rendimiento [Gartner, Data Governance Framework] asignan la calidad del dato a roles bien definidos dentro de la empresa:
 
-### El Data Owner o Propietario de Datos (Responsabilidad Estratégica)
-Líderes ejecutivos de área (como el Director Financiero o la Directora de Operaciones) que asumen la responsabilidad última de un dominio de datos específico. Definen qué significa "dato de calidad" para su negocio, fijan los umbrales de error aceptables (por ejemplo, un 99,9% de precisión en la facturación) y aprueban los recursos de corrección.
+### El Data Owner o [Propietario de Datos](/es/glossary/data-owner/) (Responsabilidad Estratégica)
+Líderes ejecutivos de área (como el Director Financiero o la Directora de Operaciones) que asumen la responsabilidad última de un [dominio de datos](/es/glossary/data-domain/) específico. Definen qué significa "dato de calidad" para su negocio, fijan los umbrales de error aceptables (por ejemplo, un 99,9% de precisión en la facturación) y aprueban los recursos de corrección.
 
-### El Data Steward o Custodio de Datos (Supervisión Táctica)
-Expertos funcionales que trabajan a diario con la información. Se encargan de diseñar las reglas técnicas de validación, investigar las causas raíz cuando salta una alerta de calidad, gestionar los flujos de corrección y mantener actualizadas las definiciones en el glosario de negocio.
+### El Data Steward o [Custodio de Datos](/es/glossary/data-steward/) (Supervisión Táctica)
+Expertos funcionales que trabajan a diario con la información. Se encargan de diseñar las [reglas técnicas de validación](/es/glossary/data-quality-rule/), investigar las causas raíz cuando salta una alerta de calidad, gestionar los flujos de corrección y mantener actualizadas las definiciones en el glosario de negocio.
 
 ### El Ingeniero de Datos (Ejecución Técnica)
 Perfil técnico responsable de codificar las pruebas de calidad directamente en los pipelines de integración y en los modelos de transformación. Asegura que la detección de un dato corrupto detenga el proceso, genere una alerta automática y envíe los registros anómalos a tablas de cuarentena para su análisis.
 
 ### El Consumidor de Negocio (Retroalimentación Activa)
-Cualquier profesional de la empresa con nivel básico de alfabetización de datos. Cuando detecta un indicador incoherente, utiliza los canales de escalado formales para notificar al Data Steward correspondiente, en lugar de recurrir a hojas de cálculo paralelas desvinculadas de la gestión oficial.
+Cualquier profesional de la empresa con nivel básico de [alfabetización de datos](/es/glossary/data-literacy/). Cuando detecta un indicador incoherente, utiliza los canales de escalado formales para notificar al Data Steward correspondiente, en lugar de recurrir a hojas de cálculo paralelas desvinculadas de la gestión oficial.
 
 ---
 
@@ -131,7 +131,7 @@ Enfoque de Gobierno Proactivo:
 
 ## Plan de Acción para Desplegar Calidad de Datos End-to-End
 
-Transicionar de una gestión reactiva de apagado de fuegos a un modelo proactivo de calidad no exige cambiar toda la infraestructura tecnológica de forma inmediata. Le sugerimos seguir este plan de implementación progresivo:
+Transicionar de una gestión reactiva de apagado de fuegos a un [modelo proactivo de calidad](/es/glossary/proactive-data-governance/) no exige cambiar toda la infraestructura tecnológica de forma inmediata. Le sugerimos seguir este plan de implementación progresivo:
 
 1. **Mapee los Flujos Críticos:** Identifique sus tres indicadores clave de negocio (KPIs) más importantes y rastree su recorrido aguas arriba hasta llegar a las fuentes de origen.
 2. **Diagnostique los Puntos de Riesgo:** Localice las etapas donde se introducen datos sin ningún tipo de validación (habitualmente archivos manuales o integraciones API sin control de esquema).

@@ -58,7 +58,7 @@ export {
   confessionWallPath,
   feedPath,
   glossaryHubPath,
-  glossaryTermPath,
+  glossaryTermAnchor,
   localizeInternalLinks,
   pagePath,
   pageLanguageHrefs,

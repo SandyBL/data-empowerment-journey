@@ -11,11 +11,11 @@ translation_key: overlooked-chapter-change-management-data-governance
 ---
 # O Capítulo Esquecido: Por Que a Gestão da Mudança É a Chave do Sucesso na Governança de Dados
 
-Quando a liderança executiva planeja a implementação de um programa de **Governança de Dados**, a atenção se volta imediatamente para políticas corporativas, regras de qualidade, catálogos de dados e comitês direcionadores. Poucos líderes priorizam a **Gestão da Mudança** organizacional.
+Quando a liderança executiva planeja a implementação de um programa de **[Governança de Dados](/pt/glossary/data-governance/)**, a atenção se volta imediatamente para políticas corporativas, [regras de qualidade](/pt/glossary/data-quality-rule/), catálogos de dados e comitês direcionadores. Poucos líderes priorizam a **Gestão da Mudança** organizacional.
 
-No entanto, no corpo de conhecimento para gestão de dados DAMA DMBOK \[DAMA International, DMBOK2], o último capítulo é dedicado exclusivamente à Gestão da Mudança Organizacional—e por uma razão estratégica. Sem trabalhar o comportamento humano, todas as estruturas, arquiteturas de informação e ferramentas de software do mercado serão insuficientes para transformar sua empresa em uma organização orientada a dados.
+No entanto, no corpo de conhecimento para gestão de dados [DAMA DMBOK](/pt/glossary/dama-dmbok/) \[DAMA International, DMBOK2], o último capítulo é dedicado exclusivamente à Gestão da Mudança Organizacional—e por uma razão estratégica. Sem trabalhar o comportamento humano, todas as estruturas, arquiteturas de informação e ferramentas de software do mercado serão insuficientes para transformar sua empresa em uma organização orientada a dados.
 
-A governança de dados não é um projeto de TI; trata-se de uma profunda transformação cultural.
+A governança de dados não é um projeto de TI; trata-se de uma profunda [transformação cultural](/pt/glossary/data-culture/).
 
 - - -
 
@@ -23,7 +23,7 @@ A governança de dados não é um projeto de TI; trata-se de uma profunda transf
 
 A governança de dados altera a forma como os colaboradores coletam, validam, acessam e analisam informações diariamente. Ela redefine responsabilidades, redistribui a autoridade sobre os ativos de dados e estabelece novas rotinas de trabalho.
 
-Se a empresa aprova políticas rígidas de governança, mas as equipes continuam exportando dados brutos para planilhas paralelas não governadas, a governança não foi alcançada—você apenas criou um conjunto de regras que ninguém consulta.
+Se a empresa aprova [políticas rígidas de governança](/pt/glossary/data-policy/), mas as equipes continuam exportando dados brutos para planilhas paralelas não governadas, a governança não foi alcançada—você apenas criou um conjunto de regras que ninguém consulta.
 
 A gestão da mudança conecta o desenho das políticas à sua adoção operacional no dia a dia. Ela garante que os profissionais entendam *por que* a transformação é necessária, *como* ela beneficia suas rotinas de trabalho e *quais* comportamentos específicos precisam ser ajustados \[Gartner, Data Governance Framework].
 
@@ -68,11 +68,11 @@ Para garantir que seu programa de governança alcance alta adesão e sustentabil
 
 ### 1. Comece com uma História de Negócio, Não com uma Política Técnica
 
-Antes de apresentar regras técnicas ou campos obrigatórios de metadados, explique a causa raiz do problema. Utilize exemplos reais de falhas de dados ocorridas na empresa—como um erro em uma projeção de vendas ou o atraso em uma campanha de marketing—para ilustrar como a governança evita gargalos e protege os resultados financeiros.
+Antes de apresentar regras técnicas ou campos obrigatórios de [metadados](/pt/glossary/metadata/), explique a causa raiz do problema. Utilize exemplos reais de falhas de dados ocorridas na empresa—como um erro em uma projeção de vendas ou o atraso em uma campanha de marketing—para ilustrar como a governança evita gargalos e protege os resultados financeiros.
 
 ### 2. Mobilize os Multiplicadores da Governança
 
-Empodere influenciadores internos, **Data Stewards** operacionais e líderes de equipe que reconhecem o valor de dados confiáveis. Capacitar esses multiplicadores para demonstrar os novos comportamentos em suas áreas cria um efeito de contágio positivo que a equipe central de TI não consegue gerar sozinha.
+Empodere influenciadores internos, **[Data Stewards](/pt/glossary/data-steward/)** operacionais e líderes de equipe que reconhecem o valor de dados confiáveis. Capacitar esses multiplicadores para demonstrar os novos comportamentos em suas áreas cria um efeito de contágio positivo que a equipe central de TI não consegue gerar sozinha.
 
 ### 3. Traduza o Jargão Técnico para a Linguagem do Negócio
 
@@ -83,13 +83,13 @@ Termos técnicos de governança distanciam os usuários de negócio. Substitua o
 
 ### 4. Celebre as Vitórias Rápidas (Quick Wins)
 
-Divulgue e comemore os primeiros resultados do programa de governança. Quando uma equipe de domínio resolver um problema antigo de qualidade de dados ou automatizar um processo manual de conciliação, compartilhe essa conquista com toda a empresa. Demonstrar valor prático gera credibilidade e acelera a adesão.
+Divulgue e comemore os primeiros resultados do programa de governança. Quando uma equipe de domínio resolver um problema antigo de [qualidade de dados](/pt/glossary/data-quality/) ou automatizar um processo manual de conciliação, compartilhe essa conquista com toda a empresa. Demonstrar valor prático gera credibilidade e acelera a adesão.
 
 ### 5. Meça a Adoção Real, Não Apenas o Cumprimento de Regras
 
 Mesa o sucesso do programa pela adesão comportamental e não apenas pelo número de documentos criados. Acompanhar a quantidade de políticas publicadas mede esforço, não impacto real. Foque em indicadores de uso:
 
-* Quantos colaboradores consultam semanalmente as bases certificadas no catálogo de dados?
+* Quantos colaboradores consultam semanalmente as bases certificadas no [catálogo de dados](/pt/glossary/data-catalog/)?
 * Qual é o tempo médio para resolver um incidente de qualidade de dados?
 * Quantas planilhas paralelas não governadas foram descontinuadas em favor de painéis corporativos?
 
@@ -97,12 +97,12 @@ Mesa o sucesso do programa pela adesão comportamental e não apenas pelo númer
 
 ## Avaliando a Maturidade da Governança Pela Adoção
 
-Analisar a maturidade do seu programa de governança de dados exige avaliar tanto a capacidade técnica quanto a adesão cultural da organização \[TDWI, Analytics Maturity Model]:
+Analisar a [maturidade](/pt/glossary/data-maturity/) do seu programa de governança de dados exige avaliar tanto a capacidade técnica quanto a adesão cultural da organização \[TDWI, Analytics Maturity Model]:
 
 | Dimensão de Governança              | Baixa Maturidade em Gestão da Mudança                                        | Alta Maturidade em Gestão da Mudança                                               |
 | ----------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | **Comunicação de Políticas**        | Envio unilateral de manuais em PDF com exigência de cumprimento obrigatório. | Workshops interativos que traduzem políticas em rotinas práticas de trabalho.      |
-| **Custódia de Dados (Stewardship)** | Atribuída como uma tarefa técnica secundária, sem contexto de negócio.       | Papel formalmente reconhecido, com autoridade sobre o domínio e plano de carreira. |
+| **[Custódia de Dados](/pt/glossary/data-stewardship/) (Stewardship)** | Atribuída como uma tarefa técnica secundária, sem contexto de negócio.       | Papel formalmente reconhecido, com autoridade sobre o domínio e plano de carreira. |
 | **Engajamento dos Usuários**        | Alto volume de chamados buscando formas de burlar os controles de segurança. | Comunidade ativa colaborando na melhoria contínua das bases de dados.              |
 | **Apoio Executivo**                 | Patrocínio limitado ao momento da aquisição de ferramentas tecnológicas.     | Liderança ativa conectando a governança de dados aos KPIs estratégicos do negócio. |
 

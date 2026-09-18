@@ -17,7 +17,7 @@ Este entorno tan restrictivo genera una fricción operacional considerable. Aunq
 
 Afortunadamente, existe una alternativa clara.
 
-La solución es la **Democracia de Datos** (o *democratización de datos*): un enfoque moderno centrado en las personas dentro del **Gobierno de Datos** (relacionado alternativamente como *gobernanza*). Este modelo permite que la información sea accesible, transparente y útil para los profesionales que la necesitan en su día a día, manteniendo al mismo tiempo un control riguroso de la seguridad y el cumplimiento normativo [DAMA International, DMBOK2].
+La solución es la **Democracia de Datos** (o *democratización de datos*): un enfoque moderno centrado en las personas dentro del **[Gobierno de Datos](/es/glossary/data-governance/)** (relacionado alternativamente como *gobernanza*). Este modelo permite que la información sea accesible, transparente y útil para los profesionales que la necesitan en su día a día, manteniendo al mismo tiempo un control riguroso de la seguridad y el cumplimiento normativo [DAMA International, DMBOK2].
 
 ---
 
@@ -35,7 +35,7 @@ Modelo Federado ("Democracia de Datos"):
 
 [ Usuario de Negocio ] ---> [ Catálogo en Autoservicio ] ---> [ Permisos RBAC Automatizados ] ---> [ Decisión Inmediata ]
 
-En lugar de que un único departamento centralizado gestione todas las tuberías de datos, la propiedad de la información se distribuye entre las distintas áreas de negocio. Los equipos funcionales asumen la responsabilidad de la calidad de sus propios datos, mientras que la oficina central de gobierno establece los estándares de seguridad, gestiona el glosario de negocio y asegura la coherencia arquitectónica.
+En lugar de que un único departamento centralizado gestione todas las tuberías de datos, la propiedad de la información se distribuye entre las distintas áreas de negocio. Los equipos funcionales asumen la responsabilidad de [la calidad](/es/glossary/data-quality/) de sus propios datos, mientras que la oficina central de gobierno establece los estándares de seguridad, gestiona el [glosario de negocio](/es/glossary/business-glossary/) y asegura la coherencia arquitectónica.
 
 ---
 
@@ -55,10 +55,10 @@ Una democracia de datos madura equilibra la autonomía con la responsabilidad. R
 
 | Dimensión de Gobierno | Tiranía de Datos (Modelo Tradicional) | Democracia de Datos (Modelo Moderno) |
 | :--- | :--- | :--- |
-| **Control de Acceso** | Aprobaciones manuales basadas en jerarquía para cada tabla. | Control de Acceso Basado en Roles (RBAC) con aprovisionamiento automático. |
-| **Descubrimiento de Datos** | Modelos de bases de datos complejos comprendidos solo por TI. | Catálogo de datos consultable con glosario de negocio y linaje. |
+| **Control de Acceso** | Aprobaciones manuales basadas en jerarquía para cada tabla. | [Control de Acceso Basado en Roles (RBAC)](/es/glossary/role-based-access-control/) con aprovisionamiento automático. |
+| **Descubrimiento de Datos** | Modelos de bases de datos complejos comprendidos solo por TI. | [Catálogo de datos](/es/glossary/data-catalog/) consultable con glosario de negocio y linaje. |
 | **Generación de Informes** | Equipo de BI centralizado que construye todos los informes. | Analítica en autoservicio sobre conjuntos de datos certificados. |
-| **Propiedad del Dato** | TI gestiona y corrige todos los pipelines e inconsistencias. | Data Owners y Stewards distribuidos gestionan su propio dominio. |
+| **Propiedad del Dato** | TI gestiona y corrige todos los pipelines e inconsistencias. | [Data Owners](/es/glossary/data-owner/) y [Stewards](/es/glossary/data-steward/) distribuidos gestionan su propio dominio. |
 | **Gestión de Riesgos** | Restricciones homogéneas aplicadas por igual a todo tipo de dato. | Gobierno por niveles adaptado a la sensibilidad y al contexto. |
 
 ---
@@ -71,12 +71,12 @@ Una cadena de distribución comercial requería previamente que los gerentes de 
 * **El Resultado:** Los responsables de tienda optimizaron el reabastecimiento local y lanzaron promociones específicas de forma autónoma, incrementando las ventas regionales un 12% y reduciendo las solicitudes a TI en un 65%.
 
 ### 2. Sector Bancario: Innovación de Productos con Protección de Privacidad
-Una entidad financiera internacional necesitaba que sus analistas regionales evaluasen patrones de transacción de clientes para diseñar nuevos productos de crédito. Para evitar bloqueos vinculados a normativas de protección de datos (como el RGPD en Europa), el banco desplegó mecanismos automatizados de enmascaramiento y privacidad diferencial en su catálogo de datos.
+Una entidad financiera internacional necesitaba que sus analistas regionales evaluasen patrones de transacción de clientes para diseñar nuevos productos de crédito. Para evitar bloqueos vinculados a normativas de protección de datos (como el RGPD en Europa), el banco desplegó mecanismos automatizados de [enmascaramiento](/es/glossary/dynamic-data-masking/) y privacidad diferencial en su catálogo de datos.
 
 * **El Resultado:** Los analistas pudieron trabajar inmediatamente con conjuntos de datos anonimizados, reduciendo el tiempo de lanzamiento de nuevos productos financieros de cuatro meses a solo dos semanas, manteniendo el 100% de cumplimiento normativo.
 
 ### 3. Sector Sanitario: Un Mercado Interno de Datos Certificados
-un grupo hospitalario desarrolló un "Mercado de Datos" interno donde investigadores y gestores administrativos podían explorar conjuntos de datos disponibles. Cada fuente incorporaba etiquetas visuales de certificación: *Oro* (datos certificados para decisiones clínicas), *Plata* (analítica operacional) y *Bronce* (datos brutos para investigación exploratoria).
+un grupo hospitalario desarrolló un "[Mercado de Datos](/es/glossary/internal-data-marketplace/)" interno donde investigadores y gestores administrativos podían explorar conjuntos de datos disponibles. Cada fuente incorporaba etiquetas visuales de certificación: *Oro* (datos certificados para decisiones clínicas), *Plata* (analítica operacional) y *Bronce* (datos brutos para investigación exploratoria).
 
 * **El Resultado:** Los equipos clínicos aceleraron sus proyectos de investigación al localizar datos validados de pacientes, mientras que el área de gestión optimizó la asignación de camas sin poner en riesgo la privacidad de la información médica sensible.
 
@@ -86,7 +86,7 @@ un grupo hospitalario desarrolló un "Mercado de Datos" interno donde investigad
 
 Avanzar hacia la democracia de datos no significa abrir el acceso a todas las bases de datos sin criterio. Los marcos de referencia en gestión de información [ED Council, DCAM v2] estructuran un **Gobierno de Datos por Niveles**, aplicando controles proporcionales al nivel de riesgo de cada activo:
 
-1. **Nivel 1: Datos Altamente Restringidos:** Información de carácter personal (PII), estados financieros sin publicar y secretos comerciales. Requieren aprobaciones de acceso estrictas, enmascaramiento dinámico a nivel de columna y registro completo de auditoría.
+1. **Nivel 1: Datos Altamente Restringidos:** [Información de carácter personal (PII)](/es/glossary/personally-identifiable-information/), estados financieros sin publicar y secretos comerciales. Requieren aprobaciones de acceso estrictas, enmascaramiento dinámico a nivel de columna y registro completo de auditoría.
 2. **Nivel 2: Datos Operativos de Negocio:** Indicadores agregados de ventas, métricas de logística y resultados de marketing. Están accesibles para los usuarios de negocio autorizados mediante herramientas de BI sobre modelos de datos previamente certificados.
 3. **Nivel 3: Datos Exploratorios:** Archivos de registro (*logs*) y datos experimentales disponibles en entornos aislados (*sandboxes*) para que científicos y analistas de datos prueben hipótesis sin comprometer la infraestructura de producción.
 
@@ -96,11 +96,11 @@ Avanzar hacia la democracia de datos no significa abrir el acceso a todas las ba
 
 Transformar el modelo de gestión de datos de su empresa requiere un plan estructurado que abarque tecnología, cultura organizativa y procesos:
 
-1. **Despliegue un Catálogo de Datos Centralizado:** Implemente una plataforma de búsqueda que permita a los usuarios descubrir fuentes de información, consultar el glosario de términos y conocer quién es el responsable de cada dominio.
+1. **Despliegue un Catálogo de Datos Centralizado:** Implemente una plataforma de búsqueda que permita a los usuarios descubrir fuentes de información, consultar el glosario de términos y conocer quién es el responsable de [cada dominio](/es/glossary/data-domain/).
 2. **Establezca una Estructura de Propiedad Distribuida:** Asigne roles formales de **Data Owners** (Propietarios de Datos) y **Data Stewards** (Custodios de Datos) en las áreas funcionales para liderar la definición de términos y los SLAs de calidad.
 3. **Automatice la Gestión de Permisos:** Sustituya las cadenas manuales de correos de aprobación por controles de acceso basados en roles (RBAC) integrados con el sistema de gestión de identidades de la empresa.
-4. **Desarrolle un Programa de Alfabetización de Datos:** Capacite de forma continua a los empleados en la interpretación de datos, el uso de herramientas de autoservicio y la responsabilidad en el tratamiento de la información.
-5. **Certifique los Conjuntos de Datos Principales:** Identifique los modelos de datos oficiales con distintivos visuales en sus herramientas de BI, asegurando que toda la organización identifique con claridad la fuente única de la verdad.
+4. **Desarrolle un Programa de [Alfabetización de Datos](/es/glossary/data-literacy/):** Capacite de forma continua a los empleados en la interpretación de datos, el uso de herramientas de autoservicio y la responsabilidad en el tratamiento de la información.
+5. **Certifique los Conjuntos de Datos Principales:** Identifique los modelos de datos oficiales con distintivos visuales en sus herramientas de BI, asegurando que toda la organización identifique con claridad [la fuente única de la verdad](/es/glossary/single-source-of-truth/).
 
 ---
 

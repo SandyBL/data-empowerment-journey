@@ -12,17 +12,17 @@ redirect_from:
   - building-a-data-governance-operating-model
 ---
 
-El gobierno de datos funciona cuando forma parte de la manera en que se trabaja, no cuando existe únicamente como una biblioteca de políticas. Un buen modelo operativo conecta la intención estratégica con las decisiones diarias de propietarios, custodios, productores y consumidores de datos.
+El [gobierno de datos](/es/glossary/data-governance/) funciona cuando forma parte de la manera en que se trabaja, no cuando existe únicamente como una biblioteca de políticas. Un buen modelo operativo conecta la intención estratégica con las decisiones diarias de [propietarios](/es/glossary/data-owner/), [custodios](/es/glossary/data-steward/), productores y consumidores de datos.
 
-A la mayoría de los programas de gobierno no les falta intención. Tienen una carta constitutiva, un diagrama de marco, un consejo con invitación en el calendario y un conjunto de políticas que costó meses escribir. Lo que les falta es el tejido conectivo: una respuesta clara a "quién decide esto, con qué evidencia y para cuándo" en el puñado de preguntas donde la organización se atasca una y otra vez. El modelo operativo es ese tejido conectivo, y es mucho más pequeño de lo que sugieren los marcos.
+A la mayoría de los programas de gobierno no les falta intención. Tienen una carta constitutiva, un diagrama de marco, un [consejo](/es/glossary/data-governance-council/) con invitación en el calendario y un conjunto de políticas que costó meses escribir. Lo que les falta es el tejido conectivo: una respuesta clara a "quién decide esto, con qué evidencia y para cuándo" en el puñado de preguntas donde la organización se atasca una y otra vez. El [modelo operativo](/es/glossary/data-governance-operating-model/) es ese tejido conectivo, y es mucho más pequeño de lo que sugieren los marcos.
 
 ## Empieza por las decisiones, no por los comités
 
-Antes de diseñar consejos o asignar títulos, identifica las decisiones que la organización tiene dificultades para tomar. ¿Quién puede definir un elemento de datos crítico? ¿Quién acepta un riesgo de calidad? ¿Quién resuelve conflictos entre definiciones de negocio?
+Antes de diseñar consejos o asignar títulos, identifica las decisiones que la organización tiene dificultades para tomar. ¿Quién puede definir un [elemento de datos crítico](/es/glossary/critical-data-element/)? ¿Quién acepta un riesgo de calidad? ¿Quién resuelve conflictos entre definiciones de negocio?
 
 El modelo operativo debe hacer que esas decisiones sean más rápidas y coherentes. Cada rol, foro y flujo de trabajo necesita una razón clara para existir.
 
-Un ejercicio útil: dedica dos semanas a recopilar las preguntas que se escalaron, se atascaron o se respondieron de forma inconsistente. Normalmente terminarás con entre ocho y quince decisiones recurrentes, y se agruparán. Definiciones, accesos, tolerancia de calidad, retención y aprobación de cambios explican casi todas. Esa lista —y no un modelo de madurez— es la especificación de tu modelo operativo.
+Un ejercicio útil: dedica dos semanas a recopilar las preguntas que se escalaron, se atascaron o se respondieron de forma inconsistente. Normalmente terminarás con entre ocho y quince decisiones recurrentes, y se agruparán. Definiciones, accesos, tolerancia de calidad, retención y aprobación de cambios explican casi todas. Esa lista —y no un [modelo de madurez](/es/glossary/data-maturity-model/)— es la especificación de tu modelo operativo.
 
 ### Mapea los derechos de decisión
 
@@ -41,11 +41,11 @@ El valor no está en la tabla. Está en que la tabla sea lo bastante corta como 
 
 ## Diseña el gobierno alrededor del trabajo real
 
-El gobierno gana credibilidad cuando aparece dentro de las rutinas de entrega. Añade revisiones de custodia a la planificación, umbrales de calidad a los criterios de lanzamiento y revisiones de propiedad al gobierno del portafolio.
+El gobierno gana credibilidad cuando aparece dentro de las rutinas de entrega. Añade revisiones de [custodia](/es/glossary/data-stewardship/) a la planificación, umbrales de calidad a los criterios de lanzamiento y revisiones de propiedad al gobierno del portafolio.
 
 Los equipos no deberían tener que entrar en un universo de gobierno separado. Los controles deben estar visibles en los momentos donde mejoran un resultado.
 
-En la práctica esto significa incrustar un número pequeño de comprobaciones en rituales que ya ocurren. La entrada de un nuevo producto de datos exige un propietario y una clasificación antes de recibir hueco. La definición de terminado de un pipeline incluye un umbral de calidad y una ruta de alerta. La revisión trimestral del portafolio muestra el recuento de elementos críticos sin propietario activo, junto a las métricas de entrega. Ninguna crea una reunión nueva, y por eso sobreviven.
+En la práctica esto significa incrustar un número pequeño de comprobaciones en rituales que ya ocurren. La entrada de un nuevo [producto de datos](/es/glossary/data-product/) exige un propietario y una clasificación antes de recibir hueco. La definición de terminado de un pipeline incluye un umbral de calidad y una ruta de alerta. La revisión trimestral del portafolio muestra el recuento de elementos críticos sin propietario activo, junto a las métricas de entrega. Ninguna crea una reunión nueva, y por eso sobreviven.
 
 El contraejemplo es el flujo de gobierno independiente: un formulario, una cola y un comité de revisión aparte, al lado del proceso de entrega. Funciona mientras es nuevo y alguien lo persigue, y se degrada en cuanto la atención se mueve. Los controles que viven dentro de un proceso que la gente ya está obligada a completar se degradan mucho más despacio.
 

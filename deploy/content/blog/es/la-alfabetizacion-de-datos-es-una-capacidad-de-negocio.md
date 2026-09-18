@@ -12,7 +12,7 @@ redirect_from:
   - data-literacy-is-a-business-capability
 ---
 
-La alfabetización de datos suele lanzarse como un curso y medirse por asistencia. Ese enfoque puede crear conciencia, pero rara vez cambia la forma en que se toman decisiones. Seis semanas después de cerrar la ventana de formación, el mismo responsable sigue exportando el mismo informe a la misma hoja de cálculo, y los mismos dos equipos siguen llevando cifras de ingresos distintas a la misma reunión.
+[La alfabetización de datos](/es/glossary/data-literacy/) suele lanzarse como un curso y medirse por asistencia. Ese enfoque puede crear conciencia, pero rara vez cambia [la forma en que se toman decisiones](/es/glossary/data-driven-decision-making/). Seis semanas después de cerrar la ventana de formación, el mismo responsable sigue exportando el mismo informe a la misma hoja de cálculo, y los mismos dos equipos siguen llevando cifras de ingresos distintas a la misma reunión.
 
 El problema no es el contenido del curso. Es el supuesto que hay debajo: que la gente usa mal los datos porque no sabe cómo, y que saber cómo es suficiente. En la práctica, la gente usa mal los datos porque el entorno hace que el camino descuidado sea más fácil que el cuidadoso. Un trabajo de alfabetización que no cambia el entorno es un evento de formación con un certificado adjunto.
 
@@ -32,7 +32,7 @@ Describe las decisiones y flujos de trabajo concretos que quieres mejorar y defi
 
 - Un responsable de categoría consulta la métrica de margen certificada antes de aprobar una promoción, en vez de recalcularla en una hoja.
 - Quien presenta un test declara el tamaño de muestra y la ventana temporal del resultado.
-- Quien publica un tablero indica en él un propietario y una frecuencia de actualización.
+- Quien publica un tablero indica en él un [propietario](/es/glossary/data-owner/) y una frecuencia de actualización.
 - Un equipo que detecta una discrepancia la eleva al propietario de la métrica en lugar de construir en silencio un apaño.
 
 Cada uno es observable, y cada uno implica un requisito de apoyo: la métrica certificada tiene que existir, la herramienta de tests tiene que exponer el tamaño de muestra, el tablero tiene que tener campo de propietario y la métrica tiene que tener un propietario localizable. Ese es el coste honesto del trabajo de alfabetización, y por eso vive junto a [tu modelo operativo de gobierno](/es/blog/como-construir-un-modelo-operativo-de-gobierno-de-datos/) y no solo dentro del área de formación.
@@ -43,7 +43,7 @@ Ofrece definiciones, ejemplos y salvaguardas dentro de las herramientas que la g
 
 El momento de la necesidad es cuando alguien mira un número y decide si confiar en él. La ayuda que exista tiene que estar ahí, en esa pantalla, en ese segundo. En la práctica eso significa cuatro cosas:
 
-1. **Definiciones pegadas a la métrica**, no guardadas en un glosario que nadie abre. Si el tablero dice "clientes activos", al pasar el cursor debería decir qué cuenta como activo y quién lo decidió.
+1. **Definiciones pegadas a la métrica**, no guardadas en un [glosario](/es/glossary/business-glossary/) que nadie abre. Si el tablero dice "clientes activos", al pasar el cursor debería decir qué cuenta como activo y quién lo decidió.
 2. **Certificación visible.** Un distintivo que separe una métrica gobernada de una improvisada permite decidir sobre la confianza en un segundo en vez de en una hora.
 3. **Ejemplos resueltos en el lenguaje local del equipo.** Finanzas y marketing no necesitan el mismo ejemplo dos veces; necesitan el suyo una vez.
 4. **Una persona a quien preguntar.** No una cola de tickets: una persona, indicada en el activo, que responde.
@@ -54,7 +54,7 @@ Nada de esto es formación. Todo esto eleva la calidad de las decisiones más qu
 
 Los programas de alfabetización suelen apuntar a una audiencia general y fallan en los dos extremos. Los analistas aguantan una introducción a la media; la dirección recibe una iniciación a SQL que nunca usará. Segmentar por lo que alguien decide funciona mejor que segmentar por jerarquía.
 
-Tres audiencias prácticas cubren casi cualquier organización. Quienes **deciden** necesitan interrogar un número: de dónde viene, qué excluye, cuánta confianza merece. Quienes **producen** —analistas, ingenieros, cualquiera que construya un activo— necesitan estándares compartidos de definición, documentación y publicación. Quienes **usan a diario** necesitan encontrar el activo correcto y saber cuándo no lo es. Mismo programa, tres peticiones distintas.
+Tres audiencias prácticas cubren casi cualquier organización. Quienes **deciden** necesitan interrogar un número: de dónde viene, qué excluye, cuánta confianza merece. Quienes **producen** —analistas, ingenieros, cualquiera que construya un activo— necesitan [estándares compartidos](/es/glossary/data-standard/) de definición, documentación y publicación. Quienes **usan a diario** necesitan encontrar el activo correcto y saber cuándo no lo es. Mismo programa, tres peticiones distintas.
 
 ## Mide la aplicación
 
@@ -78,4 +78,4 @@ Tres modos de fallo explican la mayoría de los programas estancados. El primero
 
 En los tres casos el arreglo es el mismo: ata cada compromiso de alfabetización a una decisión concreta, un activo concreto y un propietario concreto. Si no puedes nombrar los tres, todavía no estás construyendo una capacidad.
 
-Si quieres el argumento de por qué este trabajo pesa más que el lado de control del gobierno, [Desbloqueando el potencial de los datos](/es/blog/desbloqueando-el-potencial-de-los-datos-la-alfabetizacion-de-datos-en-la-gobernanza/) lo desarrolla con más profundidad.
+Si quieres el argumento de por qué este trabajo pesa más que [el lado de control del gobierno](/es/glossary/data-governance/), [Desbloqueando el potencial de los datos](/es/blog/desbloqueando-el-potencial-de-los-datos-la-alfabetizacion-de-datos-en-la-gobernanza/) lo desarrolla con más profundidad.

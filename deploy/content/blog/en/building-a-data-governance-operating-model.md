@@ -9,17 +9,17 @@ author: Sandy Bradbury
 translation_key: building-a-data-governance-operating-model
 ---
 
-Data governance succeeds when it becomes part of how work gets done, not when it exists only as a policy library. A useful operating model connects strategic intent with the daily decisions made by data owners, stewards, producers, and consumers.
+[Data governance](/en/glossary/data-governance/) succeeds when it becomes part of how work gets done, not when it exists only as a policy library. A useful operating model connects strategic intent with the daily decisions made by [data owners](/en/glossary/data-owner/), [stewards](/en/glossary/data-steward/), producers, and consumers.
 
-Most governance programs are not short of intent. They have a charter, a framework diagram, a council with a calendar invite, and a policy set that took months to write. What they lack is the connective tissue: a clear answer to "who decides this, on what evidence, by when" for the handful of questions the organization keeps stalling on. An operating model is that connective tissue, and it is much smaller than the frameworks suggest.
+Most governance programs are not short of intent. They have a charter, a framework diagram, a [council](/en/glossary/data-governance-council/) with a calendar invite, and a policy set that took months to write. What they lack is the connective tissue: a clear answer to "who decides this, on what evidence, by when" for the handful of questions the organization keeps stalling on. An [operating model](/en/glossary/data-governance-operating-model/) is that connective tissue, and it is much smaller than the frameworks suggest.
 
 ## Start with decisions, not committees
 
-Before designing councils or assigning titles, identify the decisions the organization repeatedly struggles to make. Who can define a critical data element? Who accepts a quality risk? Who resolves conflicts between business definitions?
+Before designing councils or assigning titles, identify the decisions the organization repeatedly struggles to make. Who can define a [critical data element](/en/glossary/critical-data-element/)? Who accepts a quality risk? Who resolves conflicts between business definitions?
 
 An operating model should make those decisions faster and more consistent. Every role, forum, and workflow needs a clear reason to exist.
 
-A useful exercise: spend two weeks collecting the questions that got escalated, stalled, or answered inconsistently. You will usually end up with eight to fifteen recurring decisions, and they will cluster. Definitions, access, quality tolerance, retention, and change approval account for most of them. That list — not a maturity model — is the specification for your operating model.
+A useful exercise: spend two weeks collecting the questions that got escalated, stalled, or answered inconsistently. You will usually end up with eight to fifteen recurring decisions, and they will cluster. Definitions, access, quality tolerance, retention, and change approval account for most of them. That list — not a [maturity model](/en/glossary/data-maturity-model/) — is the specification for your operating model.
 
 ### Map decision rights
 
@@ -38,11 +38,11 @@ The value is not the table. It is that the table is short enough to be read, and
 
 ## Design governance around real work
 
-Governance gains credibility when it appears inside delivery routines. Add stewardship checks to product planning, quality thresholds to release criteria, and ownership reviews to portfolio governance.
+Governance gains credibility when it appears inside delivery routines. Add [stewardship](/en/glossary/data-stewardship/) checks to product planning, quality thresholds to release criteria, and ownership reviews to portfolio governance.
 
 Teams should not need to visit a separate governance universe. The controls should be visible at the moments where they improve an outcome.
 
-In practice this means embedding a small number of checks into rituals that already happen. New data product intake asks for an owner and a classification before it gets a slot. Definition of done for a pipeline includes a quality threshold and an alert route. Quarterly portfolio review shows the count of critical elements without an active owner, alongside the delivery metrics. None of these create a new meeting, which is precisely why they survive.
+In practice this means embedding a small number of checks into rituals that already happen. New [data product](/en/glossary/data-product/) intake asks for an owner and a classification before it gets a slot. Definition of done for a pipeline includes a quality threshold and an alert route. Quarterly portfolio review shows the count of critical elements without an active owner, alongside the delivery metrics. None of these create a new meeting, which is precisely why they survive.
 
 The counter-example is the standalone governance workflow: a request form, a queue, and a separate review board sitting beside the delivery process. It works while it is new and someone is chasing it, and it decays the moment attention moves. Controls that live inside a process people are already obliged to complete decay much more slowly.
 

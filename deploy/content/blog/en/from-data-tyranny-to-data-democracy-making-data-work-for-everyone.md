@@ -16,7 +16,7 @@ This restrictive environment causes severe operational friction. While central I
 
 It does not have to be this way. 
 
-The alternative is **Data Democratization**—a modern, human-centered approach to **Data Governance** that makes data discoverable, trusted, and actionable for the people who need it most, without sacrificing security or regulatory compliance \[DAMA International, DMBOK2].
+The alternative is **Data Democratization**—a modern, human-centered approach to **[Data Governance](/en/glossary/data-governance/)** that makes data discoverable, trusted, and actionable for the people who need it most, without sacrificing security or regulatory compliance \[DAMA International, DMBOK2].
 
 - - -
 
@@ -34,7 +34,7 @@ Federated "Data Democracy" Model:
 
 \[ Business User ] ---> \[ Self-Service Data Catalog ] ---> \[ Automated RBAC Access ] ---> \[ Immediate Decision ]
 
-Instead of a single bottleneck team owning every pipeline, domain ownership is distributed across the business. Operational teams take responsibility for their data quality, while central governance functions set global security standards, maintain business glossaries, and ensure architectural alignment.
+Instead of a single bottleneck team owning every pipeline, domain ownership is distributed across the business. Operational teams take responsibility for their [data quality](/en/glossary/data-quality/), while central governance functions set global security standards, maintain [business glossaries](/en/glossary/business-glossary/), and ensure architectural alignment.
 
 - - -
 
@@ -54,10 +54,10 @@ A mature data democracy balances freedom with accountability. It replaces manual
 
 | Governance Dimension    | Data Tyranny (Legacy Model)                              | Data Democracy (Modern Model)                                     |
 | ----------------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
-| **Access Control**      | Status-based, manual approvals for every dataset.        | Role-Based Access Control (RBAC) with automated provisioning.     |
-| **Data Discovery**      | Obscure database schemas known only to IT engineers.     | Searchable Data Catalog with business glossaries and lineage.     |
+| **Access Control**      | Status-based, manual approvals for every dataset.        | [Role-Based Access Control (RBAC)](/en/glossary/role-based-access-control/) with automated provisioning.     |
+| **Data Discovery**      | Obscure database schemas known only to IT engineers.     | [Searchable Data Catalog](/en/glossary/data-catalog/) with business glossaries and lineage.     |
 | **Metrics & Reporting** | Monolithic, centralized BI team builds all reports.      | Self-service analytics with certified master datasets.            |
-| **Domain Ownership**    | Central IT owns all data pipelines and fixes all errors. | Distributed Data Owners and Stewards manage domain health.        |
+| **Domain Ownership**    | Central IT owns all data pipelines and fixes all errors. | Distributed [Data Owners](/en/glossary/data-owner/) and [Stewards](/en/glossary/data-steward/) manage domain health.        |
 | **Risk Management**     | One-size-fits-all restriction across all data types.     | Tiered governance based on data sensitivity and business context. |
 
 - - -
@@ -72,13 +72,13 @@ A multinational retail brand previously required regional store managers to requ
 
 ### 2. Banking: Enabling Fast Product Innovation with Safeguards
 
-A global financial institution wanted to allow its regional analytics teams to evaluate customer transaction patterns for new loan products. Instead of blocking access due to regulatory privacy concerns (e.g., GDPR), the bank deployed automated data masking and differential privacy controls within its data catalog.
+A global financial institution wanted to allow its regional analytics teams to evaluate customer transaction patterns for new loan products. Instead of blocking access due to regulatory privacy concerns (e.g., GDPR), the bank deployed automated [data masking](/en/glossary/dynamic-data-masking/) and differential privacy controls within its data catalog.
 
 * **The Result:** Analysts explored fully anonymized customer datasets immediately, reducing time-to-market for new financial products from four months to two weeks, all while maintaining 100% compliance with financial privacy regulations.
 
 ### 3. Healthcare: Building an Internal Certified Data Marketplace
 
-A hospital network created an internal "Data Marketplace" where medical researchers and operational administrators could browse available datasets. Each dataset was clearly tagged with certification badges: *Gold* (certified for clinical decision-making), *Silver* (operational analytics), and *Bronze* (raw exploratory data).
+A hospital network created an internal "[Data Marketplace](/en/glossary/internal-data-marketplace/)" where medical researchers and operational administrators could browse available datasets. Each dataset was clearly tagged with certification badges: *Gold* (certified for clinical decision-making), *Silver* (operational analytics), and *Bronze* (raw exploratory data).
 
 * **The Result:** Researchers accelerated clinical trials by quickly locating certified patient cohort data, while operational teams streamlined bed allocation workflows without risking sensitive Patient Health Information (PHI).
 
@@ -88,7 +88,7 @@ A hospital network created an internal "Data Marketplace" where medical research
 
 Achieving data democracy does not mean opening every database to every employee. Effective governance frameworks \[ED Council, DCAM v2] implement **Tiered Data Governance**, applying controls proportional to the data's risk profile:
 
-1. **Tier 1: Highly Restricted Data:** Personal Identifiable Information (PII), financial ledgers, and proprietary trade secrets require strict access approvals, dynamic column-level masking, and full audit logging.
+1. **Tier 1: Highly Restricted Data:** [Personal Identifiable Information (PII)](/en/glossary/personally-identifiable-information/), financial ledgers, and proprietary trade secrets require strict access approvals, dynamic column-level masking, and full audit logging.
 2. **Tier 2: Operational Business Data:** Aggregated sales figures, supply chain metrics, and marketing performance data are accessible to all authenticated business users via self-service BI tools using pre-certified domain data models.
 3. **Tier 3: Exploratory Sandbox Data:** Raw log files and experimental datasets are made available in isolated analytical sandboxes for data scientists and analysts to test hypotheses without risking production systems.
 
@@ -98,11 +98,11 @@ Achieving data democracy does not mean opening every database to every employee.
 
 Transitioning your organization from data tyranny to a thriving data democracy requires a structured roadmap that addresses technology, culture, and process:
 
-1. **Deploy a Central Data Catalog:** Implement a searchable data catalog that allows users to discover available datasets, understand metric definitions, and see who owns each data domain.
+1. **Deploy a Central Data Catalog:** Implement a searchable data catalog that allows users to discover available datasets, understand metric definitions, and see who owns each [data domain](/en/glossary/data-domain/).
 2. **Establish Distributed Ownership:** Assign formal **Data Owners** and **Data Stewards** within business units (e.g., Marketing, Finance, Logistics) to take accountability for data definitions and quality SLAs.
 3. **Automate Access Provisioning:** Replace manual email approval threads with Role-Based Access Control (RBAC) and attribute-based permissions integrated into your identity management system.
-4. **Invest in Data Literacy:** Launch continuous training programs to educate non-technical employees on basic data interpretation, query tools, and data privacy responsibilities.
-5. **Certify Core Datasets:** Clearly label trusted, production-ready datasets with visual badges in your BI tools so users instantly know which numbers represent the single source of truth.
+4. **Invest in [Data Literacy](/en/glossary/data-literacy/):** Launch continuous training programs to educate non-technical employees on basic data interpretation, query tools, and data privacy responsibilities.
+5. **Certify Core Datasets:** Clearly label trusted, production-ready datasets with visual badges in your BI tools so users instantly know which numbers represent the [single source of truth](/en/glossary/single-source-of-truth/).
 
 - - -
 

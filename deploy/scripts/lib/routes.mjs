@@ -234,7 +234,27 @@ export const localizedTermSlug = (lang, slug) =>
 
 export const pagePath = (lang, slug) => `/${lang}/${localizedPageSlug(lang, slug)}/`;
 export const glossaryHubPath = (lang) => pagePath(lang, 'glossary');
-export const glossaryTermPath = (lang, slug) =>
+
+/**
+ * Where a term is read now: a fragment on the one glossary page.
+ *
+ * Every term used to be its own page. Fifty-odd definitions of two hundred
+ * words each meant fifty-odd URLs that Google discovered from the sitemap and
+ * then declined to crawl -- 205 of them sat in "Discovered, currently not
+ * indexed" -- while the hub, the page with all the same text on it and the only
+ * one with links pointing at it, was the one it did index. So the definitions
+ * are disclosures on the hub and the fragment is the address of one.
+ *
+ * The fragment is the localized segment, not the canonical slug, so it is the
+ * last path segment the term page used to be published at. That is what makes
+ * the redirect in legacyRoutes() a rename rather than a rewrite: the anchor a
+ * reader lands on is spelled the same as the URL they followed.
+ */
+export const glossaryTermAnchor = (lang, slug) =>
+  `${glossaryHubPath(lang)}#${localizedTermSlug(lang, slug)}`;
+
+/** The address a term page used to have, which now only redirects. */
+export const retiredGlossaryTermPath = (lang, slug) =>
   `/${lang}/${localizedPageSlug(lang, 'glossary')}/${localizedTermSlug(lang, slug)}/`;
 export const blogPath = (lang) => `/${lang}/${BLOG_SEGMENT[requireLanguage(lang)]}/`;
 export const articlePath = (lang, slug) => `${blogPath(lang)}${slug}/`;
@@ -290,7 +310,16 @@ const RETIRED_PAGE_SEGMENTS = {
   },
 };
 
-export const legacyRoutes = () => {
+/**
+ * `glossaryTerms` is the loaded glossary -- `{ lang, slug }` is all that is
+ * read off it -- and it is what gives the term redirects complete coverage.
+ * TERM_SLUGS only lists the terms whose segment is translated, so three
+ * deliberately-English slugs and every English address are absent from it; a
+ * redirect table built from that table alone would leave a third of the retired
+ * term URLs 404ing. Callers without the list in hand still get the translated
+ * ones.
+ */
+export const legacyRoutes = (glossaryTerms = []) => {
   const rules = [];
   const seen = new Set();
   const add = (from, to) => {
@@ -306,12 +335,22 @@ export const legacyRoutes = () => {
         add(`/${lang}/${retired}/`, pagePath(lang, slug));
       }
     }
-    // The glossary moved twice over: the hub segment changed, and so did every
-    // term under it. The term rules have to be emitted before the hub's
-    // wildcard would be reached, which is why they are separate entries rather
-    // than one splat.
-    for (const slug of Object.keys(TERM_SLUGS[lang] ?? {})) {
-      add(`/${lang}/glossary/${slug}/`, glossaryTermPath(lang, slug));
+    // The glossary moved twice over: first the hub segment was translated,
+    // then the definitions stopped being pages at all. Both moves are behind
+    // us, so a term needs a rule for each address it ever answered on, and
+    // each has to name its own fragment -- a splat over the hub segment would
+    // land every one of them on the top of the page.
+    const termSlugs = new Set([
+      ...Object.keys(TERM_SLUGS[lang] ?? {}),
+      ...glossaryTerms.filter((term) => term.lang === lang).map((term) => term.slug),
+    ]);
+    for (const slug of termSlugs) {
+      // Both addresses a definition has ever answered on: the canonical-slug
+      // one from before the segments were translated, and the localized one it
+      // was published at until the definitions became disclosures on the hub.
+      // `add` drops the second when it is the same string as the first.
+      add(`/${lang}/glossary/${slug}/`, glossaryTermAnchor(lang, slug));
+      add(retiredGlossaryTermPath(lang, slug), glossaryTermAnchor(lang, slug));
     }
     add(`/${lang}/confession-wall/`, confessionWallPath(lang));
     add(`/${lang}/blog/category/`, categoryHubPath(lang));
@@ -340,15 +379,32 @@ export const legacyRoutes = () => {
 export const localizeInternalLinks = (html) => {
   let output = html;
 
+  /**
+   * Terms first, and in every language including English, because a definition
+   * is no longer a page: ~300 links in content/ point at /xx/glossary/<term>/
+   * and the definition they want is now a disclosure on the hub. Rewriting them
+   * to the fragment is what keeps those links out of the redirect map -- an
+   * internal link that 301s costs a crawl and loses the anchor -- while leaving
+   * content/ written against the one spelling an author can look up.
+   *
+   * A regex rather than a walk over TERM_SLUGS, which only tabulates the terms
+   * whose slug actually differs per language: the English slug is its own
+   * localized form, and a term missing from the table has to resolve to the
+   * same anchor the hub generated for it, which localizedTermSlug guarantees
+   * because the hub calls the same function.
+   *
+   * The hub's own link is left alone: the pattern needs a segment after
+   * `glossary/`, so /es/glossary/ falls through to the page-slug pass below.
+   */
+  output = output.replace(
+    new RegExp(`/(${LANGUAGES.join('|')})/glossary/([a-z0-9-]+)/`, 'g'),
+    (_match, lang, slug) =>
+      `/${lang}/${localizedPageSlug(lang, 'glossary')}/#${localizedTermSlug(lang, slug)}`
+  );
+
   for (const lang of LANGUAGES) {
     if (lang === 'en') continue; // English is the canonical spelling already.
-    const glossary = localizedPageSlug(lang, 'glossary');
 
-    // Terms first: a page-slug pass would otherwise rewrite the hub segment and
-    // leave the term behind it in English.
-    for (const [slug, localized] of Object.entries(TERM_SLUGS[lang] ?? {})) {
-      output = output.split(`/${lang}/glossary/${slug}/`).join(`/${lang}/${glossary}/${localized}/`);
-    }
     for (const [slug, localized] of Object.entries(PAGE_SLUGS[lang])) {
       if (slug === localized) continue;
       output = output.split(`/${lang}/${slug}/`).join(`/${lang}/${localized}/`);

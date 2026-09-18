@@ -9,19 +9,19 @@ author: Sandy Bradbury
 translation_key: responsible-ai-starts-with-data-governance
 ---
 
-AI governance is not a separate discipline floating above data management. Every model depends on data whose origin, meaning, quality, permissions, and limitations need to be understood. When those things are already governed, an AI policy is a short document that points at controls the organization runs anyway. When they are not, the policy has to invent an entire control environment from scratch, and it usually invents one that nobody operates.
+[AI governance](/en/glossary/ai-governance/) is not a separate discipline floating above [data management](/en/glossary/data-management/). Every model depends on data whose origin, meaning, quality, permissions, and limitations need to be understood. When those things are already governed, an AI policy is a short document that points at controls the organization runs anyway. When they are not, the policy has to invent an entire control environment from scratch, and it usually invents one that nobody operates.
 
 This is the most common pattern I see. A company writes a responsible AI charter, appoints an AI ethics committee, and publishes principles about fairness, transparency, and human oversight. Six months later the committee cannot answer a simple question about a model already in production: which tables feed it, who owns them, when they last changed, and whether the customers in them consented to this use. The principles were never wrong. They just had nothing underneath them.
 
 ## Why AI governance is mostly data governance
 
-Almost every risk people attribute to a model is inherited from its data. A model is biased because the population it learned from was not representative. It drifts because an upstream source changed shape and nobody told the team. It leaks because a field that should have been classified as sensitive was not. It cannot be explained because the lineage between a training set and its origin was never recorded.
+Almost every risk people attribute to a model is inherited from its data. A model is biased because the population it learned from was not representative. It drifts because an upstream source changed shape and nobody told the team. It leaks because a field that should have been [classified as sensitive](/en/glossary/sensitive-data/) was not. It cannot be explained because the [lineage](/en/glossary/data-lineage/) between a training set and its origin was never recorded.
 
-The practical consequence is that an organization with mature data governance can adopt AI far faster than one without it — not because it is more permissive, but because it already knows the answers to the questions a review asks. Ownership, classification, lineage, quality thresholds, and retention rules are the evidence base. AI-specific controls sit on top of them.
+The practical consequence is that an organization with mature [data governance](/en/glossary/data-governance/) can adopt AI far faster than one without it — not because it is more permissive, but because it already knows the answers to the questions a review asks. Ownership, [classification](/en/glossary/data-classification/), lineage, quality thresholds, and retention rules are the evidence base. AI-specific controls sit on top of them.
 
 ## Connect AI risks to data controls
 
-Map model risks to the controls that can reduce them, explicitly, so that a review becomes a checklist rather than a debate. Bias concerns connect to representativeness and provenance. Reliability connects to quality thresholds and monitoring. Privacy connects to classification and access.
+Map model risks to the controls that can reduce them, explicitly, so that a review becomes a checklist rather than a debate. Bias concerns connect to representativeness and provenance. Reliability connects to [quality thresholds](/en/glossary/data-quality/) and monitoring. Privacy connects to classification and access.
 
 | AI risk | The data control that reduces it |
 | --- | --- |
@@ -35,13 +35,13 @@ The table is deliberately boring. That is the point: none of these controls are 
 
 ## Clarify accountability
 
-Name the people accountable for the use case, model, source data, and business decision. Shared responsibility without explicit decision rights quickly becomes no responsibility.
+Name the people accountable for the use case, model, source data, and business decision. Shared responsibility without explicit [decision rights](/en/glossary/decision-rights/) quickly becomes no responsibility.
 
 Four roles are usually enough to remove the ambiguity:
 
 - **Use case owner.** Accountable for the business purpose and for whether the model should exist at all.
 - **Model owner.** Accountable for the model's performance, its documented limitations, and its retirement.
-- **Data owner.** Accountable for each source feeding the model: its meaning, its quality, and whether this use is permitted.
+- **[Data owner](/en/glossary/data-owner/).** Accountable for each source feeding the model: its meaning, its quality, and whether this use is permitted.
 - **Decision owner.** Accountable for the action taken on the model's output, including the decision to override it.
 
 The fourth is the one most often missing. A model that recommends and a person who decides are two different accountabilities, and conflating them is how "human in the loop" becomes a rubber stamp.
