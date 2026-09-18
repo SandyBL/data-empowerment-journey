@@ -81,7 +81,9 @@ While terminology varies across frameworks, most maturity models categorize orga
 Reactive, ad-hoc processes; frequent data fires; no formal ownership.
 
 ```
+                              
                                │
+                               
                                ▼
 
              [ LEVEL 2: DEVELOPING / REPEATABLE ]
@@ -90,7 +92,9 @@ Reactive, ad-hoc processes; frequent data fires; no formal ownership.
 Growing awareness; localized stewardship in isolated departments; basic project-level rules.
 
 ```
+                               
                                │
+                               
                                ▼
 
               [ LEVEL 3: DEFINED / STANDARDIZED ]
@@ -99,7 +103,9 @@ Growing awareness; localized stewardship in isolated departments; basic project-
 Enterprise-wide policies established; formal Data Governance Office (DGO); standardized metrics.
 
 ```
+                               
                                │
+                               
                                ▼
                
                 [ LEVEL 4: MANAGED / MEASURED ]
@@ -108,7 +114,9 @@ Enterprise-wide policies established; formal Data Governance Office (DGO); stand
 Quantitative quality tracking; automated controls in CI/CD pipelines; role-based access controls.
 
 ```
+                               
                                │
+                               
                                ▼
 
                [ LEVEL 5: OPTIMIZED / LEADING ]
