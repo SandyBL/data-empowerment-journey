@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">FOUR PHASES OF A GOVERNANCE MATURITY ASSESSMENT</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">A Structured Diagnostic Approach for Enterprise Data Transformation</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">PHASE 01</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Preparation &amp; Scope Definition</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Assemble cross-functional team (IT, Business, Legal)</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Define strategic objectives and business drivers</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Identify core data domains and regulatory scope</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Secure executive sponsorship and budget approval</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(375, 75)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">PHASE 02</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Evaluation &amp; Evidence Gathering</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Select framework (DAMA DMM, DCAM, Gartner)</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Conduct stakeholder surveys and structured interviews</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Review policy documents, glossaries, and architecture</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Audit current data quality levels and pipeline rules</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(20, 255)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">PHASE 03</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Data Analysis &amp; Level Mapping</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Score capabilities against model maturity tiers</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Map maturity levels across specific business domains</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Identify critical gaps between current and target state</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Benchmark results against industry peer standards</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(375, 255)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">PHASE 04</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Roadmap &amp; Action Planning</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Prioritize short-term quick wins and long-term goals</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Define domain ownership and stewardship roles</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Estimate tooling, training, and resource budgets</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Establish continuous review and reassessment cadence</text>
+  </g>
+</svg>
