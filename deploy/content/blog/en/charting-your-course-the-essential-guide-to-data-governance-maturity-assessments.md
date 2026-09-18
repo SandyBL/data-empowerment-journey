@@ -79,32 +79,20 @@ While terminology varies across frameworks, most maturity models categorize orga
 \[ LEVEL 1: INITIAL / NASCENT ]
 
 Reactive, ad-hoc processes; frequent data fires; no formal ownership.
-
-
                               
-                               │
-                               
                                ▼
 
              [ LEVEL 2: DEVELOPING / REPEATABLE ]
 
 
 Growing awareness; localized stewardship in isolated departments; basic project-level rules.
-
-
-                               
-                               │
-                               
+                              
                                ▼
 
               [ LEVEL 3: DEFINED / STANDARDIZED ]
 
 
 Enterprise-wide policies established; formal Data Governance Office (DGO); standardized metrics.
-
-
-                               
-                               │
                                
                                ▼
                
@@ -113,10 +101,6 @@ Enterprise-wide policies established; formal Data Governance Office (DGO); stand
 
 Quantitative quality tracking; automated controls in CI/CD pipelines; role-based access controls.
 
-
-                               
-                               │
-                               
                                ▼
 
                [ LEVEL 5: OPTIMIZED / LEADING ]
