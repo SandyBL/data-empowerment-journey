@@ -11,11 +11,11 @@ translation_key: overlooked-chapter-change-management-data-governance
 ---
 # El Capítulo Olvidado: Por Qué la Gestión del Cambio Es la Clave del Éxito en el Gobierno de Datos
 
-Cuando los directivos empresariales consideran la puesta en marcha de un programa de **Gobierno de Datos** (relacionado alternativamente como *gobernanza*), su atención se dirige de inmediato a los marcos normativos, las reglas de calidad de datos, los catálogos empresariales y los comités de seguimiento. Muy pocos contemplan la **Gestión del Cambio** organizacional.
+Cuando los directivos empresariales consideran la puesta en marcha de un programa de **[Gobierno de Datos](/es/glossary/data-governance/)** (relacionado alternativamente como *gobernanza*), su atención se dirige de inmediato a los marcos normativos, las [reglas de calidad de datos](/es/glossary/data-quality-rule/), los catálogos empresariales y los comités de seguimiento. Muy pocos contemplan la **Gestión del Cambio** organizacional.
 
-Sin embargo, en el cuerpo de conocimiento para la gestión de datos DAMA DMBOK \[DAMA International, DMBOK2], el último capítulo está dedicado exclusivamente a la Gestión del Cambio Organizacional, y existe una razón fundamental para ello. Sin abordar la conducta humana, todos los marcos de trabajo, arquitecturas de información y herramientas de software del mercado resultarán insuficientes para transformar su empresa en una organización verdaderamente guiada por datos.
+Sin embargo, en el cuerpo de conocimiento para la gestión de datos [DAMA DMBOK](/es/glossary/dama-dmbok/) \[DAMA International, DMBOK2], el último capítulo está dedicado exclusivamente a la Gestión del Cambio Organizacional, y existe una razón fundamental para ello. Sin abordar la conducta humana, todos los marcos de trabajo, arquitecturas de información y herramientas de software del mercado resultarán insuficientes para transformar su empresa en una organización verdaderamente guiada por datos.
 
-El gobierno de datos no representa una mera implementación tecnológica; constituye una transformación cultural profunda.
+El gobierno de datos no representa una mera implementación tecnológica; constituye una [transformación cultural](/es/glossary/data-culture/) profunda.
 
 - - -
 
@@ -23,7 +23,7 @@ El gobierno de datos no representa una mera implementación tecnológica; consti
 
 El gobierno de datos altera la forma en que los empleados capturan, validan, consultan e interpretan la información diariamente. Redefine la responsabilidad sobre los datos, redistribuye la autoridad sobre los activos de información e introduce nuevas rutinas de trabajo.
 
-Si una compañía aprueba políticas de gobierno muy estrictas pero los profesionales continúan exportando archivos primarios a hojas de cálculo locales sin control, el gobierno de datos no se ha materializado: simplemente se ha publicado un manual de reglas que nadie consulta.
+Si una compañía aprueba [políticas de gobierno](/es/glossary/data-policy/) muy estrictas pero los profesionales continúan exportando archivos primarios a hojas de cálculo locales sin control, el gobierno de datos no se ha materializado: simplemente se ha publicado un manual de reglas que nadie consulta.
 
 La gestión del cambio actúa como puente entre la definición de políticas y su adopción operacional. Garantiza que las partes interesadas comprendan *por qué* es necesaria la transformación, *cómo* beneficia directamente a sus flujos de trabajo y *qué* comportamientos concretos deben modificar \[Gartner, Data Governance Framework].
 
@@ -31,7 +31,7 @@ La gestión del cambio actúa como puente entre la definición de políticas y s
 
 ## Gobierno de Datos Es Igual a Transformación Cultural
 
-Un programa maduro de gobierno de datos no se limita a asignar la propiedad de los datos en un organigrama; construye una cultura sostenible de custodia de datos (*data stewardship*) y confianza entre departamentos.
+Un programa maduro de gobierno de datos no se limita a asignar la propiedad de los datos en un organigrama; construye una cultura sostenible de [custodia de datos](/es/glossary/data-stewardship/) (*data stewardship*) y confianza entre departamentos.
 
 Sin embargo, la evolución cultural no se produce por casualidad. Requiere comunicación deliberada, participación activa de los equipos y un refuerzo continuo a lo largo del tiempo \[ED Council, DCAM v2].
 
@@ -68,11 +68,11 @@ Para garantizar que su programa de gobierno de datos alcance una alta adopción 
 
 ### 1. Comience con una Historia de Negocio, No con una Política Técnica
 
-Antes de definir estándares técnicos o campos de metadatos obligatorios, explique el problema de fondo. Utilice ejemplos reales de fallos de datos ocurridos en la empresa—como un error en la previsión de ventas trimestrales o el retraso en una campaña comercial—para ilustrar cómo el gobierno previene la fricción operacional y protege los ingresos.
+Antes de definir estándares técnicos o campos de [metadatos](/es/glossary/metadata/) obligatorios, explique el problema de fondo. Utilice ejemplos reales de fallos de datos ocurridos en la empresa—como un error en la previsión de ventas trimestrales o el retraso en una campaña comercial—para ilustrar cómo el gobierno previene la fricción operacional y protege los ingresos.
 
 ### 2. Identifique y Capacite a los Promotores del Gobierno
 
-Empodere a los líderes informales de opinión, **Data Stewards** operativos y responsables de equipo que crean en el valor de los datos fiables. Capacitar a estos promotores para que ejemplifiquen los nuevos comportamientos en sus respectivos departamentos genera una dinámica de influencia entre pares que el equipo central de TI no puede lograr por sí solo.
+Empodere a los líderes informales de opinión, **[Data Stewards](/es/glossary/data-steward/)** operativos y responsables de equipo que crean en el valor de los datos fiables. Capacitar a estos promotores para que ejemplifiquen los nuevos comportamientos en sus respectivos departamentos genera una dinámica de influencia entre pares que el equipo central de TI no puede lograr por sí solo.
 
 ### 3. Traduzca la Jerga Técnica a Lenguaje de Negocio
 
@@ -83,11 +83,11 @@ La terminología técnica del gobierno distorsiona el mensaje y aleja a los usua
 
 ### 4. Celebre los Éxitos Operativos Rápidos
 
-Informe y dé visibilidad a las primeras victorias del programa de gobierno. Cuando un equipo de dominio resuelva un problema recurrente de calidad de datos o automatice un proceso de conciliación antes manual, comparta el logro con toda la organización. Demostrar el valor de forma inmediata construye credibilidad y genera tracción.
+Informe y dé visibilidad a las primeras victorias del programa de gobierno. Cuando un equipo de dominio resuelva un problema recurrente de [calidad de datos](/es/glossary/data-quality/) o automatice un proceso de conciliación antes manual, comparta el logro con toda la organización. Demostrar el valor de forma inmediata construye credibilidad y genera tracción.
 
 ### 5. Mida la Adopción Real, No Solo el Cumplimiento
 
-Contabilizar el número de políticas publicadas o de términos documentados en el catálogo de datos mide el volumen de entregables, no el impacto real en el negocio. Enfoque las métricas de gobierno en la adopción efectiva:
+Contabilizar el número de políticas publicadas o de términos documentados en el [catálogo de datos](/es/glossary/data-catalog/) mide el volumen de entregables, no el impacto real en el negocio. Enfoque las métricas de gobierno en la adopción efectiva:
 
 * ¿Cuántos usuarios de negocio consultan semanalmente los datos certificados en el catálogo?
 * ¿Cuál es el tiempo medio empleado en resolver una incidencia de calidad de datos?
@@ -97,7 +97,7 @@ Contabilizar el número de políticas publicadas o de términos documentados en 
 
 ## Medición de la Madurez del Gobierno a Través de la Adopción
 
-Evaluar la madurez de su programa de gobierno de datos requiere analizar tanto la capacidad técnica como el grado de adopción en la organización \[TDWI, Analytics Maturity Model]:
+Evaluar la [madurez](/es/glossary/data-maturity/) de su programa de gobierno de datos requiere analizar tanto la capacidad técnica como el grado de adopción en la organización \[TDWI, Analytics Maturity Model]:
 
 | Dimensión de Gobierno               | Baja Madurez en Gestión del Cambio                                               | Alta Madurez en Gestión del Cambio                                                   |
 | ----------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |

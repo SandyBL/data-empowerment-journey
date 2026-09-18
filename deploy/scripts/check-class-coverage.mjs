@@ -48,8 +48,9 @@ const HTML_SOURCES = [
   // Article page: the share bar and the footer directory ride on this template.
   'en/blog/building-a-data-governance-operating-model/index.html',
   'en/blog/category/data-governance/index.html',
+  // The glossary: one page per language now, with every definition a
+  // disclosure on it, so this is the whole family.
   'en/glossary/index.html',
-  'en/glossary/data-governance/index.html',
   // Prose page, and two of the pages that embed homepage markup and so load the
   // homepage stylesheet as well. The maturity assessment is here because its
   // scorecard card is the only place src/partials/maturity-scorecard.html is

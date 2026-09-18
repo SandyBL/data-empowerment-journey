@@ -12,17 +12,17 @@ redirect_from:
   - building-a-data-governance-operating-model
 ---
 
-A governança de dados funciona quando faz parte da maneira como o trabalho acontece, e não quando existe apenas como uma biblioteca de políticas. Um bom modelo operacional conecta a intenção estratégica às decisões diárias de proprietários, curadores, produtores e consumidores de dados.
+A [governança de dados](/pt/glossary/data-governance/) funciona quando faz parte da maneira como o trabalho acontece, e não quando existe apenas como uma biblioteca de políticas. Um bom modelo operacional conecta a intenção estratégica às decisões diárias de [proprietários](/pt/glossary/data-owner/), [curadores](/pt/glossary/data-steward/), produtores e consumidores de dados.
 
-À maioria dos programas de governança não falta intenção. Eles têm uma carta, um diagrama de framework, um conselho com convite no calendário e um conjunto de políticas que levou meses para ser escrito. O que falta é o tecido conectivo: uma resposta clara para "quem decide isto, com que evidência e até quando" no punhado de perguntas em que a organização trava repetidamente. O modelo operacional é esse tecido conectivo, e ele é bem menor do que os frameworks sugerem.
+À maioria dos programas de governança não falta intenção. Eles têm uma carta, um diagrama de framework, um [conselho](/pt/glossary/data-governance-council/) com convite no calendário e um conjunto de políticas que levou meses para ser escrito. O que falta é o tecido conectivo: uma resposta clara para "quem decide isto, com que evidência e até quando" no punhado de perguntas em que a organização trava repetidamente. O [modelo operacional](/pt/glossary/data-governance-operating-model/) é esse tecido conectivo, e ele é bem menor do que os frameworks sugerem.
 
 ## Comece pelas decisões, não pelos comitês
 
-Antes de criar conselhos ou atribuir títulos, identifique as decisões que a organização tem dificuldade para tomar. Quem pode definir um elemento de dados crítico? Quem aceita um risco de qualidade? Quem resolve conflitos entre definições de negócio?
+Antes de criar conselhos ou atribuir títulos, identifique as decisões que a organização tem dificuldade para tomar. Quem pode definir um [elemento de dados crítico](/pt/glossary/critical-data-element/)? Quem aceita um risco de qualidade? Quem resolve conflitos entre definições de negócio?
 
 O modelo operacional deve tornar essas decisões mais rápidas e consistentes. Cada papel, fórum e fluxo de trabalho precisa de uma razão clara para existir.
 
-Um exercício útil: passe duas semanas coletando as perguntas que foram escaladas, travadas ou respondidas de forma inconsistente. Você normalmente vai terminar com oito a quinze decisões recorrentes, e elas vão se agrupar. Definições, acessos, tolerância de qualidade, retenção e aprovação de mudanças respondem por quase todas. Essa lista — e não um modelo de maturidade — é a especificação do seu modelo operacional.
+Um exercício útil: passe duas semanas coletando as perguntas que foram escaladas, travadas ou respondidas de forma inconsistente. Você normalmente vai terminar com oito a quinze decisões recorrentes, e elas vão se agrupar. Definições, acessos, tolerância de qualidade, retenção e aprovação de mudanças respondem por quase todas. Essa lista — e não um [modelo de maturidade](/pt/glossary/data-maturity-model/) — é a especificação do seu modelo operacional.
 
 ### Mapeie os direitos de decisão
 
@@ -41,11 +41,11 @@ O valor não está na tabela. Está em ela ser curta o bastante para ser lida e 
 
 ## Desenhe a governança ao redor do trabalho real
 
-A governança ganha credibilidade quando aparece nas rotinas de entrega. Inclua verificações de curadoria no planejamento, limites de qualidade nos critérios de lançamento e revisões de propriedade na governança do portfólio.
+A governança ganha credibilidade quando aparece nas rotinas de entrega. Inclua verificações de [curadoria](/pt/glossary/data-stewardship/) no planejamento, limites de qualidade nos critérios de lançamento e revisões de propriedade na governança do portfólio.
 
 As equipes não devem precisar entrar em um universo separado de governança. Os controles precisam estar visíveis nos momentos em que melhoram um resultado.
 
-Na prática, isso significa embutir um número pequeno de verificações em rituais que já acontecem. A entrada de um novo produto de dados exige um dono e uma classificação antes de ganhar espaço. A definição de pronto de um pipeline inclui um limite de qualidade e uma rota de alerta. A revisão trimestral do portfólio mostra a contagem de elementos críticos sem dono ativo, ao lado das métricas de entrega. Nenhuma delas cria uma reunião nova, e é exatamente por isso que sobrevivem.
+Na prática, isso significa embutir um número pequeno de verificações em rituais que já acontecem. A entrada de um novo [produto de dados](/pt/glossary/data-product/) exige um dono e uma classificação antes de ganhar espaço. A definição de pronto de um pipeline inclui um limite de qualidade e uma rota de alerta. A revisão trimestral do portfólio mostra a contagem de elementos críticos sem dono ativo, ao lado das métricas de entrega. Nenhuma delas cria uma reunião nova, e é exatamente por isso que sobrevivem.
 
 O contraexemplo é o fluxo de governança independente: um formulário, uma fila e um comitê de revisão à parte, ao lado do processo de entrega. Funciona enquanto é novidade e alguém cobra, e decai no momento em que a atenção se move. Controles que vivem dentro de um processo que as pessoas já são obrigadas a cumprir decaem muito mais devagar.
 

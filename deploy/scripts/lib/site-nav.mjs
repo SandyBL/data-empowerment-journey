@@ -53,7 +53,7 @@ export {
   categoryPath,
   confessionWallPath,
   glossaryHubPath,
-  glossaryTermPath,
+  glossaryTermAnchor,
   localizeInternalLinks,
   X_DEFAULT_LANGUAGE,
   xDefaultLanguage,

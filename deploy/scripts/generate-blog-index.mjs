@@ -37,15 +37,11 @@ import {
   TERM_SLUGS,
   legacyRoutes,
   localizedPageSlug,
-  localizedTermSlug,
 } from './lib/routes.mjs';
 import {
   glossaryHubPath,
-  glossaryTermPath,
-  glossaryTranslations,
   loadGlossary,
   renderGlossaryHub,
-  renderGlossaryTerm,
 } from './lib/glossary.mjs';
 import { loadPartials, loadSitePages, renderSitePage } from './lib/site-pages.mjs';
 import { loadInsightsSnapshot } from './lib/insights-snapshot.mjs';
@@ -286,13 +282,9 @@ function collectContentRoutes(pages, terms) {
     });
   }
 
-  const termTranslations = glossaryTranslations(terms);
-  const newestTerm = (slug) =>
-    LANGUAGES.map((lang) => termTranslations.get(slug)?.[lang]?.updated)
-      .filter(Boolean)
-      .sort()
-      .at(-1);
-
+  // A definition is a fragment on the hub rather than a URL of its own, and a
+  // sitemap lists URLs: /es/glosario/#propietario-de-datos is the same document
+  // as /es/glosario/, so listing both would be submitting the hub 48 times.
   for (const lang of LANGUAGES) {
     const localized = terms.filter((term) => term.lang === lang);
     if (!localized.length) continue;
@@ -316,23 +308,6 @@ function collectContentRoutes(pages, terms) {
     });
   }
 
-  for (const term of terms) {
-    const cluster = termTranslations.get(term.slug) || {};
-    const available = LANGUAGES.filter((lang) => cluster[lang]);
-    routes.push({
-      url: glossaryTermPath(term.lang, term.slug),
-      // Below an article: a definition is a shorter page that exists to be
-      // found for one query, not the site's main body of work.
-      priority: '0.6',
-      changefreq: 'yearly',
-      lastmod: term.updated || newestTerm(term.slug),
-      alternates: [
-        ...available.map((lang) => ({ hreflang: lang, url: glossaryTermPath(lang, term.slug) })),
-        { hreflang: 'x-default', url: glossaryTermPath(xDefaultLanguage(available), term.slug) },
-      ],
-    });
-  }
-
   return routes;
 }
 
@@ -347,7 +322,7 @@ const contentDirectory = path.join(projectDirectory, 'content/blog');
  * not: an author writing content/blog/es/*.md links to /es/glossary/data-owner/
  * because that is the identifier the rest of the build uses, and rewriting it
  * here is what lets ~700 links across content/ stay written that way while
- * being published at /es/glosario/propietario-de-datos/.
+ * being published at /es/glosario/#propietario-de-datos.
  *
  * Deliberately not used for _redirects, whose left-hand side is a list of the
  * old English addresses. Localizing that file would rewrite every rule into one
@@ -1252,8 +1227,13 @@ function collectRenames(articles) {
  * page with proper canonical tag". Netlify's pretty_urls setting is supposed to
  * collapse those, but it is not doing so on this site, so the rules are emitted
  * explicitly rather than trusted to a toggle.
+ *
+ * `glossaryTerms` is passed through to legacyRoutes, which needs the loaded
+ * terms to emit a rule for every retired definition URL: the slug tables only
+ * list the terms whose spelling differs per language, and all 47 of them had a
+ * page.
  */
-function renderRedirects(articles, renames, canonicalRoutes) {
+function renderRedirects(articles, renames, canonicalRoutes, glossaryTerms) {
   const lines = [
     '# Canonical host: force HTTPS on the apex domain.',
     'http://datagovjourney.com/* https://datagovjourney.com/:splat 301!',
@@ -1327,11 +1307,12 @@ function renderRedirects(articles, renames, canonicalRoutes) {
   }
 
   // Every Spanish and Portuguese page used to be published at its English
-  // address. Those addresses are indexed and linked, so each one keeps working
-  // and hands its ranking to the translated URL that replaced it rather than
-  // becoming a 404. Generated from the same tables the new paths are built
-  // from, so a segment cannot be renamed without its redirect appearing.
-  const legacy = legacyRoutes();
+  // address, and every glossary term used to be a page of its own. Those
+  // addresses are indexed and linked, so each one keeps working and hands its
+  // ranking to the URL or the fragment that replaced it rather than becoming a
+  // 404. Generated from the same tables the new paths are built from, so a
+  // segment cannot be renamed without its redirect appearing.
+  const legacy = legacyRoutes(glossaryTerms);
   if (legacy.length) {
     lines.push('', '# English addresses the localized pages were published at.');
     for (const rule of legacy) {
@@ -1437,25 +1418,28 @@ function assertTermSlugsResolve(terms) {
 }
 
 /**
- * Writes the glossary: one hub per language, one page per term.
+ * Writes the glossary: one page per language, every term a disclosure on it.
  *
- * Both directions matter. The hub is the page that ranks for "data governance
- * glossary" and the page a reader browses; the term pages are what rank for the
- * hundreds of "what is a data steward" queries that bring somebody to this site
- * for the first time. A hub with anchors instead of pages would have one URL for
- * fifty definitions, which is one chance to match a query instead of fifty.
+ * It used to write a page per term as well, on the argument that a hub with
+ * anchors has one URL for fifty definitions where separate pages have fifty
+ * chances to match a query. Search Console settled it: all 141 term URLs were
+ * discovered and almost none were crawled, while the hub was indexed at once.
+ * See the note at the top of scripts/lib/glossary.mjs.
+ *
+ * So the term directories are swept, not written, and routes.mjs redirects each
+ * of their two historical addresses to the fragment that now holds the same
+ * words.
  */
 async function writeGlossary(terms, articles) {
-  const translations = glossaryTranslations(terms);
   assertTermSlugsResolve(terms);
 
   for (const lang of LANGUAGES) {
     const localized = terms.filter((term) => term.lang === lang);
     // Both segments are translated, so the Spanish glossary is written to
-    // es/glosario/gobierno-de-datos/ while the Markdown it comes from is still
-    // filed under the canonical English slug. The stale es/glossary/ tree is
-    // removed by the standalone-page sweep in writeSitePages, which no longer
-    // recognises "glossary" as a Spanish directory.
+    // es/glosario/ while the Markdown it comes from is still filed under the
+    // canonical English slug. The stale es/glossary/ tree is removed by the
+    // standalone-page sweep in writeSitePages, which no longer recognises
+    // "glossary" as a Spanish directory.
     const directory = path.join(projectDirectory, lang, localizedPageSlug(lang, 'glossary'));
     if (!localized.length) {
       await rm(directory, { recursive: true, force: true });
@@ -1464,21 +1448,12 @@ async function writeGlossary(terms, articles) {
     await mkdir(directory, { recursive: true });
     await writeDocument(path.join(directory, 'index.html'), renderGlossaryHub(lang, localized, articles));
 
-    for (const term of localized) {
-      const segment = localizedTermSlug(lang, term.slug);
-      await mkdir(path.join(directory, segment), { recursive: true });
-      await writeDocument(
-        path.join(directory, segment, 'index.html'),
-        renderGlossaryTerm(term, localized, translations, articles)
-      );
-    }
-
-    // A term file that is deleted or renamed must stop being published, or the
-    // old URL lingers as a page nothing links to and the sitemap no longer
-    // lists — which is the shape Search Console reports as an orphan.
-    const published = new Set(localized.map((term) => localizedTermSlug(lang, term.slug)));
+    // Every subdirectory here is a term page from a previous build. Leaving one
+    // on disk would keep it answering 200 with content the hub now owns, so the
+    // 301 would never fire and the duplicate would stay in the index — which is
+    // the whole reason for consolidating.
     for (const entry of await readdir(directory, { withFileTypes: true })) {
-      if (entry.isDirectory() && !published.has(entry.name)) {
+      if (entry.isDirectory()) {
         await rm(path.join(directory, entry.name), { recursive: true, force: true });
       }
     }
@@ -1698,7 +1673,7 @@ async function main() {
   );
   await writeFile(
     path.join(projectDirectory, '_redirects'),
-    renderRedirects(articles, renames, canonicalRoutes),
+    renderRedirects(articles, renames, canonicalRoutes, glossaryTerms),
     'utf8'
   );
 

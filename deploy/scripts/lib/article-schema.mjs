@@ -19,6 +19,7 @@
  */
 
 import { LOGO, OG_IMAGE, PORTRAIT, SITE_ORIGIN } from './brand.mjs';
+import { plainText } from './markdown.mjs';
 
 /**
  * Topics the site writes about, as entities.
@@ -148,11 +149,11 @@ const extractFaq = (article) => {
       else if (answer.length) break;
     }
 
-    const text = answer.join(' ').replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim();
+    const text = plainText(answer.join(' '));
     if (text.length < 80) continue;
     entries.push({
       '@type': 'Question',
-      name: heading[1].replace(/[*_`]/g, '').trim(),
+      name: plainText(heading[1]),
       acceptedAnswer: { '@type': 'Answer', text: text.slice(0, 1200) },
     });
   }

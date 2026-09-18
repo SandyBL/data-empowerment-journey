@@ -15,9 +15,9 @@ Imagine o seguinte cenário: é final de trimestre. O painel da diretoria execut
 
 Essa situação parece familiar?
 
-Nas empresas atuais, crises operacionais como essa não acontecem por falta de ferramentas avançadas de *analytics*. Elas ocorrem porque a **Qualidade de Dados** ainda é tratada como um esforço isolado e reativo de limpeza, em vez de ser encarada como uma disciplina de engenharia contínua integrada a toda a cadeia de valor da informação [DAMA International, DMBOK2].
+Nas empresas atuais, crises operacionais como essa não acontecem por falta de ferramentas avançadas de *analytics*. Elas ocorrem porque a **[Qualidade de Dados](/pt/glossary/data-quality/)** ainda é tratada como um esforço isolado e reativo de limpeza, em vez de ser encarada como uma disciplina de engenharia contínua integrada a toda a cadeia de valor da informação [DAMA International, DMBOK2].
 
-Um programa estruturado de **Governança de Dados** não subsiste apenas com documentos de políticas ou comitês institucionais. Para proteger a tomada de decisão, mitigar riscos operacionais e garantir o retorno sobre o investimento, as organizações precisam implementar controles de qualidade ponta a ponta (*end-to-end*) em cada camada de sua arquitetura—desde a ingestão inicial até os relatórios consumidos pela liderança.
+Um programa estruturado de **[Governança de Dados](/pt/glossary/data-governance/)** não subsiste apenas com documentos de políticas ou comitês institucionais. Para proteger a tomada de decisão, mitigar riscos operacionais e garantir o retorno sobre o investimento, as organizações precisam implementar controles de qualidade ponta a ponta (*end-to-end*) em cada camada de sua arquitetura—desde a ingestão inicial até os relatórios consumidos pela liderança.
 
 ---
 
@@ -36,7 +36,7 @@ Degradação Silenciosa na Cadeia de Valor
 
 Cada etapa adiciona uma camada de acabamento visual: gráficos bem desenhados, legendas organizadas e tendências aparentemente claras. No entanto, o conteúdo estrutural continua comprometido. Quando o executivo analisa o relatório, o erro original já está protegido por diversas camadas de processamento técnico.
 
-Segundo estudos sobre maturidade em análise de dados [TDWI, Analytics Maturity Model], empresas que operam sem travas contínuas de qualidade chegam a perder de 15% a 25% do seu faturamento operacional corrigindo os impactos secundários gerados por dados incorretos, incluindo multas regulatórias e investimentos mal direcionados.
+Segundo estudos sobre maturidade em análise de dados [TDWI, Analytics Maturity Model], empresas que operam sem travas contínuas de qualidade chegam a perder de 15% a 25% do seu faturamento operacional corrigindo os impactos secundários gerados por [dados incorretos](/pt/glossary/cost-of-poor-data-quality/), incluindo multas regulatórias e investimentos mal direcionados.
 
 ---
 
@@ -84,8 +84,8 @@ Os dados armazenados em repositórios modernos (como Snowflake, BigQuery e Datab
 A última milha na entrega da informação representa a defesa final antes que os dados influenciem planos estratégicos, relatórios para investidores ou ações com clientes.
 
 * **Validação de Limites nos Dashboards:** Configure alertas automáticos sobre os principais indicadores-chave de desempenho (KPIs). Se a métrica de faturamento diário ou o volume de usuários ativos oscilar além de três desvios-padrão em relação ao histórico, suspenda temporariamente a atualização do painel para revisão técnica.
-* **Uso do Glossário de Negócios:** Certifique-se de que as consultas dos relatórios utilizem modelos de dados padronizados, impedindo a criação de fórmulas SQL customizadas e sem governança dentro das ferramentas de BI.
-* **Visibilidade da Linhagem:** Forneça aos usuários de negócio acesso claro ao status do pipeline e à data da última atualização diretamente na interface do relatório, construindo transparência e confiança.
+* **Uso do [Glossário de Negócios](/pt/glossary/business-glossary/):** Certifique-se de que as consultas dos relatórios utilizem modelos de dados padronizados, impedindo a criação de fórmulas SQL customizadas e sem governança dentro das ferramentas de BI.
+* **Visibilidade da [Linhagem](/pt/glossary/data-lineage/):** Forneça aos usuários de negócio acesso claro ao status do pipeline e à data da última atualização diretamente na interface do relatório, construindo transparência e confiança.
 
 ---
 
@@ -95,17 +95,17 @@ A última milha na entrega da informação representa a defesa final antes que o
 
 Processos e tecnologias não geram resultados sem uma estrutura organizacional clara. Modelos eficientes de governança [Gartner, Data Governance Framework] distribuem as responsabilidades de qualidade entre papéis bem definidos na empresa:
 
-### O Data Owner ou Dono do Dado (Responsabilidade Estratégica)
-Executivos seniores (como o Diretor Financeiro ou a Diretora de Operações) que possuem a responsabilidade final por um domínio específico de dados. Eles definem o conceito de "dado de qualidade" sob a ótica do negócio, estabelecem os limites aceitáveis de erro (ex.: 99,9% de precisão nos dados de faturamento) e aprovam investimentos em correção.
+### O Data Owner ou [Dono do Dado](/pt/glossary/data-owner/) (Responsabilidade Estratégica)
+Executivos seniores (como o Diretor Financeiro ou a Diretora de Operações) que possuem a responsabilidade final por um [domínio específico de dados](/pt/glossary/data-domain/). Eles definem o conceito de "dado de qualidade" sob a ótica do negócio, estabelecem os limites aceitáveis de erro (ex.: 99,9% de precisão nos dados de faturamento) e aprovam investimentos em correção.
 
-### O Data Steward (Supervisão Tática)
-Especialistas operacionais que trabalham diretamente com a informação no dia a dia. São responsáveis por traduzir as regras de negócio em verificações técnicas, investigar as causas de falhas indicadas pelos alertas de qualidade, conduzir a correção dos registros e manter o glossário de negócios atualizado.
+### O [Data Steward](/pt/glossary/data-steward/) (Supervisão Tática)
+Especialistas operacionais que trabalham diretamente com a informação no dia a dia. São responsáveis por traduzir as regras de negócio em [verificações técnicas](/pt/glossary/data-quality-rule/), investigar as causas de falhas indicadas pelos alertas de qualidade, conduzir a correção dos registros e manter o glossário de negócios atualizado.
 
 ### O Engenheiro de Dados (Execução Técnica)
 Profissionais responsáveis por programar os testes de qualidade diretamente nos pipelines de integração e nas camadas de transformação. Eles garantem que a identificação de um dado incorreto interrompa o processamento, envie um alerta automático e direcione os registros problemáticos para tabelas de quarentena.
 
 ### O Consumidor de Negócio (Feedback Ativo)
-Colaboradores de diversas áreas que utilizam os relatórios e possuem literacia de dados básica. Ao identificar qualquer divergência em um indicador, utilizam os canais oficiais de comunicação para acionar o Data Steward do domínio, evitando a criação de planilhas paralelas e não governadas.
+Colaboradores de diversas áreas que utilizam os relatórios e possuem [literacia de dados](/pt/glossary/data-literacy/) básica. Ao identificar qualquer divergência em um indicador, utilizam os canais oficiais de comunicação para acionar o Data Steward do domínio, evitando a criação de planilhas paralelas e não governadas.
 
 ---
 
@@ -130,7 +130,7 @@ Abordagem de Governança Proativa:
 
 ## Plano de Ação para Implementar a Qualidade End-to-End
 
-Transitar de uma atuação reativa para um modelo proativo de qualidade não exige a substituição imediata de toda a sua infraestrutura de tecnologia. Recomendamos seguir este plano prático de implementação:
+Transitar de uma atuação reativa para um [modelo proativo de qualidade](/pt/glossary/proactive-data-governance/) não exige a substituição imediata de toda a sua infraestrutura de tecnologia. Recomendamos seguir este plano prático de implementação:
 
 1. **Mapeie os Fluxos Críticos:** Selecione os três principais indicadores (KPIs) da sua empresa e rastreie o caminho dos dados do relatório final até a origem.
 2. **Identifique os Pontos de Risco:** Localize onde as informações entram no sistema sem qualquer tipo de verificação (como planilhas manuais ou integrações via API sem controle de esquema).

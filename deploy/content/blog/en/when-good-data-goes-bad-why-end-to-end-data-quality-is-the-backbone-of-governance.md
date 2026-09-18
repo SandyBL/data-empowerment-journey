@@ -15,9 +15,9 @@ Imagine this scenario: it is the end of the quarter. Your executive dashboard pr
 
 Does this sound familiar? 
 
-In modern enterprise environments, this crisis recurs frequently not because organizations lack sophisticated analytics tools, but because **Data Quality** is treated as a reactive, one-off cleanup task rather than a continuous engineering discipline embedded across the entire data value chain [DAMA International, DMBOK2]. 
+In modern enterprise environments, this crisis recurs frequently not because organizations lack sophisticated analytics tools, but because **[Data Quality](/en/glossary/data-quality/)** is treated as a reactive, one-off cleanup task rather than a continuous engineering discipline embedded across the entire data value chain [DAMA International, DMBOK2]. 
 
-A robust **Data Governance** framework cannot survive as mere policy documentation. To protect decision-making, manage enterprise risk, and maximize ROI, organizations must embed end-to-end data quality controls into every layer of their architecture—from source ingestion to the final consumer dashboard.
+A robust **[Data Governance](/en/glossary/data-governance/)** framework cannot survive as mere policy documentation. To protect decision-making, manage enterprise risk, and maximize ROI, organizations must embed end-to-end data quality controls into every layer of their architecture—from source ingestion to the final consumer dashboard.
 
 ---
 
@@ -36,7 +36,7 @@ Silent Degradation Across the Value Chain
 
 Each stage adds visual polish—sleek UI components, clean chart legends, and impressive trend lines—yet the core payload remains fundamentally flawed. By the time a decision-maker views the report, the error is insulated by layers of technical processing.
 
-According to research on analytical maturity [TDWI, Analytics Maturity Model], organizations operating without continuous quality guardrails lose up to 20% to 30% of operating revenue addressing the downstream consequences of poor data quality, ranging from regulatory compliance penalties to misallocated capital.
+According to research on analytical maturity [TDWI, Analytics Maturity Model], organizations operating without continuous quality guardrails lose up to 20% to 30% of operating revenue addressing the downstream consequences of [poor data quality](/en/glossary/cost-of-poor-data-quality/), ranging from regulatory compliance penalties to misallocated capital.
 
 ---
 
@@ -82,8 +82,8 @@ Data stored within modern data warehouses (e.g., Snowflake, BigQuery, Databricks
 The last mile of data delivery is your final safety net before insights inform commercial strategies, investor communications, or customer interactions.
 
 * **Dashboard Metric Sanity Checks:** Implement automated threshold alerts on key performance indicators (KPIs). If daily active users or revenue metrics swing outside three standard deviations of historical baselines, flag the dashboard for review before executive presentation.
-* **Business Glossary Alignment:** Verify that underlying reporting queries pull from standardized data models rather than custom, ungoverned SQL calculations embedded directly within BI tools.
-* **Lineage Visibility:** Provide business consumers with immediate visibility into data freshness and pipeline status directly within the BI interface, establishing clear trust signals.
+* **[Business Glossary](/en/glossary/business-glossary/) Alignment:** Verify that underlying reporting queries pull from standardized data models rather than custom, ungoverned SQL calculations embedded directly within BI tools.
+* **[Lineage](/en/glossary/data-lineage/) Visibility:** Provide business consumers with immediate visibility into data freshness and pipeline status directly within the BI interface, establishing clear trust signals.
 
 ![Data Governance Organizational Accountability Diagram](/assets/images/blog/data-governance-roles-en.svg "Who is accountable for data quality at each stage of the pipeline, and where a business consumer takes a discrepancy.")
 
@@ -95,17 +95,17 @@ Processes and automated tools are ineffective without explicit organizational ow
 
 
 
-### The Data Owner (Strategic Accountability)
-Senior business leaders (e.g., VP of Finance, Head of Supply Chain) who hold ultimate accountability for a specific data domain. They define what "high-quality data" means in business terms, set acceptable error thresholds (e.g., 99.9% billing record accuracy), and approve remediation budgets.
+### The [Data Owner](/en/glossary/data-owner/) (Strategic Accountability)
+Senior business leaders (e.g., VP of Finance, Head of Supply Chain) who hold ultimate accountability for a specific [data domain](/en/glossary/data-domain/). They define what "high-quality data" means in business terms, set acceptable error thresholds (e.g., 99.9% billing record accuracy), and approve remediation budgets.
 
-### The Data Steward (Tactical Oversight)
-Operational domain experts who work closely with data on a daily basis. They define technical validation rules, investigate root causes when automated quality checks fail, manage data remediation workflows, and maintain business glossary definitions.
+### The [Data Steward](/en/glossary/data-steward/) (Tactical Oversight)
+Operational domain experts who work closely with data on a daily basis. They define technical [validation rules](/en/glossary/data-quality-rule/), investigate root causes when automated quality checks fail, manage data remediation workflows, and maintain business glossary definitions.
 
 ### The Data Engineer (Technical Execution)
 Technical specialists who build automated quality tests directly into CI/CD pipelines and data transformation layers. They ensure that failed checks halt pipelines, trigger automated alerts, and route corrupted records to quarantine tables for review.
 
 ### The Business Consumer (Active Feedback Loop)
-End-users across departments who possess basic data literacy. When metric discrepancies arise, consumers follow structured escalation paths to notify Data Stewards rather than creating localized "shadow spreadsheet" workarounds.
+End-users across departments who possess basic [data literacy](/en/glossary/data-literacy/). When metric discrepancies arise, consumers follow structured escalation paths to notify Data Stewards rather than creating localized "shadow spreadsheet" workarounds.
 
 ---
 
@@ -128,7 +128,7 @@ Proactive Governance Approach:
 
 ## Building Your End-to-End Quality Roadmap
 
-Moving from reactive cleanup to proactive quality governance does not require an immediate overhaul of your entire tech stack. Follow this step-by-step implementation roadmap:
+Moving from reactive cleanup to [proactive quality governance](/en/glossary/proactive-data-governance/) does not require an immediate overhaul of your entire tech stack. Follow this step-by-step implementation roadmap:
 
 1. **Audit Your Critical Data Paths:** Trace your top three operational KPIs back to their raw source systems to map every transformation, join, and storage location.
 2. **Identify High-Risk Gaps:** Pinpoint where unvalidated data currently enters your system without checks (typically at API ingestion points or manual file uploads).

@@ -11,19 +11,19 @@ redirect_from:
   - responsible-ai-starts-with-data-governance
 ---
 
-A governança de IA não é uma disciplina separada flutuando sobre a gestão de dados. Todo modelo depende de dados cuja origem, significado, qualidade, permissões e limitações precisam ser compreendidos. Quando essas coisas já são governadas, uma política de IA é um documento curto que aponta para controles que a organização já opera. Quando não são, a política precisa inventar um ambiente de controle inteiro do zero — e normalmente inventa um que ninguém executa.
+A [governança de IA](/pt/glossary/ai-governance/) não é uma disciplina separada flutuando sobre a [gestão de dados](/pt/glossary/data-management/). Todo modelo depende de dados cuja origem, significado, qualidade, permissões e limitações precisam ser compreendidos. Quando essas coisas já são governadas, uma política de IA é um documento curto que aponta para controles que a organização já opera. Quando não são, a política precisa inventar um ambiente de controle inteiro do zero — e normalmente inventa um que ninguém executa.
 
 Esse é o padrão mais comum que vejo. Uma empresa escreve uma carta de IA responsável, nomeia um comitê de ética e publica princípios sobre justiça, transparência e supervisão humana. Seis meses depois, o comitê não consegue responder a uma pergunta simples sobre um modelo que já está em produção: quais tabelas o alimentam, quem é o dono delas, quando mudaram pela última vez e se as pessoas ali representadas consentiram com esse uso. Os princípios nunca estiveram errados. Eles apenas não tinham nada por baixo.
 
 ## Por que governança de IA é, sobretudo, governança de dados
 
-Quase todo risco que se atribui a um modelo é herdado dos dados. Um modelo é enviesado porque a população com a qual aprendeu não era representativa. Ele degrada porque uma fonte a montante mudou de forma e ninguém avisou o time. Ele vaza porque um campo que deveria estar classificado como sensível não estava. Ele não pode ser explicado porque a linhagem entre o conjunto de treino e a origem nunca foi registrada.
+Quase todo risco que se atribui a um modelo é herdado dos dados. Um modelo é enviesado porque a população com a qual aprendeu não era representativa. Ele degrada porque uma fonte a montante mudou de forma e ninguém avisou o time. Ele vaza porque um campo que deveria estar [classificado como sensível](/pt/glossary/sensitive-data/) não estava. Ele não pode ser explicado porque a [linhagem](/pt/glossary/data-lineage/) entre o conjunto de treino e a origem nunca foi registrada.
 
-A consequência prática é que uma organização com governança de dados madura adota IA muito mais rápido do que uma sem ela — não por ser mais permissiva, mas porque já conhece as respostas que uma revisão pede. Propriedade, classificação, linhagem, limiares de qualidade e regras de retenção são a base de evidência. Os controles específicos de IA se apoiam sobre eles.
+A consequência prática é que uma organização com [governança de dados](/pt/glossary/data-governance/) madura adota IA muito mais rápido do que uma sem ela — não por ser mais permissiva, mas porque já conhece as respostas que uma revisão pede. Propriedade, [classificação](/pt/glossary/data-classification/), linhagem, limiares de qualidade e regras de retenção são a base de evidência. Os controles específicos de IA se apoiam sobre eles.
 
 ## Conecte os riscos de IA aos controles de dados
 
-Relacione os riscos do modelo aos controles que podem reduzi-los, de forma explícita, para que uma revisão vire uma lista de verificação e não um debate. Preocupações com viés se conectam a representatividade e procedência. Confiabilidade se conecta a limiares de qualidade e monitoramento. Privacidade se conecta a classificação e acesso.
+Relacione os riscos do modelo aos controles que podem reduzi-los, de forma explícita, para que uma revisão vire uma lista de verificação e não um debate. Preocupações com viés se conectam a representatividade e procedência. Confiabilidade se conecta a [limiares de qualidade](/pt/glossary/data-quality/) e monitoramento. Privacidade se conecta a classificação e acesso.
 
 | Risco de IA | Controle de dados que o reduz |
 | --- | --- |
@@ -37,13 +37,13 @@ A tabela é deliberadamente sem graça. Esse é o ponto: nenhum desses é um con
 
 ## Esclareça a responsabilização
 
-Nomeie as pessoas responsáveis pelo caso de uso, pelo modelo, pelos dados de origem e pela decisão de negócio. Responsabilidade compartilhada sem direitos de decisão explícitos vira rapidamente responsabilidade de ninguém.
+Nomeie as pessoas responsáveis pelo caso de uso, pelo modelo, pelos dados de origem e pela decisão de negócio. Responsabilidade compartilhada sem [direitos de decisão](/pt/glossary/decision-rights/) explícitos vira rapidamente responsabilidade de ninguém.
 
 Quatro papéis costumam bastar para eliminar a ambiguidade:
 
 - **Dono do caso de uso.** Responde pelo propósito de negócio e por se o modelo deveria sequer existir.
 - **Dono do modelo.** Responde pelo desempenho, pelas limitações documentadas e pela aposentadoria do modelo.
-- **Dono dos dados.** Responde por cada fonte que alimenta o modelo: seu significado, sua qualidade e se este uso é permitido.
+- **[Dono dos dados](/pt/glossary/data-owner/).** Responde por cada fonte que alimenta o modelo: seu significado, sua qualidade e se este uso é permitido.
 - **Dono da decisão.** Responde pela ação tomada a partir do resultado do modelo, inclusive pela decisão de contrariá-lo.
 
 O quarto é o que mais falta. Um modelo que recomenda e uma pessoa que decide são duas responsabilidades diferentes, e confundi-las é como o "humano no circuito" vira um carimbo.

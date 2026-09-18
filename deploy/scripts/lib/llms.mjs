@@ -12,7 +12,7 @@
  * llms.txt listed no articles at all and had drifted out of date.
  */
 
-import { articlePath, glossaryTermPath } from './routes.mjs';
+import { articlePath, glossaryTermAnchor } from './routes.mjs';
 
 const SITE_ORIGIN = 'https://datagovjourney.com';
 
@@ -24,7 +24,7 @@ const GUIDE_LINKS = {
     ['Homepage', '/en/', 'Services, the three-pillar framework, and the four most common questions.'],
     ['FAQ', '/en/faq/', 'Nine data governance questions answered directly: the DAMA definition, governance versus data management, data owner versus data steward, ROI, tooling, AI readiness and realistic timelines.'],
     ['Insights (blog index)', '/en/blog/', 'Every English article, newest first.'],
-    ['Glossary', '/en/glossary/', 'Definitions of the working vocabulary, grouped by theme; every term also has its own page at /en/glossary/<term>/.'],
+    ['Glossary', '/en/glossary/', 'Definitions of the working vocabulary, grouped by theme; each term opens in place at /en/glossary/#<term>.'],
     ['RSS feed', '/en/feed.xml', 'The English articles as RSS 2.0.'],
     ['Confession Wall', '/en/confession-wall/', 'Anonymous accounts of data-governance failures from practitioners.'],
     ['About Sandy Bradbury', '/en/about/', 'Who writes this: background, DAMA certifications, and how the practice works.'],
@@ -44,7 +44,7 @@ const GUIDE_LINKS = {
     ['Página principal', '/', 'Servicios, el marco de tres pilares y las cuatro preguntas más frecuentes.'],
     ['Preguntas frecuentes', '/es/preguntas-frecuentes/', 'Nueve preguntas de gobierno de datos respondidas directamente: la definición DAMA, gobierno frente a gestión, data owner frente a data steward, ROI, herramientas, IA y plazos realistas.'],
     ['Ideas (índice del blog)', '/es/blog/', 'Todos los artículos en español, del más reciente al más antiguo.'],
-    ['Glosario', '/es/glosario/', 'Definiciones del vocabulario de trabajo, agrupadas por tema; cada término tiene además su propia página en /es/glosario/<término>/.'],
+    ['Glosario', '/es/glosario/', 'Definiciones del vocabulario de trabajo, agrupadas por tema; cada término se abre en la propia página en /es/glosario/#<término>.'],
     ['Feed RSS', '/es/feed.xml', 'Los artículos en español como RSS 2.0.'],
     ['Muro de Confesiones', '/es/muro-de-confesiones/', 'Relatos anónimos de fracasos en gobierno de datos.'],
     ['Sobre Sandy Bradbury', '/es/sobre/', 'Quién escribe esto: trayectoria, certificaciones DAMA y cómo trabaja la práctica.'],
@@ -64,7 +64,7 @@ const GUIDE_LINKS = {
     ['Página inicial', '/pt/', 'Serviços, o framework de três pilares e as quatro perguntas mais frequentes.'],
     ['Perguntas frequentes', '/pt/perguntas-frequentes/', 'Nove perguntas de governança de dados respondidas diretamente: a definição da DAMA, governança versus gestão, data owner versus data steward, ROI, ferramentas, IA e prazos realistas.'],
     ['Ideias (índice do blog)', '/pt/blog/', 'Todos os artigos em português, do mais recente ao mais antigo.'],
-    ['Glossário', '/pt/glossario/', 'Definições do vocabulário de trabalho, agrupadas por tema; cada termo também tem a sua própria página em /pt/glossario/<termo>/.'],
+    ['Glossário', '/pt/glossario/', 'Definições do vocabulário de trabalho, agrupadas por tema; cada termo abre na própria página em /pt/glossario/#<termo>.'],
     ['Feed RSS', '/pt/feed.xml', 'Os artigos em português como RSS 2.0.'],
     ['Mural de Confissões', '/pt/mural-de-confissoes/', 'Relatos anônimos de fracassos em governança de dados.'],
     ['Sobre Sandy Bradbury', '/pt/sobre/', 'Quem escreve isto: trajetória, certificações DAMA e como a prática funciona.'],
@@ -104,12 +104,13 @@ const languageSection = (lang, articles, terms) => {
   // The definitions are inlined rather than left behind their links. An
   // assistant asked "what is a data steward" can answer from this file in one
   // fetch instead of thirty-three, and the one-line definition is the whole
-  // useful payload of a term page.
+  // useful payload. The link is now a fragment on the single glossary page,
+  // which is where the full definition is read.
   if (terms.length) {
     lines.push('', `### ${GLOSSARY_HEADINGS[lang]} (${LANGUAGE_NAMES[lang]})`, '');
     for (const term of terms) {
       lines.push(
-        `- [${oneLine(term.term)}](${SITE_ORIGIN}${glossaryTermPath(lang, term.slug)}): ${oneLine(term.short)}`
+        `- [${oneLine(term.term)}](${SITE_ORIGIN}${glossaryTermAnchor(lang, term.slug)}): ${oneLine(term.short)}`
       );
     }
   }

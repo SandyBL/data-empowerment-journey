@@ -11,11 +11,11 @@ translation_key: overlooked-chapter-change-management-data-governance
 ---
 # The Overlooked Chapter: Why Change Management Is the Key to Data Governance Success
 
-When enterprise leaders think about **Data Governance**, their minds immediately jump to policy frameworks, data quality rules, enterprise catalogs, and steering committees. Few consider organizational **Change Management**. 
+When enterprise leaders think about **[Data Governance](/en/glossary/data-governance/)**, their minds immediately jump to policy frameworks, [data quality rules](/en/glossary/data-quality-rule/), enterprise catalogs, and steering committees. Few consider organizational **Change Management**. 
 
-And yet, in the DAMA Data Management Body of Knowledge \[DAMA International, DMBOK2], the final chapter is dedicated specifically to Organizational Change Management—and for good reason. Without addressing human behavior, all the frameworks, data architectures, and software tools in the world will fail to transform your organization into a truly data-driven enterprise.
+And yet, in the [DAMA Data Management Body of Knowledge](/en/glossary/dama-dmbok/) \[DAMA International, DMBOK2], the final chapter is dedicated specifically to Organizational Change Management—and for good reason. Without addressing human behavior, all the frameworks, data architectures, and software tools in the world will fail to transform your organization into a truly data-driven enterprise.
 
-Data governance is not a technical implementation; it is a fundamental cultural transformation.
+Data governance is not a technical implementation; it is a fundamental [cultural transformation](/en/glossary/data-culture/).
 
 - - -
 
@@ -23,7 +23,7 @@ Data governance is not a technical implementation; it is a fundamental cultural 
 
 Data governance alters how employees capture, validate, access, and interpret information daily. It redefines accountability, redistributes authority over data assets, and introduces new operational routines. 
 
-If an organization establishes strict data governance policies but employees continue to export raw files into ungoverned local spreadsheets, governance has not been achieved—you have simply published a rulebook that nobody reads.
+If an organization establishes strict [data governance policies](/en/glossary/data-policy/) but employees continue to export raw files into ungoverned local spreadsheets, governance has not been achieved—you have simply published a rulebook that nobody reads.
 
 Change management bridges the gap between policy creation and operational adoption. It ensures that stakeholders understand *why* the transformation is necessary, *how* it directly benefits their daily workflows, and *what* specific behaviors must change \[Gartner, Data Governance Framework].
 
@@ -31,7 +31,7 @@ Change management bridges the gap between policy creation and operational adopti
 
 ## Governance Equals Cultural Transformation
 
-A mature data governance program does not merely assign data ownership on an organizational chart—it builds a lasting culture of data stewardship and cross-functional trust. 
+A mature data governance program does not merely assign data ownership on an organizational chart—it builds a lasting culture of [data stewardship](/en/glossary/data-stewardship/) and cross-functional trust. 
 
 However, cultural evolution does not occur by accident. It requires deliberate communication, stakeholder engagement, and continuous reinforcement over time \[ED Council, DCAM v2].
 
@@ -68,11 +68,11 @@ To ensure your data governance program achieves high adoption and long-term viab
 
 ### 1. Lead with a Business Story, Not a Technical Policy
 
-Before defining technical standards or mandatory metadata fields, explain the core problem. Use real-world examples of data failures within your organization—such as a miscalculated quarterly sales forecast or a delayed customer campaign—to illustrate how governance prevents operational friction and protects revenue.
+Before defining technical standards or mandatory [metadata](/en/glossary/metadata/) fields, explain the core problem. Use real-world examples of data failures within your organization—such as a miscalculated quarterly sales forecast or a delayed customer campaign—to illustrate how governance prevents operational friction and protects revenue.
 
 ### 2. Mobilize Governance Champions
 
-Empower informal influencers, operational **Data Stewards**, and domain team leads who believe in the value of trusted data. Equipping these champions to model governed behaviors within their respective departments creates peer-to-peer momentum that central IT teams cannot replicate.
+Empower informal influencers, operational **[Data Stewards](/en/glossary/data-steward/)**, and domain team leads who believe in the value of trusted data. Equipping these champions to model governed behaviors within their respective departments creates peer-to-peer momentum that central IT teams cannot replicate.
 
 ### 3. Translate Jargon into Business Plain Language
 
@@ -83,13 +83,13 @@ Technical governance terminology alienates business stakeholders. Replace techni
 
 ### 4. Celebrate Quick Operational Wins
 
-Highlight and publish early governance victories. Whether a domain team successfully resolves a persistent data quality issue or automates a previously manual reconciliation process, make the win visible across the enterprise. Demonstrating immediate value builds credibility and momentum.
+Highlight and publish early governance victories. Whether a domain team successfully resolves a persistent [data quality](/en/glossary/data-quality/) issue or automates a previously manual reconciliation process, make the win visible across the enterprise. Demonstrating immediate value builds credibility and momentum.
 
 ### 5. Measure Behavioral Adoption, Not Just Compliance
 
 Tracking the number of published policies or documented data catalog terms measures output, not business impact. Focus your governance metrics on active adoption:
 
-* How many business users consult certified datasets in the data catalog weekly?
+* How many business users consult certified datasets in the [data catalog](/en/glossary/data-catalog/) weekly?
 * What is the average time required to resolve a data quality escalation?
 * How many ungoverned shadow spreadsheets have been retired in favor of enterprise BI dashboards?
 
@@ -97,7 +97,7 @@ Tracking the number of published policies or documented data catalog terms measu
 
 ## Measuring Governance Maturity Through Adoption
 
-Evaluating the maturity of your data governance program requires measuring both technical capability and organizational adoption \[TDWI, Analytics Maturity Model]:
+Evaluating the [maturity](/en/glossary/data-maturity/) of your data governance program requires measuring both technical capability and organizational adoption \[TDWI, Analytics Maturity Model]:
 
 | Governance Dimension  | Low Change Management Maturity                                  | High Change Management Maturity                                              |
 | --------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------- |

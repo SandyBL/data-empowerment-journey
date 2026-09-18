@@ -1,21 +1,33 @@
 /**
- * The glossary: one hub per language, plus one page per term.
+ * The glossary: one page per language, every term a disclosure on it.
  *
  * A glossary is the cheapest thing a site like this can own. Every term is a
- * question somebody types into a search box in the exact words the page is
- * titled with — "what is a data steward", "data quality dimensions", "what does
- * DMBOK stand for" — and a definition is a complete answer to it, which is what
- * makes a term page satisfy a query that a 2,000-word article only mentions in
- * passing. It is also the internal-linking backbone: a term links to the
- * articles that use it, and the articles link back, so a reader who arrived for
- * one definition has somewhere to go and a crawler has a route into the archive
- * that does not run through the blog index.
+ * question somebody types into a search box in the exact words the definition
+ * answers — "what is a data steward", "data quality dimensions", "what does
+ * DMBOK stand for" — and the definitions are also the internal-linking
+ * backbone: a term points at the article that uses it, the articles point back,
+ * and a reader who arrived for one definition has somewhere to go.
+ *
+ * Each definition used to be its own page, on the argument that fifty URLs are
+ * fifty chances to match a query where one hub is only one. That argument lost
+ * to the measurement. Forty-seven terms in three languages is 141 URLs of about
+ * two hundred words each, published in a single week onto a domain seven weeks
+ * old; Search Console discovered all of them and crawled almost none — 205 URLs
+ * sat in "Discovered, currently not indexed", while the hub, which carries the
+ * same text and is the only part of the glossary anything links to, was indexed
+ * immediately. Fifty chances to match a query are worth nothing if the pages
+ * holding them are never crawled.
+ *
+ * So the definitions are disclosures on the hub now, opened one at a time like
+ * the FAQ, and every retired term URL 301s to its fragment (see legacyRoutes in
+ * scripts/lib/routes.mjs). The text is unchanged and none of it is hidden from
+ * a crawler — a closed <details> is in the DOM and in the HTML source, which is
+ * what Google reads — so the page that was already being indexed simply becomes
+ * the page that holds everything.
  *
  * Terms live in content/glossary/<lang>/<slug>.md, one file per term per
- * language, sharing a slug so the hreflang cluster is the filename. A term that
- * exists in one language and not another publishes anyway and declares only the
- * languages it has: a cluster that promises a translation which 404s is worse
- * than a smaller cluster.
+ * language, sharing a slug so the languages stay in step. A term that exists in
+ * one language and not another publishes anyway, in the language it has.
  */
 
 import { readdir, readFile } from 'node:fs/promises';
@@ -30,11 +42,11 @@ import {
   NAV,
   breadcrumbSchema,
   glossaryHubPath,
-  glossaryTermPath,
   renderBreadcrumb,
   renderPage,
   xDefaultLanguage,
 } from './page-shell.mjs';
+import { glossaryTermAnchor, localizedTermSlug } from './routes.mjs';
 
 /** The sections the hub groups terms under, in the order they are shown. */
 const GROUPS = [
@@ -154,13 +166,10 @@ const COPY = {
     inThisSection: 'In this section',
     related: 'Related terms',
     readMore: 'Read more on this',
-    backToGlossary: 'All terms',
-    termMetaTitle: (term) => `What is ${term}? | Data Governance Journey`,
-    definition: 'Definition',
     jumpTo: 'Where do you want to start?',
     // The visible label is a question; a landmark still needs a plain name.
     jumpAria: 'Glossary sections',
-    onePage: 'One term, one page. The rest of the vocabulary is in the glossary.',
+    openHint: 'every definition is on this page — open a term to read it in full.',
   },
   es: {
     kicker: 'Glosario',
@@ -174,12 +183,9 @@ const COPY = {
     inThisSection: 'En esta sección',
     related: 'Términos relacionados',
     readMore: 'Leer más sobre esto',
-    backToGlossary: 'Todos los términos',
-    termMetaTitle: (term) => `¿Qué es ${term}? | Data Governance Journey`,
-    definition: 'Definición',
     jumpTo: '¿Por dónde quieres empezar?',
     jumpAria: 'Secciones del glosario',
-    onePage: 'Un término, una página. El resto del vocabulario está en el glosario.',
+    openHint: 'todas las definiciones están en esta página: abre un término para leerla completa.',
   },
   pt: {
     kicker: 'Glossário',
@@ -193,22 +199,19 @@ const COPY = {
     inThisSection: 'Nesta seção',
     related: 'Termos relacionados',
     readMore: 'Leia mais sobre isso',
-    backToGlossary: 'Todos os termos',
-    termMetaTitle: (term) => `O que é ${term}? | Data Governance Journey`,
-    definition: 'Definição',
     jumpTo: 'Por onde você quer começar?',
     jumpAria: 'Seções do glossário',
-    onePage: 'Um termo, uma página. O resto do vocabulário está no glossário.',
+    openHint: 'todas as definições estão nesta página: abra um termo para ler por completo.',
   },
 };
 
 /**
- * Both addresses are now per-language -- /es/glosario/gobierno-de-datos/ rather
- * than /es/glossary/data-governance/ -- and are built from the tables in
- * routes.mjs. Re-exported from here because the generator has always imported
- * the glossary's routes from the glossary module.
+ * The hub address is per-language -- /es/glosario/ rather than /es/glossary/ --
+ * and a term is a fragment on it. Both are built from the tables in routes.mjs
+ * and re-exported here because the generator has always imported the glossary's
+ * routes from the glossary module.
  */
-export { glossaryHubPath, glossaryTermPath };
+export { glossaryHubPath, glossaryTermAnchor };
 
 const splitList = (value) =>
   String(value || '')
@@ -275,39 +278,75 @@ export const glossaryTranslations = (terms) => {
   return map;
 };
 
-const alternatesFor = (slug, translations) => {
-  const cluster = translations.get(slug) || {};
-  const available = LANGUAGES.filter((lang) => cluster[lang]);
-  return [
-    ...available.map((lang) => ({ hreflang: lang, url: glossaryTermPath(lang, slug) })),
-    { hreflang: 'x-default', url: glossaryTermPath(xDefaultLanguage(available), slug) },
-  ];
-};
-
-/**
- * Where the language switcher points from a term page.
- *
- * A term that has no counterpart in a language falls back to that language's
- * hub rather than being dropped, because the hub is a useful place to land and
- * every term has one.
- */
-const termLanguageHrefs = (slug, translations) => {
-  const cluster = translations.get(slug) || {};
-  return Object.fromEntries(
-    LANGUAGES.map((other) => [other, cluster[other] ? glossaryTermPath(other, slug) : glossaryHubPath(other)])
-  );
-};
-
 const hubLanguageHrefs = () => Object.fromEntries(LANGUAGES.map((other) => [other, glossaryHubPath(other)]));
 
 /**
- * The hub: every term in the language, grouped, with its one-line definition
- * visible.
+ * One term, as a disclosure.
  *
- * The definitions are on the page rather than hidden behind the links because a
- * hub whose entire content is a list of anchor texts is a doorway page. With them
- * the hub is itself a useful reference — and it is the page most likely to be
- * bookmarked and linked to.
+ * The id is the localized term slug -- the last segment of the URL this
+ * definition used to have -- so /es/glosario/propietario-de-datos/ can 301 to
+ * /es/glosario/#propietario-de-datos and land a reader on the same words.
+ *
+ * The one-line definition sits in the <summary> beside the name, so the page is
+ * a usable reference with everything closed: a hub whose entire visible content
+ * is a list of names is a doorway page, and this one still answers "what is a
+ * data steward" at a glance. The full text is behind the toggle, which is
+ * markup rather than a visibility trick -- a closed <details> is in the HTML
+ * and in the DOM, so a crawler reads it either way.
+ *
+ * The <dfn> is what marks the defined phrase to assistive tech. It sits inside
+ * a heading rather than replacing it, because forty-seven terms on one page
+ * need to be navigable by a screen reader's heading rotor.
+ */
+const renderTerm = (term, { lang, copy, bySlug, articles }) => {
+  const related = term.related.map((slug) => bySlug.get(slug)).filter(Boolean);
+  const article = articles.find((entry) => entry.lang === lang && entry.translationKey === term.articleKey);
+
+  const also = term.also.length
+    ? `<p class="glossary-term__also"><span>${escapeHtml(copy.alsoKnown)}</span> ${term.also
+        .map((name) => `<em>${escapeHtml(name)}</em>`)
+        .join(', ')}</p>`
+    : '';
+
+  const readMore = article
+    ? `<a class="glossary-term__article" href="/${lang}/blog/${article.slug}/"><small>${escapeHtml(
+        copy.readMore
+      )}</small><strong>${escapeHtml(article.title)}</strong></a>`
+    : '';
+
+  const relatedTerms = related.length
+    ? `<div class="glossary-term__related"><h4>${escapeHtml(copy.related)}</h4><ul>${related
+        .map((entry) => `<li><a href="#${localizedTermSlug(lang, entry.slug)}">${escapeHtml(entry.term)}</a></li>`)
+        .join('')}</ul></div>`
+    : '';
+
+  const footer =
+    readMore || relatedTerms
+      ? `\n              <div class="glossary-term__footer">${readMore}${relatedTerms}</div>`
+      : '';
+
+  return `          <details class="glossary-term" id="${localizedTermSlug(lang, term.slug)}">
+            <summary class="glossary-term__summary">
+              <span class="glossary-term__heading">
+                <h3 class="glossary-term__name"><dfn>${escapeHtml(term.term)}</dfn></h3>
+                <span class="glossary-term__short">${escapeHtml(term.short)}</span>
+              </span>
+            </summary>
+            <div class="glossary-term__panel">${also}
+              <div class="glossary-term__body article-body">
+${term.bodyHtml}
+              </div>${footer}
+            </div>
+          </details>`;
+};
+
+/**
+ * The glossary page for one language: every term it has, grouped, each a
+ * disclosure.
+ *
+ * `articles` is the whole article list rather than this language's slice,
+ * because the front matter names an article by its translation key and the link
+ * has to resolve into the reader's own language.
  */
 export function renderGlossaryHub(lang, terms, articles) {
   const copy = COPY[lang];
@@ -316,6 +355,7 @@ export function renderGlossaryHub(lang, terms, articles) {
     .filter((term) => term.lang === lang)
     .sort((first, second) => first.term.localeCompare(second.term, lang));
   const canonical = `${SITE_ORIGIN}${glossaryHubPath(lang)}`;
+  const bySlug = new Map(localized.map((entry) => [entry.slug, entry]));
 
   const grouped = GROUPS.map((group) => ({
     group,
@@ -336,14 +376,9 @@ export function renderGlossaryHub(lang, terms, articles) {
           <p>${escapeHtml(section.blurb)}</p>
           <span>${copy.count(section.terms.length)}</span>
         </div>
-        <dl class="glossary-list">${section.terms
-          .map(
-            (term) =>
-              `<div class="glossary-entry"><dt><a href="${glossaryTermPath(lang, term.slug)}">${escapeHtml(
-                term.term
-              )}</a></dt><dd>${escapeHtml(term.short)}</dd></div>`
-          )
-          .join('')}</dl>
+        <div class="glossary-list">
+${section.terms.map((term) => renderTerm(term, { lang, copy, bySlug, articles })).join('\n')}
+        </div>
       </section>`
     )
     .join('\n');
@@ -353,6 +388,15 @@ export function renderGlossaryHub(lang, terms, articles) {
     { name: copy.kicker, item: canonical },
   ];
 
+  /**
+   * Every definition is a DefinedTerm node on this page, with its fragment as
+   * @id and url. The nodes used to be bare references to the term pages' own
+   * @ids; with those pages gone a reference would point at nothing.
+   *
+   * dateModified is the newest `updated` across the terms, because the hub now
+   * changes whenever any definition does and that is the date a crawler should
+   * see.
+   */
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -365,7 +409,23 @@ export function renderGlossaryHub(lang, terms, articles) {
         inLanguage: HTML_LANG[lang],
         isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
         breadcrumb: { '@id': `${canonical}#breadcrumb` },
-        hasDefinedTerm: localized.map((term) => ({ '@id': `${SITE_ORIGIN}${glossaryTermPath(lang, term.slug)}#term` })),
+        ...(() => {
+          const modified = localized
+            .map((term) => term.updated)
+            .filter(Boolean)
+            .sort()
+            .pop();
+          return modified ? { dateModified: modified } : {};
+        })(),
+        hasDefinedTerm: localized.map((term) => ({
+          '@type': 'DefinedTerm',
+          '@id': `${canonical}#${localizedTermSlug(lang, term.slug)}`,
+          name: term.term,
+          description: term.short,
+          url: `${canonical}#${localizedTermSlug(lang, term.slug)}`,
+          inDefinedTermSet: { '@id': `${canonical}#glossary` },
+          ...(term.also.length ? { alternateName: term.also } : {}),
+        })),
       },
       breadcrumbSchema(canonical, breadcrumb),
     ],
@@ -381,7 +441,7 @@ export function renderGlossaryHub(lang, terms, articles) {
       <span class="blog-kicker">${escapeHtml(copy.kicker)}</span>
       <h1>${escapeHtml(copy.title)}</h1>
       <p class="page-deck">${escapeHtml(copy.lead)}</p>
-      <p class="page-meta">${copy.count(localized.length)}</p>
+      <p class="page-meta">${copy.count(localized.length)} · ${escapeHtml(copy.openHint)}</p>
     </section>
     <nav class="glossary-jump blog-shell" aria-label="${escapeHtml(copy.jumpAria)}"><span>${escapeHtml(
       copy.jumpTo
@@ -419,116 +479,10 @@ ${sections}
     languageHrefs: hubLanguageHrefs(),
     current: 'glossary',
     bodyClass: 'glossary-page',
-  });
-}
-
-/**
- * One term. The `<dfn>` is what marks the defined phrase to assistive tech.
- *
- * `articles` is the full article list; the front matter names an article by its
- * translation key, so the link resolves to the reader's own language.
- */
-export function renderGlossaryTerm(term, terms, translations, articles) {
-  const { lang } = term;
-  const copy = COPY[lang];
-  const nav = NAV[lang];
-  const canonical = `${SITE_ORIGIN}${glossaryTermPath(lang, term.slug)}`;
-  const bySlug = new Map(terms.filter((entry) => entry.lang === lang).map((entry) => [entry.slug, entry]));
-
-  const related = term.related.map((slug) => bySlug.get(slug)).filter(Boolean);
-  const article = articles.find(
-    (entry) => entry.lang === lang && entry.translationKey === term.articleKey
-  );
-
-  const breadcrumb = [
-    { name: nav.home, item: `${SITE_ORIGIN}${HOME_PATH[lang]}` },
-    { name: copy.kicker, item: `${SITE_ORIGIN}${glossaryHubPath(lang)}` },
-    { name: term.term, item: canonical },
-  ];
-
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'DefinedTerm',
-        '@id': `${canonical}#term`,
-        name: term.term,
-        description: term.short,
-        inDefinedTermSet: { '@id': `${SITE_ORIGIN}${glossaryHubPath(lang)}#glossary` },
-        url: canonical,
-        ...(term.also.length ? { alternateName: term.also } : {}),
-      },
-      {
-        '@type': 'WebPage',
-        '@id': `${canonical}#page`,
-        url: canonical,
-        name: copy.termMetaTitle(term.term),
-        description: term.short,
-        inLanguage: HTML_LANG[lang],
-        isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
-        breadcrumb: { '@id': `${canonical}#breadcrumb` },
-        mainEntity: { '@id': `${canonical}#term` },
-        ...(term.updated ? { dateModified: term.updated } : {}),
-      },
-      breadcrumbSchema(canonical, breadcrumb),
-    ],
-  };
-
-  const main = `    <article class="term blog-shell">
-      <header class="page-hero">
-        ${renderBreadcrumb(breadcrumb, nav.breadcrumb)}
-        <span class="blog-kicker">${escapeHtml(copy.kicker)}</span>
-        <h1><dfn>${escapeHtml(term.term)}</dfn></h1>
-        <p class="term__short">${escapeHtml(term.short)}</p>
-        ${
-          term.also.length
-            ? `<p class="term__also"><span>${escapeHtml(copy.alsoKnown)}</span> ${term.also
-                .map((name) => `<em>${escapeHtml(name)}</em>`)
-                .join(', ')}</p>`
-            : ''
-        }
-      </header>
-      <div class="term__body article-body">
-${term.bodyHtml}
-      </div>
-      <footer class="term__footer">
-        ${
-          article
-            ? `<a class="term__article" href="/${lang}/blog/${article.slug}/"><small>${escapeHtml(
-                copy.readMore
-              )}</small><strong>${escapeHtml(article.title)}</strong></a>`
-            : ''
-        }
-        ${
-          related.length
-            ? `<div class="term__related"><h2>${escapeHtml(copy.related)}</h2><ul>${related
-                .map(
-                  (entry) =>
-                    `<li><a href="${glossaryTermPath(lang, entry.slug)}"><strong>${escapeHtml(
-                      entry.term
-                    )}</strong><span>${escapeHtml(entry.short)}</span></a></li>`
-                )
-                .join('')}</ul></div>`
-            : ''
-        }
-        <p class="term__back">${escapeHtml(copy.onePage)} <a href="${glossaryHubPath(lang)}">${escapeHtml(
-          copy.backToGlossary
-        )}</a></p>
-      </footer>
-    </article>`;
-
-  return renderPage({
-    lang,
-    canonical,
-    title: copy.termMetaTitle(term.term),
-    description: term.short,
-    alternates: alternatesFor(term.slug, translations),
-    schema,
-    main,
-    languageHrefs: termLanguageHrefs(term.slug, translations),
-    current: 'glossary',
-    bodyClass: 'term-page',
-    skipTarget: 'term',
+    // Opens whichever term a link or a redirect asked for. The page works
+    // without it -- the fragment still scrolls -- but the reader would arrive
+    // at a closed disclosure and have to click the thing they just clicked.
+    extraScripts: '  <script type="module" src="/assets/js/glossary.js"></script>\n',
   });
 }
 

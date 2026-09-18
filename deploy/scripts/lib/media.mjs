@@ -29,7 +29,7 @@
  * reserved box, which is worth knowing before uploading a WebP hero.
  */
 
-import { readdir, readFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { imageSources } from './markdown.mjs';
@@ -98,6 +98,103 @@ const svgSize = (source) => {
     return { width: Math.round(box[2]), height: Math.round(box[3]) };
   }
   return null;
+};
+
+/**
+ * Rewrites an SVG that cannot size itself inside an <img>.
+ *
+ * An SVG authored for a web page is usually told to fill its container --
+ * `width="100%" height="100%"`, with the backdrop painted by a CSS
+ * `background-color` on the root element. Both are reasonable in a page and
+ * both break the moment the same file is referenced by an <img>, which is how
+ * every picture in an article is published.
+ *
+ * A percentage resolves against a containing block, and an image referenced by
+ * <img> has none, so the file reports no intrinsic width or height at all. The
+ * article stylesheet then asks for `height: auto`
+ * (assets/css/blog.css:154) and the browser has nothing to compute it from, so
+ * the figure collapses to no height and the picture is simply absent from the
+ * page -- while the file itself answers 200 and opens perfectly in a new tab,
+ * which is what makes this look like anything other than a sizing bug.
+ *
+ * The same reasoning covers the backdrop: a CSS background belongs to the
+ * element, and an <img> paints the image, not the element's own background, so
+ * the fill has to become a real shape inside the document.
+ *
+ * So both are corrected here, in the one place every image on the site passes
+ * through. The viewBox is the fix for the first -- it is the intrinsic size a
+ * scalable file really has -- and a <rect> under the artwork is the fix for the
+ * second. The three change-management diagrams were repaired by hand in
+ * September 2026 and the next article published with a hand-made SVG arrived
+ * broken in exactly the same way, which is the argument for doing it here
+ * rather than a fourth time: the pattern comes from whatever tool draws the
+ * picture, so it will keep arriving.
+ *
+ * Returns the corrected markup, or null when the file already sizes itself.
+ */
+const normalizeSvgForImg = (text) => {
+  const tag = text.match(/<svg\b[^>]*>/i)?.[0];
+  if (!tag) return null;
+
+  // Quote-aware: a style attribute routinely carries single-quoted font names
+  // inside its double quotes (`style="font-family: 'Segoe UI', Arial"`), and a
+  // reader that stops at the first quote of either kind truncates the value and
+  // corrupts the tag when it writes it back.
+  const attributePattern = (name) => new RegExp(`\\b${name}\\s*=\\s*(["'])((?:(?!\\1)[\\s\\S])*)\\1`, 'i');
+  const attribute = (name) => attributePattern(name).exec(tag)?.[2] ?? '';
+  const isPixels = (value) => /^\s*\d+(\.\d+)?(px)?\s*$/.test(value);
+
+  // The size to adopt. Only the viewBox can supply it: a file that needs this
+  // treatment is precisely one whose width and height are not readable lengths.
+  const box = attribute('viewBox').trim().split(/[\s,]+/).map(Number);
+  if (box.length !== 4 || !(box[2] > 0) || !(box[3] > 0)) return null;
+  const width = Math.round(box[2]);
+  const height = Math.round(box[3]);
+
+  const needsSize = !isPixels(attribute('width')) || !isPixels(attribute('height'));
+
+  // A background declaration on the root element, which an <img> never paints.
+  const style = attribute('style');
+  const background = /(?:^|;)\s*background(?:-color)?\s*:\s*([^;]+)/i.exec(style)?.[1]?.trim();
+
+  if (!needsSize && !background) return null;
+
+  let rewritten = tag;
+
+  if (needsSize) {
+    // Drop whatever unusable width/height the file carries, then state the real
+    // one. Written immediately after "<svg" so the size is the first thing in
+    // the tag, which is where every other diagram in this repository has it.
+    rewritten = rewritten
+      .replace(new RegExp(`\\s+${attributePattern('width').source}`, 'i'), '')
+      .replace(new RegExp(`\\s+${attributePattern('height').source}`, 'i'), '')
+      .replace(/^<svg\b/i, `<svg width="${width}" height="${height}"`);
+  }
+
+  if (background) {
+    // The background moves out of the style attribute so it cannot be mistaken
+    // for a live declaration; anything else in there (a font stack, usually) is
+    // left exactly as it was.
+    const remaining = style
+      .split(';')
+      .filter((declaration) => !/^\s*background(-color)?\s*:/i.test(declaration))
+      .join(';')
+      .replace(/^;+|;+$/g, '')
+      .trim();
+    rewritten = remaining
+      ? rewritten.replace(attributePattern('style'), `style="${remaining}"`)
+      : rewritten.replace(new RegExp(`\\s+${attributePattern('style').source}`, 'i'), '');
+  }
+
+  let output = text.replace(tag, rewritten);
+  if (background) {
+    // First child, so it sits under the artwork rather than over it.
+    output = output.replace(
+      rewritten,
+      `${rewritten}\n  <rect width="${width}" height="${height}" fill="${background}"/>`
+    );
+  }
+  return output === text ? null : output;
 };
 
 /** Every PNG opens with the IHDR chunk, and its first two fields are the size. */
@@ -179,11 +276,29 @@ export const resolveImageSizes = async (markdown, where) => {
     // the editor, sitting where the media library put it rather than where the
     // draft said it would be.
     if (!bytes) {
-      const upload = (await mediaLibrary()).get(uploadName(src).toLowerCase());
-      if (upload) {
+      const library = await mediaLibrary();
+      const name = uploadName(src);
+      // The name as written, then the same name with its extension doubled or
+      // de-doubled. A picture saved as "diagram.svg" and uploaded by a studio
+      // that appends the type again lands as "diagram.svg.svg", and the
+      // reference and the file then disagree by one extension in whichever
+      // direction the author corrected first.
+      const extension = path.posix.extname(name);
+      const candidates = [name];
+      if (extension) {
+        candidates.push(`${name}${extension}`);
+        if (name.toLowerCase().endsWith(`${extension}${extension}`.toLowerCase())) {
+          candidates.push(name.slice(0, -extension.length));
+        }
+      }
+
+      for (const candidate of candidates) {
+        const upload = library.get(candidate.toLowerCase());
+        if (!upload) continue;
         src = `${MEDIA_PUBLIC_FOLDER}/${upload}`;
         file = path.join(MEDIA_DIRECTORY, upload);
         bytes = await readFile(file).catch(() => null);
+        if (bytes) break;
       }
     }
 
@@ -193,6 +308,20 @@ export const resolveImageSizes = async (markdown, where) => {
           `    Upload it in the Blog Content Studio (the + button in the editor, then Image) ` +
           `or correct the path. Uploads are served from ${MEDIA_PUBLIC_FOLDER}/.`
       );
+    }
+
+    // An SVG drawn for a page rather than for an <img> is corrected on disk,
+    // once, before it is measured -- so the bytes the browser fetches are the
+    // corrected ones and the size read below is the size it will actually
+    // report. Idempotent: a file that already states a pixel size is left
+    // untouched, so this is a no-op on every build after the first.
+    if (path.extname(file).toLowerCase() === '.svg') {
+      const normalized = normalizeSvgForImg(bytes.toString('utf8'));
+      if (normalized) {
+        await writeFile(file, normalized, 'utf8');
+        bytes = Buffer.from(normalized, 'utf8');
+        console.log(`  Sized ${src} for <img> from its viewBox (was unsized, so it rendered as an empty box).`);
+      }
     }
 
     resolved.set(source, { src, ...intrinsicSize(file, bytes) });

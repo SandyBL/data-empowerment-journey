@@ -30,6 +30,27 @@ export const slugify = (text) =>
 const ESCAPABLE_PUNCTUATION = /\\([\\`*_{}[\]()#+\-.!<>|~"'$%&/:;=?@^])/g;
 
 /**
+ * A heading with its inline Markdown notation removed.
+ *
+ * A heading is not only a line of prose: the same string becomes the anchor id,
+ * the table-of-contents row, and -- when it ends in a question mark -- the
+ * `name` of an FAQ entry in the article's structured data. All three want the
+ * words, not the notation. A linked heading such as
+ * `### The [Data Owner](/en/glossary/data-owner/) (Strategic Accountability)`
+ * was producing the id `the-data-owner-en-glossary-data-owner-strategic-...`
+ * and a contents row that read the URL out loud, so the notation is stripped
+ * once, here, before anything is derived from it.
+ */
+export const plainText = (markdown) =>
+  markdown
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[*_`~]/g, '')
+    .replace(ESCAPABLE_PUNCTUATION, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+/**
  * A horizontal rule, in every spelling Markdown allows for one: three or more
  * dashes, asterisks or underscores, with or without spaces between them.
  *
@@ -265,8 +286,9 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
     if (heading) {
       const level = heading[1].length;
       const text = heading[2].trim();
-      const id = uniqueId(text);
-      if (level === 2 || level === 3) headings.push({ id, level, text });
+      const label = plainText(text);
+      const id = uniqueId(label);
+      if (level === 2 || level === 3) headings.push({ id, level, text: label });
       html.push(`<h${level} id="${id}">${renderInline(text, imageSize)}</h${level}>`);
       index += 1;
       continue;
