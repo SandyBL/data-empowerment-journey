@@ -77,11 +77,8 @@ Selecting the right framework depends on your industry context and governance go
 While terminology varies across frameworks, most maturity models categorize organizational progress along five core evolutionary stages:
 
 \[ LEVEL 1: INITIAL / NASCENT ]
-
 Reactive, ad-hoc processes; frequent data fires; no formal ownership.
-                              
-
-
+                           
              [ LEVEL 2: DEVELOPING / REPEATABLE ]
 Growing awareness; localized stewardship in isolated departments; basic project-level rules.
                               
