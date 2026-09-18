@@ -76,43 +76,18 @@ La elección del marco idóneo depende del contexto de su empresa y de sus prior
 A pesar de las diferencias de nomenclatura entre marcos de trabajo, la mayoría categoriza la evolución organizativa en cinco etapas progresivas:
 
 \[ NIVEL 1: INICIAL / NACIENTE ]
-
 Procesos reactivos e informales; gestión de crisis continua; falta de propietarios formales.
 
-```
-                                 │
-                                 ▼
-            
               [ NIVEL 2: EN DESARROLLO / REPETIBLE ]
-```
-
 Creciente concienciación; iniciativas aisladas de custodia en departamentos específicos.
 
-```
-                                 │
-                                 ▼
-
               [ NIVEL 3: DEFINIDO / ESTANDARIZADO ]
-```
-
 Políticas corporativas aprobadas; Oficina de Gobierno de Datos (DGO) activa; métricas globales.
 
-```
-                                │
-                                ▼
-
                [ NIVEL 4: GESTIONADO / MEDIDO ]
-```
-
 Control cuantitativo de calidad; validaciones automatizadas en pipelines; permisos RBAC.
 
-```
-                                │
-                                ▼
-
                 [ NIVEL 5: OPTIMIZADO / LÍDER ]
-```
-
 Gobierno integrado en la cultura; automatización avanzada; los datos impulsan la ventaja competitiva.
 
 - - -
