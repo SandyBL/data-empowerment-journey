@@ -76,42 +76,18 @@ A escolha da estrutura ideal depende do contexto da sua empresa e das prioridade
 Embora a nomenclatura varie entre os modelos, a maioria das estruturas categoriza a evolução organizacional em cinco estágios progressivos:
 
 \[ NÍVEL 1: INICIAL / NASCENTE ]
-
 Processos reativos e informais; resolução constante de crises; ausência de donos formais.
 
-```
-                                    │
-                                    ▼
                [ NÍVEL 2: EM DESENVOLVIMENTO / REPETÍVEL ]
-```
-
 Conscientização crescente; iniciativas isoladas de custódia em departamentos específicos.
 
-```
-                                    │
-                                    ▼
-
                    [ NÍVEL 3: DEFINIDO / PADRONIZADO ]
-```
-
 Políticas corporativas aprovadas; Escritório de Governança (DGO) ativo; métricas globais.
 
-```
-                                    │
-                                    ▼
-
                     [ NÍVEL 4: GERENCIADO / MEDIDO ]
-```
-
 Controle quantitativo de qualidade; validações automáticas em pipelines; acessos RBAC.
 
-```
-                                    │
-                                    ▼
-
                      [ NÍVEL 5: OTIMIZADO / LÍDER ]
-```
-
 Governança incorporada à cultura; automação avançada; dados impulsionam vantagem competitiva.
 
 - - -
