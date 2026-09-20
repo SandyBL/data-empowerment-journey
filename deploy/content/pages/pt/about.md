@@ -8,6 +8,7 @@ description: Sandy Bradbury é consultor de governança de dados certificado CDM
 kicker: Sobre
 schema: profile
 related_articles: what-data-governance-is-and-is-not, dama-dmbok-data-governance-framework, why-data-governance-people-process-technology-data
+created: 2026-09-06
 updated: 2026-09-07
 ---
 

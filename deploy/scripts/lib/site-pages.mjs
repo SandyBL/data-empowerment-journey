@@ -100,6 +100,21 @@ const formatDate = (iso, lang) =>
     timeZone: 'UTC',
   });
 
+/**
+ * A front matter date as a schema.org DateTime. The `created` and `updated`
+ * attributes are plain dates because that is what a human editing the page
+ * writes and what the visible label above renders, but Google types
+ * ProfilePage's dateCreated and dateModified as DateTime rather than Date and
+ * rejects a bare date as an invalid value -- which is the Search Console
+ * warning this exists to answer.
+ *
+ * Noon UTC is the same instant formatDate reads, so the structured data and the
+ * visible label can never disagree about which day it was. A value that already
+ * carries a time is passed through, so moving the front matter to timestamps
+ * later needs no change here.
+ */
+const schemaDateTime = (iso) => (iso.includes('T') ? iso : `${iso}T12:00:00Z`);
+
 /** Reads src/partials once, so eight pages in three languages share one read. */
 export const loadPartials = async (projectDirectory) => {
   const entries = await Promise.all(
@@ -159,6 +174,7 @@ export const loadSitePages = async (projectDirectory) => {
         nav: attributes.nav,
         schemaKind,
         serviceName: attributes.service_name || '',
+        created: attributes.created || '',
         updated: attributes.updated || '',
         showNewsletter: attributes.newsletter === 'true',
         articleKeys: (attributes.related_articles || '')
@@ -307,7 +323,12 @@ const schemaFor = (page, canonical, steps) => {
       description: page.description,
       inLanguage: page.lang,
       isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
-      ...(page.updated ? { dateModified: page.updated } : {}),
+      // Only the profile page declares a creation date: Google recommends it
+      // for ProfilePage, and no other page kind has a use for one.
+      ...(page.schemaKind === 'profile' && page.created
+        ? { dateCreated: schemaDateTime(page.created) }
+        : {}),
+      ...(page.updated ? { dateModified: schemaDateTime(page.updated) } : {}),
       ...(page.schemaKind === 'profile' ? { mainEntity: { '@id': `${SITE_ORIGIN}/#sandy-bradbury` } } : {}),
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
     },

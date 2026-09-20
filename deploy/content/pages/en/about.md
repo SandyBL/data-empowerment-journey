@@ -8,6 +8,7 @@ description: Sandy Bradbury is a CDMP-certified data governance consultant and D
 kicker: About
 schema: profile
 related_articles: what-data-governance-is-and-is-not, dama-dmbok-data-governance-framework, why-data-governance-people-process-technology-data
+created: 2026-09-06
 updated: 2026-09-07
 ---
 
