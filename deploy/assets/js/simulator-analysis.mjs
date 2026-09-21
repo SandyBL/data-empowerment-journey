@@ -1,7 +1,7 @@
 /**
  * What a simulator run means, as data: pillar mapping, role mapping, labels.
  *
- * The facilitator report needs to say things the three simulators already know
+ * The facilitator report needs to say things the four simulators already know
  * how to say -- which DAMA pillar a dimension speaks to, which of the ten
  * ownership disputes belongs to which role, what a dimension is called in
  * Spanish -- and it needs to say them in two places at once: in the browser,
@@ -17,14 +17,19 @@
  *
  * One deliberate exception to the "once" rule: assets/js/simulator-bridge.js
  * keeps its own copy of PILLAR_WEIGHTS, OWNERSHIP_SCENARIO_PILLARS and
- * UNMEASURED. It is a classic <script> loaded by nine simulator pages and
- * cannot import an ES module without converting all nine, and its render() is
+ * UNMEASURED. It is a classic <script> loaded by twelve simulator pages and
+ * cannot import an ES module without converting all twelve, and its render() is
  * synchronous so a dynamic import would race the results screen. This file is
  * the canonical table; the bridge is the mirror, and its header says so.
  */
 
-/** The three simulators, in the order the report lists them when tied. */
-export const SIMULATOR_SLUGS = ["data-governance-day-to-day", "data-literacy", "data-ownership-conflict"];
+/** The four simulators, in the order the report lists them when tied. */
+export const SIMULATOR_SLUGS = [
+  "data-governance-day-to-day",
+  "data-literacy",
+  "data-ownership-conflict",
+  "cdmp-exam-practice",
+];
 
 /** The five DAMA Maturity Scorecard pillars, in reading order. */
 export const PILLAR_ORDER = ["foundations", "metadata", "security", "quality", "culture"];
@@ -68,6 +73,24 @@ export const PILLAR_WEIGHTS = {
     ai: { security: 1 },
     bias: { culture: 1 },
     culture: { culture: 1 },
+  },
+  /*
+   * The CDMP drill's dimensions are groups of DMBOK knowledge areas rather than
+   * behaviours, because ten questions drawn from a hundred cannot say anything
+   * defensible about seventeen individual areas -- see AREA_DIMENSIONS in
+   * assets/js/cdmp-question-bank.js for which area feeds which group.
+   *
+   * Architecture is the compromise here, the same one Efficiency is above: data
+   * architecture, modelling, storage, integration and warehousing have no
+   * Scorecard pillar of their own, and what they most nearly report on is a
+   * split between the foundations they rest on and the metadata they describe.
+   */
+  "cdmp-exam-practice": {
+    foundations: { foundations: 1 },
+    architecture: { foundations: 0.6, metadata: 0.4 },
+    metadata: { metadata: 1 },
+    quality: { quality: 1 },
+    security: { security: 1 },
   },
 };
 
@@ -135,6 +158,10 @@ export const UNMEASURED = {
   "data-ownership-conflict": ["culture"],
   "data-governance-day-to-day": ["culture"],
   "data-literacy": ["metadata"],
+  // The question bank does carry culture and literacy questions, but they are
+  // filed under Foundations: knowing what the DMBOK says about data culture is
+  // knowledge of a chapter, not evidence that a culture exists.
+  "cdmp-exam-practice": ["culture"],
 };
 
 /**
@@ -150,6 +177,11 @@ export const UNMEASURED = {
  * the role that should own it, because "who should have owned this" is the
  * finding and there is no room for a second line. Positional, like the keys
  * themselves -- scenario 4 is the firewall question in all three languages.
+ *
+ * The CDMP drill's keys are knowledge-area groups rather than single areas, for
+ * the reason PILLAR_WEIGHTS gives: ten questions out of a hundred cannot report
+ * on seventeen areas one at a time, and a group the draw never touched is absent
+ * from a run rather than scored zero.
  */
 export const DIMENSION_LABELS = {
   en: {
@@ -179,6 +211,13 @@ export const DIMENSION_LABELS = {
       "scenario-9": "Budget approval — Business",
       "scenario-10": "Backups & recovery — IT",
     },
+    "cdmp-exam-practice": {
+      foundations: "Foundations & governance",
+      architecture: "Architecture & modeling",
+      metadata: "Metadata & master data",
+      quality: "Data quality",
+      security: "Ethics & security",
+    },
   },
   es: {
     "data-governance-day-to-day": {
@@ -206,6 +245,13 @@ export const DIMENSION_LABELS = {
       "scenario-8": "Metadatos del catálogo — Steward",
       "scenario-9": "Aprobación de presupuesto — Negocio",
       "scenario-10": "Backups y recuperación — TI",
+    },
+    "cdmp-exam-practice": {
+      foundations: "Fundamentos y gobierno",
+      architecture: "Arquitectura y modelado",
+      metadata: "Metadatos y datos maestros",
+      quality: "Calidad de datos",
+      security: "Ética y seguridad",
     },
   },
   pt: {
@@ -235,31 +281,42 @@ export const DIMENSION_LABELS = {
       "scenario-9": "Aprovação de orçamento — Negócio",
       "scenario-10": "Backups e recuperação — TI",
     },
+    "cdmp-exam-practice": {
+      foundations: "Fundamentos e governança",
+      architecture: "Arquitetura e modelagem",
+      metadata: "Metadados e dados mestres",
+      quality: "Qualidade de dados",
+      security: "Ética e segurança",
+    },
   },
 };
 
 /**
- * The three simulators as a person reads them, per language.
+ * The four simulators as a person reads them, per language.
  *
  * Same wording as SIMULATOR_LABELS in assets/js/simulator-bridge.js, which
  * keeps its own copy for the reason its header gives: it is a classic <script>
- * loaded by nine pages and cannot import a module. This is the canonical table.
+ * loaded by twelve pages and cannot import a module. This is the canonical
+ * table.
  */
 export const SIMULATOR_LABELS = {
   en: {
     "data-governance-day-to-day": "Data Governance Day-to-Day",
     "data-ownership-conflict": "Data Ownership Conflict",
     "data-literacy": "Data Literacy",
+    "cdmp-exam-practice": "CDMP Exam Practice",
   },
   es: {
     "data-governance-day-to-day": "Gobernanza de Datos en el Día a Día",
     "data-ownership-conflict": "Conflicto de Propiedad de Datos",
     "data-literacy": "Alfabetización de Datos",
+    "cdmp-exam-practice": "Práctica del Examen CDMP",
   },
   pt: {
     "data-governance-day-to-day": "Governança de Dados no Dia a Dia",
     "data-ownership-conflict": "Conflito de Propriedade de Dados",
     "data-literacy": "Alfabetização de Dados",
+    "cdmp-exam-practice": "Prática do Exame CDMP",
   },
 };
 
@@ -324,6 +381,12 @@ export const PROFILE_LABELS = {
       practitioner: "Governance Practitioner",
       master: "Data Ownership Master",
     },
+    "cdmp-exam-practice": {
+      revision: "Needs More Revision",
+      associate: "CDMP Associate Ready",
+      practitioner: "CDMP Practitioner Ready",
+      master: "CDMP Master Ready",
+    },
   },
   es: {
     "data-governance-day-to-day": {
@@ -341,6 +404,12 @@ export const PROFILE_LABELS = {
       rookie: "Novato de la Propiedad",
       practitioner: "Practicante de Gobernanza",
       master: "Maestro en Propiedad de Datos",
+    },
+    "cdmp-exam-practice": {
+      revision: "Necesita más repaso",
+      associate: "Nivel CDMP Associate",
+      practitioner: "Nivel CDMP Practitioner",
+      master: "Nivel CDMP Master",
     },
   },
   pt: {
@@ -360,13 +429,19 @@ export const PROFILE_LABELS = {
       practitioner: "Praticante de Governança",
       master: "Mestre em Governança de Dados",
     },
+    "cdmp-exam-practice": {
+      revision: "Precisa de mais revisão",
+      associate: "Nível CDMP Associate",
+      practitioner: "Nível CDMP Practitioner",
+      master: "Nível CDMP Master",
+    },
   },
 };
 
 /**
  * The highest score each simulator can output.
  *
- * The three scales have nothing in common -- 100, 15 and 1000 -- so every
+ * The four scales have nothing in common -- 100, 15, 1000 and 1000 -- so every
  * comparison anything makes between simulators runs through here first. A Map
  * rather than an object because both readers also ask it how many simulators
  * there are, and `size` is the honest way to answer that.
@@ -375,6 +450,7 @@ export const MAX_SCORES = new Map([
   ["data-governance-day-to-day", 100],
   ["data-literacy", 15],
   ["data-ownership-conflict", 1000],
+  ["cdmp-exam-practice", 1000],
 ]);
 
 /**
@@ -383,7 +459,7 @@ export const MAX_SCORES = new Map([
  * A histogram in four equal slices is arithmetically tidy and says nothing. The
  * boundaries below are roughly where the simulators' own result screens put a
  * player, and -- unlike a simulator profile -- they mean the same thing on all
- * three scales, which is what lets one histogram hold runs from every simulator
+ * four scales, which is what lets one histogram hold runs from every simulator
  * and one index describe a whole room or a whole public board.
  *
  * The upper bound of the last band is past 100 on purpose: a perfect run is
@@ -414,7 +490,7 @@ export const bandFor = (percent) =>
  * The four maturity bands the report distributes runs into, and the band the
  * cross-simulator index falls in.
  *
- * Not a simulator profile: these are comparable across all three, which is the
+ * Not a simulator profile: these are comparable across all four, which is the
  * only reason a distribution histogram and one organisational index can exist at
  * all. The boundaries themselves live in the report function, since they are
  * arithmetic rather than wording.

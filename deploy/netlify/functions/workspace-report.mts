@@ -33,7 +33,7 @@ import {
 // Three layers, deliberately in this order, because that is the order a sponsor
 // reads them in:
 //
-//   * an executive summary across all three simulators, which is one index, one
+//   * an executive summary across all four simulators, which is one index, one
 //     profile and a five-pillar organisational reading;
 //   * one panel per simulator, which is the room-level equivalent of the report
 //     each player got on their own results screen: the room's profile, what it is
@@ -96,7 +96,7 @@ const ACTIVE_WINDOW_MS = 2 * 60 * 60 * 1000;
  * The room panel has to carry the same verdict the room itself was given: a
  * participant who read "Governance Practitioner" on their screen should not find
  * their room described by a scale invented here. So the room profile is derived
- * from these — the exact cut-offs the nine simulator pages use — and the generic
+ * from these — the exact cut-offs the twelve simulator pages use — and the generic
  * BANDS above are left to do the one job they are honest at, which is comparing
  * across simulators.
  *
@@ -105,6 +105,8 @@ const ACTIVE_WINDOW_MS = 2 * 60 * 60 * 1000;
  * only survive the round trip through a percentage if nobody ever touches the
  * rounding. `exclusive` marks the ownership boundaries, whose page reads
  * `score <= 400` and `score <= 700`, so 700 is a Practitioner and not a Master.
+ * CDMP Exam Practice bands on the certification's own pass marks instead of a
+ * curve of its own: 80% for Master, 70% for Practitioner, 60% for Associate.
  *
  * All three sets are now the same in all three languages: the Portuguese
  * Day-to-Day page banded at 85/65 until this change and now bands at 75/50 with
@@ -135,6 +137,15 @@ const PROFILE_BANDS = new Map<string, { key: string; min: number; exclusive?: bo
       { key: "master", min: 700, exclusive: true },
       { key: "practitioner", min: 400, exclusive: true },
       { key: "rookie", min: 0 },
+    ],
+  ],
+  [
+    "cdmp-exam-practice",
+    [
+      { key: "master", min: 800 },
+      { key: "practitioner", min: 700 },
+      { key: "associate", min: 600 },
+      { key: "revision", min: 0 },
     ],
   ],
 ]);
@@ -539,7 +550,7 @@ const buildCsv = (runs: ReportRun[], analysis: ReturnType<typeof buildAnalysis>)
     const maxScore = MAX_SCORES.get(run.simulator) ?? null;
     const percent = maxScore ? round((run.score / maxScore) * 100) : "";
     // Dimensions are flattened into a single readable column rather than spread
-    // across one column per key: the three simulators do not share dimensions,
+    // across one column per key: the four simulators do not share dimensions,
     // and a sparse forty-column sheet is harder to read than a short label list.
     // Labels rather than keys, so that "scenario-4 0%" reads as the firewall
     // question it actually was.

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Writes the site navigation into the nine simulator pages.
+ * Writes the site navigation into the twelve simulator pages.
  *
  * Every other page family on this site renders its header from
  * scripts/lib/site-nav.mjs at build time. The simulators cannot: each one is a
@@ -13,9 +13,9 @@
  *
  * So the markup is generated here instead, from the same NAV_GROUPS the header,
  * the drawer, the footer directory and the sitemap are generated from, and
- * written into the nine files between markers. The pages carry a copy of the
+ * written into the twelve files between markers. The pages carry a copy of the
  * links; they do not carry a second list of them. When the navigation changes,
- * `npm run sync:simulator-nav` puts the change in all nine, and the diff shows
+ * `npm run sync:simulator-nav` puts the change in all twelve, and the diff shows
  * exactly which pages moved.
  *
  * It is not part of `npm run build`. The build writes into ignored output
@@ -37,7 +37,7 @@ import { renderNavDrawer, renderNavToggle } from './lib/site-nav.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /**
- * The nine pages, and which navigation item each of them *is*.
+ * The twelve pages, and which navigation item each of them *is*.
  *
  * The key is a NAV key, which is what the drawer marks with
  * `aria-current="page"`: a visitor inside the literacy simulator opens the menu
@@ -47,6 +47,7 @@ const SIMULATORS = [
   { slug: 'data-governance-day-to-day', current: 'simDayToDay' },
   { slug: 'data-literacy', current: 'simLiteracy' },
   { slug: 'data-ownership-conflict', current: 'simOwnership' },
+  { slug: 'cdmp-exam-practice', current: 'simCdmp' },
 ];
 
 const LANGUAGES = ['en', 'es', 'pt'];
@@ -150,7 +151,7 @@ const main = async () => {
     }
   }
 
-  console.log(`\nsimulator navigation: ${changed} of 9 pages ${checkOnly ? 'would change' : 'changed'}`);
+  console.log(`\nsimulator navigation: ${changed} of 12 pages ${checkOnly ? 'would change' : 'changed'}`);
   if (checkOnly && changed) process.exitCode = 1;
 };
 

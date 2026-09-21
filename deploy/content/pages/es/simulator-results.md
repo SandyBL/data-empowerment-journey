@@ -3,15 +3,15 @@ slug: simulator-results
 nav: boardResults
 title: Resultados públicos de los simuladores y lo que revelan | Data Governance Journey
 heading: Qué muestran las partidas públicas sobre el instinto de gobernanza
-deck: Tres simuladores de escenarios, un tablero público para cada uno, y los patrones que vuelven a aparecer cada vez que alguien tiene que decidir con el reloj en marcha, con una explicación honesta de lo que un tablero público no puede decirte.
-description: Resultados públicos de tres simuladores de gobernanza de datos y sus lecciones clave: cómo falla el instinto de gobernanza bajo presión, por qué la propiedad del dato acaba en TI, y qué no puede medir un tablero.
+deck: Cuatro simuladores de escenarios, un tablero público para cada uno, y los patrones que vuelven a aparecer cada vez que alguien tiene que decidir con el reloj en marcha, con una explicación honesta de lo que un tablero público no puede decirte.
+description: Resultados públicos de cuatro simuladores de gobernanza de datos y sus lecciones clave: cómo falla el instinto de gobernanza bajo presión, por qué la propiedad del dato acaba en TI, y qué no puede medir un tablero.
 kicker: Resultados de los tableros
 schema: page
 related_articles: building-a-data-governance-operating-model, why-data-governance-people-process-technology-data, data-literacy-is-a-business-capability
 updated: 2026-09-07
 ---
 
-Tres simuladores de este sitio te meten dentro de una situación de gobernanza y te obligan a elegir. Una regla de calidad está fallando y arreglarla implica pedirle a un director que cambie un proceso por el que se le mide. Dos departamentos reclaman el mismo registro de cliente. La alfabetización es baja y no hay presupuesto de formación. Decides, la decisión se puntúa por su consecuencia de gobernanza y no contra una respuesta correcta, y tu partida entra en un tablero público.
+Tres de los cuatro simuladores de este sitio te meten dentro de una situación de gobernanza y te obligan a elegir. Una regla de calidad está fallando y arreglarla implica pedirle a un director que cambie un proceso por el que se le mide. Dos departamentos reclaman el mismo registro de cliente. La alfabetización es baja y no hay presupuesto de formación. Decides, la decisión se puntúa por su consecuencia de gobernanza y no contra una respuesta correcta, y tu partida entra en un tablero público. El cuarto funciona al contrario: Práctica del Examen CDMP hace preguntas del DMBOK que sí tienen una respuesta correcta, porque el examen de certificación para el que te prepara también la tiene.
 
 Esta página es lo que sale por el otro extremo: no el tablero en sí, que está en cada simulador, sino la distribución que hay detrás y las lecciones que sobreviven a mirarlas con cuidado.
 
@@ -19,15 +19,17 @@ Es también un ejemplo de lo que describe. Un tablero es una medición, una medi
 
 ## Qué mide realmente cada simulador
 
-No son tres versiones del mismo cuestionario. Cada uno está construido para dejar al descubierto un fallo distinto.
+No son cuatro versiones del mismo cuestionario. Cada uno está construido para dejar al descubierto un fallo distinto.
 
 **Gobernanza de Datos en el Día a Día** te da una semana en la vida de un responsable de gobernanza y la puntúa sobre cinco ejes: eficiencia, confianza, responsabilidad, seguridad y contexto, sobre 100. Los ejes no son independientes, y eso es lo importante: una decisión que compra eficiencia normalmente gasta responsabilidad, y la puntuación refleja el intercambio. Aquí es muy difícil ir bien siendo complaciente.
 
 **Conflicto de Propiedad de Datos** son diez disputas, cada una de las cuales pertenece a uno de tres roles: el Propietario de Negocio, el Data Steward o TI. Se puntúa sobre 1000. Cuatro de las diez pertenecen a TI, tres al Steward y tres al Propietario de Negocio: un reparto que importa más de lo que parece, y la siguiente sección trata de por qué.
 
-**Alfabetización de Datos** son quince puntos repartidos entre gobernanza, analítica, IA y automatización, conciencia de sesgo y cultura de datos. Es el único de los tres que pregunta por la cultura directamente, y el único que te devuelve una segunda cifra: el valor que estima que has desbloqueado de tus activos de datos.
+**Alfabetización de Datos** son quince puntos repartidos entre gobernanza, analítica, IA y automatización, conciencia de sesgo y cultura de datos. Es el único de los cuatro que te pide decidir sobre la cultura en lugar de definirla, y el único que te devuelve una segunda cifra: el valor que estima que has desbloqueado de tus activos de datos.
 
-Ninguno de los tres ve los cinco pilares de [madurez de datos](/es/glossary/data-maturity/). El del Día a Día y el de Propiedad son ciegos a la [cultura de datos](/es/glossary/data-culture/); el de Alfabetización es ciego a los metadatos. Eso es lo que es un ejercicio de diez preguntas, no un defecto pendiente de arreglar, y fija la regla con la que se leen los tableros: una dimensión que nadie midió se reporta como no medida, nunca como débil. Deducir un problema de cultura de un ejercicio de RACI sería inventarse un hallazgo.
+**Práctica del Examen CDMP** es el distinto, y a propósito: diez preguntas extraídas al azar de cien que cubren las once áreas de conocimiento de la rueda DAMA-DMBOK y las seis que el examen Fundamentals añade alrededor, puntuadas sobre 1000 en el mismo formato que usa el examen real. Es conocimiento y no criterio, y por eso es el único tablero de aquí donde una partida rápida y segura es buena señal. Las preguntas y las opciones están en inglés en las tres versiones de idioma de la página, porque el examen oficial solo existe en inglés y practicar el vocabulario traducido sería practicar el vocabulario equivocado.
+
+Ninguno de los cuatro ve los cinco pilares de [madurez de datos](/es/glossary/data-maturity/). El del Día a Día y el de Propiedad son ciegos a la [cultura de datos](/es/glossary/data-culture/); el de Alfabetización es ciego a los metadatos; el de Práctica del Examen CDMP cubre metadatos y calidad directamente, pero se lee como ciego a la cultura, porque saber qué capítulo define la cultura de datos no es prueba de que tu organización tenga una. Eso es lo que es un ejercicio de diez preguntas, no un defecto pendiente de arreglar, y fija la regla con la que se leen los tableros: una dimensión que nadie midió se reporta como no medida, nunca como débil. Deducir un problema de cultura de un ejercicio de RACI sería inventarse un hallazgo.
 
 {{PUBLIC_BOARDS}}
 
@@ -49,7 +51,7 @@ Por eso las cifras de arriba reportan la diferencia entre la mejor partida y la 
 
 ### La velocidad es confianza, y la confianza no es acierto
 
-Dos de los tres tableros se cronometran. En el tablero de Alfabetización de Datos, por ahora la partida publicada más rápida es también la de menor puntuación —veinticinco segundos, cinco puntos de quince—, mientras que la de mayor puntuación llevó más de seis minutos.
+Tres de los cuatro tableros se cronometran. En el tablero de Alfabetización de Datos, por ahora la partida publicada más rápida es también la de menor puntuación —veinticinco segundos, cinco puntos de quince—, mientras que la de mayor puntuación llevó más de seis minutos.
 
 Tres partidas no son un hallazgo y no voy a fingir lo contrario. Pero coincide con lo que pasa en las salas lo bastante a menudo como para decirlo en voz alta: quien termina primero suele ser quien no vio el compromiso. Una pregunta de gobernanza que puedes responder al instante normalmente se ha leído mal, como una pregunta técnica con respuesta de consulta, que es el fallo de arriba con otro disfraz.
 
@@ -90,7 +92,7 @@ Y el informe te lo quedas. Ordena las dimensiones en las que tu grupo fue más d
 
 Dos formas de entrar, según lo claro que tengas ya lo que quieres.
 
-**[Ver cómo funciona un taller →](/es/workshops/)**: el formato, el debrief, cuál de los tres escenarios encaja con cada sala, qué contiene el informe del facilitador y cómo se presupuestan las sesiones. Empieza aquí si todavía estás decidiendo si esto encaja.
+**[Ver cómo funciona un taller →](/es/workshops/)**: el formato, el debrief, cuál de los cuatro escenarios encaja con cada sala, qué contiene el informe del facilitador y cómo se presupuestan las sesiones. Empieza aquí si todavía estás decidiendo si esto encaja.
 
 **[Ir directo al formulario de contacto →](/?offer=private-space#contact-form-start)**: llega con la solicitud de espacio privado ya rellenada. Añade tus fechas, el número de participantes, la mezcla de idiomas y qué sistemas y equipos deberían nombrar los escenarios, y te vuelvo con una recomendación de escenario y un presupuesto. Un correo normal a [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) sirve igual: solo tendrás que decir que es por un espacio privado, que es lo que el formulario rellena por ti.
 

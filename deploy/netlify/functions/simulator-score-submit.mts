@@ -38,7 +38,7 @@ import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 // assets/js/simulator-leaderboard.js — the client's are a courtesy, these are
 // the real ones.
 //
-// The bounds below are a contract with nine pages, and a simulator that starts
+// The bounds below are a contract with twelve pages, and a simulator that starts
 // producing a score outside its bound locks its best players out of the board
 // permanently: they press Publish, get a 400, and no amount of retrying helps.
 // That is not hypothetical — the Spanish and Portuguese ownership pages added a
@@ -53,6 +53,10 @@ const SIMULATORS = new Map<string, { maxScore: number; maxExtraScore: number | n
   ["data-literacy", { maxScore: 15, maxExtraScore: 100_000_000 }],
   // Points out of 1000: ten scenarios, a flat 100 each, in all three languages.
   ["data-ownership-conflict", { maxScore: 1000, maxExtraScore: null }],
+  // Points out of 1000: ten CDMP questions drawn from a hundred, a flat 100
+  // each. The streak badge on that page is decoration and carries no bonus,
+  // deliberately -- see the note above about the bound that locked players out.
+  ["cdmp-exam-practice", { maxScore: 1000, maxExtraScore: null }],
 ]);
 
 const LOCALES = new Set(["en", "es", "pt"]);
@@ -96,7 +100,7 @@ const cleanDuration = (value: unknown) => {
 /**
  * A display name is one line of text. Control characters, angle brackets and
  * runs of whitespace are collapsed rather than escaped: this board is rendered
- * by three different simulators across nine pages, and a name that cannot carry
+ * by four different simulators across twelve pages, and a name that cannot carry
  * markup in the first place stays safe in all of them regardless of how
  * carefully any one of those render paths escapes.
  */

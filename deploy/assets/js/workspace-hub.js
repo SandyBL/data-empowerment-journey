@@ -38,7 +38,7 @@ const JOIN_ENDPOINT = "/api/workspace/join";
 const REPORT_ENDPOINT = "/api/workspace/report";
 const SCORES_ENDPOINT = "/api/simulator-scores";
 
-/** The three simulators, with the localised names their own pages carry. */
+/** The four simulators, with the localised names their own pages carry. */
 const SIMULATORS = [
   {
     slug: "data-governance-day-to-day",
@@ -80,6 +80,20 @@ const SIMULATORS = [
       en: "Ten ownership disputes from real organizations. Decide who owns the data, and why.",
       es: "Diez disputas de propiedad reales. Decide de quién son los datos, y por qué.",
       pt: "Dez disputas de propriedade reais. Decida de quem são os dados, e por quê.",
+    },
+  },
+  {
+    slug: "cdmp-exam-practice",
+    maxScore: 1000,
+    name: {
+      en: "CDMP Exam Practice",
+      es: "Práctica del Examen CDMP",
+      pt: "Prática do Exame CDMP",
+    },
+    summary: {
+      en: "Ten DMBOK questions drawn from a hundred, in the format of the CDMP Fundamentals exam. Questions are in English, as the exam is.",
+      es: "Diez preguntas del DMBOK extraídas de cien, en el formato del examen CDMP Fundamentals. Las preguntas están en inglés, como el examen.",
+      pt: "Dez questões do DMBOK sorteadas de cem, no formato do exame CDMP Fundamentals. As questões estão em inglês, como o exame.",
     },
   },
 ];
@@ -148,7 +162,7 @@ const COPY = {
     generated: "Generated",
 
     // The executive summary: one index, one standing and the five pillars,
-    // across all three simulators. Written as sentence templates rather than as
+    // across all four simulators. Written as sentence templates rather than as
     // assembled fragments, because a report a consultant hands to a client has
     // to read like prose in every language and not like a dashboard caption
     // translated word by word.
@@ -221,6 +235,16 @@ const COPY = {
         rookie:
           "This room sends data decisions to whoever is technically nearest. That reflex is where ownership disputes start.",
       },
+      "cdmp-exam-practice": {
+        master:
+          "This room knows the DMBOK well enough to sit the exam: the vocabulary is shared, and the answers hold across knowledge areas rather than in one favourite.",
+        practitioner:
+          "This room is at the CDMP pass mark. The framework is understood; the remaining gaps are in specific knowledge areas rather than in the model as a whole.",
+        associate:
+          "This room recognises the DMBOK but does not yet use it precisely. The concepts are familiar, the distinctions between them are not.",
+        revision:
+          "This room is working from experience rather than from the DMBOK. Shared terms are the missing piece, and they are the cheapest thing here to fix.",
+      },
     },
   },
   es: {
@@ -284,7 +308,7 @@ const COPY = {
     generated: "Generado",
 
     // El resumen ejecutivo: un índice, una posición y los cinco pilares, sobre
-    // los tres simuladores. Redactado como plantillas de frase y no como
+    // los cuatro simuladores. Redactado como plantillas de frase y no como
     // fragmentos encadenados, porque un informe que una consultora entrega a un
     // cliente tiene que leerse como prosa en cada idioma.
     executiveTitle: "Resumen ejecutivo",
@@ -352,6 +376,16 @@ const COPY = {
         rookie:
           "Esta sala envía las decisiones de datos a quien está técnicamente más cerca. Ese reflejo es donde empiezan los conflictos de propiedad.",
       },
+      "cdmp-exam-practice": {
+        master:
+          "Esta sala conoce el DMBOK lo suficiente para presentarse al examen: el vocabulario es compartido y los aciertos se sostienen en todas las áreas de conocimiento, no solo en la favorita.",
+        practitioner:
+          "Esta sala está en la nota de aprobación del CDMP. El marco se entiende; lo que falta está en áreas de conocimiento concretas, no en el modelo completo.",
+        associate:
+          "Esta sala reconoce el DMBOK pero todavía no lo usa con precisión. Los conceptos le suenan; las distinciones entre ellos, no.",
+        revision:
+          "Esta sala trabaja desde la experiencia y no desde el DMBOK. Los términos compartidos son la pieza que falta, y son lo más barato de arreglar aquí.",
+      },
     },
   },
   pt: {
@@ -415,7 +449,7 @@ const COPY = {
     generated: "Gerado",
 
     // O resumo executivo: um índice, uma posição e os cinco pilares, sobre os
-    // três simuladores. Escrito como modelos de frase e não como fragmentos
+    // quatro simuladores. Escrito como modelos de frase e não como fragmentos
     // encadeados, porque um relatório que uma consultora entrega a um cliente
     // tem de ler-se como prosa em cada idioma.
     executiveTitle: "Resumo executivo",
@@ -482,6 +516,16 @@ const COPY = {
           "Esta sala coloca bem as decisões claras, mas as ambíguas escorregam para quem está mais perto em vez de quem responde por elas.",
         rookie:
           "Esta sala envia as decisões de dados para quem está tecnicamente mais perto. Esse reflexo é onde começam os conflitos de propriedade.",
+      },
+      "cdmp-exam-practice": {
+        master:
+          "Esta sala conhece o DMBOK o suficiente para fazer o exame: o vocabulário é comum e os acertos se sustentam em todas as áreas de conhecimento, não apenas na preferida.",
+        practitioner:
+          "Esta sala está na nota de aprovação do CDMP. O modelo é compreendido; o que falta está em áreas de conhecimento específicas, não no framework como um todo.",
+        associate:
+          "Esta sala reconhece o DMBOK mas ainda não o usa com precisão. Os conceitos são familiares; as distinções entre eles, não.",
+        revision:
+          "Esta sala trabalha a partir da experiência e não do DMBOK. Os termos comuns são a peça que falta, e são o mais barato de resolver aqui.",
       },
     },
   },

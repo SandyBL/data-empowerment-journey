@@ -28,7 +28,7 @@ export const confessionSubmissions = pgTable("confession_submissions", {
 /**
  * A private simulator space sold to one company.
  *
- * The three simulators are free and public, and stay that way. What a company
+ * The four simulators are free and public, and stay that way. What a company
  * buys is this: a space of their own where the same simulators run, the
  * leaderboard contains their people and nobody else's, the session carries their
  * name, and a facilitator report at the end says what the room actually
@@ -167,9 +167,9 @@ export const workspaceSessions = pgTable(
 /**
  * Simulator leaderboards, public and private.
  *
- * The three simulators used to keep their rankings in localStorage, which meant
+ * The simulators used to keep their rankings in localStorage, which meant
  * every visitor saw a board containing only themselves and a few hardcoded
- * example names. One table serves all three: `simulator` says which board a row
+ * example names. One table serves all four: `simulator` says which board a row
  * belongs to, and the public board is a single worldwide pool rather than one
  * per language, so a visitor in Lisbon is ranked against a visitor in Madrid.
  *
@@ -338,7 +338,7 @@ export const webVitals = pgTable(
 /**
  * The wording one company had rewritten, for one simulator, in one language.
  *
- * A private space is the same three simulators everybody else plays. What a
+ * A private space is the same four simulators everybody else plays. What a
  * consulting engagement usually needs on top of that is smaller than a new
  * simulator and bigger than a logo: the scenarios have to sound like the client
  * -- their systems, their team names, the incident they actually had last

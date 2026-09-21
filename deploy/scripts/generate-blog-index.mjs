@@ -225,20 +225,21 @@ const STATIC_ROUTES = [
       ],
     }))
   ),
-  ...['data-governance-day-to-day', 'data-ownership-conflict', 'data-literacy'].flatMap((simulator) =>
-    LANGUAGES.map((lang) => ({
-      url: `/simulators/${lang}/${simulator}/`,
-      priority: '0.8',
-      changefreq: 'monthly',
-      lastmod: SIMULATOR_LAST_MODIFIED,
-      alternates: [
-        ...LANGUAGES.map((other) => ({ hreflang: other, url: `/simulators/${other}/${simulator}/` })),
-        {
-          hreflang: 'x-default',
-          url: `/simulators/${xDefaultLanguage()}/${simulator}/`,
-        },
-      ],
-    }))
+  ...['data-governance-day-to-day', 'data-ownership-conflict', 'data-literacy', 'cdmp-exam-practice'].flatMap(
+    (simulator) =>
+      LANGUAGES.map((lang) => ({
+        url: `/simulators/${lang}/${simulator}/`,
+        priority: '0.8',
+        changefreq: 'monthly',
+        lastmod: SIMULATOR_LAST_MODIFIED,
+        alternates: [
+          ...LANGUAGES.map((other) => ({ hreflang: other, url: `/simulators/${other}/${simulator}/` })),
+          {
+            hreflang: 'x-default',
+            url: `/simulators/${xDefaultLanguage()}/${simulator}/`,
+          },
+        ],
+      }))
   ),
 ];
 

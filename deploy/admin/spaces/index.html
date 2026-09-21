@@ -53,7 +53,7 @@
         <div>
           <p class="studio-eyebrow">Client engagements</p>
           <h1>Private Spaces</h1>
-          <p>A space is one company's copy of the three simulators: their own leaderboard, their own name in the header, and a facilitator report at the end. Access lasts exactly as long as the licence window says, and can be switched off at any moment.</p>
+          <p>A space is one company's copy of the four simulators: their own leaderboard, their own name in the header, and a facilitator report at the end. Access lasts exactly as long as the licence window says, and can be switched off at any moment.</p>
         </div>
         <nav class="studio-nav" aria-label="Studio tools">
           <a href="/admin/"><i class="fa-solid fa-comments" aria-hidden="true"></i>Confession review</a>
@@ -148,7 +148,11 @@
            the number of scenarios, the options, which one is right and every
            number a decision moves come from the page, not from here, which is
            what keeps a private score comparable to a public one and the
-           facilitator report grouping on the same dimensions. -->
+           facilitator report grouping on the same dimensions.
+
+           CDMP Exam Practice is missing from the list below on purpose: its
+           questions are certification practice, and rewording one changes what
+           its answer key means. -->
       <section class="spaces-panel" aria-labelledby="wording-heading">
         <div class="spaces-panel__head">
           <h2 id="wording-heading">Scenario wording</h2>
@@ -203,10 +207,11 @@
           <div class="studio-field">
             <label for="rows-simulator">Simulator</label>
             <select id="rows-simulator">
-              <option value="">All three</option>
+              <option value="">All four</option>
               <option value="data-governance-day-to-day">Data Governance Day-to-Day</option>
               <option value="data-literacy">Data Literacy</option>
               <option value="data-ownership-conflict">Data Ownership Conflict</option>
+              <option value="cdmp-exam-practice">CDMP Exam Practice</option>
             </select>
           </div>
           <button class="spaces-button spaces-button--ghost" id="rows-refresh" type="button">Refresh</button>

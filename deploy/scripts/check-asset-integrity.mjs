@@ -83,7 +83,7 @@ const PINNED = new Map([
  *
  * The list is empty, and the entry it used to hold is the reason to keep the
  * mechanism. Tailwind's Play CDN was such an origin, and it compiled the
- * stylesheet for all nine simulator pages in the browser, so blocking it would
+ * stylesheet for all twelve simulator pages in the browser, so blocking it would
  * have stripped those pages of every rule they had. The exemption existed
  * because the only alternative was an unpinned script; the real fix was to stop
  * compiling Tailwind in the browser at all, which is what

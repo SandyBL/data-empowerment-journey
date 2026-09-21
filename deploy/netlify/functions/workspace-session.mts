@@ -31,10 +31,10 @@ import { isLocale, isSimulator, loadScenarioText } from "../lib/scenario-text.js
 //
 // The hub passes `progress=1` and gets back which simulators this person has
 // already finished -- "this person", not "this browser", which is the point. A
-// room almost never plays all three in one sitting: somebody finishes one before
+// room almost never plays all four in one sitting: somebody finishes one before
 // lunch, the seat lapses overnight, and they come back to a browser that has
 // forgotten everything. Joining through the name they typed means the hub can
-// show them the two they still owe instead of three identical cards.
+// show them the three they still owe instead of four identical cards.
 //
 // A simulator page asks the same question once, at the end of a run, because a
 // space records only each person's first attempt: the results screen has to know
@@ -124,7 +124,7 @@ const spaceFacade = async (slug: string) => {
 export default async (request: Request) => {
   const params = new URL(request.url).searchParams;
   const slug = normalizeSlug(params.get("slug"));
-  // Which page is asking. Validated against the three slugs and three languages
+  // Which page is asking. Validated against the four slugs and three languages
   // rather than trusted, because it selects a row.
   const simulator = params.get("simulator") ?? "";
   const locale = params.get("locale") ?? "";
@@ -179,8 +179,8 @@ export default async (request: Request) => {
           : null;
 
       // Only for the callers that ask: the hub on load, and a simulator page
-      // once at the end of a run. Nine pages reading a participant's progress on
-      // every page load would be three reads per exercise for an answer that
+      // once at the end of a run. Twelve pages reading a participant's progress
+      // on every page load would be three reads per exercise for an answer that
       // only matters at the moment a score would be written.
       const progress =
         params.get("progress") === "1"
@@ -225,7 +225,7 @@ export const config: Config = {
   path: "/api/workspace/session",
   method: ["GET", "DELETE"],
   // One request per page load, and a workshop room shares one address: thirty
-  // people moving between the hub and three simulators is a few hundred
+  // people moving between the hub and four simulators is a few hundred
   // requests in a busy minute. Set well above that.
   rateLimit: {
     windowSize: 60,

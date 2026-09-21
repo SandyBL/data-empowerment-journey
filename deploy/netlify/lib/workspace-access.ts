@@ -43,11 +43,12 @@ export const SPACE_COOKIE = "dgj_space";
  */
 export const SPACE_HINT_COOKIE = "dgj_space_hint";
 
-/** The three boards. Kept here so every workspace endpoint validates the same set. */
+/** The four boards. Kept here so every workspace endpoint validates the same set. */
 export const SIMULATOR_SLUGS = [
   "data-governance-day-to-day",
   "data-literacy",
   "data-ownership-conflict",
+  "cdmp-exam-practice",
 ] as const;
 
 export const LOCALES = ["en", "es", "pt"] as const;

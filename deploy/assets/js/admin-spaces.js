@@ -47,6 +47,7 @@ const SIMULATOR_NAMES = {
   "data-governance-day-to-day": "Data Governance Day-to-Day",
   "data-literacy": "Data Literacy",
   "data-ownership-conflict": "Data Ownership Conflict",
+  "cdmp-exam-practice": "CDMP Exam Practice",
 };
 
 const loginView = document.querySelector("#spaces-login");

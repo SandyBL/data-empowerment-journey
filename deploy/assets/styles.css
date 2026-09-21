@@ -592,6 +592,7 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 .simulator-card--operations .simulator-card__icon { background: var(--dejourney-cyan); color: var(--deepblue); }
 .simulator-card--ownership .simulator-card__icon { background: var(--dejourney-orange); color: #ffffff; }
 .simulator-card--literacy .simulator-card__icon { background: var(--emeraldgreen); color: var(--deepblue); }
+.simulator-card--certification .simulator-card__icon { background: var(--dejourney-teal); color: #ffffff; }
 
 .simulator-card h3 { max-width: 17rem; margin-bottom: 0.9rem; font-size: 1.3rem; font-weight: 800; line-height: 1.25; }
 .simulator-card p { margin-bottom: 1.5rem; color: #cbd5e1; font-size: 0.9rem; line-height: 1.7; }
@@ -601,15 +602,15 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
 
 /*
  * Private company spaces offer, sitting inside .simulators-section directly
- * under the three public simulators. It inherits that section's dark palette
+ * under the four public simulators. It inherits that section's dark palette
  * and its white --focus-ring, but it is deliberately dressed one step richer
  * than .simulator-card -- an emerald-tinted gradient and a cyan border rather
  * than plain white glass -- so it reads as a commercial offer instead of a
- * fourth simulator someone could click into.
+ * fifth simulator someone could click into.
  *
  * Mobile first: everything stacks. The two comparison columns split at 720px
- * and the pitch moves beside them at 1024px, which is the same breakpoint
- * .simulator-grid uses to go from one column to three.
+ * and the pitch moves beside them at 1024px, which is one step past the 768px
+ * at which .simulator-grid goes from one column to two.
  */
 .simulator-offer {
     display: grid;
@@ -2185,7 +2186,20 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
     .lg\:py-32 { padding-top: 8rem; padding-bottom: 8rem; }
     .lg\:text-6xl { font-size: 3.75rem; line-height: 1; }
-    .simulator-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/*
+ * Four simulator cards, so the grid pairs them rather than leaving one card
+ * alone on a second row: one column on a phone, two from 768px, and four
+ * across only at 1280px, where a quarter of the container is still wide
+ * enough for a two-line card title.
+ */
+@media (min-width: 768px) {
+    .simulator-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1280px) {
+    .simulator-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 body.identity-modal-open {

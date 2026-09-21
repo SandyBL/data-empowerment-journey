@@ -4,7 +4,7 @@ import { db } from "../../db/index.js";
 import { simulatorScores } from "../../db/schema.js";
 import { summarizePublicBoards } from "../../assets/js/public-board-analysis.mjs";
 
-// The aggregate behind /<lang>/simulator-results/: how the three public boards
+// The aggregate behind /<lang>/simulator-results/: how the four public boards
 // are distributed, as numbers.
 //
 // Three things make this a different endpoint from simulator-scores.mts rather

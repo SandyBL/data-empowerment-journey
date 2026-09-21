@@ -28,7 +28,7 @@ The debrief is where the session really happens. People argue about their own or
 
 ## Your own private, branded version
 
-This is the part that doesn't exist anywhere else. The three simulators on this site are public: one worldwide leaderboard, generic scenarios and nothing to take away afterwards; [what those public boards show](/en/simulator-results/) is a summary of everyone's runs and a set of general lessons, not a reading of any one organization. For a workshop I open a private space for your organization instead, with your name on it and the scenarios rewritten around your systems, your teams and the arguments you actually have.
+This is the part that doesn't exist anywhere else. The four simulators on this site are public: one worldwide leaderboard, generic scenarios and nothing to take away afterwards; [what those public boards show](/en/simulator-results/) is a summary of everyone's runs and a set of general lessons, not a reading of any one organization. For a workshop I open a private space for your organization instead, with your name on it and the scenarios rewritten around your systems, your teams and the arguments you actually have.
 
 {{SIMULATOR_OFFER}}
 
@@ -42,11 +42,12 @@ You keep the CSV export too, and the space stays open for the length of the lice
 
 ## Which scenario suits your room
 
-There are three, and they play very differently.
+There are four, and they play very differently.
 
 - **[Data Governance Day-to-Day](/simulators/en/data-governance-day-to-day/)**: a week in the life of a governance lead — competing requests, a failing rule, an escalation, a definition nobody agrees on. Best for a governance team, a steward network, or a leadership group that needs to feel what the role involves rather than read the job description.
 - **[Who Owns This?](/simulators/en/data-ownership-conflict/)**: a disputed ownership claim between two departments, played to the end. Best when ownership is the real blocker, and hard to beat with both departments in the room at once.
 - **[Data Literacy](/simulators/en/data-literacy/)**: raising literacy with no training budget. Best for a broad business audience rather than a data team.
+- **[CDMP Exam Practice](/simulators/en/cdmp-exam-practice/)**: DMBOK questions in the format of the DAMA certification exam. Best for a team preparing to certify, or as a short opener that gives a room a shared vocabulary before the scenarios ask them to use it. Its questions are in English whatever language the rest of the session runs in, because the exam is.
 
 A three-hour session usually takes one scenario in depth; a full day takes two.
 

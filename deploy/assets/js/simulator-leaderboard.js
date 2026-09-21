@@ -1,9 +1,9 @@
 /**
  * Global simulator leaderboard client.
  *
- * The three simulators each carry their own self-contained inline script, their
+ * The four simulators each carry their own self-contained inline script, their
  * own scoring scale and their own markup, and they are duplicated across three
- * languages — nine pages in total. What they genuinely share is the trip to
+ * languages — twelve pages in total. What they genuinely share is the trip to
  * /api/simulator-scores, so that is all this file holds: read the board, publish
  * a run, time a run, and the text helpers every one of those render paths needs.
  *
@@ -49,7 +49,7 @@
    * there is no lookup to wait for.
    *
    * Read at call time rather than captured at load time, so the eight of the
-   * nine pages that place this script before workspace-context.js work exactly
+   * twelve pages that place this script before workspace-context.js work exactly
    * like the one that does not. A page with no space context at all -- which is
    * every page of the site until one is licensed -- takes the resolved branch
    * and behaves as it always did.
@@ -194,7 +194,7 @@
    * been recorded. assets/js/workspace-auto-publish.js needs exactly that: it
    * drives a page's own publish function inside a private space and has to
    * report to the participant whether their score is on the board. An event is
-   * what lets it do so without a second edit to all nine pages.
+   * what lets it do so without a second edit to all twelve pages.
    *
    * Fired for every publish, public or private, accepted or not, and wrapped:
    * a listener that throws must not turn a saved score into a failed one.
@@ -305,7 +305,7 @@
 
         // The name has been published, so the contact form on the homepage can
         // greet them by it instead of asking for it a second time. Here rather
-        // than on each page because this is the one line all nine publish
+        // than on each page because this is the one line all twelve publish
         // buttons run through, and only once the write has actually been
         // accepted -- a name that failed to save is not a name they published.
         if (window.SimulatorBridge && typeof window.SimulatorBridge.rememberPlayerName === "function") {
@@ -403,7 +403,7 @@
   /**
    * The names on the board are typed by other people, so every render path has
    * to escape them. The server strips angle brackets on the way in as well —
-   * two layers, because there are nine pages doing the rendering and only one
+   * two layers, because there are twelve pages doing the rendering and only one
    * of them has to forget.
    */
   function escapeHtml(value) {
@@ -445,11 +445,12 @@
   /**
    * The per-dimension breakdown a private space's report is built from.
    *
-   * The three simulators already compute this — they have to, to draw their own
+   * The four simulators already compute this — they have to, to draw their own
    * results screen — but each holds it in its own shape: Data Literacy counts
    * optimal choices per category, Data Governance carries five 0-100 metrics,
-   * Data Ownership has a correct/incorrect verdict per scenario. Rather than
-   * teach nine pages a common format, this accepts all of those shapes and
+   * Data Ownership has a correct/incorrect verdict per scenario, and CDMP Exam
+   * Practice counts correct answers per knowledge-area group. Rather than
+   * teach twelve pages a common format, this accepts all of those shapes and
    * returns the one the API stores:
    *
    *   { governance: 80, bias: 40, ... }               numbers, already 0-100

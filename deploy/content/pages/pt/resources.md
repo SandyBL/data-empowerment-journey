@@ -3,8 +3,8 @@ slug: resources
 nav: resources
 title: Ferramentas, Modelos e Playbooks Gratuitos de Governança de Dados | Data Governance Journey
 heading: Tudo aqui é gratuito e não pede e-mail
-deck: Modelos, playbooks, uma calculadora de custos, um diagnóstico de maturidade e três simuladores de cenários. Sem muro, sem formulário, sem sequência de follow-up.
-description: Recursos gratuitos de governança de dados: modelos em Excel e Word, dois playbooks em PDF, uma calculadora do custo dos dados ruins, um diagnóstico de maturidade DAMA e três simuladores de cenários. Sem e-mail.
+deck: Modelos, playbooks, uma calculadora de custos, um diagnóstico de maturidade e quatro simuladores de cenários. Sem muro, sem formulário, sem sequência de follow-up.
+description: Recursos gratuitos de governança de dados: modelos em Excel e Word, dois playbooks em PDF, uma calculadora do custo dos dados ruins, um diagnóstico de maturidade DAMA e quatro simuladores de cenários. Sem e-mail.
 kicker: Ferramentas gratuitas
 schema: collection
 related_articles: introduction-basics-data-governance-program, identifying-addressing-data-pain-points
@@ -25,7 +25,7 @@ Há uma newsletter no fim desta página. É opcional e não desbloqueia nada, po
 
 **[Playbooks](/pt/playbooks/)** são dois PDFs — um sobre colocar a governança de dados em pé, outro sobre governança de IA — mais o framework do diagnóstico de maturidade como documento que você pode reescrever com as suas palavras.
 
-**Simuladores de cenários** são três cenários ramificados que colocam você dentro das escolhas em vez de descrevê-las: [O Dia a Dia da Governança de Dados](/simulators/pt/data-governance-day-to-day/), [Quem é o Dono Disso?](/simulators/pt/data-ownership-conflict/) e [Alfabetização de Dados](/simulators/pt/data-literacy/). Levam uns dez minutos cada e são mais divertidos do que esta frase sugere. Se você quiser jogá-los com a sua própria equipe, em um ranking privado e reescritos com os seus sistemas, esse é o [formato de workshop](/pt/workshops/), e o que as partidas públicas revelaram até agora está na [página de resultados dos simuladores](/pt/simulator-results/).
+**Simuladores de cenários** são três cenários ramificados que colocam você dentro das escolhas em vez de descrevê-las: [O Dia a Dia da Governança de Dados](/simulators/pt/data-governance-day-to-day/), [Quem é o Dono Disso?](/simulators/pt/data-ownership-conflict/) e [Alfabetização de Dados](/simulators/pt/data-literacy/), mais [Prática do Exame CDMP](/simulators/pt/cdmp-exam-practice/), que é preparação para o exame DMBOK e não um cenário: dez questões sorteadas de cem, em inglês, no formato que a certificação da DAMA usa. Levam uns dez minutos cada e são mais divertidos do que esta frase sugere. Se você quiser jogá-los com a sua própria equipe, em um ranking privado e reescritos com os seus sistemas, esse é o [formato de workshop](/pt/workshops/), e o que as partidas públicas revelaram até agora está na [página de resultados dos simuladores](/pt/simulator-results/).
 
 ## Por onde começar
 

@@ -28,7 +28,7 @@ El debate posterior es donde ocurre la sesión de verdad. La gente discute sobre
 
 ## Tu propia versión privada, con tu marca
 
-Esta es la parte que no existe en ningún otro sitio. Los tres simuladores de esta web son públicos: una única clasificación mundial, escenarios genéricos y nada que llevarse después; [lo que muestran esas clasificaciones públicas](/es/simulator-results/) es un resumen de las partidas de todo el mundo y un conjunto de lecciones generales, no una lectura de ninguna organización concreta. Para un taller abro en su lugar un espacio privado para tu organización, con tu nombre y los escenarios reescritos con tus sistemas, tus áreas y las discusiones que de verdad se tienen ahí dentro.
+Esta es la parte que no existe en ningún otro sitio. Los cuatro simuladores de esta web son públicos: una única clasificación mundial, escenarios genéricos y nada que llevarse después; [lo que muestran esas clasificaciones públicas](/es/simulator-results/) es un resumen de las partidas de todo el mundo y un conjunto de lecciones generales, no una lectura de ninguna organización concreta. Para un taller abro en su lugar un espacio privado para tu organización, con tu nombre y los escenarios reescritos con tus sistemas, tus áreas y las discusiones que de verdad se tienen ahí dentro.
 
 {{SIMULATOR_OFFER}}
 
@@ -42,11 +42,12 @@ También te quedas con la exportación en CSV, y el espacio sigue abierto durant
 
 ## Qué escenario le va a tu sala
 
-Hay tres y se juegan de formas muy distintas.
+Hay cuatro y se juegan de formas muy distintas.
 
 - **[El Día a Día del Gobierno de Datos](/simulators/es/data-governance-day-to-day/)**: una semana en la vida de un responsable de gobierno: peticiones que compiten, una regla que falla, una escalada y una definición en la que nadie coincide. Ideal para un equipo de gobierno, una red de stewards o un grupo directivo que necesita sentir en qué consiste el rol en lugar de leer la descripción del puesto.
 - **[¿Quién es el dueño de esto?](/simulators/es/data-ownership-conflict/)**: una disputa de propiedad entre dos departamentos, jugada hasta el final. Ideal cuando la propiedad es el bloqueo real, y difícil de superar con los dos departamentos en la sala a la vez.
 - **[Alfabetización de Datos](/simulators/es/data-literacy/)**: elevar la alfabetización sin presupuesto de formación. Ideal para una audiencia amplia de negocio más que para un equipo de datos.
+- **[Práctica del Examen CDMP](/simulators/es/cdmp-exam-practice/)**: preguntas del DMBOK en el formato del examen de certificación de DAMA. Ideal para un equipo que se está preparando para certificarse, o como apertura corta que le da a la sala un vocabulario común antes de que los escenarios le pidan usarlo. Sus preguntas están en inglés en cualquier idioma en el que se dé la sesión, porque el examen lo está.
 
 Una sesión de tres horas suele usar un escenario en profundidad; un día completo, dos.
 

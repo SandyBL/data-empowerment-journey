@@ -7,10 +7,11 @@
  * lands exactly on the bottom edge of the viewport. The effect is a footer that
  * looks fixed and never goes away, spending a strip of a phone screen on
  * cross-language links while someone is halfway through a scenario. Two of the
- * three simulators go further and set overflow:hidden on the body, so on those
+ * four simulators go further and set overflow:hidden on the body, so on those
  * the footer is not merely at the bottom -- it cannot be scrolled past. The
- * ownership simulator scrolls as a document instead, and its footer sticks to
- * the bottom edge once shown, so the behaviour here is the same on all three.
+ * ownership and CDMP simulators scroll as documents instead, and their footers
+ * stick to the bottom edge once shown, so the behaviour here is the same on
+ * all four.
  *
  * So the footer stays collapsed until the visitor does something that means
  * "further down", and goes away again a few seconds after they stop. Several

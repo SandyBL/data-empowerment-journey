@@ -67,15 +67,16 @@
   var PROGRESS_ENDPOINT = "/api/workspace/session?progress=1";
 
   /**
-   * The manual publish controls on the nine pages, which a space hides.
+   * The manual publish controls on the twelve pages, which a space hides.
    *
    * Five selectors because the pages were written separately and each named its
-   * own form: three ids for the three simulators, plus the two the Spanish and
+   * own form: three ids across the four simulators -- CDMP Exam Practice reuses
+   * the ownership pages' #publishScoreBtn -- plus the two the Spanish and
    * Portuguese ownership pages use. Listed here rather than normalised across
-   * nine hand-written files, for the same reason the name fields are listed in
+   * twelve hand-written files, for the same reason the name fields are listed in
    * workspace-context.js -- this is the only reader that cares, and renaming an
-   * id in nine files to save three selectors is a change with nine chances to
-   * break a page's own script.
+   * id in twelve files to save three selectors is a change with twelve chances
+   * to break a page's own script.
    *
    * Hidden, never removed: every one of these publish functions reads its name
    * input at the moment it runs, and a display:none input still carries its
@@ -236,9 +237,10 @@
   /**
    * A score as a participant should read it back.
    *
-   * The three boards run on three scales -- 0-100 to one decimal, 0-15 whole, and
-   * 0-1000 whole -- so one decimal place with a bare integer left bare covers all
-   * of them without this file having to know which page it is on.
+   * The four boards run on three scales -- 0-100 to one decimal, 0-15 whole, and
+   * 0-1000 whole, which both the ownership and the CDMP board use -- so one
+   * decimal place with a bare integer left bare covers all of them without this
+   * file having to know which page it is on.
    */
   function formatScore(value) {
     var score = Number(value);
