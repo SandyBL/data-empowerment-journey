@@ -68,41 +68,7 @@ Cuando una organización aborda la calidad de los datos como una disciplina cont
 
 Alcanzar y mantener niveles elevados de calidad de datos requiere una estructura organizativa que defina responsabilidades claras con precisión:
 
-+-----------------------------------------------------------------------------------+
-
-\| RESPONSABILIDAD ESTRATÉGICA: Data Owner (Propietario de Datos - Ejecutivo)       |
-
-\| Fija los SLAs de calidad (ej. 99,9% en facturación) y aprueba el presupuesto      |
-
-+-----------------------------------------------------------------------------------+
-
-```
-                                    │
-
-                                    ▼
-```
-
-+-----------------------------------------------------------------------------------+
-
-\| SUPERVISIÓN TÁCTICA: Data Steward (Custodio de Datos - Experto Funcional)          |
-
-\| Diseña reglas de validación, analiza alertas y resuelve anomalías operativas       |
-
-+-----------------------------------------------------------------------------------+
-
-```
-                                    │
-
-                                    ▼
-```
-
-+-----------------------------------------------------------------------------------+
-
-\| EJECUCIÓN TÉCNICA: Ingeniero de Datos (Infraestructura Tecnológica)               |
-
-\| Automatiza controles en las etapas de ingesta, transformación y almacenamiento    |
-
-+-----------------------------------------------------------------------------------+
+![Diagrama de la cadena de responsabilidad en la calidad de datos](/assets/images/blog/data-quality-accountability-chain-es.svg "Gobierno en acción: el negocio fija el objetivo, el steward lo traduce en reglas y el ingeniero lo hace cumplir en las tuberías de datos.")
 
 1. **Propiedad Clara del Dominio:** Los líderes de negocio (**Data Owners**) deben definir los criterios de calidad para los atributos de sus dominios, establecer los umbrales de error aceptables y aprobar los recursos necesarios para corregir desviaciones.
 2. **Custodia Operativa Dedicada:** Los expertos funcionales (**Data Stewards**) gestionan activamente el glosario de negocio, investigan las alertas automatizadas de calidad y lideran la solución de problemas en la fuente.

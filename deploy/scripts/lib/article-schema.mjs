@@ -144,7 +144,14 @@ const extractFaq = (article) => {
     const answer = [];
     for (const line of section) {
       // Tables, images, and rules carry no sentence an answer can be built from.
-      if (/^\s*(\||!\[|---|\*\*\*|___)/.test(line)) continue;
+      // Nor do the pre-formatted blocks the renderer now understands: a box
+      // drawn out of +, - and | characters, or the fence around a code block,
+      // would otherwise be flattened into the middle of an answer and
+      // published as structured data -- the one place a reader cannot see that
+      // it is wrong, because the answer is read out by an assistant rather
+      // than rendered on the page.
+      if (/^\s*(\||\+|`{3,}|~{3,}|!\[|---|\*\*\*|___)/.test(line)) continue;
+      if (/^[\s\u2500-\u257f\u25b2\u25bc\u25c4\u25ba\u2190-\u2193^v<>|+=\\/-]+$/.test(line)) continue;
       if (line.trim()) answer.push(line.trim().replace(/^[*->\d.\s]+/, ''));
       else if (answer.length) break;
     }

@@ -225,10 +225,10 @@ const prepareInjected = (html, lang) =>
     .replace(/href="#scorecard"/g, `href="${pagePath(lang, 'maturity-assessment')}"`);
 
 /** Renders one Markdown chunk as a prose block, or nothing if it is blank. */
-const proseBlock = (markdown, imageSize) => {
+const proseBlock = (markdown, imageSize, lang) => {
   if (!markdown.trim()) return '';
   return `    <div class="page-section blog-shell"><div class="page-prose">
-${renderMarkdown(markdown, { imageSize }).html}
+${renderMarkdown(markdown, { imageSize, lang }).html}
     </div></div>`;
 };
 
@@ -241,7 +241,7 @@ const renderBody = (page, partials, boardSummary) => {
   let markdown = [];
 
   const flush = () => {
-    const block = proseBlock(markdown.join('\n'), page.imageSize);
+    const block = proseBlock(markdown.join('\n'), page.imageSize, page.lang);
     if (block) blocks.push(block);
     markdown = [];
   };

@@ -68,41 +68,7 @@ Quando uma empresa trata a qualidade de dados como uma prática contínua e gove
 
 Garantir níveis elevados de qualidade de dados exige uma estrutura organizacional que estabeleça responsabilidades claras:
 
-+-----------------------------------------------------------------------------------+
-
-\| RESPONSABILIDADE ESTRATÉGICA: Data Owner (Dono do Dado - Executivo)               |
-
-\| Define metas de qualidade (ex.: 99,9% na faturamento) e aprova orçamentos         |
-
-+-----------------------------------------------------------------------------------+
-
-```
-                                   │
-
-                                   ▼
-```
-
-+-----------------------------------------------------------------------------------+
-
-\| SUPERVISÃO TÁTICA: Data Steward (Steward do Dado - Especialista do Negócio)       |
-
-\| Cria regras de validação, analisa alertas e resolve problemas na origem           |
-
-+-----------------------------------------------------------------------------------+
-
-```
-                                   │
-
-                                   ▼
-```
-
-+-----------------------------------------------------------------------------------+
-
-\| EXECUÇÃO TÉCNICA: Engenheiro de Dados (Infraestrutura de Tecnologia)              |
-
-\| Automatiza testes nas etapas de ingestão, transformação e armazenamento           |
-
-+-----------------------------------------------------------------------------------+
+![Diagrama da cadeia de responsabilidade pela qualidade de dados](/assets/images/blog/data-quality-accountability-chain-pt.svg "Governança na prática: o negócio define a meta, o steward a traduz em regras e o engenheiro a faz valer dentro dos pipelines.")
 
 1. **Propriedade Clara do Domínio:** Os líderes de negócio (**Data Owners**) devem definir os padrões de qualidade para seus dados, estabelecer limites aceitáveis de erro e aprovar os recursos para correção.
 2. **Custódia Operacional Dedicada:** Os especialistas do negócio (**Data Stewards**) gerenciam o glossário de negócios, investigam alertas automáticos de qualidade e lideram a resolução dos problemas na origem.

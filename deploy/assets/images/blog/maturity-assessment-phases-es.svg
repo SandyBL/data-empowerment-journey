@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg width="720" height="450" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="720" height="450" fill="#0f172a"/>
   <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">CUATRO FASES DE LA EVALUACIÓN DE MADUREZ DE GOBIERNO</text>
   <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Un Enfoque Diagnóstico Estructurado para la Transformación de Datos</text>
 

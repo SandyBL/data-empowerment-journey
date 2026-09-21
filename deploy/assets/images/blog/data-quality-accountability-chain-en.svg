@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="438" viewBox="0 0 720 438" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Three tiers of accountability for enterprise data quality</title>
+  <desc id="desc">Three roles in sequence — data owner, data steward and data engineer — showing which decision about data quality belongs at each tier: the target, the rule that measures it, and the automated test that enforces it.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">DATA QUALITY: THE CHAIN OF ACCOUNTABILITY</text>
+  
+  <!-- Data owner (business executive) -->
+  <rect x="24" y="48" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="104" fill="#071c2c"/>
+  <text x="48" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">STRATEGIC ACCOUNTABILITY</text>
+  <text x="48" y="98" font-size="17" font-weight="600" fill="#071c2c">Data owner (business executive)</text>
+  <text x="48" y="120" font-size="12.5" fill="#31505c">Sets the quality SLA the business will be held to — 99.9% billing accuracy, say — and allocates</text>
+  <text x="48" y="137" font-size="12.5" fill="#31505c">the budget that remediation work is paid from.</text>
+  <line x1="360" y1="154" x2="360" y2="178" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Data steward (domain expert) -->
+  <rect x="24" y="180" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="180" width="4" height="104" fill="#0a7568"/>
+  <text x="48" y="206" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">TACTICAL OVERSIGHT</text>
+  <text x="48" y="230" font-size="17" font-weight="600" fill="#071c2c">Data steward (domain expert)</text>
+  <text x="48" y="252" font-size="12.5" fill="#31505c">Turns that target into validation rules, monitors the alerts they raise, and drives the systemic</text>
+  <text x="48" y="269" font-size="12.5" fill="#31505c">anomalies behind them to root cause.</text>
+  <line x1="360" y1="286" x2="360" y2="310" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Data engineer (technical infrastructure) -->
+  <rect x="24" y="312" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="312" width="4" height="104" fill="#095b73"/>
+  <text x="48" y="338" font-size="10" font-weight="700" fill="#095b73" letter-spacing="1.4">TECHNICAL EXECUTION</text>
+  <text x="48" y="362" font-size="17" font-weight="600" fill="#071c2c">Data engineer (technical infrastructure)</text>
+  <text x="48" y="384" font-size="12.5" fill="#31505c">Builds those rules into automated tests at ingestion, transformation and storage, so invalid records</text>
+  <text x="48" y="401" font-size="12.5" fill="#31505c">are caught before anything consumes them.</text>
+</svg>

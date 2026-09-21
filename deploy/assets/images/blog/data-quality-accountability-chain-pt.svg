@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="438" viewBox="0 0 720 438" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Três níveis de responsabilidade pela qualidade dos dados</title>
+  <desc id="desc">Três papéis em sequência — proprietário dos dados, data steward e engenheiro de dados — com a decisão sobre qualidade que cabe a cada nível: a meta, a regra que a mede e o teste automático que a faz valer.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">QUALIDADE DE DADOS: A CADEIA DE RESPONSABILIDADE</text>
+  
+  <!-- Proprietário dos dados (executivo) -->
+  <rect x="24" y="48" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="104" fill="#071c2c"/>
+  <text x="48" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">RESPONSABILIDADE ESTRATÉGICA</text>
+  <text x="48" y="98" font-size="17" font-weight="600" fill="#071c2c">Proprietário dos dados (executivo)</text>
+  <text x="48" y="120" font-size="12.5" fill="#31505c">Define a meta de qualidade pela qual o negócio responde — 99,9% no faturamento, por exemplo</text>
+  <text x="48" y="137" font-size="12.5" fill="#31505c">— e aprova o orçamento que paga a correção.</text>
+  <line x1="360" y1="154" x2="360" y2="178" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Data steward (especialista do negócio) -->
+  <rect x="24" y="180" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="180" width="4" height="104" fill="#0a7568"/>
+  <text x="48" y="206" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">SUPERVISÃO TÁTICA</text>
+  <text x="48" y="230" font-size="17" font-weight="600" fill="#071c2c">Data steward (especialista do negócio)</text>
+  <text x="48" y="252" font-size="12.5" fill="#31505c">Traduz essa meta em regras de validação, acompanha os alertas que elas geram e leva as</text>
+  <text x="48" y="269" font-size="12.5" fill="#31505c">anomalias recorrentes até a causa raiz.</text>
+  <line x1="360" y1="286" x2="360" y2="310" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Engenheiro de dados (infraestrutura) -->
+  <rect x="24" y="312" width="672" height="104" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="312" width="4" height="104" fill="#095b73"/>
+  <text x="48" y="338" font-size="10" font-weight="700" fill="#095b73" letter-spacing="1.4">EXECUÇÃO TÉCNICA</text>
+  <text x="48" y="362" font-size="17" font-weight="600" fill="#071c2c">Engenheiro de dados (infraestrutura)</text>
+  <text x="48" y="384" font-size="12.5" fill="#31505c">Insere essas regras como testes automáticos na ingestão, transformação e armazenamento,</text>
+  <text x="48" y="401" font-size="12.5" fill="#31505c">barrando o dado inválido antes de qualquer consumo.</text>
+</svg>

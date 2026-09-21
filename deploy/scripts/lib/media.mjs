@@ -131,8 +131,16 @@ const svgSize = (source) => {
  * picture, so it will keep arriving.
  *
  * Returns the corrected markup, or null when the file already sizes itself.
+ *
+ * Exported because the build is not the only thing that reads these files.
+ * The correction below happens in the build's own checkout, so the copy in
+ * the repository stays as it was uploaded -- and that copy is what the CMS
+ * media library and the editor preview show the author, which is how a
+ * picture comes to look missing in the editor and fine on the site. So
+ * scripts/normalize-media-svgs.mjs applies the same transform to the
+ * committed files, from this one definition rather than a second copy of it.
  */
-const normalizeSvgForImg = (text) => {
+export const normalizeSvgForImg = (text) => {
   const tag = text.match(/<svg\b[^>]*>/i)?.[0];
   if (!tag) return null;
 

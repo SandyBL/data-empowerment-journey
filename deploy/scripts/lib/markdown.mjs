@@ -1,7 +1,8 @@
 /**
  * Minimal Markdown renderer covering the subset used by the blog content:
  * headings, paragraphs, bold/italic/inline-code, links, images, ordered and
- * unordered lists, blockquotes, pipe tables, and horizontal rules.
+ * unordered lists, blockquotes, pipe tables, fenced code blocks, ASCII
+ * diagrams, and horizontal rules.
  *
  * It exists so articles can be rendered to static HTML at build time instead of
  * being assembled in the browser, which is what makes them indexable.
@@ -64,6 +65,159 @@ export const plainText = (markdown) =>
  * — the corruption arrived with a save that changed nothing else.
  */
 const THEMATIC_BREAK = /^\s*(?:(?:-\s*){3,}|(?:\*\s*){3,}|(?:_\s*){3,})$/;
+
+/**
+ * A fenced code block's delimiter: three or more backticks or tildes, with an
+ * optional language name after the opening one.
+ *
+ * Nothing recognised a fence before this, so both the delimiters and the lines
+ * between them were read as prose. The three backticks reached the page as
+ * literal text and the content they were protecting was re-wrapped into a
+ * paragraph, which collapses every run of spaces -- so anything whose meaning
+ * is in its alignment arrived as a run-on sentence.
+ */
+const FENCE = /^\s*(`{3,}|~{3,})\s*([^`~\s]*)\s*$/;
+
+/**
+ * The parts of ASCII box art, which is how an author who writes in Markdown
+ * draws a diagram: a border line of dashes between two plus signs, a row of
+ * text between two pipes, and the arrows that join one box to the next.
+ *
+ * The leading pipe is optionally escaped because the rich-text editor escapes
+ * it on the way out -- a line it saved reads `\| STRATEGIC ACCOUNTABILITY ... |`
+ * -- and the table pattern further down would otherwise be the only thing in
+ * this renderer that recognised the character at all.
+ */
+const ASCII_BORDER = /^\s*\+[-=+\s]*[-=]{3,}[-=+\s]*\+\s*$/;
+const ASCII_ROW = /^\s*\|(.*)\|\s*$/;
+const ASCII_JOINT = /^[\s\u2502\u2503\u2506\u250a\u2500\u2501\u2550\u25b2\u25bc\u25c4\u25ba\u2190\u2191\u2192\u2193^vV<>|+=\\/-]*$/;
+/** A pipe table's second row, which is the one thing that is never box art. */
+const TABLE_DELIMITER = /^\s*\|[\s:|-]+\|\s*$/;
+
+/**
+ * ASCII box art, re-assembled from what the editor left of it.
+ *
+ * A diagram drawn in characters is the one kind of content whose meaning is
+ * entirely in its whitespace, and it is also the kind the Blog Content Studio
+ * damages worst. Saving an article puts a blank line between every pair of
+ * lines, so each row of the drawing becomes a separate Markdown paragraph;
+ * escapes the pipes that draw the sides; and wraps the indented arrow lines in
+ * code fences of its own invention. The author sees the drawing intact in the
+ * editor and a column of stray paragraphs on the published page, each one
+ * re-wrapped and its padding collapsed -- which is the bug this fixes.
+ *
+ * So a run of box-art lines is collected as one drawing, the blank lines and
+ * the invented fences are dropped, and the escapes are undone.
+ *
+ * The geometry is then rebuilt, but only for a drawing whose rows each hold a
+ * single cell -- boxes stacked one above the next, which is the shape the
+ * editor mangles and the shape whose widths no longer agree with each other by
+ * the time they arrive. Every border becomes as wide as the widest row, every
+ * row is padded to meet it, and every arrow is centred under the box above it.
+ * A row with an interior pipe is a column in a wider drawing, and there is no
+ * way to widen one column without moving every other one, so those are kept
+ * exactly as the author aligned them.
+ *
+ * A run has to contain at least two borders and one row to be a drawing at all,
+ * which is what keeps prose, thematic breaks and pipe tables out of it: a table
+ * has no border line, so a table falls through to the table branch as before.
+ *
+ * Returns the finished block and the line to resume at, or null when the run is
+ * not box art.
+ */
+const asciiDiagram = (lines, start, labels) => {
+  const parts = [];
+  let index = start;
+  let borders = 0;
+  let rows = 0;
+
+  while (index < lines.length) {
+    const line = lines[index];
+    // Blank lines and stray fences are the editor's punctuation, not the
+    // author's drawing, so neither survives into the rebuilt block.
+    if (!line.trim() || FENCE.test(line)) {
+      index += 1;
+      continue;
+    }
+
+    const bare = line.replace(/\\([|+])/g, '$1').trimEnd();
+    if (ASCII_BORDER.test(bare)) {
+      parts.push({ kind: 'border', text: bare.trimStart() });
+      borders += 1;
+      index += 1;
+      continue;
+    }
+
+    // A row whose next line is a table's delimiter is a table header, so the
+    // drawing stops short of it rather than swallowing the table behind it.
+    const row = bare.match(ASCII_ROW);
+    if (row && !TABLE_DELIMITER.test(lines[index + 1] ?? '')) {
+      parts.push({ kind: 'row', text: row[1].trim(), cells: row[1].includes('|'), raw: bare });
+      rows += 1;
+      index += 1;
+      continue;
+    }
+
+    if (ASCII_JOINT.test(bare)) {
+      parts.push({ kind: 'joint', text: bare.trim(), raw: bare });
+      index += 1;
+      continue;
+    }
+
+    break;
+  }
+
+  if (borders < 2 || rows < 1) return null;
+
+  const stacked = parts.every((part) => part.kind !== 'row' || !part.cells);
+  if (!stacked) {
+    const kept = parts.map((part) => part.raw ?? part.text);
+    return { block: renderCodeBlock(kept.join('\n'), '', labels.diagram), next: index };
+  }
+
+  const width = Math.max(...parts.filter((part) => part.kind === 'row').map((part) => part.text.length));
+  const border = `+${'-'.repeat(width + 2)}+`;
+  const drawing = parts
+    .filter((part) => part.kind !== 'joint' || part.text)
+    .map((part) => {
+      if (part.kind === 'border') return border;
+      if (part.kind === 'row') return `| ${part.text.padEnd(width)} |`;
+      const lead = Math.max(0, Math.round((width + 4 - part.text.length) / 2));
+      return `${' '.repeat(lead)}${part.text}`;
+    });
+
+  return { block: renderCodeBlock(drawing.join('\n'), '', labels.diagram), next: index };
+};
+
+/**
+ * Accessible names for pre-formatted blocks.
+ *
+ * A `pre` here is focusable, so it is announced, and an announcement has to be
+ * in the language of the page around it -- a Spanish article that reads out
+ * "Code block" has told its reader nothing. `renderMarkdown` is given the
+ * article's language by its caller and falls back to English for the pages
+ * that have no language of their own.
+ */
+const PRE_LABELS = {
+  en: { code: 'Code block', diagram: 'Diagram, scrollable' },
+  es: { code: 'Bloque de código', diagram: 'Diagrama, desplazable' },
+  pt: { code: 'Bloco de código', diagram: 'Diagrama, rolável' },
+};
+
+/**
+ * One <pre>, holding text whose spacing is the point.
+ *
+ * The block does not wrap, so a drawing wider than the prose column scrolls
+ * sideways. That makes it a scrollable region, and a scrollable region reachable
+ * only by dragging is content a keyboard reader cannot get to at all -- hence
+ * `tabindex="0"`, which puts the block in the tab order so the arrow keys can
+ * pan it. The accessible name comes from `role="group"` plus the label, without
+ * which a screen reader announces the stop as an unlabelled focusable blank.
+ */
+const renderCodeBlock = (content, language = '', label = 'Code block') => {
+  const tag = language ? ` class="language-${slugify(language)}"` : '';
+  return `<pre tabindex="0" role="group" aria-label="${escapeHtml(label)}"><code${tag}>${escapeHtml(content)}</code></pre>`;
+};
 
 /**
  * The standard Markdown image, with the optional title the Blog Content Studio
@@ -157,6 +311,67 @@ const renderInline = (text, imageSize) => {
     .replace(/\u0000(\d+)\u0000/g, (match, position) => escapeHtml(literals[Number(position)]));
 };
 
+/**
+ * A block scalar header -- the `|` or `>` that stands where a value would be
+ * and says the value is the indented lines underneath it, optionally followed
+ * by a chomping indicator (`-` drops the trailing blank lines, `+` keeps them
+ * all) and an explicit indentation digit.
+ *
+ * The Blog Content Studio writes one for every text field long enough to wrap.
+ * A Summary of more than about a line is saved as `summary: >-` with the words
+ * on the lines below, and read as an ordinary scalar the header itself became
+ * the value: the two characters `>-` were published at the front of the
+ * summary, which is the deck under the headline, the meta description, and the
+ * text every search result and social card quotes.
+ */
+const BLOCK_SCALAR_HEADER = /^([|>])(?:([-+]?)(\d*)|(\d*)([-+]?))$/;
+
+const indentWidth = (line) => line.length - line.trimStart().length;
+
+/**
+ * The value of a block scalar: every following line indented deeper than the
+ * key it belongs to, joined the way the header asks for.
+ *
+ * `|` keeps the line breaks. `>` folds each run of lines into a single line and
+ * turns a blank line between two runs into the one newline that separates two
+ * paragraphs. An explicit indentation digit is read but not honoured -- the
+ * margin is taken from the first content line instead, which is the same answer
+ * for every block the studio writes and for any hand-written one that is
+ * indented consistently.
+ *
+ * Returns the value and the index of the first line that is not part of it.
+ */
+const readBlockScalar = (lines, start, keyIndent, style, chomp) => {
+  let end = start;
+  while (end < lines.length && (!lines[end].trim() || indentWidth(lines[end]) > keyIndent)) end += 1;
+
+  const body = lines.slice(start, end);
+  const margin = indentWidth(body.find((line) => line.trim()) ?? '');
+  const text = body.map((line) => (line.trim() ? line.slice(margin) : ''));
+
+  // Trailing blank lines are the chomping indicator's business, so they come
+  // off here and go back on below according to it.
+  let trailing = 0;
+  while (text.length && !text[text.length - 1]) {
+    text.pop();
+    trailing += 1;
+  }
+
+  let value =
+    style === '|'
+      ? text.join('\n')
+      : text.reduce((folded, line, position) => {
+          if (position === 0) return line;
+          if (!line) return `${folded}\n`;
+          return folded.endsWith('\n') ? `${folded}${line}` : `${folded} ${line}`;
+        }, '');
+
+  if (chomp === '+') value += '\n'.repeat(trailing);
+  else if (chomp !== '-' && value) value += '\n';
+
+  return { value, next: end };
+};
+
 const parseFrontMatter = (source) => {
   const match = source.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
   if (!match) return { attributes: {}, body: source };
@@ -171,8 +386,14 @@ const parseFrontMatter = (source) => {
   // line saw an opening quote with no closing one, left both in place, and put
   // them in the h1, the <title>, the share links and the schema headline.
   const raw = {};
+  const blocks = new Set();
+  const lines = match[1].split('\n');
   let currentKey = '';
-  for (const line of match[1].split('\n')) {
+  let index = 0;
+  while (index < lines.length) {
+    const line = lines[index];
+    index += 1;
+
     // Sequence entries collect under the key above them, which YAML leaves
     // empty (`redirect_from:` followed by `  - old-slug`). Requiring that empty
     // value keeps a wrapped text line starting with a dash a string, not a list.
@@ -186,11 +407,30 @@ const parseFrontMatter = (source) => {
     const separator = line.indexOf(':');
     // Indented continuation lines belong to the previous key (folded YAML scalars).
     if (separator < 0 || (/^\s+/.test(line) && currentKey && !/^\s*[\w-]+\s*:/.test(line))) {
-      if (currentKey && /^\s+/.test(line)) raw[currentKey] = `${raw[currentKey]} ${line.trim()}`;
+      if (currentKey && !blocks.has(currentKey) && /^\s+/.test(line)) {
+        raw[currentKey] = `${raw[currentKey]} ${line.trim()}`;
+      }
       continue;
     }
     currentKey = line.slice(0, separator).trim();
-    raw[currentKey] = line.slice(separator + 1).trim();
+    const value = line.slice(separator + 1).trim();
+
+    // A block scalar consumes its own lines, so the loop resumes past them
+    // rather than letting the continuation branch above glue the header to the
+    // text -- and rather than letting a line such as `  Author: Someone`, which
+    // is prose inside the block, be mistaken for the next key.
+    const header = value.match(BLOCK_SCALAR_HEADER);
+    if (header) {
+      const style = header[1];
+      const chomp = header[2] || header[5] || '';
+      const block = readBlockScalar(lines, index, indentWidth(line), style, chomp);
+      raw[currentKey] = block.value;
+      blocks.add(currentKey);
+      index = block.next;
+      continue;
+    }
+
+    raw[currentKey] = value;
   }
 
   const attributes = {};
@@ -232,7 +472,8 @@ const renderTable = (rows, imageSize) => {
  * Callers that have not read the files leave it out and the images render
  * without a reserved box.
  */
-export const renderMarkdown = (markdown, { imageSize } = {}) => {
+export const renderMarkdown = (markdown, { imageSize, lang } = {}) => {
+  const labels = PRE_LABELS[lang] ?? PRE_LABELS.en;
   const lines = markdown.split('\n');
   const html = [];
   const headings = [];
@@ -253,6 +494,33 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
 
     if (!line.trim()) {
       index += 1;
+      continue;
+    }
+
+    // Box art first: the run it belongs to can contain the code fences the
+    // editor wrapped around parts of it, so the fence branch below must not get
+    // to those lines first and cut the drawing in half.
+    if (ASCII_BORDER.test(line.replace(/\\([|+])/g, '$1'))) {
+      const diagram = asciiDiagram(lines, index, labels);
+      if (diagram) {
+        html.push(diagram.block);
+        index = diagram.next;
+        continue;
+      }
+    }
+
+    const fence = line.match(FENCE);
+    if (fence) {
+      const [, delimiter, language] = fence;
+      const closing = new RegExp(`^\\s*${delimiter[0]}{${delimiter.length},}\\s*$`);
+      const content = [];
+      index += 1;
+      while (index < lines.length && !closing.test(lines[index])) content.push(lines[index++]);
+      // An unclosed fence runs to the end of the document, which is what every
+      // Markdown implementation does with one and what keeps a half-typed block
+      // from silently dropping the rest of the article.
+      if (index < lines.length) index += 1;
+      html.push(renderCodeBlock(content.join('\n'), language, labels.code));
       continue;
     }
 
@@ -356,6 +624,7 @@ export const renderMarkdown = (markdown, { imageSize } = {}) => {
       index < lines.length &&
       lines[index].trim() &&
       !THEMATIC_BREAK.test(lines[index]) &&
+      !FENCE.test(lines[index]) &&
       !/^\s*(#{1,6}\s|>|\||[*-]\s|\d+\.\s)/.test(lines[index])
     ) {
       paragraph.push(lines[index].trim());

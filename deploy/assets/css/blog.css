@@ -19,6 +19,7 @@
   --shadow: 0 24px 70px rgba(7, 28, 44, .12);
   --serif: 'DM Serif Display', Georgia, serif;
   --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: ui-monospace, 'SF Mono', 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace;
 
   /* Focus indicator: 15.0:1 on white, 13.7:1 on the paper background. */
   --focus-ring: #071c2c;
@@ -155,6 +156,30 @@ a.blog-kicker:hover { color: var(--coral); }
 .article-body figure { margin: 2.4em 0; }
 .article-body figure img { display: block; padding: 16px; border: 1px solid var(--line); background: var(--white); border-radius: 2px 22px 2px 2px; }
 .article-body figcaption { margin-top: 12px; color: var(--ink-soft); font-family: var(--sans); font-size: .78rem; line-height: 1.6; }
+/* Pre-formatted blocks: fenced code, and the box-drawing diagrams the renderer
+   recovers out of an article's plain text. Both only mean anything while every
+   character keeps the column it was typed in, so the font has to be monospace
+   and the lines must not wrap -- a wrapped diagram row lands under the box it
+   belonged inside and the drawing stops being readable. A diagram wider than
+   the 700px prose column therefore scrolls sideways instead, which is why the
+   scroll container is the `pre` and the `code` inside it is left inline: giving
+   both a scrollbar would trap the drawing in a box that scrolls twice.
+
+   `tab-size` matters for the same reason. A tab pasted into a drawing is eight
+   columns wide in the editor the author aligned it in, and the browser's own
+   default is the same eight, but a stray two-space indent elsewhere in the run
+   would otherwise shift every following character. Declaring it keeps the two
+   agreeing whatever the source mixes. */
+.article-body pre { margin: 2.4em 0; padding: 18px 20px; max-width: 100%; overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: 2px 22px 2px 2px; tab-size: 8; -webkit-overflow-scrolling: touch; }
+.article-body pre code { display: inline-block; min-width: 0; padding: 0; white-space: pre; background: none; border: 0; color: var(--ink); font-family: var(--mono); font-size: .74rem; line-height: 1.5; }
+/* Inline code inside a sentence. Monospace at the paragraph's own size reads as
+   oversized next to DM Sans, hence the slight reduction, and the tint is what
+   marks the span as code without a border interrupting the line's rhythm. */
+.article-body code { padding: .12em .34em; background: rgba(7, 28, 44, .055); border-radius: 4px; font-family: var(--mono); font-size: .88em; }
+/* The scroll container needs a focus ring of its own. A keyboard reader scrolls
+   a wide diagram by focusing it, and `tabindex` is set on the element by the
+   renderer, so without this the focused block gives no indication it is active. */
+.article-body pre:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 .article-lead-magnet { width: 100%; margin: 2.6em 0; padding: 38px 42px; overflow: hidden; background: var(--ink); color: #fff; border-radius: 2px 24px 2px 2px; font-family: var(--sans); }
 .article-lead-magnet span { color: var(--mint); font-size: .65rem; font-weight: 800; letter-spacing: .16em; }
 .article-lead-magnet h2 { margin: 13px 0 8px; color: #fff; font-size: 2.2rem; }
