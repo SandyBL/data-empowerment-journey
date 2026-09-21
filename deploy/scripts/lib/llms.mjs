@@ -38,7 +38,8 @@ const GUIDE_LINKS = {
     ['Data Governance Day-to-Day simulator', '/simulators/en/data-governance-day-to-day/', 'Branching scenario on the trade-offs a data governance lead makes in a week.'],
     ['Who Owns This? simulator', '/simulators/en/data-ownership-conflict/', 'Scenario on resolving a disputed data ownership claim between two departments.'],
     ['Data Literacy simulator', '/simulators/en/data-literacy/', 'Scenario on raising data literacy without a formal training budget.'],
-    ['Public simulator results', '/en/simulator-results/', 'What the three public leaderboards currently show, with the sample size stated, plus the lessons that come out of them and an explanation of what a public board cannot measure.'],
+    ['CDMP Exam Practice simulator', '/simulators/en/cdmp-exam-practice/', 'Ten DMBOK questions drawn from a hundred, in the format of the DAMA CDMP Fundamentals exam. Questions are in English in every language version, as the exam is.'],
+    ['Public simulator results', '/en/simulator-results/', 'What the four public leaderboards currently show, with the sample size stated, plus the lessons that come out of them and an explanation of what a public board cannot measure.'],
   ],
   es: [
     ['Página principal', '/', 'Servicios, el marco de tres pilares y las cuatro preguntas más frecuentes.'],
@@ -58,7 +59,8 @@ const GUIDE_LINKS = {
     ['Simulador del Día a Día', '/simulators/es/data-governance-day-to-day/', 'Escenario ramificado sobre las decisiones de un responsable de gobierno de datos.'],
     ['Simulador ¿Quién es el dueño de esto?', '/simulators/es/data-ownership-conflict/', 'Escenario sobre resolver una disputa de propiedad de datos entre áreas.'],
     ['Simulador de Alfabetización de Datos', '/simulators/es/data-literacy/', 'Escenario sobre elevar la alfabetización de datos sin presupuesto de formación.'],
-    ['Resultados públicos de los simuladores', '/es/resultados-de-simuladores/', 'Lo que muestran ahora las tres clasificaciones públicas, con el tamaño de muestra declarado, más las lecciones que salen de ellas y qué no puede medir una clasificación pública.'],
+    ['Simulador de Práctica del Examen CDMP', '/simulators/es/cdmp-exam-practice/', 'Diez preguntas del DMBOK extraídas de cien, en el formato del examen DAMA CDMP Fundamentals. Las preguntas están en inglés en las tres versiones, igual que el examen.'],
+    ['Resultados públicos de los simuladores', '/es/resultados-de-simuladores/', 'Lo que muestran ahora las cuatro clasificaciones públicas, con el tamaño de muestra declarado, más las lecciones que salen de ellas y qué no puede medir una clasificación pública.'],
   ],
   pt: [
     ['Página inicial', '/pt/', 'Serviços, o framework de três pilares e as quatro perguntas mais frequentes.'],
@@ -78,7 +80,8 @@ const GUIDE_LINKS = {
     ['Simulador do Dia a Dia', '/simulators/pt/data-governance-day-to-day/', 'Cenário ramificado sobre as decisões de um responsável por governança de dados.'],
     ['Simulador Quem é o Dono Disso?', '/simulators/pt/data-ownership-conflict/', 'Cenário sobre resolver uma disputa de propriedade de dados entre áreas.'],
     ['Simulador de Alfabetização de Dados', '/simulators/pt/data-literacy/', 'Cenário sobre elevar a alfabetização de dados sem orçamento de treinamento.'],
-    ['Resultados públicos dos simuladores', '/pt/resultados-dos-simuladores/', 'O que os três rankings públicos mostram agora, com o tamanho da amostra declarado, mais as lições que saem deles e o que um ranking público não consegue medir.'],
+    ['Simulador de Prática do Exame CDMP', '/simulators/pt/cdmp-exam-practice/', 'Dez questões do DMBOK sorteadas de cem, no formato do exame DAMA CDMP Fundamentals. As questões estão em inglês nas três versões, como o exame.'],
+    ['Resultados públicos dos simuladores', '/pt/resultados-dos-simuladores/', 'O que os quatro rankings públicos mostram agora, com o tamanho da amostra declarado, mais as lições que saem deles e o que um ranking público não consegue medir.'],
   ],
 };
 

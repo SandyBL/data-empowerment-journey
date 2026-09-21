@@ -1,7 +1,7 @@
 /**
  * Private space context for the simulator pages.
  *
- * A company that licenses a private space gets the same nine simulator pages
+ * A company that licenses a private space gets the same twelve simulator pages
  * everybody else gets. What changes is this file: it asks the server which space
  * this browser is seated in, and if the answer is a space, the page starts
  * behaving like the company's own — their name and logo in a strip under the
@@ -37,7 +37,7 @@
    * Wording for the strip, in the three languages the simulators exist in.
    *
    * Held here rather than passed in from each page because it is the same six
-   * phrases on all nine of them, and a per-page copy is a per-page chance for
+   * phrases on all twelve of them, and a per-page copy is a per-page chance for
    * one of them to be left in English.
    */
   var COPY = {
@@ -106,10 +106,10 @@
   /**
    * Which simulator this page is, from its own address.
    *
-   * The nine pages live at /simulators/<language>/<slug>/, so the page does not
+   * The twelve pages live at /simulators/<language>/<slug>/, so the page does not
    * have to declare what it is. Read from the path rather than passed in from
    * each page for the same reason the strip's wording is held here: a per-page
-   * copy is a per-page chance for one of the nine to be wrong.
+   * copy is a per-page chance for one of the twelve to be wrong.
    *
    * Empty on any other page -- the space hub, the gate -- which is what stops
    * those from asking for scenario wording they have no scenarios to apply.
@@ -171,8 +171,8 @@
    * Replaces "global" with the client's name wherever the page calls its
    * leaderboard a global one.
    *
-   * The nine pages say it eleven different ways across three languages -- "Global
-   * Leaderboard", "RANKING GLOBAL", "Tabla de Clasificación Global" -- so rather
+   * The twelve pages say it a dozen different ways across three languages --
+   * "Global Leaderboard", "RANKING GLOBAL", "Tabla de Clasificación Global" -- so rather
    * than matching each phrase, this replaces the one word they have in common,
    * and only inside a text node that is talking about a leaderboard. Text nodes
    * only, so nothing can turn a company name into markup, and no attribute or
@@ -205,14 +205,14 @@
   }
 
   /**
-   * The inputs the nine pages use to ask for a leaderboard name.
+   * The inputs the twelve pages use to ask for a leaderboard name.
    *
-   * Three different ids across nine files, because the pages were written
+   * Three different ids across twelve files, because the pages were written
    * separately -- and one page carries the same id twice, once per screen, which
    * is why this is a querySelectorAll and not a getElementById. All three are
    * listed here rather than normalised in the pages: this is the only reader that
-   * cares, and renaming an id in nine hand-written files to save two selectors is
-   * a change with nine chances to break a page's own script.
+   * cares, and renaming an id in twelve hand-written files to save two selectors
+   * is a change with twelve chances to break a page's own script.
    */
   var NAME_FIELDS = "input#playerNameInput, input#player-name-input, input#player-name";
 
@@ -226,7 +226,7 @@
    * simulator to the next.
    *
    * The pages read `.value` at the moment they need it and never earlier, so
-   * filling the field is enough: not one of the nine needs editing for this to
+   * filling the field is enough: not one of the twelve needs editing for this to
    * work. Read-only rather than hidden, so somebody who wonders what they will
    * be published as can see the answer.
    *
@@ -316,7 +316,7 @@
    *
    * The footer nav that normally carries it is hidden along with the rest of the
    * public chrome, and a room is rarely monolingual -- the space has a language
-   * but the three simulators exist in all of them, so losing the switch would
+   * but the four simulators exist in all of them, so losing the switch would
    * cost a participant the version they can actually read. The seat is a cookie
    * rather than a query string, so it survives the hop.
    */
@@ -618,7 +618,7 @@
      * a page re-rendering a panel and wrong for the one caller that needs the
      * name to be correct on the very next line:
      * assets/js/workspace-auto-publish.js, saving a run the moment it ends. One
-     * of the nine pages clears the field after a publish, so a replay published
+     * of the twelve pages clears the field after a publish, so a replay published
      * without this would be saved under an empty name.
      */
     applyName: function () {

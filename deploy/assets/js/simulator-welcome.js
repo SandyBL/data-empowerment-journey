@@ -1,7 +1,8 @@
 /*
  * The shared welcome overlay for the simulator pages.
  *
- * The three simulators opened three different ways. "Who Owns This?" asked for
+ * The simulators opened three different ways before this file existed. "Who
+ * Owns This?" asked for
  * a name up front and refused to start without one. The Portuguese Day-to-Day
  * page showed a briefing screen with a Start button. The other five dropped the
  * visitor straight into a live dashboard, mid-scenario, and only asked who they

@@ -1,7 +1,7 @@
 /**
  * Which words of a simulator a client is allowed to have rewritten.
  *
- * A company that licenses a private space plays the same three simulators
+ * A company that licenses a private space plays the same four simulators
  * everybody else plays, and the point of this file is that they keep playing the
  * *same* simulators: only the wording of a scenario can be replaced, never the
  * number of scenarios, the number of options, which option is the good one, or
@@ -10,6 +10,11 @@
  * bounds in netlify/functions/simulator-score-submit.mts still hold, and the
  * facilitator report still aggregates on the same dimension keys -- while the
  * text can say "our ERP" instead of "SAP" and name the client's own teams.
+ *
+ * Three of the four are listed below. CDMP Exam Practice is not, and will not
+ * be: its questions come from a certification syllabus, so rewording one would
+ * change what its answer key means -- which is the one thing this file exists
+ * to prevent.
  *
  * So the list below is a whitelist, and everything absent from it is
  * deliberately absent:

@@ -31,7 +31,12 @@ import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 // comes back with each row: the boards that time themselves display it in a
 // Time column so the order of two rows on the same score explains itself.
 
-const SIMULATORS = new Set(["data-governance-day-to-day", "data-literacy", "data-ownership-conflict"]);
+const SIMULATORS = new Set([
+  "data-governance-day-to-day",
+  "data-literacy",
+  "data-ownership-conflict",
+  "cdmp-exam-practice",
+]);
 
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 25;
@@ -114,7 +119,7 @@ export const config: Config = {
   method: ["GET"],
   // A page load makes one request, and finishing a run makes one more. The
   // window is sized for a room rather than a person: a workshop of thirty
-  // people shares one office address, and each of them loads three simulators
+  // people shares one office address, and each of them loads four simulators
   // and refreshes a board after every run, so a limit tuned to a single visitor
   // would blank the leaderboard for the back half of a paying client's session.
   // Ten a second sustained is still a hard ceiling on what one address can pull.

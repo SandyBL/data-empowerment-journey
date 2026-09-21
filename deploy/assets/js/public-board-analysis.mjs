@@ -27,11 +27,12 @@
 
 import { BANDS, MAX_SCORES, bandFor, percentOf } from './simulator-analysis.mjs';
 
-/** The three simulators, in the order the page presents them. */
+/** The four simulators, in the order the page presents them. */
 export const BOARD_ORDER = [
   'data-governance-day-to-day',
   'data-ownership-conflict',
   'data-literacy',
+  'cdmp-exam-practice',
 ];
 
 /**
@@ -114,7 +115,7 @@ const summarizeBoard = (simulator, rows) => {
 /**
  * Every board, plus one cross-board reading.
  *
- * The index is the mean of every run's percentage across all three simulators,
+ * The index is the mean of every run's percentage across all four simulators,
  * not the mean of the three board averages: a board with twenty runs and a board
  * with two should not carry equal weight in one number that claims to describe
  * the whole population.
@@ -139,7 +140,7 @@ export const summarizePublicBoards = (rows, { generatedAt = new Date() } = {}) =
     generatedAt: new Date(generatedAt).toISOString(),
     totalRuns: known.length,
     // The overall reading is gated on the same threshold, applied to the pooled
-    // runs rather than to any one board: three boards of twelve is a population
+    // runs rather than to any one board: four boards of twelve is a population
     // worth describing even though no single board has reached thirty.
     confident: known.length >= MIN_SAMPLE,
     index: round(index),

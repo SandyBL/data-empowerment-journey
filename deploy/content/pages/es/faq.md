@@ -21,6 +21,6 @@ Estas son las respuestas que doy en las primeras llamadas, con las mismas palabr
 
 Dos de estas salen tan a menudo que se han ganado su propia herramienta. ¿Quieres saber dónde está tu organización de verdad? El [diagnóstico de madurez](/es/maturity-assessment/) lleva unos quince minutos y te da una lectura que puedes poner delante de un comité. ¿Quieres saber cuánto cuesta la situación actual? La [calculadora del coste de los datos malos](/es/calculator/) convierte las anécdotas en un número.
 
-Para todo lo demás: el [blog](/es/blog/) aborda las preguntas que no caben en un párrafo, el [glosario](/es/glossary/) se ocupa del vocabulario y los [tres simuladores](/es/simulator-results/) te dejan averiguarlo tomando tú las decisiones.
+Para todo lo demás: el [blog](/es/blog/) aborda las preguntas que no caben en un párrafo, el [glosario](/es/glossary/) se ocupa del vocabulario y los [cuatro simuladores](/es/simulator-results/) te dejan averiguarlo tomando tú las decisiones.
 
 Y si necesitas una respuesta sobre tu organización y no una general, [solicita una sesión de asesoría](/es/advisory/). Treinta minutos, un problema, sin propuesta adjunta. Y si la pregunta es tan corta que una sesión sobra, la dirección es [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com): pregúntala ahí.

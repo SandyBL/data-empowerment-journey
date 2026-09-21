@@ -28,7 +28,7 @@ O debate depois é onde a sessão de verdade acontece. As pessoas discutem sobre
 
 ## A sua própria versão privada, com a sua marca
 
-Esta é a parte que não existe em nenhum outro lugar. Os três simuladores deste site são públicos: um único ranking mundial, cenários genéricos e nada para levar depois; [o que esses rankings públicos mostram](/pt/simulator-results/) é um resumo das partidas de todo mundo e um conjunto de lições gerais, não uma leitura de nenhuma organização específica. Para um workshop eu abro, em vez disso, um espaço privado para a sua organização, com o seu nome e os cenários reescritos com os seus sistemas, as suas áreas e as discussões que vocês realmente têm.
+Esta é a parte que não existe em nenhum outro lugar. Os quatro simuladores deste site são públicos: um único ranking mundial, cenários genéricos e nada para levar depois; [o que esses rankings públicos mostram](/pt/simulator-results/) é um resumo das partidas de todo mundo e um conjunto de lições gerais, não uma leitura de nenhuma organização específica. Para um workshop eu abro, em vez disso, um espaço privado para a sua organização, com o seu nome e os cenários reescritos com os seus sistemas, as suas áreas e as discussões que vocês realmente têm.
 
 {{SIMULATOR_OFFER}}
 
@@ -42,11 +42,12 @@ Você também fica com a exportação em CSV, e o espaço continua aberto durant
 
 ## Qual cenário serve para a sua sala
 
-São três, e eles se jogam de maneiras bem diferentes.
+São quatro, e eles se jogam de maneiras bem diferentes.
 
 - **[O Dia a Dia da Governança de Dados](/simulators/pt/data-governance-day-to-day/)**: uma semana na vida de um responsável por governança: pedidos concorrentes, uma regra falhando, uma escalada e uma definição em que ninguém concorda. Ideal para um time de governança, uma rede de stewards ou um grupo de liderança que precisa sentir o que o papel envolve, em vez de ler a descrição da vaga.
 - **[Quem é o Dono Disso?](/simulators/pt/data-ownership-conflict/)**: uma disputa de propriedade entre dois departamentos, jogada até o fim. Ideal quando a propriedade é o bloqueio real, e difícil de superar com os dois departamentos na sala ao mesmo tempo.
 - **[Alfabetização de Dados](/simulators/pt/data-literacy/)**: elevar a alfabetização sem orçamento de treinamento. Ideal para uma audiência ampla de negócio, mais que para um time de dados.
+- **[Prática do Exame CDMP](/simulators/pt/cdmp-exam-practice/)**: questões do DMBOK no formato do exame de certificação da DAMA. Ideal para um time que está se preparando para certificar, ou como abertura curta que dá à sala um vocabulário comum antes de os cenários pedirem que ela o use. As questões estão em inglês em qualquer idioma em que a sessão aconteça, porque o exame está.
 
 Uma sessão de três horas normalmente usa um cenário em profundidade; um dia inteiro usa dois.
 

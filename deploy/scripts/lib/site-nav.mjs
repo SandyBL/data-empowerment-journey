@@ -113,6 +113,7 @@ export const NAV = {
     simDayToDay: 'Day-to-day governance',
     simOwnership: 'Who owns this data?',
     simLiteracy: 'Data literacy',
+    simCdmp: 'CDMP exam practice',
     boardResults: 'What the public runs show',
     calculator: 'Cost of bad data calculator',
     templates: 'Templates',
@@ -154,6 +155,7 @@ export const NAV = {
     simDayToDay: 'Gobierno del día a día',
     simOwnership: '¿Quién es dueño de estos datos?',
     simLiteracy: 'Alfabetización de datos',
+    simCdmp: 'Práctica del examen CDMP',
     boardResults: 'Qué muestran las partidas públicas',
     calculator: 'Calculadora del coste de los datos malos',
     templates: 'Plantillas',
@@ -195,6 +197,7 @@ export const NAV = {
     simDayToDay: 'Governança do dia a dia',
     simOwnership: 'Quem é o dono destes dados?',
     simLiteracy: 'Alfabetização de dados',
+    simCdmp: 'Prática do exame CDMP',
     boardResults: 'O que as partidas públicas mostram',
     calculator: 'Calculadora do custo dos dados ruins',
     templates: 'Modelos',
@@ -252,6 +255,7 @@ export const NAV_GROUPS = [
       { key: 'simDayToDay', href: (lang) => simulatorPath(lang, 'data-governance-day-to-day') },
       { key: 'simOwnership', href: (lang) => simulatorPath(lang, 'data-ownership-conflict') },
       { key: 'simLiteracy', href: (lang) => simulatorPath(lang, 'data-literacy') },
+      { key: 'simCdmp', href: (lang) => simulatorPath(lang, 'cdmp-exam-practice') },
       { key: 'boardResults', href: (lang) => pagePath(lang, 'simulator-results') },
     ],
   },
@@ -371,7 +375,7 @@ const renderDesktopNav = (lang, current) => {
 
 /**
  * The drawer, which is the whole navigation below 1180px -- and the whole
- * navigation at every width on the nine simulator pages, which have no room in
+ * navigation at every width on the twelve simulator pages, which have no room in
  * their header for a bar and used to offer a single home icon as the only way
  * back into the site.
  *
@@ -381,7 +385,7 @@ const renderDesktopNav = (lang, current) => {
  *
  * Exported because the simulators are hand-maintained standalone HTML with no
  * build step of their own: scripts/sync-simulator-nav.mjs writes the markup
- * this returns into them between markers, so the nine pages carry a copy of
+ * this returns into them between markers, so the twelve pages carry a copy of
  * this list rather than a second list.
  */
 export const renderNavDrawer = (lang, { current = '' } = {}) => {

@@ -3,8 +3,8 @@ slug: resources
 nav: resources
 title: Free Data Governance Tools, Templates and Playbooks | Data Governance Journey
 heading: Everything here is free and needs no email
-deck: Templates, playbooks, a cost calculator, a maturity assessment and three scenario simulators. No gate, no form, no follow-up sequence.
-description: Free data governance resources: Excel and Word templates, two PDF playbooks, a cost-of-bad-data calculator, a DAMA maturity assessment and three scenario simulators. No email required.
+deck: Templates, playbooks, a cost calculator, a maturity assessment and four scenario simulators. No gate, no form, no follow-up sequence.
+description: Free data governance resources: Excel and Word templates, two PDF playbooks, a cost-of-bad-data calculator, a DAMA maturity assessment and four scenario simulators. No email required.
 kicker: Free tools
 schema: collection
 related_articles: introduction-basics-data-governance-program, identifying-addressing-data-pain-points
@@ -25,7 +25,7 @@ There's a newsletter at the bottom of this page. It's optional and it unlocks no
 
 **[Playbooks](/en/playbooks/)** are two PDFs — one on standing up data governance, one on AI governance — plus the maturity assessment framework as a document you can rewrite in your own words.
 
-**Scenario simulators** are three branching scenarios that put you inside the trade-offs instead of describing them: [Data Governance Day-to-Day](/simulators/en/data-governance-day-to-day/), [Who Owns This?](/simulators/en/data-ownership-conflict/) and [Data Literacy](/simulators/en/data-literacy/). They take about ten minutes each and they are more fun than this sentence suggests. If you want to run them with your own team, on a private leaderboard and rewritten around your systems, that's the [workshop format](/en/workshops/) — and what the public runs have revealed so far is on [the simulator results page](/en/simulator-results/).
+**Scenario simulators** are three branching scenarios that put you inside the trade-offs instead of describing them: [Data Governance Day-to-Day](/simulators/en/data-governance-day-to-day/), [Who Owns This?](/simulators/en/data-ownership-conflict/) and [Data Literacy](/simulators/en/data-literacy/), plus [CDMP Exam Practice](/simulators/en/cdmp-exam-practice/), which is DMBOK exam preparation rather than a scenario — ten questions drawn from a hundred, in English, in the format the DAMA certification uses. They take about ten minutes each and they are more fun than this sentence suggests. If you want to run them with your own team, on a private leaderboard and rewritten around your systems, that's the [workshop format](/en/workshops/) — and what the public runs have revealed so far is on [the simulator results page](/en/simulator-results/).
 
 ## Where to start
 

@@ -65,7 +65,7 @@ const HTML_SOURCES = [
   // not load the homepage stylesheet: every board-summary class has to exist in
   // assets/css/pages.css on its own.
   'en/simulator-results/index.html',
-  // The nine simulators. These were advisory-only for as long as they compiled
+  // The twelve simulators. These were advisory-only for as long as they compiled
   // their utilities in the browser from the Tailwind Play CDN: a class that only
   // ever exists inside a runtime compiler is not a class this script can verify,
   // so it skipped them outright rather than call every Tailwind utility on them
@@ -82,12 +82,15 @@ const HTML_SOURCES = [
   'simulators/pt/data-governance-day-to-day/index.html',
   'simulators/pt/data-literacy/index.html',
   'simulators/pt/data-ownership-conflict/index.html',
+  'simulators/en/cdmp-exam-practice/index.html',
+  'simulators/es/cdmp-exam-practice/index.html',
+  'simulators/pt/cdmp-exam-practice/index.html',
 ];
 
 /**
  * Pages that are reported but never fail the build.
  *
- * Empty, and kept for the next page that needs it. The nine simulators lived
+ * Empty, and kept for the next page that needs it. The simulators lived
  * here until they stopped loading the Tailwind Play CDN; the note above their
  * entries in HTML_SOURCES explains why they could not be checked before and
  * what changed.

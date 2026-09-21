@@ -28,7 +28,7 @@ const COPY = {
     runs: (total) => `${total} published ${total === 1 ? 'run' : 'runs'}`,
     updated: (date) => `Figures as of ${date}`,
     languages: 'Played in',
-    indexLabel: 'All three boards combined',
+    indexLabel: 'All four boards combined',
     indexNote: 'The average published run, as a percentage of what its own simulator can award.',
     thin: `Read this as a list of the people who have played, not as a benchmark. Under ${MIN_SAMPLE} runs on a board, one person moving between bands shifts every share on the page by double digits — so the bands below are given as counts, and no percentage of "practitioners" is claimed. The numbers get more informative as the boards fill up.`,
     empty:
@@ -44,14 +44,14 @@ const COPY = {
     noRuns: 'No runs published yet',
     play: 'Play it',
     bandNote:
-      'The four bands are the same on all three boards, so a run scored out of 15 and a run scored out of 1000 can sit in the same histogram.',
+      'The four bands are the same on all four boards, so a run scored out of 15 and a run scored out of 1000 can sit in the same histogram.',
   },
   es: {
     heading: 'Lo que muestran ahora las clasificaciones públicas',
     runs: (total) => `${total} ${total === 1 ? 'partida publicada' : 'partidas publicadas'}`,
     updated: (date) => `Cifras a ${date}`,
     languages: 'Jugadas en',
-    indexLabel: 'Las tres clasificaciones juntas',
+    indexLabel: 'Las cuatro clasificaciones juntas',
     indexNote: 'La partida promedio publicada, como porcentaje de lo que su propio simulador puede otorgar.',
     thin: `Lee esto como la lista de quienes han jugado, no como un benchmark. Por debajo de ${MIN_SAMPLE} partidas en una clasificación, una sola persona que cambia de banda mueve cada porcentaje de la página en dos dígitos: por eso las bandas de abajo van en número de partidas y no se afirma ningún porcentaje de "profesionales". Los números serán más informativos a medida que se llenen las clasificaciones.`,
     empty:
@@ -67,14 +67,14 @@ const COPY = {
     noRuns: 'Sin partidas publicadas todavía',
     play: 'Jugar',
     bandNote:
-      'Las cuatro bandas son las mismas en las tres clasificaciones, así que una partida puntuada sobre 15 y otra sobre 1000 pueden estar en el mismo histograma.',
+      'Las cuatro bandas son las mismas en las cuatro clasificaciones, así que una partida puntuada sobre 15 y otra sobre 1000 pueden estar en el mismo histograma.',
   },
   pt: {
     heading: 'O que os rankings públicos mostram agora',
     runs: (total) => `${total} ${total === 1 ? 'partida publicada' : 'partidas publicadas'}`,
     updated: (date) => `Números em ${date}`,
     languages: 'Jogadas em',
-    indexLabel: 'Os três rankings juntos',
+    indexLabel: 'Os quatro rankings juntos',
     indexNote: 'A partida média publicada, como porcentagem do que o próprio simulador pode conceder.',
     thin: `Leia isto como a lista de quem já jogou, não como um benchmark. Abaixo de ${MIN_SAMPLE} partidas num ranking, uma única pessoa que muda de faixa move cada porcentagem da página em dois dígitos: por isso as faixas abaixo vão em número de partidas e nenhuma porcentagem de "profissionais" é afirmada. Os números ficam mais informativos conforme os rankings se enchem.`,
     empty:
@@ -90,7 +90,7 @@ const COPY = {
     noRuns: 'Sem partidas publicadas ainda',
     play: 'Jogar',
     bandNote:
-      'As quatro faixas são as mesmas nos três rankings, então uma partida pontuada sobre 15 e outra sobre 1000 podem estar no mesmo histograma.',
+      'As quatro faixas são as mesmas nos quatro rankings, então uma partida pontuada sobre 15 e outra sobre 1000 podem estar no mesmo histograma.',
   },
 };
 

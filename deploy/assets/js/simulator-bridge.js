@@ -10,7 +10,7 @@
  *
  * Why this file exists at all, rather than nine blocks of markup:
  *
- * The nine simulator pages have already diverged -- different band thresholds,
+ * The twelve simulator pages have already diverged -- different band thresholds,
  * different state variable names, three different CTA markups, and (see
  * netlify/functions/simulator-score-submit.mts) a streak bonus that once put a
  * perfect ownership run at 1900 against a server bound of 1000 because the
@@ -23,7 +23,7 @@
  * The pages own two things this file deliberately does not:
  *   - the band key, because each page displays its own profile label from its
  *     own thresholds and the bridge must never contradict the sentence the
- *     visitor just read three inches higher up the screen. All nine pages now
+ *     visitor just read three inches higher up the screen. All twelve pages now
  *     band alike -- pt/data-governance-day-to-day banded at 85/65 against
  *     en and es at 75/50 until the facilitator report needed one room profile
  *     that did not depend on which language the room happened to play in;
@@ -36,7 +36,7 @@
  * same scenario mapping, the same tiebreak order and the labels for all of them,
  * and it is imported by both the facilitator report page and the report endpoint
  * that writes the CSV. This file cannot import it -- it is a classic <script> on
- * nine pages with a synchronous render() that runs before a module would have
+ * twelve pages with a synchronous render() that runs before a module would have
  * resolved -- so it keeps its own copy. Change one, change the other; the
  * numbers are the same numbers and a divergence would put one pillar reading on
  * a player's results screen and a different one in their sponsor's report.
@@ -155,6 +155,20 @@
       ai: { security: 1 },
       bias: { culture: 1 },
       culture: { culture: 1 }
+    },
+    /* The CDMP drill reports on groups of DMBOK knowledge areas rather than on
+     * single areas: ten questions drawn from a hundred cannot say anything
+     * defensible about seventeen of them one at a time. Architecture is split
+     * for the same reason efficiency is above -- data architecture, modelling,
+     * storage, integration and warehousing have no pillar of their own, and what
+     * they most nearly report on is the foundations they rest on and the
+     * metadata they describe. */
+    "cdmp-exam-practice": {
+      foundations: { foundations: 1 },
+      architecture: { foundations: 0.6, metadata: 0.4 },
+      metadata: { metadata: 1 },
+      quality: { quality: 1 },
+      security: { security: 1 }
     }
   };
 
@@ -201,7 +215,11 @@
   var UNMEASURED = {
     "data-ownership-conflict": ["culture"],
     "data-governance-day-to-day": ["culture"],
-    "data-literacy": ["metadata"]
+    "data-literacy": ["metadata"],
+    /* The bank does ask about data culture and literacy, but those questions are
+     * filed under Foundations: knowing what the DMBOK says about culture is
+     * knowledge of a chapter, not evidence that a culture exists. */
+    "cdmp-exam-practice": ["culture"]
   };
 
   /* Which headline a simulator leads with. "coverage" leads with the blank
@@ -209,7 +227,8 @@
   var HEADLINE_MODE = {
     "data-ownership-conflict": "coverage",
     "data-governance-day-to-day": "coverage",
-    "data-literacy": "weakest"
+    "data-literacy": "weakest",
+    "cdmp-exam-practice": "coverage"
   };
 
   /*
@@ -225,17 +244,20 @@
     en: {
       "data-ownership-conflict": "Data Ownership Conflict",
       "data-governance-day-to-day": "Data Governance Day-to-Day",
-      "data-literacy": "Data Literacy"
+      "data-literacy": "Data Literacy",
+      "cdmp-exam-practice": "CDMP Exam Practice"
     },
     es: {
       "data-ownership-conflict": "Conflicto de Propiedad de Datos",
       "data-governance-day-to-day": "Gobernanza de Datos en el Día a Día",
-      "data-literacy": "Alfabetización de Datos"
+      "data-literacy": "Alfabetización de Datos",
+      "cdmp-exam-practice": "Práctica del Examen CDMP"
     },
     pt: {
       "data-ownership-conflict": "Conflito de Propriedade de Dados",
       "data-governance-day-to-day": "Governança de Dados no Dia a Dia",
-      "data-literacy": "Alfabetização de Dados"
+      "data-literacy": "Alfabetização de Dados",
+      "cdmp-exam-practice": "Prática do Exame CDMP"
     }
   };
 
@@ -373,6 +395,20 @@
         hoarder: function (c) {
           return "You cleared " + c.score + " of " + c.total + " questions. These items are deliberately built around the traps that catch experienced people, so treat this as a map of where to look, not a grade.";
         }
+      },
+      "cdmp-exam-practice": {
+        master: function (c) {
+          return "You closed at " + c.score + " points with " + c.correct + " of " + c.total + " correct -- above the 80% the CDMP asks of a Master. The DMBOK is working memory for you. Whether your organization runs the way the book says it should is the other question, and the more expensive one.";
+        },
+        practitioner: function (c) {
+          return "You closed at " + c.score + " points, " + c.correct + " of " + c.total + " correct: Practitioner territory. Knowing the framework and working inside one that follows it are different problems, and only one of them is fixed by reading.";
+        },
+        associate: function (c) {
+          return "You closed at " + c.score + " points, " + c.correct + " of " + c.total + " correct -- over the Associate line. You have the vocabulary; the areas the review names are where the chapter boundaries are still blurred.";
+        },
+        revision: function (c) {
+          return "You closed at " + c.score + " points, " + c.correct + " of " + c.total + " correct. These were drawn at random from a hundred, so a middling first run is a reading of which chapters to open, not a verdict on the exam.";
+        }
       }
     },
 
@@ -500,6 +536,20 @@
         hoarder: function (c) {
           return "Resolviste " + c.score + " de " + c.total + " preguntas. Estas preguntas están construidas a propósito sobre las trampas que atrapan a gente con experiencia, así que tómalo como un mapa de dónde mirar, no como una nota.";
         }
+      },
+      "cdmp-exam-practice": {
+        master: function (c) {
+          return "Cerraste con " + c.score + " puntos y " + c.correct + " de " + c.total + " correctas: por encima del 80% que el CDMP pide para Master. El DMBOK es memoria de trabajo para ti. Si tu organización funciona como dice el libro es la otra pregunta, y la más cara.";
+        },
+        practitioner: function (c) {
+          return "Cerraste con " + c.score + " puntos, " + c.correct + " de " + c.total + " correctas: zona Practitioner. Conocer el marco y trabajar dentro de uno que lo sigue son problemas distintos, y solo uno se arregla leyendo.";
+        },
+        associate: function (c) {
+          return "Cerraste con " + c.score + " puntos, " + c.correct + " de " + c.total + " correctas: por encima de la línea Associate. Tienes el vocabulario; las áreas que nombra la revisión son donde los límites entre capítulos siguen borrosos.";
+        },
+        revision: function (c) {
+          return "Cerraste con " + c.score + " puntos, " + c.correct + " de " + c.total + " correctas. Salieron al azar de un banco de cien, así que una primera partida intermedia indica qué capítulos abrir, no un veredicto sobre el examen.";
+        }
       }
     },
 
@@ -623,6 +673,20 @@
         },
         hoarder: function (c) {
           return "Você acertou " + c.score + " de " + c.total + " perguntas. Estas perguntas são construídas de propósito sobre as armadilhas que pegam gente experiente, então trate isso como um mapa de onde olhar, não como nota.";
+        }
+      },
+      "cdmp-exam-practice": {
+        master: function (c) {
+          return "Você fechou com " + c.score + " pontos e " + c.correct + " de " + c.total + " corretas: acima dos 80% que o CDMP pede para Master. O DMBOK é memória de trabalho para você. Se a sua organização funciona como o livro diz é a outra pergunta, e a mais cara.";
+        },
+        practitioner: function (c) {
+          return "Você fechou com " + c.score + " pontos, " + c.correct + " de " + c.total + " corretas: faixa Practitioner. Conhecer o framework e trabalhar dentro de um que o segue são problemas diferentes, e só um se resolve lendo.";
+        },
+        associate: function (c) {
+          return "Você fechou com " + c.score + " pontos, " + c.correct + " de " + c.total + " corretas: acima da linha Associate. Você tem o vocabulário; as áreas que a revisão cita são onde os limites entre capítulos ainda estão borrados.";
+        },
+        revision: function (c) {
+          return "Você fechou com " + c.score + " pontos, " + c.correct + " de " + c.total + " corretas. Foram sorteadas de um banco de cem, então uma primeira partida intermediária indica quais capítulos abrir, não um veredito sobre o exame.";
         }
       }
     },
@@ -920,7 +984,7 @@
    * Record the name the visitor published their score under.
    *
    * Called from assets/js/simulator-leaderboard.js the instant a publish is
-   * accepted, which is the only point all nine pages share. Doing it there
+   * accepted, which is the only point all twelve pages share. Doing it there
    * rather than on each page is what makes this work everywhere at once: the
    * field is called something different on almost every page, and three of them
    * ask for the name before the run rather than after.
@@ -1055,11 +1119,11 @@
 
   /*
    * Styles are injected from here rather than added to assets/styles.css
-   * because the nine simulator pages do not all load that stylesheet -- they are
+   * because the twelve simulator pages do not all load that stylesheet -- they are
    * self-contained Tailwind pages -- and a component that only renders on some
    * of them would be a trap for whoever edits it next. Everything is namespaced
    * under .sim-bridge and uses no Tailwind utilities, so the same markup renders
-   * identically on all nine regardless of what else the page loads.
+   * identically on all twelve regardless of what else the page loads.
    */
   function injectStyles() {
     if (document.getElementById(STYLE_ID)) return;

@@ -10,7 +10,7 @@
  * Two pages had no config at all and rendered in stock Tailwind slate.
  *
  * This file replaces all of them. It is read by
- * scripts/build-simulator-css.mjs, which compiles the utilities the nine pages
+ * scripts/build-simulator-css.mjs, which compiles the utilities the twelve pages
  * actually use into assets/css/simulator-tailwind.css.
  *
  * It used to be assets/js/simulator-tailwind-config.js: a browser script that
@@ -20,11 +20,11 @@
  *
  * WHY RE-POINT THE BUILT-IN RAMPS RATHER THAN ADD NEW COLOUR NAMES
  *
- * Between them the nine pages carry a few thousand colour utilities already
+ * Between them the twelve pages carry a few thousand colour utilities already
  * written against Tailwind's stock palette -- 230 `border-slate-800`, 220
  * `text-slate-400`, 163 `bg-slate-800`, 97 `text-cyan-400`. Introducing a
  * `sim-*` palette alongside the stock one would have meant hand-editing every
- * one of those class attributes across nine files in three languages to get
+ * one of those class attributes across twelve files in three languages to get
  * any benefit, and any attribute missed would have kept rendering in stock
  * Tailwind grey -- the exact failure that produced five designs in the first
  * place.
@@ -131,7 +131,7 @@ const neutralText = {
  * Day-to-Day simulator card. `blue` is re-pointed onto the identical ramp
  * rather than to a brand blue, because the 46 `text-blue-400` and 34 blue
  * button fills on the Day-to-Day pages were that simulator's accent, and the
- * point of this file is that the three simulators stop having three accents.
+ * point of this file is that the four simulators stop having four accents.
  * They resolve to the same teal; the class names differ, the colour does not.
  * ------------------------------------------------------------------- */
 const cyan = {
@@ -457,7 +457,7 @@ export const SIMULATOR_THEME_EXTEND = {
      and this block carried a tamed definition of the first and a `none` for
      the second -- a card that pulses its glow forever next to a timer that is
      already counting was two things competing for the same attention. That
-     markup is gone: the only animation utilities the nine pages use now are
+     markup is gone: the only animation utilities the twelve pages use now are
      `animate-pop` (defined in simulator-theme.css, which owns motion),
      `animate-pulse` and `animate-ping`, and the last two are stock Tailwind.
      Declaring the two dead names here would have compiled to nothing anyway,

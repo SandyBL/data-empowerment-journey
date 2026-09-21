@@ -3,15 +3,15 @@ slug: simulator-results
 nav: boardResults
 title: Resultados Públicos dos Simuladores e O Que Revelam | Data Governance Journey
 heading: O que as partidas públicas mostram sobre o instinto de governança
-deck: Três simuladores de cenários, um quadro público para cada um, e os padrões que voltam sempre que alguém precisa decidir com o tempo correndo — além de um relato honesto do que um quadro público não pode dizer.
-description: Resultados públicos de três simuladores de governança de dados e suas lições principais: como o instinto de governança falha sob pressão, por que a propriedade do dado cai em TI e o que um quadro não consegue medir.
+deck: Quatro simuladores de cenários, um quadro público para cada um, e os padrões que voltam sempre que alguém precisa decidir com o tempo correndo — além de um relato honesto do que um quadro público não pode dizer.
+description: Resultados públicos de quatro simuladores de governança de dados e suas lições principais: como o instinto de governança falha sob pressão, por que a propriedade do dado cai em TI e o que um quadro não consegue medir.
 kicker: Resultados dos quadros
 schema: page
 related_articles: building-a-data-governance-operating-model, why-data-governance-people-process-technology-data, data-literacy-is-a-business-capability
 updated: 2026-09-07
 ---
 
-Três simuladores deste site colocam você dentro de uma situação de governança e obrigam a escolher. Uma regra de qualidade está falhando, e corrigi-la significa pedir a um diretor que mude um processo pelo qual ele é medido. Dois departamentos reivindicam o mesmo cadastro de cliente. A alfabetização é baixa e não há orçamento de treinamento. Você decide, a decisão é pontuada pela consequência de governança e não contra uma resposta certa, e a sua partida vai para um quadro público.
+Três dos quatro simuladores deste site colocam você dentro de uma situação de governança e obrigam a escolher. Uma regra de qualidade está falhando, e corrigi-la significa pedir a um diretor que mude um processo pelo qual ele é medido. Dois departamentos reivindicam o mesmo cadastro de cliente. A alfabetização é baixa e não há orçamento de treinamento. Você decide, a decisão é pontuada pela consequência de governança e não contra uma resposta certa, e a sua partida vai para um quadro público. O quarto funciona ao contrário: Prática do Exame CDMP faz perguntas do DMBOK que têm sim uma resposta certa, porque o exame de certificação para o qual ele prepara também tem.
 
 Esta página é o que sai do outro lado: não o quadro em si, que fica em cada simulador, mas a distribuição por trás dele e as lições que sobrevivem a um olhar cuidadoso.
 
@@ -19,15 +19,17 @@ Ela também é um exemplo do que descreve. Um quadro é uma medição, uma medi�
 
 ## O que cada simulador realmente mede
 
-Não são três versões do mesmo quiz. Cada um foi construído para expor uma falha diferente.
+Não são quatro versões do mesmo quiz. Cada um foi construído para expor uma falha diferente.
 
 **Governança de Dados no Dia a Dia** dá a você uma semana na vida de um líder de governança e pontua em cinco eixos: eficiência, confiança, responsabilização, segurança e contexto, de 0 a 100. Os eixos não são independentes, e esse é o ponto: uma decisão que compra eficiência normalmente gasta responsabilização, e a pontuação reflete a troca. É muito difícil ir bem aqui sendo agradável.
 
 **Conflito de Propriedade de Dados** são dez disputas, cada uma pertencente a um de três papéis: o Dono de Negócio, o Data Steward ou TI. A pontuação vai até 1000. Quatro das dez pertencem a TI, três ao Steward e três ao Dono de Negócio — uma divisão que importa mais do que parece, e a próxima seção é sobre o porquê.
 
-**Alfabetização de Dados** são quinze pontos distribuídos entre governança, analytics, IA e automação, consciência de viés e cultura de dados. É o único dos três que pergunta sobre cultura diretamente, e o único que devolve um segundo número: o valor que ele estima que você destravou dos seus ativos de dados.
+**Alfabetização de Dados** são quinze pontos distribuídos entre governança, analytics, IA e automação, consciência de viés e cultura de dados. É o único dos quatro que pede que você decida sobre cultura em vez de defini-la, e o único que devolve um segundo número: o valor que ele estima que você destravou dos seus ativos de dados.
 
-Nenhum dos três vê os cinco pilares de [maturidade de dados](/pt/glossary/data-maturity/). O do Dia a Dia e o de Propriedade são cegos para [cultura de dados](/pt/glossary/data-culture/); o de Alfabetização é cego para metadados. É isso que um exercício de dez perguntas é, não um defeito esperando correção, e isso fixa a regra com que os quadros são lidos: uma dimensão que ninguém mediu é reportada como não medida, nunca como fraca. Deduzir um problema de cultura de um exercício de RACI seria inventar um achado.
+**Prática do Exame CDMP** é o diferente, e de propósito: dez questões sorteadas de cem que cobrem as onze áreas de conhecimento da roda DAMA-DMBOK e as seis que o exame Fundamentals acrescenta em volta, pontuadas até 1000 no mesmo formato do exame real. É conhecimento e não julgamento, e por isso é o único quadro daqui em que uma partida rápida e confiante é bom sinal. As perguntas e as opções estão em inglês nas três versões de idioma da página, porque o exame oficial só existe em inglês e treinar o vocabulário traduzido seria treinar o vocabulário errado.
+
+Nenhum dos quatro vê os cinco pilares de [maturidade de dados](/pt/glossary/data-maturity/). O do Dia a Dia e o de Propriedade são cegos para [cultura de dados](/pt/glossary/data-culture/); o de Alfabetização é cego para metadados; o de Prática do Exame CDMP cobre metadados e qualidade diretamente, mas é lido como cego para cultura, porque saber qual capítulo define cultura de dados não é prova de que a sua organização tenha uma. É isso que um exercício de dez perguntas é, não um defeito esperando correção, e isso fixa a regra com que os quadros são lidos: uma dimensão que ninguém mediu é reportada como não medida, nunca como fraca. Deduzir um problema de cultura de um exercício de RACI seria inventar um achado.
 
 {{PUBLIC_BOARDS}}
 
@@ -49,7 +51,7 @@ Uma sala que tem média 70 com todos entre 66 e 74 compartilha um mesmo modelo d
 
 ### Velocidade é confiança, e confiança não é acerto
 
-Dois dos três quadros se cronometram. No quadro de Alfabetização de Dados, até agora a partida publicada mais rápida é também a de menor pontuação — vinte e cinco segundos, cinco pontos de quinze —, enquanto a de maior pontuação levou mais de seis minutos.
+Três dos quatro quadros se cronometram. No quadro de Alfabetização de Dados, até agora a partida publicada mais rápida é também a de menor pontuação — vinte e cinco segundos, cinco pontos de quinze —, enquanto a de maior pontuação levou mais de seis minutos.
 
 Três partidas não são um achado e eu não vou fingir o contrário. Mas isso combina com o que acontece nas salas com frequência suficiente para dizer em voz alta: quem termina primeiro normalmente é quem não percebeu o trade-off. Uma pergunta de governança que você consegue responder instantaneamente costuma ter sido lida errado, como uma pergunta técnica com resposta de consulta, que é a falha acima com outra roupa.
 
@@ -90,7 +92,7 @@ E o relatório fica com você. Ele ordena as dimensões em que o seu grupo foi m
 
 Duas portas de entrada, dependendo de quanto você já sabe que quer.
 
-**[Veja como funciona um workshop →](/pt/workshops/)**: o formato, o debrief, qual dos três cenários serve para cada sala, o que o relatório do facilitador contém e como as sessões são orçadas. Comece aqui se ainda está decidindo se isso serve para você.
+**[Veja como funciona um workshop →](/pt/workshops/)**: o formato, o debrief, qual dos quatro cenários serve para cada sala, o que o relatório do facilitador contém e como as sessões são orçadas. Comece aqui se ainda está decidindo se isso serve para você.
 
 **[Ir direto ao formulário de contato →](/pt/?offer=private-space#contact-form-start)**: ele chega com o pedido de espaço privado já preenchido. Adicione as suas datas, o número de participantes, a mistura de idiomas e quais sistemas e times os cenários devem nomear, e eu volto com uma recomendação de cenário e um orçamento. Um e-mail comum para [datagovjourney@gmail.com](mailto:datagovjourney@gmail.com) funciona igual: você só terá que dizer que é sobre um espaço privado, que é o que o formulário preenche para você.
 
