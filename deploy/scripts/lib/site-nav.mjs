@@ -203,6 +203,13 @@ export const NAV = {
     templates: 'Modelos',
     playbooks: 'Playbooks',
     maturity: 'Diagnóstico de maturidade',
+    /**
+     * Portuguese only: there is no English or Spanish course. It is a label
+     * without a NAV_GROUPS entry, because the page is not in the menu -- the
+     * standalone-page loader validates `nav` against this table, so a page has
+     * to name a label here whether or not the header ever renders it.
+     */
+    course: 'Curso',
     feed: 'Feed RSS',
     newsletter: 'Newsletter',
     groupLearn: 'Aprender',

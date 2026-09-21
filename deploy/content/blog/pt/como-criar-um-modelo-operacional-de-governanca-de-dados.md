@@ -74,3 +74,5 @@ A aposentadoria de controles é a disciplina que quase todo programa pula. Contr
 A governança se torna sustentável quando as pessoas percebem que ela ajuda a tomar decisões melhores com menos esforço.
 
 Se ainda não estiver claro o que entra neste modelo, [Governança de dados vs gestão de dados](/pt/blog/governanca-de-dados-vs-gestao-de-dados-diferencas-chave-e-exemplos-reais/) traça a linha, e [O que é e o que não é governança de dados](/pt/blog/o-que-e-e-o-que-nao-e-governanca-de-dados-5-mitos-comuns/) limpa as suposições que costumam distorcer o desenho.
+
+E se você preferir ver este desenho ser montado peça por peça, é o que faz o módulo de operacionalização do [curso de governança de dados em português](/pt/course/), que é pago: metadados e catálogo, segurança e privacidade, qualidade de dados pelo método DMAIC, e as engrenagens que não aparecem em nenhum diagrama de modelo operacional. É a única coisa paga deste site; o resto continua aberto.

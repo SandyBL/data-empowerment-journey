@@ -32,9 +32,17 @@ export const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
  * only signal in the head that the other translations exist. Article and
  * category pages were the two families emitting og:locale without them, which
  * made a shared article look monolingual to anything reading Open Graph alone.
+ *
+ * `languages` narrows that to the translations a page actually has, and
+ * defaults to all three because almost every page here has all three. The
+ * course page is the exception -- it exists in Portuguese only -- and a head
+ * that declares Spanish and English alternates for it is describing two pages
+ * that will never be written. Values with no og:locale of their own, such as
+ * the `x-default` entry in an hreflang cluster, are ignored, so a caller can
+ * hand this the cluster it already built.
  */
-export const renderAlternateLocales = (lang, indent = '  ') =>
-  Object.keys(OG_LOCALE)
-    .filter((other) => other !== lang)
+export const renderAlternateLocales = (lang, indent = '  ', languages = Object.keys(OG_LOCALE)) =>
+  languages
+    .filter((other) => other !== lang && OG_LOCALE[other])
     .map((other) => `${indent}<meta property="og:locale:alternate" content="${OG_LOCALE[other]}">`)
     .join('\n');

@@ -242,17 +242,18 @@
             <!-- One conversion point for all four categories rather than a CTA
                  per category, because the locked lists all lead to the same
                  place. The destination is the only part that differs by
-                 language: Portuguese is getting an online course and has
-                 nothing to link to yet, so it shows a "coming soon" notice
-                 instead of a dead button, while Spanish and English point at
-                 the contact form -- there the full library is a consulting
-                 conversation, not a purchase.
+                 language: Portuguese now has the course, so it points at
+                 /pt/course/, where the eighteen files below are what is being
+                 sold, while Spanish and English point at the contact form --
+                 there the full library is a consulting conversation, not a
+                 purchase.
 
                  Anchors cannot carry data-lang-content (stripOtherLanguages in
                  scripts/lib/home-pages.mjs only walks div, p and span), so each
-                 language's block is wrapped in its own div. Swap the Portuguese
-                 div for a normal .template-library-cta__button anchor once the
-                 Hotmart page is live. -->
+                 language's block is wrapped in its own div. The Portuguese href
+                 is written with the canonical `course` slug and published at
+                 /pt/curso-governanca-de-dados/: localizeInternalLinks rewrites
+                 it, the same way it rewrites the prose links in content/. -->
             <div class="template-library-cta">
                 <div>
                     <p class="template-library-cta__label">
@@ -269,12 +270,13 @@
                         <span data-lang-content="pt">Os seis modelos acima são gratuitos e seus. Os 18 restantes vêm com o contexto de quando usar cada um.</span>
                     </p>
                 </div>
-                <div data-lang-content="pt" class="template-library-cta__soon">
-                    <p class="template-library-cta__soon-label">
+                <div data-lang-content="pt">
+                    <a href="/pt/course/" class="template-library-cta__button">
                         <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
-                        Em breve
-                    </p>
-                    <p class="template-library-cta__soon-text">Curso online em português, com a biblioteca completa de modelos incluída.</p>
+                        Ver o curso em português
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                    <p class="template-library-cta__note">Os 18 modelos vêm com o curso, em Excel e Word editáveis. Os 6 de cima seguem gratuitos.</p>
                 </div>
                 <div data-lang-content="es">
                     <a href="#contact-form-start" class="template-library-cta__button">

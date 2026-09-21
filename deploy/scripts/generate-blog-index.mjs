@@ -268,8 +268,9 @@ function collectContentRoutes(pages, terms) {
       // A page that sells or explains the practice sits with the blog index at
       // 0.8; the tool pages below it, because they are destinations a reader
       // arrives at from those. The FAQ joins the first group because it answers
-      // queries people type, not just ones they arrive with.
-      priority: ['about', 'advisory', 'faq', 'resources', 'workshops'].includes(
+      // queries people type, not just ones they arrive with, and the course
+      // because it is the only page on the site with something to buy on it.
+      priority: ['about', 'advisory', 'course', 'faq', 'resources', 'workshops'].includes(
         page.slug
       )
         ? '0.8'

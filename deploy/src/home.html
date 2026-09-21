@@ -539,6 +539,30 @@
                 </article>
             </div>
 
+            <!-- Portuguese only, and below the grid rather than a fourth card in
+                 it: the three cards above are free tools, this one costs money,
+                 and the row is `lg:grid-cols-3` so a fourth item would leave an
+                 orphan on the Portuguese homepage and nothing at all on the
+                 other two. An <article> cannot carry data-lang-content
+                 (stripOtherLanguages only walks div, p and span), so the whole
+                 banner is a div. The href uses the canonical `course` slug and
+                 publishes as /pt/curso-governanca-de-dados/, via
+                 localizeInternalLinks. -->
+            <div data-lang-content="pt" class="home-course-cta">
+                <div>
+                    <p class="home-course-cta__label">
+                        <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                        Curso em português
+                    </p>
+                    <h3>Governança de Dados na prática, em 16 aulas</h3>
+                    <p>Os modelos acima na ordem em que se usam, com a biblioteca completa de 24 arquivos em Excel e Word editáveis, certificado e acesso vitalício. 50% de desconto nas 10 primeiras inscrições.</p>
+                </div>
+                <a href="/pt/course/" class="home-course-cta__button">
+                    Ver o curso
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+
             <p class="text-center text-sm text-slate-600 mt-10">
                 <a href="/__LANG__/resources/" class="inline-flex items-center gap-2 text-deepblue text-sm font-bold">
                     <span data-lang-content="es">Ver la biblioteca completa, con el glosario y el diagnóstico de madurez</span><span data-lang-content="en">See the whole library, with the glossary and the maturity assessment</span><span data-lang-content="pt">Ver a biblioteca completa, com o glossário e o diagnóstico de maturidade</span>

@@ -67,6 +67,17 @@ export const PAGE_SLUGS = {
     about: 'sobre',
     advisory: 'assessoria',
     calculator: 'calculadora',
+    /**
+     * Portuguese only, and the one asymmetry in this table.
+     *
+     * The course is taught in Portuguese, so there is no English or Spanish
+     * product to publish a page for. `localizedPageSlug` throws on a language
+     * that has no entry for a slug, which is exactly the behaviour wanted here:
+     * nothing in the English or Spanish build may address this page, and if
+     * something ever tries -- a nav group, a cross-language link -- the build
+     * stops instead of shipping a link to a directory that is never written.
+     */
+    course: 'curso-governanca-de-dados',
     faq: 'perguntas-frequentes',
     glossary: 'glossario',
     'maturity-assessment': 'diagnostico-de-maturidade',

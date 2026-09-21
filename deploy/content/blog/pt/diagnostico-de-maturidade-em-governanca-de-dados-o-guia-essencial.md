@@ -123,6 +123,8 @@ Com base no diagnóstico, a diretoria aprovou um plano de ação de dois anos:
 
 Uma Avaliação de Maturidade em Governança de Dados não é um exercício acadêmico isolado, mas uma bússola estratégica contínua que mantém a gestão da informação alinhada à evolução do mercado. Ao compreender seu ponto de partida e adotar modelos de referência consolidados, sua empresa transformará dados em um ativo seguro, confiável e altamente rentável.
 
+Se você quiser o método por trás disso em vídeo e em português, a avaliação de maturidade (DMMA) é uma das aulas do [curso de governança de dados](/pt/course/), que é pago e entrega os modelos em Excel e Word editáveis. O diagnóstico desta página continua gratuito e não pede e-mail.
+
 - - -
 
 ### Pronto para Avaliar a Maturidade da sua Governança de Dados?

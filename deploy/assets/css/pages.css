@@ -1634,11 +1634,444 @@
   font-size: 0.95rem;
 }
 
+/* ----------------------------------------------------------- course page -- */
+
+/* The one paid page on the site, and the only one in a single language: see
+   scripts/lib/course.mjs. The blocks are rendered from code rather than lifted
+   out of src/partials/, so every class below has to be defined here -- the page
+   never loads assets/styles.css, which is what keeps its prose readable. */
+
+/* Offer card: the buy column and the six included items, side by side. The buy
+   column comes first in the markup so a phone gets the price and the button
+   before the list, and is placed right on the desktop grid because a price
+   sitting in the reader's scan path down the left of the page reads as the
+   subject of the sentence rather than the conclusion. */
+.course-offer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+  gap: 28px;
+  align-items: start;
+  margin: 8px 0 0;
+  padding: 30px;
+  border: 1px solid rgba(101, 183, 199, 0.4);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(101, 183, 199, 0.13), rgba(236, 109, 87, 0.07));
+}
+
+.course-offer__buy {
+  grid-column: 2;
+  padding: 24px 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.course-offer__included {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+/* Not a .page-section > h2: it is one column of the card, not the section's
+   title, so it is sized to sit under the price rather than above the fold. */
+.course-offer__included h2 {
+  max-width: 24ch;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.course-offer__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--mint-dark);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.course-offer__price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--serif);
+}
+
+.course-offer__price-was {
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  text-decoration: line-through;
+}
+
+.course-offer__price-now {
+  color: var(--deepblue);
+  font-size: 2.6rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.course-offer__coupon {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.92rem;
+}
+
+.course-offer__coupon code {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(10, 117, 104, 0.1);
+  color: var(--mint-dark);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 0.92em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.course-offer__scarcity {
+  margin: 12px 0 18px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.course-offer__note {
+  margin: 14px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.course-offer__list {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-offer__list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.course-offer__list i {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--mint-dark);
+  font-size: 0.95rem;
+}
+
+/* The checkout button, in the offer card and again at the close. Not
+   .page-button: this one is the only action on the page that costs money, and
+   it is deliberately the widest and the only coral thing on it. */
+.course-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.course-button:hover {
+  background: #d95b45;
+  color: var(--white);
+}
+
+.course-button--ghost {
+  width: auto;
+  border: 1px solid var(--deepblue);
+  background: transparent;
+  color: var(--deepblue);
+  font-weight: 600;
+}
+
+.course-button--ghost:hover {
+  background: rgba(0, 51, 102, 0.07);
+  color: var(--deepblue);
+}
+
+.course-section__intro {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+/* Curriculum. An ordered list with the numbering suppressed, because the
+   number is rendered in .course-module__number where it can be styled and
+   where a screen reader still reads the list as ordered. */
+.course-modules {
+  display: grid;
+  gap: 20px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-module {
+  padding: 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.course-module h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 10px 0 0;
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.course-module__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.course-module__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.course-module__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--deepblue);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.course-module__number--extra {
+  background: var(--dejourney-teal);
+}
+
+.course-module__count {
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.course-module__summary {
+  max-width: 72ch;
+  margin: 12px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+.course-module__note {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* The paid add-on, visibly not part of the price above it. */
+.course-module--extra {
+  margin: 20px 0 0;
+  border-color: rgba(9, 91, 115, 0.35);
+  border-style: dashed;
+  background: rgba(101, 183, 199, 0.07);
+  box-shadow: none;
+}
+
+.course-lessons {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0 0 0 20px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.course-lessons li::marker {
+  color: var(--dejourney-cyan);
+  font-weight: 700;
+}
+
+/* The templates argument, which is the bridge from the free library. */
+.course-templates {
+  margin: 8px 0 0;
+  padding: 28px 26px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--mint-dark);
+  border-radius: 4px 16px 16px 4px;
+  background: var(--white);
+}
+
+.course-templates__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: var(--mint-dark);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.course-templates h2 {
+  max-width: 34ch;
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.course-templates p {
+  max-width: 74ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.course-templates p + p {
+  margin-top: 14px;
+}
+
+.course-templates a {
+  color: var(--dejourney-teal);
+  font-weight: 600;
+}
+
+/* Closing offer: the same decision, at the point the reader has the answers. */
+.course-close {
+  display: grid;
+  gap: 14px;
+  margin: 8px 0 0;
+  padding: 34px 32px;
+  border: 1px solid rgba(101, 183, 199, 0.4);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(101, 183, 199, 0.13), rgba(236, 109, 87, 0.07));
+}
+
+.course-close h2 {
+  max-width: 30ch;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.course-close p {
+  max-width: 64ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  line-height: 1.7;
+}
+
+.course-close__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.course-close__actions .course-button {
+  width: auto;
+  min-width: 260px;
+}
+
 /* ------------------------------------------------------------ responsive -- */
 
 @media (max-width: 720px) {
   .page-hero {
     padding-top: 52px;
+  }
+
+  /* One column, and the buy card back on top: the price is the first thing a
+     phone should show, and .course-offer__buy is first in the markup. */
+  .course-offer {
+    grid-template-columns: 1fr;
+    padding: 22px 18px;
+  }
+
+  .course-offer__buy,
+  .course-offer__included {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .course-offer__price-now {
+    font-size: 2.2rem;
+  }
+
+  .course-module,
+  .course-templates,
+  .course-close {
+    padding: 22px 18px;
+  }
+
+  .course-module h3 {
+    font-size: 1.25rem;
+  }
+
+  .course-close__actions .course-button,
+  .course-close__actions .course-button--ghost {
+    width: 100%;
+    min-width: 0;
   }
 
   .page-cta,
