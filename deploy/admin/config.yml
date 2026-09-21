@@ -70,25 +70,50 @@ collections:
         required: false
         field: { label: "Old slug", name: "slug", widget: "string" }
         hint: "Only needed if you rename a published article. Add the slug it used before (the last part of its old address) so the old link still works instead of returning a 404."
+      - &image_insert_field
+        label: "Image for the body"
+        name: "image_insert"
+        widget: "image-insert"
+        required: false
+        # A custom widget, registered by assets/js/admin-blog-widgets.js. It is
+        # a tool rather than a property of the article: it uploads into
+        # media_folder above and hands back the Markdown to paste, and it never
+        # writes a value, so no "image_insert" key is ever saved to front
+        # matter.
+        #
+        # It exists because the + button on the body toolbar -- the other way
+        # to place a picture -- is unavailable whenever the body is in Markdown
+        # mode. Decap renders that toolbar `disabled` in raw mode, so an author
+        # who writes in Markdown had to switch to rich text and back for every
+        # image, and the round trip through rich text is what re-escapes and
+        # re-wraps the body on the way through. This field works the same in
+        # either mode.
+        hint: "Upload here to place a picture without leaving Markdown mode. Add the alt text and the Markdown is copied for you; paste it into the body on a line of its own, with a blank line above and below."
       - &body_field
         label: "Body"
         name: "body"
         widget: "markdown"
         buttons: ["bold", "italic", "link", "heading-two", "heading-three", "quote", "bulleted-list", "numbered-list"]
-        # The image component is the whole picture workflow, and it lives on
-        # this page rather than anywhere else: the + button opens the media
-        # library, the library uploads the file into media_folder above as part
-        # of saving the article, and the component writes plain Markdown --
-        # ![alt](/assets/images/blog/diagram.svg "Caption") -- which is what
-        # scripts/lib/markdown.mjs renders as a figure. Nothing here is
-        # format-specific, so an SVG diagram works exactly as a PNG does.
+        # The image component, kept for authors working in rich text: its +
+        # button opens the media library, the library uploads the file into
+        # media_folder above as part of saving the article, and the component
+        # writes plain Markdown -- ![alt](/assets/images/blog/diagram.svg
+        # "Caption") -- which is what scripts/lib/markdown.mjs renders as a
+        # figure. Nothing there is format-specific, so an SVG diagram works
+        # exactly as a PNG does.
         #
-        # It is the only component enabled. "code-block" is the other one Decap
-        # ships and these articles have no code in them, and an empty list --
-        # what this said before -- removes the + button altogether, which is
-        # why there was no way to place an image from the editor at all.
+        # It is no longer the only way in, because it is unreachable in
+        # Markdown mode: Decap renders this toolbar `disabled` in raw mode, so
+        # the + button is greyed out there whatever is listed here. The
+        # image_insert field above is the route that works in both modes.
+        #
+        # "code-block" is the other component Decap ships and is deliberately
+        # still absent. The renderer does support fenced blocks now, but an
+        # article's diagrams belong in scripts/generate-blog-diagrams.mjs,
+        # where one entry produces a real picture in all three languages --
+        # offering a code block invites drawing them in text again.
         editor_components: ["image"]
-        hint: "Use the + button to place an image: upload it there (SVG, PNG or JPEG) and it is committed with the article. Fill in the alt text, which readers using a screen reader hear instead of the picture, and the caption, which prints under it."
+        hint: "Write in whichever mode you prefer. To place a picture, use the Image field above — it works in Markdown mode, where the toolbar's + button is disabled. Diagrams drawn out of +, - and | characters do not survive publishing reliably; ask for one to be added to scripts/generate-blog-diagrams.mjs instead, which produces a real picture in all three languages."
 
   - name: "blog_es"
     label: "Blog — Español"
@@ -117,6 +142,7 @@ collections:
       - *author_field
       - *translation_key_field
       - *redirect_from_field
+      - *image_insert_field
       - *body_field
 
   - name: "blog_pt"
@@ -146,4 +172,5 @@ collections:
       - *author_field
       - *translation_key_field
       - *redirect_from_field
+      - *image_insert_field
       - *body_field

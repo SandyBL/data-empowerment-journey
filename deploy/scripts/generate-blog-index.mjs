@@ -679,7 +679,7 @@ async function loadArticles() {
       // than reaching a reader as a broken image, and the ones that do exist
       // hand their dimensions to the <img> so the page reserves the space.
       const imageSize = await resolveImageSizes(body, `content/blog/${lang}/${file}`);
-      const { html, headings } = renderMarkdown(body, { imageSize });
+      const { html, headings } = renderMarkdown(body, { imageSize, lang });
       // Front matter stores a language-neutral category key; the label people
       // read is resolved per language so a page never mixes languages.
       const category = resolveCategory(attributes.category, lang, `content/blog/${lang}/${file}`);

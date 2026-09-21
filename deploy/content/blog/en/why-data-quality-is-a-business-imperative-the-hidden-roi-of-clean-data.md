@@ -6,8 +6,6 @@ summary: >-
   Discover why poor data quality is an operational financial drain and how
   continuous, governed data quality directly protects revenue, cash flow, and
   market trust.
-
-  Author: Data Empowerment Team
 author: Sandy Bradbury
 translation_key: why-data-quality-is-a-business-imperative
 ---
@@ -70,41 +68,7 @@ When an organization treats data quality as a continuous, governed discipline, t
 
 Achieving and sustaining high data quality requires more than deploying automated validation tools—it demands an organizational framework of explicit accountability.
 
-+--------------------------------------------------------------------------------------------------------+
-
-\| STRATEGIC ACCOUNTABILITY: Data Owner (Business Executive)                              |
-
-\| Establishes quality SLAs (e.g., 99.9% billing accuracy) & allocates remediation budgets|
-
-+---------------------------------------------------------------------------------------------------------+
-
-```
-                                           │
-
-                                           ▼
-```
-
-+------------------------------------------------------------------------------------------------+
-
-\| TACTICAL OVERSIGHT: Data Steward (Domain Expert)                                    |
-
-\| Defines validation rules, monitors quality alerts, and resolves systemic anomalies |
-
-+-------------------------------------------------------------------------------------------------+
-
-```
-                                           │
-
-                                           ▼
-```
-
-+----------------------------------------------------------------------------------------------+
-
-\| TECHNICAL EXECUTION: Data Engineer (Technical Infrastructure)                     |
-
-\| Builds automated tests at ingestion, transformation, and storage pipeline layers |
-
-+-----------------------------------------------------------------------------------------------+
+![Data Quality Chain of Accountability Diagram](/assets/images/blog/data-quality-accountability-chain-en.svg "Governance in action: the target is set by the business, translated into rules by the steward, and enforced in the pipeline by the engineer.")
 
 1. **Explicit Domain Ownership:** Business leaders (**Data Owners**) must define what "high quality" means for their domain attributes, set acceptable error thresholds, and approve remediation resources.
 2. **Dedicated Operational Stewardship:** Functional subject matter experts (**Data Stewards**) actively manage business glossaries, investigate automated quality alerts, and drive root-cause remediation workflows.

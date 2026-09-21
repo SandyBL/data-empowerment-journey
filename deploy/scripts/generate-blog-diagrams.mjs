@@ -1391,6 +1391,100 @@ export const DIAGRAMS = [
       ],
     },
   },
+  // -----------------------------------------------------------------------
+  {
+    slug: 'data-quality-accountability-chain',
+    layout: 'stack',
+    article: {
+      en: 'why-data-quality-is-a-business-imperative-the-hidden-roi-of-clean-data',
+      es: 'por-que-la-calidad-de-los-datos-es-un-imperativo-de-negocio-el-roi-oculto-de-la-informacion-confiable',
+      pt: 'por-que-a-qualidade-de-dados-e-um-imperativo-de-negocio-o-roi-oculto-das-informacoes-confiaveis',
+    },
+    en: {
+      eyebrow: 'DATA QUALITY: THE CHAIN OF ACCOUNTABILITY',
+      title: 'Three tiers of accountability for enterprise data quality',
+      description:
+        'Three roles in sequence — data owner, data steward and data engineer — showing which decision about data quality belongs at each tier: the target, the rule that measures it, and the automated test that enforces it.',
+      figure: {
+        alt: 'Data Quality Chain of Accountability Diagram',
+        caption:
+          'Governance in action: the target is set by the business, translated into rules by the steward, and enforced in the pipeline by the engineer.',
+      },
+      items: [
+        {
+          kicker: 'STRATEGIC ACCOUNTABILITY',
+          title: 'Data owner (business executive)',
+          body: 'Sets the quality SLA the business will be held to — 99.9% billing accuracy, say — and allocates the budget that remediation work is paid from.',
+        },
+        {
+          kicker: 'TACTICAL OVERSIGHT',
+          title: 'Data steward (domain expert)',
+          body: 'Turns that target into validation rules, monitors the alerts they raise, and drives the systemic anomalies behind them to root cause.',
+        },
+        {
+          kicker: 'TECHNICAL EXECUTION',
+          title: 'Data engineer (technical infrastructure)',
+          body: 'Builds those rules into automated tests at ingestion, transformation and storage, so invalid records are caught before anything consumes them.',
+        },
+      ],
+    },
+    es: {
+      eyebrow: 'CALIDAD DE DATOS: LA CADENA DE RESPONSABILIDAD',
+      title: 'Tres niveles de responsabilidad sobre la calidad de los datos',
+      description:
+        'Tres roles en secuencia — propietario de datos, data steward e ingeniero de datos — con la decisión sobre calidad que corresponde a cada nivel: el objetivo, la regla que lo mide y la prueba automática que lo hace cumplir.',
+      figure: {
+        alt: 'Diagrama de la cadena de responsabilidad en la calidad de datos',
+        caption:
+          'Gobierno en acción: el negocio fija el objetivo, el steward lo traduce en reglas y el ingeniero lo hace cumplir en las tuberías de datos.',
+      },
+      items: [
+        {
+          kicker: 'RESPONSABILIDAD ESTRATÉGICA',
+          title: 'Propietario de datos (ejecutivo)',
+          body: 'Fija el SLA de calidad al que responde el negocio — por ejemplo, 99,9% en facturación — y aprueba el presupuesto con el que se paga la remediación.',
+        },
+        {
+          kicker: 'SUPERVISIÓN TÁCTICA',
+          title: 'Data steward (experto funcional)',
+          body: 'Convierte ese objetivo en reglas de validación, vigila las alertas que generan y lleva las anomalías de fondo hasta su causa raíz.',
+        },
+        {
+          kicker: 'EJECUCIÓN TÉCNICA',
+          title: 'Ingeniero de datos (infraestructura)',
+          body: 'Integra esas reglas como pruebas automáticas en ingesta, transformación y almacenamiento, para detener el registro no válido antes de que se consuma.',
+        },
+      ],
+    },
+    pt: {
+      eyebrow: 'QUALIDADE DE DADOS: A CADEIA DE RESPONSABILIDADE',
+      title: 'Três níveis de responsabilidade pela qualidade dos dados',
+      description:
+        'Três papéis em sequência — proprietário dos dados, data steward e engenheiro de dados — com a decisão sobre qualidade que cabe a cada nível: a meta, a regra que a mede e o teste automático que a faz valer.',
+      figure: {
+        alt: 'Diagrama da cadeia de responsabilidade pela qualidade de dados',
+        caption:
+          'Governança na prática: o negócio define a meta, o steward a traduz em regras e o engenheiro a faz valer dentro dos pipelines.',
+      },
+      items: [
+        {
+          kicker: 'RESPONSABILIDADE ESTRATÉGICA',
+          title: 'Proprietário dos dados (executivo)',
+          body: 'Define a meta de qualidade pela qual o negócio responde — 99,9% no faturamento, por exemplo — e aprova o orçamento que paga a correção.',
+        },
+        {
+          kicker: 'SUPERVISÃO TÁTICA',
+          title: 'Data steward (especialista do negócio)',
+          body: 'Traduz essa meta em regras de validação, acompanha os alertas que elas geram e leva as anomalias recorrentes até a causa raiz.',
+        },
+        {
+          kicker: 'EXECUÇÃO TÉCNICA',
+          title: 'Engenheiro de dados (infraestrutura)',
+          body: 'Insere essas regras como testes automáticos na ingestão, transformação e armazenamento, barrando o dado inválido antes de qualquer consumo.',
+        },
+      ],
+    },
+  },
 ];
 
 /** Everything the renderer needs for one diagram in one language. */

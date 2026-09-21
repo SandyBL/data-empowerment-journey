@@ -8,6 +8,7 @@ import {
   // CDN: the sign-in form below submits a password, so the origin serving the
   // auth code has to be the same origin the editor already trusts.
 } from "/assets/js/vendor/netlify-identity.js";
+import { registerBlogWidgets } from "/assets/js/admin-blog-widgets.js";
 
 // Decap CMS renders itself into a #nc-root element it appends to the body, so
 // it needs the page to itself. This page therefore does nothing except sign the
@@ -19,6 +20,14 @@ import {
 
 const CMS_SOURCE = "https://unpkg.com/decap-cms@^3.8.3/dist/decap-cms.js";
 const CMS_TIMEOUT_MS = 20000;
+
+// Decap starts itself the moment its bundle evaluates unless this is set, and a
+// custom widget has to be registered before the editor renders a field that
+// uses it -- otherwise the first article opened shows "Widget not found" where
+// the image field should be, until the page is reloaded. So startup is taken
+// over here: the flag suspends it, registerBlogWidgets adds the widget, and
+// init() below hands control back.
+window.CMS_MANUAL_INIT = true;
 
 const gate = document.querySelector("#blog-gate");
 const form = document.querySelector("#blog-login-form");
@@ -67,6 +76,18 @@ async function loadCms() {
     const script = document.createElement("script");
     script.id = "decap-cms-script";
     script.src = CMS_SOURCE;
+    // Registration and start-up both wait for the bundle: window.CMS does not
+    // exist until it has evaluated.
+    script.addEventListener("load", () => {
+      if (!registerBlogWidgets()) {
+        showStatus(
+          "The editor loaded but its image field could not be registered. Reload the page to try again.",
+          { retry: true },
+        );
+        return;
+      }
+      window.CMS.init();
+    });
     script.addEventListener("error", () => {
       script.remove();
       showStatus(

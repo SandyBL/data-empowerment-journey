@@ -243,7 +243,7 @@ export async function loadGlossary(projectDirectory) {
           `Unknown group "${attributes.group}" in ${where}. Use one of: ${GROUPS.join(', ')}`
         );
       }
-      const { html } = renderMarkdown(body, { imageSize: await resolveImageSizes(body, where) });
+      const { html } = renderMarkdown(body, { imageSize: await resolveImageSizes(body, where), lang });
       terms.push({
         lang,
         slug,
