@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">SIX DIRECT COSTS OF POOR ENTERPRISE DATA QUALITY</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">How Flawed Data Directly Impacts Working Capital, Customer Trust, and Revenue</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">COST 01</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Invoicing Disruptions</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Missing or corrupted customer</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">billing data blocks automated</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">invoicing pipelines, delaying cash</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">flow and increasing DSO.</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(253, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">COST 02</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Higher Service Costs</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Inaccurate master records lead to</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">higher call center volumes, longer</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">resolution times, and customer</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">dissatisfaction.</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(486, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">COST 03</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Lost Revenue Deals</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Incomplete or duplicate sales</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">lead records prevent marketing</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">and sales teams from acting on</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">upsell opportunities.</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(20, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">COST 04</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Delayed M&amp;A Integration</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Conflicting entity data across</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">legacy systems slows post-merger</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">integration, increasing advisory</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">fees by $500k+.</text>
+  </g>
+
+  <!-- CARD 05 -->
+  <g transform="translate(253, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#ec4899"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#db2777" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#f472b6" letter-spacing="0.5">COST 05</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Fraud Exposure</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Weak data validation controls and</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">unmonitored transactional data</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">allow fraudulent activities to pass</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">unnoticed.</text>
+  </g>
+
+  <!-- CARD 06 -->
+  <g transform="translate(486, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#64748b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#475569" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#94a3b8" letter-spacing="0.5">COST 06</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Misguided Strategy</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Executive decisions based on</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">inaccurate reporting metrics lead</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">to costly capital misallocation</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">and market missteps.</text>
+  </g>
+</svg>
