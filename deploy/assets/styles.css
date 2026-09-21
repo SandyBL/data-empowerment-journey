@@ -1989,6 +1989,93 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     content: " - ";
 }
 
+/* The Portuguese course banner under the resource teasers on the homepage.
+   Deliberately not shaped like the three cards above it: those are free and
+   this is not, and a paid offer wearing the same card as a free download is
+   the kind of surprise that costs a reader's trust rather than earning a
+   click. Portuguese only -- see the comment in src/home.html. */
+.home-course-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    margin-top: 2rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid rgb(101 183 199 / 0.42);
+    border-radius: 2rem;
+    background:
+        radial-gradient(circle at 94% 0%, rgb(236 109 87 / 0.13), transparent 20rem),
+        #ffffff;
+    box-shadow: 0 18px 50px rgb(0 51 102 / 0.09);
+}
+
+.home-course-cta__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--dejourney-orange);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.home-course-cta h3 {
+    margin: 0.5rem 0 0.65rem;
+    max-width: 34rem;
+    color: var(--deepblue);
+    font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+}
+
+.home-course-cta p:last-child {
+    max-width: 38rem;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.home-course-cta__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.75rem;
+    border-radius: 0.9rem;
+    background: var(--deepblue);
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: transform 180ms ease, filter 180ms ease;
+}
+
+.home-course-cta__button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+.home-course-cta__button:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+@media (max-width: 860px) {
+    .home-course-cta {
+        grid-template-columns: 1fr;
+    }
+
+    .home-course-cta__button {
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-course-cta__button {
+        transition: none;
+    }
+}
+
 .template-library-cta {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -2052,33 +2139,16 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     outline-offset: 2px;
 }
 
-/* Portuguese has no course page to link to yet, so it gets a notice rather
-   than a button. Deliberately not orange and not button-shaped: it is not
-   clickable, and anything that looks like the Spanish and English buttons
-   would be a dead control. */
-.template-library-cta__soon {
+/* The line under the Portuguese button, which is the one language where the
+   full library is bought rather than requested. Selector shaped like the
+   sibling rule above it on purpose: `.template-library-cta > div > p:last-child`
+   would otherwise win on specificity and stretch this caption to 34rem, which
+   is wider than the column the button sits in. */
+.template-library-cta > div > p.template-library-cta__note {
     max-width: 17rem;
-    padding: 1.1rem 1.35rem;
-    border: 1px dashed var(--dejourney-orange);
-    border-radius: 0.9rem;
-    background: rgb(255 255 255 / 0.7);
-}
-
-.template-library-cta__soon-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--dejourney-orange);
-    font-size: 0.72rem;
-    font-weight: 900;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-}
-
-.template-library-cta__soon-text {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
     color: #64748b;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     line-height: 1.55;
 }
 

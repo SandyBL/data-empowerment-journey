@@ -157,7 +157,14 @@ export const renderPage = ({
   const alternateLinks = alternates
     .map((alternate) => `  <link rel="alternate" hreflang="${alternate.hreflang}" href="${SITE_ORIGIN}${alternate.url}">`)
     .join('\n');
-  const alternateLocales = renderAlternateLocales(lang);
+  // Derived from the cluster rather than from the language list, so a page with
+  // fewer translations than the site has languages does not advertise the ones
+  // it does not have. See renderAlternateLocales in ./locales.mjs.
+  const alternateLocales = renderAlternateLocales(
+    lang,
+    '  ',
+    alternates.map((alternate) => alternate.hreflang)
+  );
 
   return `<!doctype html>
 <html lang="${HTML_LANG[lang]}">

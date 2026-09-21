@@ -35,6 +35,15 @@ import { faqSchema, renderFaqSection } from './faq.mjs';
 import { renderNewsletterForm } from './newsletter.mjs';
 import { renderPlaybookPanel } from './playbook-panel.mjs';
 import { renderBoardSummary } from './board-summary.mjs';
+import {
+  courseFaqSchema,
+  courseSchema,
+  renderCourseClose,
+  renderCourseCurriculum,
+  renderCourseFaq,
+  renderCourseOffer,
+  renderCourseTemplates,
+} from './course.mjs';
 import { EMPLOYER, externalWritingSchema, renderExternalWriting } from './external-writing.mjs';
 
 /**
@@ -58,7 +67,20 @@ const TOKEN_LINE = /^\{\{([A-Z_]+)\}\}$/;
 /** Pages whose Markdown embeds homepage markup, and therefore its stylesheet. */
 const EMBEDS_HOME_MARKUP = new Set(Object.keys(PARTIAL_FILES));
 
-const SCHEMA_KINDS = new Set(['page', 'profile', 'service', 'collection', 'faq']);
+const SCHEMA_KINDS = new Set(['page', 'profile', 'service', 'collection', 'faq', 'course']);
+
+/**
+ * The blocks in ./course.mjs, which are written in Portuguese only because the
+ * course is. Listed so that placing one of them on an English or Spanish page
+ * fails the build rather than publishing Portuguese sales copy under /en/.
+ */
+const COURSE_BLOCKS = {
+  COURSE_OFFER: (page, partials) => renderCourseOffer(partials.TEMPLATES),
+  COURSE_CURRICULUM: () => renderCourseCurriculum(),
+  COURSE_TEMPLATES: (page, partials) => renderCourseTemplates(partials.TEMPLATES),
+  COURSE_FAQ: () => renderCourseFaq(),
+  COURSE_CLOSE: () => renderCourseClose(),
+};
 
 const LABELS = {
   en: {
@@ -280,6 +302,15 @@ const renderBody = (page, partials, boardSummary) => {
       blocks.push(renderFaqSection(page.lang));
       continue;
     }
+    if (COURSE_BLOCKS[name]) {
+      if (page.lang !== 'pt') {
+        throw new Error(
+          `content/pages/${page.lang}/${page.slug}.md uses {{${name}}}, which only exists in Portuguese`
+        );
+      }
+      blocks.push(COURSE_BLOCKS[name](page, partials));
+      continue;
+    }
     if (name === 'PORTRAIT') {
       blocks.push(
         `    <div class="page-section blog-shell"><figure class="page-credential"><img src="${imageCdn(
@@ -390,6 +421,15 @@ const schemaFor = (page, canonical, steps) => {
 
   if (page.schemaKind === 'faq') {
     graph.push(faqSchema(page.lang, canonical));
+  }
+
+  // The course page. Course carries the offer, and the FAQPage node carries the
+  // ten answers the page renders above the footer -- both keyed off the schema
+  // kind rather than the token, because a second page selling the same course
+  // is not a thing that should happen quietly.
+  if (page.schemaKind === 'course') {
+    graph.push(courseSchema(canonical, page.description));
+    graph.push(courseFaqSchema(canonical));
   }
 
   if (page.schemaKind === 'service') {

@@ -33,4 +33,8 @@ Se você não sabe o que está errado, comece pelo [diagnóstico de maturidade](
 
 E se você preferir ler a baixar, o [glossário](/pt/glossary/) define o vocabulário e os [artigos](/pt/blog/) desenvolvem os argumentos como deve ser. Nada aqui expira, então não há pressa.
 
+## A única coisa paga
+
+Para não haver dúvida sobre o que é gratuito: há um [curso de governança de dados em português](/pt/course/), com dezesseis aulas em vídeo e a biblioteca completa de modelos em formato editável, e esse é pago. Ele não desbloqueia nada desta página — tudo que está listado acima continua aberto, agora e depois. Está mencionado aqui porque é a pergunta que chega por e-mail de qualquer forma.
+
 {{NEWSLETTER}}

@@ -77,6 +77,10 @@ const GUIDE_LINKS = {
     ['Diagnóstico de maturidade', '/pt/diagnostico-de-maturidade/', 'Scorecard baseado na DAMA que devolve um nível, um radar de cinco eixos e três quick wins.'],
     ['Biblioteca de modelos', '/pt/modelos/', 'Seis arquivos de trabalho em Excel e Word: pontos de dor, enquadramento 5W2H, etapas de evolução, casos de uso de catálogo, princípios e políticas, scorecard de governança.'],
     ['Playbooks', '/pt/playbooks/', 'Playbooks em PDF sobre colocar a governança de dados em pé e sobre governança de IA.'],
+    // The one paid page on the site, and the one that exists in a single
+    // language. Described as paid, because an assistant summarising this file
+    // for a reader should not send them to a checkout believing it is free.
+    ['Curso de Governança de Dados na prática (pago)', '/pt/curso-governanca-de-dados/', 'Curso online em português, pago: 16 aulas em vídeo sobre fundamentos, operacionalização de metadados, qualidade e segurança, e cultura de dados, mais um módulo adicional de governança de IA. Inclui os 24 modelos da biblioteca em formato editável, certificado de conclusão e acesso vitalício. Não existe em inglês nem em espanhol.'],
     ['Simulador do Dia a Dia', '/simulators/pt/data-governance-day-to-day/', 'Cenário ramificado sobre as decisões de um responsável por governança de dados.'],
     ['Simulador Quem é o Dono Disso?', '/simulators/pt/data-ownership-conflict/', 'Cenário sobre resolver uma disputa de propriedade de dados entre áreas.'],
     ['Simulador de Alfabetização de Dados', '/simulators/pt/data-literacy/', 'Cenário sobre elevar a alfabetização de dados sem orçamento de treinamento.'],

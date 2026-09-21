@@ -116,6 +116,8 @@ Sistemas, catálogos de dados e estruturas de governança podem ser adquiridos n
 
 É por isso que o último capítulo do DAMA DMBOK deve ser a primeira leitura de todo líder que busca o sucesso na gestão de dados.
 
+E é por isso que este é o assunto de um módulo inteiro do [curso de governança de dados em português](/pt/course/), que é pago: quatro aulas sobre o fator humano, gestão da mudança e engajamento, o papel da comunicação, do RH e dos incentivos, e alfabetização de dados. É o módulo que eu manteria se tivesse que escolher um só.
+
 - - -
 
 ### Pronto para Avaliar a Maturidade da sua Governança de Dados?

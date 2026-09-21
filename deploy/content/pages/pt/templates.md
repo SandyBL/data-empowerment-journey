@@ -43,4 +43,8 @@ O documento de **enquadramento 5W2H** é para o momento em que alguém graduado 
 
 O **scorecard de governança** é o relatório permanente: um conjunto pequeno de medidas que diz a um comitê se o modelo operacional está funcionando, ou se ele apenas está se reunindo.
 
+## Os 18 modelos que aparecem na lista e não têm link
+
+Esses seis são gratuitos e continuam sendo — sem formulário, sem e-mail, sem sequência de follow-up. Os outros dezoito da biblioteca estão nomeados acima, em cada categoria, e sem link: política geral, termos de referência do comitê, classificação, papéis e responsabilidades, glossário, KPIs, matriz RACI, riscos, acessos, comunicação. Eles são entregues em Excel e Word editáveis, junto com a aula que explica quando cada um serve, no [curso de governança de dados em português](/pt/course/) — que é pago, e é a única coisa deste site que é.
+
 {{NEWSLETTER}}
