@@ -525,6 +525,14 @@ ${renderBody(page, partials, boardSummary)}${
     main,
     languageHrefs,
     current: page.nav,
+    // The course page is the one page here whose paragraphs run the full width
+    // of the column rather than stopping at a ~70ch measure: it is a sales page
+    // built out of bordered cards, and prose that stops short inside one reads
+    // as a broken box. The class is what the `@media (min-width: 721px)` block
+    // in assets/css/pages.css hangs off, so /pt/sobre/ and the other prose
+    // pages -- which share .page-deck, .page-prose and .signup__lead with it --
+    // keep the measure they were designed with.
+    bodyClass: page.slug === 'course' ? 'course-page' : '',
     embedsHomeMarkup: usesHomeMarkup(page),
     ogType: page.schemaKind === 'profile' ? 'profile' : 'website',
     // Each block brings its own script and nothing else loads it, so a page

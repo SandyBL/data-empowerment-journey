@@ -2034,6 +2034,40 @@
   min-width: 260px;
 }
 
+/* Measure, on the wide viewports only.
+ *
+ * Everything else on this site sets a ~60-75ch measure on its prose, because a
+ * 1,180px line of Georgia is genuinely harder to read than a 700px one. The
+ * course page is the exception, by request: it is a sales page, its blocks are
+ * cards with visible borders and padding, and a paragraph that stops two thirds
+ * of the way across a card it is sitting inside reads as a layout mistake
+ * rather than as typography. So on this page the column *is* the measure --
+ * `.blog-shell`, which is already capped at min(1180px, 100% - 40px).
+ *
+ * Scoped three ways so nothing else moves:
+ *  - to `.course-page`, the body class site-pages.mjs puts on this page alone,
+ *    so `.page-deck`, `.page-prose` and `.signup__lead` keep their measure on
+ *    /pt/sobre/, /pt/assessoria/ and the rest;
+ *  - to paragraphs, so the headings keep theirs: `h1` at 20ch and the section
+ *    titles at 24-34ch are what make the page scannable, and a 1,180px serif
+ *    headline is a different problem from the one being fixed here;
+ *  - to `min-width: 721px`, the mirror of the phone block below. Below that
+ *    width the column is already narrower than any of these maxima, so the
+ *    rule would be a no-op -- but stating the boundary keeps it that way if
+ *    somebody later lowers one of the numbers.
+ */
+@media (min-width: 721px) {
+  .course-page .page-deck,
+  .course-page .page-prose,
+  .course-page .course-section__intro,
+  .course-page .course-module__summary,
+  .course-page .course-templates p,
+  .course-page .course-close p,
+  .course-page .signup__lead {
+    max-width: none;
+  }
+}
+
 /* ------------------------------------------------------------ responsive -- */
 
 @media (max-width: 720px) {
