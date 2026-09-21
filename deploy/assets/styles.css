@@ -2115,18 +2115,35 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     line-height: 1.7;
 }
 
+/* No `white-space: nowrap` here, unlike the sibling CTA buttons: the Spanish
+   and English labels ("Solicitar la biblioteca completa", "Request the full
+   library") are longer than the Portuguese one, and on a phone an unbreakable
+   label made the orange box wider than the card it sits in, so it ran past the
+   rounded border. The grid track the button lives in is `auto`, which is
+   max-content sized, so wherever the row has the space the label still renders
+   on a single line -- the wrap only happens once the alternative is overflow.
+   `max-width` keeps the box itself inside the card in that case. */
 .template-library-cta__button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.6rem;
+    max-width: 100%;
     padding: 1rem 1.5rem;
     border-radius: 0.9rem;
     background: var(--dejourney-orange);
     color: #ffffff;
     font-size: 0.88rem;
     font-weight: 800;
-    white-space: nowrap;
+    line-height: 1.35;
+    text-align: center;
     transition: transform 180ms ease, filter 180ms ease;
+}
+
+/* The two icons flank a label that is now allowed to wrap, so they must keep
+   their own width instead of being squeezed as the text takes two lines. */
+.template-library-cta__button i {
+    flex: 0 0 auto;
 }
 
 .template-library-cta__button:hover {
