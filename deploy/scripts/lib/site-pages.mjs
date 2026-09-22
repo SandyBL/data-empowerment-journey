@@ -85,7 +85,6 @@ const COURSE_BLOCKS = {
 const LABELS = {
   en: {
     home: 'Home',
-    updated: 'Last updated',
     readMore: 'Related reading',
     credentials: 'Certifications',
     cdmpAssociate: 'CDMP Associate — DAMA International',
@@ -94,7 +93,6 @@ const LABELS = {
   },
   es: {
     home: 'Inicio',
-    updated: 'Última actualización',
     readMore: 'Lecturas relacionadas',
     credentials: 'Certificaciones',
     cdmpAssociate: 'CDMP Associate — DAMA International',
@@ -103,7 +101,6 @@ const LABELS = {
   },
   pt: {
     home: 'Início',
-    updated: 'Última atualização',
     readMore: 'Leituras relacionadas',
     credentials: 'Certificações',
     cdmpAssociate: 'CDMP Associate — DAMA International',
@@ -112,28 +109,23 @@ const LABELS = {
   },
 };
 
-import { DATE_LOCALE } from './locales.mjs';
-
-const formatDate = (iso, lang) =>
-  new Date(`${iso}T12:00:00Z`).toLocaleDateString(DATE_LOCALE[lang], {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  });
-
 /**
  * A front matter date as a schema.org DateTime. The `created` and `updated`
  * attributes are plain dates because that is what a human editing the page
- * writes and what the visible label above renders, but Google types
- * ProfilePage's dateCreated and dateModified as DateTime rather than Date and
- * rejects a bare date as an invalid value -- which is the Search Console
- * warning this exists to answer.
+ * writes, but Google types ProfilePage's dateCreated and dateModified as
+ * DateTime rather than Date and rejects a bare date as an invalid value --
+ * which is the Search Console warning this exists to answer.
  *
- * Noon UTC is the same instant formatDate reads, so the structured data and the
- * visible label can never disagree about which day it was. A value that already
- * carries a time is passed through, so moving the front matter to timestamps
- * later needs no change here.
+ * These dates are structured data only: nothing on the page renders one. A
+ * visible "last updated" line was removed from the hero because an evergreen
+ * page is not worth less for having needed no revision, and a two-year-old
+ * date invites the reader to decide otherwise before reading a word. Keeping
+ * the front matter is still right -- `dateModified` is a signal for crawlers,
+ * and it costs a reader nothing.
+ *
+ * Noon UTC rather than midnight, so a value is never pushed into the previous
+ * day by a timezone. A value that already carries a time is passed through, so
+ * moving the front matter to timestamps later needs no change here.
  */
 const schemaDateTime = (iso) => (iso.includes('T') ? iso : `${iso}T12:00:00Z`);
 
@@ -496,7 +488,6 @@ export const renderSitePage = (page, pages, { partials, articles, boardSummary }
       ${page.kicker ? `<span class="blog-kicker">${escapeHtml(page.kicker)}</span>` : ''}
       <h1>${escapeHtml(page.heading)}</h1>
       ${page.deck ? `<p class="page-deck">${escapeHtml(page.deck)}</p>` : ''}
-      ${page.updated ? `<p class="page-meta">${escapeHtml(labels.updated)} ${formatDate(page.updated, page.lang)}</p>` : ''}
     </section>
 ${renderBody(page, partials, boardSummary)}${
     related.length
@@ -525,14 +516,16 @@ ${renderBody(page, partials, boardSummary)}${
     main,
     languageHrefs,
     current: page.nav,
-    // The course page is the one page here whose paragraphs run the full width
-    // of the column rather than stopping at a ~70ch measure: it is a sales page
-    // built out of bordered cards, and prose that stops short inside one reads
-    // as a broken box. The class is what the `@media (min-width: 721px)` block
-    // in assets/css/pages.css hangs off, so /pt/sobre/ and the other prose
-    // pages -- which share .page-deck, .page-prose and .signup__lead with it --
-    // keep the measure they were designed with.
-    bodyClass: page.slug === 'course' ? 'course-page' : '',
+    // Every page in this family runs its body copy to the full width of the
+    // column rather than stopping at a ~60-75ch measure. They are built out of
+    // bordered cards and bands -- the FAQ disclosures, the scorecard, the offer
+    // cards, the newsletter panel -- and several of those blocks have no
+    // measure of their own, so prose that stopped short beside one read as a
+    // broken box. This class is what the `@media (min-width: 721px)` block in
+    // assets/css/pages.css hangs off; the glossary and the articles, which
+    // share .page-hero, .page-deck and .signup__lead with these pages, do not
+    // carry it and keep the measure long-form reading wants.
+    bodyClass: 'subject-page',
     embedsHomeMarkup: usesHomeMarkup(page),
     ogType: page.schemaKind === 'profile' ? 'profile' : 'website',
     // Each block brings its own script and nothing else loads it, so a page

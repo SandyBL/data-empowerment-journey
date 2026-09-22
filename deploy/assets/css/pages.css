@@ -2036,20 +2036,25 @@
 
 /* Measure, on the wide viewports only.
  *
- * Everything else on this site sets a ~60-75ch measure on its prose, because a
- * 1,180px line of Georgia is genuinely harder to read than a 700px one. The
- * course page is the exception, by request: it is a sales page, its blocks are
- * cards with visible borders and padding, and a paragraph that stops two thirds
- * of the way across a card it is sitting inside reads as a layout mistake
- * rather than as typography. So on this page the column *is* the measure --
- * `.blog-shell`, which is already capped at min(1180px, 100% - 40px).
+ * The rest of the site sets a ~60-75ch measure on its prose, because a 1,180px
+ * line of Georgia is genuinely harder to read than a 700px one. The standalone
+ * subject pages are the exception, by request: they are built out of cards and
+ * bands with visible borders and padding -- the offer cards, the FAQ
+ * disclosures, the scorecard, the newsletter panel, the board summary -- and
+ * several of those blocks already run the full width of the column. Prose that
+ * stops two thirds of the way across a box it is sitting inside, next to a
+ * block that does not, reads as a layout mistake rather than as typography. So
+ * on these pages the column *is* the measure: `.blog-shell`, already capped at
+ * min(1180px, 100% - 40px).
  *
  * Scoped three ways so nothing else moves:
- *  - to `.course-page`, the body class site-pages.mjs puts on this page alone,
- *    so `.page-deck`, `.page-prose` and `.signup__lead` keep their measure on
- *    /pt/sobre/, /pt/assessoria/ and the rest;
- *  - to paragraphs, so the headings keep theirs: `h1` at 20ch and the section
- *    titles at 24-34ch are what make the page scannable, and a 1,180px serif
+ *  - to `.subject-page`, the body class site-pages.mjs puts on the pages it
+ *    renders and on nothing else, so the glossary, the blog index and the
+ *    articles -- which share `.page-hero`, `.page-deck` and `.signup__lead`
+ *    with these pages -- keep the measure they were designed with. Long-form
+ *    reading is the case the narrow measure is actually for;
+ *  - to body copy, so the headings keep theirs: `h1` at 20ch and the section
+ *    titles at 24-40ch are what make a page scannable, and a 1,180px serif
  *    headline is a different problem from the one being fixed here;
  *  - to `min-width: 721px`, the mirror of the phone block below. Below that
  *    width the column is already narrower than any of these maxima, so the
@@ -2057,15 +2062,48 @@
  *    somebody later lowers one of the numbers.
  */
 @media (min-width: 721px) {
-  .course-page .page-deck,
-  .course-page .page-prose,
-  .course-page .course-section__intro,
-  .course-page .course-module__summary,
-  .course-page .course-templates p,
-  .course-page .course-close p,
-  .course-page .signup__lead {
+  .subject-page .page-deck,
+  .subject-page .page-prose,
+  .subject-page .elsewhere-list,
+  .subject-page .signup__lead,
+  .subject-page .course-section__intro,
+  .subject-page .course-module__summary,
+  .subject-page .course-templates p,
+  .subject-page .course-close p {
     max-width: none;
   }
+}
+
+/*
+ * Hero to lede.
+ *
+ * The hero used to close on a small uppercase "Last updated" line, so its 34px
+ * of bottom padding and `.page-section`'s own 52px of top padding were the
+ * space around *that line* rather than the space between the deck and the
+ * first paragraph. With the line gone the two ran together, and the lede's own
+ * 1em of user-agent margin stacked on top: about 120px of nothing between a
+ * subtitle and the sentence it introduces, which reads as a page whose middle
+ * failed to load rather than as breathing room.
+ *
+ * So the hero now stops at the deck, the first section carries the whole gap,
+ * and the lede's default margin is collapsed into it -- one number to change if
+ * this ever wants to be looser. Every width: the line is gone on a phone too,
+ * and 34px is a gap a phone has even less room for.
+ *
+ * Only the first section. The 52px below it separates one subject from the
+ * next, which is a real boundary and still wants the room; this gap separates a
+ * subtitle from its own body copy, where the job is to look attached.
+ */
+.subject-page .page-hero {
+  padding-bottom: 0;
+}
+
+.subject-page .page-hero + .page-section {
+  padding-top: 34px;
+}
+
+.subject-page .page-hero + .page-section .page-prose > :first-child {
+  margin-top: 0;
 }
 
 /* ------------------------------------------------------------ responsive -- */
