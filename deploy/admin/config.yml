@@ -113,7 +113,7 @@ collections:
         # where one entry produces a real picture in all three languages --
         # offering a code block invites drawing them in text again.
         editor_components: ["image"]
-        hint: "Write in whichever mode you prefer. To place a picture, use the Image field above — it works in Markdown mode, where the toolbar's + button is disabled. Diagrams drawn out of +, - and | characters do not survive publishing reliably; ask for one to be added to scripts/generate-blog-diagrams.mjs instead, which produces a real picture in all three languages."
+        hint: "Write in whichever mode you prefer. To place a picture, use the Image field above — it works in Markdown mode, where the toolbar's + button is disabled. A step-by-step flow typed on its own line as [ Step one ] ---> [ Step two ] ---> [ Outcome ] is published as a diagram; a line ending in a colon just above it becomes its title. Anything more elaborate drawn out of +, - and | characters does not survive publishing reliably; ask for it to be added to scripts/generate-blog-diagrams.mjs instead, which produces a real picture in all three languages."
 
   - name: "blog_es"
     label: "Blog — Español"
