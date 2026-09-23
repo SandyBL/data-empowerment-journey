@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">6 MOTIVOS POR LOS QUE LOS PILOTOS DE IA NO ESCALAN</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Por Qué el 70% de los Proyectos de GenAI No Llegan a Producción</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="76" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="50" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">FALLO 01</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Datos No Validados</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Entrenar modelos de IA con</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">registros duplicados o sin revisar</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">provoca alucinaciones graves y</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">resultados poco fiables.</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(253, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="76" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="50" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">FALLO 02</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Falta de Data Owners</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Inexistencia de propietarios de</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">negocio para autorizar accesos,</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">validar la lógica o verificar las</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">bases del sistema RAG.</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(486, 75)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="76" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="50" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">FALLO 03</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Plazos No Realistas</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">La presión de la dirección por</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">obtener un ROI rápido obliga a</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">omitir la preparación básica y</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">los controles de calidad.</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(20, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="76" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="50" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">FALLO 04</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Riesgos Regulatorios</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Introducir datos personales o</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">secretos comerciales en IA</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">pública genera sanciones y</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">problemas legales graves.</text>
+  </g>
+
+  <!-- CARD 05 -->
+  <g transform="translate(253, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#ec4899"/>
+    <rect x="12" y="14" width="76" height="18" rx="3" fill="#db2777" fill-opacity="0.25"/>
+    <text x="50" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#f472b6" letter-spacing="0.5">FALLO 05</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Respuestas Opacas</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Sin linaje de datos automatizado</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">resulta imposible auditar,</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">explicar o rastrear el origen de</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">las decisiones de la IA.</text>
+  </g>
+
+  <!-- CARD 06 -->
+  <g transform="translate(486, 255)">
+    <rect width="213" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="4" rx="2" fill="#64748b"/>
+    <rect x="12" y="14" width="76" height="18" rx="3" fill="#475569" fill-opacity="0.25"/>
+    <text x="50" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#94a3b8" letter-spacing="0.5">FALLO 06</text>
+    <text x="12" y="52" font-size="13" font-weight="700" fill="#f8fafc">Baja Alfabetización</text>
+    <text x="12" y="72" font-size="11" font-weight="400" fill="#94a3b8">Los empleados carecen de</text>
+    <text x="12" y="87" font-size="11" font-weight="400" fill="#94a3b8">formación en ética de datos,</text>
+    <text x="12" y="102" font-size="11" font-weight="400" fill="#94a3b8">privacidad y evaluación crítica de</text>
+    <text x="12" y="117" font-size="11" font-weight="400" fill="#94a3b8">los resultados de la IA.</text>
+  </g>
+</svg>
