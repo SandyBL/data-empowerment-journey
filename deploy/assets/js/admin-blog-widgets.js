@@ -114,14 +114,55 @@ export const registerBlogWidgets = () => {
       return { path: '', alt: '', caption: '', status: '' };
     },
 
-    componentDidUpdate() {
-      const path = this.props.mediaPaths?.get(this.controlID);
-      // An unchanged path means this update is the one caused by clearing the
-      // library's record below, not a new selection.
-      if (!path || path === this.state.path) return;
+    /** The path the media library has recorded against this control, if any. */
+    selectedPath(props) {
+      return props?.mediaPaths?.get(this.controlID);
+    },
+
+    /**
+     * Whether an update is worth re-rendering for -- and the reason a chosen
+     * image used to leave this field looking untouched.
+     *
+     * Decap wraps every widget in a component that decides for itself whether
+     * the control below it should re-render, and its default answer is "only
+     * when `value`, `classNameWrapper` or `hasActiveStyle` changed". This field
+     * deliberately never writes a value, so that answer was always no: the
+     * selection reached Decap's store, the store handed a fresh `mediaPaths`
+     * to the wrapper, and the wrapper dropped it. Nothing below ever heard
+     * that a file had been picked.
+     *
+     * A control can overrule that by defining this method -- the wrapper reads
+     * it off the instance and asks it instead (see `processInnerControlRef` in
+     * decap-cms-core), which is how the file and image widgets get their own
+     * selections through. The wrapper calls it with `nextProps` alone while
+     * React calls the very same method with `(nextProps, nextState)`, so both
+     * callers have to get a sound answer out of one body: hence the guard on
+     * `nextState` rather than a bare comparison, without which every keystroke
+     * in the alt text would look like a props-only update and be dropped.
+     */
+    shouldComponentUpdate(nextProps, nextState) {
+      if (nextState && nextState !== this.state) return true;
+      if (this.selectedPath(nextProps) !== this.selectedPath(this.props)) return true;
+      return (
+        nextProps.value !== this.props.value ||
+        nextProps.classNameWrapper !== this.props.classNameWrapper ||
+        nextProps.hasActiveStyle !== this.props.hasActiveStyle
+      );
+    },
+
+    componentDidUpdate(prevProps) {
+      const path = this.selectedPath(this.props);
+      // Compared against the previous render rather than against the state
+      // below, because only the change is the selection: an identical path
+      // means this update came from typing in the fields, and an empty one is
+      // the library's record being cleared just below. Reading the change also
+      // keeps a second pick of the same file working, which a comparison
+      // against the state would mistake for the picture already on screen.
+      if (!path || path === this.selectedPath(prevProps)) return;
 
       // The record is cleared straight away, so choosing the same file a second
-      // time still registers as a new selection.
+      // time arrives as a change again rather than as a repeat of what is
+      // already recorded.
       this.props.onRemoveInsertedMedia(this.controlID);
 
       const { alt, caption } = this.state;
