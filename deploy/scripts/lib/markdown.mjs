@@ -2,7 +2,7 @@
  * Minimal Markdown renderer covering the subset used by the blog content:
  * headings, paragraphs, bold/italic/inline-code, links, images, ordered and
  * unordered lists, blockquotes, pipe tables, fenced code blocks, ASCII
- * diagrams, and horizontal rules.
+ * diagrams, flows of steps typed as text, and horizontal rules.
  *
  * It exists so articles can be rendered to static HTML at build time instead of
  * being assembled in the browser, which is what makes them indexable.
@@ -187,6 +187,207 @@ const asciiDiagram = (lines, start, labels) => {
     });
 
   return { block: renderCodeBlock(drawing.join('\n'), '', labels.diagram), next: index };
+};
+
+/**
+ * The arrow an author types between two steps of a flow: a run of dashes or
+ * equals signs ending in `>` (each character optionally backslash-escaped, the
+ * way the rich-text editor saves them), an em or en dash standing in for the
+ * dashes after a typographic replacement, or one of the arrow characters.
+ */
+const FLOW_ARROW = String.raw`(?:(?:\\?[-=–—])+\\?>|[→⟶⇒➔➜])`;
+const FLOW_ARROW_CELL = new RegExp(`^${FLOW_ARROW}$`);
+/** One step in the bracket spelling, `[ Employee ]`, optionally escaped as `\[`. */
+const FLOW_NODE = String.raw`\\?\[[^\]\n]+\]`;
+/** A whole line of them: `[ Employee ] ---> [ Public LLM ] ---> [ Fines ]`. */
+const BRACKET_FLOW = new RegExp(`^\\s*${FLOW_NODE}(?:\\s*${FLOW_ARROW}\\s*${FLOW_NODE})+\\s*$`);
+const FLOW_NODE_TEXT = /\\?\[\s*([^\]\n]+?)\s*\]/g;
+
+/** A line that begins some other kind of block, and so is never a flow's title or caption. */
+const BLOCK_START = /^\s*(#{1,6}\s|>|\\?\||\\?\+|[*-]\s|\d+\.\s|!\[)/;
+
+/** The cells of a pipe row, with the editor's escaped pipes undone. */
+const pipeCells = (line) => {
+  const row = line.replace(/\\([|+])/g, '$1').match(ASCII_ROW);
+  return row ? row[1].split('|').map((cell) => cell.trim()) : null;
+};
+
+/**
+ * The steps of a pipe row that reads as a flow -- `| Ingestion | ---> |
+ * Transformation | ---> | Storage |` -- or null. The cells have to alternate
+ * strictly between a step and an arrow, which is what keeps an ordinary table
+ * row out: no table puts an arrow in every other column.
+ */
+const pipeFlowSteps = (cells) => {
+  if (!cells || cells.length < 3 || cells.length % 2 === 0) return null;
+  const steps = cells.filter((cell, position) => position % 2 === 0);
+  const arrows = cells.filter((cell, position) => position % 2 === 1);
+  if (steps.some((cell) => !cell || FLOW_ARROW_CELL.test(cell))) return null;
+  if (!arrows.every((cell) => FLOW_ARROW_CELL.test(cell))) return null;
+  return steps.map((label) => ({ label, notes: [] }));
+};
+
+/**
+ * A flow of steps typed as text, starting at `start`, or null.
+ *
+ * Authors draw a process the only way plain text allows, and articles pasted in
+ * from elsewhere arrive with the drawing intact but the meaning lost: the
+ * bracket spelling was published as a paragraph of brackets and dashes, the
+ * pipe spelling was dropped altogether (it starts with a pipe, so the paragraph
+ * branch refused it, and it has no delimiter row, so the table branch did too),
+ * and the boxed spelling was published as a scrolling monospace block. All
+ * three are read here into the same list of steps, so they can be drawn as a
+ * diagram in the site's own style instead.
+ *
+ * Two spellings are understood:
+ *
+ *   [ Business User ] ---> [ Ticket Queue ] ---> [ Delayed Insight ]
+ *
+ *   +-----------------+      +----------------+
+ *   | Ingestion Phase | ---> | Storage Phase  |
+ *   | (Uncaught Nulls)|      | (Bad Tables)   |
+ *   +-----------------+      +----------------+
+ *
+ * In the second, the borders are optional, the first row that alternates steps
+ * and arrows names the steps, and every row after it with the same number of
+ * cells adds a note under each one. A row of nothing but empty cells, and the
+ * border lines, are the drawing's scaffolding and are dropped -- that is what a
+ * bracket drawn under all the boxes looks like once it is read as cells. The
+ * editor's habit of putting a blank line between every line is tolerated.
+ *
+ * Returns the steps and the line after the last one that belonged to the flow.
+ */
+const flowAt = (lines, start) => {
+  const first = lines[start] ?? '';
+  if (BRACKET_FLOW.test(first)) {
+    const steps = [...first.matchAll(FLOW_NODE_TEXT)].map(([, label]) => ({ label, notes: [] }));
+    return { steps, next: start + 1 };
+  }
+
+  const unescaped = (line) => line.replace(/\\([|+])/g, '$1');
+  if (!ASCII_ROW.test(unescaped(first)) && !ASCII_BORDER.test(unescaped(first))) return null;
+
+  let steps = null;
+  let width = 0;
+  let index = start;
+  let next = start;
+  while (index < lines.length) {
+    const line = lines[index];
+    if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+    const bare = unescaped(line);
+    if (ASCII_BORDER.test(bare)) {
+      index += 1;
+      next = index;
+      continue;
+    }
+    const cells = pipeCells(line);
+    if (!cells) break;
+    if (!steps) {
+      // A table's header row sits on top of its delimiter, and the table branch
+      // is the one that should have it.
+      if (TABLE_DELIMITER.test(lines[index + 1] ?? '')) return null;
+      steps = pipeFlowSteps(cells);
+      if (!steps) return null;
+      width = cells.length;
+    } else if (cells.every((cell) => !cell)) {
+      // Scaffolding: the uprights of a bracket drawn under the boxes.
+    } else if (cells.length === width && !TABLE_DELIMITER.test(bare)) {
+      cells.forEach((cell, position) => {
+        if (position % 2 === 0 && cell) steps[position / 2].notes.push(cell);
+      });
+    } else break;
+    index += 1;
+    next = index;
+  }
+
+  return steps ? { steps, next } : null;
+};
+
+/**
+ * A one-line paragraph that ends in a colon and introduces the flow under it --
+ * `Unliterate AI Usage (High Risk):` -- which becomes the flow's title.
+ */
+const isFlowTitle = (line) => {
+  const text = line.trim();
+  return text.length > 1 && text.length <= 140 && text.endsWith(':') && !BLOCK_START.test(text) && !BRACKET_FLOW.test(text);
+};
+
+/**
+ * A short line straight after a diagram that names it rather than continuing
+ * the prose -- `Silent Degradation Across the Value Chain` -- which becomes the
+ * figure's caption. It has to stand alone as a paragraph, read as a label (a
+ * dozen words at most, no closing punctuation), and not introduce a flow of its
+ * own; anything longer or punctuated is a sentence and stays one.
+ */
+const isFlowCaption = (lines, index) => {
+  const text = (lines[index] ?? '').trim();
+  if (!text || (lines[index + 1] ?? '').trim()) return false;
+  if (BLOCK_START.test(text) || THEMATIC_BREAK.test(text) || FENCE.test(text) || BRACKET_FLOW.test(text)) return false;
+  if (/[.,;:!?]$/.test(text) || text.length > 90 || text.split(/\s+/).length > 12) return false;
+  return true;
+};
+
+/**
+ * Every flow in a run, with the title above each and the caption under the
+ * last, starting at `start`; or null when no flow starts there.
+ *
+ * Flows are usually written in pairs -- the way it goes wrong, then the way it
+ * should go -- each introduced by its own titled line, so consecutive flows are
+ * gathered into one figure where they can be read against each other.
+ */
+const flowGroup = (lines, start) => {
+  const rows = [];
+  let index = start;
+
+  while (index < lines.length) {
+    let title = '';
+    let cursor = index;
+    if (isFlowTitle(lines[cursor] ?? '')) {
+      title = lines[cursor].trim().replace(/:$/, '').trim();
+      cursor = skipBlankLines(lines, cursor + 1);
+    }
+    const flow = flowAt(lines, cursor);
+    if (!flow) break;
+    rows.push({ title, steps: flow.steps });
+    index = skipBlankLines(lines, flow.next);
+  }
+
+  if (!rows.length) return null;
+
+  let caption = '';
+  if (isFlowCaption(lines, index)) {
+    caption = lines[index].trim();
+    index += 1;
+  }
+  return { rows, caption, next: index };
+};
+
+/**
+ * A flow group as a figure: each flow an ordered list of steps, because the
+ * order is the content, with the arrows drawn by the stylesheet between the
+ * items rather than typed into them, so a screen reader hears "list, 3 items"
+ * instead of "dash dash dash greater than" between every step.
+ */
+const renderFlowGroup = ({ rows, caption }, imageSize) => {
+  const flows = rows
+    .map(({ title, steps }) => {
+      const heading = title ? `<div class="flow-diagram-title">${renderInline(title, imageSize)}</div>` : '';
+      const items = steps
+        .map(({ label, notes }) => {
+          const detail = notes
+            .map((note) => `<span class="flow-diagram-note">${renderInline(note.replace(/^\((.*)\)$/, '$1'), imageSize)}</span>`)
+            .join('');
+          return `<li><span class="flow-diagram-label">${renderInline(label, imageSize)}</span>${detail}</li>`;
+        })
+        .join('');
+      return `<div class="flow-diagram-row">${heading}<ol class="flow-diagram-steps">${items}</ol></div>`;
+    })
+    .join('');
+  const figcaption = caption ? `<figcaption>${renderInline(caption, imageSize)}</figcaption>` : '';
+  return `<figure class="flow-diagram">${flows}${figcaption}</figure>`;
 };
 
 /**
@@ -497,6 +698,16 @@ export const renderMarkdown = (markdown, { imageSize, lang } = {}) => {
       continue;
     }
 
+    // A flow typed as text, before anything else can claim its lines: the boxed
+    // spelling starts with a border the box-art branch below would take, and
+    // the pipe spelling with a pipe the table branch would test.
+    const flows = flowGroup(lines, index);
+    if (flows) {
+      html.push(renderFlowGroup(flows, imageSize));
+      index = flows.next;
+      continue;
+    }
+
     // Box art first: the run it belongs to can contain the code fences the
     // editor wrapped around parts of it, so the fence branch below must not get
     // to those lines first and cut the drawing in half.
@@ -625,6 +836,7 @@ export const renderMarkdown = (markdown, { imageSize, lang } = {}) => {
       lines[index].trim() &&
       !THEMATIC_BREAK.test(lines[index]) &&
       !FENCE.test(lines[index]) &&
+      !BRACKET_FLOW.test(lines[index]) &&
       !/^\s*(#{1,6}\s|>|\||[*-]\s|\d+\.\s)/.test(lines[index])
     ) {
       paragraph.push(lines[index].trim());

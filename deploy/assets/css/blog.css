@@ -156,6 +156,26 @@ a.blog-kicker:hover { color: var(--coral); }
 .article-body figure { margin: 2.4em 0; }
 .article-body figure img { display: block; padding: 16px; border: 1px solid var(--line); background: var(--white); border-radius: 2px 22px 2px 2px; }
 .article-body figcaption { margin-top: 12px; color: var(--ink-soft); font-family: var(--sans); font-size: .78rem; line-height: 1.6; }
+/* Flows of steps an author typed as text -- `[ Employee ] ---> [ Public LLM ]`,
+   or a row of pipe-drawn boxes -- which scripts/lib/markdown.mjs reads into a
+   figure of ordered lists. Each step is a card and the arrows are drawn here,
+   between the cards, rather than typed into them: `content: '→' / ''` gives the
+   arrow an empty alternative text so a screen reader hears the list of steps
+   and not the punctuation between them. The row runs left to right while the
+   column is wide enough for it, and turns into a column of steps pointing down
+   on a phone, where four cards side by side would be one word wide each. */
+.article-body .flow-diagram { padding: 24px 22px; border: 1px solid var(--line); background: var(--white); border-radius: 2px 22px 2px 2px; font-family: var(--sans); }
+.flow-diagram-row + .flow-diagram-row { margin-top: 22px; padding-top: 22px; border-top: 1px dashed var(--line); }
+.flow-diagram-title { margin: 0 0 14px; color: var(--mint-dark); font-size: .68rem; font-weight: 800; letter-spacing: .12em; line-height: 1.5; text-transform: uppercase; }
+.flow-diagram-steps { display: flex; align-items: stretch; gap: 30px; margin: 0; padding: 0; list-style: none; }
+.flow-diagram-steps > li { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; margin: 0; padding: 14px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 2px 14px 2px 2px; color: var(--ink); text-align: center; overflow-wrap: break-word; hyphens: auto; }
+.flow-diagram-steps > li + li::before { content: '\2192'; content: '\2192' / ''; position: absolute; top: 50%; right: 100%; width: 30px; transform: translateY(-50%); color: var(--mint-dark); font-size: 1.1rem; font-weight: 800; line-height: 1; text-align: center; }
+/* The last step is where the flow ends up -- the outcome -- so it carries the
+   one accent in the figure. */
+.flow-diagram-steps > li:last-child { background: rgba(98, 230, 189, .14); border-color: rgba(10, 117, 104, .32); }
+.flow-diagram-label { font-size: .82rem; font-weight: 700; line-height: 1.35; }
+.flow-diagram-note { display: block; margin-top: 5px; color: var(--ink-soft); font-size: .72rem; font-weight: 500; line-height: 1.4; }
+.article-body .flow-diagram figcaption { margin-top: 18px; }
 /* Pre-formatted blocks: fenced code, and the box-drawing diagrams the renderer
    recovers out of an article's plain text. Both only mean anything while every
    character keeps the column it was typed in, so the font has to be monospace
@@ -180,9 +200,11 @@ a.blog-kicker:hover { color: var(--coral); }
    a wide diagram by focusing it, and `tabindex` is set on the element by the
    renderer, so without this the focused block gives no indication it is active. */
 .article-body pre:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
-.article-lead-magnet { width: 100%; margin: 2.6em 0; padding: 38px 42px; overflow: hidden; background: var(--ink); color: #fff; border-radius: 2px 24px 2px 2px; font-family: var(--sans); }
-.article-lead-magnet span { color: var(--mint); font-size: .65rem; font-weight: 800; letter-spacing: .16em; }
-.article-lead-magnet h2 { margin: 13px 0 8px; color: #fff; font-size: 2.2rem; }
+.article-lead-magnet { width: 100%; margin: 2.6em 0; padding: 32px 42px; overflow: hidden; background: var(--ink); color: #fff; border-radius: 2px 24px 2px 2px; font-family: var(--sans); }
+/* The callout opens straight on its heading -- it used to carry a "FIELD NOTE /
+   01" eyebrow that numbered nothing -- so the heading takes no top margin and
+   the box's own padding is the only space above it. */
+.article-lead-magnet h2 { margin: 0 0 8px; color: #fff; font-size: 2.2rem; line-height: 1.1; }
 .article-lead-magnet p { margin: 0 0 20px; color: #b9cbd2; font-size: .92rem; line-height: 1.65; }
 .article-lead-magnet a { color: var(--mint); font-size: .82rem; font-weight: 800; text-decoration: none; }
 .author-card { margin-top: 70px; padding: 28px; display: grid; grid-template-columns: 86px 1fr; gap: 24px; align-items: center; border: 1px solid var(--line); background: rgba(255,255,255,.48); border-radius: 2px 26px 2px 2px; font-family: var(--sans); }
@@ -254,7 +276,11 @@ a.blog-kicker:hover { color: var(--coral); }
   .article-byline span + span::before { margin-right: 10px; }
   .article-layout { width: min(100% - 30px, 700px); margin-top: 48px; gap: 35px; }
   .article-body { font-size: 1.05rem; }
-  .article-lead-magnet { padding: 30px 26px; }
+  .article-lead-magnet { padding: 26px 26px; }
+  .article-body .flow-diagram { padding: 20px 18px; }
+  .flow-diagram-steps { flex-direction: column; gap: 28px; }
+  .flow-diagram-steps > li { padding: 12px 14px; }
+  .flow-diagram-steps > li + li::before { content: '\2193'; content: '\2193' / ''; top: auto; right: auto; bottom: 100%; left: 50%; width: auto; height: 28px; transform: translateX(-50%); line-height: 28px; }
   .author-card { grid-template-columns: 62px 1fr; padding: 22px; }
   .author-card img { width: 62px; height: 62px; }
   .related-articles { padding-top: 38px; }

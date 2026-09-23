@@ -776,7 +776,7 @@ function renderBreadcrumbNav(breadcrumb, labels) {
  * placement the client-side renderer used before articles became static.
  */
 function insertLeadMagnet(bodyHtml, labels, lang) {
-  const callout = `<aside class="article-lead-magnet" aria-label="${labels.leadTitle}"><span>FIELD NOTE / 01</span><h2>${labels.leadTitle}</h2><p>${labels.leadText}</p><a href="${pagePath(lang, 'resources')}">${labels.leadLink}</a></aside>`;
+  const callout = `<aside class="article-lead-magnet" aria-label="${labels.leadTitle}"><h2>${labels.leadTitle}</h2><p>${labels.leadText}</p><a href="${pagePath(lang, 'resources')}">${labels.leadLink}</a></aside>`;
   const paragraphs = [...bodyHtml.matchAll(/<\/p>/g)];
   if (!paragraphs.length) return `${bodyHtml}${callout}`;
   const anchor = paragraphs[Math.min(3, paragraphs.length - 1)];
