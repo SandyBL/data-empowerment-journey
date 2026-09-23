@@ -8,6 +8,7 @@ import {
   // CDN: the sign-in form below submits a password, so the origin serving the
   // auth code has to be the same origin the editor already trusts.
 } from "/assets/js/vendor/netlify-identity.js";
+import { bridgeIdentityToEditor } from "/assets/js/admin-blog-identity.js";
 import { registerBlogWidgets } from "/assets/js/admin-blog-widgets.js";
 
 // Decap CMS renders itself into a #nc-root element it appends to the body, so
@@ -71,6 +72,19 @@ function waitForCms() {
 
 async function loadCms() {
   showStatus("Opening the editor…");
+
+  // Before the script tag, not after: Decap looks for window.netlifyIdentity
+  // as its bundle evaluates, and builds an Identity client of its own if it
+  // finds nothing -- a second client that ends up spending the refresh token
+  // this page is using, and fails the Publish button an hour into writing. See
+  // assets/js/admin-blog-identity.js.
+  if (!(await bridgeIdentityToEditor())) {
+    showStatus(
+      "The editor could not be given this page's sign-in, and would fail to publish. Reload the page and sign in again.",
+      { retry: true },
+    );
+    return;
+  }
 
   if (!document.querySelector("#decap-cms-script")) {
     const script = document.createElement("script");
