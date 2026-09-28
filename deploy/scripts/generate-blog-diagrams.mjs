@@ -1485,6 +1485,85 @@ export const DIAGRAMS = [
       ],
     },
   },
+  // -----------------------------------------------------------------------
+  {
+    slug: 'data-contract-producer-consumer',
+    layout: 'stack',
+    article: {
+      en: 'who-owns-the-data-bridging-the-accountability-gap-in-modern-governance',
+      es: 'quien-es-el-propietario-de-los-datos-cerrando-la-brecha-de-responsabilidad-en-el-gobierno-moderno',
+      pt: 'quem-e-o-dono-dos-dados-eliminando-a-lacuna-de-responsabilidade-na-governanca-moderna',
+    },
+    en: {
+      eyebrow: 'DATA CONTRACTS: FROM PRODUCER TO CONSUMER',
+      title: 'A data contract between a producer and a consumer domain',
+      description:
+        'Two domains in sequence. The producer domain, for example Sales Engineering, defines the schema, maintains the ingestion pipeline and commits to the data contract SLA. Through the data contract and SLA agreement, the consumer domain, for example Financial Analytics, consumes a certified data product with guaranteed quality and freshness.',
+      figure: {
+        alt: 'Data contract between a producer domain and a consumer domain',
+        caption: 'The producer commits to a data contract and SLA; the consumer builds on a certified data product.',
+      },
+      items: [
+        {
+          kicker: 'PRODUCER DOMAIN',
+          title: 'e.g., Sales Engineering',
+          body: 'Defines schema, maintains ingestion pipeline, and commits to Data Contract SLA.',
+          handoff: 'DATA CONTRACT & SLA AGREEMENT',
+        },
+        {
+          kicker: 'CONSUMER DOMAIN',
+          title: 'e.g., Financial Analytics',
+          body: 'Consumes certified data product with guaranteed quality and freshness SLAs.',
+        },
+      ],
+    },
+    es: {
+      eyebrow: 'CONTRATOS DE DATOS: DEL PRODUCTOR AL CONSUMIDOR',
+      title: 'Un contrato de datos entre un dominio productor y un dominio consumidor',
+      description:
+        'Dos dominios en secuencia. El dominio productor, por ejemplo Ingeniería de Ventas, define el esquema, mantiene el pipeline y garantiza el contrato de datos (SLA). A través del acuerdo de contrato de datos y SLA, el dominio consumidor, por ejemplo Analítica Financiera, consume datos certificados con garantías de calidad, estructura y disponibilidad.',
+      figure: {
+        alt: 'Contrato de datos entre un dominio productor y un dominio consumidor',
+        caption: 'El productor se compromete con un contrato de datos y un SLA; el consumidor trabaja sobre datos certificados.',
+      },
+      items: [
+        {
+          kicker: 'DOMINIO PRODUCTOR',
+          title: 'Ej. Ingeniería de Ventas',
+          body: 'Define el esquema, mantiene el pipeline y garantiza el Contrato de Datos (SLA).',
+          handoff: 'ACUERDO DE CONTRATO DE DATOS Y SLA',
+        },
+        {
+          kicker: 'DOMINIO CONSUMIDOR',
+          title: 'Ej. Analítica Financiera',
+          body: 'Consume datos certificados con garantías de calidad, estructura y disponibilidad.',
+        },
+      ],
+    },
+    pt: {
+      eyebrow: 'CONTRATOS DE DADOS: DO PRODUTOR AO CONSUMIDOR',
+      title: 'Um contrato de dados entre um domínio produtor e um domínio consumidor',
+      description:
+        'Dois domínios em sequência. O domínio produtor, por exemplo Engenharia de Vendas, define o esquema, mantém o pipeline e garante o contrato de dados (SLA). Por meio do acordo de contrato de dados e SLA, o domínio consumidor, por exemplo Analítica Financeira, consome dados certificados com garantias de qualidade, estrutura e disponibilidade.',
+      figure: {
+        alt: 'Contrato de dados entre um domínio produtor e um domínio consumidor',
+        caption: 'O produtor se compromete com um contrato de dados e um SLA; o consumidor trabalha sobre dados certificados.',
+      },
+      items: [
+        {
+          kicker: 'DOMÍNIO PRODUTOR',
+          title: 'Ex.: Engenharia de Vendas',
+          body: 'Define o esquema, mantém o pipeline e garante o Contrato de Dados (SLA).',
+          handoff: 'ACORDO DE CONTRATO DE DADOS E SLA',
+        },
+        {
+          kicker: 'DOMÍNIO CONSUMIDOR',
+          title: 'Ex.: Analítica Financeira',
+          body: 'Consome dados certificados com garantias de qualidade, estrutura e disponibilidade.',
+        },
+      ],
+    },
+  },
 ];
 
 /** Everything the renderer needs for one diagram in one language. */

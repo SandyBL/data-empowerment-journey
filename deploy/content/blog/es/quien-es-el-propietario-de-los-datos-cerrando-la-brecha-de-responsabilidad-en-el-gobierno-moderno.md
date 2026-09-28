@@ -49,16 +49,7 @@ Para abordar este reto, los catálogos de datos modernos y las plataformas *data
 * **Cuadros de Mando de Responsabilidad:** Interfaces ejecutivas que supervisan cómo cada dominio cumple los niveles de servicio (SLAs) de calidad de datos.
 * **Contratos de Datos y SLAs:** Acuerdos operacionales formalizados entre productores y consumidores de datos que garantizan la estructura, frescura y calidad de la información [ED Council, DCAM v2].
 
-+----------------------------------------------------------------------------------+
-| DOMINIO PRODUCTOR (ej. Ingeniería de Ventas)                                     |
-| Define el esquema, mantiene el pipeline y garantiza el Contrato de Datos (SLA)   |
-+----------------------------------------------------------------------------------+
-│
-▼ (Acuerdo de Contrato de Datos y SLA)
-+----------------------------------------------------------------------------------+
-| DOMINIO CONSUMIDOR (ej. Analítica Financiera)                                    |
-| Consume datos certificados con garantías de calidad, estructura y disponibilidad |
-+----------------------------------------------------------------------------------+
+![Contrato de datos entre un dominio productor y un dominio consumidor](/assets/images/blog/data-contract-producer-consumer-es.svg "El productor se compromete con un contrato de datos y un SLA; el consumidor trabaja sobre datos certificados.")
 
 Aunque estas capacidades tecnológicas son de gran valor, **las herramientas son un simple envoltorio si no existe responsabilidad humana real**. Un catálogo de datos puede registrar el nombre de un directivo, pero no puede obligarle a preocuparse por la calidad de la información ni a destinar presupuesto para corregir errores.
 

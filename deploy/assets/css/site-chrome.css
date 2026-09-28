@@ -281,7 +281,14 @@
     top: calc(100% + 0.65rem);
     left: 50%;
     display: grid;
-    width: 19.5rem;
+    /*
+     * Sized to the longest label rather than a fixed width, so short menus
+     * don't leave a wide empty band on the right. The cap keeps an unusually
+     * long label wrapping instead of stretching the panel across the header.
+     */
+    width: max-content;
+    min-width: 10rem;
+    max-width: 19.5rem;
     padding: 0.55rem;
     visibility: hidden;
     opacity: 0;
