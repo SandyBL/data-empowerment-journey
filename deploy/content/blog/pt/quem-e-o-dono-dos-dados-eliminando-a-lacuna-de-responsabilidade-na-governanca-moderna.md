@@ -49,16 +49,7 @@ Para enfrentar esse desafio, os catálogos de dados modernos e as plataformas de
 * **Painéis de Acompanhamento de Responsabilidade:** Interfaces executivas que monitoram como cada área cumpre os acordos de nível de serviço (SLAs) de qualidade de dados.
 * **Contratos de Dados e SLAs:** Acordos operacionais formalizados entre produtores e consumidores de dados que garantem padrões de qualidade, estrutura e tempo de atualização [ED Council, DCAM v2].
 
-+----------------------------------------------------------------------------------+
-| DOMÍNIO PRODUTOR (ex.: Engenharia de Vendas)                                     |
-| Define o esquema, mantém o pipeline e garante o Contrato de Dados (SLA)          |
-+----------------------------------------------------------------------------------+
-│
-▼ (Acordo de Contrato de Dados e SLA)
-+----------------------------------------------------------------------------------+
-| DOMÍNIO CONSUMIDOR (ex.: Analítica Financeira)                                   |
-| Consome dados certificados com garantias de qualidade, estrutura e disponibilidade|
-+----------------------------------------------------------------------------------+
+![Contrato de dados entre um domínio produtor e um domínio consumidor](/assets/images/blog/data-contract-producer-consumer-pt.svg "O produtor se compromete com um contrato de dados e um SLA; o consumidor trabalha sobre dados certificados.")
 
 Embora esses recursos tecnológicos sejam valiosos, **ferramentas são apenas fachada sem o compromisso humano real**. Um catálogo de dados pode registrar o nome de um executivo, mas não pode forçá-lo a se importar com a qualidade da informação ou a aprovar orçamentos para correção de erros.
 

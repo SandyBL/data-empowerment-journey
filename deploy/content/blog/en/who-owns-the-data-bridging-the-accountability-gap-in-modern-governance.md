@@ -48,16 +48,7 @@ To solve this challenge, modern data catalogs and data mesh platforms now weave 
 * **Accountability Dashboards:** Executive interfaces that track how effectively domain teams uphold data quality SLAs and resolve escalations.
 * **Data Contracts & SLAs:** Formalized operational agreements between data producers and consumers locking in schema expectations, freshness guarantees, and response times [ED Council, DCAM v2].
 
-+----------------------------------------------------------------------------------+
-| PRODUCER DOMAIN (e.g., Sales Engineering)                                        |
-| Defines schema, maintains ingestion pipeline, and commits to Data Contract SLA   |
-+----------------------------------------------------------------------------------+
-│
-▼ (Data Contract & SLA Agreement)
-+----------------------------------------------------------------------------------+
-| CONSUMER DOMAIN (e.g., Financial Analytics)                                      |
-| Consumes certified data product with guaranteed quality and freshness SLAs       |
-+----------------------------------------------------------------------------------+
+![Data contract between a producer domain and a consumer domain](/assets/images/blog/data-contract-producer-consumer-en.svg "The producer commits to a data contract and SLA; the consumer builds on a certified data product.")
 
 While these technical capabilities are invaluable, **software tools are merely window dressing without human accountability**. A data catalog can store an owner's name, but it cannot force a business executive to care about data quality or allocate budget for remediation.
 

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="292" viewBox="0 0 720 292" role="img" aria-labelledby="title desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="title">Um contrato de dados entre um domínio produtor e um domínio consumidor</title>
+  <desc id="desc">Dois domínios em sequência. O domínio produtor, por exemplo Engenharia de Vendas, define o esquema, mantém o pipeline e garante o contrato de dados (SLA). Por meio do acordo de contrato de dados e SLA, o domínio consumidor, por exemplo Analítica Financeira, consome dados certificados com garantias de qualidade, estrutura e disponibilidade.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#31505c"/>
+    </marker>
+    <marker id="arrow-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#0a7568"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="24" font-size="10.5" font-weight="700" fill="#0a7568" letter-spacing="1.6">CONTRATOS DE DADOS: DO PRODUTOR AO CONSUMIDOR</text>
+  
+  <!-- Ex.: Engenharia de Vendas -->
+  <rect x="24" y="48" width="672" height="87" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="48" width="4" height="87" fill="#071c2c"/>
+  <text x="48" y="74" font-size="10" font-weight="700" fill="#071c2c" letter-spacing="1.4">DOMÍNIO PRODUTOR</text>
+  <text x="48" y="98" font-size="17" font-weight="600" fill="#071c2c">Ex.: Engenharia de Vendas</text>
+  <text x="48" y="120" font-size="12.5" fill="#31505c">Define o esquema, mantém o pipeline e garante o Contrato de Dados (SLA).</text>
+  <line x1="360" y1="137" x2="360" y2="181" stroke="#31505c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Handoff: ACORDO DE CONTRATO DE DADOS E SLA -->
+  <rect x="374" y="148" width="311.178682" height="22" rx="11" fill="#ffffff" stroke="#0a7568"/>
+  <text x="529.589341" y="162.5" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.2" text-anchor="middle">ACORDO DE CONTRATO DE DADOS E SLA</text>
+  <!-- Ex.: Analítica Financeira -->
+  <rect x="24" y="183" width="672" height="87" rx="5" fill="#f8fafc" stroke="#dfe3e7"/>
+  <rect x="24" y="183" width="4" height="87" fill="#0a7568"/>
+  <text x="48" y="209" font-size="10" font-weight="700" fill="#0a7568" letter-spacing="1.4">DOMÍNIO CONSUMIDOR</text>
+  <text x="48" y="233" font-size="17" font-weight="600" fill="#071c2c">Ex.: Analítica Financeira</text>
+  <text x="48" y="255" font-size="12.5" fill="#31505c">Consome dados certificados com garantias de qualidade, estrutura e disponibilidade.</text>
+</svg>

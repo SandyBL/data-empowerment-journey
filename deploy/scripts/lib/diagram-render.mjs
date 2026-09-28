@@ -251,6 +251,10 @@ const envelope = ({ title, description, height, body }) =>
  * `loop` reserves a gutter down the left for a dashed return path -- the
  * escalation route in the data quality diagram, and the same idea wherever the
  * last item feeds back into an earlier one.
+ *
+ * An item's `handoff` names what passes down the arrow under it -- the data
+ * contract between a producer and a consumer domain -- and is drawn as a pill
+ * beside that arrow, which is given the extra height the label needs.
  */
 const stack = ({ items, loop }) => {
   const x = loop ? 96 : CANVAS.margin;
@@ -288,11 +292,23 @@ const stack = ({ items, loop }) => {
     y += height;
 
     if (index < items.length - 1) {
+      const gap = item.handoff ? 48 : 28;
+      const centre = x + cardWidth / 2;
       body.push(
-        `<line x1="${x + cardWidth / 2}" y1="${y + 2}" x2="${x + cardWidth / 2}" y2="${y + 26}" ` +
+        `<line x1="${centre}" y1="${y + 2}" x2="${centre}" y2="${y + gap - 2}" ` +
           `stroke="${PALETTE.inkSoft}" stroke-width="1.5" marker-end="url(#arrow)"/>`
       );
-      y += 28;
+      if (item.handoff) {
+        const label = fit(item.handoff, cardWidth / 2 - 36, 10, { weight: 700, tracking: 1.2 });
+        const labelWidth = measure(label, 10, { weight: 700, tracking: 1.2 });
+        const mid = y + gap / 2;
+        body.push(
+          `<!-- Handoff: ${item.handoff} -->`,
+          rect(centre + 14, mid - 11, labelWidth + 22, 22, { fill: PALETTE.white, stroke: PALETTE.teal, radius: 11 }),
+          text(centre + 25 + labelWidth / 2, mid + 3.5, label, { size: 10, weight: 700, tracking: 1.2, fill: PALETTE.teal, anchor: 'middle' })
+        );
+      }
+      y += gap;
     }
   });
 
