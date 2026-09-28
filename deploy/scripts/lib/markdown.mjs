@@ -91,6 +91,13 @@ const FENCE = /^\s*(`{3,}|~{3,})\s*([^`~\s]*)\s*$/;
 const ASCII_BORDER = /^\s*\+[-=+\s]*[-=]{3,}[-=+\s]*\+\s*$/;
 const ASCII_ROW = /^\s*\|(.*)\|\s*$/;
 const ASCII_JOINT = /^[\s\u2502\u2503\u2506\u250a\u2500\u2501\u2550\u25b2\u25bc\u25c4\u25ba\u2190\u2191\u2192\u2193^vV<>|+=\\/-]*$/;
+/**
+ * A joint that carries a label beside its arrow -- `▼ (Data Contract & SLA
+ * Agreement)` -- which is how an author names what passes from one box to the
+ * next. The arrow has to be one of the drawing characters, not a letter, so a
+ * line of prose after a drawing is never read as part of it.
+ */
+const ASCII_LABELLED_JOINT = /^\s*([\u2502\u2503\u2506\u250a\u25b2\u25bc\u2190\u2191\u2192\u2193|^]+)\s+([^|+\s].*?)\s*$/;
 /** A pipe table's second row, which is the one thing that is never box art. */
 const TABLE_DELIMITER = /^\s*\|[\s:|-]+\|\s*$/;
 
@@ -164,6 +171,13 @@ const asciiDiagram = (lines, start, labels) => {
       continue;
     }
 
+    const labelled = bare.match(ASCII_LABELLED_JOINT);
+    if (labelled && parts.length) {
+      parts.push({ kind: 'joint', text: labelled[1], label: labelled[2], raw: bare });
+      index += 1;
+      continue;
+    }
+
     break;
   }
 
@@ -182,8 +196,10 @@ const asciiDiagram = (lines, start, labels) => {
     .map((part) => {
       if (part.kind === 'border') return border;
       if (part.kind === 'row') return `| ${part.text.padEnd(width)} |`;
+      // The arrow is centred on its own and the label hangs off to its right,
+      // so a long label does not drag the arrow away from the boxes it joins.
       const lead = Math.max(0, Math.round((width + 4 - part.text.length) / 2));
-      return `${' '.repeat(lead)}${part.text}`;
+      return `${' '.repeat(lead)}${part.text}${part.label ? ` ${part.label}` : ''}`;
     });
 
   return { block: renderCodeBlock(drawing.join('\n'), '', labels.diagram), next: index };
