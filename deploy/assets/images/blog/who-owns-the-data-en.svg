@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">FOUR ROOT CAUSES OF THE DATA OWNERSHIP GAP</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Why Modern Enterprises Struggle with "Touched by Many, Owned by None" Data</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">CAUSE 01</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Complex Tech &amp; Architecture</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Legacy mainframes mixed with cloud lakehouses and SaaS</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Overlapping, inconsistent data definitions across tools</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Unmonitored shadow pipelines creating orphan datasets</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Lack of centralized lineage mapping source systems</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(375, 75)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">CAUSE 02</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Outdated Org Structures</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Functional org charts designed for isolated departments</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Failure to map ownership to cross-functional domains</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Lack of executive Data Owner roles with domain budgets</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Data responsibilities absent from job descriptions</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(20, 255)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">CAUSE 03</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Business-IT Disconnect</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Business leaders view data as an "IT software issue"</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• IT engineering forced to make business logic decisions</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Lack of operational Data Stewards within business units</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Mismatched priorities between tech build &amp; business ROI</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(375, 255)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="70" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="47" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">CAUSE 04</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">No Enforceable Accountability</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• No consequences when data quality degrades or drops</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Blame shifting between teams during audit escalations</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Lack of formal Data Contracts between producers &amp; consumers</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Quality SLAs omitted from executive performance goals</text>
+  </g>
+</svg>
