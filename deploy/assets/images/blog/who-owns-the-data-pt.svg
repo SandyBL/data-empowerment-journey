@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">QUATRO CAUSAS RAIZ DA LACUNA DE PROPRIEDADE DOS DADOS</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Por Que as Empresas Têm Dados "Manipulados por Muitos, Pertencentes a Ninguém"</text>
+
+  <!-- CARD 01 -->
+  <g transform="translate(20, 75)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#38bdf8"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#0284c7" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="0.5">CAUSA 01</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Arquiteturas Complexas</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Sistemas legados convivendo com nuvem e SaaS</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Definições de dados sobrepostas e inconsistentes</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Pipelines paralelos sem controle criando dados órfãos</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Ausência de mapas de linhagem centralizados</text>
+  </g>
+
+  <!-- CARD 02 -->
+  <g transform="translate(375, 75)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#22c55e"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">CAUSA 02</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Estruturas Ultrapassadas</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Organogramas desenhados para departamentos isolados</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Falta de alinhamento entre propriedade e domínios de negócio</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Ausência de Data Owners executivos com orçamento</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Responsabilidade por dados omitida nas atribuições</text>
+  </g>
+
+  <!-- CARD 03 -->
+  <g transform="translate(20, 255)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#f59e0b"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">CAUSA 03</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Desconexão Negócio-TI</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Negócio enxerga os dados como "problema exclusivo da TI"</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Engenharia forçada a tomar decisões de regras de negócio</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Falta de Data Stewards operacionais nas áreas de negócio</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• Prioridades desalinhadas entre tecnologia e ROI</text>
+  </g>
+
+  <!-- CARD 04 -->
+  <g transform="translate(375, 255)">
+    <rect width="325" height="165" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="325" height="4" rx="2" fill="#a855f7"/>
+    <rect x="12" y="14" width="60" height="18" rx="3" fill="#9333ea" fill-opacity="0.25"/>
+    <text x="42" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="0.5">CAUSA 04</text>
+    <text x="12" y="52" font-size="14" font-weight="700" fill="#f8fafc">Sem Responsabilização</text>
+    <text x="12" y="74" font-size="11" font-weight="400" fill="#94a3b8">• Inexistência de consequências diante de falhas de qualidade</text>
+    <text x="12" y="92" font-size="11" font-weight="400" fill="#94a3b8">• Troca de acusações entre áreas durante auditorias</text>
+    <text x="12" y="110" font-size="11" font-weight="400" fill="#94a3b8">• Sem Contratos de Dados entre produtores e consumidores</text>
+    <text x="12" y="128" font-size="11" font-weight="400" fill="#94a3b8">• SLAs de qualidade excluídos das metas executivas</text>
+  </g>
+</svg>
