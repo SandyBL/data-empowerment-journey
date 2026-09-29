@@ -242,7 +242,17 @@
     # this origin -- the contact form and the newsletter signups both target
     # /thank-you, and assets/js/newsletter.js posts to / when it enhances the
     # signup, which connect-src 'self' already allows.
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' blob: https://api.netlify.com https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net; frame-src 'self' blob: data:; worker-src 'self' blob:; manifest-src 'self'"
+    #
+    # The Google origins are the Google Ads tag on the course page (see
+    # GOOGLE_ADS_ID in scripts/lib/course.mjs). gtag.js loads from
+    # googletagmanager.com, pulls the conversion and remarketing scripts from
+    # googleadservices.com, googleads.g.doubleclick.net and google.com, reports
+    # back to the same hosts (connect-src; img-src already allows any https:
+    # pixel), and runs its measurement in a hidden iframe on td.doubleclick.net
+    # (frame-src). It is a site-wide header because Netlify cannot be trusted to
+    # merge two CSP values for one path into anything but their intersection;
+    # only the course page actually loads the tag.
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' blob: https://api.netlify.com https://identity.netlify.com https://unpkg.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.google-analytics.com https://*.analytics.google.com; frame-src 'self' blob: data: https://td.doubleclick.net https://www.googletagmanager.com; worker-src 'self' blob:; manifest-src 'self'"
 
 [[headers]]
   for = "/assets/images/*"

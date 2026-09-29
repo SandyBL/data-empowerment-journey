@@ -106,6 +106,10 @@ const UNPINNABLE = new Map([
     'https://unpkg.com/decap-cms@',
     'Decap CMS is loaded behind a semver range so security patches reach the editor without a deploy. It runs only on /admin/, behind Netlify Identity, and touches no visitor-facing page.',
   ],
+  [
+    'https://www.googletagmanager.com/gtag/js?id=AW-',
+    'The Google Ads tag is served unversioned and changes without notice, so it has no stable hash. It loads on the course page only -- the one page the ads send traffic to -- so the Hotmart checkout can credit a sale to the click. See assets/js/google-ads.js.',
+  ],
 ]);
 
 /** Hosts we treat as code delivery, i.e. worth policing when a URL appears in JavaScript. */

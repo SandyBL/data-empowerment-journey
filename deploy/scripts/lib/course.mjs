@@ -146,6 +146,28 @@ export const DISCOUNTED_LABEL = formatBrl(DISCOUNTED);
 export const CHECKOUT_URL = `${COURSE.checkoutUrl}?offDiscount=${COURSE.coupon}`;
 
 /**
+ * The Google Ads account the course campaign reports to.
+ *
+ * The sale itself is counted by Hotmart, whose checkout fires this account's
+ * purchase conversion once a payment is approved -- this site never sees the
+ * payment. What the tag here does is keep the ad click attached to the visitor
+ * across the hop to pay.hotmart.com (the linker adds the click to the checkout
+ * URL), and record the click on the checkout button as `begin_checkout`, which
+ * is a diagnostic signal, not the conversion the bids optimise for.
+ *
+ * Only this page loads it: it is the one page the ads send traffic to, and the
+ * rest of the site keeps its no-third-party-tracking stance.
+ */
+export const GOOGLE_ADS_ID = 'AW-18481323662';
+
+export const courseHead = () =>
+  `  <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}"></script>
+  <script src="/assets/js/google-ads.js" data-ads-id="${GOOGLE_ADS_ID}" data-checkout-host="${
+    new URL(COURSE.checkoutUrl).host
+  }" data-value="${DISCOUNTED}" data-currency="${COURSE.currency}"></script>
+`;
+
+/**
  * What the buyer gets, in the order a buyer cares about it.
  *
  * The templates line names the number of files rather than the word "bonus",
