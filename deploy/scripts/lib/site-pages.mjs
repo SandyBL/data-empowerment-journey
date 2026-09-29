@@ -37,6 +37,7 @@ import { renderPlaybookPanel } from './playbook-panel.mjs';
 import { renderBoardSummary } from './board-summary.mjs';
 import {
   courseFaqSchema,
+  courseHead,
   courseSchema,
   renderCourseClose,
   renderCourseCurriculum,
@@ -528,6 +529,9 @@ ${renderBody(page, partials, boardSummary)}${
     bodyClass: 'subject-page',
     embedsHomeMarkup: usesHomeMarkup(page),
     ogType: page.schemaKind === 'profile' ? 'profile' : 'website',
+    // The Google Ads tag, on the course page only. See GOOGLE_ADS_ID in
+    // ./course.mjs for why it is here and nowhere else.
+    extraHead: page.schemaKind === 'course' ? courseHead() : '',
     // Each block brings its own script and nothing else loads it, so a page
     // without the block never pays for it.
     extraScripts: [
