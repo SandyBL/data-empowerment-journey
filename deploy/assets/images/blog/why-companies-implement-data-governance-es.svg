@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">LOS TRES IMPULSORES DEL GOBIERNO DE DATOS</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Desde la Respuesta a Crisis (Reactivo) Hasta la Generación de Valor (Estratégico)</text>
+
+  <!-- COLUMN 1: REACTIVE -->
+  <g transform="translate(20, 75)">
+    <rect width="213" height="320" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="6" rx="3" fill="#ef4444"/>
+    <rect x="12" y="16" width="90" height="20" rx="3" fill="#dc2626" fill-opacity="0.25"/>
+    <text x="57" y="30" text-anchor="middle" font-size="10" font-weight="800" fill="#fca5a5" letter-spacing="0.5">MODO REACTIVO</text>
+    <text x="12" y="58" font-size="15" font-weight="700" fill="#f8fafc">Respuesta a Crisis</text>
+
+    <line x1="12" y1="70" x2="201" y2="70" stroke="#334155" stroke-width="1"/>
+
+    <text x="12" y="90" font-size="11" font-weight="700" fill="#38bdf8">Detonante Principal:</text>
+    <text x="12" y="106" font-size="11" font-weight="400" fill="#94a3b8">• Brecha de seguridad</text>
+    <text x="12" y="122" font-size="11" font-weight="400" fill="#94a3b8">• Sanción regulatoria</text>
+    <text x="12" y="138" font-size="11" font-weight="400" fill="#94a3b8">• Fallo grave de sistema</text>
+
+    <text x="12" y="168" font-size="11" font-weight="700" fill="#38bdf8">Enfoque Operativo:</text>
+    <text x="12" y="184" font-size="11" font-weight="400" fill="#94a3b8">• Parches de seguridad</text>
+    <text x="12" y="200" font-size="11" font-weight="400" fill="#94a3b8">• Registros obligatorios</text>
+    <text x="12" y="216" font-size="11" font-weight="400" fill="#94a3b8">• Limpieza de datos aislada</text>
+
+    <text x="12" y="246" font-size="11" font-weight="700" fill="#38bdf8">Impacto en ROI:</text>
+    <text x="12" y="262" font-size="11" font-weight="400" fill="#94a3b8">• Centro de coste elevado</text>
+    <text x="12" y="278" font-size="11" font-weight="400" fill="#94a3b8">• Baja adopción por usuarios</text>
+    <text x="12" y="294" font-size="11" font-weight="400" fill="#94a3b8">• Control de daños</text>
+  </g>
+
+  <!-- COLUMN 2: PREEMPTIVE -->
+  <g transform="translate(253, 75)">
+    <rect width="213" height="320" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="6" rx="3" fill="#f59e0b"/>
+    <rect x="12" y="16" width="105" height="20" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="64" y="30" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">MODO PREVENTIVO</text>
+    <text x="12" y="58" font-size="15" font-weight="700" fill="#f8fafc">Mitigación de Riesgos</text>
+
+    <line x1="12" y1="70" x2="201" y2="70" stroke="#334155" stroke-width="1"/>
+
+    <text x="12" y="90" font-size="11" font-weight="700" fill="#38bdf8">Detonante Principal:</text>
+    <text x="12" y="106" font-size="11" font-weight="400" fill="#94a3b8">• Nuevas leyes de privacidad</text>
+    <text x="12" y="122" font-size="11" font-weight="400" fill="#94a3b8">• Procesos de fusión (M&amp;A)</text>
+    <text x="12" y="138" font-size="11" font-weight="400" fill="#94a3b8">• Migración a la nube</text>
+
+    <text x="12" y="168" font-size="11" font-weight="700" fill="#38bdf8">Enfoque Operativo:</text>
+    <text x="12" y="184" font-size="11" font-weight="400" fill="#94a3b8">• Clasificación de datos / MDM</text>
+    <text x="12" y="200" font-size="11" font-weight="400" fill="#94a3b8">• Modelos de datos comunes</text>
+    <text x="12" y="216" font-size="11" font-weight="400" fill="#94a3b8">• Auditorías preventivas</text>
+
+    <text x="12" y="246" font-size="11" font-weight="700" fill="#38bdf8">Impacto en ROI:</text>
+    <text x="12" y="262" font-size="11" font-weight="400" fill="#94a3b8">• Evita sanciones futuras</text>
+    <text x="12" y="278" font-size="11" font-weight="400" fill="#94a3b8">• Integraciones fluidas</text>
+    <text x="12" y="294" font-size="11" font-weight="400" fill="#94a3b8">• Protección del activo</text>
+  </g>
+
+  <!-- COLUMN 3: STRATEGIC -->
+  <g transform="translate(486, 75)">
+    <rect width="213" height="320" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="6" rx="3" fill="#22c55e"/>
+    <rect x="12" y="16" width="105" height="20" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="64" y="30" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">MODO ESTRATÉGICO</text>
+    <text x="12" y="58" font-size="15" font-weight="700" fill="#f8fafc">Generador de Valor</text>
+
+    <line x1="12" y1="70" x2="201" y2="70" stroke="#334155" stroke-width="1"/>
+
+    <text x="12" y="90" font-size="11" font-weight="700" fill="#38bdf8">Detonante Principal:</text>
+    <text x="12" y="106" font-size="11" font-weight="400" fill="#94a3b8">• Crecimiento de ingresos</text>
+    <text x="12" y="122" font-size="11" font-weight="400" fill="#94a3b8">• Analítica en autoservicio</text>
+    <text x="12" y="138" font-size="11" font-weight="400" fill="#94a3b8">• Escalado de proyectos de IA</text>
+
+    <text x="12" y="168" font-size="11" font-weight="700" fill="#38bdf8">Enfoque Operativo:</text>
+    <text x="12" y="184" font-size="11" font-weight="400" fill="#94a3b8">• Catálogo de datos certificado</text>
+    <text x="12" y="200" font-size="11" font-weight="400" fill="#94a3b8">• Propiedad por dominios</text>
+    <text x="12" y="216" font-size="11" font-weight="400" fill="#94a3b8">• Calidad de datos automática</text>
+
+    <text x="12" y="246" font-size="11" font-weight="700" fill="#38bdf8">Impacto en ROI:</text>
+    <text x="12" y="262" font-size="11" font-weight="400" fill="#94a3b8">• Decisiones más rápidas</text>
+    <text x="12" y="278" font-size="11" font-weight="400" fill="#94a3b8">• Menor desperdicio operativo</text>
+    <text x="12" y="294" font-size="11" font-weight="400" fill="#94a3b8">• Ventaja competitiva sólida</text>
+  </g>
+</svg>
