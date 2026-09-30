@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">OS TRÊS MOTIVADORES DA GOVERNANÇA DE DADOS</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Da Resposta a Crises (Reativa) à Geração de Valor para o Negócio (Estratégica)</text>
+
+  <!-- COLUMN 1: REACTIVE -->
+  <g transform="translate(20, 75)">
+    <rect width="213" height="320" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="6" rx="3" fill="#ef4444"/>
+    <rect x="12" y="16" width="90" height="20" rx="3" fill="#dc2626" fill-opacity="0.25"/>
+    <text x="57" y="30" text-anchor="middle" font-size="10" font-weight="800" fill="#fca5a5" letter-spacing="0.5">MODO REATIVO</text>
+    <text x="12" y="58" font-size="15" font-weight="700" fill="#f8fafc">Resposta a Crises</text>
+
+    <line x1="12" y1="70" x2="201" y2="70" stroke="#334155" stroke-width="1"/>
+
+    <text x="12" y="90" font-size="11" font-weight="700" fill="#38bdf8">Gatilho Principal:</text>
+    <text x="12" y="106" font-size="11" font-weight="400" fill="#94a3b8">• Vazamento de dados</text>
+    <text x="12" y="122" font-size="11" font-weight="400" fill="#94a3b8">• Multas da LGPD</text>
+    <text x="12" y="138" font-size="11" font-weight="400" fill="#94a3b8">• Falha grave nos sistemas</text>
+
+    <text x="12" y="168" font-size="11" font-weight="700" fill="#38bdf8">Foco Operacional:</text>
+    <text x="12" y="184" font-size="11" font-weight="400" fill="#94a3b8">• Correções emergenciais</text>
+    <text x="12" y="200" font-size="11" font-weight="400" fill="#94a3b8">• Auditorias obrigatórias</text>
+    <text x="12" y="216" font-size="11" font-weight="400" fill="#94a3b8">• Limpeza pontual de dados</text>
+
+    <text x="12" y="246" font-size="11" font-weight="700" fill="#38bdf8">Impacto no ROI:</text>
+    <text x="12" y="262" font-size="11" font-weight="400" fill="#94a3b8">• Alto centro de custo</text>
+    <text x="12" y="278" font-size="11" font-weight="400" fill="#94a3b8">• Baixa adesão dos usuários</text>
+    <text x="12" y="294" font-size="11" font-weight="400" fill="#94a3b8">• Foco em contenção de danos</text>
+  </g>
+
+  <!-- COLUMN 2: PREEMPTIVE -->
+  <g transform="translate(253, 75)">
+    <rect width="213" height="320" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="6" rx="3" fill="#f59e0b"/>
+    <rect x="12" y="16" width="105" height="20" rx="3" fill="#d97706" fill-opacity="0.25"/>
+    <text x="64" y="30" text-anchor="middle" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="0.5">MODO PREVENTIVO</text>
+    <text x="12" y="58" font-size="15" font-weight="700" fill="#f8fafc">Mitigação de Riscos</text>
+
+    <line x1="12" y1="70" x2="201" y2="70" stroke="#334155" stroke-width="1"/>
+
+    <text x="12" y="90" font-size="11" font-weight="700" fill="#38bdf8">Gatilho Principal:</text>
+    <text x="12" y="106" font-size="11" font-weight="400" fill="#94a3b8">• Mudanças regulatórias</text>
+    <text x="12" y="122" font-size="11" font-weight="400" fill="#94a3b8">• Processos de M&amp;A/Fusões</text>
+    <text x="12" y="138" font-size="11" font-weight="400" fill="#94a3b8">• Migração para a nuvem</text>
+
+    <text x="12" y="168" font-size="11" font-weight="700" fill="#38bdf8">Foco Operacional:</text>
+    <text x="12" y="184" font-size="11" font-weight="400" fill="#94a3b8">• Classificação de dados / MDM</text>
+    <text x="12" y="200" font-size="11" font-weight="400" fill="#94a3b8">• Modelos padronizados</text>
+    <text x="12" y="216" font-size="11" font-weight="400" fill="#94a3b8">• Auditorias preventivas</text>
+
+    <text x="12" y="246" font-size="11" font-weight="700" fill="#38bdf8">Impacto no ROI:</text>
+    <text x="12" y="262" font-size="11" font-weight="400" fill="#94a3b8">• Evita multas futuras</text>
+    <text x="12" y="278" font-size="11" font-weight="400" fill="#94a3b8">• Integrações sem solavancos</text>
+    <text x="12" y="294" font-size="11" font-weight="400" fill="#94a3b8">• Proteção do ativo de dados</text>
+  </g>
+
+  <!-- COLUMN 3: STRATEGIC -->
+  <g transform="translate(486, 75)">
+    <rect width="213" height="320" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="213" height="6" rx="3" fill="#22c55e"/>
+    <rect x="12" y="16" width="105" height="20" rx="3" fill="#16a34a" fill-opacity="0.25"/>
+    <text x="64" y="30" text-anchor="middle" font-size="10" font-weight="800" fill="#4ade80" letter-spacing="0.5">MODO ESTRATÉGICO</text>
+    <text x="12" y="58" font-size="15" font-weight="700" fill="#f8fafc">Gerador de Valor</text>
+
+    <line x1="12" y1="70" x2="201" y2="70" stroke="#334155" stroke-width="1"/>
+
+    <text x="12" y="90" font-size="11" font-weight="700" fill="#38bdf8">Gatilho Principal:</text>
+    <text x="12" y="106" font-size="11" font-weight="400" fill="#94a3b8">• Metas de crescimento</text>
+    <text x="12" y="122" font-size="11" font-weight="400" fill="#94a3b8">• Self-service analytics</text>
+    <text x="12" y="138" font-size="11" font-weight="400" fill="#94a3b8">• Projetos escaláveis de IA</text>
+
+    <text x="12" y="168" font-size="11" font-weight="700" fill="#38bdf8">Foco Operacional:</text>
+    <text x="12" y="184" font-size="11" font-weight="400" fill="#94a3b8">• Catálogo de Dados homologado</text>
+    <text x="12" y="200" font-size="11" font-weight="400" fill="#94a3b8">• Donos de Dados por domínio</text>
+    <text x="12" y="216" font-size="11" font-weight="400" fill="#94a3b8">• Qualidade de dados automática</text>
+
+    <text x="12" y="246" font-size="11" font-weight="700" fill="#38bdf8">Impacto no ROI:</text>
+    <text x="12" y="262" font-size="11" font-weight="400" fill="#94a3b8">• Decisões mais rápidas</text>
+    <text x="12" y="278" font-size="11" font-weight="400" fill="#94a3b8">• Menor desperdício operacional</text>
+    <text x="12" y="294" font-size="11" font-weight="400" fill="#94a3b8">• Vantagem competitiva sólida</text>
+  </g>
+</svg>
