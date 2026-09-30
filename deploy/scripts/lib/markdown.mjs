@@ -102,28 +102,53 @@ const ASCII_LABELLED_JOINT = /^\s*([\u2502\u2503\u2506\u250a\u25b2\u25bc\u2190\u
 const TABLE_DELIMITER = /^\s*\|[\s:|-]+\|\s*$/;
 
 /**
- * ASCII box art, re-assembled from what the editor left of it.
+ * A line of box art with the editor's escapes undone and the Unicode
+ * box-drawing characters folded into their ASCII equivalents.
+ *
+ * Diagrams pasted from a chat assistant or a documentation tool are as often
+ * drawn with `┌──┐ │ └──┘` as with `+--+ | +--+`, and the two mean the same
+ * thing. Folding the corners and tees into `+`, the horizontals into `-` and
+ * the verticals into `|` lets one parser read both, so a pasted drawing is
+ * never published as text just because of which characters drew it. The
+ * arrowheads (▼ ▲ → ←) are left alone: they are what a joint is made of.
+ */
+const BOX_CORNERS = /[┌┐└┘├┤┬┴┼┏┓┗┛┣┫┳┻╋╔╗╚╝╠╣╦╩╬╭╮╯╰]/g;
+const BOX_HORIZONTALS = /[─━═┄┅┈┉]/g;
+const BOX_VERTICALS = /[│┃║┆┇┊┋]/g;
+const boxArtLine = (line) =>
+  line.replace(/\\([|+])/g, '$1').replace(BOX_CORNERS, '+').replace(BOX_HORIZONTALS, '-');
+/** A row or border with its verticals folded too; joints keep theirs. */
+const boxArtRow = (line) => boxArtLine(line).replace(BOX_VERTICALS, '|');
+
+/** Arrowheads that point up, so a connector drawn upwards is drawn upwards. */
+const UP_ARROW = /[▲↑^]/;
+const DOWN_ARROW = /[▼↓vV]/;
+const SIDE_ARROW = /^\s*(?:[-=]+>|<[-=]+|<[-=]+>|[←→↔◄►])\s*$/;
+
+/**
+ * ASCII box art, re-assembled from what the editor left of it and drawn as a
+ * real diagram.
  *
  * A diagram drawn in characters is the one kind of content whose meaning is
  * entirely in its whitespace, and it is also the kind the Blog Content Studio
  * damages worst. Saving an article puts a blank line between every pair of
  * lines, so each row of the drawing becomes a separate Markdown paragraph;
  * escapes the pipes that draw the sides; and wraps the indented arrow lines in
- * code fences of its own invention. The author sees the drawing intact in the
- * editor and a column of stray paragraphs on the published page, each one
- * re-wrapped and its padding collapsed -- which is the bug this fixes.
+ * code fences of its own invention. So a run of box-art lines is collected as
+ * one drawing, the blank lines and the invented fences are dropped, and the
+ * escapes are undone.
  *
- * So a run of box-art lines is collected as one drawing, the blank lines and
- * the invented fences are dropped, and the escapes are undone.
+ * The drawing is then read for its structure rather than its characters:
+ * every band of rows between two border lines is a tier, each column of a tier
+ * is a box, and the arrow lines between tiers are the connectors (with any
+ * label typed beside the arrow). That is what renderBoxDiagram draws in the
+ * site's own style, so an article reads the same whether its picture arrived
+ * as an SVG or was typed into the editor. Publishing the characters in a
+ * monospace block -- which is what this used to do -- left readers with a
+ * scrolling block of dashes and pipes on a phone.
  *
- * The geometry is then rebuilt, but only for a drawing whose rows each hold a
- * single cell -- boxes stacked one above the next, which is the shape the
- * editor mangles and the shape whose widths no longer agree with each other by
- * the time they arrive. Every border becomes as wide as the widest row, every
- * row is padded to meet it, and every arrow is centred under the box above it.
- * A row with an interior pipe is a column in a wider drawing, and there is no
- * way to widen one column without moving every other one, so those are kept
- * exactly as the author aligned them.
+ * Only a drawing that cannot be read that way (a tier whose rows disagree on
+ * how many columns they have) is kept as the author aligned it, in a <pre>.
  *
  * A run has to contain at least two borders and one row to be a drawing at all,
  * which is what keeps prose, thematic breaks and pipe tables out of it: a table
@@ -132,7 +157,7 @@ const TABLE_DELIMITER = /^\s*\|[\s:|-]+\|\s*$/;
  * Returns the finished block and the line to resume at, or null when the run is
  * not box art.
  */
-const asciiDiagram = (lines, start, labels) => {
+const asciiDiagram = (lines, start, labels, imageSize) => {
   const parts = [];
   let index = start;
   let borders = 0;
@@ -147,9 +172,9 @@ const asciiDiagram = (lines, start, labels) => {
       continue;
     }
 
-    const bare = line.replace(/\\([|+])/g, '$1').trimEnd();
+    const bare = boxArtRow(line).trimEnd();
     if (ASCII_BORDER.test(bare)) {
-      parts.push({ kind: 'border', text: bare.trimStart() });
+      parts.push({ kind: 'border', raw: bare });
       borders += 1;
       index += 1;
       continue;
@@ -158,22 +183,33 @@ const asciiDiagram = (lines, start, labels) => {
     // A row whose next line is a table's delimiter is a table header, so the
     // drawing stops short of it rather than swallowing the table behind it.
     const row = bare.match(ASCII_ROW);
+    // An empty row outside any box is not a row but the uprights of two or
+    // more arrows (`│      │`) leaving the boxes above it.
+    const last = parts[parts.length - 1];
+    const outside = last?.kind === 'joint' || (last?.kind === 'border' && parts[parts.length - 2]?.kind === 'row');
+    if (row && outside && !row[1].replace(/\|/g, '').trim()) {
+      const joint = boxArtLine(line).trim();
+      parts.push({ kind: 'joint', text: joint, raw: joint });
+      index += 1;
+      continue;
+    }
     if (row && !TABLE_DELIMITER.test(lines[index + 1] ?? '')) {
-      parts.push({ kind: 'row', text: row[1].trim(), cells: row[1].includes('|'), raw: bare });
+      parts.push({ kind: 'row', cells: row[1].split('|').map((cell) => cell.trim()), raw: bare });
       rows += 1;
       index += 1;
       continue;
     }
 
-    if (ASCII_JOINT.test(bare)) {
-      parts.push({ kind: 'joint', text: bare.trim(), raw: bare });
+    const joint = boxArtLine(line).trimEnd();
+    if (ASCII_JOINT.test(joint)) {
+      parts.push({ kind: 'joint', text: joint.trim(), raw: joint });
       index += 1;
       continue;
     }
 
-    const labelled = bare.match(ASCII_LABELLED_JOINT);
+    const labelled = joint.match(ASCII_LABELLED_JOINT);
     if (labelled && parts.length) {
-      parts.push({ kind: 'joint', text: labelled[1], label: labelled[2], raw: bare });
+      parts.push({ kind: 'joint', text: labelled[1], label: labelled[2], raw: joint });
       index += 1;
       continue;
     }
@@ -183,26 +219,166 @@ const asciiDiagram = (lines, start, labels) => {
 
   if (borders < 2 || rows < 1) return null;
 
-  const stacked = parts.every((part) => part.kind !== 'row' || !part.cells);
-  if (!stacked) {
-    const kept = parts.map((part) => part.raw ?? part.text);
+  const tiers = boxTiers(parts);
+  if (!tiers) {
+    const kept = parts.map((part) => part.raw);
     return { block: renderCodeBlock(kept.join('\n'), '', labels.diagram), next: index };
   }
 
-  const width = Math.max(...parts.filter((part) => part.kind === 'row').map((part) => part.text.length));
-  const border = `+${'-'.repeat(width + 2)}+`;
-  const drawing = parts
-    .filter((part) => part.kind !== 'joint' || part.text)
-    .map((part) => {
-      if (part.kind === 'border') return border;
-      if (part.kind === 'row') return `| ${part.text.padEnd(width)} |`;
-      // The arrow is centred on its own and the label hangs off to its right,
-      // so a long label does not drag the arrow away from the boxes it joins.
-      const lead = Math.max(0, Math.round((width + 4 - part.text.length) / 2));
-      return `${' '.repeat(lead)}${part.text}${part.label ? ` ${part.label}` : ''}`;
-    });
+  let caption = '';
+  const after = skipBlankLines(lines, index);
+  if (isFlowCaption(lines, after)) {
+    caption = lines[after].trim();
+    index = after + 1;
+  }
+  return { block: renderBoxDiagram(tiers, caption, imageSize), next: index };
+};
 
-  return { block: renderCodeBlock(drawing.join('\n'), '', labels.diagram), next: index };
+/**
+ * The parts of a drawing grouped into tiers of boxes, or null when a tier's
+ * rows disagree on their columns and the drawing has to stay as characters.
+ *
+ * Rows between two borders with no arrow between them are one tier; a border
+ * inside a box (the line under a heading row) does not start a new one. A
+ * column that is empty in every row is the gap between two boxes, and a column
+ * holding nothing but arrows is a sideways connector between its neighbours.
+ */
+const boxTiers = (parts) => {
+  const tiers = [];
+  let current = null;
+  let link = null;
+
+  for (const part of parts) {
+    if (part.kind === 'joint') {
+      if (!part.text && !part.label) continue;
+      link ??= { up: false, down: false, labels: [] };
+      if (UP_ARROW.test(part.text)) link.up = true;
+      if (DOWN_ARROW.test(part.text)) link.down = true;
+      if (part.label) link.labels.push(part.label.replace(/^\((.*)\)$/, '$1'));
+      current = null;
+      continue;
+    }
+    if (part.kind === 'border') {
+      if (current?.rows.length) current.sealed = true;
+      continue;
+    }
+    if (!current || (current.sealed && link)) {
+      current = { rows: [], link: tiers.length ? link : null, sealed: false };
+      tiers.push(current);
+      link = null;
+    } else if (current.sealed) {
+      // A second band under the first with no arrow between them: a section of
+      // the same box, marked so the renderer can rule a line above it.
+      current.rows.push(null);
+      current.sealed = false;
+    }
+    current.rows.push(part.cells);
+  }
+
+  for (const tier of tiers) {
+    const rows = tier.rows.filter(Boolean);
+    const width = rows[0].length;
+    if (rows.some((cells) => cells.length !== width)) return null;
+    const columns = [];
+    for (let column = 0; column < width; column += 1) {
+      const lines = tier.rows.map((cells) => (cells ? cells[column] : null));
+      const filled = lines.filter((text) => text);
+      if (!filled.length) continue;
+      if (filled.every((text) => SIDE_ARROW.test(text))) {
+        columns.push({ kind: 'arrow', back: filled.some((text) => /[<←◄]/.test(text)) });
+        continue;
+      }
+      columns.push({ kind: 'box', lines });
+    }
+    if (!columns.some((column) => column.kind === 'box')) return null;
+    tier.columns = columns;
+  }
+  return tiers.length ? tiers : null;
+};
+
+/**
+ * The lines of one box as paragraphs: a row that carries on the sentence of
+ * the row above (it starts in lower case and the one above did not end one) is
+ * joined back onto it, because the author only broke it to fit the box.
+ */
+const boxParagraphs = (lines) => {
+  const paragraphs = [];
+  let joinable = false;
+  for (const text of lines) {
+    if (text === null) {
+      paragraphs.push(null);
+      joinable = false;
+      continue;
+    }
+    if (!text) {
+      joinable = false;
+      continue;
+    }
+    const last = paragraphs.length - 1;
+    if (joinable && paragraphs[last] && /^[a-z(]/.test(text) && !/[.:;!?]$/.test(paragraphs[last])) {
+      paragraphs[last] = `${paragraphs[last]} ${text}`;
+    } else {
+      paragraphs.push(text);
+    }
+    joinable = true;
+  }
+  return paragraphs;
+};
+
+/**
+ * One box: the first line is its title (a trailing parenthesis becomes a
+ * subtitle under it, which is how authors write "REACTIVE (Firefighting
+ * Mode)"), and every other line is a line of body copy, with a leading
+ * `Label:` picked out so it reads as a field rather than a sentence.
+ */
+const renderBox = (lines, imageSize) => {
+  const [title, ...rest] = boxParagraphs(lines).filter((text, position) => position > 0 || text !== null);
+  const heading = (title ?? '').match(/^(.*?)\s*\(([^()]+)\)$/);
+  const titleHtml = heading && heading[1]
+    ? `${renderInline(heading[1], imageSize)}<span class="box-diagram-subtitle">${renderInline(heading[2], imageSize)}</span>`
+    : renderInline(title ?? '', imageSize);
+  const body = rest
+    .map((text) => {
+      if (text === null) return '<hr class="box-diagram-rule">';
+      const field = text.match(/^([^:*\[\]]{1,32}):\s+(.+)$/);
+      if (field) {
+        return `<p class="box-diagram-line"><span class="box-diagram-key">${renderInline(field[1], imageSize)}:</span> ${renderInline(field[2], imageSize)}</p>`;
+      }
+      return `<p class="box-diagram-line">${renderInline(text.replace(/^[-*•]\s+/, '• '), imageSize)}</p>`;
+    })
+    .join('');
+  return `<div class="box-diagram-box"><p class="box-diagram-title">${titleHtml}</p>${body}</div>`;
+};
+
+/**
+ * The tiers as a figure: an ordered list, because a drawing of boxes joined by
+ * arrows is a sequence and a screen reader should announce it as one. The
+ * arrows are drawn by the stylesheet with an empty alternative text, and only
+ * the label an author wrote beside an arrow is read out.
+ */
+const renderBoxDiagram = (tiers, caption, imageSize) => {
+  const items = tiers
+    .map(({ columns, link }) => {
+      let connector = '';
+      if (link) {
+        const direction = link.up && !link.down ? 'up' : link.up && link.down ? 'both' : 'down';
+        const label = link.labels.length
+          ? `<span class="box-diagram-link-label">${link.labels.map((text) => renderInline(text, imageSize)).join('<br>')}</span>`
+          : '';
+        connector = `<div class="box-diagram-link box-diagram-link-${direction}"><span class="box-diagram-arrow" aria-hidden="true"></span>${label}</div>`;
+      }
+      const boxes = columns
+        .map((column) =>
+          column.kind === 'arrow'
+            ? `<span class="box-diagram-side-arrow${column.back ? ' box-diagram-side-arrow-back' : ''}" aria-hidden="true"></span>`
+            : renderBox(column.lines, imageSize),
+        )
+        .join('');
+      return `<li class="box-diagram-tier">${connector}<div class="box-diagram-boxes">${boxes}</div></li>`;
+    })
+    .join('');
+  const figcaption = caption ? `<figcaption>${renderInline(caption, imageSize)}</figcaption>` : '';
+  return `<figure class="box-diagram"><ol class="box-diagram-tiers">${items}</ol>${figcaption}</figure>`;
 };
 
 /**
@@ -224,7 +400,7 @@ const BLOCK_START = /^\s*(#{1,6}\s|>|\\?\||\\?\+|[*-]\s|\d+\.\s|!\[)/;
 
 /** The cells of a pipe row, with the editor's escaped pipes undone. */
 const pipeCells = (line) => {
-  const row = line.replace(/\\([|+])/g, '$1').match(ASCII_ROW);
+  const row = boxArtRow(line).match(ASCII_ROW);
   return row ? row[1].split('|').map((cell) => cell.trim()) : null;
 };
 
@@ -280,7 +456,7 @@ const flowAt = (lines, start) => {
     return { steps, next: start + 1 };
   }
 
-  const unescaped = (line) => line.replace(/\\([|+])/g, '$1');
+  const unescaped = boxArtRow;
   if (!ASCII_ROW.test(unescaped(first)) && !ASCII_BORDER.test(unescaped(first))) return null;
 
   let steps = null;
@@ -727,8 +903,8 @@ export const renderMarkdown = (markdown, { imageSize, lang } = {}) => {
     // Box art first: the run it belongs to can contain the code fences the
     // editor wrapped around parts of it, so the fence branch below must not get
     // to those lines first and cut the drawing in half.
-    if (ASCII_BORDER.test(line.replace(/\\([|+])/g, '$1'))) {
-      const diagram = asciiDiagram(lines, index, labels);
+    if (ASCII_BORDER.test(boxArtRow(line))) {
+      const diagram = asciiDiagram(lines, index, labels, imageSize);
       if (diagram) {
         html.push(diagram.block);
         index = diagram.next;
