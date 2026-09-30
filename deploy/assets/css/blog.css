@@ -176,6 +176,41 @@ a.blog-kicker:hover { color: var(--coral); }
 .flow-diagram-label { font-size: .82rem; font-weight: 700; line-height: 1.35; }
 .flow-diagram-note { display: block; margin-top: 5px; color: var(--ink-soft); font-size: .72rem; font-weight: 500; line-height: 1.4; }
 .article-body .flow-diagram figcaption { margin-top: 18px; }
+/* Box diagrams: ASCII or Unicode box art an author typed or pasted into an
+   article (`+----+ | ... | +----+` joined by `│ ▼`), which scripts/lib/
+   markdown.mjs reads into tiers of boxes. Each tier is a row of cards, and the
+   arrows between tiers are drawn here with an empty alternative text so only
+   the label the author typed beside an arrow is read out. Side-by-side boxes
+   wrap into a column on a phone rather than shrinking to a word each. */
+.article-body .box-diagram { padding: 24px 22px; border: 1px solid var(--line); background: var(--white); border-radius: 2px 22px 2px 2px; font-family: var(--sans); }
+.box-diagram-tiers { margin: 0; padding: 0; list-style: none; }
+.box-diagram-tier { margin: 0; padding: 0; }
+.box-diagram-link { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 40px; padding: 6px 0; }
+.box-diagram-arrow::before { content: '\2193'; content: '\2193' / ''; color: var(--mint-dark); font-size: 1.25rem; font-weight: 800; line-height: 1; }
+.box-diagram-link-up .box-diagram-arrow::before { content: '\2191'; content: '\2191' / ''; }
+.box-diagram-link-both .box-diagram-arrow::before { content: '\2195'; content: '\2195' / ''; }
+.box-diagram-link-label { color: var(--ink-soft); font-size: .72rem; font-style: italic; line-height: 1.4; }
+.box-diagram-boxes { display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 14px; }
+.box-diagram-box { flex: 1 1 180px; min-width: 0; padding: 14px 16px; background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--mint-dark); border-radius: 2px 14px 2px 2px; color: var(--ink); overflow-wrap: break-word; hyphens: auto; }
+/* The last tier is where the sequence ends up, so it carries the one accent,
+   matching the outcome step of the flow diagrams above. */
+.box-diagram-tiers > li:last-child .box-diagram-box { background: rgba(98, 230, 189, .14); border-color: rgba(10, 117, 104, .32); border-left-color: var(--mint-dark); }
+.article-body .box-diagram-title { margin: 0; font-size: .86rem; font-weight: 800; line-height: 1.35; letter-spacing: .02em; }
+.box-diagram-subtitle { display: block; margin-top: 2px; color: var(--mint-dark); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.article-body .box-diagram-line { margin: 6px 0 0; color: var(--ink-soft); font-size: .78rem; line-height: 1.5; }
+.box-diagram-key { color: var(--ink); font-weight: 700; }
+.article-body .box-diagram-rule { margin: 10px 0 4px; border: 0; border-top: 1px dashed var(--line); }
+.box-diagram-side-arrow { align-self: center; flex: 0 0 auto; }
+.box-diagram-side-arrow::before { content: '\2192'; content: '\2192' / ''; color: var(--mint-dark); font-size: 1.1rem; font-weight: 800; }
+.box-diagram-side-arrow-back::before { content: '\2190'; content: '\2190' / ''; }
+.article-body .box-diagram figcaption { margin-top: 18px; }
+@media (max-width: 560px) {
+  .box-diagram-boxes { flex-direction: column; }
+  .box-diagram-box { flex-basis: auto; }
+  .box-diagram-side-arrow::before { content: '\2193'; content: '\2193' / ''; }
+  .box-diagram-side-arrow-back::before { content: '\2191'; content: '\2191' / ''; }
+  .box-diagram-side-arrow { align-self: center; }
+}
 /* Pre-formatted blocks: fenced code, and the box-drawing diagrams the renderer
    recovers out of an article's plain text. Both only mean anything while every
    character keeps the column it was typed in, so the font has to be monospace
