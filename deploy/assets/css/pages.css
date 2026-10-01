@@ -1636,10 +1636,47 @@
 
 /* ----------------------------------------------------------- course page -- */
 
-/* The one paid page on the site, and the only one in a single language: see
+/* The one paid page on the site, in three languages: see
    scripts/lib/course.mjs. The blocks are rendered from code rather than lifted
    out of src/partials/, so every class below has to be defined here -- the page
    never loads assets/styles.css, which is what keeps its prose readable. */
+
+/* Cover art, centred and capped so a square image does not push the first
+   paragraph below the fold on a laptop. The language notice under it is the
+   Spanish and English pages' first answer: Portuguese videos, subtitled. */
+.course-cover {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+.course-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  border: 1px solid rgba(101, 183, 199, 0.4);
+  box-shadow: 0 18px 40px -24px rgba(0, 51, 102, 0.45);
+}
+
+.course-language {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 640px;
+  margin: 18px auto 0;
+  padding: 14px 18px;
+  border: 1px solid rgba(236, 109, 87, 0.45);
+  border-radius: 14px;
+  background: rgba(236, 109, 87, 0.08);
+  color: #003366;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.course-language i {
+  margin-top: 3px;
+  color: #ec6d57;
+}
 
 /* Offer card: the buy column and the six included items, side by side. The buy
    column comes first in the markup so a phone gets the price and the button

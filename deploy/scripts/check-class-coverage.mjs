@@ -65,10 +65,12 @@ const HTML_SOURCES = [
   // not load the homepage stylesheet: every board-summary class has to exist in
   // assets/css/pages.css on its own.
   'en/simulator-results/index.html',
-  // The course page, for the same reason and in the only language it has: its
-  // five blocks come from scripts/lib/course.mjs, so the course-* vocabulary
-  // exists in that module and in assets/css/pages.css and nowhere else.
+  // The course page, for the same reason: its six blocks come from
+  // scripts/lib/course.mjs, so the course-* vocabulary exists in that module and
+  // in assets/css/pages.css and nowhere else. Portuguese, and English for the
+  // language notice the Portuguese page does not render.
   'pt/curso-governanca-de-dados/index.html',
+  'en/data-governance-course/index.html',
   // The twelve simulators. These were advisory-only for as long as they compiled
   // their utilities in the browser from the Tailwind Play CDN: a class that only
   // ever exists inside a runtime compiler is not a class this script can verify,

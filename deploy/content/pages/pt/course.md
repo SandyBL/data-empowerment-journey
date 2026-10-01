@@ -8,8 +8,10 @@ description: Curso online em português de governança de dados na prática: 16 
 kicker: Curso online
 schema: course
 related_articles: introduction-basics-data-governance-program, building-a-data-governance-operating-model, guide-to-data-governance-maturity-assessments, responsible-ai-starts-with-data-governance
-updated: 2026-09-21
+updated: 2026-09-30
 ---
+
+{{COURSE_COVER}}
 
 Existe muito conteúdo bom sobre governança de dados. Quase tudo em inglês, escrito para empresas que já têm um Chief Data Officer, um orçamento aprovado e três pessoas dedicadas ao assunto. Em português, o que sobra é tradução de vocabulário: a definição da DAMA, a lista dos onze pilares do DMBOK, o diagrama com as setas. Nada disso responde à pergunta que chega na sua mesa, que é como você monta a primeira política, quem você chama para o comitê e o que você mostra na terça-feira para não perder o patrocinador.
 

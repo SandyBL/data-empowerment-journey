@@ -242,11 +242,12 @@
             <!-- One conversion point for all four categories rather than a CTA
                  per category, because the locked lists all lead to the same
                  place. The destination is the only part that differs by
-                 language: Portuguese now has the course, so it points at
-                 /pt/course/, where the eighteen files below are what is being
-                 sold, while Spanish and English point at the contact form --
-                 there the full library is a consulting conversation, not a
-                 purchase.
+                 language: Portuguese points at /pt/course/, where the eighteen
+                 files below are what is being sold. Spanish and English keep
+                 the contact form as the main action -- the course files are
+                 the Portuguese originals, so a reader wanting them in their own
+                 language is a consulting conversation -- and name the course
+                 underneath, with its language stated.
 
                  Anchors cannot carry data-lang-content (stripOtherLanguages in
                  scripts/lib/home-pages.mjs only walks div, p and span), so each
@@ -284,6 +285,7 @@
                         Solicitar la biblioteca completa
                         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </a>
+                    <p class="template-library-cta__note">Las 18 también vienen con el <a href="/es/course/">curso de gobierno de datos</a>, en su versión original en portugués; las clases están en portugués con subtítulos en español.</p>
                 </div>
                 <div data-lang-content="en">
                     <a href="#contact-form-start" class="template-library-cta__button">
@@ -291,6 +293,7 @@
                         Request the full library
                         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </a>
+                    <p class="template-library-cta__note">All 18 also come with the <a href="/en/course/">data governance course</a>, in their original Portuguese; the lessons are in Portuguese with English subtitles.</p>
                 </div>
             </div>
         </div>

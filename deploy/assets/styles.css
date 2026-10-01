@@ -2169,6 +2169,12 @@ body.lang-pt flex[data-lang-content="pt"] { display: flex !important; }
     line-height: 1.55;
 }
 
+.template-library-cta__note a {
+    color: #003366;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
 @media (max-width: 860px) {
     .templates-heading,
     .template-download-grid,

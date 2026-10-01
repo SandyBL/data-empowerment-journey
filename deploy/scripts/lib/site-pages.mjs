@@ -40,6 +40,7 @@ import {
   courseHead,
   courseSchema,
   renderCourseClose,
+  renderCourseCover,
   renderCourseCurriculum,
   renderCourseFaq,
   renderCourseOffer,
@@ -71,16 +72,18 @@ const EMBEDS_HOME_MARKUP = new Set(Object.keys(PARTIAL_FILES));
 const SCHEMA_KINDS = new Set(['page', 'profile', 'service', 'collection', 'faq', 'course']);
 
 /**
- * The blocks in ./course.mjs, which are written in Portuguese only because the
- * course is. Listed so that placing one of them on an English or Spanish page
- * fails the build rather than publishing Portuguese sales copy under /en/.
+ * The blocks in ./course.mjs. Each renders in the page's language, and
+ * course.mjs throws on a language it has no copy for, so a course block placed
+ * on a page in a fourth language fails the build rather than publishing another
+ * language's sales copy.
  */
 const COURSE_BLOCKS = {
-  COURSE_OFFER: (page, partials) => renderCourseOffer(partials.TEMPLATES),
-  COURSE_CURRICULUM: () => renderCourseCurriculum(),
-  COURSE_TEMPLATES: (page, partials) => renderCourseTemplates(partials.TEMPLATES),
-  COURSE_FAQ: () => renderCourseFaq(),
-  COURSE_CLOSE: () => renderCourseClose(),
+  COURSE_COVER: (page) => renderCourseCover(page.lang),
+  COURSE_OFFER: (page, partials) => renderCourseOffer(page.lang, partials.TEMPLATES),
+  COURSE_CURRICULUM: (page) => renderCourseCurriculum(page.lang),
+  COURSE_TEMPLATES: (page, partials) => renderCourseTemplates(page.lang, partials.TEMPLATES),
+  COURSE_FAQ: (page) => renderCourseFaq(page.lang),
+  COURSE_CLOSE: (page) => renderCourseClose(page.lang),
 };
 
 const LABELS = {
@@ -296,11 +299,6 @@ const renderBody = (page, partials, boardSummary) => {
       continue;
     }
     if (COURSE_BLOCKS[name]) {
-      if (page.lang !== 'pt') {
-        throw new Error(
-          `content/pages/${page.lang}/${page.slug}.md uses {{${name}}}, which only exists in Portuguese`
-        );
-      }
       blocks.push(COURSE_BLOCKS[name](page, partials));
       continue;
     }
@@ -421,8 +419,8 @@ const schemaFor = (page, canonical, steps) => {
   // kind rather than the token, because a second page selling the same course
   // is not a thing that should happen quietly.
   if (page.schemaKind === 'course') {
-    graph.push(courseSchema(canonical, page.description));
-    graph.push(courseFaqSchema(canonical));
+    graph.push(courseSchema(page.lang, canonical, page.description));
+    graph.push(courseFaqSchema(page.lang, canonical));
   }
 
   if (page.schemaKind === 'service') {
@@ -529,7 +527,7 @@ ${renderBody(page, partials, boardSummary)}${
     bodyClass: 'subject-page',
     embedsHomeMarkup: usesHomeMarkup(page),
     ogType: page.schemaKind === 'profile' ? 'profile' : 'website',
-    // The Google Ads tag, on the course page only. See GOOGLE_ADS_ID in
+    // The Google Ads tag, on the course pages only. See GOOGLE_ADS_ID in
     // ./course.mjs for why it is here and nowhere else.
     extraHead: page.schemaKind === 'course' ? courseHead() : '',
     // Each block brings its own script and nothing else loads it, so a page

@@ -1,7 +1,8 @@
 /**
- * Google Ads tag for the course page.
+ * Google Ads tag for the course pages.
  *
- * Loaded only by /pt/curso-governanca-de-dados/, next to gtag.js, and
+ * Loaded only by the course page in each language (/pt/curso-governanca-de-dados/,
+ * /es/curso-gobierno-de-datos/, /en/data-governance-course/), next to gtag.js, and
  * configured from the data-* attributes scripts/lib/course.mjs writes on this
  * tag, so the account, the checkout host and the price live in one place.
  *

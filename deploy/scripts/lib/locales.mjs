@@ -34,10 +34,9 @@ export const DATE_LOCALE = { en: 'en-US', es: 'es-ES', pt: 'pt-BR' };
  * made a shared article look monolingual to anything reading Open Graph alone.
  *
  * `languages` narrows that to the translations a page actually has, and
- * defaults to all three because almost every page here has all three. The
- * course page is the exception -- it exists in Portuguese only -- and a head
- * that declares Spanish and English alternates for it is describing two pages
- * that will never be written. Values with no og:locale of their own, such as
+ * defaults to all three because almost every page here has all three. A page
+ * missing a translation must not declare an alternate for it: that would be
+ * describing a page that is never written. Values with no og:locale of their own, such as
  * the `x-default` entry in an hreflang cluster, are ignored, so a caller can
  * hand this the cluster it already built.
  */

@@ -100,7 +100,7 @@ export const NAV = {
   en: {
     home: 'Home',
     framework: 'Framework',
-    blog: 'Insights',
+    blog: 'Articles (Blog)',
     glossary: 'Glossary',
     faq: 'FAQ',
     resources: 'All free tools',
@@ -119,6 +119,7 @@ export const NAV = {
     templates: 'Templates',
     playbooks: 'Playbooks',
     maturity: 'Maturity assessment',
+    course: 'Data governance course',
     feed: 'RSS feed',
     newsletter: 'Newsletter',
     groupLearn: 'Learn',
@@ -142,7 +143,7 @@ export const NAV = {
   es: {
     home: 'Inicio',
     framework: 'Marco',
-    blog: 'Ideas',
+    blog: 'Artículos (Blog)',
     glossary: 'Glosario',
     faq: 'Preguntas frecuentes',
     resources: 'Todas las herramientas gratuitas',
@@ -161,6 +162,7 @@ export const NAV = {
     templates: 'Plantillas',
     playbooks: 'Playbooks',
     maturity: 'Diagnóstico de madurez',
+    course: 'Curso de gobierno de datos',
     feed: 'Feed RSS',
     newsletter: 'Newsletter',
     groupLearn: 'Aprender',
@@ -184,7 +186,7 @@ export const NAV = {
   pt: {
     home: 'Início',
     framework: 'Framework',
-    blog: 'Ideias',
+    blog: 'Artigos (Blog)',
     glossary: 'Glossário',
     faq: 'Perguntas frequentes',
     resources: 'Todas as ferramentas gratuitas',
@@ -203,13 +205,7 @@ export const NAV = {
     templates: 'Modelos',
     playbooks: 'Playbooks',
     maturity: 'Diagnóstico de maturidade',
-    /**
-     * Portuguese only: there is no English or Spanish course. It is a label
-     * without a NAV_GROUPS entry, because the page is not in the menu -- the
-     * standalone-page loader validates `nav` against this table, so a page has
-     * to name a label here whether or not the header ever renders it.
-     */
-    course: 'Curso',
+    course: 'Curso de governança de dados',
     feed: 'Feed RSS',
     newsletter: 'Newsletter',
     groupLearn: 'Aprender',
@@ -235,10 +231,10 @@ export const NAV = {
 /**
  * The four dropdown groups, in header order.
  *
- * Each group holds four or five items on purpose. The list this replaces had
+ * Each group holds four to six items on purpose. The list this replaces had
  * grown to a seven-item "Tools" column and an eight-item "Resources" dropdown
  * that mixed reference, tools, community and commercial destinations -- past
- * about five, a dropdown stops being scannable and becomes a list you read.
+ * about six, a dropdown stops being scannable and becomes a list you read.
  *
  * `key` is a NAV key, which is also what a page passes as `current`, so marking
  * the active item needs no second identifier.
@@ -249,6 +245,9 @@ export const NAV_GROUPS = [
     id: 'learn',
     items: [
       { key: 'blog', href: (lang) => blogPath(lang) },
+      // The one paid item in the group, and in all three languages: the videos
+      // are Portuguese with Spanish and English subtitles, and the page says so.
+      { key: 'course', href: (lang) => pagePath(lang, 'course') },
       { key: 'glossary', href: (lang) => pagePath(lang, 'glossary') },
       { key: 'faq', href: (lang) => pagePath(lang, 'faq') },
       { key: 'confessionWall', href: (lang) => confessionWallPath(lang) },

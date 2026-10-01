@@ -108,7 +108,7 @@ const UNPINNABLE = new Map([
   ],
   [
     'https://www.googletagmanager.com/gtag/js?id=AW-',
-    'The Google Ads tag is served unversioned and changes without notice, so it has no stable hash. It loads on the course page only -- the one page the ads send traffic to -- so the Hotmart checkout can credit a sale to the click. See assets/js/google-ads.js.',
+    'The Google Ads tag is served unversioned and changes without notice, so it has no stable hash. It loads on the course pages only -- the pages the ads send traffic to -- so the Hotmart checkout can credit a sale to the click. See assets/js/google-ads.js.',
   ],
 ]);
 

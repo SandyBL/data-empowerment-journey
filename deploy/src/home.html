@@ -539,15 +539,15 @@
                 </article>
             </div>
 
-            <!-- Portuguese only, and below the grid rather than a fourth card in
-                 it: the three cards above are free tools, this one costs money,
-                 and the row is `lg:grid-cols-3` so a fourth item would leave an
-                 orphan on the Portuguese homepage and nothing at all on the
-                 other two. An <article> cannot carry data-lang-content
-                 (stripOtherLanguages only walks div, p and span), so the whole
-                 banner is a div. The href uses the canonical `course` slug and
-                 publishes as /pt/curso-governanca-de-dados/, via
-                 localizeInternalLinks. -->
+            <!-- Below the grid rather than a fourth card in it: the three cards
+                 above are free tools, this one costs money, and the row is
+                 `lg:grid-cols-3` so a fourth item would leave an orphan. An
+                 <article> cannot carry data-lang-content (stripOtherLanguages
+                 only walks div, p and span), so each language's banner is a
+                 div. The hrefs use the canonical `course` slug and publish at
+                 each language's own address via localizeInternalLinks. The
+                 Spanish and English banners say up front that the videos are
+                 Portuguese with subtitles and the files are Portuguese. -->
             <div data-lang-content="pt" class="home-course-cta">
                 <div>
                     <p class="home-course-cta__label">
@@ -559,6 +559,34 @@
                 </div>
                 <a href="/pt/course/" class="home-course-cta__button">
                     Ver o curso
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div data-lang-content="es" class="home-course-cta">
+                <div>
+                    <p class="home-course-cta__label">
+                        <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                        Curso en portugués con subtítulos en español
+                    </p>
+                    <h3>Gobierno de Datos en la práctica, en 16 clases</h3>
+                    <p>Las plantillas de arriba en el orden en que se usan, con la biblioteca completa de 24 ficheros editables (en portugués), certificado y acceso de por vida. 50% de descuento en las 10 primeras inscripciones.</p>
+                </div>
+                <a href="/es/course/" class="home-course-cta__button">
+                    Ver el curso
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div data-lang-content="en" class="home-course-cta">
+                <div>
+                    <p class="home-course-cta__label">
+                        <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+                        Course in Portuguese with English subtitles
+                    </p>
+                    <h3>Practical Data Governance, in 16 lessons</h3>
+                    <p>The templates above in the order they are used, with the full library of 24 editable files (in Portuguese), a certificate and lifetime access. 50% off for the first 10 enrolments.</p>
+                </div>
+                <a href="/en/course/" class="home-course-cta__button">
+                    See the course
                     <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
             </div>
