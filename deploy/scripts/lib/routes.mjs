@@ -41,6 +41,7 @@ export const PAGE_SLUGS = {
     about: 'about',
     advisory: 'advisory',
     calculator: 'calculator',
+    course: 'data-governance-course',
     faq: 'faq',
     glossary: 'glossary',
     'maturity-assessment': 'maturity-assessment',
@@ -54,6 +55,7 @@ export const PAGE_SLUGS = {
     about: 'sobre',
     advisory: 'asesoria',
     calculator: 'calculadora',
+    course: 'curso-gobierno-de-datos',
     faq: 'preguntas-frecuentes',
     glossary: 'glosario',
     'maturity-assessment': 'diagnostico-de-madurez',
@@ -67,16 +69,6 @@ export const PAGE_SLUGS = {
     about: 'sobre',
     advisory: 'assessoria',
     calculator: 'calculadora',
-    /**
-     * Portuguese only, and the one asymmetry in this table.
-     *
-     * The course is taught in Portuguese, so there is no English or Spanish
-     * product to publish a page for. `localizedPageSlug` throws on a language
-     * that has no entry for a slug, which is exactly the behaviour wanted here:
-     * nothing in the English or Spanish build may address this page, and if
-     * something ever tries -- a nav group, a cross-language link -- the build
-     * stops instead of shipping a link to a directory that is never written.
-     */
     course: 'curso-governanca-de-dados',
     faq: 'perguntas-frequentes',
     glossary: 'glossario',
@@ -414,7 +406,9 @@ export const localizeInternalLinks = (html) => {
   );
 
   for (const lang of LANGUAGES) {
-    if (lang === 'en') continue; // English is the canonical spelling already.
+    // English is the canonical spelling for every page but the course, whose
+    // English address is a search phrase rather than the bare key; identity
+    // entries are skipped below, so this pass changes nothing else in English.
 
     for (const [slug, localized] of Object.entries(PAGE_SLUGS[lang])) {
       if (slug === localized) continue;
