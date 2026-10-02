@@ -282,6 +282,8 @@ const renderBody = (page, partials, boardSummary) => {
         `    <div class="blog-shell">${renderNewsletterForm(page.lang, {
           source: `page:${page.slug}`,
           id: `newsletter-${page.slug}`,
+          // Pages without downloads get the copy that does not mention them.
+          variant: ['newsletter', 'about'].includes(page.slug) ? 'reader' : 'resource',
         })}</div>`
       );
       continue;

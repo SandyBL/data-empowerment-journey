@@ -77,7 +77,15 @@ import {
   confessionWallPath,
 } from './routes.mjs';
 
-/** The owned newsletter lives on LinkedIn; there is no on-site archive to link. */
+/**
+ * The LinkedIn newsletter. Past issues live there and there is no on-site
+ * archive to link.
+ *
+ * The site has two newsletters, and every link says which one it is: this
+ * URL is always labelled "LinkedIn" and carries the LinkedIn icon, and the
+ * email list -- the Netlify Form behind /<lang>/newsletter/, which emails each
+ * new article -- is always the one called "Subscribe" or "Email newsletter".
+ */
 export const NEWSLETTER_URL =
   'https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/';
 
@@ -121,7 +129,10 @@ export const NAV = {
     maturity: 'Maturity assessment',
     course: 'Data governance course',
     feed: 'RSS feed',
-    newsletter: 'Newsletter',
+    newsletter: 'LinkedIn newsletter',
+    subscribe: 'Subscribe',
+    subscribeTitle: 'Get every new article by email',
+    emailNewsletter: 'Email newsletter',
     groupLearn: 'Learn',
     groupPractice: 'Practice',
     groupTools: 'Tools',
@@ -164,7 +175,10 @@ export const NAV = {
     maturity: 'Diagnóstico de madurez',
     course: 'Curso de gobierno de datos',
     feed: 'Feed RSS',
-    newsletter: 'Newsletter',
+    newsletter: 'Newsletter en LinkedIn',
+    subscribe: 'Suscribirse',
+    subscribeTitle: 'Recibe cada artículo nuevo por correo',
+    emailNewsletter: 'Newsletter por correo',
     groupLearn: 'Aprender',
     groupPractice: 'Practicar',
     groupTools: 'Herramientas',
@@ -207,7 +221,10 @@ export const NAV = {
     maturity: 'Diagnóstico de maturidade',
     course: 'Curso de governança de dados',
     feed: 'Feed RSS',
-    newsletter: 'Newsletter',
+    newsletter: 'Newsletter no LinkedIn',
+    subscribe: 'Assinar',
+    subscribeTitle: 'Receba cada novo artigo por e-mail',
+    emailNewsletter: 'Newsletter por e-mail',
     groupLearn: 'Aprender',
     groupPractice: 'Praticar',
     groupTools: 'Ferramentas',
@@ -251,7 +268,7 @@ export const NAV_GROUPS = [
       { key: 'glossary', href: (lang) => pagePath(lang, 'glossary') },
       { key: 'faq', href: (lang) => pagePath(lang, 'faq') },
       { key: 'confessionWall', href: (lang) => confessionWallPath(lang) },
-      { key: 'newsletter', href: () => NEWSLETTER_URL, external: true },
+      { key: 'newsletter', href: () => NEWSLETTER_URL, external: true, icon: 'fa-brands fa-linkedin' },
     ],
   },
   {
@@ -309,6 +326,18 @@ const FRAMEWORK_HREF = (lang) => `${HOME_PATH[lang]}#framework`;
  */
 const CTA = { key: 'maturity', href: (lang) => pagePath(lang, 'maturity-assessment') };
 
+/**
+ * The email newsletter's own button, beside the call to action rather than in
+ * a dropdown: a signup nobody can find earns no subscribers. Outlined, so the
+ * orange assessment button stays the one primary action in the bar.
+ */
+const SUBSCRIBE = {
+  key: 'subscribe',
+  href: (lang) => pagePath(lang, 'newsletter'),
+  icon: 'fa-solid fa-envelope',
+  title: 'subscribeTitle',
+};
+
 /** The three flags, as inline SVG. Same order in every language. */
 const FLAGS = {
   en: `<svg class="lang-flag" viewBox="0 0 28 20" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="20" fill="#fff"/><path fill="#B22234" d="M0 0h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28V7.7H0zm0 3.08h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28v1.54H0zm0 3.08h28V20H0z"/><rect width="12" height="10.78" fill="#3C3B6E"/><g fill="#fff"><circle cx="1.5" cy="1.4" r=".45"/><circle cx="4.5" cy="1.4" r=".45"/><circle cx="7.5" cy="1.4" r=".45"/><circle cx="10.5" cy="1.4" r=".45"/><circle cx="3" cy="3.2" r=".45"/><circle cx="6" cy="3.2" r=".45"/><circle cx="9" cy="3.2" r=".45"/><circle cx="1.5" cy="5" r=".45"/><circle cx="4.5" cy="5" r=".45"/><circle cx="7.5" cy="5" r=".45"/><circle cx="10.5" cy="5" r=".45"/></g></svg>`,
@@ -352,7 +381,10 @@ const navItem = (item, lang, current, className) => {
   const label = escapeAttribute(NAV[lang][item.key]);
   const external = item.external ? ' target="_blank" rel="noopener noreferrer"' : '';
   const active = item.key === current ? ' aria-current="page"' : '';
-  return `<a class="${className}" href="${item.href(lang)}"${external}${active}>${label}</a>`;
+  const icon = item.icon ? `<i class="${item.icon}" aria-hidden="true"></i>` : '';
+  const title = item.title ? ` title="${escapeAttribute(NAV[lang][item.title])}"` : '';
+  const text = item.icon ? `<span>${label}</span>` : label;
+  return `<a class="${className}" href="${item.href(lang)}"${external}${active}${title}>${icon}${text}</a>`;
 };
 
 /** Does this group contain the page being rendered? Used to light up its trigger. */
@@ -376,7 +408,12 @@ const renderDesktopNav = (lang, current) => {
 
   return `<nav class="site-nav" aria-label="${escapeAttribute(nav.primaryNav)}"><a class="site-nav__link" href="${FRAMEWORK_HREF(
     lang
-  )}">${escapeAttribute(nav.framework)}</a>${groups}${navItem(CTA, lang, current, 'site-nav__link site-nav__cta')}</nav>`;
+  )}">${escapeAttribute(nav.framework)}</a>${groups}${navItem(SUBSCRIBE, lang, current, 'site-nav__link site-nav__subscribe')}${navItem(
+    CTA,
+    lang,
+    current,
+    'site-nav__link site-nav__cta'
+  )}</nav>`;
 };
 
 /**
@@ -408,7 +445,12 @@ export const renderNavDrawer = (lang, { current = '' } = {}) => {
     nav.mobileNav
   )}" hidden><div class="site-drawer__panel"><a class="site-drawer__link" href="${FRAMEWORK_HREF(lang)}">${escapeAttribute(
     nav.framework
-  )}</a>${groups}${navItem(CTA, lang, current, 'site-drawer__link site-drawer__cta')}</div></nav>`;
+  )}</a>${groups}${navItem(SUBSCRIBE, lang, current, 'site-drawer__link site-drawer__subscribe')}${navItem(
+    CTA,
+    lang,
+    current,
+    'site-drawer__link site-drawer__cta'
+  )}</div></nav>`;
 };
 
 /**
@@ -482,10 +524,15 @@ export const renderSiteFooter = (lang) => {
 
   // Same order as the header, so the two read as one navigation. The feed is
   // here and not in the header because nobody hunts for an RSS link in a
-  // dropdown, and it would have made Learn a six-item group.
+  // dropdown, and it would have made Learn a seven-item group. The email
+  // newsletter sits next to the LinkedIn one so the two are told apart where
+  // they are seen together.
   const columns = NAV_GROUPS.map((group) => {
     const links = group.items.map((item) => [nav[item.key], item.href(lang), item.external]);
-    if (group.key === 'groupLearn') links.push([nav.feed, feedPath(lang)]);
+    if (group.key === 'groupLearn') {
+      links.splice(links.length - 1, 0, [nav.emailNewsletter, pagePath(lang, 'newsletter')]);
+      links.push([nav.feed, feedPath(lang)]);
+    }
     return column(nav[group.key], links);
   }).join('\n      ');
 

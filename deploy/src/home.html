@@ -938,18 +938,18 @@
                 </h2>
                 <div class="w-12 h-1 bg-emeraldgreen mx-auto mt-4 rounded-full"></div>
                 <p class="text-sm text-slate-500 mt-4 max-w-2xl mx-auto">
-                    <span data-lang-content="es">Sigue la newsletter o cuéntame directamente el reto de datos de tu organización.</span>
-                    <span data-lang-content="en">Follow the newsletter, or tell me directly about your organization’s data challenge.</span>
-                    <span data-lang-content="pt">Acompanhe a newsletter ou me conte diretamente o desafio de dados da sua organização.</span>
+                    <span data-lang-content="es">Recibe la newsletter por correo o en LinkedIn, o cuéntame directamente el reto de datos de tu organización.</span>
+                    <span data-lang-content="en">Get the newsletter by email or on LinkedIn, or tell me directly about your organization’s data challenge.</span>
+                    <span data-lang-content="pt">Receba a newsletter por e-mail ou no LinkedIn, ou me conte diretamente o desafio de dados da sua organização.</span>
                 </p>
             </div>
 
             <div class="contact-choice-nav" role="navigation" aria-label="__ARIA_CONTACT_OPTIONS__">
                 <a href="#newsletter">
-                    <i class="fa-solid fa-newspaper" aria-hidden="true"></i>
-                    <span data-lang-content="es">Seguir la newsletter</span>
-                    <span data-lang-content="en">Follow the newsletter</span>
-                    <span data-lang-content="pt">Acompanhar a newsletter</span>
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <span data-lang-content="es">Recibir la newsletter</span>
+                    <span data-lang-content="en">Get the newsletter</span>
+                    <span data-lang-content="pt">Receber a newsletter</span>
                 </a>
                 <a href="#contact-form">
                     <i class="fa-solid fa-message" aria-hidden="true"></i>
@@ -963,9 +963,13 @@
     <section id="newsletter" class="contact-contained-section contact-newsletter scroll-mt-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-10">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0077B5]/10 border border-[#0077B5]/20 mb-4">
-                    <i class="fa-brands fa-linkedin text-[#0077B5] text-sm"></i>
-                    <span class="text-xs font-bold text-[#0077B5] tracking-wider uppercase">LinkedIn Newsletter</span>
+                <!-- Two separate channels, and the section says so up front: the
+                     email list first, the LinkedIn newsletter second, each
+                     labelled with its own icon so nobody subscribes to one
+                     thinking it is the other. -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emeraldgreen/10 border border-emeraldgreen/25 mb-4">
+                    <i class="fa-solid fa-envelope text-deepblue text-sm" aria-hidden="true"></i>
+                    <span class="text-xs font-bold text-deepblue tracking-wider uppercase">Newsletter</span>
                 </div>
                 <h2 class="text-3xl font-extrabold text-deepblue tracking-tight mb-4">
                     Data Governance Journey
@@ -973,15 +977,121 @@
                 <div class="w-16 h-1 bg-emeraldgreen mx-auto mb-6 rounded-full"></div>
             </div>
 
+            <!-- The owned list.
+                 The LinkedIn newsletter below is rented: the addresses cannot be
+                 exported, and the audience is reachable only while LinkedIn
+                 chooses to deliver it. This form is the same offer on
+                 infrastructure that belongs to the site -- a Netlify Form named
+                 "newsletter", the same one the resource pages use, so both
+                 sources land in one list and the `source` field says which page
+                 earned the address.
+
+                 First name and address, nothing more. The name is what every
+                 email greets the reader by; company and role are what turn a
+                 12% capture rate into a 3% one, and no email needs them.
+
+                 It sits above the LinkedIn card because it is the list the site
+                 owns: every new article is emailed to it automatically. -->
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden">
                 <div class="p-8 sm:p-10 flex flex-col md:flex-row items-center gap-8">
                     <div class="flex-shrink-0">
+                        <div class="w-20 h-20 rounded-2xl bg-emeraldgreen/10 border border-emeraldgreen/25 flex items-center justify-center">
+                            <i class="fa-solid fa-envelope-open-text text-3xl text-deepblue"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow w-full text-center md:text-left">
+                        <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
+                            <span data-lang-content="es">Por correo, sin LinkedIn</span>
+                            <span data-lang-content="en">By email, without LinkedIn</span>
+                            <span data-lang-content="pt">Por e-mail, sem LinkedIn</span>
+                        </p>
+                        <h3 class="text-xl font-extrabold text-deepblue mb-3">
+                            <span data-lang-content="es">Recibe cada artículo nuevo por correo</span>
+                            <span data-lang-content="en">Get every new article by email</span>
+                            <span data-lang-content="pt">Receba cada novo artigo por e-mail</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm font-light leading-relaxed mb-6">
+                            <span data-lang-content="es">Todas las descargas de este sitio son libres y sin formulario. Si además quieres un aviso cada vez que se publique un artículo nuevo, deja tu nombre y tu correo: un email por artículo, nada más, y te das de baja en un clic.</span>
+                            <span data-lang-content="en">Every download on this site is free and ungated. If you would also like a note each time a new article is published, leave your first name and address: one email per article, nothing else, unsubscribe in one click.</span>
+                            <span data-lang-content="pt">Todos os downloads deste site são livres e sem formulário. Se também quiser um aviso sempre que um novo artigo for publicado, deixe seu nome e e-mail: um e-mail por artigo, nada além disso, e você cancela em um clique.</span>
+                        </p>
+
+                        <form
+                            id="home-newsletter"
+                            name="newsletter"
+                            method="POST"
+                            action="/thank-you"
+                            data-netlify="true"
+                            netlify-honeypot="bot-field"
+                            data-newsletter
+                        >
+                            <p class="newsletter-honeypot" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+                            <input type="hidden" name="language" value="__LANG__">
+                            <input type="hidden" name="source" value="home">
+                            <label class="block text-xs font-bold text-deepblue uppercase tracking-widest mb-2 text-left" for="home-newsletter-name">
+                                <span data-lang-content="es">Nombre</span>
+                                <span data-lang-content="en">First name</span>
+                                <span data-lang-content="pt">Nome</span>
+                            </label>
+                            <input
+                                id="home-newsletter-name"
+                                class="form-input w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all mb-4"
+                                type="text"
+                                name="name"
+                                required
+                                maxlength="50"
+                                autocomplete="given-name"
+                                placeholder="__NEWSLETTER_NAME_PLACEHOLDER__"
+                            >
+                            <label class="block text-xs font-bold text-deepblue uppercase tracking-widest mb-2 text-left" for="home-newsletter-email">
+                                <span data-lang-content="es">Correo electrónico</span>
+                                <span data-lang-content="en">Email address</span>
+                                <span data-lang-content="pt">E-mail</span>
+                            </label>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input
+                                    id="home-newsletter-email"
+                                    class="form-input w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
+                                    type="email"
+                                    name="email"
+                                    required
+                                    autocomplete="email"
+                                    inputmode="email"
+                                    placeholder="__NEWSLETTER_PLACEHOLDER__"
+                                >
+                                <button
+                                    type="submit"
+                                    class="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-deepblue text-white text-sm font-bold hover:bg-deepblue/90 hover:-translate-y-0.5 transition-all"
+                                    data-submit-label="__NEWSLETTER_SUBMIT__"
+                                    data-sending-label="__NEWSLETTER_SENDING__"
+                                >__NEWSLETTER_SUBMIT__</button>
+                            </div>
+                            <p class="newsletter-status mt-4 text-left" role="status" aria-live="polite" data-newsletter-status data-success="__NEWSLETTER_SUCCESS__" data-error="__NEWSLETTER_ERROR__"></p>
+                            <p class="text-xs text-slate-500 mt-2 text-left">
+                                <i class="fa-solid fa-lock text-emeraldgreen" aria-hidden="true"></i>
+                                <span data-lang-content="es">Tu correo no se comparte ni se vende, y este formulario no tiene rastreadores de terceros.</span>
+                                <span data-lang-content="en">No sharing, no selling, no third-party tracking on this form.</span>
+                                <span data-lang-content="pt">Seu e-mail não é compartilhado nem vendido, e este formulário não tem rastreadores de terceiros.</span>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden mt-8">
+                <div class="p-8 sm:p-10 flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-shrink-0">
                         <div class="w-20 h-20 rounded-2xl bg-[#0077B5]/10 border border-[#0077B5]/20 flex items-center justify-center">
-                            <i class="fa-solid fa-newspaper text-3xl text-[#0077B5]"></i>
+                            <i class="fa-brands fa-linkedin text-3xl text-[#0077B5]" aria-hidden="true"></i>
                         </div>
                     </div>
 
                     <div class="flex-grow text-center md:text-left">
+                        <p class="text-[#0077B5] text-xs font-bold uppercase tracking-widest mb-2">
+                            <span data-lang-content="es">En LinkedIn</span>
+                            <span data-lang-content="en">On LinkedIn</span>
+                            <span data-lang-content="pt">No LinkedIn</span>
+                        </p>
                         <p data-lang-content="es" class="text-slate-600 text-base font-light leading-relaxed mb-6">
                             Insights sobre <strong>Datos, Personas, Procesos y Tecnología</strong> para ayudar a las organizaciones a convertirse en verdaderamente impulsadas por datos.
                         </p>
@@ -1027,89 +1137,6 @@
                 </div>
             </div>
 
-            <!-- The owned list.
-                 The LinkedIn newsletter above is rented: the addresses cannot be
-                 exported, and the audience is reachable only while LinkedIn
-                 chooses to deliver it. This form is the same offer on
-                 infrastructure that belongs to the site -- a Netlify Form named
-                 "newsletter", the same one the resource pages use, so both
-                 sources land in one list and the `source` field says which page
-                 earned the address.
-
-                 One field, on purpose. Name, company and role are what turn a
-                 12% capture rate into a 3% one, and none of them are needed to
-                 send an email. -->
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all overflow-hidden mt-8">
-                <div class="p-8 sm:p-10 flex flex-col md:flex-row items-center gap-8">
-                    <div class="flex-shrink-0">
-                        <div class="w-20 h-20 rounded-2xl bg-emeraldgreen/10 border border-emeraldgreen/25 flex items-center justify-center">
-                            <i class="fa-solid fa-envelope-open-text text-3xl text-deepblue"></i>
-                        </div>
-                    </div>
-
-                    <div class="flex-grow w-full text-center md:text-left">
-                        <p class="text-emeraldgreen text-xs font-bold uppercase tracking-widest mb-2">
-                            <span data-lang-content="es">Por correo, sin LinkedIn</span>
-                            <span data-lang-content="en">By email, without LinkedIn</span>
-                            <span data-lang-content="pt">Por e-mail, sem LinkedIn</span>
-                        </p>
-                        <h3 class="text-xl font-extrabold text-deepblue mb-3">
-                            <span data-lang-content="es">Recibe la próxima plantilla, playbook o artículo</span>
-                            <span data-lang-content="en">Get the next template, playbook or article</span>
-                            <span data-lang-content="pt">Receba o próximo modelo, playbook ou artigo</span>
-                        </h3>
-                        <p class="text-slate-600 text-sm font-light leading-relaxed mb-6">
-                            <span data-lang-content="es">Todas las descargas de este sitio son libres y sin formulario. Si además quieres un aviso cuando se publique algo nuevo, deja tu correo: un email cuando hay algo, nada más, y te das de baja en un clic.</span>
-                            <span data-lang-content="en">Every download on this site is free and ungated. If you would also like a note when something new is published, leave an address: one email when there is something, nothing else, unsubscribe in one click.</span>
-                            <span data-lang-content="pt">Todos os downloads deste site são livres e sem formulário. Se também quiser um aviso quando algo novo for publicado, deixe seu e-mail: um e-mail quando houver algo, nada além disso, e você cancela em um clique.</span>
-                        </p>
-
-                        <form
-                            id="home-newsletter"
-                            name="newsletter"
-                            method="POST"
-                            action="/thank-you"
-                            data-netlify="true"
-                            netlify-honeypot="bot-field"
-                            data-newsletter
-                        >
-                            <p class="newsletter-honeypot" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-                            <input type="hidden" name="language" value="__LANG__">
-                            <input type="hidden" name="source" value="home">
-                            <label class="block text-xs font-bold text-deepblue uppercase tracking-widest mb-2 text-left" for="home-newsletter-email">
-                                <span data-lang-content="es">Correo electrónico</span>
-                                <span data-lang-content="en">Email address</span>
-                                <span data-lang-content="pt">E-mail</span>
-                            </label>
-                            <div class="flex flex-col sm:flex-row gap-3">
-                                <input
-                                    id="home-newsletter-email"
-                                    class="form-input w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emeraldgreen/40 focus:border-deepblue transition-all"
-                                    type="email"
-                                    name="email"
-                                    required
-                                    autocomplete="email"
-                                    inputmode="email"
-                                    placeholder="__NEWSLETTER_PLACEHOLDER__"
-                                >
-                                <button
-                                    type="submit"
-                                    class="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-deepblue text-white text-sm font-bold hover:bg-deepblue/90 hover:-translate-y-0.5 transition-all"
-                                    data-submit-label="__NEWSLETTER_SUBMIT__"
-                                    data-sending-label="__NEWSLETTER_SENDING__"
-                                >__NEWSLETTER_SUBMIT__</button>
-                            </div>
-                            <p class="newsletter-status mt-4 text-left" role="status" aria-live="polite" data-newsletter-status data-success="__NEWSLETTER_SUCCESS__" data-error="__NEWSLETTER_ERROR__"></p>
-                            <p class="text-xs text-slate-500 mt-2 text-left">
-                                <i class="fa-solid fa-lock text-emeraldgreen" aria-hidden="true"></i>
-                                <span data-lang-content="es">Tu correo no se comparte ni se vende, y este formulario no tiene rastreadores de terceros.</span>
-                                <span data-lang-content="en">No sharing, no selling, no third-party tracking on this form.</span>
-                                <span data-lang-content="pt">Seu e-mail não é compartilhado nem vendido, e este formulário não tem rastreadores de terceiros.</span>
-                            </p>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 

@@ -2234,3 +2234,9 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* The first-name field sits before the address in the same row and needs less
+   room: a name is shorter than an email, and on a phone the two stack. */
+.signup__input--name {
+  flex: 1 1 160px;
+}

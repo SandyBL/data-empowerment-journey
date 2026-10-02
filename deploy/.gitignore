@@ -44,6 +44,7 @@ node_modules/
 /en/resources/
 /en/simulator-results/
 /en/templates/
+/en/newsletter/
 /en/workshops/
 /es/sobre/
 /es/asesoria/
@@ -56,6 +57,7 @@ node_modules/
 /es/recursos/
 /es/resultados-de-simuladores/
 /es/plantillas/
+/es/newsletter/
 /es/talleres/
 /pt/sobre/
 /pt/assessoria/
@@ -71,6 +73,7 @@ node_modules/
 /pt/recursos/
 /pt/resultados-dos-simuladores/
 /pt/modelos/
+/pt/newsletter/
 /pt/workshops/
 # The three feeds, written by renderFeeds from the same article list.
 /en/feed.xml

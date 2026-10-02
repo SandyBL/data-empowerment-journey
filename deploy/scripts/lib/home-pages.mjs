@@ -57,6 +57,7 @@ const PAGE_METADATA = {
     // The owned newsletter form in #newsletter. The same copy the
     // resource pages use, kept here because the homepage is a template
     // with three languages inline and an attribute cannot hold spans.
+    newsletterNamePlaceholder: 'Tu nombre',
     newsletterPlaceholder: 'tu@empresa.com',
     newsletterSubmit: 'Enviarme el próximo',
     newsletterSending: 'Enviando…',
@@ -76,6 +77,7 @@ const PAGE_METADATA = {
     // The owned newsletter form in #newsletter. The same copy the
     // resource pages use, kept here because the homepage is a template
     // with three languages inline and an attribute cannot hold spans.
+    newsletterNamePlaceholder: 'Your first name',
     newsletterPlaceholder: 'you@company.com',
     newsletterSubmit: 'Send me the next one',
     newsletterSending: 'Sending…',
@@ -95,6 +97,7 @@ const PAGE_METADATA = {
     // The owned newsletter form in #newsletter. The same copy the
     // resource pages use, kept here because the homepage is a template
     // with three languages inline and an attribute cannot hold spans.
+    newsletterNamePlaceholder: 'Seu nome',
     newsletterPlaceholder: 'voce@empresa.com',
     newsletterSubmit: 'Quero o próximo',
     newsletterSending: 'Enviando…',
@@ -458,6 +461,7 @@ export const renderHomePage = (template, schemaGraph, lang, articles = []) => {
     .replace(/__ARIA_CONTACT_OPTIONS__/g, escapeAttribute(metadata.ariaContactOptions))
     .replace(/__ARIA_DELIVERABLES__/g, escapeAttribute(metadata.ariaDeliverables))
     .replace(/__SKIP_LINK__/g, escapeAttribute(metadata.skipLink))
+    .replace(/__NEWSLETTER_NAME_PLACEHOLDER__/g, escapeAttribute(metadata.newsletterNamePlaceholder))
     .replace(/__NEWSLETTER_PLACEHOLDER__/g, escapeAttribute(metadata.newsletterPlaceholder))
     .replace(/__NEWSLETTER_SUBMIT__/g, escapeAttribute(metadata.newsletterSubmit))
     .replace(/__NEWSLETTER_SENDING__/g, escapeAttribute(metadata.newsletterSending))
