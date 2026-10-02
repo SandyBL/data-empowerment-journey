@@ -652,6 +652,218 @@ body.site-drawer-open {
   color: rgb(100 116 139 / 0.85);
 }
 
+/* ------------------------------------------------------ subscribe dialog -- */
+
+/* The newsletter signup that every "Subscribe" button opens in place
+   (scripts/lib/newsletter.mjs renderSubscribeDialog). Written out in full here
+   rather than borrowing `.signup` from pages.css, which the homepage and the
+   simulators do not load. */
+
+html:has(.subscribe-dialog[open]) {
+  overflow: hidden;
+}
+
+.subscribe-dialog {
+  width: min(32rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 1.25rem;
+  background: #ffffff;
+  color: var(--deepblue, #003366);
+  box-shadow: 0 24px 64px rgb(0 31 61 / 0.35);
+  overflow: auto;
+  font-family: inherit;
+}
+
+.subscribe-dialog::backdrop {
+  background: rgb(0 31 61 / 0.6);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.subscribe-dialog[open] {
+  animation: subscribe-dialog-in 0.18s ease-out;
+}
+
+@keyframes subscribe-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+.subscribe-dialog__panel {
+  position: relative;
+  padding: 2rem 1.75rem 1.5rem;
+  border-top: 5px solid var(--dejourney-teal, #095b73);
+  text-align: left;
+}
+
+.subscribe-dialog__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(9 91 115 / 0.08);
+  color: var(--deepblue, #003366);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.subscribe-dialog__close:hover {
+  background: rgb(9 91 115 / 0.16);
+}
+
+.subscribe-dialog__close:focus-visible,
+.subscribe-dialog__input:focus-visible,
+.subscribe-dialog__submit:focus-visible {
+  outline: 3px solid var(--orange, #ea7730);
+  outline-offset: 2px;
+}
+
+.subscribe-dialog__kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 2.5rem 0.5rem 0;
+  color: var(--dejourney-teal, #095b73);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subscribe-dialog__heading {
+  margin: 0 2rem 1rem 0;
+  color: var(--deepblue, #003366);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.subscribe-dialog__points {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0 0 1.4rem;
+  padding: 0;
+  list-style: none;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.subscribe-dialog__points li {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.subscribe-dialog__points i {
+  flex: none;
+  margin-top: 0.3rem;
+  color: var(--dejourney-teal, #095b73);
+  font-size: 0.8rem;
+}
+
+.subscribe-dialog__form {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.subscribe-dialog__label {
+  margin-top: 0.5rem;
+  color: var(--deepblue, #003366);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.subscribe-dialog__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgb(9 91 115 / 0.3);
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  color: var(--deepblue, #003366);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.subscribe-dialog__submit {
+  margin-top: 1rem;
+  padding: 0.9rem 1.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--orange-ink, #c25419);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgb(234 119 48 / 0.28);
+}
+
+.subscribe-dialog__submit:hover {
+  background: #a8460f;
+}
+
+.subscribe-dialog__submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.subscribe-dialog__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.subscribe-dialog__status {
+  margin: 0.5rem 0 0;
+  color: #0f766e;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.subscribe-dialog__status:focus {
+  outline: none;
+}
+
+.subscribe-dialog__status[data-state="error"] {
+  color: #b42318;
+}
+
+.subscribe-dialog__privacy {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .subscribe-dialog__panel {
+    padding: 1.75rem 1.25rem 1.25rem;
+  }
+
+  .subscribe-dialog__heading {
+    font-size: 1.3rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dejourney-brand-logo,
   .lang-btn,
@@ -662,6 +874,10 @@ body.site-drawer-open {
   .site-nav__toggle,
   .site-drawer__trigger i {
     transition: none;
+  }
+
+  .subscribe-dialog[open] {
+    animation: none;
   }
 
   .dejourney-brand:hover .dejourney-brand-logo,

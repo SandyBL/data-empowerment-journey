@@ -16,6 +16,9 @@
  * page is one of three languages and this file is served to all of them.
  */
 
+// The "Subscribe" buttons in this navigation open a signup pop-up.
+import './subscribe-dialog.js';
+
 const DESKTOP_QUERY = '(min-width: 1180px)';
 
 /*

@@ -283,7 +283,7 @@ const renderBody = (page, partials, boardSummary) => {
           source: `page:${page.slug}`,
           id: `newsletter-${page.slug}`,
           // Pages without downloads get the copy that does not mention them.
-          variant: ['newsletter', 'about'].includes(page.slug) ? 'reader' : 'resource',
+          variant: page.slug === 'about' ? 'reader' : 'resource',
         })}</div>`
       );
       continue;

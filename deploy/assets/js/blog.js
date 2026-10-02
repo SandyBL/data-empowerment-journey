@@ -91,19 +91,11 @@
   if (category.options.length) category.options[0].textContent = labels.allCategories;
 
   // A category with a hub page of its own answers a click by navigating there,
-  // and that page highlights the category in the row above and carries no
-  // featured article over its list. The categories without a hub filter this
-  // page instead, so the same two things have to happen here: without them the
-  // reader clicked a filter and got a row still highlighting "All articles"
-  // above a featured article the filter had plainly not touched, and only the
-  // list at the bottom of the page responded.
-  //
-  // The featured article is a second rendering of a card that is also in the
-  // grid, so hiding it removes nothing from the results or the count.
-  const featured = document.querySelector('[data-featured-article]');
+  // and that page highlights the category in its row of links. The categories
+  // without a hub filter the list in place, so the row has to move its
+  // highlight to match. The blog index has no such row, so this is a no-op there.
   const categoryChips = [...document.querySelectorAll('.category-nav-links [data-category-key]')];
   const syncCategoryChrome = (selectedCategory) => {
-    if (featured) featured.hidden = Boolean(selectedCategory);
     categoryChips.forEach((chip) => {
       if (chip.dataset.categoryKey === selectedCategory) chip.setAttribute('aria-current', 'page');
       else chip.removeAttribute('aria-current');

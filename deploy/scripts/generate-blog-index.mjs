@@ -948,7 +948,7 @@ ${bodyHtml}
 `;
 }
 
-function renderArchiveCard(article, { hero = false } = {}) {
+function renderArchiveCard(article) {
   const href = articlePath(article.lang, article.slug);
   // The full article text used to ride along in a data-search attribute — around
   // 4 KB of duplicated, invisible prose per card. A crawler that reads raw HTML
@@ -967,10 +967,6 @@ function renderArchiveCard(article, { hero = false } = {}) {
     `data-date="${article.date}"`,
   ].join(' ');
 
-  if (hero) {
-    return `<article class="hero-post is-loaded" ${attributes}><div class="hero-post-content"><span class="post-category">${escapeHtml(article.category)}</span><h2><a href="${href}">${escapeHtml(article.title)}</a></h2><p>${escapeHtml(article.summary)}</p><div class="post-meta"><time datetime="${article.date}">${formatDate(article.date, article.lang)}</time><span>${article.readingTime} ${LABELS[article.lang].minRead}</span></div></div></article>`;
-  }
-
   return `<article class="post-card is-loaded" ${attributes}><span class="post-category">${escapeHtml(article.category)}</span><h2><a href="${href}">${escapeHtml(article.title)}</a></h2><p>${escapeHtml(article.summary)}</p><div class="post-meta"><time datetime="${article.date}">${formatDate(article.date, article.lang)}</time><span>${article.readingTime} ${LABELS[article.lang].minRead}</span></div></article>`;
 }
 
@@ -988,40 +984,23 @@ function replaceBetweenMarkers(source, marker, replacement, filePath) {
 /**
  * Renders the archive listing into each blog index so crawlers see real links.
  *
- * The newest article is also promoted into the featured slot at the top of the
- * page, but it stays in the archive grid below: that section is titled "All
- * articles", and the script that powers the search, category filter, sort and
- * result counter only ever reads `.post-card` elements from the grid. Handing
- * the featured article to the hero *instead of* the grid is what used to make a
- * six-article blog report "5 articles" and hide the newest one from every
- * filter — the one article an editor has just published being the one the page
- * could not find.
+ * The index opens straight on the archive: there is no featured article and no
+ * row of category links above it, so the title is followed directly by the
+ * search, filter and sort controls and every article is reached the same way.
+ * The category hubs keep their own row of links (renderCategoryNav).
  */
-async function updateBlogIndexes(articles, categoryLinks) {
+async function updateBlogIndexes(articles) {
   for (const lang of LANGUAGES) {
     const indexPath = path.join(projectDirectory, lang, BLOG_SEGMENT[lang], 'index.html');
     const localized = articles
       .filter((article) => article.lang === lang)
       .sort((first, second) => second.date.localeCompare(first.date));
-    const [hero] = localized;
 
     let source = await readFile(indexPath, 'utf8');
     source = replaceBetweenMarkers(
       source,
-      'BLOG_HERO',
-      hero ? renderArchiveCard(hero, { hero: true }) : '',
-      indexPath
-    );
-    source = replaceBetweenMarkers(
-      source,
       'BLOG_ARCHIVE',
       localized.map((article) => renderArchiveCard(article)).join(''),
-      indexPath
-    );
-    source = replaceBetweenMarkers(
-      source,
-      'BLOG_CATEGORIES',
-      renderCategoryNav(lang, categoryLinks, ''),
       indexPath
     );
     source = replaceBetweenMarkers(
@@ -1666,7 +1645,7 @@ async function main() {
     }
   }
 
-  await updateBlogIndexes(articles, categoryLinks);
+  await updateBlogIndexes(articles);
   await writeSearchIndexes(articles);
   await writeLlmsFiles(articles, glossaryTerms);
   await writeGlossary(glossaryTerms, articles);

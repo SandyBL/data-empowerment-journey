@@ -45,7 +45,6 @@ export const PAGE_SLUGS = {
     faq: 'faq',
     glossary: 'glossary',
     'maturity-assessment': 'maturity-assessment',
-    newsletter: 'newsletter',
     playbooks: 'playbooks',
     resources: 'resources',
     'simulator-results': 'simulator-results',
@@ -60,7 +59,6 @@ export const PAGE_SLUGS = {
     faq: 'preguntas-frecuentes',
     glossary: 'glosario',
     'maturity-assessment': 'diagnostico-de-madurez',
-    newsletter: 'newsletter',
     playbooks: 'playbooks',
     resources: 'recursos',
     'simulator-results': 'resultados-de-simuladores',
@@ -75,7 +73,6 @@ export const PAGE_SLUGS = {
     faq: 'perguntas-frequentes',
     glossary: 'glossario',
     'maturity-assessment': 'diagnostico-de-maturidade',
-    newsletter: 'newsletter',
     playbooks: 'playbooks',
     resources: 'recursos',
     'simulator-results': 'resultados-dos-simuladores',
@@ -360,6 +357,10 @@ export const legacyRoutes = (glossaryTerms = []) => {
     }
     add(`/${lang}/confession-wall/`, confessionWallPath(lang));
     add(`/${lang}/blog/category/`, categoryHubPath(lang));
+    // The email newsletter had its own page until signing up moved into the
+    // pop-up every "Subscribe" button opens. Its address lands on the
+    // homepage's signup section, the nearest form a link can reach.
+    add(`/${lang}/newsletter/`, `${HOME_PATH[lang]}#newsletter`);
   }
   return rules;
 };
