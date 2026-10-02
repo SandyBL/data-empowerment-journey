@@ -33,6 +33,7 @@
  */
 
 import { CONTACT_EMAIL, CONTACT_MAILTO, LOGO, imageCdn } from './brand.mjs';
+import { renderSubscribeDialog } from './newsletter.mjs';
 
 /**
  * The addresses themselves live in routes.mjs, which holds the per-language URL
@@ -83,7 +84,7 @@ import {
  *
  * The site has two newsletters, and every link says which one it is: this
  * URL is always labelled "LinkedIn" and carries the LinkedIn icon, and the
- * email list -- the Netlify Form behind /<lang>/newsletter/, which emails each
+ * email list -- the Netlify Form behind the signup pop-up, which emails each
  * new article -- is always the one called "Subscribe" or "Email newsletter".
  */
 export const NEWSLETTER_URL =
@@ -330,12 +331,19 @@ const CTA = { key: 'maturity', href: (lang) => pagePath(lang, 'maturity-assessme
  * The email newsletter's own button, beside the call to action rather than in
  * a dropdown: a signup nobody can find earns no subscribers. Outlined, so the
  * orange assessment button stays the one primary action in the bar.
+ *
+ * It opens the signup pop-up (renderSubscribeDialog) rather than navigating;
+ * without JavaScript the href takes the reader to the homepage's signup
+ * section, the one other place the same form always is.
  */
+const subscribeHref = (lang) => `${HOME_PATH[lang]}#newsletter`;
+
 const SUBSCRIBE = {
   key: 'subscribe',
-  href: (lang) => pagePath(lang, 'newsletter'),
+  href: subscribeHref,
   icon: 'fa-solid fa-envelope',
   title: 'subscribeTitle',
+  dialog: true,
 };
 
 /** The three flags, as inline SVG. Same order in every language. */
@@ -384,7 +392,8 @@ const navItem = (item, lang, current, className) => {
   const icon = item.icon ? `<i class="${item.icon}" aria-hidden="true"></i>` : '';
   const title = item.title ? ` title="${escapeAttribute(NAV[lang][item.title])}"` : '';
   const text = item.icon ? `<span>${label}</span>` : label;
-  return `<a class="${className}" href="${item.href(lang)}"${external}${active}${title}>${icon}${text}</a>`;
+  const dialog = item.dialog ? ' data-subscribe-dialog-open' : '';
+  return `<a class="${className}" href="${item.href(lang)}"${external}${active}${title}${dialog}>${icon}${text}</a>`;
 };
 
 /** Does this group contain the page being rendered? Used to light up its trigger. */
@@ -450,7 +459,7 @@ export const renderNavDrawer = (lang, { current = '' } = {}) => {
     lang,
     current,
     'site-drawer__link site-drawer__cta'
-  )}</div></nav>`;
+  )}</div></nav>${renderSubscribeDialog(lang)}`;
 };
 
 /**
@@ -510,8 +519,10 @@ export const renderSiteFooter = (lang) => {
   const column = (heading, links) =>
     `<div><h2>${escapeAttribute(heading)}</h2><ul>${links
       .map(
-        ([label, href, external]) =>
-          `<li><a href="${href}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escapeAttribute(
+        ([label, href, external, dialog]) =>
+          `<li><a href="${href}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}${
+            dialog ? ' data-subscribe-dialog-open' : ''
+          }>${escapeAttribute(
             label
           )}</a></li>`
       )
@@ -530,7 +541,7 @@ export const renderSiteFooter = (lang) => {
   const columns = NAV_GROUPS.map((group) => {
     const links = group.items.map((item) => [nav[item.key], item.href(lang), item.external]);
     if (group.key === 'groupLearn') {
-      links.splice(links.length - 1, 0, [nav.emailNewsletter, pagePath(lang, 'newsletter')]);
+      links.splice(links.length - 1, 0, [nav.emailNewsletter, subscribeHref(lang), false, true]);
       links.push([nav.feed, feedPath(lang)]);
     }
     return column(nav[group.key], links);

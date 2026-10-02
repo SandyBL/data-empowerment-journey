@@ -44,6 +44,12 @@ const COPY = {
     readerKicker: 'Email newsletter',
     readerHeading: 'Get the next article by email',
     readerLead: 'One email each time a new article is published, with a short summary and the link. Leave your first name and address. Nothing else, unsubscribe in one click.',
+    dialogPoints: [
+      'One email per new article: a short summary and the link, in the language you sign up in.',
+      'First, a welcome email with the three most-read articles, so you know where to start.',
+      'Replies are read by a person. Unsubscribe in one click, any time.',
+    ],
+    dialogClose: 'Close',
   },
   es: {
     kicker: 'Opcional',
@@ -61,6 +67,12 @@ const COPY = {
     readerKicker: 'Newsletter por correo',
     readerHeading: 'Recibe el próximo artículo por correo',
     readerLead: 'Un correo cada vez que se publica un artículo nuevo, con un breve resumen y el enlace. Deja tu nombre y tu correo. Nada más, y te das de baja en un clic.',
+    dialogPoints: [
+      'Un correo por artículo nuevo: un breve resumen y el enlace, en el idioma en que te suscribes.',
+      'Primero, un correo de bienvenida con los tres artículos más leídos, para que sepas por dónde empezar.',
+      'Las respuestas las lee una persona. Te das de baja en un clic, cuando quieras.',
+    ],
+    dialogClose: 'Cerrar',
   },
   pt: {
     kicker: 'Opcional',
@@ -78,6 +90,12 @@ const COPY = {
     readerKicker: 'Newsletter por e-mail',
     readerHeading: 'Receba o próximo artigo por e-mail',
     readerLead: 'Um e-mail sempre que um novo artigo é publicado, com um breve resumo e o link. Deixe seu nome e e-mail. Nada além disso, e você cancela em um clique.',
+    dialogPoints: [
+      'Um e-mail por artigo novo: um breve resumo e o link, no idioma em que você assina.',
+      'Primeiro, um e-mail de boas-vindas com os três artigos mais lidos, para você saber por onde começar.',
+      'As respostas são lidas por uma pessoa. Você cancela em um clique, quando quiser.',
+    ],
+    dialogClose: 'Fechar',
   },
 };
 
@@ -95,9 +113,14 @@ const escapeAttribute = (text) =>
  * Limited to 50 characters here and sanitised again server-side, because it
  * ends up in an email.
  */
-export const renderSignupNameField = (lang, id, className = 'signup__input signup__input--name') => {
+export const renderSignupNameField = (
+  lang,
+  id,
+  className = 'signup__input signup__input--name',
+  labelClassName = 'signup__label'
+) => {
   const copy = SIGNUP_NAME_COPY[lang] || SIGNUP_NAME_COPY.en;
-  return `<label class="signup__label" for="${id}-name">${escapeAttribute(copy.label)}</label>
+  return `<label class="${labelClassName}" for="${id}-name">${escapeAttribute(copy.label)}</label>
           <input
             class="${className}"
             id="${id}-name"
@@ -121,7 +144,7 @@ export const renderSignupNameField = (lang, id, className = 'signup__input signu
 export const renderNewsletterForm = (lang, { source, id = 'newsletter-signup', variant = 'resource' }) => {
   const base = COPY[lang] || COPY.en;
   // `resource` sits beside free downloads and says so; `reader` is the version
-  // for articles, the blog index and the subscribe page, where there is no file
+  // for articles, the blog index and the about page, where there is no file
   // to take and "nothing here is gated" would make no sense.
   const copy =
     variant === 'reader'
@@ -172,4 +195,67 @@ export const renderNewsletterForm = (lang, { source, id = 'newsletter-signup', v
         )}</p>
       </form>
     </aside>`;
+};
+
+/**
+ * The pop-up behind every "Subscribe" button in the header, the drawer and the
+ * footer, so a reader can sign up from wherever they are. Those links point at
+ * the homepage's #newsletter section, which is where a reader without
+ * JavaScript (or a middle-click) still ends up; assets/js/subscribe-dialog.js
+ * opens this instead.
+ *
+ * Rendered beside the drawer by renderNavDrawer, so it reaches every page that
+ * has the navigation -- the simulators included, through
+ * scripts/sync-simulator-nav.mjs -- and is styled by site-chrome.css alone,
+ * because pages.css (where `.signup` lives) is not loaded everywhere.
+ *
+ * The form carries no data-netlify attribute: it can only be used once the
+ * script has run, and the script submits it through assets/js/newsletter.js
+ * with `form-name=newsletter`, the form Netlify already detects on the
+ * homepage and the resource pages. Its fields are the same five, so submissions land in the
+ * same list.
+ */
+export const renderSubscribeDialog = (lang) => {
+  const copy = COPY[lang] || COPY.en;
+  const id = 'subscribe-dialog';
+  const points = copy.dialogPoints
+    .map((point) => `<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>${escapeAttribute(point)}</span></li>`)
+    .join('');
+
+  return `<dialog class="subscribe-dialog" id="${id}" aria-labelledby="${id}-heading" data-subscribe-dialog><div class="subscribe-dialog__panel">
+      <button type="button" class="subscribe-dialog__close" aria-label="${escapeAttribute(
+        copy.dialogClose
+      )}" data-subscribe-dialog-close><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      <p class="subscribe-dialog__kicker"><i class="fa-solid fa-envelope" aria-hidden="true"></i>${escapeAttribute(
+        copy.readerKicker
+      )}</p>
+      <h2 class="subscribe-dialog__heading" id="${id}-heading">${escapeAttribute(copy.readerHeading)}</h2>
+      <ul class="subscribe-dialog__points">${points}</ul>
+      <form class="subscribe-dialog__form" id="${id}-form" name="newsletter" method="POST" action="/thank-you" data-newsletter>
+        <p class="subscribe-dialog__honeypot" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <input type="hidden" name="language" value="${lang}">
+        <input type="hidden" name="source" value="subscribe-dialog" data-subscribe-dialog-source>
+        ${renderSignupNameField(lang, id, 'subscribe-dialog__input', 'subscribe-dialog__label')}
+        <label class="subscribe-dialog__label" for="${id}-email">${escapeAttribute(copy.label)}</label>
+        <input
+          class="subscribe-dialog__input"
+          id="${id}-email"
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          inputmode="email"
+          placeholder="${escapeAttribute(copy.placeholder)}"
+        >
+        <button class="subscribe-dialog__submit" type="submit" data-submit-label="${escapeAttribute(
+          copy.submit
+        )}" data-sending-label="${escapeAttribute(copy.sending)}">${escapeAttribute(copy.submit)}</button>
+        <p class="subscribe-dialog__status" role="status" aria-live="polite" data-newsletter-status data-success="${escapeAttribute(
+          copy.success
+        )}" data-error="${escapeAttribute(copy.error)}"></p>
+        <p class="subscribe-dialog__privacy"><i class="fa-solid fa-lock" aria-hidden="true"></i>${escapeAttribute(
+          copy.privacy
+        )}</p>
+      </form>
+    </div></dialog>`;
 };

@@ -43,9 +43,11 @@ a { color: inherit; }
 .blog-shell { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
 .blog-kicker { display: inline-flex; align-items: center; gap: 10px; color: var(--mint-dark); font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
 .blog-kicker::before { width: 38px; height: 2px; content: ''; background: currentColor; }
-.listing-intro { padding: 92px 0 48px; display: grid; grid-template-columns: 1fr .7fr; align-items: end; gap: 70px; }
-.listing-intro h1 { max-width: 800px; margin: 18px 0 0; font-family: var(--serif); font-size: clamp(3.4rem, 8vw, 7.7rem); font-weight: 400; line-height: .85; letter-spacing: -.055em; }
-.listing-intro p { max-width: 440px; margin: 0 0 8px; color: var(--ink-soft); font-size: 1.08rem; line-height: 1.8; }
+/* Title and subtitle stacked, one line each on a desktop screen, so the first
+   row of articles is already in view without scrolling. */
+.listing-intro { padding: 56px 0 32px; display: grid; grid-template-columns: 1fr; gap: 14px; }
+.listing-intro h1 { margin: 14px 0 0; font-family: var(--serif); font-size: clamp(2.6rem, 4.6vw, 4rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; }
+.listing-intro p { max-width: none; margin: 0; color: var(--ink-soft); font-size: 1.08rem; line-height: 1.6; }
 .listing-intro em { color: var(--coral); font-weight: 400; }
 
 /* Category hubs. The nav appears on the blog index and on every hub, so a
@@ -60,15 +62,14 @@ a { color: inherit; }
 .category-nav-links a[aria-current='page'] { color: var(--white); background: var(--deepblue); border-color: var(--deepblue); }
 a.blog-kicker { text-decoration: none; }
 a.blog-kicker:hover { color: var(--coral); }
-.hero-post { overflow: hidden; background: linear-gradient(to bottom right, var(--deepblue), var(--slatecool), var(--slatecool)); color: #fff; border-radius: 4px 30px 4px 4px; box-shadow: var(--shadow); }
-.hero-post-content { padding: clamp(30px, 5vw, 54px); display: flex; flex-direction: column; justify-content: center; }
 .post-category { color: var(--mint); font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-.hero-post h2 { max-width: 760px; margin: 10px 0; font-family: var(--serif); font-size: clamp(1.8rem, 3.2vw, 3rem); font-weight: 400; line-height: 1.02; letter-spacing: -.03em; }
-.hero-post h2 a, .post-card h2 a { text-decoration: none; }
-.hero-post p { max-width: 760px; margin: 0; color: #bdcbd0; font-size: .9rem; line-height: 1.55; }
+.post-card h2 a { text-decoration: none; }
 .post-meta { display: flex; align-items: center; gap: 10px; margin-top: 16px; color: #9fb1b8; font-size: .7rem; font-weight: 600; }
 .post-meta span + span::before { margin-right: 10px; content: '•'; color: var(--mint); }
 .section-heading { margin: 100px 0 30px; display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--line); }
+/* On the blog index the archive follows the intro directly, with nothing in
+   between to justify the full section gap. */
+.listing-intro + [data-article-archive] .section-heading { margin-top: 8px; }
 .section-heading h2 { margin: 0 0 18px; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.3rem); font-weight: 400; }
 .section-heading span { color: var(--ink-soft); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
 .archive-controls { position: relative; margin-bottom: 34px; padding: 22px; display: grid; grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(150px, .65fr)); gap: 12px; background: rgba(255,254,249,.72); border: 1px solid var(--line); border-radius: 3px 28px 3px 3px; box-shadow: 0 16px 50px rgba(7,28,44,.06); }
@@ -275,7 +276,7 @@ a.blog-kicker:hover { color: var(--coral); }
 
 @media (max-width: 900px) {
   .listing-intro, .tools-cta { grid-template-columns: 1fr; }
-  .listing-intro { gap: 30px; padding-top: 70px; }
+  .listing-intro { gap: 12px; padding-top: 40px; }
   .post-grid { grid-template-columns: repeat(2, 1fr); }
   .archive-controls { grid-template-columns: repeat(2, 1fr); }
   .cta-actions { justify-content: flex-start; }
@@ -286,11 +287,7 @@ a.blog-kicker:hover { color: var(--coral); }
 
 @media (max-width: 639px) {
   .blog-shell { width: min(100% - 26px, 1180px); }
-  .listing-intro h1 { font-size: clamp(3.1rem, 19vw, 5rem); }
-  .hero-post { border-radius: 2px 24px 2px 2px; }
-  .hero-post-content { padding: 24px 22px 28px; }
-  .hero-post h2 { font-size: clamp(1.7rem, 8vw, 2.25rem); }
-  .hero-post p { font-size: .82rem; }
+  .listing-intro h1 { font-size: clamp(2.2rem, 10vw, 3rem); }
   .post-grid { grid-template-columns: 1fr; }
   .archive-controls { padding: 16px; grid-template-columns: 1fr; border-radius: 2px 22px 2px 2px; }
   .post-card { display: flex; }
