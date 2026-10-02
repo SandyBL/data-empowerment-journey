@@ -47,6 +47,7 @@ import { loadPartials, loadSitePages, renderSitePage } from './lib/site-pages.mj
 import { loadInsightsSnapshot } from './lib/insights-snapshot.mjs';
 import { renderFeed } from './lib/feeds.mjs';
 import { renderShareBar } from './lib/share.mjs';
+import { renderNewsletterForm } from './lib/newsletter.mjs';
 
 /**
  * Whether this build is the one that answers on datagovjourney.com.
@@ -924,6 +925,13 @@ ${bodyHtml}
         </article>
         ${renderShareBar(article.lang, { url: canonical, title: article.title })}
         <aside class="author-card" aria-label="${labels.about}"><img src="${imageCdn(PORTRAIT.url, 192, 192, 'cover')}" alt="Sandy Bradbury, Lead Data Governance Consultant" width="96" height="96" loading="lazy" decoding="async"><div><small>${labels.about}</small><h2><a href="${pagePath(article.lang, 'about')}">Sandy Bradbury</a></h2><p>${labels.aboutText}</p></div></aside>
+        ${/* The end of an article is where a reader has just decided the writing
+             was worth their time, which makes it the best place on the site to
+             ask whether they want the next one. */ ''}${renderNewsletterForm(article.lang, {
+          source: `article:${article.slug}`,
+          id: 'newsletter-article',
+          variant: 'reader',
+        })}
       </div>
     </div>
     ${renderRelated(article, articles, labels)}
@@ -933,6 +941,7 @@ ${bodyHtml}
   <script type="module" src="/assets/js/site-nav.js"></script>
   <script type="module" src="/assets/js/language-switch.js"></script>
   <script type="module" src="/assets/js/share.js"></script>
+  <script type="module" src="/assets/js/newsletter.js"></script>
   <script src="/assets/js/web-vitals.js" defer></script>
 </body>
 </html>
@@ -1035,6 +1044,12 @@ async function updateBlogIndexes(articles, categoryLinks) {
       indexPath
     );
     source = replaceBetweenMarkers(source, 'BLOG_FOOTER', renderSiteFooter(lang), indexPath);
+    source = replaceBetweenMarkers(
+      source,
+      'BLOG_NEWSLETTER',
+      renderNewsletterForm(lang, { source: 'blog-index', id: 'newsletter-blog', variant: 'reader' }),
+      indexPath
+    );
     assertArchiveIsComplete(source, localized, indexPath);
     await writeDocument(indexPath, source);
   }

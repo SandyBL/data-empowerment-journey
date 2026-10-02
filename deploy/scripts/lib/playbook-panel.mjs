@@ -28,6 +28,7 @@
 import { escapeHtml } from './markdown.mjs';
 import { pagePath, simulatorPath } from './routes.mjs';
 import { NEWSLETTER_URL } from './site-nav.mjs';
+import { renderSignupNameField } from './newsletter.mjs';
 
 /**
  * The panel is one block of copy per language rather than three inline
@@ -47,7 +48,7 @@ const COPY = {
     maturityText: 'The maturity scorecard returns your DAMA level, a radar chart across People, Process and Technology, and an executive report on completion.',
     maturityCta: 'Take the assessment',
     signupTitle: 'Want the next one?',
-    signupText: 'One email when a new playbook, template or article is published. Nothing else, unsubscribe in one click.',
+    signupText: 'One email each time a new article is published. Nothing else, unsubscribe in one click.',
     signupLabel: 'Email address',
     signupPlaceholder: 'you@company.com',
     signupSubmit: 'Send me the next one',
@@ -69,7 +70,7 @@ const COPY = {
     maturityText: 'El Scorecard de Madurez te devuelve tu nivel DAMA, un gráfico de araña en Personas, Procesos y Tecnología, y un informe ejecutivo al terminar.',
     maturityCta: 'Hacer el diagnóstico',
     signupTitle: '¿Quieres el próximo?',
-    signupText: 'Un email cuando se publique un nuevo playbook, plantilla o artículo. Nada más, y te das de baja en un clic.',
+    signupText: 'Un email cada vez que se publique un artículo nuevo. Nada más, y te das de baja en un clic.',
     signupLabel: 'Correo electrónico',
     signupPlaceholder: 'tu@empresa.com',
     signupSubmit: 'Enviarme el próximo',
@@ -91,7 +92,7 @@ const COPY = {
     maturityText: 'O Scorecard de Maturidade devolve o seu nível DAMA, um gráfico radar em Pessoas, Processos e Tecnologia, e um relatório executivo ao terminar.',
     maturityCta: 'Fazer o diagnóstico',
     signupTitle: 'Quer o próximo?',
-    signupText: 'Um e-mail quando um novo playbook, modelo ou artigo for publicado. Nada além disso, e você cancela em um clique.',
+    signupText: 'Um e-mail sempre que um novo artigo for publicado. Nada além disso, e você cancela em um clique.',
     signupLabel: 'E-mail',
     signupPlaceholder: 'voce@empresa.com',
     signupSubmit: 'Quero o próximo',
@@ -111,7 +112,8 @@ const SIMULATOR = 'data-governance-day-to-day';
  * The signup row.
  *
  * Deliberately the same Netlify form as the block at the foot of the page --
- * same `newsletter` name, same honeypot, same field names, and the same
+ * same `newsletter` name, same honeypot, same field names (the name field is
+ * literally the same renderer), and the same
  * `[data-newsletter]` hook so assets/js/newsletter.js submits it without a
  * second implementation. One list, not two: splitting subscribers across two
  * forms would undo the point of owning the list in the first place. What tells
@@ -138,8 +140,9 @@ const renderSignup = (copy, lang) => `
         <input type="hidden" name="source" value="playbook-panel" data-playbook-source>
         <p class="download-panel__signup-title">${escapeHtml(copy.signupTitle)}</p>
         <p class="download-panel__signup-text">${escapeHtml(copy.signupText)}</p>
-        <label class="signup__label" for="playbook-panel-email">${escapeHtml(copy.signupLabel)}</label>
         <div class="signup__row">
+          ${renderSignupNameField(lang, 'playbook-panel')}
+          <label class="signup__label" for="playbook-panel-email">${escapeHtml(copy.signupLabel)}</label>
           <input
             class="signup__input"
             id="playbook-panel-email"

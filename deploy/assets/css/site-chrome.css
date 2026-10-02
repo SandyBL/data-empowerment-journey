@@ -257,6 +257,26 @@
     transform: translateY(-1px);
   }
 
+  /* The email newsletter. Outlined in the brand teal so it reads as a button
+     without competing with the orange call to action beside it. */
+  .site-nav__subscribe,
+  .site-nav__subscribe[aria-current="page"] {
+    color: var(--dejourney-teal, #095b73);
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px rgb(9 91 115 / 0.45);
+  }
+
+  .site-nav__subscribe:hover {
+    color: #ffffff;
+    background: var(--dejourney-teal, #095b73);
+  }
+
+  /* The LinkedIn icon on the one dropdown item that leaves the site. */
+  .site-nav__item i {
+    margin-right: 0.45rem;
+    color: #0077b5;
+  }
+
   .site-nav__menu {
     position: relative;
   }
@@ -346,6 +366,17 @@
   .site-nav__link,
   .site-nav__trigger {
     padding-inline: 0.5rem;
+  }
+
+  /* Icon only in this band, which is where the bar has no slack left. The
+     label stays in the accessibility tree and in the tooltip. */
+  .site-nav__subscribe span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 
@@ -477,6 +508,24 @@
 .site-drawer__panel .site-drawer__cta:hover {
   background: #a8460f;
   color: #ffffff;
+}
+
+.site-drawer__panel .site-drawer__subscribe {
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  color: var(--dejourney-teal, #095b73);
+  box-shadow: inset 0 0 0 1px rgb(9 91 115 / 0.45);
+}
+
+.site-drawer__panel .site-drawer__subscribe:hover {
+  background: var(--dejourney-teal, #095b73);
+  color: #ffffff;
+}
+
+.site-drawer__item i {
+  margin-right: 0.45rem;
+  color: #0077b5;
 }
 
 body.site-drawer-open {

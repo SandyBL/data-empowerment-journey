@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   doublePrecision,
   index,
   integer,
@@ -397,5 +398,122 @@ export const workspaceScenarioText = pgTable(
       table.simulator,
       table.locale,
     ),
+  ],
+);
+
+/**
+ * The newsletter: who asked for the next article, and what has been sent to them.
+ *
+ * Email goes out through Resend, whose free plan sends at most 100 emails per
+ * UTC day. A new article therefore cannot reach a list of several hundred in
+ * one go, and the four tables below exist to send it in daily instalments
+ * without anybody getting it twice or not at all. Resend still owns delivery,
+ * the unsubscribe page and the suppression list; this database owns the order.
+ *
+ * The instalments are fixed Resend segments, called batches here, of at most
+ * 90 subscribers each and one language each. A subscriber is placed in a batch
+ * once, when they sign up, and stays in it. Sending an article is then one
+ * broadcast per batch, and a day's sending is as many batches as fit in 90
+ * recipients -- so the daily limit is enforced by the size of a segment rather
+ * than by trusting a running count kept somewhere else. See
+ * netlify/lib/newsletter.ts.
+ */
+export const newsletterBatches = pgTable("newsletter_batches", {
+  id: serial().primaryKey(),
+  locale: varchar({ length: 2 }).notNull(),
+  // The Resend segment this batch is, e.g. "Newsletter EN - batch 3".
+  resendSegmentId: varchar("resend_segment_id", { length: 64 }).notNull(),
+  // Subscribers ever placed here. Never decremented on unsubscribe: the batch
+  // keeps its place in the rotation and the count stays an upper bound on what
+  // one broadcast to it can cost, which is the only thing it is used for.
+  memberCount: integer("member_count").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const newsletterSubscribers = pgTable(
+  "newsletter_subscribers",
+  {
+    id: serial().primaryKey(),
+    // Lowercased and trimmed, so one person cannot be on the list twice.
+    email: varchar({ length: 254 }).notNull(),
+    locale: varchar({ length: 2 }).notNull(),
+    // What the emails greet the reader by. Only the first word of what they
+    // typed, with anything but letters, spaces, hyphens, apostrophes and dots
+    // removed, because Resend inserts it into the HTML of every broadcast
+    // unescaped. Null for anyone who signed up before the form asked for it.
+    firstName: varchar("first_name", { length: 50 }),
+    // The page the address came from, as recorded by the signup form.
+    source: varchar({ length: 120 }),
+    // Null until the contact exists in Resend. The hourly sender retries any
+    // row left like this, so a Resend outage at signup loses nobody.
+    resendContactId: varchar("resend_contact_id", { length: 64 }),
+    batchId: integer("batch_id").references(() => newsletterBatches.id),
+    // 32 random bytes, hex. Identifies the subscriber in the unsubscribe link of
+    // the welcome email, which Resend does not manage the way it does for
+    // broadcasts.
+    unsubscribeToken: varchar("unsubscribe_token", { length: 64 }).notNull(),
+    welcomeSentAt: timestamp("welcome_sent_at", { withTimezone: true }),
+    // Only unsubscribes made through this site's own link land here. One made
+    // from a broadcast is recorded by Resend, which then simply skips the
+    // contact; nothing on this side needs to know.
+    unsubscribedAt: timestamp("unsubscribed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("newsletter_subscribers_email_idx").on(table.email),
+    uniqueIndex("newsletter_subscribers_unsubscribe_token_idx").on(table.unsubscribeToken),
+  ],
+);
+
+/**
+ * Every article the sender has seen in the RSS feeds.
+ *
+ * `announce` is false for the articles that were already published when the
+ * newsletter started, and for any that turn up long after their publication
+ * date (a renamed slug, a back-dated import). Those are recorded so they are
+ * never mistaken for new, and are never emailed.
+ */
+export const newsletterArticles = pgTable(
+  "newsletter_articles",
+  {
+    id: serial().primaryKey(),
+    // The article's canonical URL, which is also the feed item's guid.
+    url: varchar({ length: 512 }).notNull(),
+    locale: varchar({ length: 2 }).notNull(),
+    title: varchar({ length: 300 }).notNull(),
+    summary: text(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    announce: boolean().notNull(),
+    discoveredAt: timestamp("discovered_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex("newsletter_articles_url_idx").on(table.url)],
+);
+
+/**
+ * One broadcast: one article to one batch.
+ *
+ * The row is written before Resend is asked to send, and the unique index is
+ * what makes a send happen at most once even if two runs overlap. `sentAt` is
+ * the UTC day the recipients count against.
+ */
+export const newsletterDeliveries = pgTable(
+  "newsletter_deliveries",
+  {
+    id: serial().primaryKey(),
+    articleId: integer("article_id")
+      .notNull()
+      .references(() => newsletterArticles.id, { onDelete: "cascade" }),
+    batchId: integer("batch_id")
+      .notNull()
+      .references(() => newsletterBatches.id, { onDelete: "cascade" }),
+    // The batch's member count at the moment of sending: what this broadcast
+    // can have cost against the day's limit, at most.
+    recipients: integer().notNull(),
+    resendBroadcastId: varchar("resend_broadcast_id", { length: 64 }),
+    sentAt: timestamp("sent_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("newsletter_deliveries_article_batch_idx").on(table.articleId, table.batchId),
+    index("newsletter_deliveries_sent_at_idx").on(table.sentAt),
   ],
 );
