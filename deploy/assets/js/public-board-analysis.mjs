@@ -101,8 +101,10 @@ const summarizeBoard = (simulator, rows) => {
     median: round(middle),
     spread: round(best !== null && middle !== null ? best - middle : null),
     bands,
-    // The two timed boards only. Day-to-Day does not time itself, so reporting a
-    // median of nothing as zero would invent a fact about it.
+    // Timed runs only. All four boards time themselves now, but runs published
+    // before a board was timed (or whose clock never started) carry no
+    // duration, and a board can have none yet -- reporting a median of nothing
+    // as zero would invent a fact about it.
     timedRuns: durations.length,
     medianDurationMs: durations.length ? Math.round(median(durations)) : null,
     fastestDurationMs: durations.length ? Math.min(...durations) : null,

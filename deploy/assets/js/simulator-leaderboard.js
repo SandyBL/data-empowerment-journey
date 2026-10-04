@@ -133,7 +133,13 @@
               return null;
             })
             .then(function (body) {
-              console.warn("Leaderboard refused the request: HTTP " + response.status);
+              // A replay inside a private space is the one-attempt rule working,
+              // not a fault, so it is not logged as one.
+              if (response.status === 409 && body && body.reason === "already-recorded") {
+                console.info("Leaderboard: this person's first run is already recorded on this board");
+              } else {
+                console.warn("Leaderboard refused the request: HTTP " + response.status);
+              }
               return { data: null, error: "rejected", status: response.status, body: body };
             });
         })
@@ -187,6 +193,43 @@
   }
 
   /**
+   * Where a score stands on the board this browser reads.
+   *
+   * Resolves to `{ total, below, percentile }` -- the runs on the board, how many
+   * of them scored strictly below `score`, and that share as a whole percentage
+   * -- or to null when the board is still too small to say (the server holds
+   * that threshold, thirty runs), when the score is not a number, or when the
+   * request fails. Never rejects: it is one optional sentence on a results
+   * screen and must not be able to take anything else down with it.
+   */
+  function standing(simulator, score) {
+    var value = Number(score);
+    if (!simulator || score === null || score === undefined || !isFinite(value)) return Promise.resolve(null);
+
+    return workspaceReady()
+      .then(function () {
+        var url =
+          ENDPOINT + "?simulator=" + encodeURIComponent(simulator) + "&limit=1&score=" + encodeURIComponent(value);
+        var slug = workspaceSlug();
+        if (slug) url += "&space=" + encodeURIComponent(slug);
+        return requestJson(url, { headers: { Accept: "application/json" }, credentials: "same-origin" });
+      })
+      .then(function (result) {
+        var data = result && !result.error ? result.data : null;
+        var entry = data && data.standing;
+        if (!entry || typeof entry !== "object") return null;
+        var total = Number(entry.total);
+        var below = Number(entry.below);
+        var percentile = Number(entry.percentile);
+        if (!isFinite(total) || total <= 0 || !isFinite(below) || !isFinite(percentile)) return null;
+        return { total: total, below: below, percentile: percentile };
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
+  /**
    * Announces the outcome of a publish on the document.
    *
    * The nine publish functions return nothing and each updates its own screen,
@@ -198,14 +241,25 @@
    *
    * Fired for every publish, public or private, accepted or not, and wrapped:
    * a listener that throws must not turn a saved score into a failed one.
+   *
+   * `status` is the reading a listener should switch on: "saved", "recorded"
+   * or "failed". "recorded" is the already-recorded refusal -- `accepted` is
+   * false because this run did not go on the board, but nothing failed and the
+   * person's first run is there -- so a listener that treats every
+   * `accepted: false` as a failure would be telling a participant something
+   * untrue. `error` still reads "already-recorded" in that case, for listeners
+   * written before `status` existed.
    */
   function announce(entry, outcome) {
+    var alreadyRecorded = outcome.error === "already-recorded";
     try {
       document.dispatchEvent(
         new CustomEvent(PUBLISH_EVENT, {
           detail: {
             simulator: entry.simulator,
             accepted: outcome.accepted === true,
+            status: outcome.accepted === true ? "saved" : alreadyRecorded ? "recorded" : "failed",
+            alreadyRecorded: alreadyRecorded,
             error: outcome.error || null,
             // The run already on the board when this one was refused as a
             // replay, `{ score, recordedAt }`, and null in every other case.
@@ -318,14 +372,15 @@
 
         var data = result.data || {};
         var scores = Array.isArray(data.scores) ? data.scores : [];
-        if (scores.length) return { accepted: true, scores: scores, error: null };
+        var id = typeof data.id === "number" ? data.id : null;
+        if (scores.length) return { accepted: true, id: id, scores: scores, error: null };
 
         // The score is saved — the row the player just created would be in this
         // list, so an empty one means the write succeeded but could not also
         // return the refreshed board. Read it separately rather than leaving them
         // looking at an empty table underneath their own successful publish.
         return load(entry.simulator, 10).then(function (board) {
-          return { accepted: true, scores: board.scores, error: null };
+          return { accepted: true, id: id, scores: board.scores, error: null };
         });
       });
   }
@@ -368,6 +423,17 @@
         startedAt = null;
         stoppedMs = null;
       },
+      /**
+       * Resumes a run restored from sessionStorage after a reload: the clock
+       * continues from the time already played instead of starting over, so a
+       * reload neither erases a run nor makes it look faster than it was.
+       */
+      resume: function (elapsed) {
+        var ms = Number(elapsed);
+        if (!isFinite(ms) || ms < 0) return;
+        startedAt = now() - ms;
+        stoppedMs = null;
+      },
       /** Frozen duration once stopped, live duration while running, else null. */
       elapsedMs: function () {
         if (stoppedMs !== null) return stoppedMs;
@@ -381,8 +447,8 @@
    * Milliseconds to the m:ss the boards display, or h:mm:ss past an hour.
    *
    * Returns the em dash for anything unusable, which covers the rows published
-   * before the boards were timed and the board that does not time itself — those
-   * rows still have a name and a score to show.
+   * before the boards were timed and runs whose duration the server dropped as
+   * implausible — those rows still have a name and a score to show.
    */
   function formatDuration(ms) {
     var value = Number(ms);
@@ -514,6 +580,7 @@
   window.SimulatorLeaderboard = {
     load: load,
     submit: submit,
+    standing: standing,
     createStopwatch: createStopwatch,
     formatDuration: formatDuration,
     escapeHtml: escapeHtml,

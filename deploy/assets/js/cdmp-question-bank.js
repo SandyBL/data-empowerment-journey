@@ -70,11 +70,11 @@
       chapter: "Chapter 1: Data Management",
       prompt: "According to DAMA-DMBOK2, which principle underpins the fundamental distinction between data management and other IT asset management disciplines?",
       options: [
-        "Data is an enterprise asset with properties distinct from other physical assets, requiring lifecycle stewardship and not being depleted by use.",
-        "Data management strictly concerns physical storage subsystems and DBMS performance tuning.",
-        "Data architecture must always follow software release cadences regardless of business needs.",
-        "Data management is exclusively governed by IT network infrastructure protocols.",
-        "Data assets depreciate linearly on corporate balance sheets according to standard tax depreciation schedules."
+        "Data is an asset with unique properties: it is not used up when consumed and can be shared at once.",
+        "Data should be valued and depreciated like other tangible assets, using standard balance-sheet schedules.",
+        "Data management is primarily a technology concern, so ownership of data should sit with the IT department.",
+        "Data is a by-product of applications, so it is best managed through application portfolio management.",
+        "Data has value only while in active operational use, so its lifecycle management ends once it is archived."
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 1, Section 2.3 (\"Data as an Organizational Asset\")",
@@ -84,17 +84,17 @@
       id: "DMBOK-DM-02",
       area: "Data Management",
       chapter: "Chapter 1: Data Management",
-      prompt: "In Peter Aiken's DMBOK Pyramid Framework, which foundational phase must organizations stabilize before advancing into predictive data science and analytics?",
+      prompt: "In Peter Aiken's DMBOK Pyramid, which knowledge areas form Phase 1, the foundation an organization typically builds first when it acquires an application with database capabilities?",
       options: [
-        "Enterprise Blockchain Integration and distributed ledger verification.",
-        "Phase 1: Foundational practices including Data Governance, Data Quality, and Core Architecture.",
-        "Continuous Automated Deployment of machine learning model pipelines.",
-        "Unstructured NoSQL schema migration across all business units.",
-        "Decentralized Peer-to-Peer data sharing across departmental silos."
+        "Data Modeling & Design, Data Storage & Operations, Data Security, and Data Integration & Interoperability",
+        "Data Governance, Data Quality and Data Architecture, stabilised before any application is put in place",
+        "Reference & Master Data, Data Warehousing & BI, and Document & Content Management",
+        "Data Quality, supported by reliable Metadata and a consistent Data Architecture",
+        "Big Data and Data Science, built directly on the purchased application's database"
       ],
-      correct: 1,
-      dmbokRef: "DMBOK2 Chapter 1, Section 3.4 (\"DMBOK Pyramid (Aiken)\")",
-      explanation: "Peter Aiken's pyramid illustrates that foundational capabilities (Data Architecture, Governance, and Quality) must be stabilized before an organization can effectively pursue predictive analytics and advanced data science."
+      correct: 0,
+      dmbokRef: "DMBOK2 Chapter 1, Section 3.4 (\"DMBOK Pyramid (Aiken)\", Figure 4)",
+      explanation: "Aiken's pyramid describes how organizations typically evolve. Phase 1: buying an application gives a starting point for data modeling & design, data storage, and data security, and making it work with other systems requires data integration & interoperability. Phase 2: using the application exposes data quality problems, whose management depends on reliable metadata and consistent data architecture. Phase 3: disciplined quality, metadata and architecture practices require data governance. Phase 4: the organization can then leverage advanced practices such as master data, data warehousing & BI, document & content management, and big data/data science."
     },
     {
       id: "DMBOK-DM-03",
@@ -103,10 +103,10 @@
       prompt: "Which framework models strategic alignment by connecting Business Strategy, IT Strategy, Organizational Infrastructure, and IT Infrastructure across both functional integration and strategic fit?",
       options: [
         "The Henderson and Venkatraman Strategic Alignment Model",
-        "The Zachman Enterprise Architecture Framework",
+        "The Zachman Framework for Enterprise Architecture (6x6 matrix)",
         "The TOGAF Architecture Development Method (ADM)",
-        "The CMMI Data Management Maturity Model",
-        "The Porter Value Chain Matrix"
+        "The CMMI Data Management Maturity (DMM) Model",
+        "The DAMA-DMBOK Functional Framework (DAMA Wheel)"
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 1, Section 3.1 (\"Strategic Alignment Model\")",
@@ -118,15 +118,15 @@
       chapter: "Chapter 1: Data Management",
       prompt: "How does the Amsterdam Information Model (AIM) extend the classic Henderson and Venkatraman Strategic Alignment Model?",
       options: [
-        "By eliminating the business strategy dimension in favor of automated microservices.",
-        "By introducing an explicit middle column for \"Information / Governance\" between Business and IT.",
-        "By requiring all data to reside in relational third normal form schemas.",
-        "By replacing enterprise architecture with agile user stories.",
-        "By defining formal database administrator job descriptions."
+        "By adding a Data Governance layer beneath the Strategy, Structure and Operations rows of the model.",
+        "By adding a middle \"Information and Communication\" column between Business and Technology.",
+        "By replacing strategic fit with a single maturity scale measured through a capability maturity model.",
+        "By splitting IT Infrastructure into separate Data Architecture and Application Architecture domains.",
+        "By adding Planner, Owner, Designer and Builder perspective rows, as in the Zachman framework."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 1, Section 3.2 (\"The Amsterdam Information Model\")",
-      explanation: "The Amsterdam Information Model introduces an intermediate \"Information and Communication\" pillar between business and technical domains to account for information governance."
+      explanation: "The Amsterdam Information Model extends the Strategic Alignment Model by adding a middle column, Information and Communication, between the business and technology columns, so that information management is treated as a concern in its own right rather than folded into IT."
     },
     {
       id: "DMBOK-DM-05",
@@ -134,11 +134,11 @@
       chapter: "Chapter 1: Data Management",
       prompt: "What is the primary objective of formulating a formal Enterprise Data Strategy according to DMBOK2?",
       options: [
-        "To mandate that all corporate business units adopt a single relational database vendor.",
-        "To align data management investments, capabilities, and priorities directly with overall business objectives and value creation.",
-        "To outsource all database management operations to public cloud infrastructure providers.",
-        "To restrict business user access to self-service reporting platforms.",
-        "To replace human data governance councils with automated algorithmic rule engines."
+        "To define the detailed physical database standards that every development project must follow.",
+        "To align data management priorities, capabilities and investments with business goals.",
+        "To document the current-state inventory of systems, interfaces and data stores across the enterprise.",
+        "To set the technology roadmap, including the choice of DBMS, cloud and integration platforms.",
+        "To replace the data governance charter as the document that assigns data decision rights."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 1, Section 2.6 (\"Data Management Strategy\")",
@@ -170,7 +170,7 @@
         "Deliverables",
         "Suppliers",
         "Consumers",
-        "Technical Drivers"
+        "Business Drivers"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 1, Section 3.3 (\"Context Diagram - Environmental Elements\")",
@@ -182,11 +182,11 @@
       chapter: "Chapter 2: Data Handling Ethics",
       prompt: "Which ethical principle in DMBOK2 emphasizes that individuals must be notified about what data is captured about them and have a voice in how it is used?",
       options: [
-        "Algorithmic Determinism",
-        "Notice and Consent / Transparency",
-        "Strict Data Obfuscation Protocol",
-        "Exclusive Proprietary Stewardship",
-        "Universal Data Monopolization"
+        "Purpose Limitation",
+        "Notice and Consent",
+        "Data Minimisation and Proportionality",
+        "Storage Limitation",
+        "Accountability"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 3.2 (\"Principles Behind Data Privacy Law\")",
@@ -198,11 +198,11 @@
       chapter: "Chapter 2: Data Handling Ethics",
       prompt: "In data ethics and predictive modeling, what is \"Proxy Bias\"?",
       options: [
-        "The network latency introduced by web proxy servers during ETL queries.",
-        "Using an alternate variable that inadvertently correlates with and discriminates against protected demographics (e.g., zip code standing for race).",
-        "Encrypting customer keys through third-party hardware modules.",
-        "Replicating master records to secondary geographical regions.",
-        "Restricting analytical datasets strictly to CSV flat files."
+        "Selecting a sample that over-represents some groups, so results do not reflect the whole population.",
+        "Using a seemingly neutral variable that correlates with a protected attribute, e.g. postcode for race.",
+        "Collecting data only to support a result decided in advance, then presenting it as objective evidence.",
+        "Searching the data until it confirms an analyst's hunch, while ignoring evidence that contradicts it.",
+        "Reusing data collected for one purpose for an unrelated purpose without the data subjects' consent."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 3.4 (\"Risks of Unethical Data Handling Practices\") & Bad Data Handbook",
@@ -218,7 +218,7 @@
         "General Data Protection Regulation (GDPR)",
         "Health Insurance Portability and Accountability Act (HIPAA)",
         "Payment Card Industry Data Security Standard (PCI-DSS)",
-        "Federal Information Security Modernization Act (FISMA)"
+        "Gramm-Leach-Bliley Act (GLBA)"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 3.2 (\"Principles Behind Data Privacy Law\")",
@@ -230,11 +230,11 @@
       chapter: "Chapter 2: Data Handling Ethics",
       prompt: "According to DMBOK2, why is legal compliance insufficient for ensuring comprehensive ethical data handling?",
       options: [
-        "Because laws are always updated faster than technological capabilities emerge.",
-        "Because laws define the minimum legal threshold; ethics require doing what is right even when not strictly mandated by statutory law.",
-        "Because data ethics only applies to nonprofit academic institutions.",
-        "Because international organizations are completely exempt from national legal regulations.",
-        "Because legal compliance applies solely to physical hardware servers."
+        "Laws apply only within one jurisdiction, so global firms must follow a single ethics code instead.",
+        "Laws set a minimum standard; ethics asks what is right even where the law is silent.",
+        "Compliance covers only data security, whereas ethics covers data quality and accuracy.",
+        "Compliance is the job of the legal team, while ethics is the sole responsibility of data stewards.",
+        "Regulators accept ethical intent as a defence, so an ethics policy can stand in for compliance."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 1 (\"Introduction to Data Handling Ethics\")",
@@ -246,11 +246,11 @@
       chapter: "Chapter 2: Data Handling Ethics",
       prompt: "What is the primary danger of \"Dark Patterns\" in website and user experience design from an ethical standpoint?",
       options: [
-        "They increase server CPU utilization during batch hours.",
-        "They manipulate or trick users into unintentionally surrendering personal data or granting privacy consents.",
-        "They corrupt database indexes through uncommitted SQL transactions.",
-        "They prevent search engine web crawlers from discovering sitemaps.",
-        "They cause data pipelines to drop unformatted UTF-8 characters."
+        "They collect data silently through cookies and trackers, with no user interface involved at all.",
+        "They trick users into sharing personal data or granting consent they did not intend to give.",
+        "They expose personal data to attackers by leaving web forms and sessions unencrypted.",
+        "They profile users in ways that let algorithms discriminate against protected groups.",
+        "They hide data quality defects from users by displaying cached or stale information."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 3.3 (\"Online Data in an Ethical Context\")",
@@ -262,11 +262,11 @@
       chapter: "Chapter 2: Data Handling Ethics",
       prompt: "Which role in modern organizations is specifically tasked with championing ethical data practices and ensuring compliance with privacy statutes?",
       options: [
-        "Database Backup Administrator",
-        "Data Protection Officer (DPO) / Chief Privacy Officer",
-        "Network Cabling Engineer",
-        "ETL Performance Specialist",
-        "Report Layout Designer"
+        "Chief Information Security Officer (CISO)",
+        "Data Protection Officer (DPO)",
+        "Enterprise Data Architect",
+        "Technical Data Steward",
+        "Database Administrator (DBA)"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 3.5 (\"Establishing an Ethical Data Culture\")",
@@ -278,11 +278,11 @@
       chapter: "Chapter 2: Data Handling Ethics",
       prompt: "What constitutes an ethical \"Data Handling Culture\" across an organization according to DMBOK2?",
       options: [
-        "Total avoidance of digital systems and returning to manual paper filings.",
-        "Continuous workforce training, transparent privacy practices, proactive bias checks, and executive stewardship of customer trust.",
-        "Allowing unrestricted employee access to all consumer data for unrestricted analytics.",
-        "Selling consumer profiles to third-party data brokers without disclosure.",
-        "Storing plain-text passwords in public repository codebases."
+        "A code of conduct signed by staff each year, which serves as the organization's main ethics control.",
+        "Ongoing training, transparent practices, bias checks, and leaders who treat trust as a core value.",
+        "Delegating all ethical review to the legal team, which checks each project for regulatory compliance.",
+        "Strong access controls and encryption, since data security alone ensures ethical data handling.",
+        "Appointing a DPO who carries sole accountability for ethical decisions on behalf of the firm."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 2, Section 3.5 (\"Establishing an Ethical Data Culture\")",
@@ -292,17 +292,17 @@
       id: "DMBOK-DG-01",
       area: "Data Governance",
       chapter: "Chapter 3: Data Governance",
-      prompt: "Which governing body in DMBOK2 holds ultimate executive accountability for approving data policies, funding initiatives, and resolving cross-functional disputes?",
+      prompt: "According to DMBOK2, which body is the primary and highest authority for data governance in an organization, responsible for oversight, support and funding of data governance activities?",
       options: [
-        "The Departmental BI Guild",
-        "The Data Governance Council (DGC) / Steering Committee",
-        "The Database Administration Support Team",
-        "The Network Operations Center (NOC)",
-        "The External Software Auditing Vendor"
+        "Data Governance Steering Committee",
+        "Data Governance Council (DGC)",
+        "Data Governance Office (DGO)",
+        "Data Stewardship Team",
+        "Local (business unit) Data Governance Committee"
       ],
-      correct: 1,
-      dmbokRef: "DMBOK2 Chapter 3, Section 2.6 (\"Define the DG Operating Framework\") & Ladley Ch. 11",
-      explanation: "The Data Governance Council (DGC) consists of high-ranking executive stakeholders who approve enterprise data policies, allocate resources, and resolve domain disputes."
+      correct: 0,
+      dmbokRef: "DMBOK2 Chapter 3, Section 1.3 (\"Data Governance Organization Parts\", Table 2)",
+      explanation: "DMBOK2 describes the Data Governance Steering Committee, made up of senior executives, as the primary and highest authority for data governance, responsible for oversight, support and funding. The Data Governance Council manages governance initiatives (such as developing policies and metrics), issues and escalations; the Data Governance Office focuses on enterprise-level data definitions and standards; stewardship teams and local committees work within a subject area or business unit."
     },
     {
       id: "DMBOK-DG-02",
@@ -310,11 +310,11 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "What is the primary responsibility of a Business Data Steward in DAMA DMBOK2 and John Ladley's governance frameworks?",
       options: [
-        "Writing low-level kernel drivers for storage area networks (SAN).",
-        "Serving as the business subject matter expert accountable for data definitions, quality criteria, and compliance in their domain.",
-        "Physically racking and cabling database servers in enterprise data centers.",
-        "Executing manual database index reorganizations on weekends.",
-        "Installing client desktop spreadsheet productivity software."
+        "The IT professional who maintains data structures, ETL jobs and database operations for a domain.",
+        "The business SME accountable for the definitions, quality rules and proper use of a domain's data.",
+        "The senior executive who holds overall decision rights over data for the enterprise as a whole.",
+        "The coordinator who leads stewardship teams and acts as their liaison to the Data Governance Council.",
+        "The steward who oversees one data domain across every business function that uses that data."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 3, Section 1.3 (\"Essential Concepts - Stewardship\") & Ladley Ch. 3",
@@ -326,11 +326,11 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "Which governance operating model federates authority between centralized policy-setting committees and decentralized business domain stewards?",
       options: [
-        "Monolithic Isolated Model",
-        "Hybrid / Federated Operating Model",
-        "Total Anarchy Model",
-        "Ad-Hoc Tactical Silo Model",
-        "Centralized Command-and-Control Only Model"
+        "Centralized operating model",
+        "Federated / Hybrid model",
+        "Replicated operating model",
+        "Decentralized operating model",
+        "Network operating model"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 3, Section 2.6 & Chapter 16, Section 3 (\"Operating Models\")",
@@ -342,13 +342,13 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "What core artifact documents authoritative business terms, standardized definitions, synonyms, and assigned stewards across the enterprise?",
       options: [
-        "Data Definition Language (DDL) Schema Script",
-        "The Enterprise Business Glossary",
-        "Network Firewall Configuration Table",
-        "Database Server Transaction Log",
-        "Hardware Asset Depreciation Register"
+        "The enterprise business glossary",
+        "The physical data dictionary",
+        "The enterprise conceptual data model",
+        "The reference data code set catalog",
+        "The data lineage and impact map"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 3, Section 2.14 (\"Develop a Business Glossary\")",
       explanation: "The Business Glossary is the core deliverable that establishes a common business vocabulary, definitions, and domain stewardship across the entire organization."
     },
@@ -358,11 +358,11 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "According to John Ladley and DMBOK2, what is the key distinction between Data Governance and Data Management?",
       options: [
-        "Data Governance exercises decision authority and control over data assets; Data Management executes operational planning and lifecycle activities.",
-        "Data Governance is strictly an IT function; Data Management is exclusively a marketing function.",
-        "There is no distinction; the two terms are synonymous in DAMA standards.",
-        "Data Management sets enterprise laws; Data Governance executes database backup scripts.",
-        "Data Governance is solely concerned with purchasing software licenses."
+        "Governance holds decision rights and oversight over data; management executes the work.",
+        "Governance is a business function and management an IT function, so each owns separate data assets.",
+        "Governance defines the data architecture; management implements that architecture in physical databases.",
+        "Governance is a time-bound project to fix data quality; management is the ongoing program that follows.",
+        "Governance is the umbrella discipline; management is one of the knowledge areas that it contains."
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 3, Section 1.3 & Ladley Chapter 2 (\"Definitions and Concepts\")",
@@ -374,15 +374,15 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "Which office serves as the operational focal point, coordinating data stewardship meetings, tracking metrics, and facilitating policy rollout?",
       options: [
-        "Enterprise Architecture Review Board",
-        "Data Governance Program Office (DGPO)",
-        "Database Backup Operations Desk",
-        "Chief Information Security Office",
-        "IT Hardware Procurement Department"
+        "Data Governance Office (DGO)",
+        "Data Governance Steering Committee",
+        "Data Stewardship Team",
+        "Local Data Governance Committee",
+        "Architecture Review Board (ARB)"
       ],
-      correct: 1,
-      dmbokRef: "DMBOK2 Chapter 3, Section 2.6 (\"Operating Framework - DGPO\")",
-      explanation: "The Data Governance Program Office (DGPO) runs the day-to-day administrative machinery of governance, coordinating stewards, meetings, and metrics."
+      correct: 0,
+      dmbokRef: "DMBOK2 Chapter 3, Section 1.3 (\"Data Governance Organization Parts\") & Section 2.6 (\"Operating Framework\")",
+      explanation: "The Data Governance Office (DGO) runs the day-to-day machinery of governance: it focuses on enterprise-level data definitions and standards, coordinates data stewards and their meetings, tracks metrics, and supports the rollout of policies."
     },
     {
       id: "DMBOK-DG-07",
@@ -390,13 +390,13 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "In Data Governance issue management, what is the defined path for issues that cannot be resolved at the stewardship level?",
       options: [
-        "Immediate termination of the involved IT contractors.",
-        "Escalation to the Data Governance Council (DGC) for executive determination.",
-        "Deleting the disputed data columns from all databases.",
-        "Abandoning the data governance initiative entirely.",
-        "Filing a civil complaint in federal court."
+        "Escalate it to the Data Governance Council for a decision",
+        "Pass it to the DBA team to resolve through a schema change",
+        "Refer it to Internal Audit for a formal compliance ruling",
+        "Let each business unit keep its own definition locally",
+        "Record both terms in the glossary as synonyms and close it"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 3, Section 2.10 (\"Engage in Issue Management\")",
       explanation: "Unresolved cross-departmental data conflicts or policy disputes escalate through the Data Governance Council for final binding arbitration."
     },
@@ -406,11 +406,11 @@
       chapter: "Chapter 3: Data Governance",
       prompt: "Which metric best demonstrates the business value and impact of a Data Governance program to executive leadership?",
       options: [
-        "The total number of SQL queries executed each day.",
-        "Reduction in compliance violations, improved data quality scores on critical data elements, and reduced operational rework costs.",
-        "The volume of gigabytes stored on database SAN storage arrays.",
-        "The number of software patches installed on database servers.",
-        "The count of fiber optic cables running in the server room."
+        "The number of data policies and standards approved by the Data Governance Council during the year.",
+        "Fewer compliance issues, better quality on critical data elements, and lower rework costs.",
+        "The number of data stewards appointed and their attendance rate at stewardship meetings.",
+        "The count of business terms defined, approved and published in the enterprise glossary.",
+        "The number of tools deployed, such as data catalogs, profiling engines and MDM hubs."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 3, Section 5 (\"Metrics\") & Ladley Chapter 9",
@@ -422,11 +422,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "Which artifact represents an enterprise-wide view of the major subject areas and business concepts, entirely independent of technology and software constraints?",
       options: [
-        "Physical Database Schema",
+        "Enterprise-wide physical data model (all schemas)",
         "Enterprise Conceptual Data Model (ECDM)",
-        "ETL Pipeline Execution Script",
-        "Network Packet Inspection Diagram",
-        "Table Index Definition DDL"
+        "Data flow (lineage) diagram",
+        "Canonical message model",
+        "Application-to-entity CRUD matrix"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 4, Section 1.3 & Chapter 5 (\"Data Modeling and Design\")",
@@ -438,11 +438,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "In modern distributed data architectures (as detailed by Strengholt in Data Management at Scale and DMBOK2), what is the core premise of \"Domain-Driven Data Architecture\"?",
       options: [
-        "Consolidating all organizational data into a single centralized monolithic enterprise data warehouse.",
-        "Treating data as a product owned, modeled, and governed directly by cross-functional domain teams closest to the business reality.",
-        "Prohibiting all business analysts from writing SQL queries.",
-        "Restricting analytical datasets strictly to flat CSV text files.",
-        "Forcing all microservices to share one centralized relational database schema."
+        "All data is consolidated into one enterprise warehouse governed by a central data team.",
+        "Data is treated as a product, owned and governed by the domain teams closest to the business.",
+        "A single canonical model is enforced so that every domain shares identical entity definitions.",
+        "Domains are defined by technology platform, with one team owning each database engine.",
+        "Raw data from all domains lands in a shared data lake, with schemas applied on read."
       ],
       correct: 1,
       dmbokRef: "Strengholt Chapter 2 (\"Organizing Data Using Data Domains\") & DMBOK2 Ch. 4",
@@ -454,11 +454,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "What is a \"Data Flow Diagram\" (or Data Lineage Flow) in Enterprise Data Architecture?",
       options: [
-        "A circuit diagram showing electrical current flowing to server power supplies.",
-        "A graphical representation showing the movement, transformations, and landing stages of data from origin systems to downstream consumers.",
-        "A chart depicting the organizational reporting hierarchy of data scientists.",
-        "A Gantt chart tracking the daily attendance of project managers.",
-        "A thermal map showing cooling airflow in a server room."
+        "A diagram of the entities in a subject area and the relationships between them.",
+        "A diagram of how data moves from source systems through transformations to consumers.",
+        "A matrix showing which business processes create, read, update or delete each entity.",
+        "A diagram of the states an entity passes through, such as prospect, customer and former customer.",
+        "A diagram of business processes and the sequence of tasks performed by each role."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 4, Section 1.3.1 (\"Data Flows\")",
@@ -470,11 +470,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "In the Zachman Framework for Enterprise Architecture, what does the \"Data / What\" column represent across perspective rows (Planner, Owner, Designer, Builder)?",
       options: [
-        "The network wiring and router configurations.",
-        "The progressive breakdown of data entities from conceptual business things down to physical database tables.",
-        "The project milestone delivery dates.",
-        "The employee payroll allocation schedules.",
-        "The physical server rack elevation diagrams."
+        "The business processes and functions, refined from value chains down to program code.",
+        "Data, refined from business concepts in the top rows down to physical data structures.",
+        "The locations and network nodes where the business operates and systems are deployed.",
+        "The business events and cycles, refined from master schedules down to timing definitions.",
+        "The goals and business rules, refined from strategy down to detailed rule specifications."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 4, Section 1.3 (\"Enterprise Architecture Frameworks\")",
@@ -486,11 +486,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "What constitutes an Enterprise Data Architecture \"Target State\"?",
       options: [
-        "The exact configuration of legacy mainframe systems currently in production.",
-        "The future-state blueprint representing desired systems, models, and data flows aligned with long-term strategic business goals.",
-        "A temporary snapshot of system RAM memory during an ETL failure.",
-        "A collection of obsolete database user manuals.",
-        "The physical floor plan of an abandoned data facility."
+        "The documented current state of the systems, data stores and interfaces now in production.",
+        "The future-state blueprint of models, systems and flows that supports long-term strategy.",
+        "The roadmap of transition projects that moves the organization from one architecture to the next.",
+        "The gap analysis comparing current capabilities with industry maturity benchmarks.",
+        "The physical design of one project's database, as approved by the architecture review board."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 4, Section 2.1 (\"Establish Data Architecture Practice\")",
@@ -502,11 +502,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "Which practice assesses architectural divergence and approves changes to enterprise data models and blueprints?",
       options: [
-        "Data Architecture Governance / Architecture Review Board (ARB)",
-        "Database Backup Restoration Drills",
-        "Help Desk Ticket Dispatching",
-        "Routine OS Security Patching",
-        "Employee Performance Reviews"
+        "Architecture governance via a review board (ARB)",
+        "Data quality monitoring against agreed quality thresholds",
+        "Change Advisory Board approval of production deployments",
+        "Metadata lineage and impact analysis reporting",
+        "Data stewardship review and approval of glossary terms"
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 4, Section 6 (\"Data Architecture Governance\")",
@@ -518,11 +518,11 @@
       chapter: "Chapter 4: Data Architecture",
       prompt: "What is a \"Canonical Data Model\" commonly utilized for in enterprise architecture?",
       options: [
-        "To store temporary cache files on mobile client devices.",
-        "To provide a generalized, common data format that disparate applications translate to and from during integration, reducing point-to-point connections.",
-        "To replace all enterprise relational tables with unstructured text files.",
-        "To encrypt network communications at the physical hardware layer.",
-        "To calculate employee bonus percentages."
+        "The single physical schema that every application must adopt for its own database.",
+        "A common format that applications map to and from, reducing point-to-point interfaces.",
+        "A model of the enterprise's core subject areas, used to scope data governance work.",
+        "The master data record selected as the trusted golden version of a business entity.",
+        "A set of conformed dimensions shared across the data marts of an enterprise warehouse."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 4 & Chapter 8, Section 1.3 (\"Canonical Models\") & Strengholt Ch. 5",
@@ -534,11 +534,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "In relational database normalization, what condition must be met for a relational entity to satisfy Third Normal Form (3NF)?",
       options: [
-        "It is in Second Normal Form (2NF) and contains no transitive functional dependencies (non-key attributes depend solely on the primary key).",
-        "All non-key attributes are converted into nested JSON structures.",
-        "It contains denormalized summary tables to optimize query speeds.",
-        "It permits multi-valued repeating groups across columns.",
-        "Every column is indexed with a clustered B-Tree index."
+        "It is in 2NF and no non-key attribute depends on another non-key attribute.",
+        "Every attribute holds a single atomic value and there are no repeating groups.",
+        "It is in 1NF and every non-key attribute depends on the whole of the primary key.",
+        "It contains no independent multi-valued facts about the same key.",
+        "Each entity has a single-attribute surrogate key and no composite keys."
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 5, Section 1.3.5 (\"Normalization\")",
@@ -550,11 +550,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "In Kimball dimensional modeling, what characterizes a \"Conformed Dimension\"?",
       options: [
-        "A dimension table that is strictly isolated within a single departmental data mart without shared surrogate keys.",
-        "A dimension shared consistently across multiple business processes and fact tables with uniform keys and attribute definitions.",
-        "A dimension that overwrites all past historical data upon every nightly load without tracking change.",
-        "A factless fact table designed to capture event occurrences.",
-        "A table that only stores database audit log errors."
+        "A dimension used only within one data mart, with surrogate keys local to that mart.",
+        "A dimension with the same keys, attributes and meaning in every fact table that uses it.",
+        "A dimension built from leftover flags and indicators, kept out of the fact table.",
+        "A dimension whose only attribute is stored in the fact table, with no separate table.",
+        "A dimension that plays several roles in one fact table, such as order date and ship date."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5 & Chapter 11, Section 1.3 (\"Dimensional Modeling\")",
@@ -566,11 +566,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "What are the three progressive levels of data models defined in DAMA DMBOK2?",
       options: [
-        "Alpha, Beta, Release Candidate",
-        "Conceptual, Logical, and Physical Data Models",
-        "Relational, Graph, and Document Models",
-        "Source, Staging, and Reporting Models",
-        "Executive, Managerial, and Operational Models"
+        "Relational, Dimensional and Object-Oriented",
+        "Conceptual, Logical and Physical",
+        "Subject Area, Entity and Attribute",
+        "Source, Staging and Presentation",
+        "Enterprise, Application and Project"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5, Section 1.3 (\"Data Model Levels\")",
@@ -582,11 +582,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "In dimensional modeling, what is a \"Slowly Changing Dimension Type 2\" (SCD Type 2)?",
       options: [
-        "A dimension that overwrites the existing record in place, obliterating history.",
-        "A dimension that preserves history by inserting a new record with effective start/end timestamps and an active indicator flag.",
-        "A dimension that creates a new column for each historical change.",
-        "A dimension that deletes old records permanently from the database.",
-        "A dimension that converts text attributes into integer values."
+        "The existing row is overwritten in place, so no history of earlier values is kept.",
+        "A new row is inserted for each change, with effective dates and a current-row flag.",
+        "A new column holds the previous value alongside the current value in the same row.",
+        "Changes are written to a separate history table, while the main row stays current only.",
+        "The original attribute value is retained as loaded and is never updated afterwards."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5 & Chapter 11, Section 1.3 (\"SCD Types\")",
@@ -598,11 +598,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "What represents the cardinality of a relationship in an Entity-Relationship (ER) diagram?",
       options: [
-        "The cryptographic key strength used on the table columns.",
-        "The quantitative numerical relationship between instances of two entities (e.g., 1:1, 1:N, M:N).",
-        "The total number of physical gigabytes allocated on disk storage.",
-        "The query execution speed in milliseconds.",
-        "The network latency between client and database server."
+        "The number of distinct values held in an attribute across all instances of an entity.",
+        "How many instances of one entity relate to an instance of another (1:1, 1:N, M:N).",
+        "The number of attributes that together make up the primary key of an entity.",
+        "The number of entities taking part in the relationship, such as binary or ternary.",
+        "The verb phrase that names the relationship, read in each direction between entities."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5, Section 1.3.3 (\"Relationships and Cardinality\")",
@@ -614,11 +614,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "What is a \"Surrogate Key\" in data modeling and warehousing?",
       options: [
-        "A natural business identifier like a social security number or email address.",
-        "An artificially generated numeric sequence (or UUID) with no intrinsic business meaning, used as a primary key.",
-        "A public encryption key stored in a certificate repository.",
-        "A database user account with administrative superuser rights.",
-        "A foreign key pointing to an external web service API."
+        "An identifier with business meaning, such as an account number, used by the business.",
+        "A system-generated identifier with no business meaning, used as the primary key.",
+        "A key made up of two or more attributes that together identify an instance.",
+        "An attribute in one entity that references the primary key of another entity.",
+        "Any candidate key that was not chosen as the primary key of the entity."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5, Section 1.3.4 (\"Keys\")",
@@ -630,11 +630,11 @@
       chapter: "Chapter 5: Data Modeling and Design",
       prompt: "In Data Vault modeling, what are the three core entity types?",
       options: [
-        "Tables, Views, and Triggers",
-        "Hubs (business keys), Links (relationships), and Satellites (context/attributes over time)",
-        "Facts, Dimensions, and Aggregates",
-        "Nodes, Edges, and Properties",
-        "Clusters, Shards, and Replicas"
+        "Facts, Dimensions and Bridge tables",
+        "Hubs, Links and Satellites",
+        "Anchors, Attributes and Ties",
+        "Nodes, Edges and Properties",
+        "Entities, Relationships and Attributes"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5, Section 1.3.8 (\"Data Vault Modeling\")",
@@ -644,13 +644,13 @@
       id: "DMBOK-MOD-08",
       area: "Data Modeling & Design",
       chapter: "Chapter 5: Data Modeling and Design",
-      prompt: "What is an \"Anchor Table\" or Fact Table in dimensional modeling primarily composed of?",
+      prompt: "In dimensional modeling, what is a Fact Table primarily composed of?",
       options: [
-        "Only text descriptive columns with no numerical values.",
-        "Foreign keys referencing dimension tables and numerical measurement metrics (facts).",
-        "Unstructured raw log files.",
-        "Database trigger scripts and stored procedures.",
-        "User permissions and password hashes."
+        "Descriptive text attributes used to filter, group and label query results.",
+        "Foreign keys to dimension tables plus numeric measures of a business event.",
+        "The business keys of one core concept, with load dates and record sources.",
+        "Descriptive attributes of a business key with load timestamps tracking history.",
+        "Hierarchy levels flattened into columns, such as category, subcategory and product."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 5 & Chapter 11 (\"Dimensional Modeling\")",
@@ -664,9 +664,9 @@
       options: [
         "BASE (Basically Available, Soft state, Eventual consistency)",
         "ACID (Atomicity, Consistency, Isolation, Durability)",
-        "REST (Representational State Transfer)",
+        "CAP (Consistency, Availability, Partition tolerance)",
         "CRUD (Create, Read, Update, Delete)",
-        "SOAP (Simple Object Access Protocol)"
+        "2PC (Two-Phase Commit across distributed nodes)"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 6, Section 1.3 (\"Essential Concepts - Transaction Management\")",
@@ -678,11 +678,11 @@
       chapter: "Chapter 6: Data Storage and Operations",
       prompt: "What is the primary difference between RPO (Recovery Point Objective) and RTO (Recovery Time Objective) in disaster recovery planning?",
       options: [
-        "RPO defines maximum acceptable data loss in elapsed time; RTO defines maximum acceptable system downtime to restore service.",
-        "RPO measures network speed; RTO measures database backup file size.",
-        "RPO applies only to cloud databases; RTO applies solely to on-premises hardware.",
-        "RPO is managed by developers; RTO is managed by accounting teams.",
-        "They are identical acronyms used interchangeably in database operations."
+        "RPO is the maximum tolerable data loss, measured in time; RTO is the maximum tolerable downtime.",
+        "RPO is the maximum tolerable downtime; RTO is the maximum tolerable data loss, measured in time.",
+        "RPO is how often backups are scheduled; RTO is how long a backup job takes to complete.",
+        "RPO applies to the primary site; RTO applies only to the disaster recovery site.",
+        "RPO measures the restore success rate; RTO measures time since the last tested failover."
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 6, Section 1.3 (\"Business Continuity and Disaster Recovery\")",
@@ -694,11 +694,11 @@
       chapter: "Chapter 6: Data Storage and Operations",
       prompt: "What is Database Sharding in high-scale data storage operations?",
       options: [
-        "Compressing backup files using ZIP encryption.",
-        "Horizontally partitioning data across multiple independent database server instances to distribute load.",
-        "Physically destroying decommissioned solid-state hard drives.",
-        "Creating view indexes on read-only reporting replicas.",
-        "Encrypting database communication sockets via SSL."
+        "Vertical partitioning of a table's columns into separate tables on the same server.",
+        "Horizontally partitioning rows across separate database servers to spread load.",
+        "Copying the whole database to read-only replicas that serve query traffic.",
+        "Splitting a table into date-range partitions within a single database instance.",
+        "Storing each column separately on disk to speed up analytic aggregation queries."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 6, Section 1.3 (\"Database Architectures\") & Strengholt",
@@ -710,11 +710,11 @@
       chapter: "Chapter 6: Data Storage and Operations",
       prompt: "Which database maintenance activity identifies fragmented storage, updates index tree balance, and reorganizes table pages for optimal I/O?",
       options: [
-        "Index Defragmentation / Re-indexing",
-        "Running nightly schema drop scripts",
-        "Resetting root administrative passwords",
-        "Overwriting backup archive tapes",
-        "Purging user active directory accounts"
+        "Index rebuild / reorganization",
+        "Updating query optimizer statistics",
+        "Database consistency checking (integrity checks)",
+        "Transaction log backup and truncation",
+        "Capacity planning and storage provisioning"
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 6, Section 2.2 (\"Manage Databases\")",
@@ -726,11 +726,11 @@
       chapter: "Chapter 6: Data Storage and Operations",
       prompt: "What is the operational purpose of a Database Transaction Log (Write-Ahead Log / WAL)?",
       options: [
-        "To store employee timesheet entries for database administration teams.",
-        "To record changes sequentially before writing to disk pages, ensuring crash recovery and rollback integrity.",
-        "To display user interface error popups on client web browsers.",
-        "To calculate quarterly software license amortization.",
-        "To publish company marketing press releases."
+        "Recording who accessed which data and when, so security teams can review usage.",
+        "Logging each change before it reaches data pages, so the database can recover.",
+        "Recording errors and warnings raised by the DBMS to support troubleshooting.",
+        "Holding recent query results in memory so that repeated queries return faster.",
+        "Storing a full copy of the database, taken at a point in time, for later restores."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 6, Section 1.3 (\"Essential Concepts\")",
@@ -740,17 +740,17 @@
       id: "DMBOK-STO-06",
       area: "Data Storage & Operations",
       chapter: "Chapter 6: Data Storage and Operations",
-      prompt: "What does Database Purging / Archival accomplish in enterprise storage operations?",
+      prompt: "What does data archiving accomplish in enterprise storage operations?",
       options: [
-        "Deleting all historical customer orders to free up disk space immediately.",
-        "Moving inactive historical data out of operational transactional systems to lower-cost long-term storage while adhering to legal retention policies.",
-        "Overriding database constraint checks during end-of-month accounting.",
-        "Restarting database servers during peak business hours.",
-        "Encrypting source code repositories."
+        "It permanently deletes data past its retention period, so that it cannot be recovered.",
+        "It moves inactive data from operational systems to lower-cost storage, retained per policy.",
+        "It creates periodic copies of the database so it can be restored after a failure.",
+        "It replicates data to a secondary site so service can continue if the primary site fails.",
+        "It compresses data in place within the production database to reduce its storage footprint."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 6, Section 2.2 (\"Manage Database Performance and Capacity\")",
-      explanation: "Archival removes cold, non-operational data from production databases, improving transactional query performance and lowering primary storage costs."
+      explanation: "Archiving moves cold, non-operational data out of production databases to lower-cost storage while keeping it available under retention policies, improving performance and lowering primary storage costs. Purging, by contrast, permanently deletes data that no longer needs to be kept; backups and replication protect against loss rather than relocate inactive data."
     },
     {
       id: "DMBOK-STO-07",
@@ -758,11 +758,11 @@
       chapter: "Chapter 6: Data Storage and Operations",
       prompt: "Which role is fundamentally responsible for database software installation, physical schema implementation, performance monitoring, and disaster recovery execution?",
       options: [
-        "Data Entry Clerk",
+        "Data Architect",
         "Database Administrator (DBA)",
-        "Social Media Manager",
-        "Creative Art Director",
-        "Human Resources Generalist"
+        "Technical Data Steward",
+        "Infrastructure / Storage Administrator",
+        "Data Modeler"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 6, Section 1.3 (\"Roles and Responsibilities\")",
@@ -774,13 +774,13 @@
       chapter: "Chapter 7: Data Security",
       prompt: "What constitutes the classic \"CIA Triad\" of information security emphasized throughout DMBOK2 Chapter 7?",
       options: [
-        "Cloud, Integration, Analytics",
         "Confidentiality, Integrity, Availability",
-        "Cost, Identity, Authentication",
-        "Centralization, Ingestion, Auditing",
-        "Compliance, Innovation, Agility"
+        "Confidentiality, Integrity, Accountability",
+        "Authentication, Authorization, Auditing",
+        "Classification, Identification, Authorization",
+        "Compliance, Integrity, Auditability"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 7, Section 1.2 (\"Goals and Principles\")",
       explanation: "The CIA Triad stands for Confidentiality (preventing unauthorized disclosure), Integrity (safeguarding accuracy/completeness), and Availability (ensuring authorized access)."
     },
@@ -790,15 +790,15 @@
       chapter: "Chapter 7: Data Security",
       prompt: "What is the difference between Data Masking and Encryption according to DMBOK2?",
       options: [
-        "Encryption is permanent and cannot be reversed; Masking is always reversible using a password.",
-        "Masking alters sensitive values to preserve structural format without allowing reversal (ideal for test environments); encryption scrambles data using algorithms requiring keys for authorized decryption.",
-        "Masking applies only to network switches; encryption applies only to web page HTML.",
-        "They are identical technical terms with zero difference.",
-        "Masking is only permitted in healthcare settings; encryption is prohibited in finance."
+        "Masking is reversible with a key; encryption permanently replaces values so they cannot be restored.",
+        "Masking substitutes realistic but fictitious values; encryption makes data unreadable without a key.",
+        "Masking protects data in transit; encryption protects data only while it is stored at rest.",
+        "Masking applies only to production data; encryption is used only in test environments.",
+        "Masking removes sensitive columns entirely; encryption swaps them for tokens held in a vault."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 7, Section 3.7 (\"Data Masking/Encryption\")",
-      explanation: "Masking replaces sensitive values (e.g., masking credit cards with asterisks) for development/testing; encryption transforms plaintext to ciphertext with mathematical keys for reversibility."
+      explanation: "Masking replaces sensitive values with realistic but fictitious (often format-preserving) values, typically without a way back to the original, which makes it suitable for development and testing; encryption transforms plaintext into ciphertext that authorized holders of the key can decrypt."
     },
     {
       id: "DMBOK-SEC-03",
@@ -806,11 +806,11 @@
       chapter: "Chapter 7: Data Security",
       prompt: "What security model verifies every user and device access request regardless of whether they are located inside or outside the corporate perimeter network?",
       options: [
-        "Perimeter Firewall Defense",
+        "Defense in depth (layered controls)",
         "Zero Trust Architecture",
-        "Open Network Trust Model",
-        "Single Password Trust Domain",
-        "Air-Gapped Workstation Isolation"
+        "Perimeter security (castle-and-moat)",
+        "Principle of least privilege",
+        "Separation of duties"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 7 & Eryurek et al. Ch. 7 (\"Zero-Trust Model\")",
@@ -822,11 +822,11 @@
       chapter: "Chapter 7: Data Security",
       prompt: "What is Role-Based Access Control (RBAC) in enterprise database security?",
       options: [
-        "Granting system permissions based on an individual user's astrological sign.",
-        "Assigning permissions to organizational job roles, with users granted permissions by virtue of being assigned to those roles.",
-        "Allowing all users access to all tables without login credentials.",
-        "Changing all passwords automatically every five minutes.",
-        "Disabling database encryption during business hours."
+        "Permissions are evaluated from attributes of the user, resource and context at request time.",
+        "Permissions are granted to job roles, and users get them by being assigned to roles.",
+        "The data owner grants and revokes access to each object entirely at their own discretion.",
+        "Access is decided by comparing a user's clearance with the data's classification label.",
+        "Access is filtered at row level according to the user's organizational unit or region."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 7, Section 1.3 (\"User Identity and Access Management\")",
@@ -836,13 +836,13 @@
       id: "DMBOK-SEC-05",
       area: "Data Security",
       chapter: "Chapter 7: Data Security",
-      prompt: "What is Data Obfuscation / Anonymization in data security?",
+      prompt: "What is data anonymization in data security?",
       options: [
-        "Deleting entire database instances after quarterly closes.",
-        "Irreversibly altering personal data so that the data subject can no longer be identified directly or indirectly.",
-        "Increasing database CPU frequency to scramble memory registers.",
-        "Publishing confidential passwords in corporate intranet newsletters.",
-        "Converting database tables from SQL to XML formats."
+        "Replacing identifiers with pseudonyms that can be re-linked using a separately held key.",
+        "Irreversibly altering personal data so the individual can no longer be identified.",
+        "Encrypting personal data so only users holding the decryption key can read it.",
+        "Restricting access to personal data to roles with a legitimate business need.",
+        "Classifying personal data by sensitivity so that suitable controls can be applied."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 7, Section 3.7 & GDPR Article 4",
@@ -854,11 +854,11 @@
       chapter: "Chapter 7: Data Security",
       prompt: "What does a CRUD Matrix define in data security and governance?",
       options: [
-        "A tool used by database engines to sort rows alphabetically.",
-        "A matrix mapping business roles or applications against data entities showing rights to Create, Read, Update, and Delete.",
-        "A metric measuring how many hard drives have failed in a SAN array.",
-        "A project management schedule for software quality testing.",
-        "A list of forbidden SQL keywords."
+        "A matrix of tasks against roles showing who is Responsible, Accountable, Consulted and Informed.",
+        "A matrix of roles or applications against data entities, showing CRUD rights on each.",
+        "A matrix of business processes against conformed dimensions, used to plan the data warehouse.",
+        "A matrix of data elements against quality dimensions, showing the target score for each one.",
+        "A matrix of systems against interfaces, showing how data flows between the applications."
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 7, Section 4.1 (\"CRUD Matrix Usage\")",
@@ -870,15 +870,15 @@
       chapter: "Chapter 7: Data Security",
       prompt: "Which practice routinely evaluates database configurations against known vulnerabilities, unpatched CVEs, and compliance baseline settings?",
       options: [
-        "Data Security Auditing and Vulnerability Scanning",
-        "Manual spreadsheet cell color coding",
-        "Nightly server hard-reboot cycles",
-        "Deleting historical transaction logs",
-        "Disabling firewall intrusion detection rules"
+        "Vulnerability scanning and security audits",
+        "Data masking and obfuscation",
+        "Role-based access control provisioning",
+        "Data security classification and labeling",
+        "Encryption of data at rest and in transit"
       ],
       correct: 0,
-      dmbokRef: "DMBOK2 Chapter 7, Section 2.1 (\"Identify Security Requirements\")",
-      explanation: "Regular vulnerability scans and security audits identify configuration drift, weak authentication parameters, and unpatched security vulnerabilities before exploitation."
+      dmbokRef: "DMBOK2 Chapter 7, Section 2 (\"Assess Current Security Risks\") and Data Security Audit",
+      explanation: "Vulnerability assessments and security audits compare configurations against known weaknesses, missing patches, and baseline settings, finding drift before it is exploited. Masking, encryption, access control, and classification are controls; they do not evaluate configurations."
     },
     {
       id: "DMBOK-INT-01",
@@ -886,15 +886,15 @@
       chapter: "Chapter 8: Data Integration & Interoperability",
       prompt: "What is Change Data Capture (CDC) in modern data integration architecture?",
       options: [
-        "A software revision control tool used for tracking Git branches.",
-        "A technique to detect, record, and stream only the specific rows that have changed (inserted, updated, deleted) in source databases since last extraction.",
-        "A backup technique that resets all passwords across an enterprise directory.",
-        "A batch process that rebuilds entire database tables from scratch every hour.",
-        "A protocol for compressing audio and video streams."
+        "Extracting a complete snapshot of each source table on every scheduled run and fully reloading the target",
+        "Detecting and capturing only the rows inserted, updated, or deleted at the source since the last extract",
+        "Providing a logical query layer over source systems so that data can be read in place without moving it",
+        "Recording the end-to-end path of data from its origin through each transformation to its reports",
+        "Routing messages between producer and consumer applications through a central enterprise service bus"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 8, Section 1.3 (\"Essential Concepts - CDC\")",
-      explanation: "CDC captures real-time data modifications from database transaction logs without requiring heavy full-table extract scans."
+      explanation: "CDC limits extraction to changed data, detected through source flags or timestamps, triggers, or database transaction logs, so full-table extracts are not needed."
     },
     {
       id: "DMBOK-INT-02",
@@ -902,13 +902,13 @@
       chapter: "Chapter 8: Data Integration & Interoperability",
       prompt: "How does ELT (Extract-Load-Transform) differ fundamentally from traditional ETL (Extract-Transform-Load)?",
       options: [
-        "ELT eliminates all data transformations entirely.",
-        "ELT loads raw extracted data directly into the target database/cloud warehouse first, leveraging the destination engine's massively parallel compute to execute transformations.",
-        "ELT can only process data stored on magnetic tape reels.",
-        "ELT requires manual paper transcription before loading.",
-        "ELT prohibits the use of SQL in transformation stages."
+        "ELT transforms data in a separate staging engine before loading, so the target receives only conformed data",
+        "ELT removes the need for transformation because the target keeps data only in its original source format",
+        "ELT loads raw data into the target first and runs transformations with the target platform's own compute",
+        "ELT applies only to real-time streaming, whereas ETL applies only to scheduled batch integration",
+        "ELT queries the sources in place through a virtual layer, so no data is physically loaded into a target"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 8, Section 1.3 (\"ETL vs. ELT\") & Strengholt Ch. 4",
       explanation: "In ELT, raw data is loaded into scalable cloud data platforms first, and compute-heavy transformations are executed inside the high-performance target system."
     },
@@ -918,13 +918,13 @@
       chapter: "Chapter 8: Data Integration & Interoperability",
       prompt: "What is Data Virtualization in enterprise integration?",
       options: [
-        "Simulating database hardware inside virtual reality goggles.",
-        "Providing a logical data layer that allows users to query heterogeneous source systems in real-time without physically consolidating or moving the data.",
-        "Exporting all relational tables to flat CSV files.",
-        "Replacing physical database servers with emulated game consoles.",
-        "Converting database records into synthesized audio waves."
+        "Replicating source databases to a central store in near real time so that queries run against the copies",
+        "Running database servers as virtual machines to consolidate hardware and reduce infrastructure costs",
+        "Consolidating data from many sources into an integrated, subject-oriented, historical analytical store",
+        "A logical layer that lets users query heterogeneous sources in real time without moving the data",
+        "Capturing only the changed source rows and streaming them to downstream targets as the changes occur"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 8, Section 3.2 (\"Data Virtualization Server\")",
       explanation: "Data Virtualization abstracts underlying distributed data sources, presenting a unified virtual schema for real-time querying without physical ETL copying."
     },
@@ -934,13 +934,13 @@
       chapter: "Chapter 8: Data Integration & Interoperability",
       prompt: "What is the role of an Enterprise Service Bus (ESB) or messaging broker in application interoperability?",
       options: [
-        "Physically transporting desktop computers between corporate offices.",
-        "Decoupling producer and consumer systems by routing and transforming asynchronous messages through standard communication protocols.",
-        "Serving as the primary relational database for payroll processing.",
-        "Replacing software developers with automated project plans.",
-        "Managing corporate email calendar invites."
+        "Connecting each pair of systems through a dedicated point-to-point interface built for that exchange",
+        "Acting as the system of record where master data is authored and from which it is then published",
+        "Providing a virtual query layer that federates heterogeneous sources without moving any of the data",
+        "Storing integrated historical data in a subject-oriented store for enterprise reporting and analysis",
+        "Decoupling producer and consumer systems by routing and transforming messages through a shared bus"
       ],
-      correct: 1,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 8, Section 3.3 (\"Enterprise Service Bus\") & Strengholt Ch. 5",
       explanation: "An ESB/broker decouples systems, routing messages, transforming data formats, and enabling event-driven communication between disparate enterprise applications."
     },
@@ -948,15 +948,15 @@
       id: "DMBOK-INT-05",
       area: "Data Integration",
       chapter: "Chapter 8: Data Integration & Interoperability",
-      prompt: "What is a Data Sharing Agreement (Service Level Agreement / Data Contract) between data producers and consumers?",
+      prompt: "What is a Data Sharing Agreement (sometimes formalized as an SLA or data contract) between data producers and consumers?",
       options: [
-        "A contract to purchase cloud storage hardware at a discount.",
-        "A formal agreement documenting data formats, delivery frequency, quality expectations, ownership, and permitted usage rights.",
-        "A non-disclosure agreement signed by cleaning staff.",
-        "A software license agreement for desktop spreadsheets.",
-        "A disclaimer stating that data is provided without any quality assurance."
+        "A formal agreement on data format, delivery frequency, quality expectations, ownership, and permitted use",
+        "A technical interface specification that defines only the physical file layout and the transfer protocol",
+        "An internal policy that classifies data by sensitivity and sets the access controls required for each class",
+        "A vendor license granting the organization the right to use a purchased data integration tool",
+        "A retention schedule setting how long shared records must be kept before they are destroyed"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 8, Section 6.1 (\"Data Sharing Agreements\") & Strengholt Ch. 8",
       explanation: "Data Sharing Agreements or Data Contracts define the schemas, SLA latencies, quality thresholds, and responsibilities expected between provider and consumer."
     },
@@ -966,11 +966,11 @@
       chapter: "Chapter 8: Data Integration & Interoperability",
       prompt: "Which architecture processes continuous data streams record-by-record with sub-second latencies rather than collecting records in batch intervals?",
       options: [
-        "Batch Processing Window",
-        "Streaming / Event-Driven Architecture (e.g., Apache Kafka)",
-        "Nightly Chronological Dump",
-        "Manual File Transfer Protocol (FTP)",
-        "Tape Archive Rotation"
+        "Scheduled batch processing",
+        "Event stream processing",
+        "Nightly full-refresh ETL",
+        "Bulk managed file transfer",
+        "Periodic snapshot replication"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 8 & Strengholt Ch. 6 (\"Event and Notification Management\")",
@@ -982,13 +982,13 @@
       chapter: "Chapter 8: Data Integration & Interoperability",
       prompt: "What is \"Data Lineage\" tracing within data integration pipelines?",
       options: [
-        "Tracking the genealogies of database administration team leaders.",
-        "Tracing the lifecycle path of data from origin systems, through intermediate transformations, down to reporting destinations.",
-        "Measuring the physical age of computer motherboard silicon.",
-        "Tracking how many software versions a vendor has published.",
-        "Logging how many times a user clicked a mouse."
+        "Recording which users accessed or modified each data element, and when, for security audit purposes",
+        "Documenting the business definition, owner, and approved usage rules of each data element",
+        "Tracing data from its origin systems through each transformation to its reporting destinations",
+        "Measuring whether data values conform to the formats and domains defined for each data element",
+        "Tracking the versions of each pipeline's code and configuration as changes are deployed to production"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 8, Section 6.2 & Chapter 12 (\"Data Lineage\")",
       explanation: "Data lineage maps data origin, step-by-step transformations, and ultimate analytical consumption, providing transparency for audits and impact analysis."
     },
@@ -998,13 +998,13 @@
       chapter: "Chapter 9: Document and Content Management",
       prompt: "In Document and Content Management, what is a \"Controlled Vocabulary\"?",
       options: [
-        "A predefined, curated list of terms and definitions used to index, tag, and retrieve unstructured content consistently across an organization.",
-        "A filter installed on email servers to block profanities.",
-        "A dictionary of programming language reserved compiler keywords.",
-        "A list of allowed database passwords.",
-        "An encryption key schedule for digital signatures."
+        "A logical data model defining the entities, attributes, and relationships of a subject area",
+        "A schedule defining how long each category of records must be retained before its disposal",
+        "An open set of user-generated tags applied without restriction, emerging from use (a folksonomy)",
+        "A defined list of explicitly allowed terms used to index, tag, and retrieve content consistently",
+        "A metadata repository storing the technical schemas and lineage of an organization's databases"
       ],
-      correct: 0,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 9, Section 3.3 (\"Controlled Vocabulary and Metadata Tools\")",
       explanation: "Controlled vocabularies (including taxonomies and thesauri) standardize terminology to ensure accurate tagging, classification, and retrieval of documents."
     },
@@ -1014,13 +1014,13 @@
       chapter: "Chapter 9: Document and Content Management",
       prompt: "What is \"Electronic Discovery\" (e-Discovery) in document management?",
       options: [
-        "A game played by IT support staff to discover open network ports.",
-        "The legal process of identifying, preserving, collecting, reviewing, and producing electronically stored information (ESI) in response to litigation or investigations.",
-        "The automated indexing of web pages by commercial search engines.",
-        "Finding discarded hardware servers in electronic waste bins.",
-        "Browsing for open-source software libraries on the internet."
+        "Automatically indexing and classifying content so that users can find documents through enterprise search",
+        "Profiling data sources to discover their actual structure, content patterns, and quality anomalies",
+        "Scanning repositories to locate sensitive data so that it can be classified and protected",
+        "Applying the retention schedule to identify which records are eligible for authorized destruction",
+        "Identifying, preserving, collecting, and producing electronically stored information for legal matters"
       ],
-      correct: 1,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 9, Section 3.5 (\"E-Discovery Technology\")",
       explanation: "E-Discovery is the legally mandated process to locate, preserve, and review electronic records (emails, documents, chats) relevant to legal matters."
     },
@@ -1030,13 +1030,13 @@
       chapter: "Chapter 9: Document and Content Management",
       prompt: "What is a \"Records Retention Schedule\"?",
       options: [
-        "A sports schedule tracking corporate bowling league tournaments.",
-        "A policy-driven document defining mandatory periods for retaining and disposing of corporate records based on legal, fiscal, and operational requirements.",
-        "A calendar showing database administration shift work.",
-        "A schedule for cleaning printer rollers in office copy centers.",
-        "A list of corporate board meeting dates."
+        "A policy defining how long each category of record must be kept and when it is to be disposed of",
+        "A plan specifying how often backups are taken and how long they are kept to support system recovery",
+        "A file plan organizing records into a classification hierarchy so that they can be filed and found",
+        "A legal hold notice suspending the destruction of records relevant to pending litigation",
+        "A lifecycle policy moving data between storage tiers based on how often it is accessed"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 9, Section 2.1 (\"Plan for Lifecycle Management\")",
       explanation: "Retention schedules dictate how long categories of records must be preserved for compliance and when they should be destroyed to mitigate legal liability."
     },
@@ -1046,11 +1046,11 @@
       chapter: "Chapter 9: Document and Content Management",
       prompt: "What distinguishes unstructured content from structured data in DMBOK2?",
       options: [
-        "Unstructured content cannot be read by human beings.",
-        "Structured data conforms to fixed data models and schemas (e.g., tables); unstructured content lacks a predefined data model (e.g., PDFs, emails, video).",
-        "Unstructured content requires no storage space on hard drives.",
-        "Structured data only contains numeric decimal numbers.",
-        "Unstructured content is strictly illegal under international law."
+        "Unstructured content has no metadata, whereas structured data is always described in a metadata catalog",
+        "Structured data follows a predefined model or schema; unstructured content has none (e.g., email, video)",
+        "Structured data lives only in relational databases; anything stored as a file is unstructured by definition",
+        "Unstructured content falls outside data management scope and needs no governance or retention rules",
+        "Structured data is internal to the organization, while unstructured content always comes from outside"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 9, Section 1 (\"Introduction\")",
@@ -1062,13 +1062,13 @@
       chapter: "Chapter 9: Document and Content Management",
       prompt: "What does a \"Taxonomy\" provide in Enterprise Content Management (ECM)?",
       options: [
-        "A tax calculation script for corporate accounting.",
-        "A hierarchical classification structure of terms and concepts that categorizes content items according to their relationships.",
-        "A tool to compress multimedia video files.",
-        "A database backup recovery protocol.",
-        "A network cable labeling system."
+        "A list of preferred terms with their synonyms and related terms, used to expand search queries",
+        "A formal representation of concepts and the many kinds of relationships among them, used for reasoning",
+        "A hierarchical classification of terms that organizes content by parent-child relationships",
+        "A set of standard metadata elements, such as title and creator, used to describe any resource",
+        "A retention schedule that groups content by the legal period for which it must be kept"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 9, Section 1.3 (\"Taxonomies\")",
       explanation: "A taxonomy arranges knowledge and terms into parent-child hierarchies, enabling intuitive navigation, faceted search, and consistent document indexing."
     },
@@ -1078,13 +1078,13 @@
       chapter: "Chapter 9: Document and Content Management",
       prompt: "What is \"OCR\" (Optical Character Recognition) utilized for in document digitization?",
       options: [
-        "Converting audio voice files into synthesized guitar music.",
-        "Converting images of typed, handwritten, or printed text into machine-encoded and searchable text data.",
-        "Resetting database administrative passwords.",
-        "Routing network packets across wireless routers.",
-        "Calculating corporate sales tax rates."
+        "Recognizing spoken audio and transcribing it into text for indexing in a content repository",
+        "Reading barcodes on documents to route them automatically into the correct business workflow",
+        "Extracting embedded metadata, such as author and creation date, from native electronic files",
+        "Converting images of printed or handwritten text into machine-readable, searchable text",
+        "Comparing scanned pages with their originals to verify that no tampering occurred after capture"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 9, Section 3.1 (\"ECM Systems\")",
       explanation: "OCR software processes scanned paper documents and images into editable, indexable, and searchable digital text representations."
     },
@@ -1094,13 +1094,13 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "Which statement accurately contrasts Reference Data with Master Data in DMBOK2?",
       options: [
-        "Reference Data defines permissible values and classification codes (e.g., ISO currency codes); Master Data represents core enterprise entities (e.g., Customer, Product, Facility).",
-        "Master Data updates every millisecond while Reference Data never changes under any circumstances.",
-        "Reference Data applies only to unstructured video assets.",
-        "Master Data is managed exclusively by third-party hardware vendors.",
-        "Reference Data and Master Data are completely identical terms with no distinction."
+        "Master data defines permissible code values (e.g., ISO currency codes); reference data describes core business entities (e.g., Customer)",
+        "Reference data comes only from external standards bodies, while master data is always created inside the organization",
+        "Master data records business events such as orders and payments; reference data records the parties involved in them",
+        "Reference data never changes once it is loaded, whereas master data changes with every business transaction",
+        "Reference data defines permissible values and codes (e.g., ISO currency codes); master data describes core entities (e.g., Customer, Product)"
       ],
-      correct: 0,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 10, Section 1 (\"Introduction\")",
       explanation: "Reference data categorizes other data (codes, country lists, statuses); Master data provides the definitive business context around core business entities."
     },
@@ -1110,13 +1110,13 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "What is a \"Golden Record\" in Master Data Management (MDM)?",
       options: [
-        "A commemorative vinyl award given to outstanding database administrators.",
-        "The single, reconciled, authoritative master record representing the best version of truth for an entity instance across disparate source systems.",
-        "A database table encrypted with 512-bit RSA hardware chips.",
-        "The first row inserted into a relational database table.",
-        "A high-priority bug report filed with an enterprise software vendor."
+        "The reconciled, authoritative record of an entity, built by matching and merging multiple sources",
+        "The first version of a record captured in the original system of entry, preserved unchanged for audit",
+        "A record that has passed every data quality rule and is therefore locked against further updates",
+        "The definitive list of permissible code values that other systems must use, such as country codes",
+        "The most recently updated record for an entity, which always overwrites the values held in other systems"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 10, Section 1.3 (\"Golden Record / Single Version of Truth\")",
       explanation: "A Golden Record aggregates, de-duplicates, and reconciles multiple matching records into a single trusted, authoritative master entity."
     },
@@ -1126,15 +1126,15 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "Which MDM architectural style maintains master data centrally, requiring all transactional source systems to read and write directly to the centralized hub?",
       options: [
-        "Registry Style",
-        "Centralized (Transactional Hub) Style",
-        "Loose Federation Style",
-        "Passive Analytical Style",
-        "Ad-Hoc Peer-to-Peer Style"
+        "Registry",
+        "Transaction Hub",
+        "Consolidated",
+        "Coexistence (Hybrid)",
+        "Federated (Virtual)"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 10, Section 1.3.4 (\"MDM Architecture Styles\")",
-      explanation: "In the Centralized/Transactional style, the MDM hub is the authoring master system of record where all updates and transactions originate or synchronize."
+      explanation: "In the Transaction Hub style the hub is the system of record: master data is authored and maintained there and source applications read from and write to it. Registry keeps data in the sources with only an index; Consolidated copies data into the hub for reference without being the authoring system; Coexistence (Hybrid) authors in the hub but synchronizes back to sources that keep local copies."
     },
     {
       id: "DMBOK-MDM-04",
@@ -1142,13 +1142,13 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "In contrast to the Centralized MDM style, how does the \"Registry\" MDM style operate?",
       options: [
-        "It physically duplicates all database records to overseas data centers.",
-        "It leaves master records in their local source systems, storing only cross-reference keys and matching rules in a central lightweight index to identify duplicates.",
-        "It deletes all source system databases and converts them to spreadsheets.",
-        "It mandates that users manually type customer records into paper ledgers.",
-        "It encrypts database tables so that no queries can be run."
+        "Master data is copied into the hub and reconciled there, but the sources keep authoring their own records",
+        "Master data is authored in the hub, and the reconciled records are synchronized back to the source systems",
+        "Master data stays in the source systems; the hub holds only cross-reference keys and matching results",
+        "All systems read and write master data directly in the hub, which becomes the single system of record",
+        "Master data is published as code lists that source systems download to validate their entry fields"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 10, Section 1.3.4 (\"MDM Architecture Styles - Registry\")",
       explanation: "The Registry style creates a lightweight index of pointers and cross-system mappings without consolidating or modifying the underlying operational source databases."
     },
@@ -1158,13 +1158,13 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "What is \"Entity Resolution\" (Match and Merge) in Master Data Management?",
       options: [
-        "Rebooting database servers to resolve memory fragmentation.",
-        "The algorithmic process of determining whether two records across different systems represent the same real-world entity and unifying them.",
-        "Upgrading database software to a new minor patch release.",
-        "Calculating monthly sales commissions for account executives.",
-        "Configuring domain name server (DNS) routing records."
+        "Resolving referential integrity violations by deleting child records whose parent keys no longer exist",
+        "Mapping each source system's code values to the enterprise reference values that they correspond to",
+        "Placing each entity at its correct position in a hierarchy, such as a legal-entity ownership tree",
+        "Deciding whether records in different systems describe the same real-world entity, then linking them",
+        "Standardizing names and addresses into consistent formats before they are loaded into the warehouse"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 10, Section 2.1 (\"MDM Activities - Match and Merge\")",
       explanation: "Entity resolution uses deterministic and probabilistic matching algorithms to link and merge records that represent the exact same customer, vendor, or product."
     },
@@ -1174,13 +1174,13 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "Which entity is universally recognized as a primary Master Data subject area across almost all industries?",
       options: [
-        "Server CPU fan speed sensor readings",
-        "Customer (or Patient / Citizen / Party)",
-        "Ephemeral web server HTTP error codes",
-        "Nightly ETL log job batch run numbers",
-        "Network printer toner level percentages"
+        "Sales order transactions",
+        "ISO country codes",
+        "ETL job execution logs",
+        "Daily inventory snapshots",
+        "Customer (Party)"
       ],
-      correct: 1,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 10, Section 1 (\"Introduction - Master Data Entities\")",
       explanation: "Party (Customer, Patient, Citizen), Product, Financial Account, Location, and Vendor represent the universal core master entities across enterprises."
     },
@@ -1190,13 +1190,13 @@
       chapter: "Chapter 10: Reference and Master Data",
       prompt: "What is an example of external standardized Reference Data commonly adopted by global enterprises?",
       options: [
-        "Internal employee nicknames created in private chat channels.",
-        "ISO 3166 Country Codes and ISO 4217 Currency Codes.",
-        "A temporary shopping cart ID generated on an e-commerce website.",
-        "A developer's personal computer IP address.",
-        "A single customer invoice number."
+        "ISO 3166 country codes and ISO 4217 currency codes",
+        "An internal product hierarchy defined by marketing",
+        "The enterprise customer golden record in the MDM hub",
+        "Order status codes defined by the sales application",
+        "Fiscal calendar periods defined by corporate finance"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 10, Section 1.3 (\"Reference Data Types\")",
       explanation: "ISO country and currency codes, postal abbreviations, and industry NAICS codes are standard external reference datasets widely ingested by organizations."
     },
@@ -1206,13 +1206,13 @@
       chapter: "Chapter 11: DW and Business Intelligence",
       prompt: "In Data Warehousing architecture, what is the core philosophy of Bill Inmon's Corporate Information Factory (CIF)?",
       options: [
-        "A normalized (3NF) centralized Enterprise Data Warehouse (EDW) serving as the single source of truth, from which departmental dimensional data marts are populated.",
-        "Discarding centralized data warehouses in favor of uncoordinated independent data marts.",
-        "Directly querying transactional operational tables for all business reporting needs.",
-        "Eliminating relational storage in favor of unstructured flat text files.",
-        "Restricting analytical reporting exclusively to mobile smartphone devices."
+        "A bus of conformed dimensions linking dimensional data marts that together form the enterprise warehouse",
+        "A normalized (3NF) enterprise data warehouse as the integrated source that feeds departmental data marts",
+        "Independent departmental data marts loaded directly from sources, without a central integration layer",
+        "Raw data of every format landed in low-cost storage and structured only when it is read (schema-on-read)",
+        "Reports run directly against operational systems through a virtual layer, with no persistent warehouse"
       ],
-      correct: 0,
+      correct: 1,
       dmbokRef: "DMBOK2 Chapter 11, Section 1.3 (\"DW Architecture Philosophies - Inmon vs. Kimball\")",
       explanation: "Bill Inmon advocates a top-down EDW modeled in 3NF to capture enterprise truth, which subsequently feeds departmental dimensional data marts."
     },
@@ -1222,13 +1222,13 @@
       chapter: "Chapter 11: DW and Business Intelligence",
       prompt: "In contrast to Bill Inmon, what is Ralph Kimball's primary architectural approach to Data Warehousing?",
       options: [
-        "A centralized 3NF repository that prohibits dimensional star schemas.",
-        "An Enterprise Data Warehouse built bottom-up as a confederation of conformed dimensional data marts (dimensional star schemas).",
-        "Storing all data inside unindexed JSON document databases.",
-        "Refusing to aggregate or summarize transaction logs.",
-        "Using manual paper spreadsheets for business intelligence."
+        "A top-down, normalized enterprise data warehouse that populates dependent departmental data marts",
+        "An operational data store integrating current source data for near-real-time operational reporting",
+        "A bottom-up warehouse built as dimensional data marts integrated through conformed dimensions",
+        "A hub, link, and satellite model designed to store the full auditable history of all source data",
+        "Separate data marts per department, each with its own dimensions and no shared enterprise keys"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 11, Section 1.3 (\"Kimball Dimensional Architecture\")",
       explanation: "Ralph Kimball's dimensional design builds the enterprise warehouse out of conformed star schemas and dimensional data marts linked by shared dimensions."
     },
@@ -1236,15 +1236,15 @@
       id: "DMBOK-DW-03",
       area: "Data Warehousing & BI",
       chapter: "Chapter 11: DW and Business Intelligence",
-      prompt: "In a Star Schema design, what is the difference between a Star Schema and a Snowflake Schema?",
+      prompt: "In dimensional modeling, what is the difference between a Star Schema and a Snowflake Schema?",
       options: [
-        "A Star schema has no fact tables; a Snowflake schema has multiple fact tables.",
-        "In a Star schema, dimension tables are completely denormalized; in a Snowflake schema, dimensions are normalized into secondary lookup tables.",
-        "A Snowflake schema can only be queried in winter months.",
-        "Star schemas are strictly used for financial transactions; Snowflake schemas are used for marketing.",
-        "There is no architectural difference between the two schemas."
+        "A star schema has one fact table per subject area; a snowflake schema allows only one fact table in total",
+        "A star schema stores detailed transactions; a snowflake schema stores only pre-aggregated summary data",
+        "A star schema normalizes dimensions into sub-tables; a snowflake keeps each dimension in a single table",
+        "A star schema keeps each dimension in one denormalized table; a snowflake splits dimensions into sub-tables",
+        "A star schema is used only in Kimball designs; a snowflake schema is the required model for an Inmon EDW"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 11, Section 1.3 (\"Star vs. Snowflake Schemas\")",
       explanation: "Snowflake schemas normalize dimension tables to reduce redundancy, splitting them into secondary hierarchies, whereas Star schemas denormalize them for query speed."
     },
@@ -1254,13 +1254,13 @@
       chapter: "Chapter 11: DW and Business Intelligence",
       prompt: "What is a \"Factless Fact Table\" in dimensional data modeling?",
       options: [
-        "A corrupt database table that has lost its numerical data due to hardware failure.",
-        "A fact table that contains only dimensional keys and no numeric metrics, used to record events (e.g., student attendance) or coverage conditions.",
-        "A dimension table with zero foreign keys.",
-        "A temporary table used solely during database software upgrades.",
-        "A reporting dashboard that displays only graphic charts."
+        "A dimension table with no foreign keys that simply lists the descriptive attributes of a business entity",
+        "A fact table whose measures are pre-aggregated to a coarser grain, such as monthly totals by region",
+        "A fact table recording the state of a process at regular intervals, such as daily account balances",
+        "A dimension holding miscellaneous low-cardinality flags and indicators removed from the fact table",
+        "A fact table holding only dimension keys and no numeric measures, used to record events or coverage"
       ],
-      correct: 1,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 11, Section 1.3 (\"Dimensional Modeling Concepts\")",
       explanation: "Factless fact tables record events or circumstances (e.g., class attendance, marketing coverage) that contain foreign keys linking dimensions without numerical measures."
     },
@@ -1270,13 +1270,13 @@
       chapter: "Chapter 11: DW and Business Intelligence",
       prompt: "What is the primary risk associated with \"Spreadmarts\" (uncontrolled desktop spreadsheets acting as data marts)?",
       options: [
-        "They consume too much printer paper in corporate mailrooms.",
-        "Data silos, conflicting metrics, lack of auditability, security vulnerabilities, and inconsistent business decisions.",
-        "They accelerate enterprise database query performance too significantly.",
-        "They prevent software developers from learning SQL programming.",
-        "They cause monitor screens to flicker."
+        "Conflicting versions of the truth, with metrics that cannot be audited, reconciled, or governed",
+        "Higher licensing costs for the enterprise BI platform as more analysts need named user seats",
+        "Loss of history, because spreadsheets cannot hold more than a single reporting period of data",
+        "Slower warehouse loads, because spreadsheet data must be reprocessed in every ETL batch window",
+        "Lower query performance in the warehouse caused by many analysts running their own ad hoc reports"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 11, Section 1.1 (\"Business Drivers - Spreadmarts\")",
       explanation: "Spreadmarts breed competing versions of the truth, lack data governance controls, and risk exposing sensitive information through unsecured desktop files."
     },
@@ -1286,11 +1286,11 @@
       chapter: "Chapter 11: DW and Business Intelligence",
       prompt: "What capability does \"OLAP\" (Online Analytical Processing) provide to business analysts?",
       options: [
-        "Executing high-frequency single-row credit card authorization writes.",
-        "Multidimensional analysis of consolidated enterprise data with drill-down, roll-up, and slicing capabilities.",
-        "Generating real-time printer driver firmware updates.",
-        "Formatting text in corporate word processing documents.",
-        "Managing physical network cabling switches."
+        "High-volume processing of short read-write transactions, such as order entry or card authorizations",
+        "Multidimensional analysis of consolidated data with drill-down, roll-up, and slice-and-dice operations",
+        "Automated discovery of hidden patterns and predictions in large datasets using machine learning",
+        "Continuous processing of event streams as they arrive, with sub-second latency for operational alerts",
+        "Delivery of fixed-format, scheduled production reports to a large population of operational users"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 11, Section 1.3 (\"OLAP Technology\")",
@@ -1302,13 +1302,13 @@
       chapter: "Chapter 11: DW and Business Intelligence",
       prompt: "What is a \"Data Lakehouse\" in modern analytical data architecture?",
       options: [
-        "A small recreational building near a reservoir where servers are washed.",
-        "An architectural pattern that combines the cost-effective scalability of object data lakes with the ACID transactions, schema enforcement, and governance of traditional data warehouses.",
-        "A database table dedicated to recording water utility meter readings.",
-        "An outdated mainframe storage system from the 1970s.",
-        "A software program that deletes stale database backups."
+        "A data lake whose zones are copied nightly into a separate relational warehouse used for all reporting",
+        "An operational data store holding current, integrated data for near-real-time operational reporting",
+        "A platform combining low-cost data lake storage with warehouse features such as ACID transactions and schemas",
+        "A virtualization layer that queries the data lake and the warehouse in place without storing any data",
+        "A dimensional data mart for a single department, loaded on a schedule from the enterprise data warehouse"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 11 & Strengholt Ch. 1 (\"Data Lakehouse Evolution\")",
       explanation: "Data Lakehouses unite the scalable unstructured storage of data lakes with the schema controls, ACID guarantees, and SQL performance of data warehouses."
     },
@@ -1316,17 +1316,17 @@
       id: "DMBOK-META-01",
       area: "Metadata Management",
       chapter: "Chapter 12: Metadata Management",
-      prompt: "Which category of metadata documents data lineage, transformation execution times, log counts, and file sizes in data pipelines?",
+      prompt: "Which category of metadata documents job execution times, row counts, error logs, and file sizes in data pipelines?",
       options: [
-        "Operational Metadata",
-        "Business Metadata",
-        "Descriptive Metadata",
-        "Conceptual Metadata",
-        "Aesthetic Metadata"
+        "Technical metadata",
+        "Business metadata",
+        "Descriptive metadata",
+        "Operational metadata",
+        "Structural metadata"
       ],
-      correct: 0,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 12, Section 1.3 (\"Types of Metadata\")",
-      explanation: "Operational metadata details processing runtime metrics (execution timestamps, job logs, row counts, error codes, and batch run durations)."
+      explanation: "Operational metadata describes the processing and access of data: job run times and logs, row counts, error and exception logs, audit/balance/control results, and backup and retention details. DMBOK2 classifies data lineage and source-to-target mappings as technical metadata."
     },
     {
       id: "DMBOK-META-02",
@@ -1334,13 +1334,13 @@
       chapter: "Chapter 12: Metadata Management",
       prompt: "What constitutes \"Business Metadata\" in DMBOK2?",
       options: [
-        "The physical clock speed of the CPU processor chips.",
-        "Business terms, semantic definitions, calculation formulas, data owners, security classifications, and business rules.",
-        "Database index B-Tree leaf node block allocations.",
-        "The manufacturer serial numbers of network routers.",
-        "The voltage specifications of data center power supplies."
+        "Table and column names, data types, keys, indexes, and the physical storage locations of data files",
+        "Job run times, row counts, error logs, and the results of audit, balance, and control processes",
+        "Database access patterns, query execution plans, and the results of performance-tuning activities",
+        "Source-to-target mappings, ETL program code, and the transformation logic applied in each pipeline step",
+        "Business terms and definitions, business rules, data owners and stewards, and security classifications"
       ],
-      correct: 1,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 12, Section 1.3 (\"Types of Metadata - Business\")",
       explanation: "Business metadata provides the business context, defining term meanings, operational business rules, data ownership, and sensitivity ratings."
     },
@@ -1350,13 +1350,13 @@
       chapter: "Chapter 12: Metadata Management",
       prompt: "What constitutes \"Technical Metadata\"?",
       options: [
-        "Executive summaries written for corporate annual reports.",
-        "Physical table names, column data types, index definitions, primary and foreign key constraints, and storage paths.",
-        "Employee performance evaluation ratings.",
-        "Marketing brand color style guidelines.",
-        "Customer sentiment survey reviews."
+        "Physical table and column names, data types, keys, indexes, and storage locations",
+        "Business term definitions, calculation rules, data owners, and approved usage guidance",
+        "Batch job run times, row counts, error logs, and audit, balance, and control results",
+        "Data quality scores for critical data elements, tracked against agreed thresholds",
+        "Stewardship assignments and decision rights recorded in the data governance charter"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 12, Section 1.3 (\"Types of Metadata - Technical\")",
       explanation: "Technical metadata describes the technical artifacts, systems, table structures, field formats, schemas, and connection details."
     },
@@ -1366,11 +1366,11 @@
       chapter: "Chapter 12: Metadata Management",
       prompt: "What is a \"Metadata Repository\" (or Enterprise Data Catalog)?",
       options: [
-        "A filing cabinet storing printed database printouts.",
-        "A centralized or federated database system that stores, indexes, integrates, and manages metadata from across an organization's diverse technical assets.",
-        "A script that converts database tables to HTML web pages.",
-        "An archive storage facility for decommissioned backup tapes.",
-        "A billing system for software subscription licenses."
+        "A data warehouse that integrates business data from operational systems for reporting and analytics",
+        "A centralized or federated store that integrates and manages metadata from across the organization",
+        "A master data hub holding the reconciled golden records for customers, products, and suppliers",
+        "A content management system that stores documents and enforces their records retention schedules",
+        "A modeling tool's local file that stores the diagrams for one project's logical and physical models"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 12, Section 3.1 (\"Metadata Repository Management Tools\")",
@@ -1382,13 +1382,13 @@
       chapter: "Chapter 12: Metadata Management",
       prompt: "Why is \"Impact Analysis\" a vital capability enabled by metadata management?",
       options: [
-        "It evaluates the structural impact of earthquakes on data center foundations.",
-        "It enables architects to analyze upstream and downstream dependencies before changing a data structure, preventing unexpected pipeline breakages.",
-        "It measures how much electricity database servers consume.",
-        "It tracks employee computer screen time.",
-        "It evaluates changes in competitor stock market valuations."
+        "It measures the business value of each dataset to prioritize which datasets receive stewardship first",
+        "It quantifies the financial cost of poor data quality to justify a data quality improvement program",
+        "It shows what depends on a data structure before it changes, so downstream breakages are avoided",
+        "It assesses the likelihood and impact of a data breach to set the security controls for each dataset",
+        "It compares current data management practices against a maturity model to identify capability gaps"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 12, Section 4.1 (\"Lineage and Impact Analysis\")",
       explanation: "Impact analysis traces dependencies, revealing exactly which downstream tables, pipelines, and reports will break if a column or schema changes."
     },
@@ -1398,15 +1398,15 @@
       chapter: "Chapter 12: Metadata Management",
       prompt: "Which metadata architecture collects and synchronizes metadata into a single centralized physical store from all environment sources?",
       options: [
-        "Distributed Virtual Architecture",
-        "Centralized Metadata Repository Architecture",
-        "Peer-to-Peer Unregistered Model",
-        "Ephemeral Stateless Design",
-        "Disconnected Silo Architecture"
+        "Distributed metadata architecture",
+        "Hybrid metadata architecture",
+        "Bi-directional metadata architecture",
+        "Centralized metadata architecture",
+        "Registry-style metadata architecture"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 12, Section 2.3 (\"Define Metadata Architecture\")",
-      explanation: "A centralized metadata architecture copies metadata from all sources into a single unified database repository for fast queries and consistency."
+      explanation: "In a centralized architecture, metadata is extracted from all sources into a single repository, giving fast, consistent queries. A distributed architecture leaves metadata in the sources and retrieves it on demand; a hybrid architecture combines the two; a bi-directional architecture lets metadata change anywhere and coordinates changes back to the sources."
     },
     {
       id: "DMBOK-META-07",
@@ -1414,13 +1414,13 @@
       chapter: "Chapter 12: Metadata Management",
       prompt: "What does the Dublin Core Metadata Initiative define?",
       options: [
-        "A list of financial accounting regulations for European banks.",
-        "A standardized set of fifteen core metadata elements (e.g., Title, Creator, Subject) used universally for describing digital and physical resources.",
-        "A software compiler for compiling Python applications.",
-        "A database transaction benchmark test.",
-        "A standard for fiber optic communication cables."
+        "A metamodel for exchanging data warehouse metadata between tools, maintained by the OMG (CWM)",
+        "A registry standard describing data elements and their value domains (ISO/IEC 11179)",
+        "A framework for classifying the descriptive representations of an enterprise (Zachman)",
+        "A standard for exchanging statistical data and metadata between statistical agencies (SDMX)",
+        "Fifteen core elements, such as Title, Creator, and Subject, for describing resources (ISO 15836)"
       ],
-      correct: 1,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 12, Section 6.3 (\"Metadata Standards\")",
       explanation: "Dublin Core is an internationally recognized standard (ISO 15836) establishing basic descriptive metadata properties for resource discoverability."
     },
@@ -1431,10 +1431,10 @@
       prompt: "Which data quality dimension measures whether all required data values are populated without unexpected nulls or omissions?",
       options: [
         "Completeness",
-        "Timeliness",
+        "Validity",
         "Uniqueness",
-        "Consistency",
-        "Precision"
+        "Timeliness",
+        "Reasonability"
       ],
       correct: 0,
       dmbokRef: "DMBOK2 Chapter 13, Section 1.3 (\"Data Quality Dimensions\")",
@@ -1446,11 +1446,11 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "What does DMBOK2 emphasize as the most sustainable and cost-effective approach to managing data quality problems?",
       options: [
-        "Routinely paying consultants to manually edit production database tables.",
-        "Preventing defects at the point of origin through validation rules, source controls, and root cause correction.",
-        "Tolerating errors in reporting and leaving consumers to guess correct figures.",
-        "Deleting any transaction record that generates an exception log.",
-        "Disabling database constraint checks to accelerate data entry speeds."
+        "Cleansing data in the warehouse after each load so that reports always show the corrected values",
+        "Preventing defects at the point of entry through validation controls and root-cause correction",
+        "Running periodic enterprise-wide profiling to inventory every defect in every data store",
+        "Assigning a dedicated team to correct the errors users report through a help desk process",
+        "Buying third-party data to overwrite internal records whenever the two sources disagree"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 13, Section 4.1 & 4.6 (\"Preventive Actions & Root Cause Analysis\")",
@@ -1462,13 +1462,13 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "Which data quality dimension evaluates whether data accurately reflects the real-world entity or verifiable event it is intended to represent?",
       options: [
+        "Validity",
+        "Consistency",
         "Accuracy",
-        "Storage Density",
-        "Network Latency",
-        "Query Volume",
-        "File Format"
+        "Reasonability",
+        "Completeness"
       ],
-      correct: 0,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 13, Section 1.3 (\"Data Quality Dimensions - Accuracy\")",
       explanation: "Accuracy measures truthfulness: whether recorded attributes correctly mirror the real-world object, balance, or occurrence."
     },
@@ -1478,13 +1478,13 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "What is \"Data Profiling\" in a Data Quality management program?",
       options: [
-        "Investigating the credit history of business analysts.",
-        "Using statistical analysis and pattern evaluation to discover the true structure, content, completeness, and anomalies within existing datasets.",
-        "Formatting report charts with company brand colors.",
-        "Writing user documentation for client billing applications.",
-        "Creating social media profile avatars for data stewards."
+        "Defining the business rules and thresholds that data must meet before it is accepted into a system",
+        "Correcting and standardizing data values so that they conform to their defined formats and domains",
+        "Comparing records across systems to determine which ones represent the same real-world entity",
+        "Statistical analysis of a dataset's actual content to discover its structure, patterns, and anomalies",
+        "Reporting quality scores for critical data elements to stakeholders over time on a dashboard"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 13, Section 3.1 (\"Data Profiling Tools\")",
       explanation: "Data profiling examines actual data contents, evaluating null counts, value frequencies, pattern distributions, and constraint violations."
     },
@@ -1494,13 +1494,13 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "Which data quality dimension evaluates whether data values are identical and non-contradictory across different systems and reports?",
       options: [
-        "Consistency",
-        "Latency",
-        "Modularity",
-        "Compression",
-        "Verbosity"
+        "Uniqueness",
+        "Validity",
+        "Timeliness",
+        "Reasonability",
+        "Consistency"
       ],
-      correct: 0,
+      correct: 4,
       dmbokRef: "DMBOK2 Chapter 13, Section 1.3 (\"Data Quality Dimensions - Consistency\")",
       explanation: "Consistency verifies that data across multiple databases, datamarts, and reports aligns without contradictions in values or definitions."
     },
@@ -1510,13 +1510,13 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "In Statistical Process Control (SPC) applied to Data Quality (as described in DMBOK2 Ch. 13 and Bad Data Handbook), what do Control Charts reveal?",
       options: [
-        "Employee vacation schedules.",
-        "Whether variations in data quality metrics are part of normal common-cause noise or represent special-cause anomalies requiring remediation.",
-        "The physical temperature of server CPUs.",
-        "The daily financial market closing prices.",
-        "The number of printed pages in an office."
+        "Whether variation in a quality measure is common-cause noise or a special-cause signal needing action",
+        "Which data quality dimensions contribute the most defects, ranked from most to least frequent",
+        "The root causes of a defect, grouped into categories such as people, process, and technology",
+        "The cost of poor data quality, broken down into prevention, appraisal, and failure costs",
+        "The value frequencies and null counts found for each column when a dataset is first profiled"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 13, Section 4.5 (\"Statistical Process Control\")",
       explanation: "Control charts use upper and lower control limits to differentiate routine process variation from anomalous spikes that signal operational failures."
     },
@@ -1526,11 +1526,11 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "What is a \"Data Quality Scorecard / Dashboard\"?",
       options: [
-        "A gaming scoreboard used in internal esports competitions.",
-        "A reporting visual displaying quantitative conformance of Critical Data Elements (CDEs) against predefined quality thresholds over time.",
-        "A spreadsheet recording vendor invoices.",
-        "A terminal command line for formatting hard drives.",
-        "A security badge reader log at office doorways."
+        "A register of open data quality issues with their owners, priority, and remediation status",
+        "A report of critical data elements' measured conformance to agreed quality thresholds over time",
+        "A profiling report listing the value frequencies and null counts found in a single dataset",
+        "A maturity assessment summary rating each data management capability on a scale from 0 to 5",
+        "A service level agreement defining the quality and delivery commitments between data parties"
       ],
       correct: 1,
       dmbokRef: "DMBOK2 Chapter 13, Section 2.7 & Eryurek et al. Ch. 5 (\"Scorecards\")",
@@ -1542,13 +1542,13 @@
       chapter: "Chapter 13: Data Quality",
       prompt: "What is a \"Critical Data Element\" (CDE) in enterprise data governance and data quality?",
       options: [
-        "A data field that causes the database to crash whenever queried.",
-        "A data attribute critical to operational success, regulatory compliance, risk management, or strategic executive decision-making.",
-        "A forgotten data table that has not been updated in over ten years.",
-        "A column containing only encrypted hexadecimal codes.",
-        "A temporary variable used inside a software loop."
+        "A data element classified as highly sensitive, which must be encrypted or masked wherever it is stored",
+        "A data element used as the primary key of a master data entity, such as a customer identifier",
+        "A data element whose quality is vital to regulatory compliance, key business operations, or decisions",
+        "A data element that fails the most quality rules, as identified during the latest data profiling run",
+        "A data element defined in the business glossary with an approved definition and an assigned owner"
       ],
-      correct: 1,
+      correct: 2,
       dmbokRef: "DMBOK2 Chapter 13, Section 2.3 (\"Identify Critical Data and Business Rules\")",
       explanation: "CDEs are high-value fields (e.g., Customer Tax ID, Account Balance, Product SKU) prioritized for strict governance and quality monitoring."
     },
@@ -1556,33 +1556,33 @@
       id: "DMBOK-BD-01",
       area: "Big Data & Data Science",
       chapter: "Chapter 14: Big Data and Data Science",
-      prompt: "According to Eric Brewer's CAP Theorem, which two guarantees can a distributed data system provide simultaneously during a network partition event?",
+      prompt: "According to Eric Brewer's CAP Theorem, what must a distributed data system give up when a network partition occurs?",
       options: [
-        "Both Consistency and Availability simultaneously (CA during P)",
-        "Either Consistency or Availability (CP or AP, but not both CA when P occurs)",
-        "Cost and Performance without trade-off",
-        "Encryption and Compression simultaneously without CPU overhead",
-        "Centralization and Total Scalability"
+        "Partition tolerance, so that consistency and availability are both preserved",
+        "Atomicity or durability, because ACID properties cannot hold across nodes",
+        "Nothing, provided eventual consistency (BASE) is used to keep all three",
+        "Either consistency or availability: it can remain CP or AP, but not both",
+        "Either scalability or performance, since nodes cannot grow without latency"
       ],
-      correct: 1,
-      dmbokRef: "DMBOK2 Chapter 14, Section 1.3 (\"CAP Theorem\")",
-      explanation: "The CAP Theorem proves that when a network Partition (P) occurs in a distributed system, one must trade off between Consistency (C) and Availability (A)."
+      correct: 3,
+      dmbokRef: "DMBOK2 Chapter 6, Section 1.3 (\"Database Processing: ACID, BASE, CAP\"), applied to the distributed platforms of Chapter 14",
+      explanation: "CAP states that a distributed system can guarantee at most two of Consistency, Availability, and Partition tolerance. Because partitions cannot be ruled out, when one occurs the system must choose between consistency (CP) and availability (AP). BASE systems choose availability and accept eventual consistency."
     },
     {
       id: "DMBOK-BD-02",
       area: "Big Data & Data Science",
       chapter: "Chapter 14: Big Data and Data Science",
-      prompt: "Which set of characteristics defines the classic \"V-Dimensions\" of Big Data in DMBOK2?",
+      prompt: "Which list matches the \"V\" characteristics of Big Data as described in DMBOK2 Chapter 14?",
       options: [
-        "Validity, Visuals, Virtualization, Vectors",
-        "Volume, Velocity, Variety, Veracity, and Value",
-        "Virtual, Volatile, Vulnerable, Variable",
-        "Vertical, Variance, Vectors, Verification",
-        "Visibility, Viability, Versatility, Volume"
+        "Volume, Velocity, Variety, Veracity, Value",
+        "Volume, Velocity, Variety, Validity, Visualization, Value",
+        "Volume, Velocity, Variety, Variability, Visibility, Value",
+        "Volume, Velocity, Variety, Validity, Volatility, Visibility",
+        "Volume, Velocity, Variety, Viscosity, Volatility, Veracity"
       ],
-      correct: 1,
-      dmbokRef: "DMBOK2 Chapter 14, Section 1.3 (\"The V's of Big Data\")",
-      explanation: "Big Data is characterized by Volume (scale), Velocity (speed), Variety (formats), Veracity (trustworthiness), and Value (business impact)."
+      correct: 4,
+      dmbokRef: "DMBOK2 Chapter 14, Section 1.3 (\"Essential Concepts: Big Data\")",
+      explanation: "DMBOK2 characterizes Big Data by Volume (amount of data), Velocity (speed at which data is captured, generated, or shared), Variety/Variability (forms of data), Viscosity (how difficult the data is to use or integrate), Volatility (how often data changes, and so how long it stays useful), and Veracity (how trustworthy it is). \"Value\" appears in many industry lists but is not one of DMBOK2's Vs."
     },
     {
       id: "DMBOK-BD-03",
@@ -1590,79 +1590,79 @@
       chapter: "Chapter 14: Big Data and Data Science",
       prompt: "What is \"Data Wrangling\" (or Data Munging) in the data science lifecycle?",
       options: [
-        "Deleting old databases from backup servers.",
-        "The iterative process of cleaning, transforming, reshaping, and enriching raw messy data into a structured format ready for statistical modeling.",
-        "Writing executive presentation summaries for annual reports.",
-        "Installing network patch cords in server racks.",
-        "Setting up user active directory accounts."
+        "Iteratively cleaning, reshaping, and enriching raw data into a form suitable for analysis and modeling",
+        "Training and tuning a predictive model, then validating its accuracy against a held-out test dataset",
+        "Presenting analytical findings through charts and dashboards so that business users can act on them",
+        "Ingesting raw data of any format into the data lake, unchanged, for later exploration by data scientists",
+        "Deploying a validated model into production and monitoring its predictions for drift over time"
       ],
-      correct: 1,
+      correct: 0,
       dmbokRef: "DMBOK2 Chapter 14 & Bad Data Handbook Ch. 1",
       explanation: "Wrangling converts raw, inconsistent, or poorly structured data into clean feature sets suitable for analytical and machine learning algorithms."
     },
     {
       id: "DMBOK-MAT-01",
       area: "Maturity Assessment",
-      chapter: "Chapter 15: Data Management Maturity",
-      prompt: "In standard Data Management Maturity Assessments (e.g., CMMI-based DMM or DAMA DMMA), what characterizes Level 3 maturity?",
+      chapter: "Chapter 15: Data Management Maturity Assessment",
+      prompt: "In the generic maturity scale used for Data Management Maturity Assessments in DMBOK2 (Level 0 to Level 5), what characterizes Level 3?",
       options: [
-        "Ad-hoc, undocumented practices relying entirely on individual heroics (Level 1).",
-        "Defined standard processes documented, standardized, and consistently integrated across the enterprise.",
-        "Complete lack of data awareness with zero documented policies (Level 0).",
-        "Fully autonomous AI systems that govern databases without human involvement (Level 6).",
-        "Departmental silos that actively refuse to share records."
+        "Practices depend on individual effort, with little process and inconsistent results",
+        "Standard, documented processes are applied consistently across the organization",
+        "Basic practices are repeatable within some teams but not standardized enterprise-wide",
+        "Processes are measured quantitatively and managed against defined performance targets",
+        "Processes are continuously improved based on quantitative feedback and innovation"
       ],
       correct: 1,
-      dmbokRef: "DMBOK2 Chapter 15, Section 1.3 (\"Maturity Levels\") & Caballero Ch. 7",
-      explanation: "Level 3 (\"Defined\") indicates that standard data management practices, roles, and procedures are documented, repeatable, and practiced enterprise-wide."
+      dmbokRef: "DMBOK2 Chapter 15, Section 1.3 (\"Assessment Levels\")",
+      explanation: "DMBOK2's scale runs Level 0 No Capability, 1 Initial/Ad Hoc, 2 Repeatable, 3 Defined, 4 Managed, 5 Optimized. Level 3 (Defined) means standard processes, roles, and tools are documented and used consistently across the organization; quantitative management begins at Level 4."
     },
     {
       id: "DMBOK-MAT-02",
       area: "Maturity Assessment",
-      chapter: "Chapter 15: Data Management Maturity",
-      prompt: "What is the highest level of maturity (Level 5) in standard maturity models?",
+      chapter: "Chapter 15: Data Management Maturity Assessment",
+      prompt: "In the generic maturity scale used for Data Management Maturity Assessments in DMBOK2, what is the highest level (Level 5)?",
       options: [
-        "Initial / Ad-Hoc",
-        "Managed / Repeatable",
-        "Defined / Standardized",
-        "Optimizing / Measured Continuous Improvement",
-        "Chaotic / Undefined"
+        "Managed",
+        "Defined",
+        "Optimized",
+        "Repeatable",
+        "Initial / Ad Hoc"
       ],
-      correct: 3,
-      dmbokRef: "DMBOK2 Chapter 15, Section 1.3 (\"Maturity Levels\")",
-      explanation: "Level 5 (\"Optimizing\") represents the pinnacle where processes are quantitatively measured and continuously improved through automated feedback loops."
+      correct: 2,
+      dmbokRef: "DMBOK2 Chapter 15, Section 1.3 (\"Assessment Levels\")",
+      explanation: "Level 5 (Optimized) is reached when data management practices are continuously improved based on measurement and feedback. Below it are Level 4 Managed (quantitatively measured), Level 3 Defined, Level 2 Repeatable, and Level 1 Initial/Ad Hoc."
     },
     {
       id: "DMBOK-ORG-01",
       area: "Organization & Roles",
-      chapter: "Chapter 16: Organization and Roles",
+      chapter: "Chapter 16: Data Management Organization and Role Expectations",
       prompt: "Which executive leader is primarily responsible for treating data as a strategic corporate asset, establishing data literacy, and aligning data capabilities with enterprise business strategy?",
       options: [
-        "Senior Database Administrator",
+        "Chief Information Officer (CIO)",
+        "Chief Information Security Officer",
+        "Executive Data Steward",
         "Chief Data Officer (CDO)",
-        "Network Security Operator",
-        "Facilities Manager",
-        "Help Desk Lead"
+        "Enterprise Data Architect"
       ],
-      correct: 1,
+      correct: 3,
       dmbokRef: "DMBOK2 Chapter 16, Section 6.1 (\"The Chief Data Officer\") & Carl Anderson Ch. 11",
-      explanation: "The Chief Data Officer (CDO) leads enterprise data strategy, governance, analytics democratization, and cultural literacy, bridging business and technology."
+      explanation: "The Chief Data Officer leads enterprise data strategy, governance, and data literacy, aligning data capabilities with business strategy. The CIO focuses on information technology, the CISO on security, an executive data steward on governance decisions for a domain, and an enterprise data architect on data architecture."
     },
     {
       id: "DMBOK-ORG-02",
-      area: "Data Culture & Literacy",
-      chapter: "Gartner & DMBOK Culture Frameworks",
-      prompt: "According to Gartner and Carl Anderson (Creating a Data-Driven Organization), what is an \"Anti-HiPPO\" culture in data-informed decision making?",
+      area: "Organization & Roles",
+      chapter: "Chapter 17: Data Management and Organizational Change Management",
+      prompt: "DMBOK2 uses John Kotter's eight-stage process for leading major change. Which stage comes first?",
       options: [
-        "A culture that strictly defers to the \"Highest Paid Person's Opinion\" regardless of empirical findings.",
-        "A culture that empowers teams to test hypotheses and rely on evidence, metrics, and empirical data rather than unquestioned executive opinion.",
-        "A database compression scheme that reduces disk storage overhead.",
-        "A software program that deletes stale user spreadsheets.",
-        "A project management methodology that bans all meetings."
+        "Form a powerful guiding coalition",
+        "Develop a vision and strategy",
+        "Communicate the change vision",
+        "Generate short-term wins",
+        "Establish a sense of urgency"
       ],
-      correct: 1,
-      dmbokRef: "Carl Anderson Ch. 10 (\"Data-Driven Culture: Anti-HiPPO\") & Gartner D&A Literacy",
-      explanation: "HiPPO stands for \"Highest Paid Person's Opinion.\" An anti-HiPPO culture relies on empirical data, rigorous testing, and metrics rather than purely hierarchical authority."
+      correct: 4,
+      dmbokRef: "DMBOK2 Chapter 17 (\"Kotter's Eight Stage Process for Major Change\")",
+      explanation: "Kotter's stages are: establish a sense of urgency, create the guiding coalition, develop a vision and strategy, communicate the change vision, empower broad-based action, generate short-term wins, consolidate gains and produce more change, and anchor new approaches in the culture. Allowing too much complacency, that is, failing to create urgency, is the first of Kotter's eight errors."
     }
   ];
 

@@ -1,38 +1,36 @@
 {
-  "generatedAt": "2026-09-05T22:49:21.604Z",
-  "totalRuns": 9,
+  "generatedAt": "2026-10-04T20:28:38.776Z",
+  "totalRuns": 6,
   "confident": false,
-  "index": 68.9,
-  "band": "competent",
+  "index": 70.6,
+  "band": "strong",
   "locales": {
-    "es": 9
+    "es": 6
   },
-  "firstAt": "2026-08-26T17:55:32.369Z",
+  "firstAt": "2026-08-26T18:58:35.942Z",
   "lastAt": "2026-08-30T02:29:46.649Z",
   "boards": [
     {
       "simulator": "data-governance-day-to-day",
       "maxScore": 100,
-      "runs": 3,
+      "runs": 0,
       "confident": false,
-      "best": 84.6,
-      "mean": 65.7,
-      "median": 59.8,
-      "spread": 24.8,
+      "best": null,
+      "mean": null,
+      "median": null,
+      "spread": null,
       "bands": {
         "developing": 0,
-        "competent": 2,
-        "strong": 1,
+        "competent": 0,
+        "strong": 0,
         "leading": 0
       },
       "timedRuns": 0,
       "medianDurationMs": null,
       "fastestDurationMs": null,
-      "locales": {
-        "es": 3
-      },
-      "firstAt": "2026-08-26T17:55:32.369Z",
-      "lastAt": "2026-08-30T02:15:36.989Z"
+      "locales": {},
+      "firstAt": null,
+      "lastAt": null
     },
     {
       "simulator": "data-ownership-conflict",
@@ -81,6 +79,28 @@
       },
       "firstAt": "2026-08-26T19:10:59.020Z",
       "lastAt": "2026-08-30T02:29:46.649Z"
+    },
+    {
+      "simulator": "cdmp-exam-practice",
+      "maxScore": 1000,
+      "runs": 0,
+      "confident": false,
+      "best": null,
+      "mean": null,
+      "median": null,
+      "spread": null,
+      "bands": {
+        "developing": 0,
+        "competent": 0,
+        "strong": 0,
+        "leading": 0
+      },
+      "timedRuns": 0,
+      "medianDurationMs": null,
+      "fastestDurationMs": null,
+      "locales": {},
+      "firstAt": null,
+      "lastAt": null
     }
   ],
   "source": "leaderboard",

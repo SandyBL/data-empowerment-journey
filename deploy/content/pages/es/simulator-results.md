@@ -8,7 +8,7 @@ description: Resultados públicos de cuatro simuladores de gobernanza de datos y
 kicker: Resultados de los tableros
 schema: page
 related_articles: building-a-data-governance-operating-model, why-data-governance-people-process-technology-data, data-literacy-is-a-business-capability
-updated: 2026-09-07
+updated: 2026-10-04
 ---
 
 Tres de los cuatro simuladores de este sitio te meten dentro de una situación de gobernanza y te obligan a elegir. Una regla de calidad está fallando y arreglarla implica pedirle a un director que cambie un proceso por el que se le mide. Dos departamentos reclaman el mismo registro de cliente. La alfabetización es baja y no hay presupuesto de formación. Decides, la decisión se puntúa por su consecuencia de gobernanza y no contra una respuesta correcta, y tu partida entra en un tablero público. El cuarto funciona al contrario: Práctica del Examen CDMP hace preguntas del DMBOK que sí tienen una respuesta correcta, porque el examen de certificación para el que te prepara también la tiene.
@@ -21,7 +21,7 @@ Es también un ejemplo de lo que describe. Un tablero es una medición, una medi
 
 No son cuatro versiones del mismo cuestionario. Cada uno está construido para dejar al descubierto un fallo distinto.
 
-**Gobernanza de Datos en el Día a Día** te da una semana en la vida de un responsable de gobernanza y la puntúa sobre cinco ejes: eficiencia, confianza, responsabilidad, seguridad y contexto, sobre 100. Los ejes no son independientes, y eso es lo importante: una decisión que compra eficiencia normalmente gasta responsabilidad, y la puntuación refleja el intercambio. Aquí es muy difícil ir bien siendo complaciente.
+**Gobernanza de Datos en el Día a Día** te da una semana en la vida de un responsable de gobernanza y la puntúa sobre cinco ejes —eficiencia, confianza, responsabilidad, seguridad y contexto— más el presupuesto que te queda al final, en un único índice sobre 100. Los ejes no son independientes, y eso es lo importante: una decisión que compra eficiencia normalmente gasta responsabilidad, y la puntuación refleja el intercambio. También el dinero: la mejor partida posible termina con algo menos de la mitad del presupuesto sin gastar, porque resolver las causas de fondo cuesta. Aquí es muy difícil ir bien siendo complaciente.
 
 **Conflicto de Propiedad de Datos** son diez disputas, cada una de las cuales pertenece a uno de tres roles: el Propietario de Negocio, el Data Steward o TI. Se puntúa sobre 1000. Cuatro de las diez pertenecen a TI, tres al Steward y tres al Propietario de Negocio: un reparto que importa más de lo que parece, y la siguiente sección trata de por qué.
 
@@ -51,9 +51,9 @@ Por eso las cifras de arriba reportan la diferencia entre la mejor partida y la 
 
 ### La velocidad es confianza, y la confianza no es acierto
 
-Tres de los cuatro tableros se cronometran. En el tablero de Alfabetización de Datos, por ahora la partida publicada más rápida es también la de menor puntuación —veinticinco segundos, cinco puntos de quince—, mientras que la de mayor puntuación llevó más de seis minutos.
+Los cuatro tableros se cronometran. En el tablero de Alfabetización de Datos, por ahora la partida publicada más rápida es también la de menor puntuación —veinticinco segundos, cinco puntos de quince—, mientras que la más lenta, de más de seis minutos, sacó diez. La mejor partida del tablero, con once, no tiene ningún tiempo registrado.
 
-Tres partidas no son un hallazgo y no voy a fingir lo contrario. Pero coincide con lo que pasa en las salas lo bastante a menudo como para decirlo en voz alta: quien termina primero suele ser quien no vio el compromiso. Una pregunta de gobernanza que puedes responder al instante normalmente se ha leído mal, como una pregunta técnica con respuesta de consulta, que es el fallo de arriba con otro disfraz.
+Tres partidas, dos de ellas cronometradas, no son un hallazgo y no voy a fingir lo contrario. Pero coincide con lo que pasa en las salas lo bastante a menudo como para decirlo en voz alta: quien termina primero suele ser quien no vio el compromiso. Una pregunta de gobernanza que puedes responder al instante normalmente se ha leído mal, como una pregunta técnica con respuesta de consulta, que es el fallo de arriba con otro disfraz.
 
 ### Las puntuaciones de gobernanza fallan en responsabilidad y contexto, no en seguridad
 
