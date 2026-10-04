@@ -4,12 +4,18 @@ import type { Locale } from "./newsletter.js";
  * The two emails the newsletter sends: a welcome when someone signs up, and a
  * "new article" broadcast for each article published after that.
  *
- * Both are deliberately plain: one column, the logo, a few sentences, a
- * handful of links, one button, and a footer pointing at the LinkedIn
- * newsletter so email readers can follow there too, with inline styles because that is all most mail clients honour. No
- * tracking pixels and no rewritten links: the signup form promises "no
- * third-party tracking", and an email that keeps that promise is also one that
- * spam filters have less reason to distrust.
+ * Both share one frame dressed like the site: a deep-blue banner with the
+ * logo and the wordmark centred above its orange-to-cyan rule, a white card
+ * with the blog's one-rounded-corner shape, serif headings, and a dark footer
+ * band pointing at the LinkedIn newsletter so email readers can follow there
+ * too. Inline styles throughout, because that is all most mail clients
+ * honour. The web fonts load from this site, never a font CDN, and each
+ * names a fallback (Gmail and Outlook load none); every gradient sits on a
+ * solid bgcolor (Outlook on Windows draws neither gradients nor rounded
+ * corners). The wordmark is live text, not an image, so the banner still
+ * reads when images are blocked. No tracking pixels and no rewritten links:
+ * the signup form promises "no third-party tracking", and an email that
+ * keeps that promise is also one that spam filters have less reason to distrust.
  *
  * The broadcast is rendered once per article and batch and handed to Resend,
  * which substitutes {{{RESEND_UNSUBSCRIBE_URL}}} per recipient and runs the
@@ -19,10 +25,24 @@ import type { Locale } from "./newsletter.js";
 
 const ORIGIN = "https://datagovjourney.com";
 const LOGO = `${ORIGIN}/assets/images/dg-logo.png`;
+// The site's palette (assets/css/blog.css, assets/css/site-chrome.css).
+const DEEPBLUE = "#003366";
 const TEAL = "#095b73";
-const INK = "#0f172a";
-const MUTED = "#475569";
-const LINKEDIN_BLUE = "#0077b5";
+const CYAN = "#65b7c7";
+const ORANGE = "#e95d24";
+const CORAL = "#ec6d57";
+const MINT = "#62e6bd";
+const INK = "#071c2c";
+const MUTED = "#31505c";
+const PAPER = "#f8fafc";
+const LINE = "#dbe3e8";
+const LINKEDIN_BLUE = "#0a66c2";
+
+const SANS = "'DM Sans',Helvetica,Arial,sans-serif";
+const SERIF = "'DM Serif Display',Georgia,'Times New Roman',serif";
+const BRAND_FONT = "'Plus Jakarta Sans',Helvetica,Arial,sans-serif";
+/** The blog's card shape: square but for one generous top-right corner. */
+const CARD_RADIUS = "4px 24px 4px 4px";
 
 /** The LinkedIn newsletter: a separate list, linked from the foot of every email. */
 const LINKEDIN_NEWSLETTER = "https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/";
@@ -129,27 +149,40 @@ const layout = (
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<style>
+@font-face{font-family:'DM Sans';font-weight:400 700;src:url('${ORIGIN}/assets/fonts/dm-sans-latin.woff2') format('woff2');}
+@font-face{font-family:'DM Serif Display';font-weight:400;src:url('${ORIGIN}/assets/fonts/dm-serif-display-latin.woff2') format('woff2');}
+@font-face{font-family:'Plus Jakarta Sans';font-weight:800;src:url('${ORIGIN}/assets/fonts/plus-jakarta-sans-latin.woff2') format('woff2');}
+@media (max-width:600px){.dgj-pad{padding-left:22px!important;padding-right:22px!important;}}
+</style>
 </head>
-<body style="margin:0;padding:0;background:#f8fafc;">
+<body style="margin:0;padding:0;background:${PAPER};">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(preheader)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;">
-<tr><td align="center" style="padding:32px 16px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:12px;border:1px solid #e2e8f0;">
-<tr><td style="padding:28px 32px 8px;">
-<a href="${ORIGIN}/${locale}/"><img src="${LOGO}" width="56" height="56" alt="Data Governance Journey" style="display:block;border:0;"></a>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="${PAPER}" style="background:${PAPER};">
+<tr><td align="center" style="padding:32px 12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;border-collapse:separate;">
+<tr><td align="center" bgcolor="${DEEPBLUE}" class="dgj-pad" style="background:${DEEPBLUE};background-image:linear-gradient(135deg,${DEEPBLUE},#0f172a 78%);padding:34px 32px 28px;border-radius:4px 24px 0 0;border-bottom:3px solid ${CYAN};">
+<a href="${ORIGIN}/${locale}/" style="text-decoration:none;color:#ffffff;">
+<img src="${LOGO}" width="68" height="66" alt="" style="display:block;margin:0 auto 16px;border:4px solid #33557a;border-radius:20px;background:#ffffff;">
+<span style="display:block;font-family:${BRAND_FONT};font-size:16px;font-weight:800;letter-spacing:0.09em;line-height:1.3;text-transform:uppercase;color:#ffffff;">Data Governance Journey</span>
+</a>
+<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:12px auto 0;">
+<tr><td width="28" height="3" bgcolor="${ORANGE}" style="width:28px;height:3px;background:${ORANGE};background-image:linear-gradient(90deg,${ORANGE},#a88a76);border-radius:3px 0 0 3px;font-size:0;line-height:0;">&nbsp;</td><td width="28" height="3" bgcolor="${CYAN}" style="width:28px;height:3px;background:${CYAN};background-image:linear-gradient(90deg,#a88a76,${CYAN});border-radius:0 3px 3px 0;font-size:0;line-height:0;">&nbsp;</td></tr>
+</table>
 </td></tr>
-<tr><td style="padding:8px 32px 32px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:${INK};">
+<tr><td bgcolor="#ffffff" class="dgj-pad" style="background:#ffffff;padding:36px 40px 36px;border-left:1px solid ${LINE};border-right:1px solid ${LINE};font-family:${SANS};font-size:16px;line-height:1.65;color:${INK};">
 ${body}
-<p style="margin:28px 0 0;">${escapeHtml(copy.signOff)}<br><strong>${escapeHtml(copy.team)}</strong></p>
+<p style="margin:32px 0 0;padding-top:20px;border-top:1px solid ${LINE};">${escapeHtml(copy.signOff)}<br><strong style="font-family:${SERIF};font-size:18px;font-weight:normal;color:${TEAL};">${escapeHtml(copy.team)}</strong></p>
 </td></tr>
-<tr><td style="padding:20px 32px 24px;border-top:1px solid #e2e8f0;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:${MUTED};">
-<p style="margin:0 0 4px;font-size:12px;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;color:${LINKEDIN_BLUE};">${escapeHtml(copy.linkedinKicker)}</p>
-<p style="margin:0 0 12px;">${escapeHtml(copy.linkedinText)}</p>
-<a href="${LINKEDIN_NEWSLETTER}" style="display:inline-block;background:${LINKEDIN_BLUE};color:#ffffff;text-decoration:none;font-weight:bold;padding:9px 18px;border-radius:8px;">${escapeHtml(copy.linkedinButton)}</a>
+<tr><td bgcolor="${INK}" class="dgj-pad" style="background:${INK};padding:26px 40px 28px;border-radius:0 0 4px 4px;font-family:${SANS};font-size:14px;line-height:1.55;color:#c9d6dc;">
+<p style="margin:0 0 6px;font-size:12px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;color:${MINT};">${escapeHtml(copy.linkedinKicker)}</p>
+<p style="margin:0 0 16px;">${escapeHtml(copy.linkedinText)}</p>
+<a href="${LINKEDIN_NEWSLETTER}" style="display:inline-block;background:${LINKEDIN_BLUE};color:#ffffff;text-decoration:none;font-weight:bold;padding:10px 20px;border-radius:${CARD_RADIUS};">${escapeHtml(copy.linkedinButton)}</a>
 </td></tr>
 </table>
-<p style="max-width:560px;margin:20px auto 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5;color:${MUTED};">
-${escapeHtml(copy.footer)}<br><a href="${unsubscribeHref}" style="color:${MUTED};">${escapeHtml(copy.unsubscribe)}</a>
+<p style="max-width:600px;margin:20px auto 0;font-family:${SANS};font-size:12px;line-height:1.6;color:#67808a;text-align:center;">
+${escapeHtml(copy.footer)}<br><a href="${unsubscribeHref}" style="color:#67808a;">${escapeHtml(copy.unsubscribe)}</a>
 </p>
 </td></tr>
 </table>
@@ -164,7 +197,7 @@ const linkedinText = (locale: Locale) => {
 };
 
 const button = (href: string, label: string) =>
-  `<p style="margin:28px 0;"><a href="${escapeHtml(href)}" style="display:inline-block;background:${TEAL};color:#ffffff;text-decoration:none;font-weight:bold;padding:12px 24px;border-radius:8px;">${escapeHtml(label)}</a></p>`;
+  `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:30px 0;"><tr><td bgcolor="${TEAL}" style="background:${TEAL};border-radius:${CARD_RADIUS};border-bottom:3px solid ${CYAN};"><a href="${escapeHtml(href)}" style="display:inline-block;padding:13px 28px;font-family:${SANS};font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;">${escapeHtml(label)} &rarr;</a></td></tr></table>`;
 
 export type Article = { url: string; title: string; summary: string | null };
 
@@ -183,11 +216,11 @@ export const renderWelcomeEmail = (
   const blogUrl = `${ORIGIN}${copy.blogPath}`;
   const readingList = startHere.length
     ? [
-        `<h2 style="margin:28px 0 8px;font-size:18px;line-height:1.3;color:${TEAL};">${escapeHtml(copy.startHeading)}</h2>`,
+        `<h2 style="margin:32px 0 8px;font-family:${SERIF};font-size:22px;font-weight:normal;line-height:1.2;color:${INK};">${escapeHtml(copy.startHeading)}</h2>`,
         `<p style="margin:0 0 12px;">${escapeHtml(copy.startIntro)}</p>`,
         ...startHere.map((article) => {
           const summary = article.summary && article.summary !== article.title ? article.summary : "";
-          return `<p style="margin:0 0 16px;padding-left:12px;border-left:3px solid ${TEAL};"><a href="${escapeHtml(article.url)}" style="color:${TEAL};font-weight:bold;text-decoration:none;">${escapeHtml(article.title)}</a>${
+          return `<p style="margin:0 0 12px;padding:12px 16px;background:${PAPER};border-left:3px solid ${MINT};border-radius:0 12px 0 0;"><a href="${escapeHtml(article.url)}" style="color:${TEAL};font-weight:bold;text-decoration:none;">${escapeHtml(article.title)}</a>${
             summary ? `<br><span style="font-size:14px;color:${MUTED};">${escapeHtml(summary)}</span>` : ""
           }</p>`;
         }),
@@ -195,7 +228,7 @@ export const renderWelcomeEmail = (
     : [];
   const greeting = copy.greeting(firstName);
   const body = [
-    `<h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;color:${TEAL};">${escapeHtml(copy.welcomeHeading)}</h1>`,
+    `<h1 style="margin:0 0 18px;font-family:${SERIF};font-size:32px;font-weight:normal;line-height:1.1;letter-spacing:-0.01em;color:${INK};">${escapeHtml(copy.welcomeHeading)}</h1>`,
     `<p style="margin:0 0 16px;">${escapeHtml(greeting)}</p>`,
     ...copy.welcomeBody.map((paragraph) => `<p style="margin:0 0 16px;">${escapeHtml(paragraph)}</p>`),
     ...readingList,
@@ -231,12 +264,12 @@ export const renderArticleEmail = (locale: Locale, article: Article) => {
   const unsubscribe = "{{{RESEND_UNSUBSCRIBE_URL}}}";
   const summary = article.summary && article.summary !== article.title ? article.summary : "";
   const body = [
-    `<p style="margin:0 0 8px;font-size:12px;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;color:${MUTED};">${escapeHtml(copy.articleKicker)}</p>`,
+    `<p style="margin:0 0 14px;font-size:12px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;color:${CORAL};">${escapeHtml(copy.articleKicker)}</p>`,
     // Resend fills the placeholder per recipient. Never escaped here: it is
     // not text yet, and the name it becomes is allow-listed at signup.
     `<p style="margin:0 0 16px;">${copy.broadcastGreeting}</p>`,
-    `<h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;"><a href="${escapeHtml(article.url)}" style="color:${TEAL};text-decoration:none;">${escapeHtml(article.title)}</a></h1>`,
-    summary ? `<p style="margin:0 0 16px;">${escapeHtml(summary)}</p>` : "",
+    `<h1 style="margin:0 0 16px;font-family:${SERIF};font-size:30px;font-weight:normal;line-height:1.12;letter-spacing:-0.01em;"><a href="${escapeHtml(article.url)}" style="color:${INK};text-decoration:none;">${escapeHtml(article.title)}</a></h1>`,
+    summary ? `<p style="margin:0 0 16px;padding-left:16px;border-left:3px solid ${MINT};color:${MUTED};">${escapeHtml(summary)}</p>` : "",
     button(article.url, copy.articleButton),
     `<p style="margin:0;color:${MUTED};">${escapeHtml(copy.articleOutro)}</p>`,
   ]
