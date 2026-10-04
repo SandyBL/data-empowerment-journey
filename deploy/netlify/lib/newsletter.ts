@@ -259,6 +259,82 @@ export const syncSubscriber = async (subscriber: Subscriber) => {
 };
 
 /**
+ * Rebuilds, in the Resend account the API key now points to, any batch whose
+ * segment that account has never heard of.
+ *
+ * The segment and contact ids in the database belong to whichever account
+ * created them. After RESEND_API_KEY is switched to another account they all
+ * 404, and every broadcast and signup would fail on them indefinitely. So each
+ * hourly run asks Resend about every batch's segment (a handful of requests),
+ * and for one it does not know: creates a fresh segment under the same name,
+ * points the batch at it, forgets the old contact ids of that batch's
+ * subscribers and adds them to the new account again. Only a 404 counts as
+ * missing; any other error leaves the batch alone for the next run.
+ *
+ * Unsubscribes made from a broadcast live only in the old account and do not
+ * come along -- those have to be carried over by hand. Unsubscribes made
+ * through the welcome email's link are in this database and are respected.
+ */
+export const rebuildMissingSegments = async () => {
+  const batches = await db.select().from(newsletterBatches).orderBy(newsletterBatches.id);
+  for (const batch of batches) {
+    try {
+      await resend("GET", `/segments/${batch.resendSegmentId}`);
+      continue;
+    } catch (error) {
+      if (!(error instanceof ResendError) || error.status !== 404) throw error;
+    }
+
+    const [{ position }] = await db
+      .select({ position: count() })
+      .from(newsletterBatches)
+      .where(and(eq(newsletterBatches.locale, batch.locale), lt(newsletterBatches.id, batch.id + 1)));
+    const segment = await resend<{ id: string }>("POST", "/segments", {
+      name: `Newsletter ${batch.locale.toUpperCase()} - batch ${Number(position)}`,
+    });
+    // Conditional, so an overlapping run that got here first is not undone.
+    const [moved] = await db
+      .update(newsletterBatches)
+      .set({ resendSegmentId: segment.id })
+      .where(and(eq(newsletterBatches.id, batch.id), eq(newsletterBatches.resendSegmentId, batch.resendSegmentId)))
+      .returning();
+    if (!moved) {
+      await resend("DELETE", `/segments/${segment.id}`).catch(() => {});
+      continue;
+    }
+    const members = await db
+      .update(newsletterSubscribers)
+      .set({ resendContactId: null })
+      .where(eq(newsletterSubscribers.batchId, batch.id))
+      .returning();
+    console.log(`Newsletter: batch ${batch.id} rebuilt in the current Resend account`);
+
+    for (const member of members) {
+      if (member.unsubscribedAt) continue;
+      try {
+        await syncSubscriber(member);
+      } catch (error) {
+        // Left with a null contact id: the unsynced retry picks it up, and the
+        // batch is held back from broadcasts until it has.
+        console.error(`Newsletter: subscriber ${member.id} not yet re-added`, error);
+      }
+      await pause(250);
+    }
+  }
+};
+
+/** Batches with a live subscriber who is not in Resend yet, so not in the segment. */
+export const incompleteBatchIds = async () => {
+  const rows = await db
+    .selectDistinct({ batchId: newsletterSubscribers.batchId })
+    .from(newsletterSubscribers)
+    .where(
+      sql`${newsletterSubscribers.resendContactId} is null and ${newsletterSubscribers.unsubscribedAt} is null and ${newsletterSubscribers.batchId} is not null`,
+    );
+  return new Set(rows.map((row) => row.batchId as number));
+};
+
+/**
  * Sends the welcome email if today's budget still has room for it. Returns
  * false when it does not; the row keeps a null `welcomeSentAt` and the hourly
  * job sends it once the quota resets.
