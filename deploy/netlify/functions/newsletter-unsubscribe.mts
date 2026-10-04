@@ -2,7 +2,7 @@ import type { Config } from "@netlify/functions";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { newsletterSubscribers } from "../../db/schema.js";
-import { isLocale, resend, type Locale } from "../lib/newsletter.js";
+import { ResendError, isLocale, resend, type Locale } from "../lib/newsletter.js";
 
 // The unsubscribe link in the welcome email. Broadcasts do not use it: Resend
 // runs their unsubscribe flow itself through {{{RESEND_UNSUBSCRIBE_URL}}}.
@@ -99,7 +99,14 @@ export default async (request: Request) => {
 
   try {
     if (subscriber.resendContactId) {
-      await resend("PATCH", `/contacts/${subscriber.resendContactId}`, { unsubscribed: true });
+      // By address rather than by the stored id, which belongs to whichever
+      // Resend account created the contact. A contact the current account does
+      // not have cannot be emailed by it, so a 404 is as good as done.
+      try {
+        await resend("PATCH", `/contacts/${encodeURIComponent(subscriber.email)}`, { unsubscribed: true });
+      } catch (error) {
+        if (!(error instanceof ResendError) || error.status !== 404) throw error;
+      }
     }
     await db
       .update(newsletterSubscribers)

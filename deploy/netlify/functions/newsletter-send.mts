@@ -8,7 +8,9 @@ import {
   LOCALES,
   REPLY_TO,
   SENDER,
+  incompleteBatchIds,
   pendingWelcomes,
+  rebuildMissingSegments,
   remainingToday,
   resend,
   sendWelcome,
@@ -19,6 +21,8 @@ import {
 
 // The hourly newsletter run. In order:
 //
+//   0. Rebuilds any batch whose Resend segment the current account does not
+//      have, which is what happens after RESEND_API_KEY moves to a new account.
 //   1. Finishes any signup that Resend failed on at the time.
 //   2. Reads the three RSS feeds and records any article it has not seen.
 //   3. Sends each new article, one broadcast per batch of subscribers, for as
@@ -114,6 +118,9 @@ const pendingDeliveries = async () => {
   const done = new Set(
     (await db.select().from(newsletterDeliveries)).map((row) => `${row.articleId}:${row.batchId}`),
   );
+  // A batch with members still missing from its segment waits, rather than
+  // sending an article those members would then never get.
+  const incomplete = await incompleteBatchIds();
 
   return articles.flatMap((article) => {
     const owed = batches.filter(
@@ -121,6 +128,7 @@ const pendingDeliveries = async () => {
         batch.locale === article.locale &&
         batch.memberCount > 0 &&
         batch.createdAt <= article.discoveredAt &&
+        !incomplete.has(batch.id) &&
         !done.has(`${article.id}:${batch.id}`),
     );
     const offset = owed.length ? article.id % owed.length : 0;
@@ -180,6 +188,13 @@ const sendPendingArticles = async () => {
 export default async () => {
   if (!process.env.RESEND_API_KEY) {
     console.error("Newsletter: RESEND_API_KEY is not set; nothing sent");
+    return;
+  }
+
+  try {
+    await rebuildMissingSegments();
+  } catch (error) {
+    console.error("Newsletter: could not check the Resend segments; nothing sent this run", error);
     return;
   }
 
