@@ -318,6 +318,9 @@
       altLink: "Send me your result and a question",
       returning: function (pillar) {
         return "In this browser, another simulator already measured " + pillar + ", so all five pillars now have a reading. The Scorecard is what turns those separate readings into one organizational baseline.";
+      },
+      standing: function (percentile, total) {
+        return "You scored higher than " + percentile + "% of " + total + " runs on this board.";
       }
     },
 
@@ -373,7 +376,7 @@
       },
       "data-governance-day-to-day": {
         leader: function (c) {
-          return "You finished ten decisions at " + c.score + "% with the budget intact: you already govern like the structure exists. The gap that costs money is between how you decided here and what your organization would let you do on Monday.";
+          return "You finished ten decisions at " + c.score + "%, balancing what you spent against fixing root causes: you already govern like the structure exists. The gap that costs money is between how you decided here and what your organization would let you do on Monday.";
         },
         reactive: function (c) {
           return "You finished ten decisions at " + c.score + "%. That is the profile of someone holding things together by hand -- which works, until it is the only thing holding them together.";
@@ -415,8 +418,8 @@
     /* Ownership only: the direction of the wrong answers, which is a sharper
      * finding than the count. Returns null when there is no lean. */
     misattribution: {
-      it: "Your misses leaned one way: work that belongs to the business went to IT. That is the most common and most expensive ownership error there is -- it turns a technology team into the accountable party for decisions it was never given the authority to make.",
-      business: "Your misses leaned one way: technical execution went to business owners. It reads as empowerment and lands as unfunded mandates on people without the tooling to deliver.",
+      it: "Your misses leaned one way: decisions that belonged to the business or to stewardship went to IT. That is the most common and most expensive ownership error there is -- it turns a technology team into the accountable party for decisions it was never given the authority to make.",
+      business: "Your misses leaned one way: decisions that needed technical ownership or a Data Steward went to the Business Owner. It reads as empowerment and lands as unfunded mandates on people without the tooling or the time to deliver.",
       steward: "Your misses leaned one way: decisions went to the Data Steward that needed either business authority or technical ownership. Stewardship absorbing everything is how the role burns out.",
       generic: "Your misses were spread across all three roles rather than leaning one way, which usually means the accountability model itself has not been written down anywhere."
     },
@@ -463,6 +466,9 @@
       altLink: "Envíame tu resultado y una pregunta",
       returning: function (pillar) {
         return "En este navegador, otro simulador ya midió " + pillar + ", así que ya hay una lectura de los cinco pilares. El Scorecard es lo que convierte esas lecturas sueltas en una línea base de tu organización.";
+      },
+      standing: function (percentile, total) {
+        return "Superaste al " + percentile + "% de las " + total + " partidas de este tablero.";
       }
     },
 
@@ -514,7 +520,7 @@
       },
       "data-governance-day-to-day": {
         leader: function (c) {
-          return "Terminaste diez decisiones con " + c.score + "% y el presupuesto intacto: ya gobiernas como si la estructura existiera. La brecha que cuesta dinero está entre cómo decidiste aquí y lo que tu organización te dejaría hacer el lunes.";
+          return "Terminaste diez decisiones con " + c.score + "%, equilibrando lo que gastaste con resolver las causas de fondo: ya gobiernas como si la estructura existiera. La brecha que cuesta dinero está entre cómo decidiste aquí y lo que tu organización te dejaría hacer el lunes.";
         },
         reactive: function (c) {
           return "Terminaste diez decisiones con " + c.score + "%. Ese es el perfil de quien sostiene las cosas a mano -- que funciona, hasta que es lo único que las sostiene.";
@@ -554,8 +560,8 @@
     },
 
     misattribution: {
-      it: "Tus fallos se inclinaron en una dirección: trabajo que le corresponde al negocio acabó en IT. Es el error de propiedad más común y más caro que existe -- convierte a un equipo técnico en el responsable de decisiones para las que nunca le dieron autoridad.",
-      business: "Tus fallos se inclinaron en una dirección: la ejecución técnica acabó en los dueños de negocio. Se lee como empoderamiento y aterriza como mandatos sin financiación sobre gente que no tiene las herramientas para cumplirlos.",
+      it: "Tus fallos se inclinaron en una dirección: decisiones que le correspondían al negocio o a la mayordomía acabaron en IT. Es el error de propiedad más común y más caro que existe -- convierte a un equipo técnico en el responsable de decisiones para las que nunca le dieron autoridad.",
+      business: "Tus fallos se inclinaron en una dirección: decisiones que necesitaban propiedad técnica o un Data Steward acabaron en el dueño de negocio. Se lee como empoderamiento y aterriza como mandatos sin financiación sobre gente que no tiene las herramientas ni el tiempo para cumplirlos.",
       steward: "Tus fallos se inclinaron en una dirección: al Data Steward le llegaron decisiones que necesitaban autoridad de negocio o propiedad técnica. Que la mayordomía absorba todo es la forma en que ese rol se quema.",
       generic: "Tus fallos se repartieron entre los tres roles en lugar de inclinarse hacia uno, lo que normalmente significa que el modelo de responsabilidades no está escrito en ninguna parte."
     },
@@ -601,6 +607,9 @@
       altLink: "Me envie seu resultado e uma pergunta",
       returning: function (pillar) {
         return "Neste navegador, outro simulador já mediu " + pillar + ", então já existe uma leitura dos cinco pilares. O Scorecard é o que transforma essas leituras separadas em uma linha de base da sua organização.";
+      },
+      standing: function (percentile, total) {
+        return "Você superou " + percentile + "% das " + total + " partidas deste ranking.";
       }
     },
 
@@ -652,7 +661,7 @@
       },
       "data-governance-day-to-day": {
         leader: function (c) {
-          return "Você terminou dez decisões com " + c.score + "% e o orçamento intacto: já governa como se a estrutura existisse. A lacuna que custa dinheiro está entre como você decidiu aqui e o que a sua organização deixaria você fazer na segunda-feira.";
+          return "Você terminou dez decisões com " + c.score + "%, equilibrando o que gastou com resolver as causas na raiz: já governa como se a estrutura existisse. A lacuna que custa dinheiro está entre como você decidiu aqui e o que a sua organização deixaria você fazer na segunda-feira.";
         },
         reactive: function (c) {
           return "Você terminou dez decisões com " + c.score + "%. Esse é o perfil de quem sustenta as coisas na mão -- o que funciona, até ser a única coisa que as sustenta.";
@@ -692,8 +701,8 @@
     },
 
     misattribution: {
-      it: "Seus erros penderam para um lado: trabalho que pertence ao negócio acabou em TI. É o erro de propriedade mais comum e mais caro que existe -- transforma um time técnico no responsável por decisões para as quais nunca recebeu autoridade.",
-      business: "Seus erros penderam para um lado: a execução técnica acabou com os donos de negócio. Parece empoderamento e chega como mandato sem financiamento para gente que não tem as ferramentas para entregar.",
+      it: "Seus erros penderam para um lado: decisões que cabiam ao negócio ou à curadoria acabaram em TI. É o erro de propriedade mais comum e mais caro que existe -- transforma um time técnico no responsável por decisões para as quais nunca recebeu autoridade.",
+      business: "Seus erros penderam para um lado: decisões que exigiam propriedade técnica ou um Data Steward acabaram com o dono de negócio. Parece empoderamento e chega como mandato sem financiamento para gente que não tem as ferramentas nem o tempo para entregar.",
       steward: "Seus erros penderam para um lado: chegaram ao Data Steward decisões que exigiam autoridade de negócio ou propriedade técnica. A curadoria absorvendo tudo é como esse papel se queima.",
       generic: "Seus erros se espalharam pelos três papéis em vez de penderem para um, o que normalmente significa que o modelo de responsabilidades não está escrito em lugar nenhum."
     },
@@ -758,30 +767,73 @@
   }
 
   /*
+   * How many decisions or answers stand behind each dimension a page reports.
+   *
+   * The weakest-pillar rule below (MIN_EVIDENCE) is about evidence, and the
+   * evidence is the questions the player answered, not the number of dimension
+   * keys that happen to feed a pillar. Counting keys made the rule wrong for two
+   * simulators: every literacy pillar but Culture is fed by one category, so only
+   * Culture could ever be named, and on Day-to-Day only the two pillars fed by
+   * two axes could be.
+   *
+   * A dimension handed over as {correct, total} carries its own count (literacy
+   * categories, CDMP knowledge-area groups), and that is used as is. A bare 0-100
+   * number falls back to the per-simulator figure here. `shared` marks a
+   * simulator whose dimensions are all moved by the same decisions -- every one
+   * of Day-to-Day's ten decisions moves all five axes -- so a pillar fed by two
+   * axes rests on those ten decisions, not on twenty.
+   */
+  var DIMENSION_EVIDENCE = {
+    "data-governance-day-to-day": { perDimension: 10, shared: true },
+    "data-literacy": { perDimension: 3, shared: false },
+    "cdmp-exam-practice": { perDimension: 1, shared: false }
+  };
+
+  /* {dimensionKey: number of decisions/answers behind it}, from the raw shape. */
+  function dimensionEvidence(simulator, raw) {
+    var spec = DIMENSION_EVIDENCE[simulator] || { perDimension: 1, shared: false };
+    var out = {};
+    if (!raw || typeof raw !== "object") return out;
+    for (var key in raw) {
+      if (!Object.prototype.hasOwnProperty.call(raw, key)) continue;
+      var value = raw[key];
+      if (value && typeof value === "object" && typeof value.total === "number" && value.total > 0) {
+        out[key] = value.total;
+      } else {
+        out[key] = spec.perDimension;
+      }
+    }
+    return out;
+  }
+
+  /*
    * Score the five pillars rather than the dimensions.
    *
    * The weighted sum is normalised by the weights that actually contributed, so
    * a pillar fed by one dimension and a pillar fed by two are on the same 0-100
-   * scale and can be compared. `n` counts contributing dimensions and is kept
-   * because it breaks ties better than an arbitrary rule: between two equally
-   * low pillars, the one supported by more evidence is the more defensible
-   * thing to put in a headline.
+   * scale and can be compared. `n` is the number of decisions or answers behind
+   * the pillar (see DIMENSION_EVIDENCE; one per dimension if `evidence` is not
+   * given). It feeds the MIN_EVIDENCE rule and breaks ties better than an
+   * arbitrary rule: between two equally low pillars, the one supported by more
+   * evidence is the more defensible thing to put in a headline.
    */
-  function pillarScoresFromDimensions(simulator, dimensions) {
+  function pillarScoresFromDimensions(simulator, dimensions, evidence) {
     var weights = PILLAR_WEIGHTS[simulator];
+    var shared = !!(DIMENSION_EVIDENCE[simulator] && DIMENSION_EVIDENCE[simulator].shared);
     var acc = {};
     if (!weights) return acc;
     for (var dim in dimensions) {
       if (!Object.prototype.hasOwnProperty.call(dimensions, dim)) continue;
       var map = weights[dim];
       if (!map) continue;
+      var count = evidence && typeof evidence[dim] === "number" ? evidence[dim] : 1;
       for (var pillar in map) {
         if (!Object.prototype.hasOwnProperty.call(map, pillar)) continue;
         var w = map[pillar];
         if (!acc[pillar]) acc[pillar] = { num: 0, den: 0, n: 0 };
         acc[pillar].num += dimensions[dim] * w;
         acc[pillar].den += w;
-        acc[pillar].n += 1;
+        acc[pillar].n = shared ? Math.max(acc[pillar].n, count) : acc[pillar].n + count;
       }
     }
     var out = {};
@@ -1311,7 +1363,11 @@
 
       var scores = ctx.answers && ctx.answers.length
         ? pillarScoresFromAnswers(ctx.answers)
-        : pillarScoresFromDimensions(ctx.simulator, normalizeDimensions(ctx.dimensions));
+        : pillarScoresFromDimensions(
+            ctx.simulator,
+            normalizeDimensions(ctx.dimensions),
+            dimensionEvidence(ctx.simulator, ctx.dimensions)
+          );
 
       var unmeasured = [];
       var declared = UNMEASURED[ctx.simulator] || [];
@@ -1406,6 +1462,9 @@
       html.push('<p class="sim-bridge__eyebrow">' + escapeHtml(eyebrow) + "</p>");
       html.push('<h3 class="sim-bridge__headline">' + block.headline + "</h3>");
       if (evidence) html.push('<p class="sim-bridge__evidence">' + escapeHtml(evidence) + "</p>");
+      /* Filled in after the fact by renderStanding, and left empty (and
+       * hidden) unless the board is big enough to say anything. */
+      html.push('<p class="sim-bridge__evidence sim-bridge__standing" data-sim-bridge-standing="' + escapeHtml(String(ctx.score)) + '" hidden></p>');
       if (leanText) html.push('<p class="sim-bridge__lean">' + escapeHtml(leanText) + "</p>");
       html.push('<p class="sim-bridge__body">' + block.body + "</p>");
       html.push(renderMeter(copy, scores, focusKey, unmeasured, prior));
@@ -1420,6 +1479,7 @@
       injectStyles();
       slot.innerHTML = html.join("");
       writeLastRun(ctx, focusKey);
+      renderStanding(slot, copy, ctx);
 
       /* Only now that the replacement is on screen does the old CTA go away, so
        * a failure above leaves the visitor with the CTA the page shipped with. */
@@ -1434,6 +1494,33 @@
         window.console.warn("SimulatorBridge: render skipped", error);
       }
     }
+  }
+
+  /*
+   * "You scored higher than N% of M runs on this board."
+   *
+   * Asked of the server after the block is on screen, because it is a network
+   * round trip and the rest of the block is not. The server answers null until
+   * the board holds thirty runs (MIN_SAMPLE in assets/js/public-board-analysis.mjs),
+   * and so does SimulatorLeaderboard.standing on any failure, so the line simply
+   * never appears on a small board or a bad connection. The placeholder is looked
+   * up again when the answer arrives: several pages call render() a second time,
+   * and a stale answer must land in the current block or nowhere.
+   */
+  function renderStanding(slot, copy, ctx) {
+    var board = window.SimulatorLeaderboard;
+    if (!board || typeof board.standing !== "function" || typeof copy.ui.standing !== "function") return;
+    if (typeof ctx.score !== "number" || !isFinite(ctx.score)) return;
+
+    board.standing(ctx.simulator, ctx.score).then(function (standing) {
+      if (!standing) return;
+      var line = slot.querySelector("[data-sim-bridge-standing]");
+      if (!line || line.getAttribute("data-sim-bridge-standing") !== String(ctx.score)) return;
+      line.textContent = copy.ui.standing(standing.percentile, standing.total);
+      line.hidden = false;
+    }, function () {
+      /* standing() never rejects; this is belt and braces. */
+    });
   }
 
   /*
@@ -1491,6 +1578,7 @@
     pillarScoresFromAnswers: pillarScoresFromAnswers,
     pillarScoresFromDimensions: pillarScoresFromDimensions,
     normalizeDimensions: normalizeDimensions,
+    dimensionEvidence: dimensionEvidence,
     pickWeakest: pickWeakest,
     hasSoftSpot: hasSoftSpot,
     ownershipLean: ownershipLean,

@@ -9,6 +9,7 @@ import { publicSpace, resolveSession } from "../lib/workspace-access.js";
 import {
   BAND_LABELS,
   BANDS,
+  DIMENSION_LABELS,
   MAX_SCORES,
   OWNERSHIP_SCENARIO_ROLES,
   PILLAR_LABELS,
@@ -52,7 +53,7 @@ import {
 // like publishing. That is what makes a weak dimension here worth acting on. The
 // "runs" and "people" counts are kept apart all the same — they diverge across
 // simulators, and a room where twelve people played one exercise and three played
-// all three is a fact a facilitator should be able to see.
+// all four is a fact a facilitator should be able to see.
 //
 // Sponsor seats only. The participant code and the sponsor code are different
 // codes precisely so that the room can compete on the board without every
@@ -108,7 +109,7 @@ const ACTIVE_WINDOW_MS = 2 * 60 * 60 * 1000;
  * CDMP Exam Practice bands on the certification's own pass marks instead of a
  * curve of its own: 80% for Master, 70% for Practitioner, 60% for Associate.
  *
- * All three sets are now the same in all three languages: the Portuguese
+ * All four sets are now the same in all three languages: the Portuguese
  * Day-to-Day page banded at 85/65 until this change and now bands at 75/50 with
  * English and Spanish, so one room profile can be stated without asking which
  * language the room happened to play in.
@@ -229,6 +230,39 @@ const csvRow = (cells: unknown[]) => cells.map(csvCell).join(",");
 const runIdentity = (run: { participantKey: string | null; sessionId: number | null; name: string }) =>
   run.participantKey ? `pk:${run.participantKey}` : run.sessionId !== null ? `seat:${run.sessionId}` : `name:${run.name}`;
 
+/**
+ * A fixed order for dimension keys, used only to break ties between equally
+ * weak (or equally strong) dimensions.
+ *
+ * The rows arrive newest first, so ordering ties by first appearance made "the
+ * weakest dimension" depend on which participant happened to publish last -- a
+ * report refreshed after one more run could swap its headline without any
+ * average changing. The order is the simulator's own dimension list in
+ * DIMENSION_LABELS (which is also the order its results screen draws them in),
+ * with any key not listed there after it, alphabetically.
+ */
+const dimensionRank = (simulator: string) => {
+  const known = Object.keys((DIMENSION_LABELS.en as Record<string, Record<string, string>>)[simulator] ?? {});
+  return (a: string, b: string) => {
+    const first = known.indexOf(a);
+    const second = known.indexOf(b);
+    if (first !== -1 || second !== -1) {
+      if (first === -1) return 1;
+      if (second === -1) return -1;
+      return first - second;
+    }
+    return a < b ? -1 : a > b ? 1 : 0;
+  };
+};
+
+/** Fixed order for the ownership roles, for the same reason as dimensionRank. */
+const ROLE_ORDER = ["business", "steward", "it"];
+const roleRank = (a: string, b: string) => {
+  const first = ROLE_ORDER.indexOf(a);
+  const second = ROLE_ORDER.indexOf(b);
+  return (first === -1 ? ROLE_ORDER.length : first) - (second === -1 ? ROLE_ORDER.length : second) || (a < b ? -1 : a > b ? 1 : 0);
+};
+
 type ReportRun = {
   simulator: string;
   name: string;
@@ -250,6 +284,8 @@ type ReportRun = {
  * renders, and computing them twice from two slightly different loops is how the
  * export and the screen end up disagreeing in front of a client.
  */
+const SIMULATOR_ORDER = [...MAX_SCORES.keys()];
+
 const buildAnalysis = (runs: ReportRun[]) => {
   const perSimulator = new Map<
     string,
@@ -272,7 +308,7 @@ const buildAnalysis = (runs: ReportRun[]) => {
   >();
 
   // Pillar readings are pooled across every simulator, which is the whole point:
-  // one organisational profile out of three exercises that each see part of it.
+  // one organisational profile out of four exercises that each see part of it.
   const pillars = new Map<string, { value: number; weight: number; runs: number; simulators: Set<string> }>();
 
   // Who played what, so the summary can say how much of the room the index
@@ -380,7 +416,12 @@ const buildAnalysis = (runs: ReportRun[]) => {
 
   const simulators = [...perSimulator.values()]
     .map((bucket) => {
-      const averageScore = round(bucket.scores.reduce((sum, score) => sum + score, 0) / bucket.runs);
+      // The profile is assigned from the exact average, not the displayed one:
+      // a Day-to-Day room averaging 74.96 is a Reactive room, and rounding it
+      // to 75.0 first would have called it a Leader one.
+      const exactAverageScore = bucket.scores.reduce((sum, score) => sum + score, 0) / bucket.runs;
+      const averageScore = round(exactAverageScore);
+      const byKey = dimensionRank(bucket.simulator);
       const averagePercent = bucket.percents.length
         ? round(bucket.percents.reduce((sum, percent) => sum + percent, 0) / bucket.percents.length)
         : null;
@@ -402,7 +443,7 @@ const buildAnalysis = (runs: ReportRun[]) => {
         // needs aligning.
         spreadPercent: minPercent !== null && maxPercent !== null ? round(maxPercent - minPercent) : null,
         // The room's own profile, on this simulator's own scale.
-        bandKey: profileBand(bucket.simulator, averageScore),
+        bandKey: profileBand(bucket.simulator, exactAverageScore),
         // A simulator that reports no timings has no median, and null is what the
         // page renders as an em dash. It used to send nothing here and get
         // rendered as 0:00, which reads as a room that finished instantly.
@@ -424,7 +465,9 @@ const buildAnalysis = (runs: ReportRun[]) => {
               correctRuns: dimension.binary ? dimension.ceiling : null,
             };
           })
-          .sort((a, b) => a.average - b.average),
+          // Ties on the displayed average go to a fixed key order rather than
+          // to whichever row happened to come first; see dimensionRank.
+          .sort((a, b) => a.average - b.average || byKey(a.key, b.key)),
         roles: bucket.roles.size
           ? [...bucket.roles.entries()]
               .map(([key, entry]) => ({
@@ -433,7 +476,7 @@ const buildAnalysis = (runs: ReportRun[]) => {
                 answers: entry.answers,
                 scenarios: entry.scenarios.size,
               }))
-              .sort((a, b) => a.average - b.average)
+              .sort((a, b) => a.average - b.average || roleRank(a.key, b.key))
           : null,
         firstRunAt: bucket.firstRunAt,
         lastRunAt: bucket.lastRunAt,
@@ -457,7 +500,7 @@ const buildAnalysis = (runs: ReportRun[]) => {
       measured,
       average: measured ? round(entry!.value / entry!.weight) : null,
       runs: entry ? entry.runs : 0,
-      // Which of the three exercises produced this reading, and — when there is
+      // Which of the four exercises produced this reading, and — when there is
       // none — which one would.
       measuredBy: entry ? [...entry.simulators] : [],
       sources: PILLAR_SOURCES[key] ?? [],
@@ -478,7 +521,11 @@ const buildAnalysis = (runs: ReportRun[]) => {
 
   const widest = [...simulators]
     .filter((entry) => entry.spreadPercent !== null && entry.runs > 1)
-    .sort((a, b) => (b.spreadPercent ?? 0) - (a.spreadPercent ?? 0))[0];
+    .sort(
+      (a, b) =>
+        (b.spreadPercent ?? 0) - (a.spreadPercent ?? 0) ||
+        SIMULATOR_ORDER.indexOf(a.simulator) - SIMULATOR_ORDER.indexOf(b.simulator),
+    )[0];
 
   const smallestGroup = simulators.length ? Math.min(...simulators.map((entry) => entry.participants)) : 0;
 
@@ -589,7 +636,7 @@ const buildCsv = (runs: ReportRun[], analysis: ReturnType<typeof buildAnalysis>)
   );
   lines.push(csvRow(["Simulators played", `${executive.simulatorsCounted} of ${executive.simulatorsAvailable}`]));
   lines.push(csvRow(["People who published a run", executive.coverage.people]));
-  lines.push(csvRow(["People who played all three", executive.coverage.playedAll]));
+  lines.push(csvRow([`People who played all ${executive.simulatorsAvailable}`, executive.coverage.playedAll]));
   lines.push(csvRow(["People who played only one", executive.coverage.playedOne]));
   lines.push(
     csvRow([
@@ -746,9 +793,15 @@ export default async (request: Request) => {
         locale: simulatorScores.locale,
         breakdown: simulatorScores.breakdown,
         sessionId: simulatorScores.workspaceSessionId,
-        // Left, not inner: a run whose seat row was deleted is still a run this
-        // room published, and dropping it would quietly understate the report.
-        participantKey: workspaceSessions.participantKey,
+        // The person the run was recorded against, copied onto the row at write
+        // time -- the same key the one-attempt rule is enforced on, and the one
+        // that survives the seat being deleted (see db/schema.ts).
+        participantKey: simulatorScores.participantKey,
+        // The seat's key, only as a fallback for a row written before the
+        // column existed. Left, not inner: a run whose seat row was deleted is
+        // still a run this room published, and dropping it would quietly
+        // understate the report.
+        seatParticipantKey: workspaceSessions.participantKey,
         createdAt: simulatorScores.createdAt,
       })
       .from(simulatorScores)
@@ -758,7 +811,12 @@ export default async (request: Request) => {
       .limit(MAX_ROWS + 1);
 
     const truncated = rows.length > MAX_ROWS;
-    const runs = (truncated ? rows.slice(0, MAX_ROWS) : rows) as ReportRun[];
+    const runs: ReportRun[] = (truncated ? rows.slice(0, MAX_ROWS) : rows).map(
+      ({ seatParticipantKey, ...row }) => ({
+        ...row,
+        participantKey: row.participantKey ?? seatParticipantKey ?? null,
+      }),
+    );
     const analysis = buildAnalysis(runs);
 
     if (format === "csv") {

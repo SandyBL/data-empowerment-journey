@@ -227,10 +227,18 @@
                         <i class="fas fa-circle-info fa-fw" aria-hidden="true"></i>
                         As questões e as respostas estão em inglês: o exame oficial do CDMP só existe em inglês.
                     </p>
+                    <!-- Shown only once simulator-a11y.js has bound the keys it
+                         describes; see the bindings at the end of the script. -->
+                    <p id="keyHint" class="hidden text-xs text-slate-500">
+                        <i class="fas fa-lightbulb fa-fw" aria-hidden="true"></i>
+                        Dica: pressione 1–5 ou A–E para responder.
+                    </p>
                 </div>
 
-                <!-- The five answer options, rendered from the question bank so
-                     every draw keeps the option order the bank stores. -->
+                <!-- The five answer options, rendered from the question bank in an
+                     order shuffled for every run. The bank stores most correct
+                     answers in the same slot, so a fixed order would teach the slot
+                     rather than the DMBOK. The letters A-E are on-screen order. -->
                 <div id="optionsContainer" class="space-y-4 pt-2">
                 </div>
             </div>
@@ -264,6 +272,10 @@
                     <p class="text-xs text-slate-500">
                         <i class="fas fa-book-open fa-fw text-brand-accent" aria-hidden="true"></i>
                         Referência: <span id="feedbackReference" class="font-semibold text-slate-400">&nbsp;</span>
+                    </p>
+                    <p class="text-xs text-slate-500">
+                        <i class="fas fa-magnifying-glass fa-fw text-brand-accent" aria-hidden="true"></i>
+                        Seção para ler: <span id="feedbackDmbokRef" class="font-semibold text-slate-400">&nbsp;</span>
                     </p>
                 </div>
 
@@ -360,6 +372,10 @@
                     <p class="text-xs text-slate-500">3 ações para fechar a lacuna antes do dia do exame:</p>
                 </div>
 
+                <!-- Filled by renderWeakestAreas(): the areas this run missed,
+                     worst first, which is what the steps below refer to. -->
+                <p id="weakestAreas" class="text-sm font-semibold text-brand-text"></p>
+
                 <div id="takeawaysList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 </div>
             </div>
@@ -377,6 +393,8 @@
                         <span id="publishScoreLabel">Publicar minha pontuação</span>
                     </button>
                 </div>
+
+                <p id="publishNote" class="hidden text-xs text-amber-300" role="status"></p>
 
                 <div class="sim-table-wrap">
                     <table class="sim-table">
@@ -425,10 +443,20 @@
 
             <!-- Outside the CTA above on purpose: that block gets hidden once the
                  bridge renders, and drawing ten new questions has to stay available. -->
-            <div class="text-center">
-                <button onclick="resetGame()" class="sim-btn sim-btn--ghost">
-                    <i class="fas fa-rotate-right fa-fw" aria-hidden="true"></i> Sortear dez questões novas
-                </button>
+            <div class="text-center space-y-3">
+                <p id="practiceResult" class="hidden text-sm font-semibold text-brand-accent" role="status"></p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <!-- Wrapped because .sim-btn sets its own display, which would
+                         beat .hidden on the button itself. -->
+                    <span id="retryMissesWrap" class="hidden">
+                        <button onclick="startPracticeRound()" class="sim-btn sim-btn--soft">
+                            <i class="fas fa-rotate-left fa-fw" aria-hidden="true"></i> Refazer meus erros (prática)
+                        </button>
+                    </span>
+                    <button onclick="resetGame()" class="sim-btn sim-btn--ghost">
+                        <i class="fas fa-rotate-right fa-fw" aria-hidden="true"></i> Sortear dez questões novas
+                    </button>
+                </div>
             </div>
 
         </section>
@@ -595,7 +623,7 @@
                 </div>
             </div>
 
-            <p class="text-xs text-slate-500 leading-relaxed">As onze áreas da roda do DMBOK, mais as seis que o exame de fundamentos acrescenta em volta: a própria gestão de dados (capítulo 1), a ética no tratamento de dados (2), big data e ciência de dados (14), avaliação de maturidade (15), organização e expectativas de papéis (16), e cultura e alfabetização de dados. Todas as dezessete aparecem neste banco de questões.</p>
+            <p class="text-xs text-slate-500 leading-relaxed">As onze áreas de conhecimento da roda do DMBOK, mais os seis capítulos que o DAMA-DMBOK2 coloca em volta dela: a própria gestão de dados (capítulo 1), a ética no tratamento de dados (2), big data e ciência de dados (14), a avaliação de maturidade da gestão de dados (15), a organização da gestão de dados e as expectativas de papéis (16), e a gestão de dados e a gestão da mudança organizacional (17). O exame tira a maior parte das questões da roda.</p>
 
             <button onclick="closeGuideModal()" aria-label="Entendido, voltar às questões" class="sim-btn sim-btn--ghost w-full">
                 Entendido, voltar às questões
@@ -615,6 +643,8 @@
          without changing what the answer key means, so this simulator is
          deliberately left out of that surface (see
          netlify/lib/scenario-fields.mjs). -->
+    <!-- Dialog focus handling for the feedback modal and the 1-5 / A-E keys. -->
+    <script src="/assets/js/simulator-a11y.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
     <script src="/assets/js/workspace-auto-publish.js"></script>
     <script src="/assets/js/simulator-bridge.js"></script>
@@ -703,9 +733,19 @@
             "ctaButton": "Quero o diagnóstico da minha empresa",
             "guideHeading": "As áreas de conhecimento do DMBOK2",
             "guideSub": "O que o exame de fundamentos do CDMP cobre",
-            "guideNote": "As onze áreas da roda do DMBOK, mais as seis que o exame de fundamentos acrescenta em volta: a própria gestão de dados (capítulo 1), a ética no tratamento de dados (2), big data e ciência de dados (14), avaliação de maturidade (15), organização e expectativas de papéis (16), e cultura e alfabetização de dados. Todas as dezessete aparecem neste banco de questões.",
+            "guideNote": "As onze áreas de conhecimento da roda do DMBOK, mais os seis capítulos que o DAMA-DMBOK2 coloca em volta dela: a própria gestão de dados (capítulo 1), a ética no tratamento de dados (2), big data e ciência de dados (14), a avaliação de maturidade da gestão de dados (15), a organização da gestão de dados e as expectativas de papéis (16), e a gestão de dados e a gestão da mudança organizacional (17). O exame tira a maior parte das questões da roda.",
             "guideClose": "Entendido, voltar às questões",
-            "simulatorLabel": "Prática do Exame CDMP"
+            "simulatorLabel": "Prática do Exame CDMP",
+            "practiceCounter": "Rodada de prática: questão {n} de {total}",
+            "keyHint": "Dica: pressione 1–5 ou A–E para responder.",
+            "readLabel": "Seção para ler",
+            "weakestAreas": "Suas áreas mais fracas: {areas}.",
+            "weakestNone": "Suas áreas mais fracas: nenhuma — você acertou todas as áreas que este sorteio cobriu.",
+            "alreadyRecorded": "Este espaço registra apenas a sua primeira tentativa, por isso esta rodada não foi adicionada ao placar. Vale o seu primeiro resultado.",
+            "alreadyRecordedLabel": "Primeira tentativa já registrada",
+            "retryMisses": "Refazer meus erros (prática)",
+            "practicePoints": "Rodada de prática — sem pontuação",
+            "practiceResult": "Rodada de prática: {correct}/{total} das questões que você errou respondidas corretamente. A prática não pontua e nunca é publicada; o resultado acima continua sendo o da sua rodada."
 };
 
         /* Score bands, highest first, using the real CDMP thresholds: 80% Master,
@@ -725,7 +765,7 @@
                         "title": "Nível CDMP Practitioner",
                         "icon": "fa-award",
                         "badgeClass": "p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 inline-block w-full",
-                        "description": "Entre 70% e 79%. Faixa Practitioner. Duas ou três áreas de conhecimento ainda custam pontos; a revisão abaixo diz quais."
+                        "description": "Entre 70% e 79%. Faixa Practitioner. Duas ou três áreas de conhecimento ainda custam pontos; o plano de estudo abaixo diz quais."
             },
             {
                         "key": "associate",
@@ -763,8 +803,8 @@
             ],
             "associate": [
                         {
-                                    "title": "1. Feche as duas áreas mais fracas",
-                                    "desc": "Você já está acima da linha Associate. A distância até Practitioner costuma ser de duas áreas de conhecimento, não de quinze."
+                                    "title": "1. Feche suas áreas mais fracas",
+                                    "desc": "Você já está acima da linha Associate. O plano de estudo, acima destes passos, indica as áreas em que este sorteio pegou você, da pior para a melhor; a distância até Practitioner costuma ser de duas ou três áreas de conhecimento, não de quinze."
                         },
                         {
                                     "title": "2. Aprenda os limites, não as definições",
@@ -796,7 +836,7 @@
                         },
                         {
                                     "title": "2. Escolha suas especialidades",
-                                    "desc": "Master exige dois exames de especialidade com 80%. A revisão abaixo mostra quais áreas você já defende."
+                                    "desc": "Master exige dois exames de especialidade com 80%. O detalhamento por área de conhecimento acima mostra quais áreas você já defende."
                         },
                         {
                                     "title": "3. Ensine",
@@ -842,8 +882,10 @@
         let leaderboardData = [];
         let leaderboardStatus = 'loading';
         // Set once the visitor publishes, so their own row can be highlighted in a
-        // board that now contains strangers.
-        let publishedRowKey = null;
+        // board that now contains strangers. The id of the row that publish
+        // created, not a name and score: two runs by the same name on the same
+        // score are two rows, and only the new one is "you".
+        let publishedRowId = null;
 
         // How long the run took, which is how the board ranks two players on the
         // same score. Runs from the first question appearing to the last answer
@@ -854,7 +896,7 @@
         // arrive: an untimed game is a smaller loss than a game that refuses to
         // start, and this runs at parse time.
         const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
-            start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+            start() {}, stop() { return null; }, reset() {}, resume() {}, elapsedMs() { return null; }
         };
         let runTimerInterval = null;
 
@@ -894,6 +936,9 @@
             score: 0,
             streak: 0,
             userAnswers: [], // { questionId, area, chapter, prompt, options, selectedIndex, correctIndex, isCorrect, explanation, reference }
+            // True during a "Retry my misses" round, which is never scored,
+            // saved or published; see startPracticeRound().
+            practice: false,
             soundEnabled: true
         };
 
@@ -916,6 +961,187 @@
                 pool[j] = swap;
             }
             return pool.slice(0, QUESTIONS_PER_RUN);
+        }
+
+        /*
+         * The five options of a question in a fresh random order for this run.
+         *
+         * The bank stores most correct answers in the same slot, so showing the
+         * options as stored would teach "pick B" rather than the DMBOK. `order`
+         * lists, for each on-screen position, the bank's original option index;
+         * the run's copy of the question carries the reordered options and the
+         * correct index remapped to its on-screen position, and everything
+         * downstream -- the buttons, the scoring, the feedback badge and the
+         * review -- reads only that copy, so a letter always means what was on
+         * screen. The bank itself is never modified.
+         */
+        function shuffledOrder(length) {
+            const order = Array.from({ length: length }, (_, index) => index);
+            for (let i = order.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const swap = order[i];
+                order[i] = order[j];
+                order[j] = swap;
+            }
+            return order;
+        }
+
+        function withOptionOrder(question, order) {
+            return {
+                ...question,
+                options: order.map((index) => question.options[index]),
+                correct: order.indexOf(question.correct),
+                optionOrder: order
+            };
+        }
+
+        function withShuffledOptions(question) {
+            return withOptionOrder(question, shuffledOrder(question.options.length));
+        }
+
+        /** Whether order is a permutation of 0..length-1. */
+        function isOptionOrder(order, length) {
+            if (!Array.isArray(order) || order.length !== length) return false;
+            const seen = new Set(order);
+            return seen.size === length && order.every((index) => Number.isInteger(index) && index >= 0 && index < length);
+        }
+
+        /** What the results screen keeps about one answer. */
+        function answerRecord(question, selectedIndex) {
+            return {
+                questionId: question.id,
+                area: question.area,
+                chapter: question.chapter,
+                prompt: question.prompt,
+                options: question.options,
+                selectedIndex: selectedIndex,
+                correctIndex: question.correct,
+                isCorrect: selectedIndex === question.correct,
+                explanation: question.explanation,
+                reference: question.dmbokRef
+            };
+        }
+
+        /*
+         * SAVED PROGRESS
+         *
+         * A reload in the middle of a run used to throw it away. After every
+         * answer (and every Next) the run is written to sessionStorage -- this
+         * tab only, gone when it closes -- as the drawn question ids, the option
+         * order each was shown in, where the candidate is and what they chose,
+         * plus the clock reading, so the same paper resumes in the same order
+         * and the time already played still counts. Storage can be full or
+         * refused outright, so every access is wrapped: losing the save is a
+         * smaller loss than breaking the run. Practice rounds are never saved.
+         */
+        const PROGRESS_KEY = `sim-progress:${SIMULATOR_SLUG}:${SIMULATOR_LOCALE}`;
+
+        function saveProgress() {
+            if (currentState.practice) return;
+            try {
+                window.sessionStorage.setItem(PROGRESS_KEY, JSON.stringify({
+                    playerName: currentState.playerName,
+                    ids: currentState.questions.map((question) => question.id),
+                    optionOrders: currentState.questions.map((question) => question.optionOrder),
+                    currentIndex: currentState.currentQuestionIndex,
+                    score: currentState.score,
+                    streak: currentState.streak,
+                    answers: currentState.userAnswers.map((answer) => answer.selectedIndex),
+                    modalPending: currentState.userAnswers.length > currentState.currentQuestionIndex,
+                    elapsedMs: runTimer.elapsedMs()
+                }));
+            } catch {
+                // Private mode or a full quota: the run simply is not resumable.
+            }
+        }
+
+        function clearProgress() {
+            try {
+                window.sessionStorage.removeItem(PROGRESS_KEY);
+            } catch {
+                // Nothing to clear if storage is unavailable.
+            }
+        }
+
+        /** Rebuilds an unfinished run from sessionStorage. True if it did. */
+        function restoreProgress() {
+            let saved = null;
+            try {
+                saved = JSON.parse(window.sessionStorage.getItem(PROGRESS_KEY) || 'null');
+            } catch {
+                saved = null;
+            }
+            if (!saved || typeof saved !== 'object' || !Array.isArray(saved.ids)) return false;
+
+            // Every id has to still be in the bank: a question removed or renamed
+            // since the save would leave a hole in the paper, and a fresh draw is
+            // better than a run that cannot be finished.
+            const bank = Array.isArray(window.CDMP_QUESTION_BANK) ? window.CDMP_QUESTION_BANK : [];
+            const byId = new Map(bank.map((question) => [question.id, question]));
+            const answers = Array.isArray(saved.answers) ? saved.answers : [];
+            const index = Number(saved.currentIndex);
+            const usable = saved.ids.length === QUESTIONS_PER_RUN
+                && saved.ids.every((id) => byId.has(id))
+                && Array.isArray(saved.optionOrders)
+                && saved.optionOrders.length === saved.ids.length
+                && Number.isInteger(index) && index >= 0 && index < saved.ids.length
+                && (answers.length === index || answers.length === index + 1);
+            if (!usable) {
+                clearProgress();
+                return false;
+            }
+
+            const questions = [];
+            for (let i = 0; i < saved.ids.length; i++) {
+                const question = byId.get(saved.ids[i]);
+                if (!isOptionOrder(saved.optionOrders[i], question.options.length)) {
+                    clearProgress();
+                    return false;
+                }
+                questions.push(withOptionOrder(question, saved.optionOrders[i]));
+            }
+            if (!answers.every((selected, i) => Number.isInteger(selected) && selected >= 0 && selected < questions[i].options.length)) {
+                clearProgress();
+                return false;
+            }
+
+            currentState.practice = false;
+            currentState.playerName = typeof saved.playerName === 'string' && saved.playerName.trim()
+                ? saved.playerName
+                : T.anonymous;
+            currentState.questions = questions;
+            currentState.currentQuestionIndex = index;
+            currentState.userAnswers = answers.map((selected, i) => answerRecord(questions[i], selected));
+            // Recounted from the answers rather than trusted from storage, which
+            // gives the same figures for any save this page wrote.
+            currentState.score = currentState.userAnswers.filter((answer) => answer.isCorrect).length * POINTS_PER_QUESTION;
+            let streak = 0;
+            for (let i = currentState.userAnswers.length - 1; i >= 0 && currentState.userAnswers[i].isCorrect; i--) streak += 1;
+            currentState.streak = streak;
+            publishedRowId = null;
+            resetPublishControls();
+
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.remove('hidden');
+            window.scrollTo({ top: 0 });
+
+            // The clock carries on from the time already played; a run whose last
+            // answer was already in stays stopped, as it was before the reload.
+            const elapsed = Number(saved.elapsedMs);
+            if (Number.isFinite(elapsed) && elapsed >= 0) {
+                runTimer.resume(elapsed);
+                renderRunTimer();
+                if (runTimerInterval !== null) clearInterval(runTimerInterval);
+                runTimerInterval = setInterval(renderRunTimer, 1000);
+            } else {
+                startRunTimer();
+            }
+            if (currentState.userAnswers.length === currentState.questions.length) stopRunTimer();
+
+            renderCurrentQuestion();
+            const pending = currentState.userAnswers[index];
+            if (pending) showFeedbackModal(pending.isCorrect, questions[index]);
+            return true;
         }
 
         // WEB AUDIO SOUND SYNTHESIZER
@@ -999,8 +1225,22 @@
         }
 
         // INITIALIZATION
+        // Set while the page closes the welcome dialog itself to resume a saved
+        // run, so that closing does not also draw a new paper.
+        let ignoreNextWelcomeDismiss = false;
+
         window.addEventListener('DOMContentLoaded', () => {
             loadLeaderboard();
+            // A run interrupted by a reload picks up where it was. The welcome
+            // dialog would only start a new one, so it is closed unread.
+            if (restoreProgress()) {
+                const welcome = document.querySelector('[data-sim-welcome]');
+                if (window.SimulatorWelcome && welcome && !welcome.hidden) {
+                    ignoreNextWelcomeDismiss = true;
+                    window.SimulatorWelcome.dismiss();
+                }
+                return;
+            }
             // The welcome dialog is the only way into the drill, so if its script
             // never arrived -- it is deferred, and has therefore already run by
             // now if it ran at all -- the run has to start without it.
@@ -1011,24 +1251,39 @@
         // start button, "just look around", Escape or a click on the backdrop.
         // The dialog holds the only name field on the page, so startGame() reads
         // whatever was typed there.
-        document.addEventListener('sim-welcome:dismissed', () => startGame());
+        document.addEventListener('sim-welcome:dismissed', () => {
+            if (ignoreNextWelcomeDismiss) {
+                ignoreNextWelcomeDismiss = false;
+                return;
+            }
+            startGame();
+        });
+
+        function resetPublishControls() {
+            const publishButton = document.getElementById('publishScoreBtn');
+            const publishLabel = document.getElementById('publishScoreLabel');
+            if (publishButton) publishButton.disabled = false;
+            if (publishLabel) publishLabel.innerText = T.publish;
+            document.getElementById('publishNote')?.classList.add('hidden');
+            document.getElementById('practiceResult')?.classList.add('hidden');
+        }
 
         // START GAME
         function startGame() {
             playSound('click');
             const nameInput = document.getElementById('playerNameInput').value.trim();
             currentState.playerName = nameInput !== "" ? nameInput : T.anonymous;
-            currentState.questions = drawQuestions();
+            clearProgress();
+            mainRun = null;
+            currentState.practice = false;
+            currentState.questions = drawQuestions().map(withShuffledOptions);
             currentState.currentQuestionIndex = 0;
             currentState.score = 0;
             currentState.streak = 0;
             currentState.userAnswers = [];
-            publishedRowKey = null;
+            publishedRowId = null;
             startRunTimer();
-            const publishButton = document.getElementById('publishScoreBtn');
-            const publishLabel = document.getElementById('publishScoreLabel');
-            if (publishButton) publishButton.disabled = false;
-            if (publishLabel) publishLabel.innerText = T.publish;
+            resetPublishControls();
 
             // UI Switch
             document.getElementById('resultsScreen').classList.add('hidden');
@@ -1050,14 +1305,16 @@
 
             // HUD updates
             document.getElementById('hudScenarioCounter').innerText =
-                fill(T.counter, { n: currentState.currentQuestionIndex + 1, total: total });
+                fill(currentState.practice ? T.practiceCounter : T.counter, { n: currentState.currentQuestionIndex + 1, total: total });
             document.getElementById('hudPlayerName').innerText = currentState.playerName;
             document.getElementById('hudScore').innerText = currentState.score;
 
             const progressPercent = (currentState.currentQuestionIndex / total) * 100;
             document.getElementById('hudProgressBar').style.width = `${progressPercent}%`;
 
-            if (currentState.streak >= 2) {
+            // From three in a row, the same point at which the feedback modal
+            // starts calling it a streak.
+            if (currentState.streak >= 3) {
                 document.getElementById('hudStreakBadge').classList.remove('hidden');
                 document.getElementById('hudStreakCount').innerText = currentState.streak;
             } else {
@@ -1069,11 +1326,14 @@
                 `${T.areaPrefix}: ${areaName(question.area)}`;
             document.getElementById('questionPromptText').innerText = question.prompt;
 
-            // The five options, in the order the bank stores them, so the letter
-            // shown in the explanation is the letter the candidate pressed.
+            // The five options in this run's shuffled order (see
+            // withShuffledOptions), so the letter shown in the explanation is the
+            // letter the candidate pressed. Disabled once answered, so the answer
+            // the feedback revealed cannot be tabbed back to and pressed.
             const container = document.getElementById('optionsContainer');
+            const answered = currentState.userAnswers.length > currentState.currentQuestionIndex;
             container.innerHTML = question.options.map((option, index) => `
-                <button type="button" onclick="submitAnswer(${index})" class="sim-option">
+                <button type="button" onclick="submitAnswer(${index})" class="sim-option"${answered ? ' disabled' : ''}>
                     <span class="sim-option__key">${LETTERS[index] || index + 1}</span>
                     <span class="sim-option__body">
                         <p class="sim-option__title">${window.SimulatorLeaderboard.escapeHtml(option)}</p>
@@ -1086,6 +1346,11 @@
         function submitAnswer(selectedIndex) {
             const question = currentState.questions[currentState.currentQuestionIndex];
             if (!question) return;
+            // One answer per question. Focus used to stay on the option behind
+            // the feedback modal, so a second Enter scored the question again.
+            if (currentState.userAnswers.length > currentState.currentQuestionIndex) return;
+            if (!document.getElementById('feedbackModal').classList.contains('hidden')) return;
+            if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= question.options.length) return;
             const isCorrect = selectedIndex === question.correct;
 
             if (isCorrect) {
@@ -1097,24 +1362,18 @@
                 playSound('incorrect');
             }
 
-            currentState.userAnswers.push({
-                questionId: question.id,
-                area: question.area,
-                chapter: question.chapter,
-                prompt: question.prompt,
-                options: question.options,
-                selectedIndex: selectedIndex,
-                correctIndex: question.correct,
-                isCorrect: isCorrect,
-                explanation: question.explanation,
-                reference: question.dmbokRef
+            currentState.userAnswers.push(answerRecord(question, selectedIndex));
+            document.querySelectorAll('#optionsContainer button').forEach((button) => {
+                button.disabled = true;
             });
 
             // Stopped here rather than in finishGame(): every question has been
             // answered, and the seconds spent reading this last explanation are
-            // not part of what the board is measuring.
-            if (currentState.userAnswers.length === currentState.questions.length) stopRunTimer();
+            // not part of what the board is measuring. A practice round leaves
+            // the run's clock alone.
+            if (!currentState.practice && currentState.userAnswers.length === currentState.questions.length) stopRunTimer();
 
+            saveProgress();
             showFeedbackModal(isCorrect, question);
         }
 
@@ -1128,6 +1387,7 @@
             const correctBadge = document.getElementById('feedbackCorrectBadge');
             const explanationText = document.getElementById('feedbackExplanationText');
             const reference = document.getElementById('feedbackReference');
+            const dmbokRef = document.getElementById('feedbackDmbokRef');
             const btnNext = document.getElementById('btnNextScenario');
 
             if (isCorrect) {
@@ -1136,9 +1396,11 @@
                 icon.innerHTML = `<i class="fas fa-check fa-fw"></i>`;
                 title.innerText = T.correctTitle;
                 title.className = "text-xl font-extrabold text-emerald-300 tracking-tight";
-                points.innerText = currentState.streak > 2
-                    ? fill(T.pointsStreak, { n: currentState.streak })
-                    : T.pointsAdded;
+                points.innerText = currentState.practice
+                    ? T.practicePoints
+                    : (currentState.streak >= 3
+                        ? fill(T.pointsStreak, { n: currentState.streak })
+                        : T.pointsAdded);
                 points.className = "sim-eyebrow sim-eyebrow--good";
             } else {
                 banner.className = "p-4 rounded-xl flex items-center gap-3 bg-rose-500/10 border border-rose-500/25 text-rose-300";
@@ -1146,7 +1408,7 @@
                 icon.innerHTML = `<i class="fas fa-xmark fa-fw"></i>`;
                 title.innerText = T.incorrectTitle;
                 title.className = "text-xl font-extrabold text-rose-300 tracking-tight";
-                points.innerText = T.pointsZero;
+                points.innerText = currentState.practice ? T.practicePoints : T.pointsZero;
                 points.className = "sim-eyebrow sim-eyebrow--bad";
             }
 
@@ -1155,6 +1417,7 @@
             // The chapter and section the answer comes from, so a missed question
             // turns into a page number rather than a shrug.
             reference.innerText = `${question.chapter} — ${areaName(question.area)}`;
+            if (dmbokRef) dmbokRef.innerText = question.dmbokRef || '—';
 
             const isLast = currentState.currentQuestionIndex === currentState.questions.length - 1;
             btnNext.innerHTML = isLast
@@ -1162,19 +1425,40 @@
                 : `<span>${T.next}</span> <i class="fas fa-chevron-right fa-fw text-xs"></i>`;
 
             modal.classList.remove('hidden');
+            // A real dialog: focus moves to Next, Tab stays inside, and the
+            // question behind it is inert. Escape deliberately does nothing, as
+            // only Next moves the run on.
+            if (window.SimulatorA11y) {
+                window.SimulatorA11y.openDialog(modal, { initialFocus: btnNext, labelledBy: 'feedbackResultTitle' });
+            } else {
+                btnNext.focus({ preventScroll: true });
+            }
         }
 
         // NEXT QUESTION OR END GAME
         function nextQuestion() {
             playSound('click');
-            document.getElementById('feedbackModal').classList.add('hidden');
+            const modal = document.getElementById('feedbackModal');
+            if (modal.classList.contains('hidden')) return;
+            modal.classList.add('hidden');
 
             currentState.currentQuestionIndex += 1;
 
             if (currentState.currentQuestionIndex < currentState.questions.length) {
                 renderCurrentQuestion();
+                saveProgress();
+                window.SimulatorA11y?.closeDialog(modal, {
+                    returnFocus: () => document.querySelector('#optionsContainer button')
+                });
             } else {
-                finishGame();
+                window.SimulatorA11y?.closeDialog(modal, {
+                    returnFocus: () => document.getElementById('simulator-main')
+                });
+                if (currentState.practice) {
+                    finishPracticeRound();
+                } else {
+                    finishGame();
+                }
             }
         }
 
@@ -1201,7 +1485,11 @@
             return counts;
         }
 
-        /** The area-by-area tally the coverage card lists, in draw order. */
+        /*
+         * The area-by-area tally the coverage card lists, worst first: lowest
+         * share correct, then most misses, then draw order (the sort is stable).
+         * The study plan's "weakest areas" line reads the same order.
+         */
         function areaCounts() {
             const order = [];
             const counts = {};
@@ -1213,7 +1501,11 @@
                 counts[answer.area].total += 1;
                 if (answer.isCorrect) counts[answer.area].correct += 1;
             });
-            return order.map((area) => ({ area: area, ...counts[area] }));
+            return order
+                .map((area) => ({ area: area, ...counts[area] }))
+                .sort((a, b) =>
+                    (a.correct / a.total) - (b.correct / b.total)
+                    || (b.total - b.correct) - (a.total - a.correct));
         }
 
         /** The band this score falls in. TIERS is ordered highest first. */
@@ -1225,6 +1517,8 @@
         // FINISH GAME & DISPLAY RESULTS
         function finishGame() {
             playSound('complete');
+            // The run is over, so there is nothing left to resume.
+            clearProgress();
             document.getElementById('gameplayScreen').classList.add('hidden');
             document.getElementById('resultsScreen').classList.remove('hidden');
 
@@ -1242,7 +1536,11 @@
             document.getElementById('tierDescription').innerText = tier.description;
 
             renderTakeaways(tier.key);
+            renderWeakestAreas();
             renderCoverage();
+            const hasMisses = currentState.userAnswers.some((answer) => !answer.isCorrect);
+            document.getElementById('retryMissesWrap')?.classList.toggle('hidden', !hasMisses);
+            document.getElementById('practiceResult')?.classList.add('hidden');
             renderFullLeaderboard();
             renderAnswerReview();
 
@@ -1292,6 +1590,72 @@
             }).join('');
         }
 
+        // WEAKEST AREAS: every area with at least one miss, worst first.
+        function renderWeakestAreas() {
+            const line = document.getElementById('weakestAreas');
+            if (!line) return;
+            const weak = areaCounts().filter((entry) => entry.correct < entry.total);
+            line.innerText = weak.length
+                ? fill(T.weakestAreas, { areas: weak.map((entry) => areaName(entry.area)).join(', ') })
+                : T.weakestNone;
+        }
+
+        // RETRY MY MISSES
+        //
+        // A short practice round over the questions this run missed, options
+        // reshuffled. It is not a run: it is never saved, never timed into the
+        // board, never published or auto-published, and the results screen is
+        // left exactly as the real run drew it -- the run is set aside here and
+        // put back when the round ends, so Publish still sends the real score.
+        let mainRun = null;
+
+        function startPracticeRound() {
+            const missed = currentState.userAnswers
+                .filter((answer) => !answer.isCorrect)
+                .map((answer) => currentState.questions.find((question) => question.id === answer.questionId))
+                .filter(Boolean);
+            if (currentState.practice || !missed.length) return;
+            playSound('click');
+            mainRun = {
+                questions: currentState.questions,
+                currentQuestionIndex: currentState.currentQuestionIndex,
+                score: currentState.score,
+                streak: currentState.streak,
+                userAnswers: currentState.userAnswers
+            };
+            currentState.practice = true;
+            currentState.questions = missed.map(withShuffledOptions);
+            currentState.currentQuestionIndex = 0;
+            currentState.score = 0;
+            currentState.streak = 0;
+            currentState.userAnswers = [];
+
+            document.getElementById('practiceResult')?.classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.remove('hidden');
+            window.scrollTo({ top: 0 });
+            renderCurrentQuestion();
+            document.querySelector('#optionsContainer button')?.focus({ preventScroll: true });
+        }
+
+        function finishPracticeRound() {
+            const correct = currentState.userAnswers.filter((answer) => answer.isCorrect).length;
+            const total = currentState.userAnswers.length;
+            if (mainRun) Object.assign(currentState, mainRun);
+            mainRun = null;
+            currentState.practice = false;
+            playSound('click');
+
+            document.getElementById('gameplayScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            const note = document.getElementById('practiceResult');
+            if (note) {
+                note.innerText = fill(T.practiceResult, { correct: correct, total: total });
+                note.classList.remove('hidden');
+                note.scrollIntoView({ block: 'center' });
+            }
+        }
+
         // RENDER TAKEAWAYS & TIPS BASED ON TIER
         function renderTakeaways(bandKey) {
             const list = document.getElementById('takeawaysList');
@@ -1306,8 +1670,20 @@
 
         // GLOBAL LEADERBOARD (/api/simulator-scores)
 
-        function rowKey(name, score) {
-            return name + '|' + Number(score);
+        /*
+         * The id of the row this publish created: the same name and score, and
+         * the newest such row, since ids only grow and an earlier identical run
+         * by a namesake (or by this candidate) is not this one. Null when the row
+         * is not on the board that came back.
+         */
+        function ownRowId(scores) {
+            let best = null;
+            (scores || []).forEach((item) => {
+                if (String(item.name) !== currentState.playerName || Number(item.score) !== currentState.score) return;
+                const id = Number(item.id);
+                if (Number.isFinite(id) && (best === null || id > best)) best = id;
+            });
+            return best;
         }
 
         async function loadLeaderboard() {
@@ -1340,6 +1716,24 @@
                 durationMs: runTimer.elapsedMs()
             });
 
+            if (!result.accepted && result.error === 'already-recorded') {
+                // Not a failure: this space keeps only each person's first run,
+                // and this was a replay. Say so instead of "could not publish",
+                // and still show the board the server sent back.
+                if (Array.isArray(result.scores) && result.scores.length) {
+                    leaderboardData = result.scores;
+                    leaderboardStatus = 'ready';
+                    renderFullLeaderboard();
+                }
+                if (label) label.innerText = T.alreadyRecordedLabel;
+                const note = document.getElementById('publishNote');
+                if (note) {
+                    note.innerText = T.alreadyRecorded;
+                    note.classList.remove('hidden');
+                }
+                return;
+            }
+
             if (!result.accepted) {
                 // Left recoverable on purpose: the run is over and the score is on
                 // screen, so a failed publish should cost a retry and nothing more.
@@ -1351,7 +1745,7 @@
 
             leaderboardData = result.scores;
             leaderboardStatus = 'ready';
-            publishedRowKey = rowKey(currentState.playerName, currentState.score);
+            publishedRowId = typeof result.id === 'number' ? result.id : ownRowId(result.scores);
             if (label) label.innerText = T.published;
             renderFullLeaderboard();
             playSound('correct');
@@ -1373,7 +1767,7 @@
             }
 
             tbody.innerHTML = leaderboardData.map((item, idx) => {
-                const isCurrentPlayer = publishedRowKey !== null && publishedRowKey === rowKey(item.name, item.score);
+                const isCurrentPlayer = publishedRowId !== null && Number(item.id) === publishedRowId;
                 return `
                     <tr${isCurrentPlayer ? ' class="sim-table__row--you"' : ''}>
                         <td class="sim-table__rank${idx < 3 ? ' sim-table__rank--' + (idx + 1) : ''}">
@@ -1412,6 +1806,7 @@
                         </span>
                         <span class="sim-option__note">${escape(ans.explanation)}</span>
                         <span class="sim-option__meta">${escape(ans.chapter)} — ${escape(areaName(ans.area))}</span>
+                        ${ans.reference ? `<span class="sim-option__meta">${escape(T.readLabel)}: ${escape(ans.reference)}</span>` : ''}
                     </span>
                 </div>
             `).join('');
@@ -1491,6 +1886,24 @@
             } else {
                 startGame();
             }
+        }
+
+        // KEYBOARD ANSWERS: 1-5 or A-E pick the option in that on-screen
+        // position while the current question is still open. simulator-a11y.js
+        // already ignores keys while a dialog is open or a field has focus.
+        if (window.SimulatorA11y) {
+            const canAnswerByKey = () =>
+                !document.getElementById('gameplayScreen').classList.contains('hidden')
+                && document.getElementById('feedbackModal').classList.contains('hidden')
+                && document.getElementById('guideModal').classList.contains('hidden')
+                && currentState.userAnswers.length <= currentState.currentQuestionIndex;
+            const answerByKey = (index) => {
+                const question = currentState.questions[currentState.currentQuestionIndex];
+                if (question && index < question.options.length) submitAnswer(index);
+            };
+            window.SimulatorA11y.bindChoiceKeys(answerByKey, { keys: ['1', '2', '3', '4', '5'], isActive: canAnswerByKey });
+            window.SimulatorA11y.bindChoiceKeys(answerByKey, { keys: ['a', 'b', 'c', 'd', 'e'], isActive: canAnswerByKey });
+            document.getElementById('keyHint')?.classList.remove('hidden');
         }
     </script>
 

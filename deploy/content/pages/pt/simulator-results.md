@@ -8,7 +8,7 @@ description: Resultados públicos de quatro simuladores de governança de dados 
 kicker: Resultados dos quadros
 schema: page
 related_articles: building-a-data-governance-operating-model, why-data-governance-people-process-technology-data, data-literacy-is-a-business-capability
-updated: 2026-09-07
+updated: 2026-10-04
 ---
 
 Três dos quatro simuladores deste site colocam você dentro de uma situação de governança e obrigam a escolher. Uma regra de qualidade está falhando, e corrigi-la significa pedir a um diretor que mude um processo pelo qual ele é medido. Dois departamentos reivindicam o mesmo cadastro de cliente. A alfabetização é baixa e não há orçamento de treinamento. Você decide, a decisão é pontuada pela consequência de governança e não contra uma resposta certa, e a sua partida vai para um quadro público. O quarto funciona ao contrário: Prática do Exame CDMP faz perguntas do DMBOK que têm sim uma resposta certa, porque o exame de certificação para o qual ele prepara também tem.
@@ -21,7 +21,7 @@ Ela também é um exemplo do que descreve. Um quadro é uma medição, uma medi�
 
 Não são quatro versões do mesmo quiz. Cada um foi construído para expor uma falha diferente.
 
-**Governança de Dados no Dia a Dia** dá a você uma semana na vida de um líder de governança e pontua em cinco eixos: eficiência, confiança, responsabilização, segurança e contexto, de 0 a 100. Os eixos não são independentes, e esse é o ponto: uma decisão que compra eficiência normalmente gasta responsabilização, e a pontuação reflete a troca. É muito difícil ir bem aqui sendo agradável.
+**Governança de Dados no Dia a Dia** dá a você uma semana na vida de um líder de governança e pontua em cinco eixos — eficiência, confiança, responsabilização, segurança e contexto — mais o orçamento que sobra no fim, num único índice de 0 a 100. Os eixos não são independentes, e esse é o ponto: uma decisão que compra eficiência normalmente gasta responsabilização, e a pontuação reflete a troca. O dinheiro também: a melhor partida possível termina com um pouco menos da metade do orçamento sobrando, porque resolver as causas na raiz custa. É muito difícil ir bem aqui sendo agradável.
 
 **Conflito de Propriedade de Dados** são dez disputas, cada uma pertencente a um de três papéis: o Dono de Negócio, o Data Steward ou TI. A pontuação vai até 1000. Quatro das dez pertencem a TI, três ao Steward e três ao Dono de Negócio — uma divisão que importa mais do que parece, e a próxima seção é sobre o porquê.
 
@@ -51,9 +51,9 @@ Uma sala que tem média 70 com todos entre 66 e 74 compartilha um mesmo modelo d
 
 ### Velocidade é confiança, e confiança não é acerto
 
-Três dos quatro quadros se cronometram. No quadro de Alfabetização de Dados, até agora a partida publicada mais rápida é também a de menor pontuação — vinte e cinco segundos, cinco pontos de quinze —, enquanto a de maior pontuação levou mais de seis minutos.
+Os quatro quadros se cronometram. No quadro de Alfabetização de Dados, até agora a partida publicada mais rápida é também a de menor pontuação — vinte e cinco segundos, cinco pontos de quinze —, enquanto a mais lenta, com mais de seis minutos, fez dez. A melhor partida do quadro, com onze, não tem nenhum tempo registrado.
 
-Três partidas não são um achado e eu não vou fingir o contrário. Mas isso combina com o que acontece nas salas com frequência suficiente para dizer em voz alta: quem termina primeiro normalmente é quem não percebeu o trade-off. Uma pergunta de governança que você consegue responder instantaneamente costuma ter sido lida errado, como uma pergunta técnica com resposta de consulta, que é a falha acima com outra roupa.
+Três partidas, duas delas cronometradas, não são um achado e eu não vou fingir o contrário. Mas isso combina com o que acontece nas salas com frequência suficiente para dizer em voz alta: quem termina primeiro normalmente é quem não percebeu o trade-off. Uma pergunta de governança que você consegue responder instantaneamente costuma ter sido lida errado, como uma pergunta técnica com resposta de consulta, que é a falha acima com outra roupa.
 
 ### As pontuações de governança falham em responsabilização e contexto, não em segurança
 

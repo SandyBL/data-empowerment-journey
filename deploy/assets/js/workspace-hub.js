@@ -827,7 +827,7 @@ function renderCards(space, progress) {
     // Done or still owed, for this person rather than for this browser. A run is
     // one sitting from start to finish -- there is no half-finished attempt to
     // resume -- so what a returning participant needs is not a saved position
-    // but an honest answer to "which of these three do I still have to do".
+    // but an honest answer to "which of these four do I still have to do".
     const mine = played.get(simulator.slug);
     const status = element(
       "p",
@@ -896,7 +896,7 @@ function renderMeta(state) {
  * page load asks the session endpoint for `progress=1` and pays nothing extra,
  * while somebody who has just typed a code arrives here without it and is worth
  * one small request -- a returning participant who rejoins under the same name
- * has progress from yesterday, and showing them three untouched cards would be
+ * has progress from yesterday, and showing them four untouched cards would be
  * the exact confusion this is meant to remove.
  */
 async function fetchProgress() {
@@ -915,7 +915,7 @@ async function fetchProgress() {
   }
 }
 
-/** The one-line summary under the cards: nothing yet, some, or all three. */
+/** The one-line summary under the cards: nothing yet, some, or all of them. */
 function progressSentence(progress) {
   const dictionary = words();
   const done = progress.length;

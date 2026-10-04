@@ -1,5 +1,6 @@
 import type { Config } from "@netlify/functions";
-import { and, asc, desc, eq, isNull } from "drizzle-orm";
+import { and, asc, count, desc, eq, isNull, lt } from "drizzle-orm";
+import { MIN_SAMPLE } from "../../assets/js/public-board-analysis.mjs";
 import { db } from "../../db/index.js";
 import { simulatorScores } from "../../db/schema.js";
 import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
@@ -27,6 +28,12 @@ import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 // derived from the score by the page, so every visitor reads the table in the
 // language they opened it in.
 //
+// An optional `score` parameter adds `standing`: how many runs are on this same
+// board and what share of them scored strictly below that score, so a player
+// can be told where their run sits. It is null until the board holds MIN_SAMPLE
+// runs (the same thirty-run threshold the public board analysis uses before it
+// states anything as a share): "higher than 50% of 4 runs" is two people.
+//
 // Equal scores are ranked fastest first, which is the whole reason durationMs
 // comes back with each row: the boards that time themselves display it in a
 // Time column so the order of two rows on the same score explains itself.
@@ -52,6 +59,12 @@ export default async (request: Request) => {
 
   const requested = Number.parseInt(params.get("limit") ?? "", 10);
   const limit = Number.isFinite(requested) && requested > 0 ? Math.min(requested, MAX_LIMIT) : DEFAULT_LIMIT;
+
+  // Only a finite number asks for a standing; anything else is ignored rather
+  // than refused, so a page that sends garbage still gets its board.
+  const rawScore = params.get("score");
+  const standingScore = rawScore !== null && rawScore.trim() !== "" ? Number(rawScore) : Number.NaN;
+  const wantsStanding = Number.isFinite(standingScore);
 
   try {
     const session = await resolveSession(request);
@@ -98,8 +111,25 @@ export default async (request: Request) => {
       )
       .limit(limit);
 
+    let standing: { total: number; below: number; percentile: number } | null = null;
+
+    if (wantsStanding) {
+      const scope = and(eq(simulatorScores.simulator, simulator), board);
+      const [[{ total }], [{ below }]] = await Promise.all([
+        db.select({ total: count() }).from(simulatorScores).where(scope),
+        db
+          .select({ below: count() })
+          .from(simulatorScores)
+          .where(and(scope, lt(simulatorScores.score, standingScore))),
+      ]);
+      const runs = Number(total);
+      const lower = Number(below);
+      standing =
+        runs >= MIN_SAMPLE ? { total: runs, below: lower, percentile: Math.round((lower / runs) * 100) } : null;
+    }
+
     return Response.json(
-      { scores, space: session?.space.slug ?? null },
+      { scores, space: session?.space.slug ?? null, ...(wantsStanding ? { standing } : {}) },
       {
         // The board changes whenever anyone finishes a run, and a player who
         // just submitted needs to see themselves in it. Private boards must not

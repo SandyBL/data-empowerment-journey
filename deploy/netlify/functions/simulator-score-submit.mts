@@ -15,15 +15,21 @@ import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 //
 // Scores are computed in the browser, so this endpoint cannot verify that a
 // score was really earned — it can only refuse one the simulator could not have
-// produced. Hence the per-simulator bounds below: they are the full range each
-// board can output, and anything outside it is a forged or broken client.
-// Together with the rate limit that is the whole defence, and it is
-// proportionate — the prize for cheating here is a row in a table of job titles.
+// produced. Hence the per-simulator rules below: the full range each board can
+// output, the step its scores move in (a tenth for Day-to-Day, a whole optimal
+// choice for Data Literacy, a flat 100 for Ownership and CDMP), the data asset
+// values Data Literacy can actually reach at each score, and — for private runs
+// that send one — agreement between the score and its own per-dimension
+// breakdown. Anything outside those is a forged or broken client. Together with
+// the rate limit that is the whole defence, and it is proportionate — the prize
+// for cheating here is a row in a table of job titles.
 //
 // The run duration is treated differently from the score: it decides ties, not
 // rank, so a client that sends a nonsensical one loses its tie breaker instead
-// of its publish. See cleanDuration below. The per-dimension breakdown is
-// treated the same way — see cleanBreakdown.
+// of its publish. That includes a duration too short for a person to have read
+// the questions — see cleanDuration below. The per-dimension breakdown is
+// cleaned the same way (see cleanBreakdown); only a breakdown that contradicts
+// the score it came with is a reason to refuse.
 //
 // Inside a private space only one run per person per simulator is recorded: the
 // first one they finish. A board a client paid for is worth what they can believe
@@ -46,18 +52,72 @@ import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
 // because rejections were returned silently, the only trace was players
 // reporting that saving did not work. Every rejection is now logged.
 
-const SIMULATORS = new Map<string, { maxScore: number; maxExtraScore: number | null }>([
-  // Weighted maturity index, one decimal.
-  ["data-governance-day-to-day", { maxScore: 100, maxExtraScore: null }],
-  // Optimal choices out of 15, plus the data asset value ties are ranked on.
-  ["data-literacy", { maxScore: 15, maxExtraScore: 100_000_000 }],
+type SimulatorRules = {
+  maxScore: number;
+  // Scores are whole multiples of this. Checked with a float tolerance, because
+  // Day-to-Day's one-decimal index arrives as a double.
+  scoreStep: number;
+  maxExtraScore: number | null;
+  // Anything faster than this is not a person playing: roughly one second per
+  // question or decision. Such a duration is dropped (null), not refused.
+  minDurationMs: number;
+};
+
+const SIMULATORS = new Map<string, SimulatorRules>([
+  // Weighted maturity index, 0-100 with one decimal: the five axes plus the
+  // remaining budget, rescaled so the best reachable run is 100. Ten decisions.
+  ["data-governance-day-to-day", { maxScore: 100, scoreStep: 0.1, maxExtraScore: null, minDurationMs: 10_000 }],
+  // Optimal choices out of 15, plus the data asset value the run ended on. The
+  // asset value is a third-place tie breaker (after score and duration) and is
+  // checked against LITERACY_ASSET_RANGE below. Fifteen scenarios.
+  ["data-literacy", { maxScore: 15, scoreStep: 1, maxExtraScore: 290_000, minDurationMs: 15_000 }],
   // Points out of 1000: ten scenarios, a flat 100 each, in all three languages.
-  ["data-ownership-conflict", { maxScore: 1000, maxExtraScore: null }],
+  ["data-ownership-conflict", { maxScore: 1000, scoreStep: 100, maxExtraScore: null, minDurationMs: 10_000 }],
   // Points out of 1000: ten CDMP questions drawn from a hundred, a flat 100
   // each. The streak badge on that page is decoration and carries no bonus,
   // deliberately -- see the note above about the bound that locked players out.
-  ["cdmp-exam-practice", { maxScore: 1000, maxExtraScore: null }],
+  ["cdmp-exam-practice", { maxScore: 1000, scoreStep: 100, maxExtraScore: null, minDurationMs: 10_000 }],
 ]);
+
+/**
+ * The data asset values a Data Literacy run can end on, as [min, max] indexed
+ * by its score (optimal choices, 0-15).
+ *
+ * Derived by enumerating the page itself rather than reasoned about: the fifteen
+ * scenarios in simulators/{en,es,pt}/data-literacy/index.html (identical impacts
+ * in all three languages) are played in a fixed order, the value starts at
+ * 50,000, and each choice applies `Math.max(0, value + impact.asset)` — the
+ * floor at zero is applied after every step, not once at the end. A dynamic
+ * programme over (scenario, optimal choices so far) → set of reachable values
+ * gives this table; every reachable value is a multiple of 5,000, and 290,000
+ * is only reachable at 15/15. Re-derive it if a scenario's asset impact, the
+ * starting value or the scenario order changes on those pages.
+ */
+const LITERACY_ASSET_RANGE: ReadonlyArray<readonly [number, number]> = [
+  [0, 20_000], // 0
+  [0, 50_000], // 1
+  [0, 75_000], // 2
+  [0, 100_000], // 3
+  [0, 125_000], // 4
+  [0, 150_000], // 5
+  [0, 170_000], // 6
+  [15_000, 190_000], // 7
+  [40_000, 210_000], // 8
+  [70_000, 225_000], // 9
+  [100_000, 240_000], // 10
+  [130_000, 250_000], // 11
+  [165_000, 260_000], // 12
+  [205_000, 270_000], // 13
+  [245_000, 280_000], // 14
+  [290_000, 290_000], // 15
+];
+const LITERACY_ASSET_STEP = 5_000;
+
+/** Whether `value` is a whole multiple of `step`, allowing for float noise. */
+const isMultipleOf = (value: number, step: number) => {
+  const ratio = value / step;
+  return Math.abs(ratio - Math.round(ratio)) < 1e-6;
+};
 
 const LOCALES = new Set(["en", "es", "pt"]);
 
@@ -88,12 +148,15 @@ const MAX_BREAKDOWN_KEYS = 12;
  * Unlike the score, an unusable duration is never a reason to reject: it is a
  * tie breaker, and a run with no duration still ranks correctly on score. So a
  * missing, negative, infinite or non-numeric value becomes null (ranked last
- * among equal scores) and an implausibly large one is clamped.
+ * among equal scores), so does one faster than a person could have read the
+ * questions (`minDurationMs`, about a second per question) — which is the one
+ * value a forged client would want to send — and an implausibly large one is
+ * clamped.
  */
-const cleanDuration = (value: unknown) => {
+const cleanDuration = (value: unknown, minDurationMs: number) => {
   if (value === undefined || value === null) return null;
   const duration = Number(value);
-  if (!Number.isFinite(duration) || duration < 0) return null;
+  if (!Number.isFinite(duration) || duration < minDurationMs) return null;
   return Math.min(Math.round(duration), MAX_DURATION_MS);
 };
 
@@ -128,10 +191,12 @@ const cleanName = (value: unknown) =>
  * grows a sixth dimension does not have to wait for this file to be redeployed
  * before it can report it.
  *
- * Never a reason to refuse a publish. Like the duration, a malformed breakdown
- * costs the run its detail, not its place on the board: the alternative is a
- * player who finished a workshop exercise and cannot save it because of a
- * secondary field nobody looks at until the report is generated.
+ * A malformed breakdown is never a reason to refuse a publish. Like the
+ * duration, it costs the run its detail, not its place on the board: the
+ * alternative is a player who finished a workshop exercise and cannot save it
+ * because of a secondary field nobody looks at until the report is generated.
+ * A well-formed one that contradicts its own score is different — see
+ * breakdownContradicts.
  */
 const cleanBreakdown = (value: unknown) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
@@ -147,6 +212,93 @@ const cleanBreakdown = (value: unknown) => {
   }
 
   return Object.keys(cleaned).length ? cleaned : null;
+};
+
+/**
+ * Whether a breakdown of percentages is consistent with `correct` items out of
+ * `items` in total, where each key covers some number of those items.
+ *
+ * `totalsFor(percentage)` lists the (correct, total) pairs a key reporting that
+ * percentage could have come from. The check is deliberately one-sided about
+ * keys the breakdown does not carry: items not covered by any key may have gone
+ * either way, so a partial breakdown is checked only as far as it goes, and a
+ * complete one has to add up exactly.
+ */
+const countsFit = (
+  percentages: number[],
+  totalsFor: (percentage: number) => Array<[number, number]>,
+  correct: number,
+  items: number,
+) => {
+  // Reachable (items covered, correct among them) pairs after each key.
+  let states = new Set<string>(["0:0"]);
+  for (const percentage of percentages) {
+    const options = totalsFor(percentage);
+    const next = new Set<string>();
+    for (const state of states) {
+      const [covered, right] = state.split(":").map(Number);
+      for (const [c, t] of options) {
+        if (covered + t <= items) next.add(`${covered + t}:${right + c}`);
+      }
+    }
+    if (!next.size) return false;
+    states = next;
+  }
+  for (const state of states) {
+    const [covered, right] = state.split(":").map(Number);
+    if (right <= correct && correct <= right + (items - covered)) return true;
+  }
+  return false;
+};
+
+/** (correct, total) pairs with 1 <= total <= maxTotal that round to `percentage`. */
+const ratiosFor = (percentage: number, minTotal: number, maxTotal: number) => {
+  const pairs: Array<[number, number]> = [];
+  for (let total = minTotal; total <= maxTotal; total += 1) {
+    for (let right = 0; right <= total; right += 1) {
+      if (Math.abs(Math.round((right / total) * 1000) / 10 - percentage) < 0.051) pairs.push([right, total]);
+    }
+  }
+  return pairs;
+};
+
+/**
+ * Whether a private run's breakdown says something its score cannot be.
+ *
+ * Only where the score is derivable from the breakdown: Ownership's is one key
+ * per scenario at 0 or 100; Data Literacy's is five categories of three
+ * scenarios; CDMP's is up to five knowledge-area groups whose sizes vary from
+ * draw to draw but add up to the ten questions. Day-to-Day is skipped: its
+ * score also depends on the remaining budget, which the breakdown does not
+ * carry. Keys a simulator does not send today are ignored rather than refused.
+ */
+const breakdownContradicts = (simulator: string, score: number, breakdown: Record<string, number>) => {
+  if (simulator === "data-ownership-conflict") {
+    const scenarios = Object.entries(breakdown).filter(([key]) => /^scenario-\d+$/.test(key));
+    if (!scenarios.length) return false;
+    if (scenarios.some(([, value]) => value !== 0 && value !== 100)) return true;
+    // One scenario per key, so a complete breakdown means score === 100 x the
+    // scenarios answered correctly; scenarios it leaves out may have gone either way.
+    const right = scenarios.filter(([, value]) => value === 100).length;
+    const unreported = Math.max(0, 10 - scenarios.length);
+    return score < right * 100 || score > (right + unreported) * 100;
+  }
+
+  if (simulator === "data-literacy") {
+    const keys = ["governance", "bias", "ai", "analytics", "culture"];
+    const values = keys.filter((key) => key in breakdown).map((key) => breakdown[key]);
+    if (!values.length) return false;
+    return !countsFit(values, (percentage) => ratiosFor(percentage, 3, 3), score, 15);
+  }
+
+  if (simulator === "cdmp-exam-practice") {
+    const keys = ["foundations", "security", "architecture", "metadata", "quality"];
+    const values = keys.filter((key) => key in breakdown).map((key) => breakdown[key]);
+    if (!values.length) return false;
+    return !countsFit(values, (percentage) => ratiosFor(percentage, 1, 10), score / 100, 10);
+  }
+
+  return false;
 };
 
 const topScores = (simulator: string, workspaceId: number | null) =>
@@ -300,16 +452,20 @@ export default async (request: Request) => {
   const score = Number(payload?.score);
   const hasExtra = payload?.extraScore !== undefined && payload?.extraScore !== null;
   const extraScore = hasExtra ? Number(payload.extraScore) : null;
-  const durationMs = cleanDuration(payload?.durationMs);
   const breakdown = cleanBreakdown(payload?.breakdown);
   const requestedSpace = normalizeSlug(payload?.space);
 
   if (!rules) return reject("Unknown simulator", { simulator });
+  const durationMs = cleanDuration(payload?.durationMs, rules.minDurationMs);
   if (!LOCALES.has(locale)) return reject("Unknown locale", { simulator, locale });
   if (!playerName) return reject("Missing display name", { simulator, locale });
 
   if (!Number.isFinite(score) || score < 0 || score > rules.maxScore) {
     return reject("Score outside the simulator's range", { simulator, score, maxScore: rules.maxScore });
+  }
+
+  if (!isMultipleOf(score, rules.scoreStep)) {
+    return reject("Score is not a value the simulator produces", { simulator, score, step: rules.scoreStep });
   }
 
   if (
@@ -324,6 +480,13 @@ export default async (request: Request) => {
       extraScore,
       maxExtraScore: rules.maxExtraScore,
     });
+  }
+
+  if (simulator === "data-literacy" && extraScore !== null) {
+    const [minAsset, maxAsset] = LITERACY_ASSET_RANGE[Math.round(score)];
+    if (!isMultipleOf(extraScore, LITERACY_ASSET_STEP) || extraScore < minAsset || extraScore > maxAsset) {
+      return reject("Extra score not reachable at this score", { simulator, score, extraScore, minAsset, maxAsset });
+    }
   }
 
   let session: Awaited<ReturnType<typeof resolveSession>> = null;
@@ -349,6 +512,12 @@ export default async (request: Request) => {
     );
   }
 
+  // Only private runs keep a breakdown, so only theirs is cross-checked: a
+  // public run's breakdown is discarded unread and cannot mislead anybody.
+  if (session && breakdown && breakdownContradicts(simulator, score, breakdown)) {
+    return reject("Breakdown does not match the score", { simulator, score, breakdown });
+  }
+
   const workspaceId = session?.space.id ?? null;
   // Null on the public board, and null for a seat that predates the name
   // requirement. Both mean "no person to hold to one attempt", which is why the
@@ -368,8 +537,12 @@ export default async (request: Request) => {
     }
   }
 
+  // The new row's id goes back with the board so the page can mark exactly that
+  // row as the player's, rather than every row sharing their name and score.
+  let insertedId: number | null = null;
+
   try {
-    await db.insert(simulatorScores).values({
+    const [inserted] = await db.insert(simulatorScores).values({
       simulator,
       locale,
       playerName,
@@ -386,7 +559,8 @@ export default async (request: Request) => {
       // table would be storing for no reason — which is a poor look on a site
       // about data governance. Inside a space it is the report.
       breakdown: session ? breakdown : null,
-    });
+    }).returning({ id: simulatorScores.id });
+    insertedId = inserted?.id ?? null;
   } catch (error) {
     // The one-attempt rule, arriving from the index rather than from the check
     // above. This is the case the check cannot see: two runs by the same person
@@ -440,7 +614,7 @@ export default async (request: Request) => {
   }
 
   return Response.json(
-    { accepted: true, scores, space: session?.space.slug ?? null },
+    { accepted: true, id: insertedId, scores, space: session?.space.slug ?? null },
     { status: 201, headers: { "Cache-Control": "no-store" } },
   );
 };

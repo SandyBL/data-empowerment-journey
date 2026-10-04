@@ -1,0 +1,17 @@
+-- Removes every Data Governance Day-to-Day run scored on the old scale.
+--
+-- Day-to-Day used to report the plain mean of its five governance axes, which
+-- no run could take below 27.8 or above 86.6, and which ignored the budget the
+-- page asks the player to manage -- so choosing the most expensive option in
+-- every scenario was always the best run. The score is now the axes and the
+-- remaining budget together, rescaled so the worst possible quarter is 0 and
+-- the best is 100. The two scales are not comparable, and the old rows cannot
+-- be converted because the budget they finished with was never stored, so they
+-- are removed rather than left to rank against runs they were not measured
+-- like.
+--
+-- Every Day-to-Day row that exists when this runs predates the new scale,
+-- public and private alike, so the predicate is the simulator alone.
+--
+-- Data-only, so there is no schema change and no snapshot alongside it.
+DELETE FROM "simulator_scores" WHERE "simulator" = 'data-governance-day-to-day';

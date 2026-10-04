@@ -189,7 +189,8 @@ export const workspaceSessions = pgTable(
  * everyone's table.
  *
  * `score` scales differ per simulator (0-100 for governance, 0-15 for literacy,
- * 0-1000 for ownership) and are validated per simulator in the write function.
+ * 0-1000 for ownership, 0-1000 for CDMP exam practice) and are validated per
+ * simulator in the write function.
  */
 export const simulatorScores = pgTable(
   "simulator_scores",
@@ -211,8 +212,9 @@ export const simulatorScores = pgTable(
     // perfect run answered quickly outranks a perfect run answered slowly.
     //
     // Nullable, and deliberately so: rows published before the boards were timed
-    // have no honest value to put here, and the Data Governance board does not
-    // time itself at all. `ORDER BY duration_ms ASC` puts NULLs last in
+    // have no honest value to put here, a run whose clock never started sends
+    // none, and the write function drops a duration too short to be a real run.
+    // All four boards time themselves now. `ORDER BY duration_ms ASC` puts NULLs last in
     // Postgres, which is the reading we want -- an untimed run never outranks a
     // timed one on the same score.
     durationMs: integer("duration_ms"),

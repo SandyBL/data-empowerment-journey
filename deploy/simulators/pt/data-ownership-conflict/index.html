@@ -177,12 +177,12 @@
                     <div class="flex items-center justify-between sm:justify-start gap-3">
                         <span id="hudScenarioCounter" class="sim-eyebrow">Cenário 1 de 10</span>
                         <span id="hudStreakBadge" class="hidden inline-flex items-center gap-1 text-xs font-bold bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-                            <i class="fas fa-fire fa-fw text-amber-400"></i> Sequência <span id="hudStreakCount">2</span>
+                            <i class="fas fa-fire fa-fw text-amber-400"></i> Sequência <span id="hudStreakCount">3</span>
                         </span>
                     </div>
                     <!-- Visual Progress Bar -->
                     <div class="w-full sm:w-64 bg-slate-700/60 h-2.5 rounded-full overflow-hidden border border-slate-600/40 mt-1">
-                        <div id="hudProgressBar" class="bg-brand-orange h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+                        <div id="hudProgressBar" class="bg-brand-orange h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
                     </div>
                 </div>
 
@@ -202,7 +202,7 @@
                     </div>
                     <div class="min-w-0 text-right pl-3 sm:pl-4 border-l border-slate-700/60">
                         <div class="sim-eyebrow sim-eyebrow--dim">Pontuação Atual</div>
-                        <div id="hudScore" class="text-xl sm:text-2xl font-black text-brand-orange tracking-tight">0 <span class="text-xs font-normal text-teal-200">pts</span></div>
+                        <div id="hudScore" class="text-xl sm:text-2xl font-black text-brand-orange tracking-tight"><span id="hudScoreValue">0</span> <span class="text-xs font-normal text-teal-200">pts</span></div>
                     </div>
                     <div class="min-w-0 text-right pl-3 sm:pl-4 border-l border-slate-700/60">
                         <div class="sim-eyebrow sim-eyebrow--dim">Tempo</div>
@@ -233,7 +233,7 @@
                 <!-- 3 Interactive Choice Buttons -->
                 <div class="sim-option-grid pt-2">
                     <!-- Business Owner Button -->
-                    <button onclick="submitAnswer('Business Owner')" class="sim-option sim-option--stacked">
+                    <button type="button" data-role-choice="Business Owner" onclick="submitAnswer('Business Owner')" class="sim-option sim-option--stacked">
                         <span class="sim-option__key"><i class="fas fa-user-tie fa-fw" aria-hidden="true"></i></span>
                         <span class="sim-option__body">
                             <span class="sim-option__meta">Líder de Domínio</span>
@@ -249,7 +249,7 @@
                       review screen look up), so it stays "Data Steward" while the
                       heading below carries the client-facing wording.
                     -->
-                    <button onclick="submitAnswer('Data Steward')" class="sim-option sim-option--stacked">
+                    <button type="button" data-role-choice="Data Steward" onclick="submitAnswer('Data Steward')" class="sim-option sim-option--stacked">
                         <span class="sim-option__key"><i class="fas fa-shield-halved fa-fw" aria-hidden="true"></i></span>
                         <span class="sim-option__body">
                             <span class="sim-option__meta">Líder de Qualidade</span>
@@ -259,7 +259,7 @@
                     </button>
 
                     <!-- IT / Tech Button -->
-                    <button onclick="submitAnswer('IT / Tech')" class="sim-option sim-option--stacked">
+                    <button type="button" data-role-choice="IT / Tech" onclick="submitAnswer('IT / Tech')" class="sim-option sim-option--stacked">
                         <span class="sim-option__key"><i class="fas fa-laptop-code fa-fw" aria-hidden="true"></i></span>
                         <span class="sim-option__body">
                             <span class="sim-option__meta">Engenharia</span>
@@ -268,6 +268,8 @@
                         </span>
                     </button>
                 </div>
+                <!-- Shown only once simulator-a11y.js has bound the number keys. -->
+                <p id="choiceKeysHint" class="hidden text-xs text-slate-500">Dica: pressione 1, 2 ou 3 para escolher um papel.</p>
             </div>
         </section>
 
@@ -316,7 +318,7 @@
                 </div>
 
                 <div class="space-y-2">
-                    <h2 id="resultPlayerGreeting" class="text-2xl sm:text-3xl font-extrabold text-brand-text">
+                    <h2 id="resultPlayerGreeting" tabindex="-1" class="text-2xl sm:text-3xl font-extrabold text-brand-text">
                         Bom trabalho, Ana!
                     </h2>
                     <p class="text-sm text-slate-500">Este é o resumo da sua maturidade em propriedade de dados:</p>
@@ -354,6 +356,20 @@
                     <button onclick="toggleReviewMode()" class="sim-btn sim-btn--soft sim-btn--sm">
                         <i class="fas fa-list-check fa-fw"></i> Rever Todas as Respostas
                     </button>
+                </div>
+            </div>
+
+            <!-- Which role each kind of task was handed to instead, filled in by
+                 renderConfusionSummary() and left hidden on a perfect run. -->
+            <div id="confusionSummary" class="hidden sim-card p-6 sm:p-8 space-y-4">
+                <div>
+                    <h3 class="text-xl font-extrabold text-brand-text flex items-center gap-2">
+                        <i class="fas fa-people-arrows fa-fw text-brand-orange" aria-hidden="true"></i> Onde os papéis se misturaram
+                    </h3>
+                    <p id="confusionHeadline" class="text-xs text-slate-500"></p>
+                </div>
+                <div id="confusionList" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Populated dynamically -->
                 </div>
             </div>
 
@@ -395,6 +411,7 @@
                         <span id="publishScoreLabel">Publicar minha pontuação</span>
                     </button>
                 </div>
+                <p id="publishScoreNote" class="hidden text-xs text-slate-400" role="status"></p>
 
                 <div class="sim-table-wrap">
                     <table class="sim-table">
@@ -514,7 +531,7 @@
                         <i class="fas fa-sitemap fa-fw"></i>
                     </div>
                     <div>
-                        <h3 class="font-extrabold text-brand-text text-lg">Guia RACI de Governança DAMA</h3>
+                        <h3 id="raciModalTitle" class="font-extrabold text-brand-text text-lg">Guia RACI de Governança DAMA</h3>
                         <p class="text-xs text-slate-500">Resumo da Matriz de Papéis</p>
                     </div>
                 </div>
@@ -565,6 +582,7 @@
          board and a banner names it. A public visitor loads this file, learns
          there is no seat, and nothing about the page changes. -->
     <script src="/assets/js/workspace-context.js"></script>
+    <script src="/assets/js/simulator-a11y.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
     <script src="/assets/js/workspace-auto-publish.js"></script>
@@ -678,7 +696,10 @@
         let leaderboardStatus = 'loading';
         // Set once the visitor publishes, so their own row can be highlighted in a
         // board that now contains strangers.
-        let publishedRowKey = null;
+        // Matched on the row's id rather than on name and score: every unnamed
+        // player gets the same default name, and two of them on the same score
+        // are two different people.
+        let publishedRowId = null;
 
         // How long the run took, which is how the board ranks two players on the
         // same score. Runs from the first scenario appearing to the last answer
@@ -689,9 +710,12 @@
         // arrive: an untimed game is a smaller loss than a game that refuses to
         // start, and this runs at parse time.
         const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
-            start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+            start() {}, stop() { return null; }, reset() {}, resume() {}, elapsedMs() { return null; }
         };
         let runTimerInterval = null;
+        // True while the scenarios are on screen but the clock has not been
+        // started yet: see the sim-welcome:dismissed handler below.
+        let runClockPending = false;
 
         function formatRunTime(ms) {
             return window.SimulatorLeaderboard?.formatDuration?.(ms) ?? "—";
@@ -699,11 +723,16 @@
 
         function renderRunTimer() {
             const display = document.getElementById('hudTimer');
-            if (display) display.innerText = formatRunTime(runTimer.elapsedMs());
+            if (display) display.innerText = formatRunTime(runClockPending ? 0 : runTimer.elapsedMs());
         }
 
-        function startRunTimer() {
-            runTimer.start();
+        function startRunTimer(resumeFromMs) {
+            runClockPending = false;
+            if (typeof resumeFromMs === 'number' && typeof runTimer.resume === 'function') {
+                runTimer.resume(resumeFromMs);
+            } else {
+                runTimer.start();
+            }
             renderRunTimer();
             // Shown live rather than sprung on the player at the end: they are
             // being ranked on it, so they should be able to see it move.
@@ -810,30 +839,234 @@
             }
         }
 
+        // DIALOGS
+        // The feedback and RACI overlays go through simulator-a11y.js, which
+        // moves focus into them, keeps Tab there and makes the page behind them
+        // inert. Without that script they still open and close, and focus is at
+        // least moved off the answer buttons.
+        function openModal(modal, options) {
+            modal.classList.remove('hidden');
+            if (window.SimulatorA11y) {
+                window.SimulatorA11y.openDialog(modal, options);
+            } else if (options && options.initialFocus && typeof options.initialFocus.focus === 'function') {
+                options.initialFocus.focus();
+            }
+        }
+
+        function closeModal(modal, returnFocus) {
+            modal.classList.add('hidden');
+            if (window.SimulatorA11y) {
+                window.SimulatorA11y.closeDialog(modal, { returnFocus: returnFocus });
+                return;
+            }
+            const target = typeof returnFocus === 'function' ? returnFocus() : returnFocus;
+            if (target && typeof target.focus === 'function') target.focus();
+        }
+
+        function isFeedbackOpen() {
+            const modal = document.getElementById('feedbackModal');
+            return !!modal && !modal.classList.contains('hidden');
+        }
+
+        // The three role buttons, in the order they appear on screen.
+        function answerButtons() {
+            return Array.from(document.querySelectorAll('#gameplayScreen [data-role-choice]'));
+        }
+
+        function setAnswerButtonsDisabled(disabled) {
+            answerButtons().forEach(button => { button.disabled = disabled; });
+        }
+
+        // A scenario is on screen, its debrief is not, and it has no answer yet.
+        function awaitingAnswer() {
+            const screen = document.getElementById('gameplayScreen');
+            return !!screen && !screen.classList.contains('hidden')
+                && !isFeedbackOpen()
+                && currentState.currentScenarioIndex < SCENARIOS.length
+                && currentState.userAnswers.length <= currentState.currentScenarioIndex;
+        }
+
+        // Keys 1, 2 and 3 pick the roles in on-screen order. They go through
+        // submitAnswer() like a click, so they meet the same one-answer guard.
+        if (window.SimulatorA11y && typeof window.SimulatorA11y.bindChoiceKeys === 'function') {
+            window.SimulatorA11y.bindChoiceKeys((index) => {
+                const button = answerButtons()[index];
+                if (button && !button.disabled) submitAnswer(button.getAttribute('data-role-choice'));
+            }, { isActive: awaitingAnswer });
+            document.getElementById('choiceKeysHint')?.classList.remove('hidden');
+        }
+
+        // SAVED PROGRESS
+        // A reload in the middle of a run used to throw it away. The run is kept
+        // in sessionStorage -- this tab only -- after every answer and every
+        // Next, and picked up again on load if it was played against the same
+        // ten scenarios. It is cleared when the results appear and on a restart.
+        const PROGRESS_KEY = 'sim-progress:' + SIMULATOR_SLUG + ':' + SIMULATOR_LOCALE;
+
+        function scenarioIdList() {
+            return SCENARIOS.map(scenario => scenario.id).join(',');
+        }
+
+        function saveProgress() {
+            try {
+                window.sessionStorage.setItem(PROGRESS_KEY, JSON.stringify({
+                    scenarioIds: scenarioIdList(),
+                    playerName: currentState.playerName,
+                    currentScenarioIndex: currentState.currentScenarioIndex,
+                    score: currentState.score,
+                    streak: currentState.streak,
+                    userAnswers: currentState.userAnswers,
+                    feedbackPending: isFeedbackOpen(),
+                    elapsedMs: runTimer.elapsedMs()
+                }));
+            } catch {
+                // Storage full, disabled or blocked: the run carries on unsaved.
+            }
+        }
+
+        function clearProgress() {
+            try {
+                window.sessionStorage.removeItem(PROGRESS_KEY);
+            } catch {
+                // As above.
+            }
+        }
+
+        function readProgress() {
+            try {
+                const saved = JSON.parse(window.sessionStorage.getItem(PROGRESS_KEY) || 'null');
+                if (!saved || saved.scenarioIds !== scenarioIdList()) return null;
+                const index = saved.currentScenarioIndex;
+                const answers = saved.userAnswers;
+                if (!Number.isInteger(index) || index < 0 || index >= SCENARIOS.length || !Array.isArray(answers)) return null;
+                // Either the current scenario has been answered and its debrief
+                // was open, or it is still waiting for an answer.
+                if (answers.length !== (saved.feedbackPending ? index + 1 : index) || !answers.length) return null;
+                if (!answers.every((answer, i) => answer && answer.scenarioId === SCENARIOS[i].id)) return null;
+                return saved;
+            } catch {
+                return null;
+            }
+        }
+
+        function restoreProgress(saved) {
+            const scenarioText = window.SimulatorScenarioText;
+            if (scenarioText && typeof scenarioText.isReady === 'function'
+                && typeof scenarioText.hydrate === 'function' && !scenarioText.isReady(SCENARIOS)) {
+                scenarioText.hydrate(SCENARIOS, function () { restoreProgress(saved); });
+                return;
+            }
+
+            const anonymousName = "Líder Anônimo";
+            currentState.playerName = typeof saved.playerName === 'string' && saved.playerName.trim()
+                ? saved.playerName.trim().slice(0, 30)
+                : anonymousName;
+            const nameField = document.getElementById('playerNameInput');
+            if (nameField && currentState.playerName !== anonymousName) nameField.value = currentState.playerName;
+            currentState.currentScenarioIndex = saved.currentScenarioIndex;
+            currentState.userAnswers = saved.userAnswers;
+            // Recounted rather than trusted: flat +100 per correct answer.
+            currentState.score = saved.userAnswers.filter(answer => answer.isCorrect).length * 100;
+            currentState.streak = Number.isInteger(saved.streak) && saved.streak >= 0 ? saved.streak : 0;
+
+            prepareRunScreen();
+            startRunTimer(typeof saved.elapsedMs === 'number' ? saved.elapsedMs : undefined);
+            if (currentState.userAnswers.length === SCENARIOS.length) stopRunTimer();
+            renderCurrentScenario();
+
+            if (saved.feedbackPending) {
+                const scenario = SCENARIOS[currentState.currentScenarioIndex];
+                const last = currentState.userAnswers[currentState.userAnswers.length - 1];
+                showFeedbackModal(!!last.isCorrect, scenario.correctRole, scenario.explanation);
+            } else {
+                answerButtons()[0]?.focus({ preventScroll: true });
+            }
+        }
+
         // INITIALIZATION
         window.addEventListener('DOMContentLoaded', () => {
             loadLeaderboard();
+
+            // An unfinished run from this tab picks up where it was, so the
+            // welcome dialog (already open by now) is closed without starting
+            // a new one.
+            const saved = readProgress();
+            if (saved) {
+                if (window.SimulatorWelcome) {
+                    suppressWelcomeStart = true;
+                    window.SimulatorWelcome.dismiss();
+                    suppressWelcomeStart = false;
+                }
+                restoreProgress(saved);
+                return;
+            }
+
             // The welcome dialog is the only way into the game, so if its script
             // never arrived -- it is deferred, and has therefore already run by
             // now if it ran at all -- the run has to start without it.
             if (!window.SimulatorWelcome) startGame();
         });
 
-        // Otherwise the run starts when the dialog closes, however it closed: the
-        // start button, "just look around", Escape or a click on the backdrop.
+        // Otherwise the run starts when the dialog closes, however it closed.
         // The dialog holds the only name field on the page, so startGame() reads
         // whatever was typed there.
-        document.addEventListener('sim-welcome:dismissed', () => startGame());
+        //
+        // How it closed decides when the clock starts. "Start the simulation"
+        // (or Enter in the name field) is a player starting a timed run, so the
+        // clock starts now. "Just look around", Escape and a click on the
+        // backdrop are a visitor who has not committed to anything yet: they get
+        // the first scenario to look at, and the clock waits for their first
+        // answer -- that is the moment they begin the run -- so time spent
+        // browsing the page is never counted against them on the board.
+        let welcomeStartChosen = false;
+        let suppressWelcomeStart = false;
+        document.addEventListener('click', (event) => {
+            if (event.target instanceof Element && event.target.closest('[data-sim-welcome-start]')) welcomeStartChosen = true;
+        }, true);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && event.target instanceof Element && event.target.closest('[data-sim-welcome-name]')) welcomeStartChosen = true;
+        }, true);
+        document.addEventListener('sim-welcome:dismissed', () => {
+            const startChosen = welcomeStartChosen;
+            welcomeStartChosen = false;
+            if (suppressWelcomeStart) return;
+            startGame({ clockOnFirstAnswer: !startChosen });
+        });
+
+        // Everything a new or restored run clears from the screen before the
+        // first scenario is drawn.
+        function prepareRunScreen() {
+            publishedRowId = null;
+            const publishButton = document.getElementById('publishScoreBtn');
+            const publishLabel = document.getElementById('publishScoreLabel');
+            if (publishButton) publishButton.disabled = false;
+            if (publishLabel) publishLabel.innerText = "Publicar minha pontuação";
+            document.getElementById('publishScoreNote')?.classList.add('hidden');
+            closeAnswerReview();
+            document.getElementById('confusionSummary')?.classList.add('hidden');
+
+            // UI Switch
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameplayScreen').classList.remove('hidden');
+
+            // The first scenario sits at the top of the page, so that is where a
+            // run starts -- not wherever the page happened to be sitting when the
+            // welcome dialog closed, and not where a reload restored it to.
+            window.scrollTo({ top: 0 });
+        }
 
         // START GAME
-        function startGame() {
+        function startGame(options) {
             // A private space's own wording lands before the first scenario is drawn.
             // By the time somebody has typed a name and pressed start, the lookup that
             // carries it has long since resolved, so this waits for nothing in practice
             // -- and if it somehow has not, the exercise starts in the standard wording
-            // rather than not starting. See assets/js/scenario-text.js.
-            if (!window.SimulatorScenarioText.isReady(SCENARIOS)) {
-              window.SimulatorScenarioText.hydrate(SCENARIOS, function () { startGame(); });
+            // rather than not starting. See assets/js/scenario-text.js. If that file
+            // did not load at all, the standard wording is all there is: start anyway.
+            const scenarioText = window.SimulatorScenarioText;
+            if (scenarioText && typeof scenarioText.isReady === 'function'
+                && typeof scenarioText.hydrate === 'function' && !scenarioText.isReady(SCENARIOS)) {
+              scenarioText.hydrate(SCENARIOS, function () { startGame(options); });
               return;
             }
 
@@ -844,23 +1077,27 @@
             currentState.score = 0;
             currentState.streak = 0;
             currentState.userAnswers = [];
-            publishedRowKey = null;
-            startRunTimer();
-            const publishButton = document.getElementById('publishScoreBtn');
-            const publishLabel = document.getElementById('publishScoreLabel');
-            if (publishButton) publishButton.disabled = false;
-            if (publishLabel) publishLabel.innerText = "Publicar minha pontuação";
+            clearProgress();
+            prepareRunScreen();
 
-            // UI Switch
-            document.getElementById('resultsScreen').classList.add('hidden');
-            document.getElementById('gameplayScreen').classList.remove('hidden');
-
-            // The first scenario sits at the top of the page, so that is where a
-            // run starts -- not wherever the page happened to be sitting when the
-            // welcome dialog closed, and not where a reload restored it to.
-            window.scrollTo({ top: 0 });
+            if (options && options.clockOnFirstAnswer) {
+                // See the sim-welcome:dismissed handler: submitAnswer() starts it.
+                stopRunTimer();
+                runTimer.reset();
+                runClockPending = true;
+                renderRunTimer();
+            } else {
+                startRunTimer();
+            }
 
             renderCurrentScenario();
+        }
+
+        // Answered out of ten: empty before the first answer, full the moment
+        // the last one is given.
+        function renderProgress() {
+            const progressPercent = (currentState.userAnswers.length / SCENARIOS.length) * 100;
+            document.getElementById('hudProgressBar').style.width = `${progressPercent}%`;
         }
 
         // RENDER CURRENT SCENARIO
@@ -870,12 +1107,13 @@
             // HUD updates
             document.getElementById('hudScenarioCounter').innerText = `Cenário ${currentState.currentScenarioIndex + 1} de 10`;
             document.getElementById('hudPlayerName').innerText = currentState.playerName;
-            document.getElementById('hudScore').innerText = currentState.score;
+            document.getElementById('hudScoreValue').innerText = currentState.score;
             
-            const progressPercent = ((currentState.currentScenarioIndex) / 10) * 100;
-            document.getElementById('hudProgressBar').style.width = `${progressPercent}%`;
+            renderProgress();
 
-            if (currentState.streak >= 2) {
+            // From three in a row, which is also where the feedback starts
+            // mentioning the streak.
+            if (currentState.streak >= 3) {
                 document.getElementById('hudStreakBadge').classList.remove('hidden');
                 document.getElementById('hudStreakCount').innerText = currentState.streak;
             } else {
@@ -885,10 +1123,23 @@
             // Scenario Card Updates
             document.getElementById('scenarioCategoryBadge').innerText = `Categoria: ${scenario.category}`;
             document.getElementById('scenarioTaskText').innerText = `"${scenario.task}"`;
+
+            // Enabled again for the new scenario; still locked if this render is a
+            // restored run whose debrief is about to reopen.
+            setAnswerButtonsDisabled(isFeedbackOpen());
         }
 
         // SUBMIT ANSWER
         function submitAnswer(selectedRole) {
+            // One answer per scenario. The debrief opens over the buttons, and a
+            // keyboard player whose focus was still on one of them used to score
+            // the same scenario twice by pressing Enter again -- an extra +100, a
+            // duplicate answer and, on the ninth, a clock stopped a question early.
+            if (!awaitingAnswer()) return;
+
+            // A run entered through "just look around" is timed from here.
+            if (runClockPending) startRunTimer();
+
             const scenario = SCENARIOS[currentState.currentScenarioIndex];
             const isCorrect = selectedRole === scenario.correctRole;
 
@@ -915,8 +1166,10 @@
             // answered, and the seconds spent reading this last debrief are not
             // part of what the board is measuring.
             if (currentState.userAnswers.length === SCENARIOS.length) stopRunTimer();
+            renderProgress();
 
             showFeedbackModal(isCorrect, scenario.correctRole, scenario.explanation);
+            saveProgress();
         }
 
         // SHOW FEEDBACK MODAL
@@ -936,7 +1189,7 @@
                 icon.innerHTML = `<i class="fas fa-check fa-fw"></i>`;
                 title.innerText = "Escolha Correta!";
                 title.className = "text-xl font-extrabold text-emerald-300 tracking-tight";
-                points.innerText = currentState.streak > 2 ? `+100 pontos (sequência de ${currentState.streak}!)` : "+100 pontos adicionados";
+                points.innerText = currentState.streak >= 3 ? `+100 pontos (sequência de ${currentState.streak}!)` : "+100 pontos adicionados";
                 points.className = "sim-eyebrow sim-eyebrow--good";
             } else {
                 banner.className = "p-4 rounded-xl flex items-center gap-3 bg-rose-500/10 border border-rose-500/25 text-rose-300";
@@ -957,25 +1210,36 @@
                 btnNext.innerHTML = `<span>Próximo Cenário</span> <i class="fas fa-chevron-right fa-fw text-xs"></i>`;
             }
 
-            modal.classList.remove('hidden');
+            openModal(modal, { initialFocus: btnNext, labelledBy: 'feedbackResultTitle' });
+            setAnswerButtonsDisabled(true);
         }
 
         // NEXT SCENARIO OR END GAME
         function nextScenario() {
+            if (!isFeedbackOpen()) return;
             playSound('click');
-            document.getElementById('feedbackModal').classList.add('hidden');
+            const modal = document.getElementById('feedbackModal');
+            modal.classList.add('hidden');
 
             currentState.currentScenarioIndex += 1;
 
-            if (currentState.currentScenarioIndex < 10) {
+            const finished = currentState.currentScenarioIndex >= 10;
+            if (!finished) {
                 renderCurrentScenario();
+                saveProgress();
             } else {
                 finishGame();
             }
+            // Focus goes to the first role of the next scenario, or to the
+            // results heading once there is no next scenario.
+            closeModal(modal, () => finished
+                ? document.getElementById('resultPlayerGreeting')
+                : answerButtons()[0]);
         }
 
         // FINISH GAME & DISPLAY RESULTS
         function finishGame() {
+            clearProgress();
             playSound('complete');
             document.getElementById('gameplayScreen').classList.add('hidden');
             document.getElementById('resultsScreen').classList.remove('hidden');
@@ -1017,6 +1281,7 @@
             renderTakeaways(currentState.score);
             renderFullLeaderboard();
             renderAnswerReview();
+            renderConfusionSummary();
 
             // The band key is passed rather than derived so the bridge can never
             // contradict the tier badge rendered a few lines above; the answer
@@ -1119,15 +1384,43 @@
             return "Mestre em Governança de Dados";
         }
 
-        function rowKey(name, score) {
-            return name + '|' + Number(score);
+        async function loadLeaderboard() {
+            // Without the shared script there is no board to read, and the table
+            // says so rather than reading "Loading…" for ever.
+            if (!window.SimulatorLeaderboard || typeof window.SimulatorLeaderboard.load !== 'function') {
+                leaderboardData = [];
+                leaderboardStatus = 'unavailable';
+                renderFullLeaderboard();
+                return;
+            }
+            try {
+                const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 10);
+                leaderboardData = Array.isArray(result.scores) ? result.scores : [];
+                leaderboardStatus = result.error ? 'unavailable' : 'ready';
+            } catch {
+                leaderboardData = [];
+                leaderboardStatus = 'unavailable';
+            }
+            renderFullLeaderboard();
         }
 
-        async function loadLeaderboard() {
-            const result = await window.SimulatorLeaderboard.load(SIMULATOR_SLUG, 10);
-            leaderboardData = result.scores;
-            leaderboardStatus = result.error ? 'unavailable' : 'ready';
-            renderFullLeaderboard();
+        // The row this publish created. The board can hold other players with
+        // the same name and score, so this is the newest matching row --
+        // preferring one with this run's time -- and it is matched by id.
+        function findPublishedRowId(scores, name, score, durationMs) {
+            const matches = (scores || []).filter(row => row && row.id !== undefined && row.id !== null
+                && row.name === name && Number(row.score) === Number(score));
+            if (!matches.length) return null;
+            const sameTime = typeof durationMs === 'number'
+                ? matches.filter(row => Number(row.durationMs) === Math.round(durationMs))
+                : [];
+            const newest = (sameTime.length ? sameTime : matches).reduce((best, row) => {
+                const rowTime = Date.parse(row.createdAt) || 0;
+                const bestTime = Date.parse(best.createdAt) || 0;
+                if (rowTime !== bestTime) return rowTime > bestTime ? row : best;
+                return Number(row.id) > Number(best.id) ? row : best;
+            });
+            return String(newest.id);
         }
 
         // Publishing is deliberately a separate click rather than something that
@@ -1135,10 +1428,22 @@
         async function publishScore() {
             const button = document.getElementById('publishScoreBtn');
             const label = document.getElementById('publishScoreLabel');
+            const note = document.getElementById('publishScoreNote');
+            if (note) note.classList.add('hidden');
+
+            if (!window.SimulatorLeaderboard || typeof window.SimulatorLeaderboard.submit !== 'function') {
+                if (button) button.disabled = true;
+                if (label) label.innerText = "Ranking indisponível";
+                leaderboardStatus = 'unavailable';
+                renderFullLeaderboard();
+                return;
+            }
+
             const originalLabel = label ? label.innerText : "";
             if (button) button.disabled = true;
             if (label) label.innerText = "Publicando…";
 
+            const durationMs = runTimer.elapsedMs();
             const result = await window.SimulatorLeaderboard.submit({
                 simulator: SIMULATOR_SLUG,
                 locale: SIMULATOR_LOCALE,
@@ -1148,8 +1453,27 @@
                 breakdown: window.SimulatorLeaderboard.categoryBreakdown(currentState.userAnswers, 'scenario'),
                 name: currentState.playerName,
                 score: currentState.score,
-                durationMs: runTimer.elapsedMs()
+                durationMs: durationMs
             });
+
+            if (result.error === 'already-recorded') {
+                // Not a failure: this private space keeps only each person's first
+                // run, and this was a replay. Nothing to retry, so the button
+                // stays disabled and the board is still shown.
+                if (Array.isArray(result.scores) && result.scores.length) {
+                    leaderboardData = result.scores;
+                    leaderboardStatus = 'ready';
+                }
+                if (label) label.innerText = "Já registrado";
+                if (note) {
+                    const recordedScore = result.recorded && result.recorded.score;
+                    note.innerText = "Neste espaço só a sua primeira tentativa é registrada, então esta partida não foi adicionada ao ranking."
+                        + (typeof recordedScore === 'number' ? ` Sua pontuação registrada é ${Number(recordedScore)} pts.` : '');
+                    note.classList.remove('hidden');
+                }
+                renderFullLeaderboard();
+                return;
+            }
 
             if (!result.accepted) {
                 // Left recoverable on purpose: the run is over and the score is on
@@ -1162,7 +1486,7 @@
 
             leaderboardData = result.scores;
             leaderboardStatus = 'ready';
-            publishedRowKey = rowKey(currentState.playerName, currentState.score);
+            publishedRowId = typeof result.id === 'number' ? result.id : findPublishedRowId(result.scores, currentState.playerName, currentState.score, durationMs);
             if (label) label.innerText = "Publicado ✓";
             renderFullLeaderboard();
             playSound('correct');
@@ -1184,7 +1508,7 @@
             }
 
             tbody.innerHTML = leaderboardData.map((item, idx) => {
-                const isCurrentPlayer = publishedRowKey !== null && publishedRowKey === rowKey(item.name, item.score);
+                const isCurrentPlayer = publishedRowId !== null && item.id !== undefined && item.id !== null && String(item.id) === publishedRowId;
                 return `
                     <tr${isCurrentPlayer ? ' class="sim-table__row--you"' : ''}>
                         <td class="sim-table__rank${idx < 3 ? ' sim-table__rank--' + (idx + 1) : ''}">
@@ -1199,6 +1523,54 @@
                     </tr>
                 `;
             }).join('');
+        }
+
+        // ROLE CONFUSION SUMMARY
+        // The misses from the answer review, counted: for each role a task really
+        // belonged to, which role it was handed to instead. A pattern such as
+        // every Steward task going to IT is easier to see here than one by one.
+        function renderConfusionSummary() {
+            const container = document.getElementById('confusionSummary');
+            const list = document.getElementById('confusionList');
+            const headline = document.getElementById('confusionHeadline');
+            if (!container || !list) return;
+
+            const misses = currentState.userAnswers.filter(answer => !answer.isCorrect);
+            if (!misses.length) {
+                container.classList.add('hidden');
+                list.innerHTML = '';
+                return;
+            }
+
+            const roles = Object.keys(ROLE_LABELS);
+            let worst = null;
+            list.innerHTML = roles.map(correct => {
+                const total = SCENARIOS.filter(scenario => scenario.correctRole === correct).length;
+                const missed = misses.filter(answer => answer.correctRole === correct);
+                const picks = roles.filter(role => role !== correct).map(picked => {
+                    const count = missed.filter(answer => answer.selectedRole === picked).length;
+                    if (count && (!worst || count > worst.count)) worst = { correct, picked, count };
+                    return { picked, count };
+                }).filter(p => p.count);
+                return `
+                <div class="sim-panel p-4 space-y-1 text-left">
+                    <h4 class="font-bold text-brand-text text-sm">${roleLabel(correct)}</h4>
+                    <p class="text-xs text-slate-500">${`Errou ${missed.length} de ${total}`}</p>
+                    ${picks.length
+                        ? picks.map(p => `<p class="text-xs text-slate-400">${`Atribuídas a ${roleLabel(p.picked)}: ${p.count}×`}</p>`).join('')
+                        : `<p class="text-xs text-slate-400">${"Nenhum erro"}</p>`}
+                </div>
+            `;
+            }).join('');
+
+            if (headline) headline.innerText = worst ? `Maior confusão: tarefas de ${roleLabel(worst.correct)} atribuídas a ${roleLabel(worst.picked)} (${worst.count}×).` : '';
+            container.classList.remove('hidden');
+        }
+
+        function closeAnswerReview() {
+            document.getElementById('answerReviewContainer')?.classList.add('hidden');
+            const list = document.getElementById('reviewList');
+            if (list) list.innerHTML = '';
         }
 
         // RENDER SCENARIO ANSWER REVIEW
@@ -1274,17 +1646,19 @@
         // RACI MODAL CONTROLS
         function openRACIModal() {
             playSound('click');
-            document.getElementById('raciModal').classList.remove('hidden');
+            openModal(document.getElementById('raciModal'), { labelledBy: 'raciModalTitle', onEscape: closeRACIModal });
         }
 
         function closeRACIModal() {
             playSound('click');
-            document.getElementById('raciModal').classList.add('hidden');
+            closeModal(document.getElementById('raciModal'));
         }
 
         // RESET GAME
         function resetGame() {
             playSound('click');
+            clearProgress();
+            closeAnswerReview();
             document.getElementById('resultsScreen').classList.add('hidden');
             document.getElementById('gameplayScreen').classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });

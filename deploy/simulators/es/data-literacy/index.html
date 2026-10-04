@@ -218,11 +218,11 @@
                     </div>
                     <div class="mt-3">
                         <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-                            <span>Base: 150.000 €</span>
-                            <span id="pctAssetValue">33%</span>
+                            <span>Máximo: 290.000 €</span>
+                            <span id="pctAssetValue">17%</span>
                         </div>
                         <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                            <div id="barAssetValue" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-700 ease-out" style="width: 33%;"></div>
+                            <div id="barAssetValue" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-700 ease-out" style="width: 17%;"></div>
                         </div>
                     </div>
                 </div>
@@ -265,16 +265,16 @@
                         <span id="deltaFriction" class="text-xs font-mono font-bold transition-all opacity-0">+0%</span>
                     </div>
                     <div class="flex items-baseline space-x-2">
-                        <span id="metricFriction" class="text-2xl font-extrabold font-mono text-rose-400 tracking-tight">40%</span>
+                        <span id="metricFriction" class="text-2xl font-extrabold font-mono text-rose-400 tracking-tight">38%</span>
                         <span class="text-[11px] text-slate-400">tiempo buscando/corrigiendo</span>
                     </div>
                     <div class="mt-3">
                         <div class="flex justify-between text-[11px] text-slate-400 mb-1">
                             <span>Carga Operativa</span>
-                            <span id="pctFriction">40%</span>
+                            <span id="pctFriction">38%</span>
                         </div>
                         <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                            <div id="barFriction" class="h-full bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-700 ease-out" style="width: 40%;"></div>
+                            <div id="barFriction" class="h-full bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-700 ease-out" style="width: 38%;"></div>
                         </div>
                     </div>
                 </div>
@@ -445,27 +445,28 @@
                     <div id="optionsContainer" class="space-y-4">
                         <p class="sim-eyebrow mb-3">Seleccione su Enfoque (3 Opciones)</p>
                         
-                        <button id="btnOptionA" onclick="handleChoice('A')" class="sim-option">
+                        <button id="btnOptionA" aria-keyshortcuts="1 A" onclick="handleChoice('A')" class="sim-option">
                             <span class="sim-option__key">A</span>
                             <span class="sim-option__body">
                                 <p id="textOptionA" class="sim-option__title">Descripción de la Opción A...</p>
                                 <p id="previewA" class="sim-option__text">Enfoque 1 &mdash; Análisis Táctico</p>
                             </span>
                         </button>
-                        <button id="btnOptionB" onclick="handleChoice('B')" class="sim-option">
+                        <button id="btnOptionB" aria-keyshortcuts="2 B" onclick="handleChoice('B')" class="sim-option">
                             <span class="sim-option__key">B</span>
                             <span class="sim-option__body">
                                 <p id="textOptionB" class="sim-option__title">Descripción de la Opción B...</p>
                                 <p id="previewB" class="sim-option__text">Enfoque 2 &mdash; Vista Operativa</p>
                             </span>
                         </button>
-                        <button id="btnOptionC" onclick="handleChoice('C')" class="sim-option">
+                        <button id="btnOptionC" aria-keyshortcuts="3 C" onclick="handleChoice('C')" class="sim-option">
                             <span class="sim-option__key">C</span>
                             <span class="sim-option__body">
                                 <p id="textOptionC" class="sim-option__title">Descripción de la Opción C...</p>
                                 <p id="previewC" class="sim-option__text">Enfoque 3 &mdash; Acción Estratégica</p>
                             </span>
                         </button>
+                        <p class="text-[11px] font-mono text-slate-500">Consejo: pulsa 1, 2 o 3</p>
                     </div>
 
                     <!-- Debrief Educational Card -->
@@ -623,6 +624,20 @@
                         </div>
                     </div>
 
+                    <!-- Per-decision review: every scenario, the approach chosen, whether
+                         it was the optimal one and what it did to the data asset value. -->
+                    <div class="sim-card p-4 sm:p-6 text-left mb-8">
+                        <div class="flex items-center space-x-2 text-cyan-400 mb-1">
+                            <i class="fas fa-list-check fa-fw text-base"></i>
+                            <span class="sim-eyebrow">Revisión de Decisiones</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Tus 15 decisiones, una a una</h3>
+                        <p class="text-xs text-slate-400 mb-4">Cada decisión que tomaste, si fue el enfoque óptimo y cómo afectó al valor del activo de datos.</p>
+                        <ol id="finalDecisionReview" class="sim-review-list">
+                            <!-- Filled by renderDecisionReview() -->
+                        </ol>
+                    </div>
+
                     <!-- LEADERBOARD SECTION -->
                     <div class="sim-card p-4 sm:p-6 text-left mb-8">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -645,6 +660,7 @@
                                 </button>
                             </div>
                         </div>
+                        <p id="leaderboardPublishNote" class="sim-panel sim-panel--strong p-3 text-xs text-slate-300 mb-4 hidden" role="status"></p>
 
                         <!-- Leaderboard Table -->
                         <div class="sim-table-wrap">
@@ -923,6 +939,7 @@
          board and a banner names it. A public visitor loads this file, learns
          there is no seat, and nothing about the page changes. -->
     <script src="/assets/js/workspace-context.js"></script>
+    <script src="/assets/js/simulator-a11y.js"></script>
     <script src="/assets/js/scenario-text.js"></script>
     <script src="/assets/js/simulator-leaderboard.js"></script>
     <script src="/assets/js/workspace-auto-publish.js"></script>
@@ -950,6 +967,53 @@
         };
 
         let decisionsHistory = [];
+        // Set once the scenario on screen has been answered, so the same
+        // scenario can never be applied twice (a double click, a number key
+        // pressed again, a restored run).
+        let scenarioAnswered = false;
+
+        // Where the ROI and friction meters sit on their bars. Both used to be
+        // a running total clamped to 0-100, which the optimal answers outgrow
+        // within two or three decisions (ROI starts at 50 and the optimal path
+        // adds +330; friction starts at 40 and the optimal path takes -220 off
+        // it), so a 10/15 run and a 15/15 run ended on the same full or empty
+        // bar. The totals are now kept unclamped and drawn against the whole
+        // range the fifteen scenarios can produce. The bounds were computed by
+        // enumerating the impacts in `scenarios` below with a node script: with
+        // no clamping in between the total is a plain sum, so its extremes over
+        // all 3^15 paths are the sums of each scenario's smallest and largest
+        // option.
+        //   ROI:      50 + (-325) = -275   to   50 + 330 = 380
+        //   Friction: 40 + (-220) = -180   to   40 + 355 = 395
+        //   Asset:    floored at 0; 50,000 + 240,000 = 290,000 on the optimal path
+        // Rerun the enumeration if an impact changes. Only the bars are scaled:
+        // the asset value, which the leaderboard publishes and the server
+        // checks, is computed exactly as it always was.
+        const ROI_RANGE = { min: -275, max: 380 };
+        const FRICTION_RANGE = { min: -180, max: 395 };
+        const ASSET_RANGE = { min: 0, max: 290000 };
+        const scaleToMeter = (value, range) =>
+            Math.min(100, Math.max(0, Math.round(((value - range.min) / (range.max - range.min)) * 100)));
+
+        // The figures the sidebar and the results screen display.
+        function displayedMeters() {
+            return {
+                assetValue: metrics.assetValue,
+                assetPct: scaleToMeter(metrics.assetValue, ASSET_RANGE),
+                roi: scaleToMeter(metrics.roi, ROI_RANGE),
+                friction: scaleToMeter(metrics.friction, FRICTION_RANGE),
+                literacy: metrics.literacy
+            };
+        }
+
+        function meterDeltas(before, after) {
+            return {
+                assetValue: after.assetValue - before.assetValue,
+                roi: after.roi - before.roi,
+                friction: after.friction - before.friction,
+                literacy: after.literacy - before.literacy
+            };
+        }
 
         // 15 Balanced Scenarios in Spanish (Optimal choices distributed across A, B, and C)
         const scenarios = [
@@ -1374,19 +1438,17 @@
             });
         }
 
-        function showDelta(elId, value, prefix = '', suffix = '') {
+        // Flashes how far a meter actually moved, read off the figures the
+        // sidebar displays: the raw impact is not what the player sees change
+        // once a meter is scaled or the asset value is floored, and the literacy
+        // meter follows the optimal-choice count rather than any impact.
+        function showDelta(elId, text, isGood) {
             const el = document.getElementById(elId);
             if (!el) return;
-            
-            // The prefix used to be accepted and then dropped, so the asset-value
-            // delta flashed a bare number where every other reading of the same
-            // figure carried a currency symbol.
-            const isPositive = value >= 0;
-            const strVal = (isPositive ? '+' : '-') + prefix + Math.abs(value).toLocaleString(MONEY_LOCALE) + suffix;
-            
-            el.innerText = strVal;
+
+            el.innerText = text;
             el.className = `text-xs font-mono font-bold transition-all duration-500 ${
-                isPositive ? 'text-emerald-400' : 'text-rose-400'
+                isGood ? 'text-emerald-400' : 'text-rose-400'
             } opacity-100 transform translate-y-0`;
 
             setTimeout(() => {
@@ -1394,36 +1456,41 @@
             }, 2000);
         }
 
-        function renderMetrics(impact = null) {
-            document.getElementById('metricAssetValue').innerText = formatMoney(metrics.assetValue);
-            document.getElementById('metricRoi').innerText = `${metrics.roi}%`;
-            document.getElementById('metricFriction').innerText = `${metrics.friction}%`;
-            document.getElementById('metricLiteracy').innerText = `${metrics.literacy}%`;
+        const formatPointDelta = (value, suffix) => `${value >= 0 ? '+' : '-'}${Math.abs(value)}${suffix}`;
 
-            const pctAsset = Math.min(100, Math.max(0, Math.round((metrics.assetValue / 150000) * 100)));
-            document.getElementById('barAssetValue').style.width = `${pctAsset}%`;
-            document.getElementById('pctAssetValue').innerText = `${pctAsset}%`;
+        function renderMetrics(deltas = null) {
+            const shown = displayedMeters();
 
-            document.getElementById('barRoi').style.width = `${metrics.roi}%`;
-            document.getElementById('pctRoi').innerText = `${metrics.roi}%`;
+            document.getElementById('metricAssetValue').innerText = formatMoney(shown.assetValue);
+            document.getElementById('metricRoi').innerText = `${shown.roi}%`;
+            document.getElementById('metricFriction').innerText = `${shown.friction}%`;
+            document.getElementById('metricLiteracy').innerText = `${shown.literacy}%`;
 
-            document.getElementById('barFriction').style.width = `${metrics.friction}%`;
-            document.getElementById('pctFriction').innerText = `${metrics.friction}%`;
+            document.getElementById('barAssetValue').style.width = `${shown.assetPct}%`;
+            document.getElementById('pctAssetValue').innerText = `${shown.assetPct}%`;
 
-            document.getElementById('barLiteracy').style.width = `${metrics.literacy}%`;
-            document.getElementById('pctLiteracy').innerText = `${metrics.literacy}%`;
+            document.getElementById('barRoi').style.width = `${shown.roi}%`;
+            document.getElementById('pctRoi').innerText = `${shown.roi}%`;
 
-            if (impact) {
-                if (impact.asset !== 0) showDelta('deltaAssetValue', impact.asset, '', ' €');
-                if (impact.roi !== 0) showDelta('deltaRoi', impact.roi, '', '%');
-                if (impact.friction !== 0) showDelta('deltaFriction', impact.friction, '', '%');
-                if (impact.literacy !== 0) showDelta('deltaLiteracy', impact.literacy, '', ' pts');
+            document.getElementById('barFriction').style.width = `${shown.friction}%`;
+            document.getElementById('pctFriction').innerText = `${shown.friction}%`;
+
+            document.getElementById('barLiteracy').style.width = `${shown.literacy}%`;
+            document.getElementById('pctLiteracy').innerText = `${shown.literacy}%`;
+
+            if (deltas) {
+                // Friction is the one meter where going up is the bad news.
+                if (deltas.assetValue !== 0) showDelta('deltaAssetValue', formatMoneyDelta(deltas.assetValue), deltas.assetValue > 0);
+                if (deltas.roi !== 0) showDelta('deltaRoi', formatPointDelta(deltas.roi, '%'), deltas.roi > 0);
+                if (deltas.friction !== 0) showDelta('deltaFriction', formatPointDelta(deltas.friction, '%'), deltas.friction < 0);
+                if (deltas.literacy !== 0) showDelta('deltaLiteracy', formatPointDelta(deltas.literacy, ' pts'), deltas.literacy > 0);
             }
         }
 
         function loadScenario(index) {
             if (index < 0 || index >= scenarios.length) return;
             currentScenarioIndex = index;
+            scenarioAnswered = false;
 
             const sc = scenarios[index];
 
@@ -1464,8 +1531,13 @@
         }
 
         function advanceScenario() {
+            if (!scenarioAnswered) return;
             if (currentScenarioIndex < scenarios.length - 1) {
                 loadScenario(currentScenarioIndex + 1);
+                saveProgress();
+                // The Next button has just been hidden, so a keyboard player
+                // lands on the first option of the new scenario instead.
+                document.getElementById('btnOptionA')?.focus();
             } else {
                 playSound('win');
                 showFinalSummary();
@@ -1534,7 +1606,16 @@
         }
 
         function renderRadarChart(categories) {
-            const ctx = document.getElementById('radarChart')?.getContext('2d');
+            const canvas = document.getElementById('radarChart');
+            const panel = canvas?.closest('.sim-panel');
+            // Chart.js comes from a CDN. When it did not arrive the panel is
+            // hidden rather than left as an empty box.
+            if (typeof Chart === 'undefined') {
+                panel?.classList.add('hidden');
+                return;
+            }
+            panel?.classList.remove('hidden');
+            const ctx = canvas?.getContext('2d');
             if (!ctx) return;
 
             if (radarChartInstance) {
@@ -1572,7 +1653,10 @@
                                 color: '#9dc2cc',
                                 font: { size: 9, family: 'Plus Jakarta Sans' }
                             },
-                            ticks: { display: false, beginAtZero: true, max: 100 }
+                            min: 0,
+                            max: 100,
+                            beginAtZero: true,
+                            ticks: { display: false }
                         }
                     },
                     plugins: {
@@ -1661,63 +1745,87 @@
             });
         }
 
+        // Applies one answer to the run. Shared by a live choice and by the
+        // replay of a run restored from sessionStorage, so a restored run's
+        // figures are recomputed from its answers rather than read back.
+        function applyDecision(scenarioIndex, option) {
+            const sc = scenarios[scenarioIndex];
+            const selectedOpt = sc && { A: sc.optionA, B: sc.optionB, C: sc.optionC }[option];
+            if (!selectedOpt) return null;
+
+            const isOptimal = (option === sc.optimalChoice);
+            const before = displayedMeters();
+
+            const record = {
+                scenarioIndex: scenarioIndex,
+                topic: sc.topic,
+                category: sc.category,
+                optionChosen: option,
+                isOptimal: isOptimal,
+                impact: selectedOpt.impact,
+                deltas: null
+            };
+            decisionsHistory.push(record);
+
+            // The asset value is published and checked by the server, so it is
+            // computed exactly as before: floored at 0 after every decision.
+            metrics.assetValue = Math.max(0, metrics.assetValue + selectedOpt.impact.asset);
+            // Unclamped on purpose: the meters scale these, see ROI_RANGE.
+            metrics.roi = metrics.roi + selectedOpt.impact.roi;
+            metrics.friction = metrics.friction + selectedOpt.impact.friction;
+
+            // Data Literacy Score: percentage of optimal choices
+            const totalOptimalCount = decisionsHistory.filter(item => item.isOptimal).length;
+            metrics.literacy = Math.round((totalOptimalCount / scenarios.length) * 100);
+
+            record.deltas = meterDeltas(before, displayedMeters());
+            return record;
+        }
+
         function handleChoice(option) {
             const currentScenario = scenarios[currentScenarioIndex];
             if (!currentScenario) return;
+            // One answer per scenario. The options are hidden once one is chosen,
+            // but a second click or key press must still not count it twice.
+            if (scenarioAnswered || decisionsHistory.some(item => item.scenarioIndex === currentScenarioIndex)) return;
 
-            const optMap = {
-                'A': currentScenario.optionA,
-                'B': currentScenario.optionB,
-                'C': currentScenario.optionC
-            };
-
-            const selectedOpt = optMap[option];
-            if (!selectedOpt) return;
-
-            const isOptimal = (option === currentScenario.optimalChoice);
-
-            // Record choice in audit log first
-            decisionsHistory.push({
-                scenarioIndex: currentScenarioIndex,
-                topic: currentScenario.topic,
-                category: currentScenario.category,
-                optionChosen: option,
-                isOptimal: isOptimal,
-                impact: selectedOpt.impact
-            });
+            const record = applyDecision(currentScenarioIndex, option);
+            if (!record) return;
+            scenarioAnswered = true;
 
             // Se detiene en la última decisión, no al abrir el resumen: a esta
             // altura ya se respondieron todas las preguntas.
             if (decisionsHistory.length === scenarios.length) stopRunTimer();
 
-            // Update Core Asset Metrics
-            metrics.assetValue = Math.max(0, metrics.assetValue + selectedOpt.impact.asset);
-            metrics.roi = Math.min(100, Math.max(0, metrics.roi + selectedOpt.impact.roi));
-            metrics.friction = Math.min(100, Math.max(0, metrics.friction + selectedOpt.impact.friction));
-
-            // Calculate Data Literacy Score as percentage of optimal choices
-            const totalOptimalCount = decisionsHistory.filter(item => item.isOptimal).length;
-            const previousLiteracy = metrics.literacy;
-            metrics.literacy = Math.round((totalOptimalCount / scenarios.length) * 100);
-            const literacyDelta = metrics.literacy - previousLiteracy;
-
-            renderMetrics(selectedOpt.impact);
+            renderMetrics(record.deltas);
             updateCategoryTracker();
             renderAuditLog();
+            showDebrief(option, record.deltas);
+            saveProgress();
+
+            // The button just pressed went away with the options, so focus
+            // moves to the one thing left to do on this screen.
+            document.getElementById('nextPhaseBtn')?.focus();
+
+            playSound(record.isOptimal ? 'win' : 'select');
+        }
+
+        function showDebrief(option, deltas) {
+            const currentScenario = scenarios[currentScenarioIndex];
+            const selectedOpt = { A: currentScenario.optionA, B: currentScenario.optionB, C: currentScenario.optionC }[option];
 
             // Hide option buttons and reveal debrief
             document.getElementById('optionsContainer').classList.add('hidden');
-            const debriefCard = document.getElementById('debriefCard');
-            debriefCard.classList.remove('hidden');
+            document.getElementById('debriefCard').classList.remove('hidden');
 
             document.getElementById('debriefChoiceTitle').innerText = `Enfoque Seleccionado: Opción ${option} - ${selectedOpt.title}`;
             document.getElementById('debriefLessonText').innerHTML = selectedOpt.lesson;
 
-            // Debrief metric impact formatting
-            document.getElementById('debriefAsset').innerText = formatMoneyDelta(selectedOpt.impact.asset);
-            document.getElementById('debriefRoi').innerText = `${selectedOpt.impact.roi >= 0 ? '+' : ''}${selectedOpt.impact.roi}%`;
-            document.getElementById('debriefFriction').innerText = `${selectedOpt.impact.friction >= 0 ? '-' : '+'}${Math.abs(selectedOpt.impact.friction)}%`;
-            document.getElementById('debriefLiteracy').innerText = isOptimal ? `+${literacyDelta > 0 ? literacyDelta : 7}%` : '+0%';
+            // What the meters actually did, each with the sign it moved in.
+            document.getElementById('debriefAsset').innerText = formatMoneyDelta(deltas.assetValue);
+            document.getElementById('debriefRoi').innerText = formatPointDelta(deltas.roi, '%');
+            document.getElementById('debriefFriction').innerText = formatPointDelta(deltas.friction, '%');
+            document.getElementById('debriefLiteracy').innerText = formatPointDelta(deltas.literacy, ' pts');
 
             const nextBtnText = document.getElementById('nextPhaseText');
             if (currentScenarioIndex === scenarios.length - 1) {
@@ -1725,8 +1833,6 @@
             } else {
                 if (nextBtnText) nextBtnText.innerText = "Siguiente Fase de Simulación";
             }
-
-            playSound(isOptimal ? 'win' : 'select');
         }
 
         function updateCategoryTracker() {
@@ -1780,15 +1886,17 @@
         let publishedRowId = null;
 
         // Cuánto tardó la partida, que es como la tabla ordena a dos jugadores con
-        // el mismo número de opciones óptimas. El cronómetro arranca con el primer
-        // escenario y se detiene en la decisión quince: mide responder las
-        // preguntas, no leer los resultados después.
+        // el mismo número de opciones óptimas. El cronómetro arranca al cerrar el
+        // diálogo de bienvenida (de inmediato si no se muestra, como en un espacio
+        // privado), continúa desde la lectura guardada cuando una partida se
+        // restaura tras recargar, y se detiene en la decisión quince: mide responder
+        // las preguntas, no leer la introducción ni los resultados después.
         //
         // Degrada en lugar de fallar si el script compartido de la tabla no
         // llegó: una partida sin cronómetro es una pérdida menor que un simulador
         // que no carga, y esto se evalúa al cargar la página.
         const runTimer = window.SimulatorLeaderboard?.createStopwatch?.() ?? {
-            start() {}, stop() { return null; }, reset() {}, elapsedMs() { return null; }
+            start() {}, stop() { return null; }, reset() {}, resume() {}, elapsedMs() { return null; }
         };
         let runTimerInterval = null;
 
@@ -1819,7 +1927,30 @@
             renderRunTimer();
         }
 
+        // Continues the clock from a saved reading, for a restored run.
+        function resumeRunTimer(ms) {
+            if (typeof runTimer.resume === 'function') runTimer.resume(ms);
+            else runTimer.start();
+            renderRunTimer();
+            if (runTimerInterval !== null) clearInterval(runTimerInterval);
+            runTimerInterval = setInterval(renderRunTimer, 1000);
+        }
+
+        // The welcome dialog opens over the first scenario, and reading it is
+        // not answering, so the clock waits for it to close however it closes.
+        function startRunTimerAfterWelcome() {
+            const overlay = document.querySelector('[data-sim-welcome]');
+            if (!overlay || overlay.hidden) {
+                startRunTimer();
+                return;
+            }
+            document.addEventListener('sim-welcome:dismissed', () => {
+                if (runTimer.elapsedMs() === null) startRunTimer();
+            }, { once: true });
+        }
+
         function showFinalSummary() {
+            clearProgress();
             document.getElementById('tabSimulationView').classList.add('hidden');
             document.getElementById('finalSummaryView').classList.remove('hidden');
 
@@ -1859,8 +1990,9 @@
 
             // Render final metric values
             document.getElementById('finalValAsset').innerText = formatMoney(metrics.assetValue);
-            document.getElementById('finalValRoi').innerText = `${metrics.roi}%`;
-            document.getElementById('finalValFriction').innerText = `${metrics.friction}%`;
+            const shownMeters = displayedMeters();
+            document.getElementById('finalValRoi').innerText = `${shownMeters.roi}%`;
+            document.getElementById('finalValFriction').innerText = `${shownMeters.friction}%`;
             document.getElementById('finalValLiteracy').innerText = `${finalBalancedLiteracyScore}%`;
 
             // Strengths and Weaknesses
@@ -1898,7 +2030,14 @@
                 weaknessesList.innerHTML = '<li class="text-emerald-400 font-semibold">¡Excelente consistencia en todas las categorías de competencia!</li>';
             }
 
-            renderRadarChart(categories);
+            renderDecisionReview(categories);
+            // Nothing after this line may depend on the chart having drawn.
+            try {
+                renderRadarChart(categories);
+            } catch (error) {
+                console.warn('Could not draw the competency radar', error);
+                document.getElementById('radarChart')?.closest('.sim-panel')?.classList.add('hidden');
+            }
             renderLeaderboard();
 
             // categories ya es {clave: {correct, total}}, que el puente normaliza
@@ -1992,6 +2131,7 @@
 
             const { categories, totalOptimal } = calculateDetailedResults();
 
+            setPublishNote('');
             if (button) button.disabled = true;
             if (label) label.innerText = "Guardando…";
 
@@ -2009,6 +2149,24 @@
                 durationMs: runTimer.elapsedMs()
             });
 
+            if (!result.accepted && result.error === 'already-recorded') {
+                // Not a failure: a private space keeps each person's first
+                // finished run and this one is a replay. The board that came back
+                // is still worth showing, and a retry would only be refused again.
+                if (Array.isArray(result.scores) && result.scores.length) {
+                    leaderboardData = result.scores;
+                    leaderboardStatus = 'ready';
+                }
+                renderLeaderboard();
+                if (input) input.disabled = true;
+                if (label) label.innerText = originalLabel;
+                const recordedScore = Number(result.recorded?.score);
+                setPublishNote(result.recorded && Number.isFinite(recordedScore)
+                    ? `En este espacio solo se registra tu primer intento, así que esta partida no se añadió a la tabla. Tu primer intento (${recordedScore}/${scenarios.length}) es el que figura en la tabla.`
+                    : "En este espacio solo se registra tu primer intento, así que esta partida no se añadió a la tabla.");
+                return;
+            }
+
             if (!result.accepted) {
                 // Left recoverable on purpose: the run is over and the results are
                 // on screen, so a failed publish should cost a retry and no more.
@@ -2022,8 +2180,18 @@
             leaderboardStatus = 'ready';
             // The row the API just created, so the player can find themselves in a
             // board that now contains strangers.
-            const publishedName = leaderboardData.find(row => row.name === name && Number(row.score) === totalOptimal);
-            publishedRowId = publishedName ? publishedName.id : null;
+            // The id the API reports for the new row wins when there is one; else
+            // the most specific match, since the same name can sit on the board
+            // with the same score from an earlier run.
+            const reportedId = result.id ?? result.row?.id ?? null;
+            const sameNameAndScore = leaderboardData.filter(row => row.name === name && Number(row.score) === totalOptimal);
+            const publishedRow = (reportedId !== null && leaderboardData.find(row => row.id === reportedId))
+                || sameNameAndScore.find(row => Number(row.extraScore) === metrics.assetValue
+                    && Number(row.durationMs) === runTimer.elapsedMs())
+                || sameNameAndScore.find(row => Number(row.extraScore) === metrics.assetValue)
+                || sameNameAndScore[0];
+            publishedRowId = publishedRow ? publishedRow.id : (reportedId ?? null);
+            lastPublishedName = name;
             renderLeaderboard();
 
             if (input) {
@@ -2034,8 +2202,132 @@
             if (label) label.innerText = originalLabel;
         }
 
-        function resetSimulation() {
+        // The publish form as the page first drew it, so Restart can put it back
+        // after a publish has disabled it and rewritten its labels.
+        const PLAYER_NAME_PLACEHOLDER = document.getElementById('playerNameInput')?.placeholder || '';
+        const PUBLISH_BUTTON_LABEL = document.querySelector('#leaderboardInputForm button span')?.textContent.trim() || '';
+        let lastPublishedName = '';
+
+        function setPublishNote(text) {
+            const note = document.getElementById('leaderboardPublishNote');
+            if (!note) return;
+            note.classList.toggle('hidden', !text);
+            note.innerText = text;
+        }
+
+        function resetPublishForm() {
+            const input = document.getElementById('playerNameInput');
+            const button = document.querySelector('#leaderboardInputForm button');
+            const label = button ? button.querySelector('span') : null;
+
+            publishedRowId = null;
+            if (input) {
+                input.disabled = false;
+                input.placeholder = PLAYER_NAME_PLACEHOLDER;
+                if (!input.value.trim() && lastPublishedName) input.value = lastPublishedName;
+            }
+            if (button) button.disabled = false;
+            if (label) label.innerText = PUBLISH_BUTTON_LABEL;
+            setPublishNote('');
+        }
+
+        const escapeReviewText = (value) => String(value ?? '').replace(/[&<>"']/g, ch => (
+            { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
+        ));
+
+        // Every decision of the run, in order, against the optimal approach.
+        function renderDecisionReview(categories) {
+            const list = document.getElementById('finalDecisionReview');
+            if (!list) return;
+            list.innerHTML = '';
+
+            decisionsHistory.forEach(item => {
+                const sc = scenarios[item.scenarioIndex];
+                if (!sc) return;
+                const chosen = { A: sc.optionA, B: sc.optionB, C: sc.optionC }[item.optionChosen];
+                const optimal = { A: sc.optionA, B: sc.optionB, C: sc.optionC }[sc.optimalChoice];
+                const assetDelta = item.deltas ? item.deltas.assetValue : item.impact.asset;
+                const categoryLabel = categories[sc.category] ? categories[sc.category].label : sc.category;
+
+                const li = document.createElement('li');
+                li.className = 'sim-panel sim-panel--strong p-3 text-left';
+                li.innerHTML = `
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <span class="text-[11px] font-mono uppercase text-slate-500">Fase ${item.scenarioIndex + 1} · ${escapeReviewText(categoryLabel)}</span>
+                            <p class="text-sm font-semibold text-white">${escapeReviewText(sc.topic)}</p>
+                        </div>
+                        <span class="sim-badge ${item.isOptimal ? 'sim-badge--good' : 'sim-badge--bad'} shrink-0">
+                            ${item.isOptimal
+                                ? '<i class="fas fa-check fa-fw" aria-hidden="true"></i> Óptima'
+                                : '<i class="fas fa-xmark fa-fw" aria-hidden="true"></i> No óptima'}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-300 mt-2"><strong>Tu elección:</strong> Opción ${item.optionChosen} - ${escapeReviewText(chosen ? chosen.title : '')}</p>
+                    ${item.isOptimal || !optimal ? '' : `<p class="text-xs text-emerald-400 mt-1"><strong>Enfoque óptimo:</strong> Opción ${sc.optimalChoice} - ${escapeReviewText(optimal.title)}</p>`}
+                    <p class="text-xs font-mono mt-1 ${assetDelta >= 0 ? 'text-emerald-400' : 'text-rose-400'}">Cambio en el activo: ${formatMoneyDelta(assetDelta)}</p>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // An unfinished run survives a reload for the rest of the tab's session.
+        // Only the answers are kept; the figures are replayed from them.
+        const PROGRESS_KEY = `sim-progress:${SIMULATOR_SLUG}:${SIMULATOR_LOCALE}`;
+
+        function saveProgress() {
+            try {
+                window.sessionStorage.setItem(PROGRESS_KEY, JSON.stringify({
+                    scenarioIds: scenarios.map(s => s.id),
+                    currentScenarioIndex: currentScenarioIndex,
+                    answered: scenarioAnswered,
+                    decisions: decisionsHistory.map(item => ({
+                        scenarioIndex: item.scenarioIndex,
+                        optionChosen: item.optionChosen
+                    })),
+                    metrics: metrics,
+                    elapsedMs: runTimer.elapsedMs()
+                }));
+            } catch (error) {
+                // Storage full or blocked: the run simply is not resumable.
+            }
+        }
+
+        function clearProgress() {
+            try {
+                window.sessionStorage.removeItem(PROGRESS_KEY);
+            } catch (error) {
+                // Nothing to clear if storage is unavailable.
+            }
+        }
+
+        // The saved run, or null unless it belongs to these same scenarios and
+        // its answers line up with the scenario it stopped on.
+        function readProgress() {
+            try {
+                const saved = JSON.parse(window.sessionStorage.getItem(PROGRESS_KEY) || 'null');
+                if (!saved || typeof saved !== 'object') return null;
+
+                const ids = scenarios.map(s => s.id);
+                const sameScenarios = Array.isArray(saved.scenarioIds)
+                    && saved.scenarioIds.length === ids.length
+                    && saved.scenarioIds.every((id, idx) => id === ids[idx]);
+                const index = saved.currentScenarioIndex;
+                if (!sameScenarios || !Array.isArray(saved.decisions)) return null;
+                if (!Number.isInteger(index) || index < 0 || index >= ids.length) return null;
+                if (saved.decisions.length !== index + (saved.answered === true ? 1 : 0)) return null;
+
+                const valid = saved.decisions.every((d, idx) =>
+                    d && d.scenarioIndex === idx && ['A', 'B', 'C'].includes(d.optionChosen));
+                return valid ? saved : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function resetRunState() {
             currentScenarioIndex = 0;
+            scenarioAnswered = false;
             metrics = {
                 assetValue: 50000,
                 roi: 50,
@@ -2043,16 +2335,77 @@
                 literacy: 0
             };
             decisionsHistory = [];
+        }
+
+        // Puts a saved run back on screen. Returns false when there is none.
+        function restoreProgress() {
+            const saved = readProgress();
+            if (!saved) return false;
+
+            resetRunState();
+            for (const decision of saved.decisions) {
+                if (!applyDecision(decision.scenarioIndex, decision.optionChosen)) {
+                    resetRunState();
+                    clearProgress();
+                    return false;
+                }
+            }
+
+            loadScenario(saved.currentScenarioIndex);
+            renderMetrics();
+            updateCategoryTracker();
+            renderAuditLog();
+            if (saved.answered === true) {
+                const last = decisionsHistory[decisionsHistory.length - 1];
+                scenarioAnswered = true;
+                showDebrief(last.optionChosen, last.deltas);
+            }
+
+            // Resumed at once, welcome dialog or not: the clock was running when
+            // the page was left, and the time already played still counts.
+            if (typeof saved.elapsedMs === 'number' && saved.elapsedMs >= 0) {
+                resumeRunTimer(saved.elapsedMs);
+            } else {
+                startRunTimerAfterWelcome();
+            }
+            if (decisionsHistory.length === scenarios.length) stopRunTimer();
+            // The run is already under way, so the welcome dialog (open by now)
+            // is closed rather than left over the restored scenario. Its
+            // dismissal starts nothing: the clock is already running.
+            if (window.SimulatorWelcome && typeof window.SimulatorWelcome.dismiss === 'function') {
+                window.SimulatorWelcome.dismiss();
+            }
+            return true;
+        }
+
+        // 1/2/3 (or A/B/C) answer while the options are on screen. The shared
+        // helper already stands down while a dialog is open or a field has focus.
+        window.SimulatorA11y?.bindChoiceKeys(index => handleChoice(['A', 'B', 'C'][index % 3]), {
+            keys: ['1', '2', '3', 'a', 'b', 'c'],
+            isActive: () => !scenarioAnswered
+                && !document.getElementById('tabSimulationView').classList.contains('hidden')
+                && !document.getElementById('optionsContainer').classList.contains('hidden')
+        });
+
+        function resetSimulation() {
+            resetRunState();
+            clearProgress();
+            resetPublishForm();
 
             updateCategoryTracker();
             renderMetrics();
             renderAuditLog();
+
+            const review = document.getElementById('finalDecisionReview');
+            if (review) review.innerHTML = '';
+            renderLeaderboard();
 
             document.getElementById('finalSummaryView').classList.add('hidden');
             document.getElementById('tabSimulationView').classList.remove('hidden');
 
             loadScenario(0);
             startRunTimer();
+            document.getElementById('btnOptionA')?.focus();
         }
 
         // The company's own wording first, where a private space has any, then the
@@ -2062,10 +2415,12 @@
         window.onload = function () {
           window.SimulatorScenarioText.hydrate(scenarios, function () {
             buildMilestoneBadges();
-            renderMetrics();
-            updateCategoryTracker();
-            loadScenario(0);
-            startRunTimer();
+            if (!restoreProgress()) {
+                renderMetrics();
+                updateCategoryTracker();
+                loadScenario(0);
+                startRunTimerAfterWelcome();
+            }
             renderLeaderboard();
             loadLeaderboard();
           });

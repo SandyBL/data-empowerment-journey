@@ -447,7 +447,7 @@
           // other tab recorded a run in the seconds since.
           // Reported as the fact it is and not as a failure -- there is nothing
           // to retry, and their result is safely recorded.
-          if (outcome.error === "already-recorded") {
+          if (outcome.status === "recorded" || outcome.error === "already-recorded") {
             var recorded = outcome.recorded || null;
             setStatus("recorded", words.recorded(recorded ? formatScore(recorded.score) : ""), false);
             return false;

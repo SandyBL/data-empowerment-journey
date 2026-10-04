@@ -8,7 +8,7 @@ description: Public results from four data governance simulators, with the key l
 kicker: Board results
 schema: page
 related_articles: building-a-data-governance-operating-model, why-data-governance-people-process-technology-data, data-literacy-is-a-business-capability
-updated: 2026-09-07
+updated: 2026-10-04
 ---
 
 Three of the four simulators on this site drop you into a governance situation and make you choose. A quality rule is failing, and fixing it means asking a director to change a process they are measured on. Two departments both claim the customer record. Literacy is low and there is no training budget. You decide, the decision is scored on its governance consequence rather than against a right answer, and your run goes onto a public board. The fourth works the other way round: CDMP Exam Practice asks DMBOK questions that do have one right answer, because the certification exam it prepares you for does.
@@ -21,7 +21,7 @@ It is also an example of the thing it describes. A board is a measurement, a mea
 
 These are not four versions of the same quiz. Each one is built to expose a different failure.
 
-**Data Governance Day-to-Day** gives you a week in the life of a governance lead and scores it on five axes: efficiency, trust, accountability, security and context, out of 100. The axes are not independent, and that is the point — a decision that buys efficiency usually spends accountability, and the score reflects the trade. It is very hard to do well here by being agreeable.
+**Data Governance Day-to-Day** gives you a week in the life of a governance lead and scores it on five axes — efficiency, trust, accountability, security and context — plus the budget you have left at the end, as one index out of 100. The axes are not independent, and that is the point — a decision that buys efficiency usually spends accountability, and the score reflects the trade. So does the money: the best possible run ends with a little under half the budget left, because fixing root causes costs something. It is very hard to do well here by being agreeable.
 
 **Data Ownership Conflict** is ten disputes, each of which belongs to one of three roles: the Business Owner, the Data Steward, or IT. It is scored out of 1000. Four of the ten belong to IT, three to the Steward and three to the Business Owner — a split that matters more than it sounds, and the next section is about why.
 
@@ -51,9 +51,9 @@ That is why the figures above report the gap between the best run and the median
 
 ### Speed is confidence, and confidence is not correctness
 
-Three of the four boards time themselves. On the Data Literacy board so far, the fastest published run is also the lowest-scoring one — twenty-five seconds, five points out of fifteen — while the highest-scoring run took over six minutes.
+All four boards time themselves. On the Data Literacy board so far, the fastest published run is also the lowest-scoring one — twenty-five seconds, five points out of fifteen — while the slowest, at over six minutes, scored ten. The board's best run, eleven, has no time recorded at all.
 
-Three runs is not a finding and I am not going to pretend otherwise. But it matches what happens in rooms often enough to say out loud: the people who finish first are usually the ones who did not notice the trade-off. A governance question you can answer instantly has usually been misread as a technical question with a lookup answer, which is the failure above wearing a different hat.
+Three runs, two of them timed, is not a finding and I am not going to pretend otherwise. But it matches what happens in rooms often enough to say out loud: the people who finish first are usually the ones who did not notice the trade-off. A governance question you can answer instantly has usually been misread as a technical question with a lookup answer, which is the failure above wearing a different hat.
 
 ### Governance scores fail on accountability and context, not on security
 
