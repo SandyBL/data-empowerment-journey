@@ -461,7 +461,10 @@ export const newsletterSubscribers = pgTable(
   "newsletter_subscribers",
   {
     id: serial().primaryKey(),
-    // Lowercased and trimmed, so one person cannot be on the list twice.
+    // Lowercased and trimmed. One row per address and language, so a reader
+    // can take the newsletter in more than one language but never get the
+    // same edition twice. Resend has one contact per address, which belongs
+    // to the segment of each language's batch.
     email: varchar({ length: 254 }).notNull(),
     locale: varchar({ length: 2 }).notNull(),
     // What the emails greet the reader by. Only the first word of what they
@@ -487,7 +490,7 @@ export const newsletterSubscribers = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [
-    uniqueIndex("newsletter_subscribers_email_idx").on(table.email),
+    uniqueIndex("newsletter_subscribers_email_locale_idx").on(table.email, table.locale),
     uniqueIndex("newsletter_subscribers_unsubscribe_token_idx").on(table.unsubscribeToken),
   ],
 );

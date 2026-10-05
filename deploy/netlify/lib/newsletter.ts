@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { and, desc, eq, gte, isNotNull, lt, sql, sum, count } from "drizzle-orm";
+import { and, desc, eq, gte, isNotNull, lt, ne, sql, sum, count } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { newsletterBatches, newsletterDeliveries, newsletterSubscribers } from "../../db/schema.js";
 import { renderWelcomeEmail } from "./newsletter-emails.js";
@@ -219,35 +219,58 @@ export const syncSubscriber = async (subscriber: Subscriber) => {
 
   if (subscriber.resendContactId) return { ...subscriber, batchId };
 
-  let contactId: string;
-  try {
-    const contact = await resend<{ id: string }>("POST", "/contacts", {
-      email: subscriber.email,
+  const email = encodeURIComponent(subscriber.email);
+  // An existing contact is resubscribed and added to this batch's segment.
+  // Resubscribing it is right: the person has just asked for the list again.
+  const addExisting = async () => {
+    const contact = await resend<{ id: string }>("PATCH", `/contacts/${email}`, {
       ...(subscriber.firstName ? { first_name: subscriber.firstName } : {}),
       unsubscribed: false,
-      segments: [{ id: segmentId }],
     });
-    contactId = contact.id;
-  } catch (error) {
-    // The address is already a contact -- someone added it by hand in the
-    // dashboard, or an earlier attempt got as far as Resend and no further.
-    // Resubscribing it is right: the person has just asked for the list again.
-    // Resend does not document which status it uses for this, so any client
-    // error other than auth and rate limiting gets one attempt at the update;
-    // if the contact really does not exist, the original error is the one
-    // worth logging.
-    if (!(error instanceof ResendError) || error.status < 400 || error.status >= 500) throw error;
-    if ([401, 403, 429].includes(error.status)) throw error;
-    const email = encodeURIComponent(subscriber.email);
+    await resend("POST", `/contacts/${email}/segments/${segmentId}`);
+    return contact.id;
+  };
+
+  // The same address reading another language already has its one Resend
+  // contact, so this language only adds a segment to it.
+  const [sibling] = await db
+    .select({ id: newsletterSubscribers.id })
+    .from(newsletterSubscribers)
+    .where(
+      and(
+        eq(newsletterSubscribers.email, subscriber.email),
+        ne(newsletterSubscribers.id, subscriber.id),
+        isNotNull(newsletterSubscribers.resendContactId),
+      ),
+    )
+    .limit(1);
+
+  let contactId: string;
+  if (sibling) {
+    contactId = await addExisting();
+  } else {
     try {
-      const contact = await resend<{ id: string }>("PATCH", `/contacts/${email}`, {
+      const contact = await resend<{ id: string }>("POST", "/contacts", {
+        email: subscriber.email,
         ...(subscriber.firstName ? { first_name: subscriber.firstName } : {}),
         unsubscribed: false,
+        segments: [{ id: segmentId }],
       });
-      await resend("POST", `/contacts/${email}/segments/${segmentId}`);
       contactId = contact.id;
-    } catch {
-      throw error;
+    } catch (error) {
+      // The address is already a contact -- someone added it by hand in the
+      // dashboard, or an earlier attempt got as far as Resend and no further.
+      // Resend does not document which status it uses for this, so any client
+      // error other than auth and rate limiting gets one attempt at the update;
+      // if the contact really does not exist, the original error is the one
+      // worth logging.
+      if (!(error instanceof ResendError) || error.status < 400 || error.status >= 500) throw error;
+      if ([401, 403, 429].includes(error.status)) throw error;
+      try {
+        contactId = await addExisting();
+      } catch {
+        throw error;
+      }
     }
   }
 
