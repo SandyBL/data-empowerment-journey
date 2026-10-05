@@ -177,6 +177,22 @@ a.blog-kicker:hover { color: var(--coral); }
 .flow-diagram-label { font-size: .82rem; font-weight: 700; line-height: 1.35; }
 .flow-diagram-note { display: block; margin-top: 5px; color: var(--ink-soft); font-size: .72rem; font-weight: 500; line-height: 1.4; }
 .article-body .flow-diagram figcaption { margin-top: 18px; }
+/* A grid of flows: bracket flows stacked and joined by vertical arrows
+   (`│ ▼`), which markdown.mjs places on a grid in the columns the author typed
+   them in. The odd tracks hold the steps and the even ones the arrows, so an
+   arrow that skips a column is one long line through it. The grid stays a grid
+   on a phone -- folding it into one column would lose which step sits under
+   which -- with the gutters and the cards tightened instead. The steps that
+   nothing leads on from are the outcomes and carry the accent. */
+.flow-grid { --flow-grid-gutter: 30px; display: grid; grid-auto-rows: auto; align-items: stretch; }
+.flow-grid-step { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 14px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 2px 14px 2px 2px; color: var(--ink); text-align: center; overflow-wrap: break-word; hyphens: auto; }
+.flow-grid-outcome { background: rgba(98, 230, 189, .14); border-color: rgba(10, 117, 104, .32); }
+.flow-grid-next { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.flow-grid-arrow { position: relative; align-self: center; height: 2px; margin: 0 4px 0 2px; background: var(--mint-dark); }
+.flow-grid-arrow::after { content: ''; position: absolute; top: 50%; right: -4px; border: 5px solid transparent; border-left: 7px solid var(--mint-dark); border-right: 0; transform: translateY(-50%); }
+.flow-grid-drop { display: flex; align-items: center; justify-content: center; height: 34px; }
+.flow-grid-drop::before { content: '\2193'; content: '\2193' / ''; color: var(--mint-dark); font-size: 1.1rem; font-weight: 800; line-height: 1; }
+.flow-grid-drop-up::before { content: '\2191'; content: '\2191' / ''; }
 /* Box diagrams: ASCII or Unicode box art an author typed or pasted into an
    article (`+----+ | ... | +----+` joined by `│ ▼`), which scripts/lib/
    markdown.mjs reads into tiers of boxes. Each tier is a row of cards, and the
@@ -313,6 +329,9 @@ a.blog-kicker:hover { color: var(--coral); }
   .flow-diagram-steps { flex-direction: column; gap: 28px; }
   .flow-diagram-steps > li { padding: 12px 14px; }
   .flow-diagram-steps > li + li::before { content: '\2193'; content: '\2193' / ''; top: auto; right: auto; bottom: 100%; left: 50%; width: auto; height: 28px; transform: translateX(-50%); line-height: 28px; }
+  .flow-grid { --flow-grid-gutter: 18px; }
+  .flow-grid-step { padding: 10px 6px; }
+  .flow-grid-step .flow-diagram-label { font-size: .74rem; }
   .author-card { grid-template-columns: 62px 1fr; padding: 22px; }
   .author-card img { width: 62px; height: 62px; }
   .related-articles { padding-top: 38px; }
