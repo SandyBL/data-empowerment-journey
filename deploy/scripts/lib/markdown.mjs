@@ -393,7 +393,9 @@ const FLOW_ARROW_CELL = new RegExp(`^${FLOW_ARROW}$`);
 const FLOW_NODE = String.raw`\\?\[[^\]\n]+\]`;
 /** A whole line of them: `[ Employee ] ---> [ Public LLM ] ---> [ Fines ]`. */
 const BRACKET_FLOW = new RegExp(`^\\s*${FLOW_NODE}(?:\\s*${FLOW_ARROW}\\s*${FLOW_NODE})+\\s*$`);
-const FLOW_NODE_TEXT = /\\?\[\s*([^\]\n]+?)\s*\]/g;
+// The closing bracket can be escaped too (`\[ Employee \]`), so a trailing
+// backslash belongs to the escape, not to the label.
+const FLOW_NODE_TEXT = /\\?\[\s*([^\]\n]+?)\s*\\?\]/g;
 
 /** A line that begins some other kind of block, and so is never a flow's title or caption. */
 const BLOCK_START = /^\s*(#{1,6}\s|>|\\?\||\\?\+|[*-]\s|\d+\.\s|!\[)/;
@@ -499,6 +501,130 @@ const flowAt = (lines, start) => {
 };
 
 /**
+ * A line of nothing but the uprights and heads of arrows running down (or up)
+ * between two bracket flows -- `│          ▼` -- and nothing else, so prose and
+ * the flows themselves never match.
+ */
+const VERTICAL_CONNECTOR = /^[\s│┃┆┊|▼↓vV▲↑^]*[│┃┆┊|▼↓vV▲↑^][\s│┃┆┊|▼↓vV▲↑^]*$/;
+
+/** The steps of a bracket flow with the column each one starts at. */
+const bracketNodes = (line) =>
+  [...line.matchAll(FLOW_NODE_TEXT)].map((match) => ({ label: match[1], start: match.index, end: match.index + match[0].length }));
+
+/**
+ * The step of a row an arrow typed at `column` belongs to. Authors put the
+ * upright under a step's opening bracket or under its middle, and rarely line
+ * either up exactly, so the step whose start or middle is nearest wins.
+ */
+const nearestNode = (nodes, column) => {
+  let best = 0;
+  let distance = Infinity;
+  nodes.forEach((node, position) => {
+    const middle = (node.start + node.end) / 2;
+    const gap = Math.min(Math.abs(column - node.start), Math.abs(column - middle));
+    if (gap < distance) {
+      best = position;
+      distance = gap;
+    }
+  });
+  return best;
+};
+
+/**
+ * Bracket flows stacked on top of each other and joined by vertical arrows,
+ * starting at `start`, or null:
+ *
+ *   [ Silos ] ----> [ Conflicting Metrics ] ----> [ Paralysis ]
+ *   │                                             │
+ *   ▼                                             ▼
+ *   [ Uncontrolled Access ] ------------------> [ Penalties ]
+ *
+ * Read one line at a time, the rows are two separate flows and the arrows
+ * between them are stray paragraphs, which published one drawing as two
+ * diagrams with a line of box characters between them. So the rows are read
+ * together as a grid: each upright ties the step above it to the step below
+ * it, which puts the two in the same column, and every other step takes the
+ * column nearest to where the author typed it. A drawing whose steps cannot be
+ * given columns that keep each row in order is left to be read row by row.
+ *
+ * Returns the grid and the line after the last row.
+ */
+const flowGridAt = (lines, start) => {
+  if (!BRACKET_FLOW.test(lines[start] ?? '')) return null;
+  const rows = [bracketNodes(lines[start])];
+  const links = [];
+  let next = start + 1;
+
+  while (true) {
+    let cursor = skipBlankLines(lines, next);
+    const arrows = new Map();
+    let connectors = 0;
+    while (cursor < lines.length && VERTICAL_CONNECTOR.test(lines[cursor]) && lines[cursor].trim()) {
+      for (const match of lines[cursor].matchAll(/\S/g)) {
+        const direction = arrows.get(match.index) ?? { up: false, down: false };
+        if (UP_ARROW.test(match[0])) direction.up = true;
+        if (DOWN_ARROW.test(match[0])) direction.down = true;
+        arrows.set(match.index, direction);
+      }
+      connectors += 1;
+      cursor = skipBlankLines(lines, cursor + 1);
+    }
+    if (!connectors || !BRACKET_FLOW.test(lines[cursor] ?? '')) break;
+    const above = rows[rows.length - 1];
+    const below = bracketNodes(lines[cursor]);
+    const pairs = [];
+    for (const [column, { up, down }] of [...arrows].sort(([a], [b]) => a - b)) {
+      const from = nearestNode(above, column);
+      const to = nearestNode(below, column);
+      if (pairs.some((pair) => pair.from === from && pair.to === to)) continue;
+      pairs.push({ from, to, up: up && !down });
+    }
+    links.push(pairs);
+    rows.push(below);
+    next = cursor + 1;
+  }
+
+  if (rows.length < 2) return null;
+
+  // Columns: the widest row sets them, the uprights carry them to the rows
+  // above and below, and a step with no upright takes the nearest free one.
+  const widest = rows.reduce((best, row, position) => (row.length > rows[best].length ? position : best), 0);
+  const slots = rows.map((row) => row.map(() => null));
+  const positions = rows[widest].map((node) => node.start);
+  rows[widest].forEach((node, position) => {
+    slots[widest][position] = position;
+  });
+  const order = [...rows.keys()].sort((a, b) => Math.abs(a - widest) - Math.abs(b - widest));
+  for (const row of order) {
+    if (row === widest) continue;
+    const toward = row < widest ? row + 1 : row - 1;
+    for (const { from, to } of links[Math.min(row, toward)]) {
+      const [mine, theirs] = row < widest ? [from, to] : [to, from];
+      if (slots[row][mine] === null) slots[row][mine] = slots[toward][theirs];
+    }
+    rows[row].forEach((node, position) => {
+      if (slots[row][position] !== null) return;
+      const taken = new Set(slots[row]);
+      let best = null;
+      positions.forEach((column, slot) => {
+        if (taken.has(slot)) return;
+        if (best === null || Math.abs(column - node.start) < Math.abs(positions[best] - node.start)) best = slot;
+      });
+      slots[row][position] = best;
+    });
+    const placed = slots[row];
+    if (placed.some((slot, position) => slot === null || (position > 0 && slot <= placed[position - 1]))) return null;
+  }
+
+  // An upright that has to bend to reach its step cannot be drawn straight down.
+  for (const [row, pairs] of links.entries()) {
+    if (pairs.some(({ from, to }) => slots[row][from] !== slots[row + 1][to])) return null;
+  }
+
+  return { rows, slots, links, columns: positions.length, next };
+};
+
+/**
  * A one-line paragraph that ends in a colon and introduces the flow under it --
  * `Unliterate AI Usage (High Risk):` -- which becomes the flow's title.
  */
@@ -541,6 +667,12 @@ const flowGroup = (lines, start) => {
       title = lines[cursor].trim().replace(/:$/, '').trim();
       cursor = skipBlankLines(lines, cursor + 1);
     }
+    const grid = flowGridAt(lines, cursor);
+    if (grid) {
+      rows.push({ title, grid });
+      index = skipBlankLines(lines, grid.next);
+      continue;
+    }
     const flow = flowAt(lines, cursor);
     if (!flow) break;
     rows.push({ title, steps: flow.steps });
@@ -558,15 +690,72 @@ const flowGroup = (lines, start) => {
 };
 
 /**
+ * A grid of flows as one drawing: the steps on a CSS grid in the columns the
+ * author put them in, with a gutter track between columns for the sideways
+ * arrows and a short row between rows for the vertical ones. An arrow that
+ * skips a column runs through it as one long arrow, the way it was typed.
+ *
+ * The arrows are decoration, so the steps are announced as a list in reading
+ * order, each with a visually hidden "Leads to" naming the steps its arrows
+ * point at -- in a grid the order alone no longer says what follows what.
+ */
+const renderFlowGrid = ({ rows, slots, links, columns }, imageSize, labels) => {
+  const targets = rows.map((row) => row.map(() => []));
+  rows.forEach((row, r) => {
+    row.forEach((node, position) => {
+      if (position < row.length - 1) targets[r][position].push(row[position + 1].label);
+    });
+  });
+  links.forEach((pairs, r) => {
+    for (const { from, to, up } of pairs) {
+      if (up) targets[r + 1][to].push(rows[r][from].label);
+      else targets[r][from].push(rows[r + 1][to].label);
+    }
+  });
+
+  const cells = [];
+  rows.forEach((row, r) => {
+    row.forEach((node, position) => {
+      const slot = slots[r][position];
+      const next = targets[r][position].length
+        ? `<span class="flow-grid-next">${escapeHtml(labels.leadsTo)}: ${targets[r][position].map((label) => renderInline(label, imageSize)).join(', ')}</span>`
+        : '';
+      const outcome = targets[r][position].length ? '' : ' flow-grid-outcome';
+      cells.push(
+        `<div class="flow-grid-step${outcome}" role="listitem" style="grid-area: ${2 * r + 1} / ${2 * slot + 1}"><span class="flow-diagram-label">${renderInline(node.label, imageSize)}</span>${next}</div>`,
+      );
+      if (position < row.length - 1) {
+        cells.push(
+          `<span class="flow-grid-arrow" aria-hidden="true" style="grid-row: ${2 * r + 1}; grid-column: ${2 * slot + 2} / ${2 * slots[r][position + 1] + 1}"></span>`,
+        );
+      }
+    });
+  });
+  links.forEach((pairs, r) => {
+    for (const { from, up } of pairs) {
+      cells.push(
+        `<span class="flow-grid-drop${up ? ' flow-grid-drop-up' : ''}" aria-hidden="true" style="grid-area: ${2 * r + 2} / ${2 * slots[r][from] + 1}"></span>`,
+      );
+    }
+  });
+
+  const tracks = columns > 1
+    ? `repeat(${columns - 1}, minmax(0, 1fr) var(--flow-grid-gutter)) minmax(0, 1fr)`
+    : 'minmax(0, 1fr)';
+  return `<div class="flow-grid" role="list" style="grid-template-columns: ${tracks}">${cells.join('')}</div>`;
+};
+
+/**
  * A flow group as a figure: each flow an ordered list of steps, because the
  * order is the content, with the arrows drawn by the stylesheet between the
  * items rather than typed into them, so a screen reader hears "list, 3 items"
  * instead of "dash dash dash greater than" between every step.
  */
-const renderFlowGroup = ({ rows, caption }, imageSize) => {
+const renderFlowGroup = ({ rows, caption }, imageSize, labels = PRE_LABELS.en) => {
   const flows = rows
-    .map(({ title, steps }) => {
+    .map(({ title, steps, grid }) => {
       const heading = title ? `<div class="flow-diagram-title">${renderInline(title, imageSize)}</div>` : '';
+      if (grid) return `<div class="flow-diagram-row">${heading}${renderFlowGrid(grid, imageSize, labels)}</div>`;
       const items = steps
         .map(({ label, notes }) => {
           const detail = notes
@@ -592,9 +781,9 @@ const renderFlowGroup = ({ rows, caption }, imageSize) => {
  * that have no language of their own.
  */
 const PRE_LABELS = {
-  en: { code: 'Code block', diagram: 'Diagram, scrollable' },
-  es: { code: 'Bloque de código', diagram: 'Diagrama, desplazable' },
-  pt: { code: 'Bloco de código', diagram: 'Diagrama, rolável' },
+  en: { code: 'Code block', diagram: 'Diagram, scrollable', leadsTo: 'Leads to' },
+  es: { code: 'Bloque de código', diagram: 'Diagrama, desplazable', leadsTo: 'Lleva a' },
+  pt: { code: 'Bloco de código', diagram: 'Diagrama, rolável', leadsTo: 'Leva a' },
 };
 
 /**
@@ -895,7 +1084,7 @@ export const renderMarkdown = (markdown, { imageSize, lang } = {}) => {
     // the pipe spelling with a pipe the table branch would test.
     const flows = flowGroup(lines, index);
     if (flows) {
-      html.push(renderFlowGroup(flows, imageSize));
+      html.push(renderFlowGroup(flows, imageSize, labels));
       index = flows.next;
       continue;
     }
