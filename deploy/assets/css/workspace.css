@@ -996,7 +996,47 @@ body.workspace-page {
  * their own colour, at the top of page one, because a PDF that leaves the page
  * carries no top bar to say whose report it is.
  */
+/* Departments: the hub ranking, the report section and its folds. */
+.workspace-departments {
+  margin-top: 24px;
+}
+
+.workspace-table__wrap {
+  overflow-x: auto;
+}
+
+.workspace-department {
+  margin-top: 16px;
+  border: 1px solid var(--workspace-line);
+  border-radius: 12px;
+  background: var(--workspace-page);
+  padding: 4px 16px;
+}
+
+.workspace-department > summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 0;
+  color: var(--workspace-ink);
+}
+
+.workspace-department[open] > summary {
+  border-bottom: 1px solid var(--workspace-line);
+  margin-bottom: 12px;
+}
+
+.workspace-department .workspace-panel {
+  margin-bottom: 12px;
+}
+
 @media print {
+  .workspace-department {
+    break-inside: auto;
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+
   body.workspace-page {
     background: #ffffff;
   }

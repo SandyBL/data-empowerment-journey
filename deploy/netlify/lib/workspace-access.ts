@@ -53,6 +53,80 @@ export const SIMULATOR_SLUGS = [
 
 export const LOCALES = ["en", "es", "pt"] as const;
 
+/**
+ * Which simulators a space offers, in hub order.
+ *
+ * A NULL column is every simulator, which is what each space created before the
+ * choice existed has always offered. A stored list is filtered against the four
+ * known slugs on read as well as on write, so a slug retired later cannot make a
+ * space offer a page that no longer exists.
+ */
+export const spaceSimulators = (space: Pick<SpaceRow, "simulators">): string[] => {
+  const stored = Array.isArray(space.simulators) ? space.simulators : null;
+  if (!stored) return [...SIMULATOR_SLUGS];
+  const known = SIMULATOR_SLUGS.filter((slug) => stored.includes(slug));
+  return known.length ? known : [...SIMULATOR_SLUGS];
+};
+
+/** Whether this space offers this simulator. */
+export const spaceOffers = (space: Pick<SpaceRow, "simulators">, simulator: string) =>
+  spaceSimulators(space).includes(simulator);
+
+/**
+ * The console's simulator choice, or null for "all four".
+ *
+ * All four ticked is stored as NULL rather than as the full list, so a fifth
+ * simulator added later reaches the spaces that asked for everything. An empty
+ * choice is refused by the caller, not repaired here.
+ */
+export const cleanSimulatorChoice = (value: unknown) => {
+  if (!Array.isArray(value)) return null;
+  const picked = SIMULATOR_SLUGS.filter((slug) => value.includes(slug));
+  if (picked.length === SIMULATOR_SLUGS.length) return null;
+  return picked;
+};
+
+/** Most departments one space can list, and the longest name one can have. */
+const MAX_DEPARTMENTS = 40;
+const MAX_DEPARTMENT_LENGTH = 80;
+
+/**
+ * The console's department list, or null when the space does not ask.
+ *
+ * Accepts an array or one name per line. Trimmed, de-duplicated on the folded
+ * name so "Finance" and "finance " are one department, and bounded, because the
+ * list is rendered as a dropdown on a phone in a workshop room.
+ */
+export const cleanDepartments = (value: unknown) => {
+  const raw = Array.isArray(value) ? value : typeof value === "string" ? value.split(/\r?\n/) : [];
+  const seen = new Set<string>();
+  const list: string[] = [];
+  for (const entry of raw) {
+    const name = cleanLine(entry, MAX_DEPARTMENT_LENGTH);
+    const folded = foldParticipantName(name);
+    if (!name || !folded || seen.has(folded)) continue;
+    seen.add(folded);
+    list.push(name);
+    if (list.length >= MAX_DEPARTMENTS) break;
+  }
+  return list.length ? list : null;
+};
+
+/**
+ * The department a participant picked, matched against the space's own list.
+ *
+ * Matched on the folded name and returned in the list's own spelling, so the
+ * report never carries a variant the console did not write. Null when the space
+ * does not ask, or when the value is not on the list.
+ */
+export const matchDepartment = (space: Pick<SpaceRow, "departments">, value: unknown) => {
+  const list = Array.isArray(space.departments) ? space.departments : null;
+  if (!list || !list.length) return null;
+  const folded = foldParticipantName(value);
+  if (!folded) return null;
+  return list.find((name) => foldParticipantName(name) === folded) ?? null;
+};
+
 /** A seat cannot outlive its space, and inside that it lasts a working day. */
 const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
 
@@ -279,6 +353,11 @@ export const publicSpace = (space: SpaceRow) => ({
   // each page deciding for itself whether white text survives it. Null for a
   // space that set no accent, which keeps the shipped navy. See workspace-brand.
   theme: spaceTheme(space.accentColor),
+  // The simulators this space offers, in hub order. Always a list here, never
+  // NULL, so no page has to know that NULL means all four.
+  simulators: spaceSimulators(space),
+  // The list the code screen offers, or null when this space does not ask.
+  departments: Array.isArray(space.departments) && space.departments.length ? space.departments : null,
   startsAt: space.startsAt,
   expiresAt: space.expiresAt,
 });
@@ -336,6 +415,7 @@ export const openSeat = async (
   space: SpaceRow,
   role: "participant" | "sponsor",
   participantLabel: string,
+  department: string | null = null,
 ) => {
   const token = generateSessionToken();
   const expiresAt = new Date(Math.min(Date.now() + SESSION_TTL_MS, space.expiresAt.getTime()));
@@ -349,6 +429,7 @@ export const openSeat = async (
       // Computed here rather than by the caller so that every seat in the
       // database agrees on what counts as the same person.
       participantKey: await participantKeyFor(space.id, participantLabel),
+      department,
       role,
       expiresAt,
     })

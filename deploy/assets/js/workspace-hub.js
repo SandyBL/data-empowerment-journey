@@ -37,6 +37,7 @@ const SESSION_ENDPOINT = "/api/workspace/session";
 const JOIN_ENDPOINT = "/api/workspace/join";
 const REPORT_ENDPOINT = "/api/workspace/report";
 const SCORES_ENDPOINT = "/api/simulator-scores";
+const DEPARTMENTS_ENDPOINT = "/api/workspace/departments";
 
 /** The four simulators, with the localised names their own pages carry. */
 const SIMULATORS = [
@@ -160,6 +161,34 @@ const COPY = {
     average: "Average",
     runsCounted: "Runs",
     generated: "Generated",
+
+    // Departments: the optional field on the code screen, the hub ranking and
+    // the per-department section of the report.
+    departmentLabel: "Your department",
+    departmentPlaceholder: "Choose your department",
+    departmentHint: "Used to compare results between departments. Pick the same one each time you come back.",
+    missingDepartment: "Please choose your department.",
+    codeFromLink: "The access code from your link is already filled in. Add your name to enter.",
+    departmentRankingTitle: "Department ranking",
+    departmentRankingNote:
+      "Each department's index is the average of its simulator averages, out of 100. A department that has played fewer simulators is compared on fewer exercises.",
+    departmentColumn: "Department",
+    indexColumn: "Index",
+    rankColumn: "#",
+    departmentNoRuns: "No department has published a run yet.",
+    departmentNotYet: "Not played yet: {departments}.",
+    departmentsTitle: "Analysis by department",
+    departmentsLead:
+      "The same analysis as above, for each department on its own. Departments are ranked by their index; open one to read its full analysis.",
+    departmentsUnassigned: "{runs} runs were published without a department and are counted in the room totals only.",
+    departmentDetails: "Full analysis: {department}",
+    departmentPlayed: "{counted} of {available} simulators",
+    // Recommendation wording for the case where even the lowest reading is
+    // already above the strength line: "start here" would be the wrong advice.
+    focusAllStrong: "Every dimension is at or above {threshold}%. The lowest is {dimension}, at {value}% — worth maintaining rather than fixing.",
+    pillarLowest: "Lowest pillar: {pillar}, at {value}% — still above {threshold}%, so this room has no weak pillar yet.",
+    pillarUncovered: "Not measured by the simulators in this space: {pillars}.",
+    coverageSome: "{count} of {people} people played all {available} simulators.",
 
     // The executive summary: one index, one standing and the five pillars,
     // across all four simulators. Written as sentence templates rather than as
@@ -307,6 +336,30 @@ const COPY = {
     runsCounted: "Partidas",
     generated: "Generado",
 
+    departmentLabel: "Tu departamento",
+    departmentPlaceholder: "Elige tu departamento",
+    departmentHint: "Sirve para comparar resultados entre departamentos. Elige el mismo cada vez que vuelvas.",
+    missingDepartment: "Elige tu departamento.",
+    codeFromLink: "El código de acceso de tu enlace ya está escrito. Añade tu nombre para entrar.",
+    departmentRankingTitle: "Clasificación por departamento",
+    departmentRankingNote:
+      "El índice de cada departamento es la media de sus medias por simulador, sobre 100. Un departamento que jugó menos simuladores se compara con menos ejercicios.",
+    departmentColumn: "Departamento",
+    indexColumn: "Índice",
+    rankColumn: "#",
+    departmentNoRuns: "Ningún departamento ha publicado una partida todavía.",
+    departmentNotYet: "Aún sin jugar: {departments}.",
+    departmentsTitle: "Análisis por departamento",
+    departmentsLead:
+      "El mismo análisis de arriba, para cada departamento por separado. Los departamentos se ordenan por su índice; abre uno para leer su análisis completo.",
+    departmentsUnassigned: "{runs} partidas se publicaron sin departamento y solo cuentan en los totales de la sala.",
+    departmentDetails: "Análisis completo: {department}",
+    departmentPlayed: "{counted} de {available} simuladores",
+    focusAllStrong: "Todas las dimensiones están en el {threshold}% o más. La más baja es {dimension}, con {value}%: conviene mantenerla más que corregirla.",
+    pillarLowest: "Pilar más bajo: {pillar}, con {value}% — aún por encima del {threshold}%, así que esta sala no tiene un pilar débil todavía.",
+    pillarUncovered: "No lo miden los simuladores de este espacio: {pillars}.",
+    coverageSome: "{count} de {people} personas jugaron los {available} simuladores.",
+
     // El resumen ejecutivo: un índice, una posición y los cinco pilares, sobre
     // los cuatro simuladores. Redactado como plantillas de frase y no como
     // fragmentos encadenados, porque un informe que una consultora entrega a un
@@ -448,6 +501,30 @@ const COPY = {
     runsCounted: "Partidas",
     generated: "Gerado",
 
+    departmentLabel: "O seu departamento",
+    departmentPlaceholder: "Escolha o seu departamento",
+    departmentHint: "Serve para comparar resultados entre departamentos. Escolha o mesmo sempre que voltar.",
+    missingDepartment: "Escolha o seu departamento.",
+    codeFromLink: "O código de acesso do seu link já está preenchido. Escreva o seu nome para entrar.",
+    departmentRankingTitle: "Ranking por departamento",
+    departmentRankingNote:
+      "O índice de cada departamento é a média das suas médias por simulador, em 100. Um departamento que jogou menos simuladores é comparado em menos exercícios.",
+    departmentColumn: "Departamento",
+    indexColumn: "Índice",
+    rankColumn: "#",
+    departmentNoRuns: "Nenhum departamento publicou uma partida ainda.",
+    departmentNotYet: "Ainda sem jogar: {departments}.",
+    departmentsTitle: "Análise por departamento",
+    departmentsLead:
+      "A mesma análise de cima, para cada departamento separadamente. Os departamentos são ordenados pelo índice; abra um para ler a análise completa.",
+    departmentsUnassigned: "{runs} partidas foram publicadas sem departamento e contam apenas nos totais da sala.",
+    departmentDetails: "Análise completa: {department}",
+    departmentPlayed: "{counted} de {available} simuladores",
+    focusAllStrong: "Todas as dimensões estão em {threshold}% ou mais. A mais baixa é {dimension}, com {value}% — vale manter, não corrigir.",
+    pillarLowest: "Pilar mais baixo: {pillar}, com {value}% — ainda acima de {threshold}%, por isso esta sala ainda não tem um pilar fraco.",
+    pillarUncovered: "Não medido pelos simuladores deste espaço: {pillars}.",
+    coverageSome: "{count} de {people} pessoas jogaram os {available} simuladores.",
+
     // O resumo executivo: um índice, uma posição e os cinco pilares, sobre os
     // quatro simuladores. Escrito como modelos de frase e não como fragmentos
     // encadeados, porque um relatório que uma consultora entrega a um cliente
@@ -538,6 +615,10 @@ const view = {
   gateError: document.querySelector("#space-gate-error"),
   code: document.querySelector("#space-code"),
   label: document.querySelector("#space-label"),
+  departmentField: document.querySelector("#space-department-field"),
+  department: document.querySelector("#space-department"),
+  departments: document.querySelector("#space-departments"),
+  departmentsBody: document.querySelector("#space-departments-body"),
   joinButton: document.querySelector("#space-join"),
   hub: document.querySelector("#space-hub"),
   hubTitle: document.querySelector("#space-hub-title"),
@@ -644,6 +725,65 @@ function dimensionLabel(simulator, key) {
   return labelForDimension(simulator, key, locale);
 }
 
+/**
+ * The simulators this space offers, in hub order.
+ *
+ * The server always sends the list (all four for a space that never chose), so
+ * an absent list only means an older response, and is read as all four.
+ */
+function offeredSimulators(space) {
+  const offered = space && Array.isArray(space.simulators) ? space.simulators : null;
+  if (!offered || !offered.length) return SIMULATORS;
+  return SIMULATORS.filter((simulator) => offered.includes(simulator.slug));
+}
+
+/**
+ * The access code a QR code or a shared link carried, or "".
+ *
+ * Read from the fragment (/w/acme/#code=ABCD-EFGH-JKMN) first, because a
+ * fragment never reaches a server, a proxy log or a Referer header; ?code= is
+ * accepted as well for a link somebody typed by hand. Either way it is removed
+ * from the address bar as soon as it has been read, so the code does not stay
+ * on screen behind the facilitator or in the browser history of a shared device.
+ */
+function readLinkCode() {
+  const fromHash = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("code");
+  const query = new URLSearchParams(window.location.search);
+  const code = fromHash || query.get("code") || "";
+  if (code) {
+    query.delete("code");
+    const search = query.toString();
+    try {
+      window.history.replaceState(null, "", `${window.location.pathname}${search ? `?${search}` : ""}`);
+    } catch {
+      /* Leaving the code in the address bar is harmless; it is the room's code. */
+    }
+  }
+  return code.replace(/[^A-Za-z0-9-]/g, "").slice(0, 20);
+}
+
+const linkCode = readLinkCode();
+
+/** Fills the department dropdown from the space, or hides it when it does not ask. */
+function renderDepartmentField(space) {
+  const list = space && Array.isArray(space.departments) ? space.departments : null;
+  if (!view.departmentField) return;
+  view.departmentField.hidden = !list;
+  view.department.required = Boolean(list);
+  if (!list) return;
+
+  const previous = view.department.value;
+  const placeholder = element("option", null, words().departmentPlaceholder);
+  placeholder.value = "";
+  view.department.replaceChildren(placeholder);
+  for (const name of list) {
+    const option = element("option", null, name);
+    option.value = name;
+    view.department.append(option);
+  }
+  if (list.includes(previous)) view.department.value = previous;
+}
+
 function simulatorName(slug) {
   const simulator = SIMULATORS.find((candidate) => candidate.slug === slug);
   return simulator ? simulator.name[locale] || simulator.name.en : slug;
@@ -656,6 +796,7 @@ function reasonMessage(reason) {
     {
       "bad-code": dictionary.badCode,
       "missing-name": dictionary.missingName,
+      "missing-department": dictionary.missingDepartment,
       "not-found": dictionary.notFound,
       expired: dictionary.expired,
       "not-started": dictionary.notStarted,
@@ -733,6 +874,9 @@ function renderGate(space, reason) {
     view.gate.querySelector("#space-gate-title").textContent = space.displayName || words().gateTitle;
   }
 
+  renderDepartmentField(space);
+  if (linkCode && !view.code.value) view.code.value = linkCode;
+
   view.gateError.textContent = reason ? reasonMessage(reason) : "";
   // A space that is shut cannot be opened by any code, so the form goes with the
   // explanation rather than inviting attempts that cannot succeed.
@@ -742,7 +886,16 @@ function renderGate(space, reason) {
   view.joinButton.disabled = closed;
 
   show(view.gate);
-  if (!closed) view.code.focus();
+  if (closed) return;
+  // A code that arrived with the link is already in place, so the first thing
+  // left to do is the name -- which is the whole point of the QR code.
+  if (view.code.value) {
+    const hint = view.code.parentElement && view.code.parentElement.querySelector("small");
+    if (hint && view.code.value === linkCode) hint.textContent = words().codeFromLink;
+    view.label.focus();
+  } else {
+    view.code.focus();
+  }
 }
 
 async function join(event) {
@@ -766,6 +919,10 @@ async function join(event) {
     return;
   }
 
+  // No department check here: the screen cannot tell a participant code from a
+  // sponsor code, and only a participant is required to pick one. The server
+  // answers "missing-department" and the field is focused then.
+
   view.joinButton.disabled = true;
   view.joinButton.textContent = dictionary.joining;
 
@@ -774,12 +931,18 @@ async function join(event) {
       method: "POST",
       credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: readSlug(), code: view.code.value, label: view.label.value }),
+      body: JSON.stringify({
+        slug: readSlug(),
+        code: view.code.value,
+        label: view.label.value,
+        department: view.department && !view.departmentField.hidden ? view.department.value : "",
+      }),
     });
     const payload = await response.json().catch(() => ({}));
 
     if (!response.ok) {
       view.gateError.textContent = reasonMessage(payload.reason);
+      if (payload.reason === "missing-department" && view.department) view.department.focus();
       return;
     }
 
@@ -791,7 +954,13 @@ async function join(event) {
       return;
     }
 
-    await enterHub({ joined: true, role: payload.role, space: payload.space, label: payload.label });
+    await enterHub({
+      joined: true,
+      role: payload.role,
+      space: payload.space,
+      label: payload.label,
+      department: payload.department,
+    });
   } catch (error) {
     console.warn("Join failed", error);
     view.gateError.textContent = dictionary.unavailable;
@@ -819,7 +988,7 @@ function renderCards(space, progress) {
 
   const played = new Map((progress || []).map((entry) => [entry.simulator, entry]));
 
-  for (const simulator of SIMULATORS) {
+  for (const simulator of offeredSimulators(space)) {
     const card = element("article", "workspace-card");
     card.append(element("h2", null, simulator.name[locale] || simulator.name.en));
     card.append(element("p", null, simulator.summary[locale] || simulator.summary.en));
@@ -885,6 +1054,10 @@ function renderMeta(state) {
     view.hubMeta.append(element("span", "workspace-pill", `${dictionary.seatedAs} ${state.label}`));
   }
 
+  if (state.department) {
+    view.hubMeta.append(element("span", "workspace-pill", state.department));
+  }
+
   const until = formatDate(state.space.expiresAt);
   if (until) view.hubMeta.append(element("span", "workspace-pill", `${dictionary.accessUntil} ${until}`));
 }
@@ -916,10 +1089,13 @@ async function fetchProgress() {
 }
 
 /** The one-line summary under the cards: nothing yet, some, or all of them. */
-function progressSentence(progress) {
+function progressSentence(progress, space) {
   const dictionary = words();
-  const done = progress.length;
-  const total = SIMULATORS.length;
+  const offered = offeredSimulators(space).map((simulator) => simulator.slug);
+  // Only the simulators this space offers: a run of one that has since been
+  // taken out of the space must not make somebody "done" with one still owed.
+  const done = progress.filter((entry) => offered.includes(entry.simulator)).length;
+  const total = offered.length;
   if (!done) return dictionary.progressNone;
   if (done >= total) return fill(dictionary.progressAll, { done, total });
   return fill(dictionary.progressSome, { done, total });
@@ -935,8 +1111,9 @@ async function enterHub(state) {
 
   const progress = Array.isArray(state.progress) ? state.progress : await fetchProgress();
   renderCards(state.space, progress);
-  view.hubFoot.textContent = progressSentence(progress);
+  view.hubFoot.textContent = progressSentence(progress, state.space);
   show(view.hub);
+  renderDepartmentRanking(state.space);
 
   if (state.role === "sponsor") await renderReport();
 }
@@ -1090,15 +1267,18 @@ function renderSimulatorPanel(entry, thresholds) {
       panel.append(split);
     }
 
+    // "Start here" is only advice when the weakest row is actually a gap. A room
+    // whose lowest dimension is at 85% has nothing to start fixing, and telling
+    // a sponsor otherwise is the report contradicting its own bars.
     const weakest = entry.dimensions[0];
+    const values = { dimension: dimensionLabel(entry.simulator, weakest.key), value: weakest.average, threshold: strength };
     panel.append(
       element(
         "p",
         "workspace-footnote",
-        `${fill(dictionary.focusNote, {
-          dimension: dimensionLabel(entry.simulator, weakest.key),
-          value: weakest.average,
-        })} ${dictionary.weakestNote}`,
+        weakest.strong
+          ? fill(dictionary.focusAllStrong, values)
+          : `${fill(dictionary.focusNote, values)} ${dictionary.weakestNote}`,
       ),
     );
   }
@@ -1212,11 +1392,16 @@ function renderExecutive(data) {
   };
   const strongest = named(executive.strongestPillar);
   const weakest = named(executive.weakestPillar);
+  const threshold = data.thresholds ? data.thresholds.strength : 60;
   const readings = [
     strongest ? fill(dictionary.pillarStrongest, strongest) : "",
     // Only worth saying separately when it is a different pillar; with one
-    // measured pillar the strongest and the weakest are the same row.
-    weakest && executive.weakestPillar !== executive.strongestPillar ? fill(dictionary.pillarWeakest, weakest) : "",
+    // measured pillar the strongest and the weakest are the same row. And only
+    // called the place to start when it is below the strength line -- the
+    // lowest of five good pillars is not a weakness.
+    weakest && executive.weakestPillar !== executive.strongestPillar
+      ? fill(weakest.value < threshold ? dictionary.pillarWeakest : dictionary.pillarLowest, { ...weakest, threshold })
+      : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -1242,20 +1427,40 @@ function renderExecutive(data) {
     );
   }
 
+  if (executive.uncoveredPillars && executive.uncoveredPillars.length) {
+    panel.append(
+      element(
+        "p",
+        "workspace-footnote",
+        fill(dictionary.pillarUncovered, {
+          pillars: listOf(executive.uncoveredPillars.map((key) => pillarNames[key] || key)),
+        }),
+      ),
+    );
+  }
+
   const notes = element("ul", "workspace-notes");
+  const coverageValues = {
+    count: executive.coverage.playedAll,
+    people: executive.coverage.people,
+    available: executive.simulatorsAvailable,
+  };
+  // "Describes the room" only when it does: everybody played everything. A room
+  // where some did is stated as a count; a room where people mostly played one
+  // simulator gets the warning. A one-simulator space has nothing to say here.
   const sentences = [
-    executive.coverage.playedAll
-      ? fill(dictionary.coverageAll, {
-          count: executive.coverage.playedAll,
-          people: executive.coverage.people,
-          available: executive.simulatorsAvailable,
-        })
+    executive.simulatorsAvailable < 2
+      ? ""
+      : executive.coverage.people && executive.coverage.playedAll === executive.coverage.people
+      ? fill(dictionary.coverageAll, coverageValues)
       : executive.coverage.playedOne
         ? fill(dictionary.coveragePartial, {
             count: executive.coverage.playedOne,
             people: executive.coverage.people,
           })
-        : "",
+        : executive.coverage.playedAll
+          ? fill(dictionary.coverageSome, coverageValues)
+          : "",
     executive.widestSpread
       ? fill(dictionary.spreadNote, {
           simulator: simulatorName(executive.widestSpread.simulator),
@@ -1276,6 +1481,147 @@ function renderExecutive(data) {
   if (sentences.length) panel.append(notes);
 
   return panel;
+}
+
+/* -------------------------------------------------------------------------
+ * Departments
+ * ---------------------------------------------------------------------- */
+
+/** A small ranking table: rank, department, people, index, and what it covers. */
+function departmentTable(rows, available, extraColumn) {
+  const dictionary = words();
+  const table = element("table", "workspace-table");
+  const head = element("thead");
+  const headRow = element("tr");
+  for (const label of [dictionary.rankColumn, dictionary.departmentColumn, dictionary.people, dictionary.indexColumn, dictionary.simulatorsPlayed]) {
+    headRow.append(element("th", null, label));
+  }
+  if (extraColumn) headRow.append(element("th", null, extraColumn.title));
+  head.append(headRow);
+
+  const body = element("tbody");
+  rows.forEach((row, position) => {
+    const tr = element("tr");
+    tr.append(element("td", null, String(row.rank ?? position + 1)));
+    tr.append(element("td", null, row.department));
+    tr.append(element("td", null, String(row.people)));
+    tr.append(element("td", null, row.index === null || row.index === undefined ? "—" : `${row.index}/100`));
+    tr.append(element("td", null, fill(dictionary.departmentPlayed, { counted: row.simulatorsCounted, available })));
+    if (extraColumn) tr.append(element("td", null, extraColumn.value(row)));
+    body.append(tr);
+  });
+  table.append(head, body);
+  const wrap = element("div", "workspace-table__wrap");
+  wrap.append(table);
+  return wrap;
+}
+
+/**
+ * The department table on the hub, for a space that asks for departments.
+ *
+ * Fetched rather than carried on the session answer because it is a read over
+ * every run in the space, and the session is asked on every simulator page load.
+ * A failure hides the section; the hub works without it.
+ */
+async function renderDepartmentRanking(space) {
+  if (!view.departments) return;
+  if (!space || !Array.isArray(space.departments) || !space.departments.length) {
+    view.departments.hidden = true;
+    return;
+  }
+
+  try {
+    const response = await fetch(DEPARTMENTS_ENDPOINT, { credentials: "same-origin", headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if (!Array.isArray(data.departments)) {
+      view.departments.hidden = true;
+      return;
+    }
+
+    const dictionary = words();
+    const played = data.departments.filter((row) => row.people > 0);
+    const waiting = data.departments.filter((row) => row.people === 0).map((row) => row.department);
+    const nodes = [];
+    if (played.length) {
+      nodes.push(
+        departmentTable(played, data.simulatorsAvailable, {
+          title: dictionary.average,
+          value: (row) => row.perSimulator.map((entry) => `${simulatorName(entry.simulator)} ${entry.averagePercent}%`).join(" · "),
+        }),
+      );
+      nodes.push(element("p", "workspace-footnote", dictionary.departmentRankingNote));
+    } else {
+      nodes.push(element("p", "workspace-footnote", dictionary.departmentNoRuns));
+    }
+    if (waiting.length) nodes.push(element("p", "workspace-footnote", fill(dictionary.departmentNotYet, { departments: listOf(waiting) })));
+    view.departmentsBody.replaceChildren(...nodes);
+    view.departments.hidden = false;
+  } catch (error) {
+    console.warn("Department ranking unavailable", error);
+    view.departments.hidden = true;
+  }
+}
+
+/**
+ * The report's per-department section: a ranking, then the full room analysis
+ * repeated for each department, folded so the page stays readable.
+ *
+ * Each fold is drawn by the very functions that draw the room's analysis, from
+ * the same shape of data the endpoint builds with the same code, so a
+ * department's "start here" means exactly what the room's does.
+ */
+function renderDepartmentsSection(data) {
+  const dictionary = words();
+  const departments = data.departments;
+  const section = element("section", "workspace-panel workspace-panel--departments");
+  section.append(element("h3", null, dictionary.departmentsTitle));
+  section.append(element("p", "workspace-lead", dictionary.departmentsLead));
+
+  if (!departments.ranking.length) {
+    section.append(element("p", "workspace-footnote", dictionary.departmentNoRuns));
+  } else {
+    const available = data.totals.simulatorsAvailable;
+    const pillarNames = PILLAR_LABELS[locale] || PILLAR_LABELS.en;
+    section.append(
+      departmentTable(
+        departments.ranking.map((row) => ({
+          rank: row.rank,
+          department: row.department,
+          people: row.people,
+          index: row.executive.index,
+          simulatorsCounted: row.executive.simulatorsCounted,
+          weakestPillar: row.executive.weakestPillar,
+        })),
+        available,
+        {
+          title: dictionary.gaps,
+          value: (row) => (row.weakestPillar ? pillarNames[row.weakestPillar] || row.weakestPillar : "—"),
+        },
+      ),
+    );
+    section.append(element("p", "workspace-footnote", dictionary.departmentRankingNote));
+  }
+
+  if (departments.notYetPlayed.length) {
+    section.append(
+      element("p", "workspace-footnote", fill(dictionary.departmentNotYet, { departments: listOf(departments.notYetPlayed) })),
+    );
+  }
+  if (departments.unassignedRuns) {
+    section.append(element("p", "workspace-footnote", fill(dictionary.departmentsUnassigned, { runs: departments.unassignedRuns })));
+  }
+
+  for (const row of departments.ranking) {
+    const fold = element("details", "workspace-department");
+    fold.append(element("summary", null, `${row.rank}. ${fill(dictionary.departmentDetails, { department: row.department })}`));
+    const scoped = { ...data, executive: row.executive, totals: { ...data.totals, runs: row.runs } };
+    fold.append(renderExecutive(scoped));
+    for (const entry of row.simulators) fold.append(renderSimulatorPanel(entry, data.thresholds));
+    section.append(fold);
+  }
+
+  return section;
 }
 
 async function renderReport() {
@@ -1317,6 +1663,7 @@ async function renderReport() {
     view.reportBody.replaceChildren(
       renderExecutive(data),
       ...data.simulators.map((entry) => renderSimulatorPanel(entry, data.thresholds)),
+      ...(data.departments ? [renderDepartmentsSection(data)] : []),
     );
     view.reportFoot.textContent = [
       `${dictionary.generated} ${formatDate(new Date().toISOString())}`,
@@ -1336,6 +1683,17 @@ async function renderReport() {
 
 view.gateForm.addEventListener("submit", join);
 view.reportPrint.addEventListener("click", () => window.print());
+// A folded department is a department missing from the PDF, so every fold opens
+// for printing and goes back to how it was afterwards.
+window.addEventListener("beforeprint", () => {
+  for (const fold of document.querySelectorAll("details.workspace-department")) {
+    fold.dataset.wasOpen = fold.open ? "1" : "";
+    fold.open = true;
+  }
+});
+window.addEventListener("afterprint", () => {
+  for (const fold of document.querySelectorAll("details.workspace-department")) fold.open = fold.dataset.wasOpen === "1";
+});
 view.reportCsv.addEventListener("click", () => {
   // A plain navigation rather than a fetch and a blob: the response carries the
   // filename in Content-Disposition, and letting the browser handle it keeps the

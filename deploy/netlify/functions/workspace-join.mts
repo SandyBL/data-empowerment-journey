@@ -5,6 +5,7 @@ import {
   foldParticipantName,
   hintCookie,
   matchCode,
+  matchDepartment,
   normalizeSlug,
   openSeat,
   publicSpace,
@@ -91,7 +92,21 @@ export default async (request: Request) => {
       return Response.json({ error: "Incorrect access code", reason: "bad-code" }, { status: 401 });
     }
 
-    const { token, expiresAt } = await openSeat(space, role, label);
+    // Only a space that lists departments asks for one, and then a participant
+    // has to pick one of them: a seat with no department would be a run the
+    // department analysis cannot place. The sponsor is not held to it -- the
+    // client contact reading the report is often not in any of the teams being
+    // measured -- but a sponsor who does pick one is recorded under it.
+    const asksDepartment = Array.isArray(space.departments) && space.departments.length > 0;
+    const department = asksDepartment ? matchDepartment(space, payload?.department) : null;
+    if (asksDepartment && role === "participant" && !department) {
+      return Response.json(
+        { error: "Please choose your department", reason: "missing-department", space: publicSpace(space) },
+        { status: 400 },
+      );
+    }
+
+    const { token, expiresAt } = await openSeat(space, role, label, department);
 
     // Two cookies, so two Set-Cookie lines, which a plain object cannot express:
     // the seat itself (HttpOnly, the actual credential) and the readable hint
@@ -103,7 +118,7 @@ export default async (request: Request) => {
     headers.append("Set-Cookie", hintCookie(expiresAt));
 
     return Response.json(
-      { joined: true, role, label, expiresAt, space: publicSpace(space) },
+      { joined: true, role, label, department, expiresAt, space: publicSpace(space) },
       { status: 201, headers },
     );
   } catch (error) {

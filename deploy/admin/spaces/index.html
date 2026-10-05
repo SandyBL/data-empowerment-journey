@@ -71,7 +71,7 @@
           <h2 id="spaces-codes-heading">Copy these codes now</h2>
           <button class="spaces-button spaces-button--ghost" id="spaces-codes-dismiss" type="button">Done</button>
         </div>
-        <p>They are stored only as a hash, so this is the one and only time they can be read. If they are lost, regenerate.</p>
+        <p>The sponsor code is stored only as a hash, so this is the one and only time it can be read. The participant code, its room link and QR code can be reopened from the space card at any time.</p>
         <div id="spaces-codes-body"></div>
       </section>
 
@@ -80,7 +80,13 @@
           <h2 id="spaces-create-heading">Open a new space</h2>
           <p>Only the company name is required. The slug becomes the address the room types in, and the licence defaults to ninety days.</p>
         </div>
+        <!-- Shown while the form is prefilled from an existing space. -->
+        <div class="spaces-duplicate" id="spaces-duplicate" hidden>
+          <p id="spaces-duplicate-text"></p>
+          <button class="spaces-button spaces-button--ghost" id="spaces-duplicate-cancel" type="button">Start from scratch instead</button>
+        </div>
         <form class="spaces-form" id="spaces-create-form" novalidate>
+          <input type="hidden" name="duplicateFrom" id="create-duplicate-from" value="">
           <div class="spaces-form__grid">
             <div class="studio-field">
               <label for="create-company">Company</label>
@@ -127,7 +133,56 @@
               <small>Empty means ninety days from the start.</small>
             </div>
           </div>
+          <!-- Which simulators this space offers. All four by default; the hub
+               shows only the ticked ones and the report measures only them. -->
+          <fieldset class="spaces-fieldset" id="create-simulators">
+            <legend>Simulators in this space</legend>
+            <label class="spaces-checkbox"><input type="checkbox" name="simulators" value="data-governance-day-to-day" checked> Data Governance Day-to-Day</label>
+            <label class="spaces-checkbox"><input type="checkbox" name="simulators" value="data-literacy" checked> Data Literacy</label>
+            <label class="spaces-checkbox"><input type="checkbox" name="simulators" value="data-ownership-conflict" checked> Data Ownership Conflict</label>
+            <label class="spaces-checkbox"><input type="checkbox" name="simulators" value="cdmp-exam-practice" checked> CDMP Exam Practice</label>
+          </fieldset>
+          <!-- Optional per client: a department dropdown on the participant's
+               code screen, a department ranking on the hub and the full report
+               analysis repeated per department. -->
+          <fieldset class="spaces-fieldset">
+            <legend>Departments</legend>
+            <label class="spaces-checkbox"><input id="create-ask-department" name="askDepartment" type="checkbox"> Ask participants for their department when they join, and analyse results by department</label>
+            <div class="studio-field" id="create-departments-field" hidden>
+              <label for="create-departments">Department list</label>
+              <textarea id="create-departments" name="departments" rows="5" placeholder="Finance&#10;Marketing&#10;IT&#10;Operations"></textarea>
+              <small>One per line. Participants pick from this list, so each department is grouped once in the report.</small>
+            </div>
+          </fieldset>
           <label class="spaces-checkbox"><input id="create-sponsor" name="sponsorAccess" type="checkbox" checked> Issue a sponsor code as well, so the client contact can read the facilitator report</label>
+          <!-- Personalising the questions with an AI: the export lists every
+               scenario, its options and the correct answer; the prompt sets the
+               rules. Suggestions are then typed into "Scenario wording" below. -->
+          <details class="spaces-ai" id="create-ai">
+            <summary>Personalise the questions with AI</summary>
+            <p>Download the questions, options and correct answers of the ticked simulators, then paste the prompt below into your AI together with the file. Apply what you keep in <a href="#wording-heading">Scenario wording</a> once the space exists. CDMP Exam Practice is not included: its questions follow the certification syllabus.</p>
+            <div class="spaces-actions">
+              <div class="studio-field">
+                <label for="create-ai-locale">Language of the file</label>
+                <select id="create-ai-locale">
+                  <option value="">Same as the opening language</option>
+                  <option value="en">English</option>
+                  <option value="es">Español</option>
+                  <option value="pt">Português</option>
+                </select>
+              </div>
+              <button class="spaces-button spaces-button--ghost" id="create-ai-download" type="button"><i class="fa-solid fa-download" aria-hidden="true"></i> Download questions &amp; answers (.md)</button>
+            </div>
+            <div class="studio-field">
+              <label for="create-ai-prompt">Prompt for the AI</label>
+              <textarea id="create-ai-prompt" rows="14" spellcheck="false"></textarea>
+              <small>Fill in the client context line before sending. The company name updates from the form.</small>
+            </div>
+            <div class="spaces-actions">
+              <button class="spaces-button spaces-button--ghost" id="create-ai-copy" type="button">Copy prompt</button>
+              <p class="studio-error" id="create-ai-error" role="alert"></p>
+            </div>
+          </details>
           <div class="spaces-actions">
             <button class="spaces-button" id="spaces-create-button" type="submit">Create the space</button>
             <p class="studio-error" id="spaces-create-error" role="alert"></p>
@@ -224,6 +279,28 @@
       </section>
     </main>
   </div>
+  <!-- The room link and its QR code. The link carries the participant code in
+       its fragment (/w/<slug>/#code=...), which the browser never sends to a
+       server, so scanning it opens the code screen with the code filled in and
+       only the name left to type. -->
+  <dialog class="spaces-qr" id="spaces-qr" aria-labelledby="spaces-qr-title">
+    <div class="spaces-qr__inner">
+      <div class="spaces-qr__head">
+        <h2 id="spaces-qr-title">Room link</h2>
+        <button class="spaces-button spaces-button--ghost" id="spaces-qr-close" type="button">Close</button>
+      </div>
+      <p class="spaces-qr__lead" id="spaces-qr-lead">Scan to join</p>
+      <div class="spaces-qr__code" id="spaces-qr-code"></div>
+      <p class="spaces-qr__link"><code id="spaces-qr-link"></code></p>
+      <p class="spaces-qr__participant">Participant code: <strong id="spaces-qr-participant"></strong></p>
+      <div class="spaces-actions spaces-qr__actions">
+        <button class="spaces-button" id="spaces-qr-present" type="button"><i class="fa-solid fa-expand" aria-hidden="true"></i> Present full screen</button>
+        <button class="spaces-button spaces-button--ghost" id="spaces-qr-copy" type="button">Copy link</button>
+        <button class="spaces-button spaces-button--ghost" id="spaces-qr-png" type="button">Download PNG</button>
+        <button class="spaces-button spaces-button--ghost" id="spaces-qr-svg" type="button">Download SVG</button>
+      </div>
+    </div>
+  </dialog>
   <script type="module" src="/assets/js/admin-spaces.js"></script>
 </body>
 </html>

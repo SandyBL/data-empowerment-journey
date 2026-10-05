@@ -1,10 +1,12 @@
 import { getUser } from "@netlify/identity";
 import type { Config } from "@netlify/functions";
-import { and, count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, inArray } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { simulatorScores, workspaceSessions, workspaces } from "../../db/schema.js";
+import { simulatorScores, workspaceScenarioText, workspaceSessions, workspaces } from "../../db/schema.js";
 import {
   cleanAccent,
+  cleanDepartments,
+  cleanSimulatorChoice,
   cleanLine,
   cleanLogoUrl,
   generateCode,
@@ -13,6 +15,7 @@ import {
   normalizeSlug,
   sha256Hex,
   spaceClosedReason,
+  spaceSimulators,
 } from "../lib/workspace-access.js";
 
 // The console behind /admin/spaces/: creating a private space, changing what it
@@ -32,6 +35,11 @@ import {
 // second job. Regenerating also revokes the seats that code opened, so a code
 // change actually ends the access it replaces instead of only affecting the next
 // person to join.
+//
+// The one exception is the participant code, which is also kept in the clear
+// (see `participantCode` in db/schema.ts) so the console can show the room link
+// and its QR code whenever a facilitator needs them. The sponsor code is still
+// shown once and only once.
 //
 // Keep in sync with assets/js/admin-spaces.js.
 
@@ -67,6 +75,12 @@ const readEditableFields = (payload: Record<string, unknown>) => ({
   accentColor: cleanAccent(payload.accentColor),
   startsAt: parseDate(payload.startsAt),
   expiresAt: parseDate(payload.expiresAt),
+  // NULL for all four; an empty list is refused by the caller.
+  simulators: cleanSimulatorChoice(payload.simulators),
+  simulatorsEmpty: Array.isArray(payload.simulators) && cleanSimulatorChoice(payload.simulators)?.length === 0,
+  // NULL when the space does not ask participants for a department.
+  departments: payload.askDepartment === false ? null : cleanDepartments(payload.departments),
+  departmentsMissing: payload.askDepartment === true && !cleanDepartments(payload.departments),
 });
 
 /** What the console shows for a space. Never a hash, never a code. */
@@ -83,8 +97,19 @@ const spaceView = (space: typeof workspaces.$inferSelect) => ({
   expiresAt: space.expiresAt,
   createdAt: space.createdAt,
   hasSponsorCode: space.sponsorCodeHash !== null,
+  // The console is the only reader of this, and it is behind Identity.
+  participantCode: space.participantCode,
+  simulators: spaceSimulators(space),
+  departments: Array.isArray(space.departments) && space.departments.length ? space.departments : null,
   closedReason: spaceClosedReason(space),
 });
+
+/** The two checks create and update share, as an error message or null. */
+const choiceError = (fields: ReturnType<typeof readEditableFields>) => {
+  if (fields.simulatorsEmpty) return "Pick at least one simulator for this space";
+  if (fields.departmentsMissing) return "List at least one department, or switch the department question off";
+  return null;
+};
 
 export default async (request: Request) => {
   const user = await getUser();
@@ -123,7 +148,7 @@ export default async (request: Request) => {
         // The public board's row count, so the console can offer the same
         // moderation reach over it that it has over a private one.
         publicRuns: runsBySpace.get(null) ?? 0,
-      });
+      }, { headers: { "Cache-Control": "no-store" } });
     }
 
     const payload = (await request.json()) as Record<string, unknown>;
@@ -135,6 +160,19 @@ export default async (request: Request) => {
 
       if (!slug) return Response.json({ error: "A space needs a URL slug" }, { status: 400 });
       if (!fields.company) return Response.json({ error: "A space needs a company name" }, { status: 400 });
+      const invalid = choiceError(fields);
+      if (invalid) return Response.json({ error: invalid }, { status: 400 });
+
+      // Duplicating copies the reworded scenarios as well as what the form
+      // carries, because those are the hours of work a second space for the same
+      // client should not have to repeat. Only for the simulators the new space
+      // offers. Codes, seats and runs are never copied: a duplicate is a new
+      // room, and its leaderboard starts empty.
+      const sourceId = Number(payload.duplicateFrom);
+      const [source] =
+        Number.isInteger(sourceId) && sourceId > 0
+          ? await db.select().from(workspaces).where(eq(workspaces.id, sourceId))
+          : [];
 
       const startsAt = fields.startsAt ?? new Date();
       const expiresAt =
@@ -159,18 +197,47 @@ export default async (request: Request) => {
           company: fields.company,
           displayName: fields.displayName || fields.company,
           accessCodeHash: await sha256Hex(normalizeCode(accessCode)),
+          participantCode: accessCode,
           sponsorCodeHash: sponsorCode ? await sha256Hex(normalizeCode(sponsorCode)) : null,
           locale: fields.locale,
           logoUrl: fields.logoUrl,
           accentColor: fields.accentColor,
+          simulators: fields.simulators,
+          departments: fields.departments,
           startsAt,
           expiresAt,
         })
         .returning();
 
-      // The only response in this feature that carries codes in the clear.
+      let copiedWording = 0;
+      if (source) {
+        const offered = spaceSimulators(created);
+        const sets = await db
+          .select()
+          .from(workspaceScenarioText)
+          .where(and(eq(workspaceScenarioText.workspaceId, source.id), inArray(workspaceScenarioText.simulator, offered)));
+        if (sets.length) {
+          await db.insert(workspaceScenarioText).values(
+            sets.map((set) => ({
+              workspaceId: created.id,
+              simulator: set.simulator,
+              locale: set.locale,
+              overrides: set.overrides,
+            })),
+          );
+          copiedWording = sets.length;
+        }
+      }
+
+      // The only response in this feature that carries the sponsor code in the
+      // clear.
       return Response.json(
-        { space: { ...spaceView(created), runs: 0, seats: 0 }, codes: { accessCode, sponsorCode } },
+        {
+          space: { ...spaceView(created), runs: 0, seats: 0 },
+          codes: { accessCode, sponsorCode },
+          duplicatedFrom: source ? source.slug : null,
+          copiedWording,
+        },
         { status: 201, headers: { "Cache-Control": "no-store" } },
       );
     }
@@ -194,6 +261,8 @@ export default async (request: Request) => {
         if (expiresAt.getTime() <= startsAt.getTime()) {
           return Response.json({ error: "Access must end after it starts" }, { status: 400 });
         }
+        const invalid = choiceError(fields);
+        if (invalid) return Response.json({ error: invalid }, { status: 400 });
 
         const [updated] = await db
           .update(workspaces)
@@ -206,6 +275,10 @@ export default async (request: Request) => {
             // client's mark still on a page after they asked for it to go.
             logoUrl: fields.logoUrl,
             accentColor: fields.accentColor,
+            // Only touched when the console sent them, so an older client that
+            // knows nothing about either field cannot clear them by saving.
+            ...("simulators" in payload ? { simulators: fields.simulators } : {}),
+            ...("askDepartment" in payload ? { departments: fields.departments } : {}),
             startsAt,
             expiresAt,
           })
@@ -245,7 +318,7 @@ export default async (request: Request) => {
 
         await db
           .update(workspaces)
-          .set(sponsor ? { sponsorCodeHash: hash } : { accessCodeHash: hash })
+          .set(sponsor ? { sponsorCodeHash: hash } : { accessCodeHash: hash, participantCode: code })
           .where(eq(workspaces.id, id));
 
         // Only the seats the replaced code opened, matched on role in the

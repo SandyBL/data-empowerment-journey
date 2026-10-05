@@ -535,6 +535,16 @@
       })
       .then(function (data) {
         if (data && data.joined && data.space) {
+          // A seated browser on a simulator its space does not offer goes back
+          // to the space's hub. Its run could not be published there anyway --
+          // the score endpoint refuses it -- and playing a whole exercise only to
+          // be told so at the end is the worse way to find out.
+          var offered = Array.isArray(data.space.simulators) ? data.space.simulators : null;
+          if (simulator && offered && offered.length && offered.indexOf(simulator) === -1) {
+            window.location.replace("/w/" + encodeURIComponent(data.space.slug) + "/");
+            return state;
+          }
+
           state = {
             joined: true,
             role: data.role || "participant",
