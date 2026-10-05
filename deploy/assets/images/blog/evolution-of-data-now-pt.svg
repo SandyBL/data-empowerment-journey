@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="360" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#f8fafc" letter-spacing="0.5">A EVOLUÇÃO DOS DADOS CORPORATIVOS</text>
+  <text x="360" y="54" text-anchor="middle" font-size="12" font-weight="400" fill="#94a3b8">Do Registro Operacional Básico à Governança Estratégica de Dados</text>
+
+  <!-- STEP 1 -->
+  <g transform="translate(18, 75)">
+    <rect width="160" height="310" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="160" height="6" rx="3" fill="#64748b"/>
+    <rect x="10" y="16" width="55" height="18" rx="3" fill="#475569" fill-opacity="0.3"/>
+    <text x="37" y="29" text-anchor="middle" font-size="9" font-weight="800" fill="#94a3b8">ETAPA 01</text>
+    <text x="10" y="54" font-size="13" font-weight="700" fill="#f8fafc">Registro Básico</text>
+    <text x="10" y="68" font-size="10" font-weight="600" fill="#64748b">1990s – 2000s</text>
+
+    <line x1="10" y1="78" x2="150" y2="78" stroke="#334155" stroke-width="1"/>
+
+    <text x="10" y="96" font-size="10" font-weight="700" fill="#38bdf8">Foco Principal:</text>
+    <text x="10" y="112" font-size="10" font-weight="400" fill="#94a3b8">• Registro transacional</text>
+    <text x="10" y="126" font-size="10" font-weight="400" fill="#94a3b8">• Controle de estoque</text>
+    <text x="10" y="140" font-size="10" font-weight="400" fill="#94a3b8">• Lançamentos contábeis</text>
+
+    <text x="10" y="168" font-size="10" font-weight="700" fill="#38bdf8">Arquitetura:</text>
+    <text x="10" y="184" font-size="10" font-weight="400" fill="#94a3b8">• Sistemas mainframe</text>
+    <text x="10" y="198" font-size="10" font-weight="400" fill="#94a3b8">• Bancos isolados</text>
+    <text x="10" y="212" font-size="10" font-weight="400" fill="#94a3b8">• Cargas em lote</text>
+
+    <text x="10" y="240" font-size="10" font-weight="700" fill="#38bdf8">Nível de Governança:</text>
+    <text x="10" y="256" font-size="10" font-weight="400" fill="#94a3b8">• Mínimo / Foco na TI</text>
+    <text x="10" y="270" font-size="10" font-weight="400" fill="#94a3b8">• Trava por sistema</text>
+  </g>
+
+  <!-- STEP 2 -->
+  <g transform="translate(191, 75)">
+    <rect width="160" height="310" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="160" height="6" rx="3" fill="#38bdf8"/>
+    <rect x="10" y="16" width="55" height="18" rx="3" fill="#0284c7" fill-opacity="0.3"/>
+    <text x="37" y="29" text-anchor="middle" font-size="9" font-weight="800" fill="#38bdf8">ETAPA 02</text>
+    <text x="10" y="54" font-size="13" font-weight="700" fill="#f8fafc">BI e Dashboards</text>
+    <text x="10" y="68" font-size="10" font-weight="600" fill="#38bdf8">Década de 2010</text>
+
+    <line x1="10" y1="78" x2="150" y2="78" stroke="#334155" stroke-width="1"/>
+
+    <text x="10" y="96" font-size="10" font-weight="700" fill="#38bdf8">Foco Principal:</text>
+    <text x="10" y="112" font-size="10" font-weight="400" fill="#94a3b8">• Relatórios de tendência</text>
+    <text x="10" y="126" font-size="10" font-weight="400" fill="#94a3b8">• Painéis executivos</text>
+    <text x="10" y="140" font-size="10" font-weight="400" fill="#94a3b8">• Análise histórica</text>
+
+    <text x="10" y="168" font-size="10" font-weight="700" fill="#38bdf8">Arquitetura:</text>
+    <text x="10" y="184" font-size="10" font-weight="400" fill="#94a3b8">• Data Warehouses</text>
+    <text x="10" y="198" font-size="10" font-weight="400" fill="#94a3b8">• Integração ETL</text>
+    <text x="10" y="212" font-size="10" font-weight="400" fill="#94a3b8">• Relatórios SQL</text>
+
+    <text x="10" y="240" font-size="10" font-weight="700" fill="#38bdf8">Nível de Governança:</text>
+    <text x="10" y="256" font-size="10" font-weight="400" fill="#94a3b8">• Regras centralizadas</text>
+    <text x="10" y="270" font-size="10" font-weight="400" fill="#94a3b8">• Fila de chamados na TI</text>
+  </g>
+
+  <!-- STEP 3 -->
+  <g transform="translate(364, 75)">
+    <rect width="160" height="310" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="160" height="6" rx="3" fill="#ef4444"/>
+    <rect x="10" y="16" width="55" height="18" rx="3" fill="#dc2626" fill-opacity="0.3"/>
+    <text x="37" y="29" text-anchor="middle" font-size="9" font-weight="800" fill="#fca5a5">ETAPA 03</text>
+    <text x="10" y="54" font-size="13" font-weight="700" fill="#f8fafc">Caos de Dados</text>
+    <text x="10" y="68" font-size="10" font-weight="600" fill="#ef4444">Final 2010 – 2020</text>
+
+    <line x1="10" y1="78" x2="150" y2="78" stroke="#334155" stroke-width="1"/>
+
+    <text x="10" y="96" font-size="10" font-weight="700" fill="#38bdf8">Gargalos Principais:</text>
+    <text x="10" y="112" font-size="10" font-weight="400" fill="#94a3b8">• Excesso de relatórios</text>
+    <text x="10" y="126" font-size="10" font-weight="400" fill="#94a3b8">• Métricas divergentes</text>
+    <text x="10" y="140" font-size="10" font-weight="400" fill="#94a3b8">• Riscos com a LGPD</text>
+
+    <text x="10" y="168" font-size="10" font-weight="700" fill="#38bdf8">Arquitetura:</text>
+    <text x="10" y="184" font-size="10" font-weight="400" fill="#94a3b8">• Data Lakes sem gestão</text>
+    <text x="10" y="198" font-size="10" font-weight="400" fill="#94a3b8">• BI paralelo nas áreas</text>
+    <text x="10" y="212" font-size="10" font-weight="400" fill="#94a3b8">• Pipelines duplicados</text>
+
+    <text x="10" y="240" font-size="10" font-weight="700" fill="#38bdf8">Nível de Governança:</text>
+    <text x="10" y="256" font-size="10" font-weight="400" fill="#94a3b8">• Fragmentada / Inexistente</text>
+    <text x="10" y="270" font-size="10" font-weight="400" fill="#94a3b8">• Alto risco de negócio</text>
+  </g>
+
+  <!-- STEP 4 -->
+  <g transform="translate(537, 75)">
+    <rect width="165" height="310" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <rect width="165" height="6" rx="3" fill="#22c55e"/>
+    <rect x="10" y="16" width="55" height="18" rx="3" fill="#16a34a" fill-opacity="0.3"/>
+    <text x="37" y="29" text-anchor="middle" font-size="9" font-weight="800" fill="#4ade80">ETAPA 04</text>
+    <text x="10" y="54" font-size="13" font-weight="700" fill="#f8fafc">Governança Estratégica</text>
+    <text x="10" y="68" font-size="10" font-weight="600" fill="#4ade80">Estratégia Atual</text>
+
+    <line x1="10" y1="78" x2="155" y2="78" stroke="#334155" stroke-width="1"/>
+
+    <text x="10" y="96" font-size="10" font-weight="700" fill="#38bdf8">Impacto Estratégico:</text>
+    <text x="10" y="112" font-size="10" font-weight="400" fill="#94a3b8">• Fonte única da verdade</text>
+    <text x="10" y="126" font-size="10" font-weight="400" fill="#94a3b8">• Self-service governado</text>
+    <text x="10" y="140" font-size="10" font-weight="400" fill="#94a3b8">• Preparação para IA</text>
+
+    <text x="10" y="168" font-size="10" font-weight="700" fill="#38bdf8">Arquitetura:</text>
+    <text x="10" y="184" font-size="10" font-weight="400" fill="#94a3b8">• Catálogo de metadados</text>
+    <text x="10" y="198" font-size="10" font-weight="400" fill="#94a3b8">• Data Mesh / Domínios</text>
+    <text x="10" y="212" font-size="10" font-weight="400" fill="#94a3b8">• Mascaramento LGPD</text>
+
+    <text x="10" y="240" font-size="10" font-weight="700" fill="#38bdf8">Nível de Governança:</text>
+    <text x="10" y="256" font-size="10" font-weight="400" fill="#94a3b8">• Donos de Dados por domínio</text>
+    <text x="10" y="270" font-size="10" font-weight="400" fill="#94a3b8">• Qualidade automatizada</text>
+  </g>
+</svg>
