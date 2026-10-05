@@ -82,6 +82,19 @@
           <input id="space-label" name="label" type="text" maxlength="60" minlength="2" autocomplete="name" required>
           <small data-copy="nameHint">Type the same name each time you come back, so this space remembers which simulators you have already played. Shown to colleagues in this space only, and never an email address.</small>
         </label>
+        <!--
+          Only for a space that asks for departments, and then required for a
+          participant. A dropdown of the space's own list rather than free text, so
+          the department ranking groups each team once. Filled and shown by
+          renderGate() in assets/js/workspace-hub.js.
+        -->
+        <label class="workspace-field" id="space-department-field" hidden>
+          <span data-copy="departmentLabel">Your department</span>
+          <select id="space-department" name="department">
+            <option value="" data-copy="departmentPlaceholder">Choose your department</option>
+          </select>
+          <small data-copy="departmentHint">Used to compare results between departments. Pick the same one each time you come back.</small>
+        </label>
         <button class="workspace-button" id="space-join" type="submit" data-copy="joinButton">Enter the space</button>
         <p class="workspace-error" id="space-gate-error" role="alert"></p>
       </form>
@@ -99,6 +112,11 @@
       <div class="workspace-meta-row" id="space-hub-meta"></div>
       <div class="workspace-grid" id="space-hub-cards"></div>
       <p class="workspace-footnote" id="space-hub-foot"></p>
+      <!-- The department table, only for a space that asks for departments. -->
+      <section class="workspace-panel workspace-departments" id="space-departments" hidden aria-labelledby="space-departments-title">
+        <h2 id="space-departments-title" data-copy="departmentRankingTitle">Department ranking</h2>
+        <div id="space-departments-body"></div>
+      </section>
     </section>
 
     <!-- Sponsor only, and hidden entirely for a participant seat. -->

@@ -567,6 +567,114 @@ button { cursor: pointer; }
   .studio-publish { width: 100%; }
 }
 
+/* Simulator choice, departments, duplication and the AI export, inside the
+   create form and the per-space editor. */
+.spaces-fieldset {
+  margin: 1.2rem 0 0;
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+}
+.spaces-fieldset legend { padding: 0 0.4rem; color: var(--deepblue); font-size: 0.78rem; font-weight: 800; }
+.spaces-fieldset .spaces-checkbox { margin-top: 0.5rem; }
+.spaces-fieldset .studio-field { margin-top: 0.8rem; }
+.spaces-panel .studio-field textarea,
+.spaces-form .studio-field textarea {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: #ffffff;
+  color: var(--slatecool);
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.spaces-duplicate {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--dejourney-cyan);
+  border-radius: 0.9rem;
+  background: #f4fbfc;
+  color: var(--deepblue);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.spaces-duplicate p { margin: 0; }
+
+.spaces-ai {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px dashed var(--dejourney-cyan);
+  border-radius: 0.9rem;
+  background: var(--softbg);
+}
+.spaces-ai > summary { cursor: pointer; color: var(--deepblue); font-size: 0.85rem; font-weight: 800; }
+.spaces-ai p { margin: 0.8rem 0 0; max-width: 70ch; color: #475569; font-size: 0.8rem; line-height: 1.6; }
+.spaces-ai .studio-field { margin-top: 1rem; }
+.spaces-ai textarea { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.75rem; }
+
+.spaces-card__tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.7rem; }
+.spaces-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #eef6f8;
+  color: var(--dejourney-teal);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+/* The room link dialog, and its full-screen presenting mode. */
+.spaces-qr {
+  width: min(100% - 2rem, 34rem);
+  padding: 0;
+  border: 0;
+  border-radius: 1.4rem;
+  box-shadow: 0 30px 80px rgb(15 23 42 / 0.35);
+}
+.spaces-qr::backdrop { background: rgb(15 23 42 / 0.55); }
+.spaces-qr__inner { padding: 1.5rem; text-align: center; }
+.spaces-qr__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; text-align: left; }
+.spaces-qr__head h2 { margin: 0; color: var(--deepblue); font-size: 1.05rem; font-weight: 900; }
+.spaces-qr__lead { margin: 1rem 0 0.5rem; color: var(--deepblue); font-size: 1rem; font-weight: 800; }
+.spaces-qr__code svg { display: block; width: min(100%, 20rem); height: auto; margin: 0 auto; }
+.spaces-qr__link { margin: 0.8rem 0 0; word-break: break-all; color: #475569; font-size: 0.75rem; }
+.spaces-qr__participant { margin: 0.4rem 0 0; color: #475569; font-size: 0.8rem; }
+.spaces-qr__participant strong { color: var(--deepblue); font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; letter-spacing: 0.08em; }
+.spaces-qr__actions { justify-content: center; }
+
+.spaces-qr:fullscreen,
+.spaces-qr[data-presenting="true"] {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+  margin: 0;
+  border-radius: 0;
+}
+.spaces-qr:fullscreen .spaces-qr__inner,
+.spaces-qr[data-presenting="true"] .spaces-qr__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+.spaces-qr:fullscreen .spaces-qr__head,
+.spaces-qr:fullscreen .spaces-qr__actions,
+.spaces-qr[data-presenting="true"] .spaces-qr__actions { display: none; }
+.spaces-qr:fullscreen .spaces-qr__lead { font-size: clamp(1.6rem, 4vw, 3rem); }
+.spaces-qr:fullscreen .spaces-qr__code svg { width: min(70vh, 80vw); }
+.spaces-qr:fullscreen .spaces-qr__link { font-size: clamp(1rem, 2vw, 1.6rem); }
+.spaces-qr:fullscreen .spaces-qr__participant { font-size: clamp(1rem, 2.4vw, 2rem); }
+
 @media (max-width: 600px) {
   .spaces-panel { padding: 1.2rem; }
   .spaces-card__head { flex-direction: column; }

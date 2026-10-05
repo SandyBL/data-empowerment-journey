@@ -2,7 +2,7 @@ import type { Config } from "@netlify/functions";
 import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { simulatorScores, workspaceSessions } from "../../db/schema.js";
-import { normalizeSlug, resolveSession } from "../lib/workspace-access.js";
+import { normalizeSlug, resolveSession, spaceOffers } from "../lib/workspace-access.js";
 
 // Publishes one finished simulator run to a leaderboard.
 //
@@ -512,6 +512,17 @@ export default async (request: Request) => {
     );
   }
 
+  // A space offers the simulators it was sold with, and a run of any other one
+  // would be a row on a board the hub never shows and a report section about an
+  // exercise the client did not buy. Refused rather than sent to the public
+  // board: the browser is seated, and its run is not the public's either.
+  if (session && !spaceOffers(session.space, simulator)) {
+    return Response.json(
+      { error: "This simulator is not part of your space", reason: "not-in-space", retryable: false },
+      { status: 403 },
+    );
+  }
+
   // Only private runs keep a breakdown, so only theirs is cross-checked: a
   // public run's breakdown is discarded unread and cannot mislead anybody.
   if (session && breakdown && breakdownContradicts(simulator, score, breakdown)) {
@@ -554,6 +565,9 @@ export default async (request: Request) => {
       // The person, not the seat: this is what the one-attempt rule is enforced
       // on, and what a run published from tomorrow's seat is matched against.
       participantKey,
+      // The seat's department, so the report can group by it; NULL outside a
+      // space that asks for one.
+      department: session?.seat.department ?? null,
       // Kept for private runs only. The public board has nothing that reads a
       // breakdown, and the per-dimension detail of a stranger's run is data this
       // table would be storing for no reason — which is a poor look on a site

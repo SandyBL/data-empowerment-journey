@@ -192,6 +192,7 @@ export default async (request: Request) => {
           joined: true,
           role: session.seat.role,
           label: session.seat.participantLabel,
+          department: session.seat.department,
           expiresAt: session.seat.expiresAt,
           space: publicSpace(session.space),
           ...(text ? { scenarioText: text.overrides } : {}),

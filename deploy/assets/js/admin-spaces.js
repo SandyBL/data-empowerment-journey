@@ -9,6 +9,8 @@ import {
   // two consoles: the form below submits a password, so the origin serving the
   // auth code has to be the origin the operator already trusts.
 } from "/assets/js/vendor/netlify-identity.js";
+import qrcode from "/assets/js/vendor/qrcode-generator.mjs";
+import { EXPORTABLE, aiPrompt, buildQuestionsMarkdown, downloadText } from "/assets/js/admin-simulator-export.js";
 
 // The private-spaces console. Talks to /api/admin/workspaces for the spaces
 // themselves, /api/admin/workspace-scores for individual leaderboard rows, and
@@ -18,9 +20,11 @@ import {
 // a security boundary — this file decides what is easy to do, not what is
 // allowed. Two consequences worth keeping:
 //
-//   * Codes are rendered exactly once, from the response that generated them,
-//     and never re-fetched, because the server stores only their hash. The panel
-//     that shows them is deliberately noisy about that.
+//   * The sponsor code is rendered exactly once, from the response that
+//     generated it, and never re-fetched, because the server stores only its
+//     hash. The participant code is the exception: it is kept so the room link
+//     and its QR code can be reopened from the space card whenever a facilitator
+//     is about to present.
 //   * Anything destructive asks for a typed confirmation rather than a click:
 //     deleting a space takes its leaderboard with it, and there is no undo
 //     anywhere in this feature.
@@ -76,6 +80,16 @@ const wordingEditor = document.querySelector("#wording-editor");
 const wordingSaveButton = document.querySelector("#wording-save");
 const wordingRevertButton = document.querySelector("#wording-revert");
 const wordingError = document.querySelector("#wording-error");
+const duplicateBanner = document.querySelector("#spaces-duplicate");
+const duplicateText = document.querySelector("#spaces-duplicate-text");
+const askDepartment = document.querySelector("#create-ask-department");
+const departmentsField = document.querySelector("#create-departments-field");
+const aiLocale = document.querySelector("#create-ai-locale");
+const aiPromptBox = document.querySelector("#create-ai-prompt");
+const aiError = document.querySelector("#create-ai-error");
+const qrDialog = document.querySelector("#spaces-qr");
+
+const ALL_SIMULATORS = Object.keys(SIMULATOR_NAMES);
 
 function showLogin() {
   loginView.hidden = false;
@@ -147,12 +161,22 @@ async function api(endpoint, options = {}) {
  * facilitator reads these aloud to a room, and a value that can only be copied
  * to a clipboard cannot be read off a screen while dictating.
  */
-function showCodes(title, codes) {
+function showCodes(title, codes, space) {
   const entries = Object.entries(codes).filter(([, value]) => Boolean(value));
   if (!entries.length) return;
 
   const wrap = element("div");
   wrap.append(element("h3", null, title));
+
+  if (codes.accessCode && space) {
+    const row = element("div", "spaces-codes__row");
+    row.append(element("span", null, "Room link with the code filled in"));
+    const open = element("button", "spaces-button", "Show QR code");
+    open.type = "button";
+    open.addEventListener("click", () => openRoomLink(space, codes.accessCode));
+    row.append(open);
+    wrap.append(row);
+  }
 
   for (const [kind, value] of entries) {
     const row = element("div", "spaces-codes__row");
@@ -184,6 +208,274 @@ function showCodes(title, codes) {
 document.querySelector("#spaces-codes-dismiss").addEventListener("click", () => {
   codesBody.replaceChildren();
   codesPanel.hidden = true;
+});
+
+/* -------------------------------------------------------------------------
+ * Room link and QR code
+ * ---------------------------------------------------------------------- */
+
+/**
+ * The address a room is given: the space, with the participant code in the
+ * fragment. A fragment never travels to a server, so the code is not written
+ * into any access log on the way, and the space page reads it, fills the code
+ * box and removes it from the address bar.
+ */
+function roomLink(space, code) {
+  return `${window.location.origin}/w/${encodeURIComponent(space.slug)}/#code=${encodeURIComponent(code)}`;
+}
+
+/**
+ * The QR code for a link, as an SVG string. Error correction M, which reads off
+ * a projector, and a four-module quiet zone (the margin is in pixels), which is
+ * what the standard asks for and what phone cameras rely on.
+ */
+function qrSvg(text) {
+  const code = qrcode(0, "M");
+  code.addData(text);
+  code.make();
+  return code.createSvgTag({ cellSize: 8, margin: 32, scalable: true, alt: "QR code for the room link" });
+}
+
+let qrCurrent = null;
+
+function openRoomLink(space, code) {
+  const link = roomLink(space, code);
+  qrCurrent = { space, code, link, svg: qrSvg(link) };
+  document.querySelector("#spaces-qr-title").textContent = `Room link — ${space.displayName}`;
+  document.querySelector("#spaces-qr-lead").textContent = `Scan to join ${space.displayName}`;
+  document.querySelector("#spaces-qr-code").innerHTML = qrCurrent.svg;
+  document.querySelector("#spaces-qr-link").textContent = link;
+  document.querySelector("#spaces-qr-participant").textContent = code;
+  document.querySelector("#spaces-qr-copy").textContent = "Copy link";
+  qrDialog.removeAttribute("data-presenting");
+  if (typeof qrDialog.showModal === "function") qrDialog.showModal();
+  else qrDialog.setAttribute("open", "");
+}
+
+document.querySelector("#spaces-qr-close").addEventListener("click", () => {
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  qrDialog.close();
+});
+
+document.querySelector("#spaces-qr-copy").addEventListener("click", async (event) => {
+  if (!qrCurrent) return;
+  try {
+    await navigator.clipboard.writeText(qrCurrent.link);
+    event.currentTarget.textContent = "Copied";
+  } catch {
+    event.currentTarget.textContent = "Select it manually";
+  }
+});
+
+document.querySelector("#spaces-qr-present").addEventListener("click", async () => {
+  // Full screen is what a projector wants; a browser that refuses it gets the
+  // same layout inside the dialog instead.
+  try {
+    await qrDialog.requestFullscreen();
+  } catch {
+    qrDialog.setAttribute("data-presenting", "true");
+  }
+});
+
+document.querySelector("#spaces-qr-svg").addEventListener("click", () => {
+  if (!qrCurrent) return;
+  downloadText(`${qrCurrent.space.slug}-qr.svg`, qrCurrent.svg, "image/svg+xml");
+});
+
+document.querySelector("#spaces-qr-png").addEventListener("click", () => {
+  if (!qrCurrent) return;
+  // Drawn module by module onto a canvas rather than by rasterising the SVG, so
+  // the PNG needs no image decoding and stays crisp at slide size.
+  const code = qrcode(0, "M");
+  code.addData(qrCurrent.link);
+  code.make();
+  const modules = code.getModuleCount();
+  const cell = 16;
+  const margin = 4 * cell;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = modules * cell + margin * 2;
+  const context = canvas.getContext("2d");
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#000000";
+  for (let row = 0; row < modules; row += 1) {
+    for (let col = 0; col < modules; col += 1) {
+      if (code.isDark(row, col)) context.fillRect(margin + col * cell, margin + row * cell, cell, cell);
+    }
+  }
+  const slug = qrCurrent.space.slug;
+  canvas.toBlob((blob) => {
+    if (!blob) return;
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${slug}-qr.png`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, "image/png");
+});
+
+/* -------------------------------------------------------------------------
+ * Simulators, departments and the questions export
+ * ---------------------------------------------------------------------- */
+
+/** One checkbox per simulator, for the per-space editor. */
+function simulatorCheckboxes(name, selected) {
+  const fieldset = element("fieldset", "spaces-fieldset");
+  fieldset.append(element("legend", null, "Simulators in this space"));
+  for (const slug of ALL_SIMULATORS) {
+    const label = element("label", "spaces-checkbox");
+    const box = document.createElement("input");
+    box.type = "checkbox";
+    box.name = name;
+    box.value = slug;
+    box.checked = selected.includes(slug);
+    label.append(box, ` ${SIMULATOR_NAMES[slug]}`);
+    fieldset.append(label);
+  }
+  return fieldset;
+}
+
+/** The ticked simulator slugs inside a container. */
+function checkedSimulators(container, name) {
+  return [...container.querySelectorAll(`input[type=checkbox][name="${name}"]:checked`)].map((box) => box.value);
+}
+
+/** The department list of a textarea, one per line, blanks dropped. */
+function departmentLines(text) {
+  return String(text || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Downloads the questions-and-answers file.
+ *
+ * `overridesFor` is the space's own wording when exporting an existing space, so
+ * the AI reviews what that room will actually read.
+ */
+async function exportQuestions({ simulators, locale, company, slug, overrides }) {
+  const markdown = await buildQuestionsMarkdown({ simulators, locale, company, overrides });
+  const base = slug || (company || "space").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "space";
+  downloadText(`${base}-simulator-questions-${locale}.md`, markdown);
+}
+
+/** The space's saved wording for each rewordable simulator it offers, in one language. */
+async function loadSpaceOverrides(space, locale) {
+  const overrides = {};
+  for (const simulator of space.simulators.filter((slug) => EXPORTABLE.includes(slug))) {
+    try {
+      const saved = await api(
+        `${WORDING_ENDPOINT}?workspaceId=${space.id}&simulator=${encodeURIComponent(simulator)}&locale=${encodeURIComponent(locale)}`,
+      );
+      if (saved.overrides && Object.keys(saved.overrides).length) overrides[simulator] = saved.overrides;
+    } catch {
+      /* The standard wording is still a useful export. */
+    }
+  }
+  return overrides;
+}
+
+function refreshPrompt() {
+  aiPromptBox.value = aiPrompt({
+    company: createForm.company.value.trim(),
+    locale: aiLocale.value || createForm.locale.value,
+  });
+}
+
+createForm.company.addEventListener("input", refreshPrompt);
+createForm.locale.addEventListener("change", refreshPrompt);
+aiLocale.addEventListener("change", refreshPrompt);
+refreshPrompt();
+
+document.querySelector("#create-ai-copy").addEventListener("click", async (event) => {
+  try {
+    await navigator.clipboard.writeText(aiPromptBox.value);
+    event.currentTarget.textContent = "Copied";
+  } catch {
+    aiPromptBox.select();
+    event.currentTarget.textContent = "Press Ctrl+C / ⌘C";
+  }
+});
+
+document.querySelector("#create-ai-download").addEventListener("click", async (event) => {
+  const button = event.currentTarget;
+  aiError.textContent = "";
+  const simulators = checkedSimulators(createForm, "simulators");
+  if (!simulators.some((slug) => EXPORTABLE.includes(slug))) {
+    aiError.textContent = "Tick at least one of Day-to-Day, Data Literacy or Data Ownership first.";
+    return;
+  }
+  button.disabled = true;
+  try {
+    await exportQuestions({
+      simulators,
+      locale: aiLocale.value || createForm.locale.value,
+      company: createForm.company.value.trim(),
+      slug: createForm.slug.value.trim(),
+    });
+  } catch (error) {
+    aiError.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
+
+askDepartment.addEventListener("change", () => {
+  departmentsField.hidden = !askDepartment.checked;
+});
+
+/* -------------------------------------------------------------------------
+ * Duplicating a space
+ * ---------------------------------------------------------------------- */
+
+function clearDuplicate() {
+  createForm.duplicateFrom.value = "";
+  duplicateBanner.hidden = true;
+}
+
+/**
+ * Fills the create form from an existing space.
+ *
+ * Everything the form carries is copied, and the slug is left for a new one,
+ * because two spaces cannot share an address. The server copies the reworded
+ * scenarios on top; codes, seats and scores are never copied.
+ */
+function startDuplicate(space) {
+  createForm.reset();
+  createForm.duplicateFrom.value = String(space.id);
+  createForm.company.value = space.company;
+  createForm.displayName.value = space.displayName;
+  createForm.slug.value = "";
+  createForm.slug.placeholder = `${space.slug}-2`;
+  createForm.locale.value = space.locale;
+  createForm.logoUrl.value = space.logoUrl || "";
+  createForm.accentColor.value = space.accentColor || "#65b7c7";
+  createForm.startsAt.value = dateInputValue(space.startsAt);
+  createForm.expiresAt.value = dateInputValue(space.expiresAt);
+  for (const box of createForm.querySelectorAll('input[name="simulators"]')) box.checked = space.simulators.includes(box.value);
+  askDepartment.checked = Boolean(space.departments);
+  departmentsField.hidden = !space.departments;
+  createForm.departments.value = (space.departments || []).join("\n");
+  createForm.sponsorAccess.checked = space.hasSponsorCode;
+  refreshPrompt();
+
+  duplicateText.textContent = `Duplicating ${space.displayName} (/w/${space.slug}/). Change what you need and choose a new address. Reworded scenarios are copied for the simulators you keep; codes, participants and scores are not.`;
+  duplicateBanner.hidden = false;
+  createError.textContent = "";
+  createForm.closest(".spaces-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  createForm.slug.focus({ preventScroll: true });
+}
+
+document.querySelector("#spaces-duplicate-cancel").addEventListener("click", () => {
+  createForm.reset();
+  createForm.slug.placeholder = "acme-q1-2026";
+  departmentsField.hidden = true;
+  clearDuplicate();
+  refreshPrompt();
 });
 
 /* -------------------------------------------------------------------------
@@ -238,6 +530,31 @@ function createEditor(space, reload) {
   addField("startsAt", "Access starts", "date", dateInputValue(space.startsAt));
   addField("expiresAt", "Access ends", "date", dateInputValue(space.expiresAt));
 
+  const simulatorsName = `edit-simulators-${space.id}`;
+  const simulatorChoice = simulatorCheckboxes(simulatorsName, space.simulators);
+
+  const departments = element("fieldset", "spaces-fieldset");
+  departments.append(element("legend", null, "Departments"));
+  const askLabel = element("label", "spaces-checkbox");
+  const ask = document.createElement("input");
+  ask.type = "checkbox";
+  ask.checked = Boolean(space.departments);
+  askLabel.append(ask, " Ask participants for their department and analyse results by department");
+  const listWrap = element("div", "studio-field");
+  const listId = `edit-departments-${space.id}`;
+  const listLabel = element("label", null, "Department list");
+  listLabel.htmlFor = listId;
+  const list = element("textarea");
+  list.id = listId;
+  list.rows = 5;
+  list.value = (space.departments || []).join("\n");
+  listWrap.append(listLabel, list, element("small", null, "One per line. Renaming one splits its past runs from its new ones in the report, so rename only before the workshop."));
+  listWrap.hidden = !ask.checked;
+  ask.addEventListener("change", () => {
+    listWrap.hidden = !ask.checked;
+  });
+  departments.append(askLabel, listWrap);
+
   const error = element("p", "studio-error", "");
   error.setAttribute("role", "alert");
   const save = element("button", "spaces-button", "Save changes");
@@ -245,7 +562,7 @@ function createEditor(space, reload) {
   const actions = element("div", "spaces-actions");
   actions.append(save, error);
 
-  form.append(grid, actions);
+  form.append(grid, simulatorChoice, departments, actions);
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -264,6 +581,9 @@ function createEditor(space, reload) {
           accentColor: fields.accentColor.value,
           startsAt: fields.startsAt.value,
           expiresAt: fields.expiresAt.value,
+          simulators: checkedSimulators(form, simulatorsName),
+          askDepartment: ask.checked,
+          departments: departmentLines(list.value),
         }),
       });
       await reload();
@@ -297,6 +617,17 @@ function createSpaceCard(space, reload) {
   meta.append(element("span", null, space.locale.toUpperCase()));
   meta.append(element("span", null, space.hasSponsorCode ? "Sponsor code issued" : "No sponsor code"));
   card.append(meta);
+
+  const tags = element("div", "spaces-card__tags");
+  for (const slug of space.simulators) tags.append(element("span", "spaces-tag", SIMULATOR_NAMES[slug] || slug));
+  tags.append(
+    element(
+      "span",
+      "spaces-tag",
+      space.departments ? `Departments: ${space.departments.join(", ")}` : "No department question",
+    ),
+  );
+  card.append(tags);
 
   const stats = element("div", "spaces-card__stats");
   for (const [value, label] of [
@@ -340,16 +671,40 @@ function createSpaceCard(space, reload) {
     editor.hidden = !editor.hidden;
   });
 
+  if (space.participantCode) {
+    action("Room link & QR", "spaces-button", async () => {
+      openRoomLink(space, space.participantCode);
+    });
+  }
+
+  action("Duplicate", null, async () => {
+    startDuplicate(space);
+  });
+
+  action("Download Q&A (.md)", null, async () => {
+    if (!space.simulators.some((slug) => EXPORTABLE.includes(slug))) {
+      throw new Error("This space has no simulator whose questions can be reworded.");
+    }
+    const overrides = await loadSpaceOverrides(space, space.locale);
+    await exportQuestions({
+      simulators: space.simulators,
+      locale: space.locale,
+      company: space.company,
+      slug: space.slug,
+      overrides,
+    });
+  });
+
   action("New participant code", null, async () => {
     if (!window.confirm(`Replace the participant code for ${space.displayName}? Everyone currently in the space is signed out.`)) return;
     const payload = await patch({ action: "regenerate-code" });
-    showCodes(`New participant code for ${space.displayName}`, payload.codes);
+    showCodes(`New participant code for ${space.displayName}`, payload.codes, space);
     await reload();
   });
 
   action(space.hasSponsorCode ? "New sponsor code" : "Issue sponsor code", null, async () => {
     const payload = await patch({ action: "regenerate-sponsor-code" });
-    showCodes(`Sponsor code for ${space.displayName}`, payload.codes);
+    showCodes(`Sponsor code for ${space.displayName}`, payload.codes, space);
     await reload();
   });
 
@@ -462,11 +817,22 @@ createForm.addEventListener("submit", async (event) => {
         startsAt: createForm.startsAt.value,
         expiresAt: createForm.expiresAt.value,
         sponsorAccess: createForm.sponsorAccess.checked,
+        simulators: checkedSimulators(createForm, "simulators"),
+        askDepartment: askDepartment.checked,
+        departments: departmentLines(createForm.departments.value),
+        duplicateFrom: createForm.duplicateFrom.value ? Number(createForm.duplicateFrom.value) : undefined,
       }),
     });
 
-    showCodes(`Codes for ${payload.space.displayName} — /w/${payload.space.slug}/`, payload.codes);
+    const copied = payload.duplicatedFrom
+      ? ` (duplicated from /w/${payload.duplicatedFrom}/${payload.copiedWording ? `, ${payload.copiedWording} reworded set${payload.copiedWording === 1 ? "" : "s"} copied` : ""})`
+      : "";
+    showCodes(`Codes for ${payload.space.displayName} — /w/${payload.space.slug}/${copied}`, payload.codes, payload.space);
     createForm.reset();
+    createForm.slug.placeholder = "acme-q1-2026";
+    departmentsField.hidden = true;
+    clearDuplicate();
+    refreshPrompt();
     await loadSpaces();
   } catch (error) {
     createError.textContent = error.message;

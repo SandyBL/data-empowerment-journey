@@ -74,6 +74,23 @@ export const workspaces = pgTable(
     // colour and not a theme: enough for the space to read as theirs, not enough
     // for a broken value to make a page unreadable.
     accentColor: varchar("accent_color", { length: 20 }),
+    // Which of the four simulators this space offers, as an array of slugs in
+    // the order the hub shows them. NULL means all four, which is what every
+    // space created before the choice existed has always offered, so no row had
+    // to be rewritten for this column to exist.
+    simulators: jsonb().$type<string[]>(),
+    // The participant code in the clear, so the console can show the room link
+    // and its QR code at any time rather than only on the response that minted
+    // the code. Deliberately the participant code only: it is the one read out
+    // to a room and printed on a slide, so it is not a secret in practice, while
+    // the sponsor code -- the one that opens the report -- stays hash-only.
+    // `accessCodeHash` is still what a join is checked against; this is a copy
+    // for display. NULL for a space whose code was minted before this column.
+    participantCode: varchar("participant_code", { length: 20 }),
+    // The departments a participant picks from on the code screen, or NULL when
+    // this space does not ask. A list the console defines rather than free text,
+    // so the report groups "Finance" once instead of under five spellings.
+    departments: jsonb().$type<string[]>(),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull().defaultNow(),
     expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -140,6 +157,9 @@ export const workspaceSessions = pgTable(
     // SHA-256 of `<workspace id>:<folded name>`. See the note above: an identity
     // for continuity, never an authorisation.
     participantKey: varchar("participant_key", { length: 64 }),
+    // The department picked on the code screen, one of the space's own list.
+    // NULL when the space does not ask for one.
+    department: varchar({ length: 80 }),
     role: varchar({ length: 20 }).notNull().default("participant"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     // Updated when a seat publishes a run, not on every read: the point of it is
@@ -247,6 +267,11 @@ export const simulatorScores = pgTable(
     // the unique index below, which is the intended reading: unenforceable, not
     // permitted.
     participantKey: varchar("participant_key", { length: 64 }),
+    // The seat's department, copied onto the run at write time for the same
+    // reason the participant key is: the seat can be deleted, and the run still
+    // belongs to the department that played it. NULL on the public board and in
+    // any space that does not ask for departments.
+    department: varchar({ length: 80 }),
     // Per-dimension result of the run, as `{ "<stable-key>": 0-100 }`.
     //
     // This is what turns a private space into something worth paying for: a

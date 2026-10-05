@@ -2,7 +2,7 @@ import type { Config } from "@netlify/functions";
 import { desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { simulatorScores, workspaceSessions } from "../../db/schema.js";
-import { publicSpace, resolveSession } from "../lib/workspace-access.js";
+import { publicSpace, resolveSession, spaceSimulators } from "../lib/workspace-access.js";
 // The pillar mapping, the ownership role table and the English dimension labels
 // the CSV needs. Shared with the report page rather than restated here; see the
 // header of that file for why it is plain .mjs.
@@ -273,6 +273,7 @@ type ReportRun = {
   breakdown: unknown;
   sessionId: number | null;
   participantKey: string | null;
+  department: string | null;
   createdAt: Date;
 };
 
@@ -286,7 +287,7 @@ type ReportRun = {
  */
 const SIMULATOR_ORDER = [...MAX_SCORES.keys()];
 
-const buildAnalysis = (runs: ReportRun[]) => {
+const buildAnalysis = (runs: ReportRun[], offered: string[]) => {
   const perSimulator = new Map<
     string,
     {
@@ -503,7 +504,9 @@ const buildAnalysis = (runs: ReportRun[]) => {
       // Which of the four exercises produced this reading, and — when there is
       // none — which one would.
       measuredBy: entry ? [...entry.simulators] : [],
-      sources: PILLAR_SOURCES[key] ?? [],
+      // Only the simulators this space actually offers: recommending an
+      // exercise the client did not buy is advice nobody in the room can take.
+      sources: (PILLAR_SOURCES[key] ?? []).filter((slug: string) => offered.includes(slug)),
     };
   });
 
@@ -539,14 +542,20 @@ const buildAnalysis = (runs: ReportRun[]) => {
       // than with any one simulator's profile.
       bandKey: index === null ? null : (BANDS.find((band) => index >= band.from && index < band.to)?.key ?? null),
       simulatorsCounted: measurable.length,
-      simulatorsAvailable: MAX_SCORES.size,
+      // The simulators this space offers, not the four that exist: a space sold
+      // with two of them has played "2 of 2", not "2 of 4".
+      simulatorsAvailable: offered.length,
       pillars: pillarRows,
       strongestPillar,
       weakestPillar,
-      unmeasuredPillars: pillarRows.filter((row) => !row.measured).map((row) => row.key),
+      // Unmeasured and coverable: a simulator in this space would read it.
+      unmeasuredPillars: pillarRows.filter((row) => !row.measured && row.sources.length).map((row) => row.key),
+      // Unmeasured and not coverable here, said separately so the page does not
+      // recommend playing something this space does not have.
+      uncoveredPillars: pillarRows.filter((row) => !row.measured && !row.sources.length).map((row) => row.key),
       coverage: {
         people: playedBy.size,
-        playedAll: [...playedBy.values()].filter((played) => played.size >= MAX_SCORES.size).length,
+        playedAll: [...playedBy.values()].filter((played) => offered.every((slug) => played.has(slug))).length,
         playedOne: [...playedBy.values()].filter((played) => played.size === 1).length,
       },
       widestSpread: widest
@@ -563,6 +572,69 @@ const buildAnalysis = (runs: ReportRun[]) => {
   };
 };
 
+/** The label runs without a department are grouped under. */
+const NO_DEPARTMENT = "";
+
+/**
+ * The same analysis, once per department, plus a ranking across them.
+ *
+ * Built by running buildAnalysis over each department's own runs rather than by
+ * a second, smaller aggregation, so a department's panel is computed by exactly
+ * the code that computes the room's -- same thresholds, same bands, same
+ * tie-breaks -- and the two can never disagree about what "weak" means.
+ *
+ * The ranking orders on the department index, which is the mean of the
+ * department's per-simulator averages, the same way the room index is built.
+ * Two departments that played different simulators are not strictly
+ * comparable on it, so each row carries how many simulators it covers and the
+ * per-simulator averages it is made of, and the page shows both.
+ *
+ * Runs with no department -- a sponsor who did not pick one, or a seat opened
+ * before the space asked -- are reported as a count, not as a department of
+ * their own, so they cannot top a ranking nobody in the room is part of.
+ */
+const buildDepartments = (runs: ReportRun[], offered: string[], departments: string[]) => {
+  const byDepartment = new Map<string, ReportRun[]>(departments.map((name) => [name, []]));
+  let unassigned = 0;
+
+  for (const run of runs) {
+    const name = run.department && byDepartment.has(run.department) ? run.department : NO_DEPARTMENT;
+    if (name === NO_DEPARTMENT) {
+      unassigned += 1;
+      continue;
+    }
+    byDepartment.get(name)!.push(run);
+  }
+
+  const rows = [...byDepartment.entries()].map(([department, deptRuns]) => {
+    const analysis = buildAnalysis(deptRuns, offered);
+    return {
+      department,
+      runs: deptRuns.length,
+      people: analysis.participants.size,
+      executive: analysis.executive,
+      simulators: analysis.simulators,
+    };
+  });
+
+  const played = rows
+    .filter((row) => row.runs > 0)
+    .sort(
+      (a, b) =>
+        (b.executive.index ?? -1) - (a.executive.index ?? -1) ||
+        b.people - a.people ||
+        departments.indexOf(a.department) - departments.indexOf(b.department),
+    );
+
+  return {
+    // Ranked: every department with at least one run, best index first.
+    ranking: played.map((row, position) => ({ ...row, rank: position + 1 })),
+    // Listed in the space, but nobody from them has published yet.
+    notYetPlayed: rows.filter((row) => row.runs === 0).map((row) => row.department),
+    unassignedRuns: unassigned,
+  };
+};
+
 /**
  * The export, in two halves.
  *
@@ -575,7 +647,11 @@ const buildAnalysis = (runs: ReportRun[]) => {
  * export into the space's language — would hand a Portuguese client a file whose
  * column headers no longer match the one their colleague exported.
  */
-const buildCsv = (runs: ReportRun[], analysis: ReturnType<typeof buildAnalysis>) => {
+const buildCsv = (
+  runs: ReportRun[],
+  analysis: ReturnType<typeof buildAnalysis>,
+  departments: ReturnType<typeof buildDepartments> | null,
+) => {
   const lines: string[] = [];
 
   lines.push(csvRow(["Published runs"]));
@@ -589,6 +665,7 @@ const buildCsv = (runs: ReportRun[], analysis: ReturnType<typeof buildAnalysis>)
       "Percent",
       "Duration (mm:ss)",
       "Language",
+      ...(departments ? ["Department"] : []),
       "Dimensions",
     ]),
   );
@@ -617,6 +694,7 @@ const buildCsv = (runs: ReportRun[], analysis: ReturnType<typeof buildAnalysis>)
         percent,
         formatClock(run.durationMs),
         run.locale,
+        ...(departments ? [run.department ?? ""] : []),
         dimensions,
       ]),
     );
@@ -766,6 +844,95 @@ const buildCsv = (runs: ReportRun[], analysis: ReturnType<typeof buildAnalysis>)
     }
   }
 
+  if (departments) {
+    lines.push("");
+    lines.push(csvRow(["Department ranking"]));
+    lines.push(
+      csvRow([
+        "Rank",
+        "Department",
+        "People",
+        "Runs",
+        "Department index (0-100)",
+        "Standing",
+        "Simulators played",
+        "Weakest pillar",
+        "Strongest pillar",
+        "Reading strength",
+      ]),
+    );
+    for (const row of departments.ranking) {
+      lines.push(
+        csvRow([
+          row.rank,
+          row.department,
+          row.people,
+          row.runs,
+          row.executive.index ?? "",
+          row.executive.bandKey ? (BAND_LABELS.en[row.executive.bandKey] ?? row.executive.bandKey) : "",
+          `${row.executive.simulatorsCounted} of ${row.executive.simulatorsAvailable}`,
+          row.executive.weakestPillar ? (PILLAR_LABELS.en[row.executive.weakestPillar] ?? row.executive.weakestPillar) : "",
+          row.executive.strongestPillar
+            ? (PILLAR_LABELS.en[row.executive.strongestPillar] ?? row.executive.strongestPillar)
+            : "",
+          row.executive.confidence === "baseline" ? "Baseline" : "Indicative only",
+        ]),
+      );
+    }
+    for (const name of departments.notYetPlayed) lines.push(csvRow(["", name, 0, 0, "", "Not played yet"]));
+    if (departments.unassignedRuns) {
+      lines.push(csvRow(["", "Runs without a department (not ranked)", "", departments.unassignedRuns]));
+    }
+
+    lines.push("");
+    lines.push(csvRow(["Departments by simulator"]));
+    lines.push(
+      csvRow([
+        "Department",
+        "Simulator",
+        "People",
+        "Average percent",
+        "Profile",
+        "Weakest dimension",
+        "Weakest average",
+        "Strongest dimension",
+        "Strongest average",
+      ]),
+    );
+    for (const row of departments.ranking) {
+      for (const entry of row.simulators) {
+        const weakest = entry.dimensions[0];
+        const strongest = entry.dimensions[entry.dimensions.length - 1];
+        const profiles = PROFILE_LABELS.en[entry.simulator];
+        lines.push(
+          csvRow([
+            row.department,
+            entry.simulator,
+            entry.participants,
+            entry.averagePercent ?? "",
+            entry.bandKey ? (profiles?.[entry.bandKey] ?? entry.bandKey) : "",
+            weakest ? dimensionLabel(entry.simulator, weakest.key, "en") : "",
+            weakest ? weakest.average : "",
+            strongest ? dimensionLabel(entry.simulator, strongest.key, "en") : "",
+            strongest ? strongest.average : "",
+          ]),
+        );
+      }
+    }
+
+    lines.push("");
+    lines.push(csvRow(["Department pillars"]));
+    lines.push(csvRow(["Department", ...PILLAR_ORDER.map((key: string) => PILLAR_LABELS.en[key] ?? key)]));
+    for (const row of departments.ranking) {
+      lines.push(
+        csvRow([
+          row.department,
+          ...row.executive.pillars.map((pillar) => (pillar.measured ? pillar.average : "")),
+        ]),
+      );
+    }
+  }
+
   return `﻿${lines.join("\r\n")}\r\n`;
 };
 
@@ -797,6 +964,8 @@ export default async (request: Request) => {
         // time -- the same key the one-attempt rule is enforced on, and the one
         // that survives the seat being deleted (see db/schema.ts).
         participantKey: simulatorScores.participantKey,
+        department: simulatorScores.department,
+        seatDepartment: workspaceSessions.department,
         // The seat's key, only as a fallback for a row written before the
         // column existed. Left, not inner: a run whose seat row was deleted is
         // still a run this room published, and dropping it would quietly
@@ -811,16 +980,24 @@ export default async (request: Request) => {
       .limit(MAX_ROWS + 1);
 
     const truncated = rows.length > MAX_ROWS;
-    const runs: ReportRun[] = (truncated ? rows.slice(0, MAX_ROWS) : rows).map(
-      ({ seatParticipantKey, ...row }) => ({
+    // The simulators this space offers right now. A simulator taken out of a
+    // space after somebody played it leaves the report with it: the report
+    // describes the exercise the space is running, and an index that quietly
+    // averaged in a simulator nobody can open any more would not.
+    const offered = spaceSimulators(session.space);
+    const runs: ReportRun[] = (truncated ? rows.slice(0, MAX_ROWS) : rows)
+      .filter((row) => offered.includes(row.simulator))
+      .map(({ seatParticipantKey, seatDepartment, ...row }) => ({
         ...row,
         participantKey: row.participantKey ?? seatParticipantKey ?? null,
-      }),
-    );
-    const analysis = buildAnalysis(runs);
+        department: row.department ?? seatDepartment ?? null,
+      }));
+    const analysis = buildAnalysis(runs, offered);
+    const spaceDepartments = Array.isArray(session.space.departments) ? session.space.departments : [];
+    const departments = spaceDepartments.length ? buildDepartments(runs, offered, spaceDepartments) : null;
 
     if (format === "csv") {
-      return new Response(buildCsv(runs, analysis), {
+      return new Response(buildCsv(runs, analysis, departments), {
         headers: {
           // The BOM is what makes Excel open a UTF-8 export with the accents
           // intact instead of mangling every Portuguese and Spanish name in it.
@@ -875,10 +1052,12 @@ export default async (request: Request) => {
           runs: runs.length,
           participants: analysis.participants.size,
           simulatorsPlayed: analysis.simulators.length,
-          simulatorsAvailable: MAX_SCORES.size,
+          simulatorsAvailable: offered.length,
         },
         executive: analysis.executive,
         simulators: analysis.simulators,
+        // Null for a space that does not ask for departments.
+        departments,
       },
       { headers: { "Cache-Control": "no-store", Vary: "Cookie" } },
     );
