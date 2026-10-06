@@ -3,7 +3,7 @@ import { and, eq, gte } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { newsletterArticles, newsletterBatches, newsletterDeliveries } from "../../db/schema.js";
 import { renderArticleEmail } from "../lib/newsletter-emails.js";
-import { readFeed, type FeedItem } from "../lib/newsletter-feed.js";
+import { articlePicks, readFeed, type FeedItem } from "../lib/newsletter-feed.js";
 import {
   LOCALES,
   REPLY_TO,
@@ -155,6 +155,8 @@ const sendPendingArticles = async () => {
   let { broadcasts: budget } = await remainingToday();
   const pending = await pendingDeliveries();
   if (pending.length === 0) return;
+  // One lookup per article, shared by all of its batches.
+  const picks = new Map<number, Awaited<ReturnType<typeof articlePicks>>>();
 
   for (const { article, batch } of pending) {
     // Strictly in order: a batch that does not fit today goes first tomorrow,
@@ -172,7 +174,8 @@ const sendPendingArticles = async () => {
       .returning();
     if (!claim) continue;
 
-    const email = renderArticleEmail(article.locale as Locale, article);
+    if (!picks.has(article.id)) picks.set(article.id, await articlePicks(article.locale as Locale, article.url));
+    const email = renderArticleEmail(article.locale as Locale, article, picks.get(article.id));
     try {
       const broadcast = await resend<{ id: string }>("POST", "/broadcasts", {
         segment_id: batch.resendSegmentId,

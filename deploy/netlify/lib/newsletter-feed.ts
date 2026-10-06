@@ -62,6 +62,29 @@ export const readFeed = async (locale: Locale): Promise<FeedItem[]> => {
     .filter((item) => item.url.startsWith("https://") && item.title);
 };
 
+export type ArticlePicks = {
+  related: { url: string; title: string; summary: string | null } | null;
+  term: { url: string; term: string; short: string } | null;
+};
+
+/**
+ * The related article and glossary term the build chose for one article
+ * (scripts/lib/newsletter-picks.mjs writes the file). Never throws: without
+ * them the email still announces the article, just without the extras.
+ */
+export const articlePicks = async (locale: Locale, articleUrl: string): Promise<ArticlePicks> => {
+  try {
+    const slug = new URL(articleUrl).pathname.split("/").filter(Boolean).pop() ?? "";
+    const response = await fetch(`${siteOrigin()}/assets/newsletter/${locale}.json`);
+    if (!response.ok) throw new Error(`/assets/newsletter/${locale}.json replied ${response.status}`);
+    const picks = (await response.json()) as Record<string, ArticlePicks>;
+    return { related: picks[slug]?.related ?? null, term: picks[slug]?.term ?? null };
+  } catch (error) {
+    console.error(`Newsletter: no related article or glossary term for ${articleUrl}`, error);
+    return { related: null, term: null };
+  }
+};
+
 /** How far back the visit count looks. Recent enough to follow what is read now. */
 const POPULAR_WINDOW_MS = 90 * 24 * 60 * 60 * 1000;
 

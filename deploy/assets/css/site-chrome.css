@@ -854,6 +854,53 @@ html:has(.subscribe-dialog[open]) {
   font-size: 0.8rem;
 }
 
+/* The LinkedIn newsletter, offered below the email form. */
+.subscribe-dialog__linkedin {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.subscribe-dialog__linkedin p {
+  margin: 0;
+  flex: 1 1 12rem;
+  color: #475569;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.subscribe-dialog__linkedin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  background: #0a66c2;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.subscribe-dialog__linkedin-link i {
+  font-size: 1.05rem;
+}
+
+.subscribe-dialog__linkedin-link:hover {
+  background: #004182;
+}
+
+.subscribe-dialog__linkedin-link:focus-visible {
+  outline: 3px solid #65b7c7;
+  outline-offset: 2px;
+}
+
 @media (max-width: 480px) {
   .subscribe-dialog__panel {
     padding: 1.75rem 1.25rem 1.25rem;
