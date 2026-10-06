@@ -32,7 +32,7 @@
  * linked from anywhere.
  */
 
-import { CONTACT_EMAIL, CONTACT_MAILTO, LOGO, imageCdn } from './brand.mjs';
+import { CONTACT_EMAIL, CONTACT_MAILTO, LINKEDIN_NEWSLETTER_URL, LOGO, imageCdn } from './brand.mjs';
 import { renderSubscribeDialog } from './newsletter.mjs';
 
 /**
@@ -87,8 +87,7 @@ import {
  * email list -- the Netlify Form behind the signup pop-up, which emails each
  * new article -- is always the one called "Subscribe" or "Email newsletter".
  */
-export const NEWSLETTER_URL =
-  'https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/';
+export const NEWSLETTER_URL = LINKEDIN_NEWSLETTER_URL;
 
 const escapeAttribute = (text) =>
   String(text)

@@ -46,6 +46,7 @@ import {
 import { loadPartials, loadSitePages, renderSitePage } from './lib/site-pages.mjs';
 import { loadInsightsSnapshot } from './lib/insights-snapshot.mjs';
 import { renderFeed } from './lib/feeds.mjs';
+import { relatedArticles, renderNewsletterPicks } from './lib/newsletter-picks.mjs';
 import { renderShareBar } from './lib/share.mjs';
 import { renderNewsletterForm } from './lib/newsletter.mjs';
 import { buildTermMatchers, detectArticleTerms, linkFirstMentions } from './lib/glossary-links.mjs';
@@ -805,14 +806,7 @@ function insertLeadMagnet(bodyHtml, labels, lang) {
  * aria-labelledby, which is what names the region for a screen reader.
  */
 function renderRelated(article, articles, labels) {
-  const related = articles
-    .filter((candidate) => candidate.lang === article.lang && candidate.slug !== article.slug)
-    .sort((first, second) => {
-      const sameCategory =
-        Number(second.categoryKey === article.categoryKey) - Number(first.categoryKey === article.categoryKey);
-      return sameCategory || second.date.localeCompare(first.date);
-    })
-    .slice(0, 3);
+  const related = relatedArticles(article, articles).slice(0, 3);
   if (!related.length) return '';
   const arrow =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
@@ -1550,6 +1544,18 @@ async function writeFeeds(articles) {
 }
 
 /**
+ * Writes what each "new article" email recommends beside the article. See
+ * scripts/lib/newsletter-picks.mjs for why it is a file.
+ */
+async function writeNewsletterPicks(articles, glossaryTerms) {
+  const directory = path.join(projectDirectory, 'assets/newsletter');
+  await mkdir(directory, { recursive: true });
+  for (const lang of LANGUAGES) {
+    await writeFile(path.join(directory, `${lang}.json`), renderNewsletterPicks(lang, articles, glossaryTerms), 'utf8');
+  }
+}
+
+/**
  * Fails the build on a class used in markup that no stylesheet defines.
  *
  * Runs after the pages are written, alongside the asset check and for the same
@@ -1687,6 +1693,7 @@ async function main() {
   await writeGlossary(glossaryTerms, articles);
   await writeSitePages(sitePages, articles, partials, insights.summary);
   await writeFeeds(articles);
+  await writeNewsletterPicks(articles, glossaryTerms);
 
   // Every directory-style URL the site publishes, which is also every URL that
   // has an index.html twin for renderRedirects to collapse.
