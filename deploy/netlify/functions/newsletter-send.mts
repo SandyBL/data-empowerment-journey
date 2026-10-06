@@ -46,6 +46,21 @@ import {
  */
 const FRESH_FOR_MS = 14 * 24 * 60 * 60 * 1000;
 
+/**
+ * Resend rejects a broadcast whose name is longer than this (422, "Field `name`
+ * has a maximum of 70 items"), and nothing is sent. The name only labels the
+ * broadcast in the dashboard, so the title is cut to make room for the batch.
+ */
+const MAX_BROADCAST_NAME = 70;
+
+const broadcastName = (title: string, batchId: number) => {
+  const suffix = ` - batch ${batchId}`;
+  const room = MAX_BROADCAST_NAME - suffix.length;
+  const chars = [...title.trim()];
+  const head = chars.length > room ? `${chars.slice(0, room - 1).join("").trimEnd()}…` : chars.join("");
+  return `${head}${suffix}`;
+};
+
 /** Bounds the pending-send query; nothing older than this is still unsent. */
 const PENDING_WINDOW_MS = 120 * 24 * 60 * 60 * 1000;
 
@@ -166,7 +181,7 @@ const sendPendingArticles = async () => {
         subject: email.subject,
         html: email.html,
         text: email.text,
-        name: `${article.title.slice(0, 80)} - batch ${batch.id}`,
+        name: broadcastName(article.title, batch.id),
         send: true,
       });
       await db

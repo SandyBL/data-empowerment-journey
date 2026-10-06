@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { newsletterSubscribers } from "../../db/schema.js";
 import { cleanFirstName, isLocale, newUnsubscribeToken, resend, sendWelcome, syncSubscriber } from "../lib/newsletter.js";
@@ -41,7 +41,12 @@ export default async (request: Request) => {
 
     let subscriber = created;
     if (!subscriber) {
-      let [existing] = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email));
+      // Already on the list in this language. A signup in another language is
+      // a new row of its own and took the insert above.
+      let [existing] = await db
+        .select()
+        .from(newsletterSubscribers)
+        .where(and(eq(newsletterSubscribers.email, email), eq(newsletterSubscribers.locale, locale)));
       if (!existing) return;
       // A name typed this time replaces the one on file (or the lack of one,
       // for anyone who signed up before the form asked).
@@ -68,6 +73,8 @@ export default async (request: Request) => {
         .set({ unsubscribedAt: null, welcomeSentAt: null })
         .where(eq(newsletterSubscribers.id, existing.id))
         .returning();
+      // The unsubscribe link took the contact out of this language's segment
+      // and cleared resendContactId, so syncSubscriber below puts it back.
       if (subscriber.resendContactId) {
         await resend("PATCH", `/contacts/${encodeURIComponent(email)}`, contactFields);
       }

@@ -1,7 +1,7 @@
 import type { Config } from "@netlify/functions";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull, ne } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { newsletterSubscribers } from "../../db/schema.js";
+import { newsletterBatches, newsletterSubscribers } from "../../db/schema.js";
 import { ResendError, isLocale, resend, type Locale } from "../lib/newsletter.js";
 
 // The unsubscribe link in the welcome email. Broadcasts do not use it: Resend
@@ -102,15 +102,38 @@ export default async (request: Request) => {
       // By address rather than by the stored id, which belongs to whichever
       // Resend account created the contact. A contact the current account does
       // not have cannot be emailed by it, so a 404 is as good as done.
-      try {
-        await resend("PATCH", `/contacts/${encodeURIComponent(subscriber.email)}`, { unsubscribed: true });
-      } catch (error) {
+      const email = encodeURIComponent(subscriber.email);
+      const ignoreMissing = (error: unknown) => {
         if (!(error instanceof ResendError) || error.status !== 404) throw error;
-      }
+      };
+
+      // One link per language: it takes the address out of this language's
+      // segment only. The Resend contact is shared by every language the
+      // address reads, so it is marked unsubscribed only when this was the
+      // last one still on.
+      const [batch] = subscriber.batchId
+        ? await db.select().from(newsletterBatches).where(eq(newsletterBatches.id, subscriber.batchId))
+        : [];
+      if (batch) await resend("DELETE", `/contacts/${email}/segments/${batch.resendSegmentId}`).catch(ignoreMissing);
+
+      const [otherLanguage] = await db
+        .select({ id: newsletterSubscribers.id })
+        .from(newsletterSubscribers)
+        .where(
+          and(
+            eq(newsletterSubscribers.email, subscriber.email),
+            ne(newsletterSubscribers.id, subscriber.id),
+            isNull(newsletterSubscribers.unsubscribedAt),
+          ),
+        )
+        .limit(1);
+      if (!otherLanguage) await resend("PATCH", `/contacts/${email}`, { unsubscribed: true }).catch(ignoreMissing);
     }
+    // resendContactId is cleared so that signing up again in this language
+    // goes through syncSubscriber and re-adds the address to the segment.
     await db
       .update(newsletterSubscribers)
-      .set({ unsubscribedAt: new Date() })
+      .set({ unsubscribedAt: new Date(), resendContactId: null })
       .where(eq(newsletterSubscribers.id, subscriber.id));
   } catch (error) {
     console.error(`Newsletter: unsubscribe of subscriber ${subscriber.id} failed`, error);
