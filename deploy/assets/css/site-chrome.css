@@ -351,6 +351,44 @@
     outline: 3px solid #0b4a5c;
     outline-offset: -3px;
   }
+
+  /*
+   * Paid items: last in their group, set apart from the free ones above them
+   * by a divider and a warm tint in the call-to-action orange. The divider is
+   * a margin plus a pseudo-element so that consecutive paid items share one
+   * divider instead of drawing one each.
+   */
+  .site-nav__item--paid {
+    position: relative;
+    margin-top: 0.55rem;
+    background: linear-gradient(135deg, #fff4ec 0%, #ffe6d5 100%);
+    box-shadow: inset 0 0 0 1px rgb(194 84 25 / 0.28);
+    color: var(--deepblue, #003366);
+  }
+
+  .site-nav__item--paid::before {
+    content: "";
+    position: absolute;
+    top: -0.3rem;
+    right: 0.3rem;
+    left: 0.3rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .site-nav__item--paid + .site-nav__item--paid {
+    margin-top: 0.3rem;
+  }
+
+  .site-nav__item--paid + .site-nav__item--paid::before {
+    content: none;
+  }
+
+  .site-nav__item--paid:hover,
+  .site-nav__item--paid:focus-visible,
+  .site-nav__item--paid[aria-current="page"] {
+    background: linear-gradient(135deg, #ffe6d5 0%, #ffd3b6 100%);
+    color: var(--deepblue, #003366);
+  }
 }
 
 /*
@@ -526,6 +564,20 @@
 .site-drawer__item i {
   margin-right: 0.45rem;
   color: #0077b5;
+}
+
+/* Paid items in the drawer: the same treatment as in the desktop dropdown. */
+.site-drawer__item--paid {
+  margin-top: 0.4rem;
+  background: linear-gradient(135deg, #fff4ec 0%, #ffe6d5 100%);
+  box-shadow: inset 0 0 0 1px rgb(194 84 25 / 0.28);
+  color: var(--deepblue, #003366);
+}
+
+.site-drawer__item--paid:hover,
+.site-drawer__item--paid[aria-current="page"] {
+  background: linear-gradient(135deg, #ffe6d5 0%, #ffd3b6 100%);
+  color: var(--deepblue, #003366);
 }
 
 body.site-drawer-open {
