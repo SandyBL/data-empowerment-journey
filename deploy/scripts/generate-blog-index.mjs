@@ -48,6 +48,7 @@ import { loadInsightsSnapshot } from './lib/insights-snapshot.mjs';
 import { renderFeed } from './lib/feeds.mjs';
 import { renderShareBar } from './lib/share.mjs';
 import { renderNewsletterForm } from './lib/newsletter.mjs';
+import { buildTermMatchers, detectArticleTerms, linkFirstMentions } from './lib/glossary-links.mjs';
 
 /**
  * Whether this build is the one that answers on datagovjourney.com.
@@ -92,6 +93,9 @@ const LABELS = {
     relatedTitle: 'Three more from the journal',
     relatedText: 'Articles that pick up where this one leaves off — chosen from the same track first, newest first after that.',
     relatedCue: 'Read article',
+    termsKicker: 'Glossary',
+    termsTitle: 'Terms in this article',
+    termsText: 'Every glossary term this article uses, in the order it comes up. Each one opens its full definition.',
   },
   es: {
     blogTitle: 'Journal / Ideas',
@@ -119,6 +123,9 @@ const LABELS = {
     relatedTitle: 'Tres lecturas más del journal',
     relatedText: 'Artículos que continúan donde termina este: primero los de la misma temática y después los más recientes.',
     relatedCue: 'Leer artículo',
+    termsKicker: 'Glosario',
+    termsTitle: 'Términos de este artículo',
+    termsText: 'Todos los términos del glosario que usa este artículo, en el orden en que aparecen. Cada uno abre su definición completa.',
   },
   pt: {
     blogTitle: 'Journal / Ideias',
@@ -146,6 +153,9 @@ const LABELS = {
     relatedTitle: 'Mais três leituras do journal',
     relatedText: 'Artigos que seguem de onde este parou: primeiro os do mesmo tema e depois os mais recentes.',
     relatedCue: 'Ler artigo',
+    termsKicker: 'Glossário',
+    termsTitle: 'Termos deste artigo',
+    termsText: 'Todos os termos do glossário que este artigo usa, na ordem em que aparecem. Cada um abre a definição completa.',
   },
 };
 
@@ -821,6 +831,24 @@ function renderRelated(article, articles, labels) {
     </section>`;
 }
 
+/**
+ * The glossary terms an article uses, as a block under the body. Found by
+ * scripts/lib/glossary-links.mjs on every build, so a new article gets one
+ * without its author listing anything, and a new term appears on every article
+ * that already used it.
+ */
+function renderArticleTerms(article, labels) {
+  const terms = article.glossaryTerms ?? [];
+  if (!terms.length) return '';
+  const items = terms
+    .map(
+      (term) =>
+        `<li><a href="/${article.lang}/glossary/${term.slug}/"><strong>${escapeHtml(term.term)}</strong><span>${escapeHtml(term.short)}</span></a></li>`
+    )
+    .join('');
+  return `<section class="article-terms" aria-labelledby="article-terms-heading"><small>${labels.termsKicker}</small><h2 id="article-terms-heading">${labels.termsTitle}</h2><p>${labels.termsText}</p><ul>${items}</ul></section>`;
+}
+
 function renderArticlePage(article, translations, articles, categoryHubs) {
   const labels = LABELS[article.lang];
   const canonical = `${SITE_ORIGIN}${articlePath(article.lang, article.slug)}`;
@@ -923,6 +951,7 @@ ${renderAlternateLocales(article.lang)}
         <article class="article-body">
 ${bodyHtml}
         </article>
+        ${renderArticleTerms(article, labels)}
         ${renderShareBar(article.lang, { url: canonical, title: article.title })}
         <aside class="author-card" aria-label="${labels.about}"><img src="${imageCdn(PORTRAIT.url, 192, 192, 'cover')}" alt="Sandy Bradbury, Lead Data Governance Consultant" width="96" height="96" loading="lazy" decoding="async"><div><small>${labels.about}</small><h2><a href="${pagePath(article.lang, 'about')}">Sandy Bradbury</a></h2><p>${labels.aboutText}</p></div></aside>
         ${/* The end of an article is where a reader has just decided the writing
@@ -1580,6 +1609,13 @@ async function main() {
   const categoryLinks = collectCategoryLinks(articles, categoryPages);
 
   const glossaryTerms = await loadGlossary(projectDirectory);
+  // Before anything renders an article: the term block, the linked first
+  // mentions and the glossary's list of articles per term all read from this.
+  const termMatchers = buildTermMatchers(glossaryTerms);
+  for (const article of articles) {
+    article.glossaryTerms = detectArticleTerms(article, termMatchers);
+    article.bodyHtml = linkFirstMentions(article.bodyHtml, article.lang, termMatchers);
+  }
   const partials = await loadPartials(projectDirectory);
   const sitePages = await loadSitePages(projectDirectory);
   // Fetched from the live API, with the committed snapshot as the fallback. See
