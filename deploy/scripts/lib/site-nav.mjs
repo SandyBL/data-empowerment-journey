@@ -262,13 +262,17 @@ export const NAV_GROUPS = [
     id: 'learn',
     items: [
       { key: 'blog', href: (lang) => blogPath(lang) },
-      // The one paid item in the group, and in all three languages: the videos
-      // are Portuguese with Spanish and English subtitles, and the page says so.
-      { key: 'course', href: (lang) => pagePath(lang, 'course') },
       { key: 'glossary', href: (lang) => pagePath(lang, 'glossary') },
       { key: 'faq', href: (lang) => pagePath(lang, 'faq') },
       { key: 'confessionWall', href: (lang) => confessionWallPath(lang) },
       { key: 'newsletter', href: () => NEWSLETTER_URL, external: true, icon: 'fa-brands fa-linkedin' },
+      // Paid items go last, below every free one, so the group reads from free
+      // to paid and any future paid course is added here, after this one. The
+      // `paid` flag sets them apart in the dropdown and the drawer: a divider
+      // above and a warm tint. The course is offered in all three languages:
+      // the videos are Portuguese with Spanish and English subtitles, and the
+      // page says so.
+      { key: 'course', href: (lang) => pagePath(lang, 'course'), paid: true },
     ],
   },
   {
@@ -392,7 +396,8 @@ const navItem = (item, lang, current, className) => {
   const title = item.title ? ` title="${escapeAttribute(NAV[lang][item.title])}"` : '';
   const text = item.icon ? `<span>${label}</span>` : label;
   const dialog = item.dialog ? ' data-subscribe-dialog-open' : '';
-  return `<a class="${className}" href="${item.href(lang)}"${external}${active}${title}${dialog}>${icon}${text}</a>`;
+  const classes = item.paid ? `${className} ${className}--paid` : className;
+  return `<a class="${classes}" href="${item.href(lang)}"${external}${active}${title}${dialog}>${icon}${text}</a>`;
 };
 
 /** Does this group contain the page being rendered? Used to light up its trigger. */
@@ -536,12 +541,13 @@ export const renderSiteFooter = (lang) => {
   // here and not in the header because nobody hunts for an RSS link in a
   // dropdown, and it would have made Learn a seven-item group. The email
   // newsletter sits next to the LinkedIn one so the two are told apart where
-  // they are seen together.
+  // they are seen together. Both go above the paid items, which stay last.
   const columns = NAV_GROUPS.map((group) => {
     const links = group.items.map((item) => [nav[item.key], item.href(lang), item.external]);
     if (group.key === 'groupLearn') {
-      links.splice(links.length - 1, 0, [nav.emailNewsletter, subscribeHref(lang), false, true]);
-      links.push([nav.feed, feedPath(lang)]);
+      const linkedIn = group.items.findIndex((item) => item.key === 'newsletter');
+      links.splice(linkedIn, 0, [nav.emailNewsletter, subscribeHref(lang), false, true]);
+      links.splice(linkedIn + 2, 0, [nav.feed, feedPath(lang)]);
     }
     return column(nav[group.key], links);
   }).join('\n      ');
