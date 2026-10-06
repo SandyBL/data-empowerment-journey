@@ -1,3 +1,4 @@
+import type { ArticlePicks } from "./newsletter-feed.js";
 import type { Locale } from "./newsletter.js";
 
 /**
@@ -45,7 +46,7 @@ const BRAND_FONT = "'Plus Jakarta Sans',Helvetica,Arial,sans-serif";
 const CARD_RADIUS = "4px 24px 4px 4px";
 
 /** The LinkedIn newsletter: a separate list, linked from the foot of every email. */
-const LINKEDIN_NEWSLETTER = "https://www.linkedin.com/newsletters/the-data-empowerment-journey-7282492393252147200/";
+const LINKEDIN_NEWSLETTER = "https://www.linkedin.com/newsletters/the-data-governance-journey-7282492393252147200/";
 
 const escapeHtml = (text: string) =>
   text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -65,17 +66,21 @@ const COPY = {
     welcomeButton: "Browse all articles",
     blogPath: "/en/blog/",
     signOff: "See you in your inbox,",
-    team: "The Data Governance Journey team",
+    team: "The Data Governance Journey",
     articleSubject: (title: string) => `New article: ${title}`,
     articleKicker: "New on Data Governance Journey",
     articleButton: "Read the article",
+    relatedKicker: "Also worth reading",
+    relatedCue: "Read it",
+    termKicker: "Glossary term",
+    termCue: "See the definition",
     articleOutro: "Questions or a different view? Just reply to this email, we read every one.",
     footer: "You are receiving this because you subscribed at datagovjourney.com.",
     unsubscribe: "Unsubscribe",
     greeting: (name: string | null) => (name ? `Hi ${name},` : "Hi there,"),
     broadcastGreeting: "Hi {{{contact.first_name|there}}},",
     linkedinKicker: "Also on LinkedIn",
-    linkedinText: "Shorter pieces and the conversation in the comments: The Data Empowerment Journey, a separate newsletter on LinkedIn.",
+    linkedinText: "Shorter pieces and the conversation in the comments: The Data Governance Journey newsletter on LinkedIn.",
     linkedinButton: "Follow on LinkedIn",
   },
   es: {
@@ -92,17 +97,21 @@ const COPY = {
     welcomeButton: "Ver todos los artículos",
     blogPath: "/es/blog/",
     signOff: "Nos vemos en tu bandeja de entrada,",
-    team: "El equipo de Data Governance Journey",
+    team: "The Data Governance Journey",
     articleSubject: (title: string) => `Nuevo artículo: ${title}`,
     articleKicker: "Nuevo en Data Governance Journey",
     articleButton: "Leer el artículo",
+    relatedKicker: "También vale la pena leer",
+    relatedCue: "Leerlo",
+    termKicker: "Término del glosario",
+    termCue: "Ver la definición",
     articleOutro: "¿Preguntas u otro punto de vista? Responde a este correo, leemos todos.",
     footer: "Recibes este correo porque te suscribiste en datagovjourney.com.",
     unsubscribe: "Darse de baja",
     greeting: (name: string | null) => (name ? `Hola, ${name}:` : "Hola:"),
     broadcastGreeting: "Hola {{{contact.first_name|de nuevo}}},",
     linkedinKicker: "También en LinkedIn",
-    linkedinText: "Piezas más breves y la conversación en los comentarios: The Data Empowerment Journey, una newsletter aparte en LinkedIn.",
+    linkedinText: "Piezas más breves y la conversación en los comentarios: la newsletter The Data Governance Journey en LinkedIn.",
     linkedinButton: "Seguir en LinkedIn",
   },
   pt: {
@@ -119,17 +128,21 @@ const COPY = {
     welcomeButton: "Ver todos os artigos",
     blogPath: "/pt/blog/",
     signOff: "Até a próxima,",
-    team: "Equipe Data Governance Journey",
+    team: "The Data Governance Journey",
     articleSubject: (title: string) => `Novo artigo: ${title}`,
     articleKicker: "Novo no Data Governance Journey",
     articleButton: "Ler o artigo",
+    relatedKicker: "Também vale a leitura",
+    relatedCue: "Ler",
+    termKicker: "Termo do glossário",
+    termCue: "Ver a definição",
     articleOutro: "Dúvidas ou outro ponto de vista? É só responder a este e-mail, lemos todos.",
     footer: "Você está recebendo este e-mail porque se inscreveu em datagovjourney.com.",
     unsubscribe: "Cancelar inscrição",
     greeting: (name: string | null) => (name ? `Olá, ${name}!` : "Olá!"),
     broadcastGreeting: "Olá {{{contact.first_name|de novo}}},",
     linkedinKicker: "Também no LinkedIn",
-    linkedinText: "Textos mais curtos e a conversa nos comentários: The Data Empowerment Journey, uma newsletter separada no LinkedIn.",
+    linkedinText: "Textos mais curtos e a conversa nos comentários: a newsletter The Data Governance Journey no LinkedIn.",
     linkedinButton: "Seguir no LinkedIn",
   },
 } as const;
@@ -259,10 +272,31 @@ export const renderWelcomeEmail = (
   };
 };
 
-export const renderArticleEmail = (locale: Locale, article: Article) => {
+/** A small card under the main article: a kicker, a linked title, a line of text. */
+const extraCard = (kicker: string, href: string, title: string, text: string, cue: string) =>
+  `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px;"><tr><td bgcolor="${PAPER}" style="background:${PAPER};padding:16px 18px;border-left:3px solid ${MINT};border-radius:0 12px 0 0;">` +
+  `<p style="margin:0 0 6px;font-size:12px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;color:${CORAL};">${escapeHtml(kicker)}</p>` +
+  `<a href="${escapeHtml(href)}" style="font-family:${SERIF};font-size:19px;font-weight:normal;line-height:1.25;color:${INK};text-decoration:none;">${escapeHtml(title)}</a>` +
+  (text ? `<p style="margin:6px 0 8px;font-size:14px;line-height:1.55;color:${MUTED};">${escapeHtml(text)}</p>` : `<br>`) +
+  `<a href="${escapeHtml(href)}" style="font-size:14px;font-weight:bold;color:${TEAL};text-decoration:none;">${escapeHtml(cue)} &rarr;</a>` +
+  `</td></tr></table>`;
+
+/**
+ * `picks` is what the build chose to recommend beside this article (see
+ * scripts/lib/newsletter-picks.mjs): one more article and one glossary term.
+ * Either may be missing, and the email simply goes without that card.
+ */
+export const renderArticleEmail = (
+  locale: Locale,
+  article: Article,
+  picks: ArticlePicks = { related: null, term: null },
+) => {
   const copy = COPY[locale];
   const unsubscribe = "{{{RESEND_UNSUBSCRIBE_URL}}}";
   const summary = article.summary && article.summary !== article.title ? article.summary : "";
+  const related = picks.related && picks.related.url !== article.url ? picks.related : null;
+  const relatedSummary = related?.summary && related.summary !== related.title ? related.summary : "";
+  const term = picks.term;
   const body = [
     `<p style="margin:0 0 14px;font-size:12px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;color:${CORAL};">${escapeHtml(copy.articleKicker)}</p>`,
     // Resend fills the placeholder per recipient. Never escaped here: it is
@@ -271,7 +305,9 @@ export const renderArticleEmail = (locale: Locale, article: Article) => {
     `<h1 style="margin:0 0 16px;font-family:${SERIF};font-size:30px;font-weight:normal;line-height:1.12;letter-spacing:-0.01em;"><a href="${escapeHtml(article.url)}" style="color:${INK};text-decoration:none;">${escapeHtml(article.title)}</a></h1>`,
     summary ? `<p style="margin:0 0 16px;padding-left:16px;border-left:3px solid ${MINT};color:${MUTED};">${escapeHtml(summary)}</p>` : "",
     button(article.url, copy.articleButton),
-    `<p style="margin:0;color:${MUTED};">${escapeHtml(copy.articleOutro)}</p>`,
+    related ? extraCard(copy.relatedKicker, related.url, related.title, relatedSummary, copy.relatedCue) : "",
+    term ? extraCard(copy.termKicker, term.url, term.term, term.short, copy.termCue) : "",
+    `<p style="margin:${related || term ? "16px" : "0"} 0 0;color:${MUTED};">${escapeHtml(copy.articleOutro)}</p>`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -289,6 +325,8 @@ export const renderArticleEmail = (locale: Locale, article: Article) => {
       ...(summary ? [summary, ""] : []),
       `${copy.articleButton}: ${article.url}`,
       "",
+      ...(related ? [copy.relatedKicker, related.title, ...(relatedSummary ? [relatedSummary] : []), related.url, ""] : []),
+      ...(term ? [copy.termKicker, `${term.term}: ${term.short}`, term.url, ""] : []),
       copy.articleOutro,
       "",
       copy.signOff,

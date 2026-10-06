@@ -68,3 +68,11 @@ export const CONTACT_EMAIL = 'datagovjourney@gmail.com';
 
 /** `mailto:` form of CONTACT_EMAIL, for href attributes. */
 export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
+
+/**
+ * The LinkedIn newsletter, The Data Governance Journey. Here rather than in
+ * site-nav.mjs so the signup pop-up (newsletter.mjs, which site-nav imports)
+ * can link it without an import cycle.
+ */
+export const LINKEDIN_NEWSLETTER_URL =
+  'https://www.linkedin.com/newsletters/the-data-governance-journey-7282492393252147200/';

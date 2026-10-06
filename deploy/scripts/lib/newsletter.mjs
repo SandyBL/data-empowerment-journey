@@ -25,7 +25,7 @@
  * nothing on this form sends anyone there.
  */
 
-import { CONTACT_EMAIL } from './brand.mjs';
+import { CONTACT_EMAIL, LINKEDIN_NEWSLETTER_URL } from './brand.mjs';
 
 const COPY = {
   en: {
@@ -50,6 +50,8 @@ const COPY = {
       'Replies are read by a person. Unsubscribe in one click, any time.',
     ],
     dialogClose: 'Close',
+    dialogLinkedinText: 'Prefer LinkedIn? Follow The Data Governance Journey there.',
+    dialogLinkedinButton: 'Subscribe on LinkedIn',
   },
   es: {
     kicker: 'Opcional',
@@ -73,6 +75,8 @@ const COPY = {
       'Las respuestas las lee una persona. Te das de baja en un clic, cuando quieras.',
     ],
     dialogClose: 'Cerrar',
+    dialogLinkedinText: '¿Prefieres LinkedIn? Sigue The Data Governance Journey allí.',
+    dialogLinkedinButton: 'Suscribirse en LinkedIn',
   },
   pt: {
     kicker: 'Opcional',
@@ -96,6 +100,8 @@ const COPY = {
       'As respostas são lidas por uma pessoa. Você cancela em um clique, quando quiser.',
     ],
     dialogClose: 'Fechar',
+    dialogLinkedinText: 'Prefere o LinkedIn? Acompanhe The Data Governance Journey por lá.',
+    dialogLinkedinButton: 'Assinar no LinkedIn',
   },
 };
 
@@ -214,6 +220,9 @@ export const renderNewsletterForm = (lang, { source, id = 'newsletter-signup', v
  * with `form-name=newsletter`, the form Netlify already detects on the
  * homepage and the resource pages. Its fields are the same five, so submissions land in the
  * same list.
+ *
+ * Below the form, the other newsletter: a link to the LinkedIn one, for a
+ * reader who would rather follow there than hand over an address.
  */
 export const renderSubscribeDialog = (lang) => {
   const copy = COPY[lang] || COPY.en;
@@ -257,5 +266,11 @@ export const renderSubscribeDialog = (lang) => {
           copy.privacy
         )}</p>
       </form>
+      <div class="subscribe-dialog__linkedin">
+        <p>${escapeAttribute(copy.dialogLinkedinText)}</p>
+        <a class="subscribe-dialog__linkedin-link" href="${LINKEDIN_NEWSLETTER_URL}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>${escapeAttribute(
+          copy.dialogLinkedinButton
+        )}</a>
+      </div>
     </div></dialog>`;
 };
