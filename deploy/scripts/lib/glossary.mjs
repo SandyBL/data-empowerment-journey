@@ -46,7 +46,8 @@ import {
   renderPage,
   xDefaultLanguage,
 } from './page-shell.mjs';
-import { glossaryTermAnchor, localizedTermSlug } from './routes.mjs';
+import { articlePath, glossaryTermAnchor, localizedTermSlug } from './routes.mjs';
+import { termArticleIndex } from './glossary-links.mjs';
 
 /** The sections the hub groups terms under, in the order they are shown. */
 const GROUPS = [
@@ -166,6 +167,7 @@ const COPY = {
     inThisSection: 'In this section',
     related: 'Related terms',
     readMore: 'Read more on this',
+    mentionedIn: 'Also mentioned in',
     jumpTo: 'Where do you want to start?',
     // The visible label is a question; a landmark still needs a plain name.
     jumpAria: 'Glossary sections',
@@ -183,6 +185,7 @@ const COPY = {
     inThisSection: 'En esta sección',
     related: 'Términos relacionados',
     readMore: 'Leer más sobre esto',
+    mentionedIn: 'También aparece en',
     jumpTo: '¿Por dónde quieres empezar?',
     jumpAria: 'Secciones del glosario',
     openHint: 'todas las definiciones están en esta página: abre un término para leerla completa.',
@@ -199,6 +202,7 @@ const COPY = {
     inThisSection: 'Nesta seção',
     related: 'Termos relacionados',
     readMore: 'Leia mais sobre isso',
+    mentionedIn: 'Também aparece em',
     jumpTo: 'Por onde você quer começar?',
     jumpAria: 'Seções do glossário',
     openHint: 'todas as definições estão nesta página: abra um termo para ler por completo.',
@@ -212,6 +216,9 @@ const COPY = {
  * routes from the glossary module.
  */
 export { glossaryHubPath, glossaryTermAnchor };
+
+/** How many mentioning articles a definition lists; the newest win. */
+const MENTION_LIMIT = 6;
 
 const splitList = (value) =>
   String(value || '')
@@ -253,6 +260,9 @@ export async function loadGlossary(projectDirectory) {
         group: attributes.group,
         also: splitList(attributes.also),
         related: splitList(attributes.related),
+        // Extra spellings that count as a mention of the term -- plurals, mostly --
+        // without being listed under "Also called". See scripts/lib/glossary-links.mjs.
+        match: splitList(attributes.match),
         // A translation key, not a slug: the article slugs differ per language
         // (the Spanish DMBOK piece is "que-es-la-gobernanza-de-datos-..."), so a
         // slug here would resolve in English and silently drop the link in the
@@ -295,10 +305,10 @@ const hubLanguageHrefs = () => Object.fromEntries(LANGUAGES.map((other) => [othe
  * and in the DOM, so a crawler reads it either way.
  *
  * The <dfn> is what marks the defined phrase to assistive tech. It sits inside
- * a heading rather than replacing it, because forty-seven terms on one page
+ * a heading rather than replacing it, because seventy terms on one page
  * need to be navigable by a screen reader's heading rotor.
  */
-const renderTerm = (term, { lang, copy, bySlug, articles }) => {
+const renderTerm = (term, { lang, copy, bySlug, articles, mentions }) => {
   const related = term.related.map((slug) => bySlug.get(slug)).filter(Boolean);
   const article = articles.find((entry) => entry.lang === lang && entry.translationKey === term.articleKey);
 
@@ -320,9 +330,20 @@ const renderTerm = (term, { lang, copy, bySlug, articles }) => {
         .join('')}</ul></div>`
     : '';
 
+  // Every other article that uses the term, found by scripts/lib/glossary-links.mjs
+  // rather than listed by hand, so a new article shows up here on its first
+  // build. The hand-picked "read more" article is not repeated.
+  const mentioning = (mentions.get(`${lang}:${term.slug}`) ?? []).filter((entry) => entry !== article);
+  const mentionedIn = mentioning.length
+    ? `<div class="glossary-term__mentions"><h4>${escapeHtml(copy.mentionedIn)}</h4><ul>${mentioning
+        .slice(0, MENTION_LIMIT)
+        .map((entry) => `<li><a href="${articlePath(lang, entry.slug)}">${escapeHtml(entry.title)}</a></li>`)
+        .join('')}</ul></div>`
+    : '';
+
   const footer =
-    readMore || relatedTerms
-      ? `\n              <div class="glossary-term__footer">${readMore}${relatedTerms}</div>`
+    readMore || relatedTerms || mentionedIn
+      ? `\n              <div class="glossary-term__footer">${readMore}${mentionedIn}${relatedTerms}</div>`
       : '';
 
   return `          <details class="glossary-term" id="${localizedTermSlug(lang, term.slug)}">
@@ -356,6 +377,7 @@ export function renderGlossaryHub(lang, terms, articles) {
     .sort((first, second) => first.term.localeCompare(second.term, lang));
   const canonical = `${SITE_ORIGIN}${glossaryHubPath(lang)}`;
   const bySlug = new Map(localized.map((entry) => [entry.slug, entry]));
+  const mentions = termArticleIndex(articles);
 
   const grouped = GROUPS.map((group) => ({
     group,
@@ -377,7 +399,7 @@ export function renderGlossaryHub(lang, terms, articles) {
           <span>${copy.count(section.terms.length)}</span>
         </div>
         <div class="glossary-list">
-${section.terms.map((term) => renderTerm(term, { lang, copy, bySlug, articles })).join('\n')}
+${section.terms.map((term) => renderTerm(term, { lang, copy, bySlug, articles, mentions })).join('\n')}
         </div>
       </section>`
     )

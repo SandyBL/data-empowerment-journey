@@ -890,6 +890,37 @@
   color: var(--dejourney-teal);
 }
 
+.glossary-term__mentions h4 {
+  margin: 0 0 10px;
+  color: var(--slatecool);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.glossary-term__mentions ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.glossary-term__mentions a {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+
+.glossary-term__mentions a:hover {
+  color: var(--dejourney-teal);
+  text-decoration-color: var(--dejourney-cyan);
+}
+
 .glossary-term__related h4 {
   margin: 0 0 12px;
   color: var(--slatecool);

@@ -265,6 +265,20 @@ a.blog-kicker:hover { color: var(--coral); }
 .author-card h2 { margin: 5px 0; font-family: var(--serif); font-size: 1.65rem; font-weight: 400; }
 .author-card p { margin: 0; color: var(--ink-soft); font-size: .82rem; line-height: 1.6; }
 
+.article-terms { margin-top: 56px; padding-top: 30px; border-top: 1px solid var(--line); font-family: var(--sans); }
+.article-terms small { color: var(--mint-dark); font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.article-terms h2 { margin: 6px 0 8px; font-family: var(--serif); font-size: 1.65rem; font-weight: 400; }
+.article-terms p { margin: 0 0 20px; color: var(--ink-soft); font-size: .82rem; line-height: 1.6; }
+.article-terms ul { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; list-style: none; }
+.article-terms a { height: 100%; padding: 14px 16px; display: block; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.6); color: var(--ink); text-decoration: none; transition: border-color .2s ease, color .2s ease; }
+.article-terms a strong { display: block; margin-bottom: 4px; font-size: .9rem; }
+.article-terms a span { display: block; color: var(--ink-soft); font-size: .76rem; line-height: 1.5; }
+.article-terms a:hover, .article-terms a:focus-visible { border-color: var(--dejourney-cyan); color: var(--dejourney-teal); }
+/* A first mention linked by the build reads as prose with a hint, not as a
+   call to action: the reader can follow it or ignore it. */
+.article-body a.glossary-mention { color: inherit; text-decoration: underline dotted; text-decoration-color: var(--dejourney-cyan); text-underline-offset: 3px; }
+.article-body a.glossary-mention:hover, .article-body a.glossary-mention:focus-visible { color: var(--dejourney-teal); text-decoration-style: solid; }
+
 .related-articles { margin: 0 auto clamp(60px, 8vw, 92px); padding-top: clamp(44px, 6vw, 70px); border-top: 1px solid var(--line); font-family: var(--sans); }
 .related-head { margin-bottom: 32px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; }
 .related-head h2 { max-width: 620px; margin: 16px 0 0; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1; letter-spacing: -.03em; }
