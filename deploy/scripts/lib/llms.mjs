@@ -35,7 +35,7 @@ const GUIDE_LINKS = {
     ['Maturity assessment', '/en/maturity-assessment/', 'DAMA-based scorecard returning a level, a five-axis radar and three quick wins.'],
     ['Template library', '/en/templates/', 'Six Excel and Word working files: pain points, 5W2H framing, evolution stages, catalog use cases, principles and policies, governance scorecard.'],
     ['Playbooks', '/en/playbooks/', 'PDF playbooks on standing up data governance and on AI governance.'],
-    ['Practical Data Governance course (paid)', '/en/data-governance-course/', 'Paid online course recorded in Portuguese with English subtitles: 16 video lessons on fundamentals, operationalising metadata, quality and security, and data culture, plus an add-on AI governance module. Includes all 24 library templates as editable files (in Portuguese), a certificate of completion and lifetime access.'],
+    ['Practical Data Governance course (paid)', '/en/data-governance-course/', 'Paid online course in Portuguese with English subtitles: 16 video lessons on fundamentals, operationalising metadata, quality and security, and data culture, plus an add-on AI governance module. Includes 31 editable templates (in Portuguese), 5 of them from the AI governance module, a certificate of completion and lifetime access.'],
     ['Data Governance Day-to-Day simulator', '/simulators/en/data-governance-day-to-day/', 'Branching scenario on the trade-offs a data governance lead makes in a week.'],
     ['Who Owns This? simulator', '/simulators/en/data-ownership-conflict/', 'Scenario on resolving a disputed data ownership claim between two departments.'],
     ['Data Literacy simulator', '/simulators/en/data-literacy/', 'Scenario on raising data literacy without a formal training budget.'],
@@ -57,7 +57,7 @@ const GUIDE_LINKS = {
     ['Diagnóstico de madurez', '/es/diagnostico-de-madurez/', 'Scorecard basado en DAMA que devuelve un nivel, un radar de cinco ejes y tres quick wins.'],
     ['Biblioteca de plantillas', '/es/plantillas/', 'Seis ficheros de trabajo en Excel y Word: puntos de dolor, encuadre 5W2H, etapas de evolución, casos de uso de catálogo, principios y políticas, scorecard de gobierno.'],
     ['Playbooks', '/es/playbooks/', 'Playbooks en PDF sobre poner en marcha el gobierno de datos y sobre gobierno de la IA.'],
-    ['Curso de Gobierno de Datos en la práctica (de pago)', '/es/curso-gobierno-de-datos/', 'Curso online de pago grabado en portugués con subtítulos en español: 16 clases en vídeo sobre fundamentos, operacionalización de metadatos, calidad y seguridad, y cultura de datos, más un módulo adicional de gobierno de la IA. Incluye las 24 plantillas de la biblioteca en formato editable (en portugués), certificado de finalización y acceso de por vida.'],
+    ['Curso de Gobierno de Datos en la práctica (de pago)', '/es/curso-gobierno-de-datos/', 'Curso online de pago en portugués con subtítulos en español: 16 clases en vídeo sobre fundamentos, operacionalización de metadatos, calidad y seguridad, y cultura de datos, más un módulo adicional de gobierno de la IA. Incluye 31 plantillas editables (en portugués), 5 de ellas del módulo de gobierno de la IA, certificado de finalización y acceso de por vida.'],
     ['Simulador del Día a Día', '/simulators/es/data-governance-day-to-day/', 'Escenario ramificado sobre las decisiones de un responsable de gobierno de datos.'],
     ['Simulador ¿Quién es el dueño de esto?', '/simulators/es/data-ownership-conflict/', 'Escenario sobre resolver una disputa de propiedad de datos entre áreas.'],
     ['Simulador de Alfabetización de Datos', '/simulators/es/data-literacy/', 'Escenario sobre elevar la alfabetización de datos sin presupuesto de formación.'],
@@ -82,7 +82,7 @@ const GUIDE_LINKS = {
     // The one paid page on the site. Described as paid, because an assistant
     // summarising this file for a reader should not send them to a checkout
     // believing it is free.
-    ['Curso de Governança de Dados na prática (pago)', '/pt/curso-governanca-de-dados/', 'Curso online em português, pago: 16 aulas em vídeo sobre fundamentos, operacionalização de metadados, qualidade e segurança, e cultura de dados, mais um módulo adicional de governança de IA. Inclui os 24 modelos da biblioteca em formato editável, certificado de conclusão e acesso vitalício. Os vídeos também têm legendas em espanhol e inglês.'],
+    ['Curso de Governança de Dados na prática (pago)', '/pt/curso-governanca-de-dados/', 'Curso online em português, pago: 16 aulas em vídeo sobre fundamentos, operacionalização de metadados, qualidade e segurança, e cultura de dados, mais um módulo adicional de governança de IA. Inclui 31 modelos editáveis, 5 deles do módulo de governança de IA, certificado de conclusão e acesso vitalício. Os vídeos também têm legendas em espanhol e inglês.'],
     ['Simulador do Dia a Dia', '/simulators/pt/data-governance-day-to-day/', 'Cenário ramificado sobre as decisões de um responsável por governança de dados.'],
     ['Simulador Quem é o Dono Disso?', '/simulators/pt/data-ownership-conflict/', 'Cenário sobre resolver uma disputa de propriedade de dados entre áreas.'],
     ['Simulador de Alfabetização de Dados', '/simulators/pt/data-literacy/', 'Cenário sobre elevar a alfabetização de dados sem orçamento de treinamento.'],

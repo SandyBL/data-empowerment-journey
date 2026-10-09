@@ -128,6 +128,7 @@ export const NAV = {
     playbooks: 'Playbooks',
     maturity: 'Maturity assessment',
     course: 'Data governance course',
+    badgeNew: 'New',
     feed: 'RSS feed',
     newsletter: 'LinkedIn newsletter',
     subscribe: 'Subscribe',
@@ -174,6 +175,7 @@ export const NAV = {
     playbooks: 'Playbooks',
     maturity: 'Diagnóstico de madurez',
     course: 'Curso de gobierno de datos',
+    badgeNew: 'Nuevo',
     feed: 'Feed RSS',
     newsletter: 'Newsletter en LinkedIn',
     subscribe: 'Suscribirse',
@@ -220,6 +222,7 @@ export const NAV = {
     playbooks: 'Playbooks',
     maturity: 'Diagnóstico de maturidade',
     course: 'Curso de governança de dados',
+    badgeNew: 'Novo',
     feed: 'Feed RSS',
     newsletter: 'Newsletter no LinkedIn',
     subscribe: 'Assinar',
@@ -271,8 +274,9 @@ export const NAV_GROUPS = [
       // `paid` flag sets them apart in the dropdown and the drawer: a divider
       // above and a warm tint. The course is offered in all three languages:
       // the videos are Portuguese with Spanish and English subtitles, and the
-      // page says so.
-      { key: 'course', href: (lang) => pagePath(lang, 'course'), paid: true },
+      // page says so. The `badge` key names a short NAV label shown as a pill
+      // after the item's text, here to flag the course as new.
+      { key: 'course', href: (lang) => pagePath(lang, 'course'), paid: true, badge: 'badgeNew' },
     ],
   },
   {
@@ -394,7 +398,8 @@ const navItem = (item, lang, current, className) => {
   const active = item.key === current ? ' aria-current="page"' : '';
   const icon = item.icon ? `<i class="${item.icon}" aria-hidden="true"></i>` : '';
   const title = item.title ? ` title="${escapeAttribute(NAV[lang][item.title])}"` : '';
-  const text = item.icon ? `<span>${label}</span>` : label;
+  const badge = item.badge ? ` <span class="nav-badge">${escapeAttribute(NAV[lang][item.badge])}</span>` : '';
+  const text = item.icon ? `<span>${label}</span>${badge}` : `${label}${badge}`;
   const dialog = item.dialog ? ' data-subscribe-dialog-open' : '';
   const classes = item.paid ? `${className} ${className}--paid` : className;
   return `<a class="${classes}" href="${item.href(lang)}"${external}${active}${title}${dialog}>${icon}${text}</a>`;

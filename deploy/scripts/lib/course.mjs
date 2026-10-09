@@ -3,10 +3,10 @@
  * /pt/curso-governanca-de-dados/, /es/curso-gobierno-de-datos/ and
  * /en/data-governance-course/ are built from.
  *
- * One product in three languages. The course is recorded in Portuguese and sold
+ * One product in three languages. The course is taught in Portuguese and sold
  * through a single Hotmart checkout; the videos now carry Spanish and English
  * subtitles, which is what makes a Spanish and an English page honest to
- * publish. The materials delivered with it -- the 24 templates included -- are
+ * publish. The materials delivered with it -- the 31 templates included -- are
  * still the Portuguese originals. So the two translated pages say both things
  * where a buyer decides, not in small print: in the cover notice at the top, in
  * the offer card, in the templates block, in the FAQ and in the closing line.
@@ -62,12 +62,19 @@ export const COURSE = {
   price: 99,
   currency: 'BRL',
   refundDays: 7,
-  /** The language the videos are recorded in, whichever page sells them. */
+  /** The language the videos are in, whichever page sells them. */
   recordedIn: 'pt',
+  /**
+   * Every template the course hands out, and how many of those belong to the
+   * add-on AI Governance module. The rest are the main course's, which must
+   * cover the whole library on this site; renderCourseOffer checks that.
+   */
+  templates: 31,
+  aiTemplates: 5,
   sectionIcons: ['🧭', '⚙️', '❤️'],
   aiIcon: '🤖',
   /** The cover art. Portuguese, like the product it advertises. */
-  cover: { url: '/assets/images/course/curso-governanca-de-dados.jpg', width: 1048, height: 1008 },
+  cover: { url: '/assets/images/course/curso-governanca-de-dados-v2.jpg', width: 1048, height: 1008 },
 };
 
 /**
@@ -83,13 +90,13 @@ const COPY = {
     name: 'Como Implantar Governança de Dados com Sucesso',
     credential: 'Certificado de conclusão',
     coverAlt:
-      'Curso de Governança de Dados na prática: dezesseis aulas em vídeo e 24 modelos editáveis, tudo em português',
+      'Curso de Governança de Dados na prática: dezesseis aulas em vídeo e 26+5 modelos editáveis, tudo em português',
     languageNote: '',
     sections: [
       {
         title: 'A Bússola: Fundamentos da Governança de Dados na prática',
         summary:
-          'É no começo que a maioria dos programas morre. Esta seção termina com um projeto descrito em uma página, uma linha de base medida, uma primeira política curta o bastante para ser lida, um comitê com mandato de verdade e os domínios de dados repartidos entre áreas que aceitaram ficar com eles.',
+          'É no começo que a maioria dos programas morre. Esta seção termina com um projeto descrito em uma página, uma linha de base medida, uma primeira política curta o bastante para ser lida, um comitê com mandato de verdade e os domínios de dados distribuídos entre as áreas que aceitaram assumi-los.',
         lessons: [
           'Introdução à Governança de Dados na prática',
           'Como usar o 5W2H Canvas para estruturar um projeto de Governança de Dados em uma única página',
@@ -113,7 +120,7 @@ const COPY = {
         ],
       },
       {
-        title: 'O Coração: Cultura de Dados e Literacia',
+        title: 'O Coração: Cultura de Dados e Alfabetização',
         summary:
           'Nenhuma política sobrevive a uma organização que não quer aplicá-la. Gestão de mudanças, engajamento, o papel da comunicação, do RH e dos incentivos, e alfabetização em dados como a condição para qualquer coisa parecida com uma cultura data-driven.',
         lessons: [
@@ -136,15 +143,16 @@ const COPY = {
         'O Coração da IA: Direitos ARCO, Explicabilidade e "Human-in-the-Loop"',
       ],
     },
-    included: ({ lessons, total, locked, aiLessons, refundDays }) => [
-      { icon: 'fa-play', text: `${lessons} aulas em vídeo, em português, gravadas — você assiste no seu ritmo` },
+    included: ({ lessons, templates, aiTemplates, locked, aiLessons, refundDays }) => [
+      { icon: 'fa-compass', text: 'Ao final, uma estratégia e um caminho claro para implantar ou melhorar a governança de dados na sua empresa' },
+      { icon: 'fa-play', text: `${lessons} aulas em vídeo, em português — você assiste no seu ritmo` },
       {
         icon: 'fa-file-excel',
-        text: `Os ${total} modelos da biblioteca em Excel e Word editáveis, incluindo os ${locked} que aqui no site aparecem na lista e não têm link`,
+        text: `${templates} modelos em Excel e Word editáveis, ${aiTemplates} deles do módulo de Governança de IA, incluindo os ${locked} que aqui no site aparecem na lista da biblioteca e não têm link`,
       },
       { icon: 'fa-award', text: 'Certificado de conclusão' },
       { icon: 'fa-lock', text: 'Acesso vitalício, sem assinatura e sem renovação' },
-      { icon: 'fa-robot', text: `Módulo adicional de Governança de IA com ${aiLessons} aulas, ofertado dentro do curso` },
+      { icon: 'fa-robot', text: `Módulo adicional de Governança de IA com ${aiLessons} aulas, oferecido dentro do curso` },
       { icon: 'fa-rotate-left', text: `${refundDays} dias de garantia: se não servir, você pede o reembolso pela Hotmart` },
     ],
     offer: {
@@ -160,18 +168,19 @@ const COPY = {
     curriculum: {
       title: 'As três seções',
       intro:
-        'Na ordem em que um programa se monta de verdade: primeiro você decide para onde vai e com que autoridade, depois coloca o motor a funcionar, e depois — a parte que costuma ser tratada como opcional e é onde tudo desanda — convence as pessoas a andar nele.',
+        'Na ordem em que um programa se monta de verdade: primeiro você decide para onde vai e com que autoridade, depois coloca o motor para funcionar, e depois — a parte que costuma ser tratada como opcional e é onde tudo desanda — convence as pessoas a andar nele. São os três pilares da metodologia Data Governance Journey, guiada pelo DAMA-DMBOK.',
       count: (n) => `${n} aulas`,
       aiCount: (n) => `${n} aulas · módulo adicional pago`,
       aiNote:
-        'Este módulo não está incluído no valor acima: ele é oferecido à parte, já dentro da área de membros, para quem quiser seguir de dados para modelos.',
+        'Este módulo não está incluído no valor acima: ele é oferecido à parte, já dentro da área de membros, para quem quiser avançar dos dados para os modelos.',
     },
     templates: {
       label: 'A biblioteca completa',
-      heading: (locked) => `Os ${locked} modelos que a biblioteca nomeia e não entrega vêm com o curso`,
-      body: ({ total, free, locked, href }) => [
-        `A <a href="${href}">biblioteca de modelos</a> deste site tem ${total} arquivos. ${free} são gratuitos, sem formulário e sem e-mail, e continuam assim — pegue hoje, use na segunda-feira, nunca mais ouça falar de mim. Os outros ${locked} aparecem na lista, com nome e descrição, e sem link: política geral, termos de referência do comitê, padrão e registro de classificação, papéis e responsabilidades, glossário de negócio, catálogo, KPIs, matriz RACI, matriz de riscos, definição e registro de acessos, plano de comunicação, e o resto.`,
-        'Eles são entregues na área de membros da Hotmart, em Excel e Word editáveis, junto com a aula que explica quando cada um serve — que é a parte que faz diferença. Um modelo em branco é um arquivo; um modelo com a conversa que ele deve provocar é um artefato.',
+      heading: (locked, extra) => `Os ${locked} modelos que a biblioteca nomeia e não entrega, mais ${extra} extras, vêm com o curso`,
+      body: ({ total, free, locked, extra, main, ai, href }) => [
+        `A <a href="${href}">biblioteca de modelos</a> deste site tem ${total} arquivos. ${free} são gratuitos, sem formulário e sem e-mail, e continuam assim: você baixa, usa quando precisar e não fica devendo nada a ninguém. Os outros ${locked} aparecem na lista, com nome e descrição, e sem link: política geral, termos de referência do comitê, padrão e registro de classificação, papéis e responsabilidades, glossário de negócio, catálogo, KPIs, matriz RACI, matriz de riscos, definição e registro de acessos, plano de comunicação, entre outros.`,
+        `Além deles, o curso traz ${extra} modelos extras que não estão na biblioteca do site. Somando os ${free} gratuitos, são ${main} modelos no curso principal, e o módulo de Governança de IA tem mais ${ai} próprios.`,
+        'Todos são entregues na área de membros da Hotmart, em Excel e Word editáveis, junto com a aula que explica quando cada um serve — que é a parte que faz diferença. Um modelo em branco é um arquivo; um modelo com a conversa que ele deve provocar é um artefato.',
       ],
     },
     faqTitle: 'Perguntas antes de comprar',
@@ -182,8 +191,12 @@ const COPY = {
         a: 'Para quem vai ter que implantar, e não para quem vai ter que opinar. Analistas e gestores de dados que receberam a tarefa de "colocar governança de pé", profissionais de negócio que viraram donos de um domínio sem pedir, e consultores que precisam de artefatos que funcionem em uma sala de reunião. Se você nunca tocou no assunto, a primeira seção começa do zero.',
       },
       {
+        q: 'Qual metodologia o curso segue?',
+        a: 'A metodologia Data Governance Journey, a mesma apresentada neste site, baseada e guiada pelo framework DAMA-DMBOK. As três seções do curso são os três pilares dela: a Bússola (fundamentos), o Motor (operacionalização) e o Coração (cultura e gestão de mudança). O DMBOK diz o que um programa de governança precisa ter; o curso mostra como implantar isso, na ordem certa, numa empresa real.',
+      },
+      {
         q: 'Preciso de conhecimento técnico ou de alguma ferramenta?',
-        a: 'Não. Nada aqui depende de uma plataforma específica, e os artefatos são Excel e Word porque é o que existe em toda empresa. Se você já tem catálogo, qualidade ou um data lake, o curso encaixa neles; se não tem, a ordem das aulas é justamente a que evita comprar ferramenta antes de saber a pergunta.',
+        a: 'Não. Nada aqui depende de uma plataforma específica, e os artefatos são Excel e Word porque é o que existe em toda empresa. Se você já tem uma ferramenta de catálogo, de qualidade ou um data lake, o curso se encaixa neles; se não tem, a ordem das aulas é justamente a que evita comprar ferramenta antes de saber do que você precisa.',
       },
       {
         q: 'Quanto tempo tenho de acesso?',
@@ -191,37 +204,37 @@ const COPY = {
       },
       {
         q: 'O curso dá certificado?',
-        a: 'Sim, um certificado de conclusão emitido pela plataforma quando você termina as aulas. Serve para registrar as horas junto ao seu RH ou para pendurar no LinkedIn; não é uma certificação da DAMA, que é outra coisa e tem exame próprio.',
+        a: 'Sim, um certificado de conclusão emitido pela plataforma quando você termina as aulas. Serve para registrar as horas junto ao seu RH ou para colocar no LinkedIn; não é uma certificação da DAMA, que é outra coisa e tem exame próprio.',
       },
       {
         q: 'Como funciona o cupom PRIMEIROS10?',
-        a: 'Dá 50% de desconto nas dez primeiras inscrições e depois deixa de valer. O botão desta página já abre o checkout com ele aplicado, então não é preciso digitar nada; se o valor aparecer cheio, é porque as dez já foram.',
+        a: 'Ele dá 50% de desconto nas dez primeiras inscrições e depois deixa de valer. O botão desta página já abre o checkout com ele aplicado, então não é preciso digitar nada; se aparecer o valor cheio, é porque as dez vagas já foram preenchidas.',
       },
       {
         q: 'E se eu não gostar?',
-        a: 'Você tem sete dias para pedir o reembolso pela própria Hotmart, sem precisar justificar e sem falar comigo. É o prazo de garantia da plataforma e é integral.',
+        a: 'Você tem sete dias para pedir o reembolso pela própria Hotmart, sem precisar justificar e sem falar comigo. É a garantia da própria plataforma, com reembolso integral.',
       },
       {
         q: 'O módulo de Governança de IA está incluído?',
-        a: 'Não. Ele é um módulo adicional, ofertado à parte dentro da área de membros, com cinco aulas sobre classificação de riscos, canvas 5W2H para IA, privacidade no treinamento, model cards e auditoria algorítmica. Está descrito nesta página para você saber que existe antes de comprar, não depois.',
+        a: 'Não. Ele é um módulo adicional, oferecido à parte dentro da área de membros, com cinco aulas sobre classificação de riscos, canvas 5W2H para IA, privacidade no treinamento, model cards e auditoria algorítmica. Está descrito nesta página para você saber que existe antes de comprar, não depois.',
       },
       {
-        q: 'Recebo mesmo as planilhas que estão bloqueadas na biblioteca deste site?',
-        a: 'Sim, as dezoito, em Excel e Word editáveis, na área de membros. As seis gratuitas da biblioteca continuam gratuitas aqui no site e você não precisa do curso para pegá-las.',
+        q: 'Recebo mesmo os modelos que estão bloqueados na biblioteca deste site?',
+        a: 'Sim, os dezoito, mais dois modelos extras que não estão na biblioteca, em Excel e Word editáveis, na área de membros. Os seis gratuitos da biblioteca continuam gratuitos aqui no site, e você não precisa do curso para baixá-los.',
       },
       {
         q: 'Em que idioma é o curso?',
-        a: 'Gravado em português, que é o idioma original de todas as aulas e de todos os modelos. Foi essa a razão de existir dele: quase tudo de governança de dados aplicada está em inglês, e traduzir um vocabulário não é o mesmo que ensinar a operá-lo com um comitê brasileiro dentro de uma empresa brasileira. Os vídeos também têm legendas em espanhol e em inglês, para quem quiser indicar o curso a colegas de outros países.',
+        a: 'Em português, que é o idioma original de todas as aulas e de todos os modelos. Foi por isso que ele nasceu: quase tudo de governança de dados aplicada está em inglês, e traduzir um vocabulário não é o mesmo que ensinar a operá-lo com um comitê brasileiro dentro de uma empresa brasileira. Os vídeos também têm legendas em espanhol e em inglês, para quem quiser indicar o curso a colegas de outros países.',
       },
       {
         q: 'Como eu pago?',
-        a: `O checkout é da Hotmart, que cuida do pagamento, do acesso e da nota. O preço de lista é ${price}; se você estiver fora do Brasil, a plataforma converte para a sua moeda e mostra os meios de pagamento disponíveis no seu país.`,
+        a: `O checkout é da Hotmart, que cuida do pagamento, do acesso e da nota fiscal. O preço de lista é ${price}; se você estiver fora do Brasil, a plataforma converte para a sua moeda e mostra os meios de pagamento disponíveis no seu país.`,
       },
     ],
     close: {
       heading: (lessons, price, seats) => `${lessons} aulas, em português, por ${price} nas ${seats} primeiras inscrições`,
       body: (refundDays) =>
-        `Acesso vitalício, certificado no fim, a biblioteca completa de modelos em formato editável e ${refundDays} dias para desistir sem explicar por quê.`,
+        `Acesso vitalício, certificado ao final, a biblioteca completa de modelos em formato editável e ${refundDays} dias para desistir sem explicar por quê.`,
       ghost: 'Ver os modelos gratuitos primeiro',
     },
   },
@@ -230,9 +243,9 @@ const COPY = {
     name: 'Cómo implantar el gobierno de datos con éxito',
     credential: 'Certificado de finalización',
     coverAlt:
-      'Curso de Gobierno de Datos en la práctica: dieciséis clases en vídeo y 24 plantillas editables. Grabado en portugués, con subtítulos en español',
+      'Curso de Gobierno de Datos en la práctica: dieciséis clases en vídeo y 26+5 plantillas editables. En portugués, con subtítulos en español',
     languageNote:
-      'Los vídeos están grabados en portugués, con subtítulos en español. Las plantillas y los materiales del curso están en portugués.',
+      'Los vídeos están en portugués, con subtítulos en español. Las plantillas y los materiales del curso están en portugués.',
     sections: [
       {
         title: 'La Brújula: fundamentos del gobierno de datos en la práctica',
@@ -284,14 +297,15 @@ const COPY = {
         'El corazón de la IA: derechos ARCO, explicabilidad y "human-in-the-loop"',
       ],
     },
-    included: ({ lessons, total, locked, aiLessons, refundDays }) => [
+    included: ({ lessons, templates, aiTemplates, locked, aiLessons, refundDays }) => [
+      { icon: 'fa-compass', text: 'Al final, una estrategia y un camino claro para implantar o mejorar el gobierno de datos en tu empresa' },
       {
         icon: 'fa-play',
-        text: `${lessons} clases en vídeo grabadas en portugués, con subtítulos en español: las ves a tu ritmo`,
+        text: `${lessons} clases en vídeo en portugués, con subtítulos en español: las ves a tu ritmo`,
       },
       {
         icon: 'fa-file-excel',
-        text: `Las ${total} plantillas de la biblioteca en Excel y Word editables, en portugués, incluidas las ${locked} que en este sitio aparecen en la lista sin enlace`,
+        text: `${templates} plantillas en Excel y Word editables, en portugués, ${aiTemplates} de ellas del módulo de Gobierno de la IA, incluidas las ${locked} que la biblioteca de este sitio lista sin enlace`,
       },
       { icon: 'fa-award', text: 'Certificado de finalización' },
       { icon: 'fa-lock', text: 'Acceso de por vida, sin suscripción y sin renovación' },
@@ -311,7 +325,7 @@ const COPY = {
     curriculum: {
       title: 'Las tres secciones',
       intro:
-        'En el orden en que de verdad se monta un programa: primero decides adónde vas y con qué autoridad, luego pones el motor en marcha y después —la parte que suele tratarse como opcional y donde todo se tuerce— convences a la gente de subirse. Los títulos están traducidos; las clases están en portugués con subtítulos en español.',
+        'En el orden en que de verdad se monta un programa: primero decides adónde vas y con qué autoridad, luego pones el motor en marcha y después —la parte que suele tratarse como opcional y donde todo se tuerce— convences a la gente de subirse. Son los tres pilares de la metodología Data Governance Journey, guiada por el DAMA-DMBOK. Los títulos están traducidos; las clases están en portugués con subtítulos en español.',
       count: (n) => `${n} clases`,
       aiCount: (n) => `${n} clases · módulo adicional de pago`,
       aiNote:
@@ -319,10 +333,11 @@ const COPY = {
     },
     templates: {
       label: 'La biblioteca completa',
-      heading: (locked) => `Las ${locked} plantillas que la biblioteca nombra y no entrega vienen con el curso`,
-      body: ({ total, free, locked, href }) => [
+      heading: (locked, extra) => `Las ${locked} plantillas que la biblioteca nombra y no entrega, más ${extra} extra, vienen con el curso`,
+      body: ({ total, free, locked, extra, main, ai, href }) => [
         `La <a href="${href}">biblioteca de plantillas</a> de este sitio tiene ${total} ficheros. ${free} son gratuitos, en español, sin formulario y sin correo, y seguirán así. Los otros ${locked} aparecen en la lista, con nombre y descripción, y sin enlace: política general, términos de referencia del comité, estándar y registro de clasificación, roles y responsabilidades, glosario de negocio, catálogo, KPI, matriz RACI, matriz de riesgos, definición y registro de accesos, plan de comunicación y el resto.`,
-        'Se entregan en el área de miembros de Hotmart, en Excel y Word editables y <strong>en portugués</strong>, que es el idioma en que se crearon, junto con la clase que explica cuándo sirve cada uno. Una plantilla en blanco es un fichero; una plantilla con la conversación que debe provocar es un artefacto.',
+        `Además, el curso incluye ${extra} plantillas extra que no están en la biblioteca del sitio. Sumando las ${free} gratuitas, son ${main} plantillas en el curso principal, y el módulo de Gobierno de la IA tiene ${ai} más propias.`,
+        'Todas se entregan en el área de miembros de Hotmart, en Excel y Word editables y <strong>en portugués</strong>, que es el idioma en que se crearon, junto con la clase que explica cuándo sirve cada uno. Una plantilla en blanco es un fichero; una plantilla con la conversación que debe provocar es un artefacto.',
       ],
     },
     faqTitle: 'Preguntas antes de comprar',
@@ -330,7 +345,11 @@ const COPY = {
     faq: (price) => [
       {
         q: '¿En qué idioma está el curso?',
-        a: 'Las clases están grabadas en portugués y tienen subtítulos en español; es el mismo curso, en la misma plataforma, que se vende en Brasil. Las plantillas, los materiales descargables y la interfaz de algunas partes del área de miembros están en portugués. Si el portugués te resulta muy ajeno incluso con subtítulos, la garantía de siete días está para eso.',
+        a: 'Las clases están en portugués y tienen subtítulos en español; es el mismo curso, en la misma plataforma, que se vende en Brasil. Las plantillas, los materiales descargables y la interfaz de algunas partes del área de miembros están en portugués. Si el portugués te resulta muy ajeno incluso con subtítulos, la garantía de siete días está para eso.',
+      },
+      {
+        q: '¿Qué metodología sigue el curso?',
+        a: 'La metodología Data Governance Journey, la misma que se presenta en este sitio, basada y guiada por el marco DAMA-DMBOK. Las tres secciones del curso son sus tres pilares: la Brújula (fundamentos), el Motor (operacionalización) y el Corazón (cultura y gestión del cambio). El DMBOK dice qué necesita un programa de gobierno; el curso enseña cómo implantarlo, en el orden correcto, en una empresa real.',
       },
       {
         q: '¿Para quién es este curso?',
@@ -362,7 +381,7 @@ const COPY = {
       },
       {
         q: '¿Recibo de verdad las plantillas bloqueadas de la biblioteca de este sitio?',
-        a: 'Sí, las dieciocho, en Excel y Word editables, en el área de miembros, en su versión original en portugués. Las seis gratuitas de la biblioteca siguen siendo gratuitas aquí, en español, y no necesitas el curso para descargarlas.',
+        a: 'Sí, las dieciocho, más dos plantillas extra que no están en la biblioteca, en Excel y Word editables, en el área de miembros, en su versión original en portugués. Las seis gratuitas de la biblioteca siguen siendo gratuitas aquí, en español, y no necesitas el curso para descargarlas.',
       },
       {
         q: '¿Cómo pago?',
@@ -382,9 +401,9 @@ const COPY = {
     name: 'How to Implement Data Governance Successfully',
     credential: 'Certificate of completion',
     coverAlt:
-      'Practical Data Governance course: sixteen video lessons and 24 editable templates. Recorded in Portuguese, with English subtitles',
+      'Practical Data Governance course: sixteen video lessons and 26+5 editable templates. In Portuguese, with English subtitles',
     languageNote:
-      'The videos are recorded in Portuguese, with English subtitles. The templates and course materials are in Portuguese.',
+      'The videos are in Portuguese, with English subtitles. The templates and course materials are in Portuguese.',
     sections: [
       {
         title: 'The Compass: data governance fundamentals in practice',
@@ -436,14 +455,15 @@ const COPY = {
         'The heart of AI: data subject rights, explainability and human-in-the-loop',
       ],
     },
-    included: ({ lessons, total, locked, aiLessons, refundDays }) => [
+    included: ({ lessons, templates, aiTemplates, locked, aiLessons, refundDays }) => [
+      { icon: 'fa-compass', text: 'By the end, a strategy and a clear path to implement or improve data governance in your company' },
       {
         icon: 'fa-play',
-        text: `${lessons} recorded video lessons in Portuguese, with English subtitles — watch at your own pace`,
+        text: `${lessons} video lessons in Portuguese, with English subtitles — watch at your own pace`,
       },
       {
         icon: 'fa-file-excel',
-        text: `All ${total} library templates as editable Excel and Word files, in Portuguese, including the ${locked} this site lists without a link`,
+        text: `${templates} editable Excel and Word templates, in Portuguese, ${aiTemplates} of them from the AI Governance module, including the ${locked} this site's library lists without a link`,
       },
       { icon: 'fa-award', text: 'Certificate of completion' },
       { icon: 'fa-lock', text: 'Lifetime access, no subscription, no renewal' },
@@ -463,7 +483,7 @@ const COPY = {
     curriculum: {
       title: 'The three sections',
       intro:
-        'In the order a programme is really built: first you decide where you are going and with what authority, then you get the engine running, and then — the part usually treated as optional, and where everything falls apart — you persuade people to ride in it. The titles are translated; the lessons are in Portuguese with English subtitles.',
+        'In the order a programme is really built: first you decide where you are going and with what authority, then you get the engine running, and then — the part usually treated as optional, and where everything falls apart — you persuade people to ride in it. These are the three pillars of the Data Governance Journey methodology, guided by the DAMA-DMBOK. The titles are translated; the lessons are in Portuguese with English subtitles.',
       count: (n) => `${n} lessons`,
       aiCount: (n) => `${n} lessons · paid add-on module`,
       aiNote:
@@ -471,10 +491,11 @@ const COPY = {
     },
     templates: {
       label: 'The full library',
-      heading: (locked) => `The ${locked} templates the library names and does not hand out come with the course`,
-      body: ({ total, free, locked, href }) => [
+      heading: (locked, extra) => `The ${locked} templates the library names and does not hand out, plus ${extra} extra ones, come with the course`,
+      body: ({ total, free, locked, extra, main, ai, href }) => [
         `This site's <a href="${href}">template library</a> has ${total} files. ${free} are free, in English, with no form and no email, and they stay that way. The other ${locked} are listed by name and description, without a link: overarching policy, committee terms of reference, classification standard and register, roles and responsibilities, business glossary, catalogue, KPIs, RACI matrix, risk matrix, access definition and log, communication plan, and the rest.`,
-        'They are delivered in the Hotmart members area as editable Excel and Word files, <strong>in Portuguese</strong> — the language they were written in — alongside the lesson that explains when each one is useful. A blank template is a file; a template with the conversation it is meant to start is an artefact.',
+        `On top of those, the course adds ${extra} extra templates that are not in the site's library. With the ${free} free ones, that makes ${main} templates in the main course, and the AI Governance module has ${ai} more of its own.`,
+        'They are all delivered in the Hotmart members area as editable Excel and Word files, <strong>in Portuguese</strong> — the language they were written in — alongside the lesson that explains when each one is useful. A blank template is a file; a template with the conversation it is meant to start is an artefact.',
       ],
     },
     faqTitle: 'Questions before you buy',
@@ -482,7 +503,11 @@ const COPY = {
     faq: (price) => [
       {
         q: 'What language is the course in?',
-        a: 'The lessons are recorded in Portuguese and carry English subtitles; it is the same course, on the same platform, that is sold in Brazil. The templates, the downloadable materials and parts of the members area interface are in Portuguese. If Portuguese feels too foreign even with subtitles, that is what the seven-day guarantee is for.',
+        a: 'The lessons are in Portuguese and carry English subtitles; it is the same course, on the same platform, that is sold in Brazil. The templates, the downloadable materials and parts of the members area interface are in Portuguese. If Portuguese feels too foreign even with subtitles, that is what the seven-day guarantee is for.',
+      },
+      {
+        q: 'What methodology does the course follow?',
+        a: 'The Data Governance Journey methodology, the same one set out on this site, based on and guided by the DAMA-DMBOK framework. The three sections of the course are its three pillars: the Compass (foundations), the Engine (operationalisation) and the Heart (culture and change management). The DMBOK says what a governance programme needs; the course shows how to put it in place, in the right order, in a real company.',
       },
       {
         q: 'Who is this course for?',
@@ -514,7 +539,7 @@ const COPY = {
       },
       {
         q: 'Do I really get the templates that are locked in the library on this site?',
-        a: 'Yes, all eighteen, as editable Excel and Word files in the members area, in their original Portuguese. The six free ones in the library stay free here, in English, and you do not need the course to download them.',
+        a: 'Yes, all eighteen, plus two extra templates that are not in the library, as editable Excel and Word files in the members area, in their original Portuguese. The six free ones in the library stay free here, in English, and you do not need the course to download them.',
       },
       {
         q: 'How do I pay?',
@@ -657,12 +682,19 @@ export const renderCourseCover = (lang) => {
 export const renderCourseOffer = (lang, templatesPartial) => {
   const copy = copyFor(lang);
   const { free, locked } = countTemplates(templatesPartial);
+  if (COURSE.templates - COURSE.aiTemplates < free + locked) {
+    throw new Error(
+      `scripts/lib/course.mjs says the course has ${COURSE.templates - COURSE.aiTemplates} templates outside the AI module, ` +
+        `fewer than the ${free + locked} in src/partials/template-library.html, all of which the page says it includes.`
+    );
+  }
   const price = formatBrl(COURSE.price, lang);
   const discounted = formatBrl(DISCOUNTED, lang);
   const items = copy
     .included({
       lessons: LESSON_COUNT,
-      total: free + locked,
+      templates: COURSE.templates,
+      aiTemplates: COURSE.aiTemplates,
       locked,
       aiLessons: copy.aiModule.lessons.length,
       refundDays: COURSE.refundDays,
@@ -761,8 +793,12 @@ ${sections}
 export const renderCourseTemplates = (lang, templatesPartial) => {
   const copy = copyFor(lang);
   const { free, locked } = countTemplates(templatesPartial);
+  // The main course's templates are the whole library plus the ones only the
+  // course has; renderCourseOffer fails the build if that would go negative.
+  const main = COURSE.templates - COURSE.aiTemplates;
+  const extra = main - free - locked;
   const paragraphs = copy.templates
-    .body({ total: free + locked, free, locked, href: pagePath(lang, 'templates') })
+    .body({ total: free + locked, free, locked, extra, main, ai: COURSE.aiTemplates, href: pagePath(lang, 'templates') })
     .map((paragraph) => `        <p>${paragraph}</p>`)
     .join('\n');
 
@@ -771,7 +807,7 @@ export const renderCourseTemplates = (lang, templatesPartial) => {
         <p class="course-templates__label"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>${escapeHtml(
           copy.templates.label
         )}</p>
-        <h2 id="course-templates-title">${escapeHtml(copy.templates.heading(locked))}</h2>
+        <h2 id="course-templates-title">${escapeHtml(copy.templates.heading(locked, extra))}</h2>
 ${paragraphs}
       </div>
     </section>`;
