@@ -59,7 +59,7 @@ export const COURSE = {
   coupon: 'PRIMEIROS10',
   couponSeats: 10,
   couponPercent: 50,
-  price: 99,
+  price: 297,
   currency: 'BRL',
   refundDays: 7,
   /** The language the videos are in, whichever page sells them. */
